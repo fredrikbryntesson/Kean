@@ -1,2 +1,0 @@
-/home/smika/Projects/kean/skylark/bin/Release/Kean.Core.Basis.dll
-/home/smika/Projects/kean/skylark/src/Kean.Core.Basis/obj/Release/Kean.Core.Basis.dll
