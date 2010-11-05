@@ -28,7 +28,7 @@ namespace Kean.Test.Run
 		{
 			Core.Collection.Vector fixture = new Core.Collection.Vector();
 			//fixture.FixtureSetup();
-			fixture.All();
+			//fixture.All();
 		}
 	}
 }
