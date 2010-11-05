@@ -21,30 +21,28 @@
 
 using System;
 
-namespace Kean.Core.Collection.Encapsulated
+namespace Kean.Core.Collection.Hooked
 {
-	public class Array<T> :
+	public class Array<T> : 
 		Interface.IArray<T>
 	{
 		private Interface.IArray<T> data;
-		#region Constructor
+		public event Action<int, T, T> Replaced;
+		public Func<int, T, T, T> OnReplace { private get; set; }
+		public T this[int index]
+		{
+			get { return this.data[index]; }
+			set { this.data[index] = this.OnReplace(index, value, this.data[index]); }
+		}
+		public int Count { get { return this.data.Count; } }
 		public Array(Interface.IArray<T> data)
 		{
 			this.data = data;
 		}
-		#endregion
-		#region Interface.IArray<T>
-		int Interface.IArray<T>.Count { get { return this.data.Count; } }
-		T Interface.IArray<T>.this[int index] 
-		{
-			get { return this.data[index]; }
-			set { this.data[index] = value; }
-		}
-		#endregion
 		#region IEnumerator<T>
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return this.data.GetEnumerator();
+			return (this as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
 		}
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
@@ -54,7 +52,7 @@ namespace Kean.Core.Collection.Encapsulated
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return (this.data as object).Equals(other);
+			return other is Interface.IArray<T> && this.Equals(other as Interface.IArray<T>);
 		}
 		public override int GetHashCode()
 		{
@@ -67,6 +65,5 @@ namespace Kean.Core.Collection.Encapsulated
 			return this.data.Equals(other);
 		}
 		#endregion
-
 	}
 }

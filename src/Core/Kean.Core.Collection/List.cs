@@ -1,5 +1,5 @@
 // 
-//  Array.cs
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,52 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+
 namespace Kean.Core.Collection
 {
-	public class Array<T> :
-		Abstract.Array<T>
-	{
-		private T[] data;
-		public override int Count { get { return this.data.Length; } }
-		public override T this[int index]
-		{
-			get 
-			{
-				try 
-				{
-					return this.data[index]; 					
-				} 
-				catch (IndexOutOfRangeException e) 
-				{
-					throw new Exception.InvalidIndex(e);
-				}
-			}
-			set 
-			{ 
-				try 
-				{
-					this.data[index] = value; 
-				} 
-				catch (IndexOutOfRangeException e) 
-				{
-					throw new Exception.InvalidIndex(e);
-				}
-			}
-		}
-		public Array(int count) :
-			this(new T[count])
-		{ }
-		public Array(params T[] data)
-		{ 
-			this.data = data;
-		}
-		public static implicit operator Array<T>(T[] array)
-		{
-			return new Array<T>(array);
-		}
-		public static implicit operator T[](Array<T> array)
-		{
-			return array.data;
-		}
-	}
+//	public class List<T> :
+//		Interface.IList<T>
+//	{
+//		public List()
+//		{
+//		}
+//	}
 }

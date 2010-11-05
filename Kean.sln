@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{285F20D5-30DB-4D61-9867-652F4339778F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection", "Core\Kean.Core.Collection\Kean.Core.Collection.csproj", "{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection", "src\Core\Kean.Core.Collection\Kean.Core.Collection.csproj", "{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error", "src\Core\Kean.Core.Error\Kean.Core.Error\Kean.Core.Error.csproj", "{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C4335CDD-FE74-415E-AEE5-305FC666381E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Collection", "Test\Core\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Collection", "src\Test\Core\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Error", "src\Test\Core\Kean.Test.Core.Error\Kean.Test.Core.Error\Kean.Test.Core.Error.csproj", "{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Test\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{2A0ABC0A-9F44-47F7-8D56-C9F5FA2B9CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,19 +29,34 @@ Global
 		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Release|Any CPU.Build.0 = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B} = {285F20D5-30DB-4D61-9867-652F4339778F}
+		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB} = {285F20D5-30DB-4D61-9867-652F4339778F}
 		{DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8} = {C4335CDD-FE74-415E-AEE5-305FC666381E}
+		{5E3AAF21-1E60-493D-B58B-66F1BDA18668} = {C4335CDD-FE74-415E-AEE5-305FC666381E}
 		{598867CF-A027-46EA-A5C8-0EF7FD21A61C} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
+		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		outputpath = ..\build\bin
-		StartupItem = Core\Kean.Core.Collection\Kean.Core.Collection.csproj
+		outputpath = build\bin
+		StartupItem = src\Test\Kean.Test.Run\Kean.Test.Run.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical

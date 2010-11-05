@@ -1,5 +1,5 @@
 // 
-//  Array.cs
+//  LinkedStack.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,52 +20,35 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Core.Collection
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Core.Collection.Linked
 {
-	public class Array<T> :
-		Abstract.Array<T>
+	public class LinkedStack<T> :
+		LinkedStack<Link<T>, T>
 	{
-		private T[] data;
-		public override int Count { get { return this.data.Length; } }
-		public override T this[int index]
+		public LinkedStack () { }
+	}
+	public class LinkedStack<L, T> :
+		Interface.IStack<T>
+		where L : class, Interface.ILink<L, T>, new()
+	{
+		private L top;
+		public bool Empty { get { return this.top == null; } }
+		public LinkedStack() { }
+		public void Push(T item)
 		{
-			get 
-			{
-				try 
-				{
-					return this.data[index]; 					
-				} 
-				catch (IndexOutOfRangeException e) 
-				{
-					throw new Exception.InvalidIndex(e);
-				}
-			}
-			set 
-			{ 
-				try 
-				{
-					this.data[index] = value; 
-				} 
-				catch (IndexOutOfRangeException e) 
-				{
-					throw new Exception.InvalidIndex(e);
-				}
-			}
+			this.top = this.top.Add(item);
 		}
-		public Array(int count) :
-			this(new T[count])
-		{ }
-		public Array(params T[] data)
-		{ 
-			this.data = data;
-		}
-		public static implicit operator Array<T>(T[] array)
+		public T Pop()
 		{
-			return new Array<T>(array);
+			T result = this.top.Head;
+			this.top = this.top.Tail;
+			return result;
 		}
-		public static implicit operator T[](Array<T> array)
+		public T Peek()
 		{
-			return array.data;
+			return this.top.Head;
 		}
 	}
 }

@@ -21,18 +21,50 @@
 
 using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection;
 
 namespace Kean.Test.Core.Collection
 {
-
-
-	[TestFixture()]
-	public class Test
+	[TestFixture]
+	public class Array :
+		Abstract.Array<Target.Array<int>>
 	{
-
-		[Test()]
-		public void TestCase()
+		public Array()
 		{
+			this.Prefix = "Kean.Test.Core.Collection.Array.";
+			this.ZeroToNine = new Target.Array<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);			
+		}
+		
+		public override Target.Array<int> Create(int count)
+		{
+			return new Target.Array<int>(count);
+		}
+
+		[Test]
+		public void ConstructorParameter()
+		{
+			Target.Array<int> data = new Target.Array<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+			Expect(data.Count, EqualTo(10), this.Prefix + "ConstructorParameter.0");
+			for (int i = 0; i < 10; i++)
+				Expect(data[i], EqualTo(i), this.Prefix + "ConstructorParameter." + (i + 1).ToString());
+		}
+		[Test]
+		public void ConstructorArray()
+		{
+			int[] original = new int[] { -3, 33, 23, 9, 1223, -52, 3, 5, 5, 72 };
+			Target.Array<int> data = new Target.Array<int>(original);
+			Expect(data.Count, EqualTo(10), this.Prefix + "ConstructorArray.0");
+			for (int i = 0; i < 10; i++)
+				Expect(data[i], EqualTo(original[i]), this.Prefix + "ConstructorArray." + (i + 1).ToString());
+		}
+		[Test]
+		public void ConstructorCount()
+		{
+			Target.Array<int> data = new Target.Array<int>(10);
+			Expect(data.Count, EqualTo(10), this.Prefix + "ConstructorCount0");
+			for (int i = 0; i < 10; i++)
+				Expect(data[i], EqualTo(0), this.Prefix + "ConstructorCount." + (i + 1).ToString());
 		}
 	}
 }
