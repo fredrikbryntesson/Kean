@@ -28,8 +28,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("Kean Toolkit")]
+[assembly: AssemblyCopyright("Simon Mika")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
