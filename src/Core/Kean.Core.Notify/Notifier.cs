@@ -24,7 +24,8 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Notify
 {
-	public class Notifier<T>
+	public class Notifier<T> :
+		INotify<T>
 	{
 		T value;
 		event Action<T> changed;
