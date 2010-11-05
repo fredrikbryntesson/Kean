@@ -45,8 +45,11 @@ namespace Kean.Core.Notify.Extension
 			if (me.NotNull())
 			{
 				Delegate[] delegates = me.GetInvocationList();
-				for (int i = 0; i < delegates.Length && result; i++)
-					result &= (delegates[i] as OnChange<T>).Call(value);
+				if (delegates.Length > 1)
+					for (int i = 0; i < delegates.Length && result; i++)
+						result &= (delegates[i] as OnChange<T>).Call(value);
+				else
+					result &= me(value);
 			}
 			return result;
 		}
