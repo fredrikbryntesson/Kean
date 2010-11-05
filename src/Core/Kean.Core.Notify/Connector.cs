@@ -1,10 +1,10 @@
 // 
-//  INotifier.cs
+//  Connector.cs
 //  
 //  Author:
-//       smika <${AuthorEmail}>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 smika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,12 +21,13 @@
 
 using System;
 
-namespace Kean.Core.Basis
+namespace Kean.Core.Notify
 {
-	public interface INotifier<T>
+	public class Connector
 	{
-		event Action<T> Changed;
-		T Value { get; set; }
-		void Update(INotifier<T> changes);
+		
+		public Connector()
+		{
+		}
 	}
 }

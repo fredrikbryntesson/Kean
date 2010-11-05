@@ -2,9 +2,9 @@
 //  Object.cs
 //  
 //  Author:
-//       smika <${AuthorEmail}>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 smika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -28,6 +28,10 @@ namespace Kean.Core.Basis.Extension
 		public static bool NotNull(this object me)
 		{
 			return object.ReferenceEquals(me, null);
+		}
+		public static bool Same(this object me, object other)
+		{
+			return object.ReferenceEquals(me, other);
 		}
 	}
 }

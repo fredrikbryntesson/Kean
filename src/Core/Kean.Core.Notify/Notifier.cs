@@ -2,9 +2,9 @@
 //  Notify.cs
 //  
 //  Author:
-//       smika <${AuthorEmail}>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 smika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -24,8 +24,7 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Basis
 {
-	public class Notifier<T> :
-		INotifier<T>
+	public class Notifier<T>
 	{
 		T value;
 		event Action<T> changed;
@@ -46,31 +45,28 @@ namespace Kean.Core.Basis
 			this.changed = changed;
 		}
 		
-		#region INotfier<T>
-		T INotifier<T>.Value
+		public T Value
 		{
 			get { return this.value; }
 			set
 			{
-				if (!object.Equals(value, this.value))
+				if (!value.Same(this.value))
 				{
 					this.value = value;
 					this.changed.Invoke(this.value);
 				}
 			}
 		}
-		event Action<T> INotifier<T>.Changed
+		public event Action<T> Changed
 		{
 			add { this.changed += value; }
 			remove { this.changed -= value; }
 		}
-		void INotifier<T>.Update(INotifier<T> changes)
+		public void Update(Notifier<T> changes)
 		{
-			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
-				(this as INotifier<T>).Value = changes.Value;
+			if (!this.Same(changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
+				(this as Notifier<T>).Value = changes.Value;
 		}
-		#endregion
-		
 		
 		public static implicit operator Notifier<T>(T value)
 		{

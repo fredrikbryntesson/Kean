@@ -37,10 +37,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Extension\Object.cs" />
     <Compile Include="Extension\String.cs" />
-    <Compile Include="Notifier.cs" />
     <Compile Include="NonNullable.cs" />
     <Compile Include="Extension\Action.cs" />
-    <Compile Include="INotifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extension\" />
