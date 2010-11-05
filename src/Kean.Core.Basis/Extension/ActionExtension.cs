@@ -23,12 +23,22 @@ using System;
 
 namespace Kean.Core.Basis.Extension
 {
-	public static class Action
+	public static class ActionExtension
 	{
-		public static void Call<T>(this System.Action<T> me, T argument)
+		public static void Call(this Action me)
+		{
+			if (me.NotNull())
+				me.Invoke();
+		}
+		public static void Call<T>(this Action<T> me, T argument)
 		{
 			if (me.NotNull())
 				me.Invoke(argument);
+		}
+		public static void Call<T, S>(this Action<T, S> me, T argument1, S argument2)
+		{
+			if (me.NotNull())
+				me.Invoke(argument1, argument2);
 		}
 	}
 }

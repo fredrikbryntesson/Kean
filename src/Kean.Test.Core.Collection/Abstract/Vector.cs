@@ -27,14 +27,14 @@ using Target = Kean.Core.Collection;
 namespace Kean.Test.Core.Collection.Abstract
 {
 	public abstract class Vector<A> :
-		NUnit.Framework.AssertionHelper
+		AssertionHelper
 		where A : Target.Interface.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
 		public string Prefix { get; set; }
 		public abstract A Create(int count);
 
-		public virtual void All()
+		public virtual void Run()
 		{
 			this.Count();
 			this.Get();

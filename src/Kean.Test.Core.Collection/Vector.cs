@@ -41,9 +41,9 @@ namespace Kean.Test.Core.Collection
 			return new Target.Vector<int>(count);
 		}
 		
-		public override void All()
+		public override void Run()
 		{
-			base.All();
+			base.Run();
 			this.ConstructorParameter();
 			this.ConstructorArray();
 			this.ConstructorCount();

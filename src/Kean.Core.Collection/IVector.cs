@@ -25,7 +25,7 @@ namespace Kean.Core.Collection.Interface
 {
 	public interface IVector<T> :
 		System.Collections.Generic.IEnumerable<T>,
-		System.IEquatable<Interface.IVector<T>>
+		System.IEquatable<IVector<T>>
 	{
 		int Count { get; }
 		T this[int index] { get; set; }

@@ -1,5 +1,5 @@
 // 
-//  Link.cs
+//  me.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,113 +20,114 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Collection.Extension
 {
 	public static class LinkExtension
 	{
-		public static L Add<L, T>(this L link, T item)
+		public static L Add<L, T>(this L me, T item)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
 			return new L()
 			{
 				Head = item,
-				Tail = link,
+				Tail = me,
 			};
 		}
-		public static T Get<L, T>(this L link, int index)
+		public static T Get<L, T>(this L me, int index)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			if (object.ReferenceEquals(link, null))
+			if (me.IsNull())
 				throw new Exception.InvalidIndex();
-			return index == 0 ? link.Head : Link.Get<L, T>(link.Tail, index - 1);
+			return index == 0 ? me.Head : me.Tail.Get<L, T>(index - 1);
 		}
-		public static void Set<L, T>(this L link, int index, T item)
+		public static void Set<L, T>(this L me, int index, T item)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			if (object.ReferenceEquals(link, null))
+			if (me.IsNull())
 				throw new Exception.InvalidIndex();
 			else if (index == 0)
-				link.Head = item;
+				me.Head = item;
 			else
-				Link.Set<L, T>(link.Tail, index - 1, item);
+				me.Tail.Set(index - 1, item);
 		}
-        public static int Count<L, T>(this L link) 
+        public static int Count<L, T>(this L me) 
 			where L : class, Interface.ILink<L, T>, new() 
         {
-            return object.ReferenceEquals(link, null) ? 0 : (1 + Link.Count<L, T>(link.Tail));
+            return me.IsNull() ? 0 : (1 + me.Tail.Count<L, T>());
         }
-		public static L Insert<L, T>(this L link, int index, T element)
+		public static L Insert<L, T>(this L me, int index, T element)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			if (object.ReferenceEquals(link, null) && index > 0)
+			if (me.IsNull() && index > 0)
 				throw new Exception.InvalidIndex();
-			return (index == 0) ? Link.Add(link, element) : Link.Insert<L, T>(link.Tail, index - 1, element);
+			return (index == 0) ? me.Add(element) : me.Tail.Insert<L, T>(index - 1, element);
 		}
-		public static L Remove<L, T>(this L link, int index)
+		public static L Remove<L, T>(this L me, int index)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			if (object.ReferenceEquals(link, null))
+			if (me.IsNull())
 				throw new Exception.InvalidIndex();
-			return (index == 0) ? link.Tail : Link.Remove<L, T>(link.Tail, index - 1);
+			return (index == 0) ? me.Tail : me.Tail.Remove<L, T>(index - 1);
 		}
-		public static L Remove<L, T>(this L link, int index, out T element)
+		public static L Remove<L, T>(this L me, int index, out T element)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
 			L result;
-			if (object.ReferenceEquals(link, null))
+			if (me.IsNull())
 				throw new Exception.InvalidIndex();
 			else if (index == 0)
 			{
-				element = link.Head;
-				result = link.Tail;
+				element = me.Head;
+				result = me.Tail;
 			}
 			else
-				result = Link.Remove<L, T>(link.Tail, index - 1, out element);
+				result = me.Tail.Remove<L, T>(index - 1, out element);
 			return result;
 		}
-		public static bool Equals<L, T>(this L link, L other)
+		public static bool Equals<L, T>(this L me, L other)
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			return object.ReferenceEquals(link, null) && object.ReferenceEquals(other, null) || object.ReferenceEquals(link, null) && object.ReferenceEquals(other, null) && link.Head.Equals(other.Head) && Link.Equals(link.Tail, other.Tail);
+			return me.Same(other) || me.NotNull() && other.NotNull() && me.Head.Equals(other.Head) && me.Tail.Equals(other.Tail);
 		}
-        public static R Fold<L, T, R>(this L link, Func<T, R, R> function) 
+        public static R Fold<L, T, R>(this L me, Func<T, R, R> function) 
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			return Link.Fold(link, function, default(R));
+			return me.Fold(function, default(R));
 		}
-        public static R Fold<L, T, R>(this L link, Func<T, R, R> function, R initial) 
+        public static R Fold<L, T, R>(this L me, Func<T, R, R> function, R initial) 
 			where L : class, Interface.ILink<L, T>, new() 
 		{
-			return object.ReferenceEquals(link, null) ? initial : function(link.Head, Link.Fold(link.Tail, function, initial));
+			return me.IsNull() ? initial : function(me.Head, me.Tail.Fold(function, initial));
 		}
-        public static R FoldReverse<L, T, R>(this L link, Func<T, R, R> function) 
+        public static R FoldReverse<L, T, R>(this L me, Func<T, R, R> function) 
 			where L : class, Interface.ILink<L, T>, new() 
         {
-            return Link.FoldReverse(link, function, default(R));
+            return me.FoldReverse(function, default(R));
         }
-        public static R FoldReverse<L, T, R>(this L link, Func<T, R, R> function, R initial) 
+        public static R FoldReverse<L, T, R>(this L me, Func<T, R, R> function, R initial) 
 			where L : class, Interface.ILink<L, T>, new() 
         {
-            return object.ReferenceEquals(link, null) ? initial : Link.Fold(link.Tail, function, function(link.Head, initial));
+            return me.IsNull() ? initial : me.Tail.Fold(function, function(me.Head, initial));
 		}
-        public static void Apply<L, T>(this L link, Action<T> function) 
+        public static void Apply<L, T>(this L me, Action<T> function) 
 			where L : class, Interface.ILink<L, T>, new() 
         {
-			if (!object.ReferenceEquals(link, null))
+			if (!me.IsNull())
 			{
-				function(link.Head);
-				Link.Apply(link.Tail, function);
+				function(me.Head);
+				me.Tail.Apply(function);
 			}
         }
-        public static R Map<L, T, R, S>(this L link, Func<T, S> function) 
+        public static R Map<L, T, R, S>(this L me, Func<T, S> function) 
 			where L : class, Interface.ILink<L, T>, new() 
 			where R : class, Interface.ILink<R, S>, new()
         {
-			return object.ReferenceEquals(link, null) ? null : new R() 
+			return me.IsNull() ? null : new R() 
 			{ 
-				Head = function(link.Head),
-				Tail = Link.Map<L, T, R, S>(link.Tail, function),
+				Head = function(me.Head),
+				Tail = me.Tail.Map<L, T, R, S>(function),
 			};
         }
 	}

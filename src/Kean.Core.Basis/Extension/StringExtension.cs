@@ -24,7 +24,7 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Basis.Extension
 {
-	public static class String
+	public static class StringExtension
 	{
 		public static bool NotEmpty(this string me)
 		{

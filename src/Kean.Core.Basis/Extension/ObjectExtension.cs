@@ -23,7 +23,7 @@ using System;
 
 namespace Kean.Core.Basis.Extension
 {
-	public static class Object
+	public static class ObjectExtension
 	{
 		public static bool NotNull(this object me)
 		{
