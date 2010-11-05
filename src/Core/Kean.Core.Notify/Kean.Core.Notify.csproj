@@ -37,6 +37,8 @@
     <Compile Include="Notifier.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="INotify.cs" />
+    <Compile Include="OnChange.cs" />
+    <Compile Include="Extension\OnChange.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
@@ -45,4 +47,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Extension\" />
+  </ItemGroup>
 </Project>

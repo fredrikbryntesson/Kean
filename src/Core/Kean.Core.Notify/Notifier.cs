@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Basis.Extension;
+using Kean.Core.Notify.Extension;
 
 namespace Kean.Core.Notify
 {
@@ -29,7 +30,7 @@ namespace Kean.Core.Notify
 	{
 		T value;
 		event Action<T> changed;
-        event Converter<T, bool> onChange;
+        event OnChange<T> onChange;
 
 		public Notifier()
 		{ }
@@ -52,20 +53,10 @@ namespace Kean.Core.Notify
 			get { return this.value; }
 			set
 			{
-				if (!value.Equals(this.value))
+				if (!value.Equals(this.value) && this.onChange.Call(value))
 				{
-					bool update = true;
-					if (this.onChange.NotNull())
-					{
-						Delegate[] delegates = this.onChange.GetInvocationList();
-						for (int i = 0; i < delegates.Length && update; i++)
-							update &= (delegates[i] as Converter<T, bool>)(value);
-					}
-					if (update)
-					{
-						this.value = value;
-						this.changed.Call(this.value);
-					}
+					this.value = value;
+					this.changed.Call(this.value);
 				}
 			}
 		}
@@ -74,7 +65,7 @@ namespace Kean.Core.Notify
 			add { this.changed += value; }
 			remove { this.changed -= value; }
 		}
-        public event Converter<T, bool> OnChange
+        public event OnChange<T> OnChange
         {
             add { this.onChange += value; }
             remove { this.onChange -= value; }
@@ -108,12 +99,12 @@ namespace Kean.Core.Notify
 			left.changed -= right;
 			return left;
 		}
-        public static Notifier<T> operator +(Notifier<T> left, Converter<T, bool> right)
+        public static Notifier<T> operator +(Notifier<T> left, OnChange<T> right)
         {
             left.onChange += right;
             return left;
         }
-        public static Notifier<T> operator -(Notifier<T> left, Converter<T, bool> right)
+        public static Notifier<T> operator -(Notifier<T> left, OnChange<T> right)
         {
             left.onChange -= right;
             return left;
