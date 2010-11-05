@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Error", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Communication.Sms", "src\Kean.Communication.Sms\Kean.Communication.Sms.csproj", "{65681DE0-A252-46AD-890B-948EFCC7FAE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
