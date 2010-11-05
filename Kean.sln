@@ -9,11 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error", "src\Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Basis", "src\Core\Kean.Core.Basis\Kean.Core.Basis.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Serializer", "src\Core\Kean.Core.Serializer\Kean.Core.Serializer.csproj", "{06324516-5008-4A34-9C54-041F30F5A229}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Serialize", "src\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj", "{06324516-5008-4A34-9C54-041F30F5A229}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Storage", "src\Core\Kean.Core.Storage\Kean.Core.Storage.csproj", "{C385107F-C2D1-4651-8C9B-2B9858783193}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Notify", "src\Core\Kean.Core.Notify\Kean.Core.Notify.csproj", "{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure", "src\Core\Kean.Core.Configure\Kean.Core.Configure.csproj", "{5E44F980-7706-49A8-96F2-80DF5EF36A4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect", "src\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj", "{D44CAE32-71EA-4BD9-8A41-8EC84526B596}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C4335CDD-FE74-415E-AEE5-305FC666381E}"
 EndProject
@@ -28,6 +32,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Test\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{2A0ABC0A-9F44-47F7-8D56-C9F5FA2B9CDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml", "Xml", "{04812EF2-EE5A-40C7-8D58-A31F9DB2A1B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{EA45BED6-18F0-4479-B6EB-6F1F6E8DCEA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Draw", "Draw", "{04487E77-8390-4CD3-8D0F-3D05FE2F3EC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{056AEF78-CCCE-4A15-BE46-12BB5B3E50D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Communication.Sms", "src\Communication\Kean.Communication.Sms\Kean.Communication.Sms.csproj", "{65681DE0-A252-46AD-890B-948EFCC7FAE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +65,14 @@ Global
 		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E3AAF21-1E60-493D-B58B-66F1BDA18668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E44F980-7706-49A8-96F2-80DF5EF36A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +97,10 @@ Global
 		{C7D3F01E-01B5-463E-A574-29B5F97E38BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D3F01E-01B5-463E-A574-29B5F97E38BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D3F01E-01B5-463E-A574-29B5F97E38BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B} = {285F20D5-30DB-4D61-9867-652F4339778F}
@@ -83,14 +109,16 @@ Global
 		{06324516-5008-4A34-9C54-041F30F5A229} = {285F20D5-30DB-4D61-9867-652F4339778F}
 		{C385107F-C2D1-4651-8C9B-2B9858783193} = {285F20D5-30DB-4D61-9867-652F4339778F}
 		{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA} = {285F20D5-30DB-4D61-9867-652F4339778F}
+		{5E44F980-7706-49A8-96F2-80DF5EF36A4A} = {285F20D5-30DB-4D61-9867-652F4339778F}
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596} = {285F20D5-30DB-4D61-9867-652F4339778F}
 		{DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8} = {C4335CDD-FE74-415E-AEE5-305FC666381E}
 		{5E3AAF21-1E60-493D-B58B-66F1BDA18668} = {C4335CDD-FE74-415E-AEE5-305FC666381E}
 		{598867CF-A027-46EA-A5C8-0EF7FD21A61C} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
 		{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
 		{C7D3F01E-01B5-463E-A574-29B5F97E38BF} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
+		{65681DE0-A252-46AD-890B-948EFCC7FAE1} = {056AEF78-CCCE-4A15-BE46-12BB5B3E50D7}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		outputpath = build\bin
 		StartupItem = src\Test\Kean.Test.Run\Kean.Test.Run.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
@@ -102,32 +130,36 @@ Global
 		$3.inheritsSet = Mono
 		$0.ChangeLogPolicy = $4
 		$4.VcsIntegration = RequireEntry
-		$4.MessageStyle = $5
-		$5.LineAlign = 0
 		$4.inheritsSet = Mono
-		$0.TextStylePolicy = $6
-		$6.inheritsSet = null
+		$0.TextStylePolicy = $5
+		$5.inheritsSet = null
+		$5.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $6
+		$6.AnonymousMethodBraceStyle = NextLine
+		$6.PropertyBraceStyle = NextLine
+		$6.PropertyGetBraceStyle = NextLine
+		$6.PropertySetBraceStyle = NextLine
+		$6.EventBraceStyle = NextLine
+		$6.EventAddBraceStyle = NextLine
+		$6.EventRemoveBraceStyle = NextLine
+		$6.PlaceElseOnNewLine = True
+		$6.PlaceElseIfOnNewLine = True
+		$6.PlaceCatchOnNewLine = True
+		$6.PlaceFinallyOnNewLine = True
+		$6.PlaceWhileOnNewLine = True
+		$6.BeforeMethodCallParentheses = False
+		$6.BeforeMethodDeclarationParentheses = False
+		$6.BeforeConstructorDeclarationParentheses = False
+		$6.BeforeDelegateDeclarationParentheses = False
+		$6.NewParentheses = False
+		$6.inheritsSet = Mono
+		$6.inheritsScope = text/x-csharp
 		$6.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $7
-		$7.AnonymousMethodBraceStyle = NextLine
-		$7.PropertyBraceStyle = NextLine
-		$7.PropertyGetBraceStyle = NextLine
-		$7.PropertySetBraceStyle = NextLine
-		$7.EventBraceStyle = NextLine
-		$7.EventAddBraceStyle = NextLine
-		$7.EventRemoveBraceStyle = NextLine
-		$7.PlaceElseOnNewLine = True
-		$7.PlaceElseIfOnNewLine = True
-		$7.PlaceCatchOnNewLine = True
-		$7.PlaceFinallyOnNewLine = True
-		$7.PlaceWhileOnNewLine = True
-		$7.BeforeMethodCallParentheses = False
-		$7.BeforeMethodDeclarationParentheses = False
-		$7.BeforeConstructorDeclarationParentheses = False
-		$7.BeforeDelegateDeclarationParentheses = False
-		$7.NewParentheses = False
+		$0.TextStylePolicy = $7
+		$7.FileWidth = 120
+		$7.TabWidth = 4
 		$7.inheritsSet = Mono
-		$7.inheritsScope = text/x-csharp
-		$7.scope = text/x-csharp
+		$7.inheritsScope = text/plain
+		$7.scope = text/plain
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,5 @@
 // 
-//  Object.cs
+//  Message.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,33 +18,17 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
-
-namespace Kean.Core.Basis.Extension
+namespace Kean.Communication.Sms
 {
-	public static class Object
+	public class Message
 	{
-		public static bool NotNull(this object me)
+		public string Receiver { get; set; }
+		public string Sender { get; set; }
+		public string Body { get; set; }
+		public Message()
 		{
-			return !object.ReferenceEquals(me, null);
-		}
-		public static bool IsNull(this object me)
-		{
-			return object.ReferenceEquals(me, null);
-		}
-		public static bool Same(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other);
-		}
-		public static bool SameOrEquals(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other) || 
-				!object.ReferenceEquals(me, null) && me.Equals(other);
-		}
-		public static int Hash(this object me)
-		{
-			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
 		}
 	}
 }
+

@@ -1,5 +1,5 @@
 // 
-//  Object.cs
+//  Configurable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,30 +21,21 @@
 
 using System;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Configure
 {
-	public static class Object
+	public abstract class Configurable :
+		IConfigurable
 	{
-		public static bool NotNull(this object me)
+		object IConfigurable.this[string path]
 		{
-			return !object.ReferenceEquals(me, null);
+			get
+			{
+			}
+			set
+			{
+			}
 		}
-		public static bool IsNull(this object me)
+		protected Configurable()
 		{
-			return object.ReferenceEquals(me, null);
 		}
-		public static bool Same(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other);
-		}
-		public static bool SameOrEquals(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other) || 
-				!object.ReferenceEquals(me, null) && me.Equals(other);
-		}
-		public static int Hash(this object me)
-		{
-			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
-		}
-	}
-}
+	}}

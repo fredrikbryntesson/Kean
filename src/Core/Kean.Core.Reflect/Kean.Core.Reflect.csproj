@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{06324516-5008-4A34-9C54-041F30F5A229}</ProjectGuid>
+    <ProjectGuid>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Core.Serializer</RootNamespace>
-    <AssemblyName>Kean.Core.Serializer</AssemblyName>
+    <RootNamespace>Kean.Core.Reflect</RootNamespace>
+    <AssemblyName>Kean.Core.Reflect</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,13 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Serializable.cs" />
+    <Compile Include="Extension\Object.cs" />
+    <Compile Include="Property.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extension\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Storage\Kean.Core.Storage.csproj">
-      <Project>{C385107F-C2D1-4651-8C9B-2B9858783193}</Project>
-      <Name>Kean.Core.Storage</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

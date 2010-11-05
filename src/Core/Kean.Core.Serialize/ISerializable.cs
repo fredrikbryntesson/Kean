@@ -1,5 +1,5 @@
 // 
-//  Serializable.cs
+//  ISerializable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,25 +21,11 @@
 
 using System;
 
-namespace Kean.Core.Serializer
+namespace Kean.Core.Serialize
 {
-	public abstract class Serializable<T> :
-		Storage.ISerializable,
-		IEquatable<Storage.ISerializable>
-		where T : new()
+	public interface ISerializable
 	{
-		internal ulong Identifier { get; set; }
-		ulong Storage.ISerializable.Identifier { get { return this.Identifier; } }
-		protected Serializable() { }
-		
-		void Storage.ISerializable.Serialize(System.IO.Stream stream)
-		{
-		}
-		
-		public bool Equals(Storage.ISerializable other)
-		{
-			return (other is Storage.ISerializable) && this.Identifier == other.Identifier;
-		}
+		Data.Node Serialize();
+		object Unserialize(Data.Node node);
 	}
 }
- 

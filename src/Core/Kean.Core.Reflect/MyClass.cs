@@ -1,5 +1,5 @@
 // 
-//  ISerializable.cs
+//  MyClass.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,14 +18,14 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
-
-namespace Kean.Core.Storage
+namespace Kean.Core.Reflect
 {
-	public interface ISerializable
+	public class MyClass
 	{
-		ulong Identifier { get; }
-		void Serialize(System.IO.Stream stream);
+		public MyClass()
+		{
+		}
 	}
 }
+

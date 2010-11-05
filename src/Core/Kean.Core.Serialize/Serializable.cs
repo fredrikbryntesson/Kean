@@ -1,5 +1,5 @@
 // 
-//  Object.cs
+//  Serializable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,30 +21,25 @@
 
 using System;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Serialize
 {
-	public static class Object
+	public abstract class Serializable<T> :
+		Storage.ISerializable,
+		IEquatable<Storage.ISerializable>
+		where T : new()
 	{
-		public static bool NotNull(this object me)
+		internal ulong Identifier { get; set; }
+		ulong Storage.ISerializable.Identifier { get { return this.Identifier; } }
+		protected Serializable() { }
+		
+		void Storage.ISerializable.Serialize(System.IO.Stream stream)
 		{
-			return !object.ReferenceEquals(me, null);
 		}
-		public static bool IsNull(this object me)
+		
+		public bool Equals(Storage.ISerializable other)
 		{
-			return object.ReferenceEquals(me, null);
-		}
-		public static bool Same(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other);
-		}
-		public static bool SameOrEquals(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other) || 
-				!object.ReferenceEquals(me, null) && me.Equals(other);
-		}
-		public static int Hash(this object me)
-		{
-			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
+			return (other is Storage.ISerializable) && this.Identifier == other.Identifier;
 		}
 	}
 }
+ 

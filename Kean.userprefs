@@ -1,0 +1,26 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Core/Kean.Core.Configure/Configurator.cs" ctype="Workbench">
+    <Files>
+      <File FileName="src/Core/Kean.Core.Configure/Configurator.cs" Line="59" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Core" expanded="True" selected="True">
+            <Node name="Kean.Core.Collection" expanded="True">
+              <Node name="Exception" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
+</Properties>

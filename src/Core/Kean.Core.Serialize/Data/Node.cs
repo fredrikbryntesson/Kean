@@ -1,5 +1,5 @@
 // 
-//  Object.cs
+//  Node.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,30 +21,14 @@
 
 using System;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Serialize.Data
 {
-	public static class Object
+	public abstract class Node
 	{
-		public static bool NotNull(this object me)
+		public Configure.ParameterAttribute Attribute { get; set; }
+		public TypeSpecifier Type { get; set; }
+		protected Node()
 		{
-			return !object.ReferenceEquals(me, null);
-		}
-		public static bool IsNull(this object me)
-		{
-			return object.ReferenceEquals(me, null);
-		}
-		public static bool Same(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other);
-		}
-		public static bool SameOrEquals(this object me, object other)
-		{
-			return object.ReferenceEquals(me, other) || 
-				!object.ReferenceEquals(me, null) && me.Equals(other);
-		}
-		public static int Hash(this object me)
-		{
-			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
 		}
 	}
 }
