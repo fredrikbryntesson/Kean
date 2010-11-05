@@ -21,7 +21,7 @@
 using System;
 namespace Kean.Core.Reflect.Extension
 {
-	public static class ObjectReflectExtension
+	public static class ObjectExtension
 	{
 		public static void Set(this object me, string property, object value)
 		{

@@ -15,7 +15,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -37,32 +37,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Interface\IList.cs" />
-    <Compile Include="List.cs" />
-    <Compile Include="Interface\ILink.cs" />
-    <Compile Include="Extension\Link.cs" />
+    <Compile Include="Extension\LinkExtension.cs" />
     <Compile Include="Exception\Exception.cs" />
     <Compile Include="Exception\InvalidIndex.cs" />
-    <Compile Include="Interface\IStack.cs" />
-    <Compile Include="Interface\IQueue.cs" />
+    <Compile Include="Exception\Empty.cs" />
+    <Compile Include="Exception\InvalidArgument.cs" />
+    <Compile Include="IList.cs" />
+    <Compile Include="ILink.cs" />
+    <Compile Include="IStack.cs" />
+    <Compile Include="IQueue.cs" />
+    <Compile Include="IVector.cs" />
+    <Compile Include="Vector.cs" />
+    <Compile Include="List.cs" />
     <Compile Include="Linked\Link.cs" />
     <Compile Include="Linked\List.cs" />
     <Compile Include="Linked\Stack.cs" />
     <Compile Include="Linked\Queue.cs" />
-    <Compile Include="Exception\Empty.cs" />
     <Compile Include="Array\List.cs" />
     <Compile Include="Array\Queue.cs" />
     <Compile Include="Array\Stack.cs" />
-    <Compile Include="Exception\InvalidArgument.cs" />
-    <Compile Include="Interface\IVector.cs" />
-    <Compile Include="Vector.cs" />
     <Compile Include="Wrap\Vector.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Synchronized\Vector.cs" />
     <Compile Include="Hooked\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interface\" />
     <Folder Include="Synchronized\" />
     <Folder Include="Extension\" />
     <Folder Include="Hooked\" />
@@ -80,14 +79,9 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>

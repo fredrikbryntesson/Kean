@@ -25,7 +25,7 @@ using Kean.Core.Notify.Extension;
 
 namespace Kean.Core.Notify.Extension
 {
-	public static class OnChange
+	public static class OnChangeExtension
 	{
 		/// <summary>
 		/// Invokes the delegates in the multicast list until one return false.

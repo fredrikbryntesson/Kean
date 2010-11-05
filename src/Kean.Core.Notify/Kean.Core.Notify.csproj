@@ -15,7 +15,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -39,7 +39,7 @@
     <Compile Include="Connector.cs" />
     <Compile Include="INotify.cs" />
     <Compile Include="OnChange.cs" />
-    <Compile Include="Extension\OnChange.cs" />
+    <Compile Include="Extension\OnChangeExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
@@ -51,13 +51,4 @@
   <ItemGroup>
     <Folder Include="Extension\" />
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>

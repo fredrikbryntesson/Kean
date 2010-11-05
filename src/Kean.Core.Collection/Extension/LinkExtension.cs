@@ -23,7 +23,7 @@ using System;
 
 namespace Kean.Core.Collection.Extension
 {
-	public static class Link
+	public static class LinkExtension
 	{
 		public static L Add<L, T>(this L link, T item)
 			where L : class, Interface.ILink<L, T>, new() 
