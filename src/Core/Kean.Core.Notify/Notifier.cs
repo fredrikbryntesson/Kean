@@ -29,7 +29,8 @@ namespace Kean.Core.Notify
 	{
 		T value;
 		event Action<T> changed;
-		
+        event Converter<T, bool> onChange;
+
 		public Notifier()
 		{ }
 		public Notifier(T value)
@@ -53,8 +54,18 @@ namespace Kean.Core.Notify
 			{
 				if (!value.Equals(this.value))
 				{
-					this.value = value;
-					this.changed.Call(this.value);
+					bool update = true;
+					if (this.onChange.NotNull())
+					{
+						Delegate[] delegates = this.onChange.GetInvocationList();
+						for (int i = 0; i < delegates.Length && update; i++)
+							update &= (delegates[i] as Converter<T, bool>)(value);
+					}
+					if (update)
+					{
+						this.value = value;
+						this.changed.Call(this.value);
+					}
 				}
 			}
 		}
@@ -63,11 +74,21 @@ namespace Kean.Core.Notify
 			add { this.changed += value; }
 			remove { this.changed -= value; }
 		}
-		public void Update(Notifier<T> changes)
+        public event Converter<T, bool> OnChange
+        {
+            add { this.onChange += value; }
+            remove { this.onChange -= value; }
+        }
+        public void Update(Notifier<T> changes)
 		{
 			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && (changes as Notifier<T>).changed.IsNull())
 				this.Value = changes.Value;
 		}
+		public override string ToString ()
+		{
+			return this.Value.ToString();
+		}
+
 		
 		public static implicit operator Notifier<T>(T value)
 		{
@@ -87,5 +108,15 @@ namespace Kean.Core.Notify
 			left.changed -= right;
 			return left;
 		}
-	}
+        public static Notifier<T> operator +(Notifier<T> left, Converter<T, bool> right)
+        {
+            left.onChange += right;
+            return left;
+        }
+        public static Notifier<T> operator -(Notifier<T> left, Converter<T, bool> right)
+        {
+            left.onChange -= right;
+            return left;
+        }
+    }
 }

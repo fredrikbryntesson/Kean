@@ -27,5 +27,6 @@ namespace Kean.Core.Notify
 	{
 		T Value { get; set; }
 		event Action<T> Changed;
+		event Converter<T, bool> OnChange;
 	}
 }
