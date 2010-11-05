@@ -30,9 +30,9 @@ namespace Kean.Core.Basis.Extension
 		{
 			return me.NotNull() && me != "";
 		}
-		public static bool Empty(this string me)
+		public static bool IsEmpty(this string me)
 		{
-			return me.Null() || me == "";
+			return me.IsNull() || me == "";
 		}
 	}
 }
