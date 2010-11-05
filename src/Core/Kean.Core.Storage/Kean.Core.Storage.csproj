@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C7D3F01E-01B5-463E-A574-29B5F97E38BF}</ProjectGuid>
+    <ProjectGuid>{C385107F-C2D1-4651-8C9B-2B9858783193}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Test.Core.Basis</RootNamespace>
-    <AssemblyName>Kean.Test.Core.Basis</AssemblyName>
+    <RootNamespace>Kean.Core.Storage</RootNamespace>
+    <AssemblyName>Kean.Core.Storage</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,19 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="NonNullable.cs" />
+    <Compile Include="ISerializable.cs" />
+    <Compile Include="ISerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Kean.Core.Basis\Kean.Core.Basis.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core.Basis</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

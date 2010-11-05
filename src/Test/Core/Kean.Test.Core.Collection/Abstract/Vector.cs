@@ -26,13 +26,24 @@ using Target = Kean.Core.Collection;
 
 namespace Kean.Test.Core.Collection.Abstract
 {
-	public abstract class Array<A> :
+	public abstract class Vector<A> :
 		NUnit.Framework.AssertionHelper
-		where A : Target.Interface.IArray<int>
+		where A : Target.Interface.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
 		public string Prefix { get; set; }
 		public abstract A Create(int count);
+
+		public virtual void All()
+		{
+			this.Count();
+			this.Get();
+			this.GetIndexToBig();
+			this.GetNegativeIndex();
+			this.Set();
+			this.SetIndexToBig();
+			this.SetNegativeIndex();
+		}
 
 		[Test]
 		public void Count()
@@ -47,18 +58,18 @@ namespace Kean.Test.Core.Collection.Abstract
 		}
 		[Test]
         [ExpectedException(typeof(Target.Exception.InvalidIndex))]
-		public void GetNegativeIndex()
-		{
-#pragma warning disable 219
-			int a = this.ZeroToNine[-1];
-#pragma warning restore 219
-		}
-		[Test]
-        [ExpectedException(typeof(Target.Exception.InvalidIndex))]
 		public void GetIndexToBig()
 		{
 #pragma warning disable 219
 			int a = this.ZeroToNine[10];
+#pragma warning restore 219
+		}
+		[Test]
+        [ExpectedException(typeof(Target.Exception.InvalidIndex))]
+		public void GetNegativeIndex()
+		{
+#pragma warning disable 219
+			int a = this.ZeroToNine[-1];
 #pragma warning restore 219
 		}
 		[Test]
@@ -80,15 +91,15 @@ namespace Kean.Test.Core.Collection.Abstract
 		}
 		[Test]
         [ExpectedException(typeof(Target.Exception.InvalidIndex))]
-		public void SetNegativeIndex()
-		{
-			this.ZeroToNine[-8] = 32;
-		}
-		[Test]
-        [ExpectedException(typeof(Target.Exception.InvalidIndex))]
 		public void SetIndexToBig()
 		{
 			this.ZeroToNine[10] = 23;
+		}
+		[Test]
+        [ExpectedException(typeof(Target.Exception.InvalidIndex))]
+		public void SetNegativeIndex()
+		{
+			this.ZeroToNine[-8] = 32;
 		}
 	}
 }

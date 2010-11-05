@@ -46,6 +46,10 @@ namespace Kean.Core.Collection.Linked
 				this.last.Tail = link;
 			this.last = link;
 		}
+		public T Peek()
+		{
+			return this.first.Head;
+		}
 		public T Dequeue()
 		{
 			if (this.first == null)

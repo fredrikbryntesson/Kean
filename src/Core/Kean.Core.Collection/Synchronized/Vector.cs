@@ -20,16 +20,32 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Core.Collection.Abstract
+
+namespace Kean.Core.Collection.Synchronized
 {
-	public abstract class Array<T> :
-		Interface.IArray<T>
+	public class Vector<T> :
+		Interface.IVector<T>
 	{
-		public abstract int Count { get; }
-		public abstract T this[int index] { get; set; }
-		
-		protected Array ()
+		private object guard;
+		private Interface.IVector<T> data;
+		#region Constructor
+		public Vector(Interface.IVector<T> data) :
+			this(data, new object())
 		{ }
+		public Vector(Interface.IVector<T> data, object guard)
+		{
+			this.data = data;
+			this.guard = guard;
+		}
+		#endregion
+		#region Interface.IVector<T>
+		int Interface.IVector<T>.Count { get { lock (this.guard) return this.data.Count; } }
+		T Interface.IVector<T>.this[int index] 
+		{
+			get { lock (this.guard) return this.data[index]; }
+			set { lock (this.guard) this.data[index] = value; }
+		}
+		#endregion
 		#region IEnumerator<T>
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
@@ -37,31 +53,27 @@ namespace Kean.Core.Collection.Abstract
 		}
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
-			for (int i = 0; i < (this as Interface.IArray<T>).Count; i++)
-				yield return (this as Interface.IArray<T>)[i];
+			lock (this.guard)
+				foreach (T item in this.data)
+					yield return item;
 		}
 		#endregion
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is Interface.IArray<T> && this.Equals(other as Interface.IArray<T>);
+			lock (this.guard) return (this.data as object).Equals(other);
 		}
 		public override int GetHashCode ()
 		{
-			int result = 0;
-			foreach (T item in (this as Interface.IArray<T>))
-				result ^= item.GetHashCode();
-			return result;
+			lock (this.guard) return this.data.GetHashCode();
 		}
 		#endregion
-		#region IEquatable<Interface.IArray<T>>
-		public bool Equals(Interface.IArray<T> other)
+		#region IEquatable<Interface.IVector<T>>
+		public bool Equals(Interface.IVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IArray<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as Interface.IArray<T>).Count; i++)
-				result &= (this as Interface.IArray<T>)[i].Equals(other[i]);
-			return result;
+			lock (this.guard) return this.data.Equals(other);
 		}
 		#endregion
 	}
+
 }

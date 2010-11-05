@@ -24,18 +24,18 @@ using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Collection.Linked
 {
-	public class LinkedStack<T> :
-		LinkedStack<Link<T>, T>
+	public class Stack<T> :
+		Stack<Link<T>, T>
 	{
-		public LinkedStack () { }
+		public Stack () { }
 	}
-	public class LinkedStack<L, T> :
+	public class Stack<L, T> :
 		Interface.IStack<T>
 		where L : class, Interface.ILink<L, T>, new()
 	{
 		private L top;
 		public bool Empty { get { return this.top == null; } }
-		public LinkedStack() { }
+		public Stack() { }
 		public void Push(T item)
 		{
 			this.top = this.top.Add(item);

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Basis
 {
@@ -65,26 +66,26 @@ namespace Kean.Core.Basis
 		}
 		void INotifier<T>.Update(INotifier<T> changes)
 		{
-			if (!object.ReferenceEquals(this, changes) && !changes.Changed.NotNull())
-				(this as INotifier<T>).Value = changes.value;
+			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
+				(this as INotifier<T>).Value = changes.Value;
 		}
 		#endregion
 		
 		
 		public static implicit operator Notifier<T>(T value)
 		{
-			return new Notifier(value);
+			return new Notifier<T>(value);
 		}
 		public static implicit operator T(Notifier<T> value)
 		{
 			return value.value;
 		}
-		public static Notify<T> operator +(Notifier<T> left, Action<T> right)
+		public static Notifier<T> operator +(Notifier<T> left, Action<T> right)
 		{
 			left.changed += right;
 			return left;
 		}
-		public static Notify<T> operator -(Notifier<T> left, Action<T> right)
+		public static Notifier<T> operator -(Notifier<T> left, Action<T> right)
 		{
 			left.changed -= right;
 			return left;

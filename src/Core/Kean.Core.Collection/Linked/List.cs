@@ -87,19 +87,19 @@ namespace Kean.Core.Collection.Linked
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is Interface.IArray<T> && this.Equals(other as Interface.IArray<T>);
+			return other is Interface.IVector<T> && this.Equals(other as Interface.IVector<T>);
 		}
 		public override int GetHashCode ()
 		{
 			return this.first.Fold((T element, int result) => result ^ element.GetHashCode());
 		}
 		#endregion
-		#region IEquatable<Interface.IArray<T>>
-		public bool Equals(Interface.IArray<T> other)
+		#region IEquatable<Interface.IVector<T>>
+		public bool Equals(Interface.IVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IArray<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as Interface.IArray<T>).Count; i++)
-				result &= (this as Interface.IArray<T>)[i].Equals(other[i]);
+			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IVector<T>).Count == other.Count;
+			for (int i = 0; result && i < (this as Interface.IVector<T>).Count; i++)
+				result &= (this as Interface.IVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion

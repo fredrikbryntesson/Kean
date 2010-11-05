@@ -32,7 +32,7 @@ namespace Kean.Test.Core.Basis
 	{
 
 		[Test]
-		public vGoid TestCase()
+		public void TestCase()
 		{
 		}
 	}

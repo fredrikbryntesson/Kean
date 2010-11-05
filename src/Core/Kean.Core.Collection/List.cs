@@ -26,8 +26,62 @@ namespace Kean.Core.Collection
 	public class List<T> :
 		Interface.IList<T>
 	{
+		Array.List<T> items;
 		public List()
 		{
+			this.items = new Array.List<T>();
 		}
+		#region Interface.IList<T>
+		public int Count { get { return this.items.Count; } }
+		public T this[int index]
+		{
+			get { return this.items[index]; }
+			set { this.items[index] = value; }
+		}
+		public void Add(T item)
+		{
+			this.items.Add(item);
+		}
+		public T Remove()
+		{
+			return this.items.Remove();
+		}
+        public T Remove(int index)
+		{
+			return this.items.Remove(index);
+		}
+        public void Insert(int index, T item)
+		{
+			this.items.Insert(index, item);
+		}
+		#endregion
+		#region System.Collections.IEnumerable
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return (this.items as System.Collections.IEnumerable).GetEnumerator();
+		}
+		#endregion
+		#region System.Collections.Generic.IEnumerable<T>
+		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+		{
+			return (this.items as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
+		}
+		#endregion
+		#region System.IEquatable<Interface.IVector<T>>
+		public bool Equals(Interface.IVector<T> other)
+		{
+			return this.items.Equals(other);
+		}
+		#endregion
+		#region System.Object
+		public override bool Equals(object other)
+		{
+			return (this.items as object).Equals(other);
+		}
+		public override int GetHashCode()
+		{
+			return this.items.GetHashCode();
+		}
+		#endregion
 	}
 }

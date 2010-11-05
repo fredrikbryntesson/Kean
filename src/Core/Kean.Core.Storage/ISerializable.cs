@@ -1,5 +1,5 @@
 // 
-//  InvalidArgument.cs
+//  ISerializable.cs
 //  
 //  Author:
 //       smika <${AuthorEmail}>
@@ -21,25 +21,11 @@
 
 using System;
 
-namespace Kean.Core.Collection.Exception
+namespace Kean.Core.Storage
 {
-	public class InvalidArgument :
-		Exception
+	public interface ISerializable
 	{
-		internal InvalidArgument() :
-			this(null as System.Exception)
-		{ }
-		internal InvalidArgument(string message) :
-			this(null, message)
-		{ }
-		internal InvalidArgument(string message, params object[] arguments) :
-			this(null, message, arguments)
-		{ }
-		internal InvalidArgument(System.Exception exception) :
-			this(exception, "Argument has an invalid value.")
-		{ }
-		internal InvalidArgument(System.Exception exception, string message, params object[] arguments) :
-			base(exception, Error.Level.Warning, "Invalid Argument.", message, arguments)
-		{ }
+		ulong Identifier { get; }
+		void Serialize(System.IO.Stream stream);
 	}
 }

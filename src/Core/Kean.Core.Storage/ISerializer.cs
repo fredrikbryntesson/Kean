@@ -1,10 +1,10 @@
 // 
-//  IArray.cs
+//  ISerializer.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       smika <${AuthorEmail}>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 smika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,13 +21,11 @@
 
 using System;
 
-namespace Kean.Core.Collection.Interface
+namespace Kean.Core.Storage
 {
-	public interface IArray<T> :
-		System.Collections.Generic.IEnumerable<T>,
-		System.IEquatable<Interface.IArray<T>>
+	public interface ISerializer
 	{
-		int Count { get; }
-		T this[int index] { get; set; }
+		void Serialize<T>(System.IO.Stream stream, T ojbect);
+		T Unserialize<T>(System.IO.Stream stream);
 	}
 }

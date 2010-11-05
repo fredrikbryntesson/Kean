@@ -23,13 +23,32 @@ using System;
 
 namespace Kean.Core.Collection.Array
 {
-
-
-	public class Stack
+	public class Stack<T> :
+		Interface.IStack<T>
 	{
-
+		List<T> items;
 		public Stack()
 		{
+			this.items = new List<T>();
 		}
+		public Stack(int capacity)
+		{
+			this.items = new List<T>(capacity);
+		}
+		#region Interface.IStack<T>
+		public bool Empty { get { return this.items.Count < 1; } }
+		public void Push(T item)
+		{
+			this.items.Add(item);
+		}
+		public T Pop()
+		{
+			return this.items.Remove(0);
+		}
+		public T Peek()
+		{
+			return this.items[0];
+		}
+		#endregion
 	}
 }

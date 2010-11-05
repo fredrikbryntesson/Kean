@@ -22,8 +22,8 @@
 using System;
 namespace Kean.Core.Collection
 {
-	public class Array<T> :
-		Abstract.Array<T>
+	public class Vector<T> :
+		Abstract.Vector<T>
 	{
 		private T[] data;
 		public override int Count { get { return this.data.Length; } }
@@ -52,20 +52,20 @@ namespace Kean.Core.Collection
 				}
 			}
 		}
-		public Array(int count) :
+		public Vector(int count) :
 			this(new T[count])
 		{ }
-		public Array(params T[] data)
+		public Vector(params T[] data)
 		{ 
 			this.data = data;
 		}
-		public static implicit operator Array<T>(T[] array)
+		public static implicit operator Vector<T>(T[] array)
 		{
-			return new Array<T>(array);
+			return new Vector<T>(array);
 		}
-		public static implicit operator T[](Array<T> array)
+		public static implicit operator T[](Vector<T> vector)
 		{
-			return array.data;
+			return vector.data;
 		}
 	}
 }

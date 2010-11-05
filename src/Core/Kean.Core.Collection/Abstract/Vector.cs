@@ -20,25 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-
-namespace Kean.Core.Collection.Hooked
+namespace Kean.Core.Collection.Abstract
 {
-	public class Array<T> : 
-		Interface.IArray<T>
+	public abstract class Vector<T> :
+		Interface.IVector<T>
 	{
-		private Interface.IArray<T> data;
-		public event Action<int, T, T> Replaced;
-		public Func<int, T, T, T> OnReplace { private get; set; }
-		public T this[int index]
-		{
-			get { return this.data[index]; }
-			set { this.data[index] = this.OnReplace(index, value, this.data[index]); }
-		}
-		public int Count { get { return this.data.Count; } }
-		public Array(Interface.IArray<T> data)
-		{
-			this.data = data;
-		}
+		public abstract int Count { get; }
+		public abstract T this[int index] { get; set; }
+		
+		protected Vector ()
+		{ }
 		#region IEnumerator<T>
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
@@ -46,23 +37,30 @@ namespace Kean.Core.Collection.Hooked
 		}
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
-			return this.data.GetEnumerator();
+			for (int i = 0; i < (this as Interface.IVector<T>).Count; i++)
+				yield return (this as Interface.IVector<T>)[i];
 		}
 		#endregion
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is Interface.IArray<T> && this.Equals(other as Interface.IArray<T>);
+			return other is Interface.IVector<T> && this.Equals(other as Interface.IVector<T>);
 		}
-		public override int GetHashCode()
+		public override int GetHashCode ()
 		{
-			return this.data.GetHashCode();
+			int result = 0;
+			foreach (T item in (this as Interface.IVector<T>))
+				result ^= item.GetHashCode();
+			return result;
 		}
 		#endregion
-		#region IEquatable<Interface.IArray<T>>
-		public bool Equals(Interface.IArray<T> other)
+		#region IEquatable<Interface.IVector<T>>
+		public bool Equals(Interface.IVector<T> other)
 		{
-			return this.data.Equals(other);
+			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IVector<T>).Count == other.Count;
+			for (int i = 0; result && i < (this as Interface.IVector<T>).Count; i++)
+				result &= (this as Interface.IVector<T>)[i].Equals(other[i]);
+			return result;
 		}
 		#endregion
 	}

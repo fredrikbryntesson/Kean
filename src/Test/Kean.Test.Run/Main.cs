@@ -26,9 +26,9 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			Core.Collection.Array fixture = new Core.Collection.Array();
+			Core.Collection.Vector fixture = new Core.Collection.Vector();
 			//fixture.FixtureSetup();
-			fixture.ConstructorCount();
+			fixture.All();
 		}
 	}
 }

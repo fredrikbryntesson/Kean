@@ -27,6 +27,7 @@ namespace Kean.Core.Collection.Interface
 	{
 		bool Empty { get; }
 		void Enqueue(T item);
+		T Peek();
 		T Dequeue();
 	}
 }

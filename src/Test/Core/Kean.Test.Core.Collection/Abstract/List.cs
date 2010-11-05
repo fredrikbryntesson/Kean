@@ -27,7 +27,7 @@ using Target = Kean.Core.Collection;
 namespace Kean.Test.Core.Collection.Abstract
 {
 	public abstract class List<L> :
-		Array<L>
+		Vector<L>
 		where L : Target.Interface.IList<int>
 	{
 	}
