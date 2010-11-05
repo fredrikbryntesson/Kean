@@ -5,54 +5,59 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{598867CF-A027-46EA-A5C8-0EF7FD21A61C}</ProjectGuid>
+    <ProjectGuid>{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Test.Core.Collection</RootNamespace>
-    <AssemblyName>Kean.Test.Core.Collection</AssemblyName>
+    <RootNamespace>Kean.Core.Notify</RootNamespace>
+    <AssemblyName>Kean.Core.Notify</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\bin\Debug</OutputPath>
+    <OutputPath>..\..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\bin\Release</OutputPath>
+    <OutputPath>..\..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.core, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\List.cs" />
-    <Compile Include="Vector.cs" />
-    <Compile Include="Abstract\Vector.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Notifier.cs" />
+    <Compile Include="Connector.cs" />
+    <Compile Include="INotify.cs" />
+    <Compile Include="OnChange.cs" />
+    <Compile Include="Extension\OnChange.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
-      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
-      <Name>Kean.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
-    </ProjectReference>
+    <Folder Include="Extension\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

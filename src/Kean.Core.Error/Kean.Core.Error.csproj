@@ -5,17 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</ProjectGuid>
+    <ProjectGuid>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Core.Basis</RootNamespace>
-    <AssemblyName>Kean.Core.Basis</AssemblyName>
+    <RootNamespace>Kean.Core.Error</RootNamespace>
+    <AssemblyName>Kean.Core.Error</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,26 +24,28 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Release</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Extension\Object.cs" />
-    <Compile Include="Extension\String.cs" />
-    <Compile Include="NonNullable.cs" />
-    <Compile Include="Extension\Action.cs" />
-    <Compile Include="Tuple.cs" />
-    <Compile Include="ITuple.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extension\" />
+    <Compile Include="Exception.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="IError.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

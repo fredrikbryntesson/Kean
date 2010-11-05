@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Core.Notify</RootNamespace>
-    <AssemblyName>Kean.Core.Notify</AssemblyName>
+    <ProjectGuid>{5E3AAF21-1E60-493D-B58B-66F1BDA18668}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Kean.Test.Run</RootNamespace>
+    <AssemblyName>Kean.Test.Run</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -19,7 +19,6 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -27,28 +26,40 @@
     <OutputPath>..\..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Notifier.cs" />
-    <Compile Include="Connector.cs" />
-    <Compile Include="INotify.cs" />
-    <Compile Include="OnChange.cs" />
-    <Compile Include="Extension\OnChange.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core.Basis</Name>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj">
+      <Project>{598867CF-A027-46EA-A5C8-0EF7FD21A61C}</Project>
+      <Name>Kean.Test.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Core.Error\Kean.Test.Core.Error.csproj">
+      <Project>{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}</Project>
+      <Name>Kean.Test.Core.Error</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Extension\" />
-  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

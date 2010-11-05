@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</ProjectGuid>
+    <ProjectGuid>{65681DE0-A252-46AD-890B-948EFCC7FAE1}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Core.Reflect</RootNamespace>
-    <AssemblyName>Kean.Core.Reflect</AssemblyName>
+    <RootNamespace>Kean.Communication.Sms</RootNamespace>
+    <AssemblyName>Kean.Communication.Sms</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,15 +31,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Extension\Object.cs" />
-    <Compile Include="Property.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extension\" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Device.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
