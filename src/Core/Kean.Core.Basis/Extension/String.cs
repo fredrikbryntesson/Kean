@@ -28,11 +28,11 @@ namespace Kean.Core.Basis.Extension
 	{
 		public static bool NotEmpty(this string me)
 		{
-			return me.NotNull && me != "";
+			return me.NotNull() && me != "";
 		}
 		public static bool Empty(this string me)
 		{
-			return me.Null || me == "";
+			return me.Null() || me == "";
 		}
 	}
 }
