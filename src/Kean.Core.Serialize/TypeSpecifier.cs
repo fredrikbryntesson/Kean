@@ -88,7 +88,7 @@ namespace Kean.Core.Serialize
                         System.Text.StringBuilder resultBuilder = null;
                         if (this.Arguments.Count > 0)
                         {
-                            resultBuilder = new System.Text.StringBuilder().AppendFormat("`{0}[", this.Arguments.Count);
+                            resultBuilder = new System.Text.StringBuilder().Append("<");
                             bool first = true;
                             foreach (TypeSpecifier name in this.Arguments)
                             {
@@ -96,9 +96,9 @@ namespace Kean.Core.Serialize
                                     resultBuilder.Append(",");
                                 else
                                     first = false;
-                                resultBuilder.AppendFormat("[{0}]", name.FullName);
+                                resultBuilder.Append(name.FullName);
                             }
-                            resultBuilder.Append("]");
+                            resultBuilder.Append(">");
                         }
 
                         if (this.Name.StartsWith(this.Assembly))
@@ -107,7 +107,7 @@ namespace Kean.Core.Serialize
                         {
                             resultBuilder = new System.Text.StringBuilder(this.Name).Append(resultBuilder);
                             if (this.Assembly.NotEmpty() && this.Assembly != "mscorlib")
-                                resultBuilder.AppendFormat(", {0}", this.Assembly);
+                                resultBuilder.AppendFormat(" {0}", this.Assembly);
                         }
                         result = resultBuilder.ToString();
                         break;
@@ -120,16 +120,15 @@ namespace Kean.Core.Serialize
                 while (++pointer < value.Length)
                     switch (value[pointer])
                     {
-                        case '`':
-                            while (value[++pointer] != '[') ;
+                        case '<':
                             pointer++;
                             int tail = value.Length;
-                            while (value[--tail] != ']');
+                            while (value[--tail] != '>');
                             foreach (string argument in value.Substring(pointer, tail - pointer).Split(','))
-                                this.Arguments.Add(new TypeSpecifier() { FullName = argument.Trim(' ', '[', ']') });
+                                this.Arguments.Add(new TypeSpecifier() { FullName = argument.Trim(' ') });
                             pointer = tail;
                             break;
-                        case ',':
+                        case ' ':
                             this.Assembly = value.Substring(pointer + 1).Trim();
                             pointer = value.Length;
                             break;

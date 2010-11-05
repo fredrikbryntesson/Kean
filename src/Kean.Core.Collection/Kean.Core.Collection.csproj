@@ -60,6 +60,7 @@
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Synchronized\Vector.cs" />
     <Compile Include="Hooked\Vector.cs" />
+    <Compile Include="IDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Synchronized\" />

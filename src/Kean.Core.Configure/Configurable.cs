@@ -24,6 +24,7 @@ using System;
 namespace Kean.Core.Configure
 {
 	public abstract class Configurable :
+		Initialize,
 		IConfigurable
 	{
 		object IConfigurable.this[string path]
