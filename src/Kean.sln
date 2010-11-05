@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{285F20D5-30DB-4D61-9867-652F4339778F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection", "Core\Kean.Core.Collection\Kean.Core.Collection.csproj", "{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C4335CDD-FE74-415E-AEE5-305FC666381E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Collection", "Test\Core\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598867CF-A027-46EA-A5C8-0EF7FD21A61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B} = {285F20D5-30DB-4D61-9867-652F4339778F}
+		{DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8} = {C4335CDD-FE74-415E-AEE5-305FC666381E}
+		{598867CF-A027-46EA-A5C8-0EF7FD21A61C} = {DDDA561D-9668-4FD1-9BE2-4C0D6A5CDFD8}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		outputpath = ..\build\bin
+		StartupItem = Core\Kean.Core.Collection\Kean.Core.Collection.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.StandardHeader = $2
+		$2.inheritsSet = LGPLv3License
+		$0.VersionControlPolicy = $3
+		$3.inheritsSet = Mono
+		$0.ChangeLogPolicy = $4
+		$4.VcsIntegration = RequireEntry
+		$4.MessageStyle = $5
+		$5.LineAlign = 0
+		$4.inheritsSet = Mono
+		$0.TextStylePolicy = $6
+		$6.inheritsSet = null
+		$6.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $7
+		$7.AnonymousMethodBraceStyle = NextLine
+		$7.PropertyBraceStyle = NextLine
+		$7.PropertyGetBraceStyle = NextLine
+		$7.PropertySetBraceStyle = NextLine
+		$7.EventBraceStyle = NextLine
+		$7.EventAddBraceStyle = NextLine
+		$7.EventRemoveBraceStyle = NextLine
+		$7.PlaceElseOnNewLine = True
+		$7.PlaceElseIfOnNewLine = True
+		$7.PlaceCatchOnNewLine = True
+		$7.PlaceFinallyOnNewLine = True
+		$7.PlaceWhileOnNewLine = True
+		$7.BeforeMethodCallParentheses = False
+		$7.BeforeMethodDeclarationParentheses = False
+		$7.BeforeConstructorDeclarationParentheses = False
+		$7.BeforeDelegateDeclarationParentheses = False
+		$7.NewParentheses = False
+		$7.inheritsSet = Mono
+		$7.inheritsScope = text/x-csharp
+		$7.scope = text/x-csharp
+	EndGlobalSection
+EndGlobal
