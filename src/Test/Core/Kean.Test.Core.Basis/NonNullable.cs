@@ -1,10 +1,10 @@
 // 
-//  List.cs
+//  NonNullable.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       smika <${AuthorEmail}>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 smika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Basis;
 
-namespace Kean.Core.Collection
+namespace Kean.Test.Core.Basis
 {
-	public class List<T> :
-		Interface.IList<T>
+	[TestFixture]
+	public class NonNullable :
+		NUnit.Framework.AssertionHelper
 	{
-		public List()
+
+		[Test]
+		public vGoid TestCase()
 		{
 		}
 	}

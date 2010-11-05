@@ -43,13 +43,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Kean.Core.Error\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

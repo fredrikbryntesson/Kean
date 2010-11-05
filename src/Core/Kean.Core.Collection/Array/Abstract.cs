@@ -25,8 +25,43 @@ namespace Kean.Core.Collection.Array
 {
 	public abstract class Abstract<T>
 	{
+		T items;
+		static readonly T[] EmptyArray = new T[0]; 
+		
+		protected T this[int index]
+		{
+			get 
+			{
+				if 
+			}
+			set
+			{
+			}
+		}
+		protected int Count { get; private set; }
+		public int Capacity
+		{
+			get { return this.items.Length; }
+			set
+			{
+				if (value < this.Count)
+					throw new Exception.InvalidArgument("Capacity can't be set to {0}, because collection contains {1} elements.", value, this.Count);
+				System.Array.Resize<T>(ref this.items, value);
+			}
+		}
+
 		protected Abstract()
 		{
+		}
+		
+		private void VerifyIndex(int index)
+		{
+			if ((uint) index >= 
+		}
+		
+		public void Trim()
+		{
+			this.Capacity = this.Count;
 		}
 	}
 }

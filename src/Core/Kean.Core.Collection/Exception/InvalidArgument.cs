@@ -1,10 +1,10 @@
 // 
-//  List.cs
+//  InvalidArgument.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       smika <${AuthorEmail}>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 smika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,13 +21,25 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Core.Collection.Exception
 {
-	public class List<T> :
-		Interface.IList<T>
+	public class InvalidArgument :
+		Exception
 	{
-		public List()
-		{
-		}
+		internal InvalidArgument() :
+			this(null)
+		{ }
+		internal InvalidArgument(string message) :
+			this(null, message)
+		{ }
+		internal InvalidArgument(string message, params object[] arguments) :
+			this(null, message, arguments)
+		{ }
+		internal InvalidArgument(System.Exception exception) :
+			this(exception, "Argument has an invalid value.")
+		{ }
+		internal InvalidArgument(System.Exception exception, string message, params object[] arguments) :
+			base(exception, Error.Level.Warning, "Invalid Argument.", message, arguments)
+		{ }
 	}
 }

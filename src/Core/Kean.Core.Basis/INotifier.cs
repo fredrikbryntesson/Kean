@@ -1,10 +1,10 @@
 // 
-//  List.cs
+//  INotifier.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       smika <${AuthorEmail}>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 smika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,13 +21,12 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Core.Basis
 {
-	public class List<T> :
-		Interface.IList<T>
+	public interface INotifier<T>
 	{
-		public List()
-		{
-		}
+		event Action<T> Changed;
+		T Value { get; set; }
+		void Update(INotifier<T> changes);
 	}
 }

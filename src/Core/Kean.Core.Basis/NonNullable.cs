@@ -1,10 +1,10 @@
 // 
-//  List.cs
+//  NonNullable.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       smika <${AuthorEmail}>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 smika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,13 +21,25 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Core.Basis
 {
-	public class List<T> :
-		Interface.IList<T>
+	public struct NonNullable<T>
+		where T : class, new()
 	{
-		public List()
+		T nullable;
+		private NonNullable(T nullable)
 		{
+			this.nullable = nullable;
+		}
+		public static implicit operator NonNullable<T>(T nullable)
+		{
+			return new NonNullable<T>(nullable);
+		}
+		public static implicit operator T(NonNullable<T> nonNullable)
+		{
+			if (nonNullable.nullable == null)
+				nonNullable.nullable = new T();
+			return nonNullable.nullable;
 		}
 	}
 }

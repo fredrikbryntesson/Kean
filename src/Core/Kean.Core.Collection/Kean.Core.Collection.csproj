@@ -60,6 +60,7 @@
     <Compile Include="Array\Queue.cs" />
     <Compile Include="Array\Stack.cs" />
     <Compile Include="Array\Abstract.cs" />
+    <Compile Include="Exception\InvalidArgument.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interface\" />
@@ -76,7 +77,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error\Kean.Core.Error.csproj">
+    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
