@@ -22,7 +22,7 @@
 using System;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Core.Basis
+namespace Kean.Core.Notify
 {
 	public class Notifier<T>
 	{
@@ -50,7 +50,7 @@ namespace Kean.Core.Basis
 			get { return this.value; }
 			set
 			{
-				if (!value.Same(this.value))
+				if (!object.ReferenceEquals(value, this.value))
 				{
 					this.value = value;
 					this.changed.Invoke(this.value);
@@ -64,8 +64,8 @@ namespace Kean.Core.Basis
 		}
 		public void Update(Notifier<T> changes)
 		{
-			if (!this.Same(changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
-				(this as Notifier<T>).Value = changes.Value;
+			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
+				this.Value = changes.Value;
 		}
 		
 		public static implicit operator Notifier<T>(T value)
