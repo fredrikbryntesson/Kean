@@ -27,6 +27,10 @@ namespace Kean.Core.Basis.Extension
 	{
 		public static bool NotNull(this object me)
 		{
+			return !object.ReferenceEquals(me, null);
+		}
+		public static bool IsNull(this object me)
+		{
 			return object.ReferenceEquals(me, null);
 		}
 		public static bool Same(this object me, object other)

@@ -50,10 +50,10 @@ namespace Kean.Core.Notify
 			get { return this.value; }
 			set
 			{
-				if (!object.ReferenceEquals(value, this.value))
+				if (!value.Equals(this.value))
 				{
 					this.value = value;
-					this.changed.Invoke(this.value);
+					this.changed.Call(this.value);
 				}
 			}
 		}
@@ -64,7 +64,7 @@ namespace Kean.Core.Notify
 		}
 		public void Update(Notifier<T> changes)
 		{
-			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && !(changes as Notifier<T>).changed.NotNull())
+			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && (changes as Notifier<T>).changed.IsNull())
 				this.Value = changes.Value;
 		}
 		

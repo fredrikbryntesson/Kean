@@ -25,7 +25,7 @@ namespace Kean.Core.Basis.Extension
 {
 	public static class Action
 	{
-		public static void Invoke<T>(this System.Action<T> me, T argument)
+		public static void Call<T>(this System.Action<T> me, T argument)
 		{
 			if (me.NotNull())
 				me.Invoke(argument);
