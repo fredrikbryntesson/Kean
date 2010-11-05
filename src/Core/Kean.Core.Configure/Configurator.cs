@@ -19,6 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Core.Configure
 {
 	public class Configurator :
@@ -29,6 +31,7 @@ namespace Kean.Core.Configure
 		{
 			get 
 			{
+				return null;
 			}
 			set
 			{
@@ -57,12 +60,12 @@ namespace Kean.Core.Configure
 			}
 			return result;
 		}
-		public static object Set(object target, string path, object value)
+		public static void Set(object target, string path, object value)
 		{
 			string[] splitted = path.Split(new char[] { '.' }, 2);
 			if (splitted.NotNull() && splitted.Length > 0 && splitted[0].NotEmpty()) 
 			{
-				Parameter parameter = new Parameter(this, splitted[0]);
+				Parameter parameter = new Parameter(target, splitted[0]);
 				if (splitted.Length > 1) 
 				{
 					object v = parameter.Value;

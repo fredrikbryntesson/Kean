@@ -124,7 +124,7 @@ namespace Kean.Core.Serialize
                             while (value[++pointer] != '[') ;
                             pointer++;
                             int tail = value.Length;
-                            while (value[--tail] != ']') ;
+                            while (value[--tail] != ']');
                             foreach (string argument in value.Substring(pointer, tail - pointer).Split(','))
                                 this.Arguments.Add(new TypeSpecifier() { FullName = argument.Trim(' ', '[', ']') });
                             pointer = tail;

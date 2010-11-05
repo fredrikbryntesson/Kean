@@ -26,6 +26,6 @@ namespace Kean.Core.Serialize
 	public interface ISerializable
 	{
 		Data.Node Serialize();
-		object Unserialize(Data.Node node);
+		void Unserialize(Data.Node node);
 	}
 }

@@ -24,22 +24,20 @@ using System;
 namespace Kean.Core.Serialize
 {
 	public abstract class Serializable<T> :
-		Storage.ISerializable,
-		IEquatable<Storage.ISerializable>
+		ISerializable
 		where T : new()
 	{
 		internal ulong Identifier { get; set; }
-		ulong Storage.ISerializable.Identifier { get { return this.Identifier; } }
 		protected Serializable() { }
 		
-		void Storage.ISerializable.Serialize(System.IO.Stream stream)
+		Data.Node ISerializable.Serialize()
+		{
+			return null;
+		}
+		void ISerializable.Unserialize(Data.Node data)
 		{
 		}
 		
-		public bool Equals(Storage.ISerializable other)
-		{
-			return (other is Storage.ISerializable) && this.Identifier == other.Identifier;
-		}
 	}
 }
  

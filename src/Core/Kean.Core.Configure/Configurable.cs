@@ -30,6 +30,7 @@ namespace Kean.Core.Configure
 		{
 			get
 			{
+				return null;
 			}
 			set
 			{

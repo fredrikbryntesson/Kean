@@ -21,15 +21,15 @@
 using System;
 namespace Kean.Core.Reflect.Extension
 {
-	public static class Object
+	public static class ObjectReflectExtension
 	{
-		public static void Set(this object me, string parameter, object value)
+		public static void Set(this object me, string property, object value)
 		{
-			property.SetValue(this.target, value, null);
+			me.GetType().GetProperty(property).SetValue(me, value, null);
 		}
-		public static object Get(this object me, string parameter)
+		public static object Get(this object me, string property)
 		{
-			return property.GetValue(this, null);
+			return me.GetType().GetProperty(property).GetValue(me, null);
 		}
 	}
 }
