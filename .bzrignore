@@ -1,4 +1,5 @@
 *.pidb
-Kean.userprefs
+*.userprefs
 bin
 obj
+test-results
