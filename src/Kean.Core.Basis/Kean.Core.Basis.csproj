@@ -41,6 +41,8 @@
     <Compile Include="Extension\ActionExtension.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="ITuple.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="Func.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extension\" />
