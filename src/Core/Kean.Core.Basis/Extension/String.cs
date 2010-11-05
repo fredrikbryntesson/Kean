@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Basis.Extension
 {
@@ -27,7 +28,11 @@ namespace Kean.Core.Basis.Extension
 	{
 		public static bool NotEmpty(this string me)
 		{
-			return object.ReferenceEquals(me, null) && me.Length > 0;
+			return me.NotNull && me != "";
+		}
+		public static bool Empty(this string me)
+		{
+			return me.Null || me == "";
 		}
 	}
 }
