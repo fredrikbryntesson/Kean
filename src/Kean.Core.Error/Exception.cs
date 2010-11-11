@@ -18,15 +18,20 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+using System;
 namespace Kean.Core.Error
 {
 	public abstract class Exception :
 		System.ApplicationException,
 		IError
 	{
-		public static ILog Log { get; set; }
-		public static Level ThrowThreshold { get; set; }
+		public static Action<IError> Log { get; set; }
+		static Level threshold = Level.Warning;
+		public static Level Threshold 
+		{
+			get { return Exception.threshold; }
+			set { if (value < Level.Recoverable) Exception.threshold = value; }
+		}
 		public Level Level { get; private set; }
 		public string Title { get; private set; }
 		
@@ -36,12 +41,12 @@ namespace Kean.Core.Error
         {
             this.Level = level;
             this.Title = title;
-        }
+			if (Exception.Log != null)
+				Exception.Log(this);
+		}
         public void Throw()
         {
-			if (Exception.Log != null)
-				Exception.Log.Add(this);
-			if (this.Level >= Exception.ThrowThreshold)
+			if (this.Level >= Exception.Threshold)
 				throw this;
         }
 	}
