@@ -1,17 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/Kean.Core.Configure/Configurable.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Kean.Core.Error/Exception.cs" ctype="Workbench">
     <Files>
-      <File FileName="src/Kean.Core.Configure/Configurable.cs" Line="30" Column="3" />
-      <File FileName="src/Kean.Core.Configure/Initialize.cs" Line="1" Column="1" />
+      <File FileName="src/Kean.Core.Error/Exception.cs" Line="45" Column="16" />
+      <File FileName="src/Kean.Core.Error/ILog.cs" Line="6" Column="26" />
+      <File FileName="src/Kean.Core.Error/IError.cs" Line="1" Column="1" />
+      <File FileName="src/Kean.Core.Error/Level.cs" Line="33" Column="1" />
+      <File FileName="Kean.Extra.Log/Log.cs" Line="13" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Kean.Core.Configure" expanded="True">
-            <Node name="Configurable.cs" selected="True" />
+          <Node name="Kean.Core.Error" expanded="True">
+            <Node name="Exception.cs" selected="True" />
           </Node>
-          <Node name="Kean.Core.Serialize" expanded="True" />
+          <Node name="Kean.Extra.Log" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
