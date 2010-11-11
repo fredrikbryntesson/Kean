@@ -25,6 +25,8 @@ namespace Kean.Core.Error
 		System.ApplicationException,
 		IError
 	{
+		public static ILog Log { get; set; }
+		public static Level ThrowThreshold { get; set; }
 		public Level Level { get; private set; }
 		public string Title { get; private set; }
 		
@@ -34,6 +36,13 @@ namespace Kean.Core.Error
         {
             this.Level = level;
             this.Title = title;
+        }
+        public void Throw()
+        {
+			if (Exception.Log != null)
+				Exception.Log.Add(this);
+			if (this.Level >= Exception.ThrowThreshold)
+				throw this;
         }
 	}
 }
