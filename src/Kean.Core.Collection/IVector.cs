@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Interface
+namespace Kean.Core.Collection
 {
 	public interface IVector<T> :
 		System.Collections.Generic.IEnumerable<T>,

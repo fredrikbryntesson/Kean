@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Array
 {
 	public class Stack<T> :
-		Interface.IStack<T>
+		IStack<T>
 	{
 		List<T> items;
 		public Stack()
@@ -35,7 +35,7 @@ namespace Kean.Core.Collection.Array
 		{
 			this.items = new List<T>(capacity);
 		}
-		#region Interface.IStack<T>
+		#region IStack<T>
 		public bool Empty { get { return this.items.Count < 1; } }
 		public void Push(T item)
 		{

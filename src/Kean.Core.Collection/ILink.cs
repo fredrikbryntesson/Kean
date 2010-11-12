@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Interface
+namespace Kean.Core.Collection
 {
 	public interface ILink<L, T>
 		where L : class, ILink<L, T>, new()

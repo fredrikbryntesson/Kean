@@ -48,7 +48,7 @@ namespace Kean.Core.Collection
 				} 
 				catch (IndexOutOfRangeException e) 
 				{
-					throw new Exception.InvalidIndex(e);
+					new Exception.InvalidIndex(e).Throw();
 				}
 			}
 		}

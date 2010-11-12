@@ -1,4 +1,4 @@
-// 
+//
 //  Array.cs
 //  
 //  Author:
@@ -15,55 +15,46 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Collection.Hooked
 {
-	public class Vector<T> : 
-		Interface.IVector<T>
+	public class Vector<T> :
+		Abstract.Vector<T>,
+		IVector<T>
 	{
-		private Interface.IVector<T> data;
+		IVector<T> data;
 		public event Action<int, T, T> Replaced;
-		public Func<int, T, T, T> OnReplace { private get; set; }
-		public T this[int index]
-		{
+		public event Func<int, T, T, bool> OnReplace;
+		public override T this[int index] {
 			get { return this.data[index]; }
-			set { this.data[index] = this.OnReplace(index, value, this.data[index]); }
+			set {
+				if (this.data[index] != value) {
+					T oldValue = this.data[index];
+					bool replace = true;
+					if (this.OnReplace.NotNull ()) {
+						Delegate[] onReplace = this.OnReplace.GetInvocationList ();
+						for (int i = 0; replace && i < onReplace.Length; i++)
+							replace &= (onReplace[i] as Func<int, T, T, bool>) (index, oldValue, value);
+					}
+					if (replace) {
+						this.data[index] = value;
+						this.Replaced.Call (index, oldValue, this.data[index]);
+					}
+				}
+			}
 		}
-		public int Count { get { return this.data.Count; } }
-		public Vector(Interface.IVector<T> data)
+		public override int Count {
+			get { return this.data.Count; }
+		}
+		public Vector (Interface.IVector<T> data)
 		{
 			this.data = data;
 		}
-		#region IEnumerator<T>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return (this as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
-		}
-		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-		{
-			return this.data.GetEnumerator();
-		}
-		#endregion
-		#region Object override
-		public override bool Equals(object other)
-		{
-			return other is Interface.IVector<T> && this.Equals(other as Interface.IVector<T>);
-		}
-		public override int GetHashCode()
-		{
-			return this.data.GetHashCode();
-		}
-		#endregion
-		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
-		{
-			return this.data.Equals(other);
-		}
-		#endregion
 	}
 }

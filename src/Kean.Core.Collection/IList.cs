@@ -21,14 +21,14 @@
 
 using System;
 
-namespace Kean.Core.Collection.Interface
+namespace Kean.Core.Collection
 {
 	public interface IList<T> :
 		IVector<T>
 	{
 		void Add(T item);
 		T Remove();
+		void Insert (int index, T item);
         T Remove(int index);
-        void Insert(int index, T item);
 	}
 }

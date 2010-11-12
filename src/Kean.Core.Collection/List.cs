@@ -24,14 +24,14 @@ using System;
 namespace Kean.Core.Collection
 {
 	public class List<T> :
-		Interface.IList<T>
+		IList<T>
 	{
 		Array.List<T> items;
 		public List()
 		{
 			this.items = new Array.List<T>();
 		}
-		#region Interface.IList<T>
+		#region IList<T>
 		public int Count { get { return this.items.Count; } }
 		public T this[int index]
 		{

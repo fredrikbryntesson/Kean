@@ -24,48 +24,21 @@ using System;
 namespace Kean.Core.Collection.Wrap
 {
 	public class Vector<T> :
-		Interface.IVector<T>
+		Abstract.Vector<T>
 	{
-		private Interface.IVector<T> data;
+		Interface.IVector<T> data;
 		#region Constructor
-		public Vector(Interface.IVector<T> data)
+		public Vector(IVector<T> data)
 		{
 			this.data = data;
 		}
 		#endregion
-		#region Interface.IWrap<T>
-		int Interface.IVector<T>.Count { get { return this.data.Count; } }
-		T Interface.IVector<T>.this[int index] 
+		#region IVector<T>
+		public override int Count { get { return this.data.Count; } }
+		public override T this[int index]
 		{
 			get { return this.data[index]; }
 			set { this.data[index] = value; }
-		}
-		#endregion
-		#region IEnumerator<T>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return this.data.GetEnumerator();
-		}
-
-		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-		{
-			return this.data.GetEnumerator();
-		}
-		#endregion
-		#region Object override
-		public override bool Equals(object other)
-		{
-			return (this.data as object).Equals(other);
-		}
-		public override int GetHashCode()
-		{
-			return this.data.GetHashCode();
-		}
-		#endregion
-		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
-		{
-			return this.data.Equals(other);
 		}
 		#endregion
 	}

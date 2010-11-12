@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Array
 {
 	public class Queue<T> :
-		Interface.IQueue<T>
+		IQueue<T>
 	{
 		List<T> items;
 		int head;
@@ -38,7 +38,7 @@ namespace Kean.Core.Collection.Array
 		{ 
 			this.items = new List<T>(capacity);
 		}
-		#region Interface.IQueue<T>
+		#region IQueue<T>
 		public bool Empty { get { return this.size == 0; } }
 		public void Enqueue(T item)
 		{
