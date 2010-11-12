@@ -46,6 +46,8 @@
     <Compile Include="Exception\InvalidIndex.cs" />
     <Compile Include="Exception\Empty.cs" />
     <Compile Include="Exception\InvalidArgument.cs" />
+    <Compile Include="Hooked\Queue.cs" />
+    <Compile Include="Hooked\Stack.cs" />
     <Compile Include="IList.cs" />
     <Compile Include="ILink.cs" />
     <Compile Include="IStack.cs" />
