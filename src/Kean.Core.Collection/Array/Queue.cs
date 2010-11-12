@@ -24,50 +24,9 @@ using System;
 namespace Kean.Core.Collection.Array
 {
 	public class Queue<T> :
-		IQueue<T>
+		Abstract.Queue<T>
 	{
-		List<T> items;
-		int head;
-		int tail;
-		int size;
-		public Queue()
-		{
-			this.items = new List<T>();
-		}
-		public Queue(int capacity)
-		{ 
-			this.items = new List<T>(capacity);
-		}
-		#region IQueue<T>
-		public bool Empty { get { return this.size == 0; } }
-		public void Enqueue(T item)
-		{
-			if (this.size == this.items.Count)
-			{
-				this.items.Insert(this.tail, item);
-				if (this.head > this.tail)
-					this.head++;
-			}
-			else
-				this.items[this.tail] = item;
-			this.tail = (this.tail + 1) % this.items.Count;
-			this.size++;
-		}
-		public T Peek()
-		{
-			if (this.size == 0)
-				throw new Exception.Empty();
-			return this.items[this.head];
-		}
-		public T Dequeue()
-		{
-			T result = this.Peek();
-			// let garbage collector do its job
-			this.items[this.head] = default(T);
-			this.head = (this.head + 1) % this.items.Count;
-			this.size--;
-			return result;
-		}
-		#endregion
+		public Queue() : this(0) { }
+		public Queue(int capacity) : base(new List<T>(capacity)) {}
 	}
 }

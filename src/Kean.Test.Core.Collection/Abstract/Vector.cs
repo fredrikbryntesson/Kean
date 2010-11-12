@@ -28,7 +28,7 @@ namespace Kean.Test.Core.Collection.Abstract
 {
 	public abstract class Vector<A> :
 		AssertionHelper
-		where A : Target.Interface.IVector<int>
+		where A : Target.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
 		public string Prefix { get; set; }

@@ -26,7 +26,7 @@ namespace Kean.Core.Collection.Wrap
 	public class Vector<T> :
 		Abstract.Vector<T>
 	{
-		Interface.IVector<T> data;
+		IVector<T> data;
 		#region Constructor
 		public Vector(IVector<T> data)
 		{

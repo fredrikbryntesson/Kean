@@ -30,8 +30,8 @@ namespace Kean.Core.Collection.Linked
 		public List() { }
 	}
 	public class List<L, T> :
-		Interface.IList<T>
-		where L : class, Interface.ILink<L, T>, new()
+		IList<T>
+		where L : class, ILink<L, T>, new()
 	{
 		private L first;
 		public int Count { get { return this.first.Count<L, T>(); } }
@@ -87,7 +87,7 @@ namespace Kean.Core.Collection.Linked
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is Interface.IVector<T> && this.Equals(other as Interface.IVector<T>);
+			return other is IVector<T> && this.Equals(other as IVector<T>);
 		}
 		public override int GetHashCode ()
 		{
@@ -95,11 +95,11 @@ namespace Kean.Core.Collection.Linked
 		}
 		#endregion
 		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
+		public bool Equals(IVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IVector<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as Interface.IVector<T>).Count; i++)
-				result &= (this as Interface.IVector<T>)[i].Equals(other[i]);
+			bool result = !object.ReferenceEquals(other, null) && (this as IVector<T>).Count == other.Count;
+			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
+				result &= (this as IVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion

@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 namespace Kean.Core.Collection.Hooked
 {
 	public class List<T> :
@@ -26,8 +27,8 @@ namespace Kean.Core.Collection.Hooked
 		IList<T>
 	{
 		IList<T> data;
-		public event Action<T> Added;
-		public event Func<T, bool> OnAdd;
+		public event Action<int, T> Added;
+		public event Func<int, T, bool> OnAdd;
 		public event Action<int, T> Removed;
 		public event Func<int, T, bool> OnRemove;
 		public List (IList<T> data) :
@@ -41,11 +42,11 @@ namespace Kean.Core.Collection.Hooked
 			if (this.OnAdd.NotNull ()) {
 				Delegate[] onAdd = this.OnAdd.GetInvocationList ();
 				for (int i = 0; add && i < onAdd.Length; i++)
-					add &= (onAdd[i] as Func<T, bool>) (item);
+					add &= (onAdd[i] as Func<int, T, bool>) (this.Count, item);
 			}
 			if (add) {
 				this.data.Add(item);
-				this.Added.Call(item);
+				this.Added.Call(this.Count, item);
 				}
 		}
 		public T Remove()
@@ -55,14 +56,29 @@ namespace Kean.Core.Collection.Hooked
 			if (this.OnRemove.NotNull ()) {
 				Delegate[] onRemove = this.OnRemove.GetInvocationList ();
 				for (int i = 0; remove && i < onRemove.Length; i++)
-					remove &= (onAdd[i] as Func<int, T, bool>) (this.Count - 1, result);
+					remove &= (onRemove[i] as Func<int, T, bool>) (this.Count - 1, result);
 			}
 			if (remove) {
 				result = this.data.Remove();
-				this.Removed.Call(result);
+				this.Removed.Call(this.Count - 1, result);
 			} else
 				result = default(T);
 			return result;
+		}
+		public void Insert(int index, T item)
+		{
+			bool add = true;
+			if (this.OnAdd.NotNull())
+			{
+				Delegate[] onAdd = this.OnAdd.GetInvocationList();
+				for (int i = 0; add && i < onAdd.Length; i++)
+					add &= (onAdd[i] as Func<int, T, bool>)(index, item);
+			}
+			if (add)
+			{
+				this.data.Insert(index, item);
+				this.Added.Call(index, item);
+			}
 		}
 		public T Remove(int index)
 		{
@@ -71,11 +87,11 @@ namespace Kean.Core.Collection.Hooked
 			if (this.OnRemove.NotNull ()) {
 				Delegate[] onRemove = this.OnRemove.GetInvocationList ();
 				for (int i = 0; remove && i < onRemove.Length; i++)
-					remove &= (onAdd[i] as Func<int, T, bool>) (index, result);
+					remove &= (onRemove[i] as Func<int, T, bool>) (index, result);
 			}
 			if (remove) {
 				result = this.data.Remove(index);
-				this.Removed.Call(result);
+				this.Removed.Call(index, result);
 			} else
 				result = default(T);
 			return result;

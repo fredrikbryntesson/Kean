@@ -23,7 +23,7 @@ using System;
 namespace Kean.Core.Collection.Abstract
 {
 	public abstract class Vector<T> :
-		Interface.IVector<T>
+		IVector<T>
 	{
 		public abstract int Count { get; }
 		public abstract T this[int index] { get; set; }
@@ -37,29 +37,29 @@ namespace Kean.Core.Collection.Abstract
 		}
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
-			for (int i = 0; i < (this as Interface.IVector<T>).Count; i++)
-				yield return (this as Interface.IVector<T>)[i];
+			for (int i = 0; i < (this as IVector<T>).Count; i++)
+				yield return (this as IVector<T>)[i];
 		}
 		#endregion
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is Interface.IVector<T> && this.Equals(other as Interface.IVector<T>);
+			return other is IVector<T> && this.Equals(other as IVector<T>);
 		}
 		public override int GetHashCode ()
 		{
 			int result = 0;
-			foreach (T item in (this as Interface.IVector<T>))
+			foreach (T item in (this as IVector<T>))
 				result ^= item.GetHashCode();
 			return result;
 		}
 		#endregion
-		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
+		#region IEquatable<IVector<T>>
+		public bool Equals(IVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as Interface.IVector<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as Interface.IVector<T>).Count; i++)
-				result &= (this as Interface.IVector<T>)[i].Equals(other[i]);
+			bool result = !object.ReferenceEquals(other, null) && (this as IVector<T>).Count == other.Count;
+			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
+				result &= (this as IVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion

@@ -30,8 +30,8 @@ namespace Kean.Core.Collection.Linked
 		public Queue() { }
 	}
 	public class Queue<L, T> :
-		Interface.IQueue<T>
-		where L : class, Interface.ILink<L, T>, new()
+		IQueue<T>
+		where L : class, ILink<L, T>, new()
 	{
 		private L first;
 		private L last;

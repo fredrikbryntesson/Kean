@@ -30,7 +30,7 @@ namespace Kean.Core.Serialize
     {
         public string Assembly { get; set; }
         public string Name { get; set; }
-        public Collection.Interface.IList<TypeSpecifier> Arguments { get; set; }
+        public Collection.IList<TypeSpecifier> Arguments { get; set; }
         public string FullName
         {
             get

@@ -34,7 +34,7 @@ namespace Kean.Core.Collection.Hooked
 		public override T this[int index] {
 			get { return this.data[index]; }
 			set {
-				if (this.data[index] != value) {
+				if (!this.data[index].SameOrEquals(value)) {
 					T oldValue = this.data[index];
 					bool replace = true;
 					if (this.OnReplace.NotNull ()) {
@@ -52,7 +52,7 @@ namespace Kean.Core.Collection.Hooked
 		public override int Count {
 			get { return this.data.Count; }
 		}
-		public Vector (Interface.IVector<T> data)
+		public Vector (IVector<T> data)
 		{
 			this.data = data;
 		}

@@ -25,7 +25,7 @@ namespace Kean.Core.Serialize.Data
 {
 	public class Branch
 	{
-		public Collection.Interface.IList<Node> Nodes { get; private set; }
+		public Collection.IList<Node> Nodes { get; private set; }
 		public Branch()
 		{
 			this.Nodes = new Collection.List<Node>();

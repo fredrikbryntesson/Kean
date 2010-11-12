@@ -30,8 +30,8 @@ namespace Kean.Core.Collection.Linked
 		public Stack () { }
 	}
 	public class Stack<L, T> :
-		Interface.IStack<T>
-		where L : class, Interface.ILink<L, T>, new()
+		IStack<T>
+		where L : class, ILink<L, T>, new()
 	{
 		private L top;
 		public bool Empty { get { return this.top == null; } }

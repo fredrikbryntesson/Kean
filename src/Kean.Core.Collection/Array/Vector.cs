@@ -26,12 +26,12 @@ namespace Kean.Core.Collection.Array
 	{
 		T[] data;
 		public override int Count { get { return this.data.Length; } }
-		public T this[int index] {
+		public override T this[int index] {
 			get { return this.data[index]; }
 			set { this.data[index] = value; }
 		}
 		public Vector (int size) :
-			this(new Type[size])
+			this(new T[size])
 		{
 		}
 		public Vector(T[] data)

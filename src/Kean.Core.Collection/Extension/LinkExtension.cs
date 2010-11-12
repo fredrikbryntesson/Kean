@@ -27,7 +27,7 @@ namespace Kean.Core.Collection.Extension
 	public static class LinkExtension
 	{
 		public static L Add<L, T>(this L me, T item)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			return new L()
 			{
@@ -36,14 +36,14 @@ namespace Kean.Core.Collection.Extension
 			};
 		}
 		public static T Get<L, T>(this L me, int index)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull())
 				throw new Exception.InvalidIndex();
 			return index == 0 ? me.Head : me.Tail.Get<L, T>(index - 1);
 		}
 		public static void Set<L, T>(this L me, int index, T item)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull())
 				throw new Exception.InvalidIndex();
@@ -53,26 +53,26 @@ namespace Kean.Core.Collection.Extension
 				me.Tail.Set(index - 1, item);
 		}
         public static int Count<L, T>(this L me) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
         {
             return me.IsNull() ? 0 : (1 + me.Tail.Count<L, T>());
         }
 		public static L Insert<L, T>(this L me, int index, T element)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull() && index > 0)
 				throw new Exception.InvalidIndex();
 			return (index == 0) ? me.Add(element) : me.Tail.Insert<L, T>(index - 1, element);
 		}
 		public static L Remove<L, T>(this L me, int index)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull())
 				throw new Exception.InvalidIndex();
 			return (index == 0) ? me.Tail : me.Tail.Remove<L, T>(index - 1);
 		}
 		public static L Remove<L, T>(this L me, int index, out T element)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			L result;
 			if (me.IsNull())
@@ -87,32 +87,32 @@ namespace Kean.Core.Collection.Extension
 			return result;
 		}
 		public static bool Equals<L, T>(this L me, L other)
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			return me.Same(other) || me.NotNull() && other.NotNull() && me.Head.Equals(other.Head) && me.Tail.Equals(other.Tail);
 		}
         public static R Fold<L, T, R>(this L me, Func<T, R, R> function) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			return me.Fold(function, default(R));
 		}
         public static R Fold<L, T, R>(this L me, Func<T, R, R> function, R initial) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
 		{
 			return me.IsNull() ? initial : function(me.Head, me.Tail.Fold(function, initial));
 		}
         public static R FoldReverse<L, T, R>(this L me, Func<T, R, R> function) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
         {
             return me.FoldReverse(function, default(R));
         }
         public static R FoldReverse<L, T, R>(this L me, Func<T, R, R> function, R initial) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
         {
             return me.IsNull() ? initial : me.Tail.Fold(function, function(me.Head, initial));
 		}
         public static void Apply<L, T>(this L me, Action<T> function) 
-			where L : class, Interface.ILink<L, T>, new() 
+			where L : class, ILink<L, T>, new() 
         {
 			if (!me.IsNull())
 			{
@@ -121,8 +121,8 @@ namespace Kean.Core.Collection.Extension
 			}
         }
         public static R Map<L, T, R, S>(this L me, Func<T, S> function) 
-			where L : class, Interface.ILink<L, T>, new() 
-			where R : class, Interface.ILink<R, S>, new()
+			where L : class, ILink<L, T>, new() 
+			where R : class, ILink<R, S>, new()
         {
 			return me.IsNull() ? null : new R() 
 			{ 

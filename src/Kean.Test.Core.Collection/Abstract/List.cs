@@ -28,7 +28,7 @@ namespace Kean.Test.Core.Collection.Abstract
 {
 	public abstract class List<L> :
 		Vector<L>
-		where L : Target.Interface.IList<int>
+		where L : Target.IList<int>
 	{
 	}
 }

@@ -24,54 +24,26 @@ using System;
 namespace Kean.Core.Collection.Synchronized
 {
 	public class Vector<T> :
-		Interface.IVector<T>
+		Abstract.Vector<T>
 	{
-		private object guard;
-		private Interface.IVector<T> data;
+		protected object Lock { get; private set; }
+		IVector<T> data;
 		#region Constructor
-		public Vector(Interface.IVector<T> data) :
+		public Vector(IVector<T> data) :
 			this(data, new object())
 		{ }
-		public Vector(Interface.IVector<T> data, object guard)
+		public Vector(IVector<T> data, object @lock)
 		{
 			this.data = data;
-			this.guard = guard;
+			this.Lock = @lock;
 		}
 		#endregion
-		#region Interface.IVector<T>
-		int Interface.IVector<T>.Count { get { lock (this.guard) return this.data.Count; } }
-		T Interface.IVector<T>.this[int index] 
+		#region IVector<T>
+		public override int Count { get { lock (this.Lock) return this.data.Count; } }
+		public override T this[int index] 
 		{
-			get { lock (this.guard) return this.data[index]; }
-			set { lock (this.guard) this.data[index] = value; }
-		}
-		#endregion
-		#region IEnumerator<T>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return (this as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
-		}
-		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-		{
-			lock (this.guard)
-				foreach (T item in this.data)
-					yield return item;
-		}
-		#endregion
-		#region Object override
-		public override bool Equals(object other)
-		{
-			lock (this.guard) return (this.data as object).Equals(other);
-		}
-		public override int GetHashCode ()
-		{
-			lock (this.guard) return this.data.GetHashCode();
-		}
-		#endregion
-		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
-		{
-			lock (this.guard) return this.data.Equals(other);
+			get { lock (this.Lock) return this.data[index]; }
+			set { lock (this.Lock) this.data[index] = value; }
 		}
 		#endregion
 	}

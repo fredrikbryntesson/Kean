@@ -68,7 +68,7 @@ namespace Kean.Core.Collection
 		}
 		#endregion
 		#region System.IEquatable<Interface.IVector<T>>
-		public bool Equals(Interface.IVector<T> other)
+		public bool Equals(IVector<T> other)
 		{
 			return this.items.Equals(other);
 		}

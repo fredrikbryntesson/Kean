@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Linked
 {
 	public class Link<T> :
-		Interface.ILink<Link<T>, T>
+		ILink<Link<T>, T>
 	{
 		public T Head { get; set; }
 		public Link<T> Tail { get; set; }

@@ -49,14 +49,14 @@ namespace Kean.Core.Collection.Array
 		}
 		void Increase()
 		{
-			if (this.Count > 0)
-				this.Count--;
+			if (this.count > 0)
+				this.count--;
 		}
 		void Decrease()
 		{
 			if (this.Capacity <= this.Count + 1)
 				this.Capacity = this.Count + 1;
-			this.Count++;
+			this.count++;
 		}
 		public void Trim()
 		{
@@ -69,7 +69,8 @@ namespace Kean.Core.Collection.Array
 			return this.Count - index;
 		}
 		#region IVector<T>
-		public override int Count { get; private set; }
+		int count;
+		public override int Count { get { return this.count; } }
 		public override T this[int index]
 		{
 			get	{ return this.items[this.IndexToAddress(index)]; }
