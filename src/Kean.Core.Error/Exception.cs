@@ -34,13 +34,14 @@ namespace Kean.Core.Error
 		}
 		public Level Level { get; private set; }
 		public string Title { get; private set; }
-		
+		public System.Diagnostics.StackTrace Trace { get; private set; }
         protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
         protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
             base(System.String.Format(message, arguments), exception)
         {
             this.Level = level;
             this.Title = title;
+			this.Trace = new System.Diagnostics.StackTrace(1, true);
 			if (Exception.Log != null)
 				Exception.Log(this);
 		}

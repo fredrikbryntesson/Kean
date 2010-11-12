@@ -28,5 +28,6 @@ namespace Kean.Core.Error
 		Level Level { get; }
 		string Title { get; }
 		string Message { get; }
+		System.Diagnostics.StackTrace Trace { get; }
 	}
 }
