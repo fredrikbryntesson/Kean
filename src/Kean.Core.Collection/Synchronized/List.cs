@@ -1,5 +1,5 @@
-﻿//
-//  Stack.cs
+﻿// 
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,51 +18,49 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using Kean.Core.Basis.Extension;
 
-namespace Kean.Core.Collection.Hooked
+using System;
+
+namespace Kean.Core.Collection.Synchronized
 {
-	public class Stack<T> :
-		IStack<T>
+	public class List<T> :
+		Vector<T>,
+		IList<T>
 	{
-		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		IList<T> data;
+		#region Constructors
+		public List() :
+			this(new Collection.List<T>())
+		{ }
+		public List(IList<T> data) :
+			this(data, new object())
+		{ }
+		public List(IList<T> data, object @lock) :
+			base(data, @lock)
 		{
 			this.data = data;
 		}
-		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
-		public void Push(T item)
+		#endregion
+		#region IList<T> Members
+		public void Add(T item)
 		{
-			if (this.OnPush(item))
-			{
-				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
+			lock (this.Lock)
+				this.data.Add(item);
 		}
-
-		public T Pop()
+		public T Remove()
 		{
-			T result;
-			if (this.OnPush(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
-			return result;
+			lock (this.Lock)
+				return this.data.Remove();
 		}
-
-		public T Peek()
+		public void Insert(int index, T item)
 		{
-			return this.data.Peek();
+			lock (this.Lock)
+				this.data.Insert(index, item);
+		}
+		public T Remove(int index)
+		{
+			lock (this.Lock)
+				return this.data.Remove(index);
 		}
 		#endregion
 	}

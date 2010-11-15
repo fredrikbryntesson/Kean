@@ -1,5 +1,5 @@
 // 
-//  me.cs
+//  LinkExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

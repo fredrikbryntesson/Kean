@@ -29,6 +29,9 @@ namespace Kean.Core.Collection.Synchronized
 		protected object Lock { get; private set; }
 		IVector<T> data;
 		#region Constructor
+		public Vector() :
+			this(new Collection.Vector<T>())
+		{ }
 		public Vector(IVector<T> data) :
 			this(data, new object())
 		{ }

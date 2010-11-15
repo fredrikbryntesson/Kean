@@ -1,10 +1,10 @@
-// 
-//  IDictonary.cs
+﻿// 
+//  Stack.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,36 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Core.Collection
+
+namespace Kean.Core.Collection.Wrap
 {
-	public interface IDictionary<T>
+	public class Stack<T> :
+		IStack<T>
 	{
-	}
-	public interface IDictionary<TKey, TValue>
-	{
+		IStack<T> data;
+		#region Constructors
+		public Stack(IStack<T> data)
+		{
+			this.data = data;
+		}
+		#endregion
+		#region IStack<T> Members
+		public bool Empty
+		{
+			get { return this.data.Empty; }
+		}
+		public void Push(T item)
+		{
+			this.data.Push(item);
+		}
+		public T Pop()
+		{
+			return this.data.Pop();
+		}
+		public T Peek()
+		{
+			return this.data.Peek();
+		}
+		#endregion
 	}
 }
-

@@ -1,5 +1,5 @@
 // 
-//  IArray.cs
+//  IVector.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

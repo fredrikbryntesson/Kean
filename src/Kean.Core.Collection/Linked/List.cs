@@ -30,18 +30,18 @@ namespace Kean.Core.Collection.Linked
 		public List() { }
 	}
 	public class List<L, T> :
-		IList<T>
+		Abstract.List<T>
 		where L : class, ILink<L, T>, new()
 	{
-		private L first;
-		public int Count { get { return this.first.Count<L, T>(); } }
-		public T this[int index]
+		L first;
+		public override int Count { get { return this.first.Count<L, T>(); } }
+		public override T this[int index]
 		{
 			get { return this.first.Get<L, T>(index); }
 			set { this.first.Set<L, T>(index, value); }
 		}
 		public List() { }
-		public void Add(T element)
+		public override void Add(T element)
 		{
 			this.first = new L()
 			{
@@ -49,7 +49,7 @@ namespace Kean.Core.Collection.Linked
 				Tail = this.first,
 			};
 		}
-		public T Remove()
+		public override T Remove()
 		{
 			T result = default(T);
 			if (this.first != null)
@@ -59,50 +59,15 @@ namespace Kean.Core.Collection.Linked
 			}
 			return result;
 		}
-        public T Remove(int index)
+        public override T Remove(int index)
 		{
 			T result;
 			this.first = this.first.Remove(index, out result);
 			return result;
 		}
-        public void Insert(int index, T element)
+        public override void Insert(int index, T element)
 		{
 			this.first = this.first.Insert(index, element);
 		}
-		#region IEnumerator<T>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return (this as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
-		}
-		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-		{
-			L tail = this.first;
-			while (tail != null)
-			{
-				yield return tail.Head;
-				tail = tail.Tail;
-			}
-		}
-		#endregion
-		#region Object override
-		public override bool Equals(object other)
-		{
-			return other is IVector<T> && this.Equals(other as IVector<T>);
-		}
-		public override int GetHashCode ()
-		{
-			return this.first.Fold((T element, int result) => result ^ element.GetHashCode());
-		}
-		#endregion
-		#region IEquatable<Interface.IVector<T>>
-		public bool Equals(IVector<T> other)
-		{
-			bool result = !object.ReferenceEquals(other, null) && (this as IVector<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
-				result &= (this as IVector<T>)[i].Equals(other[i]);
-			return result;
-		}
-		#endregion
-
 	}
 }

@@ -1,5 +1,5 @@
-﻿//
-//  Stack.cs
+﻿// 
+//  Queue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,51 +18,48 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using Kean.Core.Basis.Extension;
 
-namespace Kean.Core.Collection.Hooked
+using System;
+
+namespace Kean.Core.Collection.Synchronized
 {
-	public class Stack<T> :
-		IStack<T>
+	public class Queue<T> :
+		Basis.Synchronized,
+		IQueue<T>
 	{
-		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		IQueue<T> data;
+		#region Constructors
+		//public Queue() :
+		//    this(new Collection.Queue())
+		//{ }
+		public Queue(IQueue<T> data) :
+			this(data, new object())
+		{ }
+		public Queue(IQueue<T> data, object @lock) :
+			base(@lock)
 		{
 			this.data = data;
 		}
-		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
-		public void Push(T item)
+		#endregion
+		#region IQueue<T> Members
+		public bool Empty
 		{
-			if (this.OnPush(item))
-			{
-				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
+			get { lock (this.Lock) return this.Empty; }
 		}
-
-		public T Pop()
+		public void Enqueue(T item)
 		{
-			T result;
-			if (this.OnPush(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
-			return result;
+			lock (this.Lock)
+				this.data.Enqueue(item);
 		}
-
 		public T Peek()
 		{
-			return this.data.Peek();
+			lock (this.Lock)
+				return this.data.Peek();
+		}
+		public T Dequeue()
+		{
+			lock (this.Lock)
+				return this.data.Dequeue();
 		}
 		#endregion
 	}

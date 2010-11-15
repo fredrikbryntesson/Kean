@@ -33,7 +33,7 @@ namespace Kean.Core.Collection.Linked
 		IStack<T>
 		where L : class, ILink<L, T>, new()
 	{
-		private L top;
+		L top;
 		public bool Empty { get { return this.top == null; } }
 		public Stack() { }
 		public void Push(T item)

@@ -33,8 +33,8 @@ namespace Kean.Core.Collection.Linked
 		IQueue<T>
 		where L : class, ILink<L, T>, new()
 	{
-		private L first;
-		private L last;
+		L first;
+		L last;
 		public bool Empty { get { return this.first == null; } }
 		public Queue() { }
 		public void Enqueue(T item)

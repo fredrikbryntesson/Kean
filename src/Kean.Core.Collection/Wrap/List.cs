@@ -1,10 +1,10 @@
-// 
-//  IDictonary.cs
+﻿// 
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,38 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Core.Collection
+
+namespace Kean.Core.Collection.Wrap
 {
-	public interface IDictionary<T>
+	public class List<T> :
+		Vector<T>,
+		IList<T>
 	{
-	}
-	public interface IDictionary<TKey, TValue>
-	{
+		IList<T> data;
+		#region Constructors
+		public List(IList<T> data) :
+			base(data)
+		{
+			this.data = data;
+		}
+		#endregion
+		#region IList<T> Members
+		public void Add(T item)
+		{
+			this.data.Add(item);
+		}
+		public T Remove()
+		{
+			return this.data.Remove();
+		}
+		public void Insert(int index, T item)
+		{
+			this.data.Insert(index, item);
+		}
+		public T Remove(int index)
+		{
+			return this.data.Remove(index);
+		}
+		#endregion
 	}
 }
-

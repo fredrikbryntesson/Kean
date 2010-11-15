@@ -1,4 +1,4 @@
-﻿//
+﻿// 
 //  Stack.cs
 //  
 //  Author:
@@ -18,51 +18,48 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using Kean.Core.Basis.Extension;
 
-namespace Kean.Core.Collection.Hooked
+using System;
+
+namespace Kean.Core.Collection.Synchronized
 {
 	public class Stack<T> :
+		Basis.Synchronized,
 		IStack<T>
 	{
 		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		#region Constructors
+		//public Stack() :
+		//    this(new Collection.Stack())
+		//{ }
+		public Stack(IStack<T> data) :
+			this(data, new object())
+		{ }
+		public Stack(IStack<T> data, object @lock) :
+			base(@lock)
 		{
 			this.data = data;
 		}
+		#endregion
 		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
+		public bool Empty
+		{
+			get { lock (this.Lock) return this.data.Empty; }
+		}
 		public void Push(T item)
 		{
-			if (this.OnPush(item))
-			{
+			lock (this.Lock)
 				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
 		}
-
 		public T Pop()
 		{
-			T result;
-			if (this.OnPush(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
-			return result;
+			lock (this.Lock)
+				return this.data.Pop();
 		}
-
 		public T Peek()
 		{
-			return this.data.Peek();
+			lock (this.Lock)
+				return this.data.Peek();
 		}
 		#endregion
 	}

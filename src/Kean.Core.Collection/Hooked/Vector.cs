@@ -1,5 +1,5 @@
 //
-//  Array.cs
+//  Vector.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

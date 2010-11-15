@@ -53,6 +53,9 @@
     <Compile Include="IStack.cs" />
     <Compile Include="IQueue.cs" />
     <Compile Include="IVector.cs" />
+    <Compile Include="Synchronized\List.cs" />
+    <Compile Include="Synchronized\Queue.cs" />
+    <Compile Include="Synchronized\Stack.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="List.cs" />
     <Compile Include="Linked\Link.cs" />
@@ -62,6 +65,9 @@
     <Compile Include="Array\List.cs" />
     <Compile Include="Array\Queue.cs" />
     <Compile Include="Array\Stack.cs" />
+    <Compile Include="Wrap\List.cs" />
+    <Compile Include="Wrap\Queue.cs" />
+    <Compile Include="Wrap\Stack.cs" />
     <Compile Include="Wrap\Vector.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Synchronized\Vector.cs" />
