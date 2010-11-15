@@ -40,19 +40,30 @@ namespace Kean.Core.Collection.Hooked
 
 		public void Push(T item)
 		{
-			throw new NotImplementedException();
+			if (this.OnPush(item))
+			{
+				this.data.Push(item);
+				this.Pushed.Call(item);
+			}
 		}
 
 		public T Pop()
 		{
-			throw new NotImplementedException();
+			T result;
+			if (this.OnPush(this.Peek()))
+			{
+				result = this.data.Pop();
+				this.Poped.Call(result);
+			}
+			else
+				result = default(T);
+			return result;
 		}
 
 		public T Peek()
 		{
-			throw new NotImplementedException();
+			return this.data.Peek();
 		}
-
 		#endregion
 	}
 }

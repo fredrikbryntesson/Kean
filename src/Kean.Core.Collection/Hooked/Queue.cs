@@ -42,13 +42,7 @@ namespace Kean.Core.Collection.Hooked
 		}
 		public void Enqueue(T item)
 		{
-			bool enqueue = true;
-			if (this.OnEnqueue.NotNull ()) {
-				Delegate[] onEnqueue = this.OnEnqueue.GetInvocationList ();
-				for (int i = 0; enqueue && i < onEnqueue.Length; i++)
-					enqueue &= (onEnqueue[i] as Func<T, bool>) (item);
-			}
-			if (enqueue)
+			if (this.OnEnqueue.AllTrue(item))
 			{
 				this.data.Enqueue(item);
 				this.Enqueued.Call(item);
@@ -61,7 +55,7 @@ namespace Kean.Core.Collection.Hooked
 		public T Dequeue()
 		{
 			T result;
-			if (this.OnDequeue.IsNull() || this.OnDequeue(this.Peek()))
+			if (this.OnDequeue.AllTrue(this.Peek()))
 			{
 				result = this.data.Dequeue();
 				this.Dequeued.Call(result);

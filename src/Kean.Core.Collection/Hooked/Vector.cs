@@ -36,13 +36,8 @@ namespace Kean.Core.Collection.Hooked
 			set {
 				if (!this.data[index].SameOrEquals(value)) {
 					T oldValue = this.data[index];
-					bool replace = true;
-					if (this.OnReplace.NotNull ()) {
-						Delegate[] onReplace = this.OnReplace.GetInvocationList ();
-						for (int i = 0; replace && i < onReplace.Length; i++)
-							replace &= (onReplace[i] as Func<int, T, T, bool>) (index, oldValue, value);
-					}
-					if (replace) {
+					if (this.OnReplace.AllTrue(index, oldValue, value))
+					{
 						this.data[index] = value;
 						this.Replaced.Call (index, oldValue, this.data[index]);
 					}

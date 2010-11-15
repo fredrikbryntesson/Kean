@@ -38,27 +38,17 @@ namespace Kean.Core.Collection.Hooked
 		}
 		public void Add(T item)
 		{
-			bool add = true;
-			if (this.OnAdd.NotNull ()) {
-				Delegate[] onAdd = this.OnAdd.GetInvocationList ();
-				for (int i = 0; add && i < onAdd.Length; i++)
-					add &= (onAdd[i] as Func<int, T, bool>) (this.Count, item);
-			}
-			if (add) {
+			if (this.OnAdd.AllTrue(this.Count, item)) 
+			{
 				this.data.Add(item);
 				this.Added.Call(this.Count, item);
-				}
+			}
 		}
 		public T Remove()
 		{
 			T result = this.data[this.Count - 1];
-			bool remove = true;
-			if (this.OnRemove.NotNull ()) {
-				Delegate[] onRemove = this.OnRemove.GetInvocationList ();
-				for (int i = 0; remove && i < onRemove.Length; i++)
-					remove &= (onRemove[i] as Func<int, T, bool>) (this.Count - 1, result);
-			}
-			if (remove) {
+			if (this.OnRemove.AllTrue(this.Count - 1, result)) 
+			{
 				result = this.data.Remove();
 				this.Removed.Call(this.Count - 1, result);
 			} else
@@ -67,14 +57,7 @@ namespace Kean.Core.Collection.Hooked
 		}
 		public void Insert(int index, T item)
 		{
-			bool add = true;
-			if (this.OnAdd.NotNull())
-			{
-				Delegate[] onAdd = this.OnAdd.GetInvocationList();
-				for (int i = 0; add && i < onAdd.Length; i++)
-					add &= (onAdd[i] as Func<int, T, bool>)(index, item);
-			}
-			if (add)
+			if (this.OnAdd.AllTrue(index, item))
 			{
 				this.data.Insert(index, item);
 				this.Added.Call(index, item);
@@ -83,13 +66,8 @@ namespace Kean.Core.Collection.Hooked
 		public T Remove(int index)
 		{
 			T result = this.data[index];
-			bool remove = true;
-			if (this.OnRemove.NotNull ()) {
-				Delegate[] onRemove = this.OnRemove.GetInvocationList ();
-				for (int i = 0; remove && i < onRemove.Length; i++)
-					remove &= (onRemove[i] as Func<int, T, bool>) (index, result);
-			}
-			if (remove) {
+			if (this.OnRemove.AllTrue(index, result))
+			{
 				result = this.data.Remove(index);
 				this.Removed.Call(index, result);
 			} else
