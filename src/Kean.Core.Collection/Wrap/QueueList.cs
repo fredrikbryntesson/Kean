@@ -1,5 +1,5 @@
 ﻿// 
-//  Queue.cs
+//  QueueList.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,16 +21,16 @@
 
 using System;
 
-namespace Kean.Core.Collection.Abstract
+namespace Kean.Core.Collection.Wrap
 {
-	public abstract class Queue<T> :
+	public class QueueList<T> :
 		IQueue<T>
 	{
-		List<T> data;
+		IList<T> data;
 		int head;
 		int tail;
 		int size;
-		protected Queue(List<T> data)
+		public QueueList(IList<T> data)
 		{
 			this.data = data;
 		}

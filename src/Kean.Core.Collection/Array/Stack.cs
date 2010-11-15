@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Array
 {
 	public class Stack<T> :
-		Abstract.Stack<T>
+		Wrap.StackList<T>
 	{
 		public Stack() : this(0) { }
 		public Stack(int capacity) : base(new List<T>(capacity)) { }

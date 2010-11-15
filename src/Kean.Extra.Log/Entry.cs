@@ -8,6 +8,7 @@ namespace Kean.Extra.Log
 		Error.IError
 	{
 		#region IError Members
+		public DateTime Time { get; internal set; }
 		public Error.Level Level { get; internal set; }
 		public string Title { get; internal set; }
 		public string Message { get; internal set; }

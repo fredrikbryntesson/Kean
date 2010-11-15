@@ -32,6 +32,7 @@ namespace Kean.Core.Error
 			get { return Exception.threshold; }
 			set { if (value < Level.Recoverable) Exception.threshold = value; }
 		}
+		public DateTime Time { get; private set; }
 		public Level Level { get; private set; }
 		public string Title { get; private set; }
 		public System.Diagnostics.StackTrace Trace { get; private set; }
@@ -39,6 +40,7 @@ namespace Kean.Core.Error
         protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
             base(System.String.Format(message, arguments), exception)
         {
+			this.Time = DateTime.Now;
             this.Level = level;
             this.Title = title;
 			this.Trace = new System.Diagnostics.StackTrace(1, true);

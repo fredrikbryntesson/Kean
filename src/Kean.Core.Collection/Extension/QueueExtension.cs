@@ -1,10 +1,10 @@
 ﻿// 
-//  Stack.cs
+//  QueueExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,33 +18,21 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
-namespace Kean.Core.Collection.Abstract
+namespace Kean.Core.Collection.Extension
 {
-	public abstract class Stack<T> :
-		IStack<T>
+	public static class QueueExtension
 	{
-		List<T> data;
-		protected Stack(List<T> data)
+		public static void Enqueue<T>(this IQueue<T> me, System.Collections.Generic.IEnumerable<T> items)
 		{
-			this.data = data;
+			foreach (T item in items)
+				me.Enqueue(item);
 		}
-		#region IStack<T>
-		public bool Empty { get { return this.data.Count < 1; } }
-		public void Push(T item)
+		public static void Enqueue<T>(this IQueue<T> me, IQueue<T> source)
 		{
-			this.data.Add(item);
+			while (!source.Empty)
+				me.Enqueue(source.Dequeue());
 		}
-		public T Pop()
-		{
-			return this.data.Remove(0);
-		}
-		public T Peek()
-		{
-			return this.data[0];
-		}
-		#endregion
 	}
 }

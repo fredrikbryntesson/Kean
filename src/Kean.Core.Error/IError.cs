@@ -25,6 +25,7 @@ namespace Kean.Core.Error
 {
 	public interface IError
 	{
+		DateTime Time { get; }
 		Level Level { get; }
 		string Title { get; }
 		string Message { get; }
