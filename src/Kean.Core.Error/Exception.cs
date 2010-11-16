@@ -34,6 +34,7 @@ namespace Kean.Core.Error
 		}
 		public DateTime Time { get; private set; }
 		public Level Level { get; private set; }
+		public System.Reflection.Assembly Assembly { get; private set; }
 		public string Title { get; private set; }
 		public System.Diagnostics.StackTrace Trace { get; private set; }
         protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
@@ -42,6 +43,7 @@ namespace Kean.Core.Error
         {
 			this.Time = DateTime.Now;
             this.Level = level;
+			this.Assembly = System.Reflection.Assembly.GetCallingAssembly();
             this.Title = title;
 			this.Trace = new System.Diagnostics.StackTrace(1, true);
 			if (Exception.Log != null)

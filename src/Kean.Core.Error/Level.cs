@@ -29,6 +29,7 @@ namespace Kean.Core.Error
 		Notification,
 		Warning,
 		Recoverable,
+		Message,
 		Critical,
 	}
 }

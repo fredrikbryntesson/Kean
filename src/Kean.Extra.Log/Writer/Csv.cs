@@ -9,13 +9,14 @@ namespace Kean.Extra.Log.Writer
 		public void Open(string filename)
 		{
 			this.writer = new System.IO.StreamWriter(filename);
-			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}", "Time", "Level", "Title", "Message", "File", "Line", "Column"); 
+			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Time", "Level", "Assembly", "Title", "Message", "File", "Line", "Column"); 
 		}
 		public override void Add(Kean.Core.Error.IError entry)
 		{
-			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}", 
+			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
 				entry.Time, 
 				entry.Level, 
+				entry.Assembly.FullName,
 				entry.Title, 
 				entry.Message, 
 				entry.Trace.GetFrame(0).GetFileName(), 

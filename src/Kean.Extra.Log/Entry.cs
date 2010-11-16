@@ -10,6 +10,7 @@ namespace Kean.Extra.Log
 		#region IError Members
 		public DateTime Time { get; internal set; }
 		public Error.Level Level { get; internal set; }
+		public System.Reflection.Assembly Assembly { get; internal set; }
 		public string Title { get; internal set; }
 		public string Message { get; internal set; }
 		public System.Diagnostics.StackTrace Trace { get; internal set; }

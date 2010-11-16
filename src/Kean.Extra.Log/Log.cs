@@ -14,7 +14,8 @@ namespace Kean.Extra.Log
 		Collection.IQueue<Error.IError> log = new Collection.Array.Queue<Error.IError>();
 		Collection.Array.List<Error.IError> cacheList = new Collection.Array.List<Error.IError>(100);
 		Collection.IQueue<Error.IError> cache;
-		public Error.Level Threshold { get; set; }
+		public Error.Level LogThreshold { get; set; }
+		public Error.Level AllThreshold { get; set; }
 		public int CacheSize 
 		{
 			get { lock(this.Lock) return this.cacheList.Capacity;}
@@ -30,11 +31,12 @@ namespace Kean.Extra.Log
 		}
 		public Log()
 		{
+			this.LogThreshold = Kean.Core.Error.Level.Recoverable;
 			this.cache = new Collection.Wrap.QueueList<Error.IError>(this.cacheList);
 		}
-		public void Append(DateTime time, Error.Level level, string title, string message, System.Diagnostics.StackTrace trace)
+		public void Append(Error.Level level, string title, string message)
 		{
-			this.Append(new Entry() { Time = time, Level = level, Title = title, Message = message, Trace = trace });
+			this.Append(new Entry() { Time = DateTime.Now, Level = level, Assembly = System.Reflection.Assembly.GetCallingAssembly(), Title = title, Message = message, Trace = new System.Diagnostics.StackTrace(1, true) });
 		}
 		public void Append(Error.IError item)
 		{
@@ -50,7 +52,7 @@ namespace Kean.Extra.Log
 		void ReduceCache()
 		{
 			Error.IError entry = this.cache.Dequeue();
-			if (entry.Level > this.Threshold)
+			if (entry.Level > this.LogThreshold)
 				this.log.Enqueue(entry);
 		}
 		public void Flush(Action<Error.IError> save)

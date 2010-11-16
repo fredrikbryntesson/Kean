@@ -27,6 +27,7 @@ namespace Kean.Core.Error
 	{
 		DateTime Time { get; }
 		Level Level { get; }
+		System.Reflection.Assembly Assembly { get; }
 		string Title { get; }
 		string Message { get; }
 		System.Diagnostics.StackTrace Trace { get; }
