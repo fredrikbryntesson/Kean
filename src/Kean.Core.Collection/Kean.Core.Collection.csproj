@@ -38,7 +38,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
+    <Compile Include="Extension\VectorExtension.cs" />
     <Compile Include="Wrap\QueueList.cs" />
     <Compile Include="Wrap\StackList.cs" />
     <Compile Include="AssemblyInfo.cs" />

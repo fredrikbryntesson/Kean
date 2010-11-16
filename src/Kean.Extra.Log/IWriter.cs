@@ -1,5 +1,5 @@
 ﻿//
-//  Abstract
+//  IWriter
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,30 +18,15 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Extra.Log.Writer
+namespace Kean.Extra.Log
 {
-	public abstract class Abstract :
-		IWriter,
-		IDisposable
+	public interface IWriter
 	{
-		protected Abstract()
-		{
-		}
-		~Abstract()
-		{
-			(this as IDisposable).Dispose();
-		}
-		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			this.Close();
-		}
-		#endregion
-
-		public abstract Action<Error.IError> Open();
-		public abstract void Close();
+		Action<Error.IError> Open();
+		void Close();
 	}
 }

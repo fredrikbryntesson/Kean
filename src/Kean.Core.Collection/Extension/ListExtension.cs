@@ -1,5 +1,5 @@
-﻿//
-//  Abstract
+﻿// 
+//  ListExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -15,33 +15,38 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-//
+// 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Error = Kean.Core.Error;
-
-namespace Kean.Extra.Log.Writer
+using Kean.Core.Basis.Extension;
+namespace Kean.Core.Collection.Extension
 {
-	public abstract class Abstract :
-		IWriter,
-		IDisposable
+	public static class ListExtension
 	{
-		protected Abstract()
+		public static void Add<T>(this IList<T> data, System.Collections.Generic.IEnumerable<T> items)
 		{
+			foreach (T item in items)
+				data.Add(item);
 		}
-		~Abstract()
+		public static bool Remove<T>(this IList<T> data, Func<T, bool> predicate)
 		{
-			(this as IDisposable).Dispose();
+			bool result = false;
+			int i = 0;
+			while (i < data.Count)
+			{
+				T item = data[i];
+				if (predicate(item))
+					result = item.NotNull() ? item.Equals(data.Remove(i)) : (data.Remove(i) == null);
+				else
+					i++;
+			}
+			return result;
 		}
-		#region IDisposable Members
-		void IDisposable.Dispose()
+		public static void Clear<T>(this IList<T> data)
 		{
-			this.Close();
+			while (data.Count > 0)
+				data.Remove();
 		}
-		#endregion
-
-		public abstract Action<Error.IError> Open();
-		public abstract void Close();
 	}
 }
