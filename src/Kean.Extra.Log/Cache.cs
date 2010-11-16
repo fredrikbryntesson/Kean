@@ -1,5 +1,5 @@
 //
-//  Log
+//  Cache
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -27,10 +27,10 @@ using Kean.Core.Collection.Extension;
 
 namespace Kean.Extra.Log
 {
-	public class Log :
-		Basis.Synchronized
+	public class Cache :
+		Basis.Synchronized,
+		IDisposable
 	{
-
 		Collection.IQueue<Error.IError> log = new Collection.Array.Queue<Error.IError>();
 		Collection.Array.List<Error.IError> cacheList = new Collection.Array.List<Error.IError>(100);
 		Collection.IQueue<Error.IError> cache;
@@ -50,12 +50,19 @@ namespace Kean.Extra.Log
 				}
 			} 
 		}
-		public Log()
+		public Cache()
 		{
 			this.LogThreshold = Kean.Core.Error.Level.Recoverable;
 			this.cache = new Collection.Wrap.QueueList<Error.IError>(this.cacheList);
 			this.Writers = new Kean.Core.Collection.List<IWriter>();
+			Cache.append += this.Append;
 		}
+		#region IDisposable Members
+		public void Dispose()
+		{
+			Cache.append -= this.Append;
+		}
+		#endregion
 		public void Append(Error.Level level, string title, string message)
 		{
 			this.Append(new Entry() { Time = DateTime.Now, Level = level, Assembly = System.Reflection.Assembly.GetCallingAssembly(), Title = title, Message = message, Trace = new System.Diagnostics.StackTrace(1, true) });
@@ -85,6 +92,15 @@ namespace Kean.Extra.Log
 			while (!this.log.Empty)
 				save.Call(this.log.Dequeue());
 			this.Writers.Apply(w => w.Close());
+		}
+		static event Action<Error.IError> append;
+		public static void Log(Error.IError entry)
+		{
+			Cache.append.Call(entry);
+		}
+		public static void Log(Error.Level level, string title, string message)
+		{
+			Cache.Log(new Entry() { Time = DateTime.Now, Level = level, Assembly = System.Reflection.Assembly.GetCallingAssembly(), Title = title, Message = message, Trace = new System.Diagnostics.StackTrace(1, true) });
 		}
 	}
 }

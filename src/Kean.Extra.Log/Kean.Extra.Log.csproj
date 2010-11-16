@@ -41,7 +41,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="IWriter.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="Cache.cs" />
     <Compile Include="Writer\Abstract.cs" />
     <Compile Include="Writer\Csv.cs" />
   </ItemGroup>
