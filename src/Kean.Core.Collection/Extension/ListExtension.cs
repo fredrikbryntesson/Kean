@@ -24,29 +24,40 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class ListExtension
 	{
-		public static void Add<T>(this IList<T> data, System.Collections.Generic.IEnumerable<T> items)
+		public static void Add<T>(this IList<T> me, params T[] items)
 		{
+			IStack<T> stack = new Linked.Stack<T>();
 			foreach (T item in items)
-				data.Add(item);
+				stack.Push(item);
+			while (!stack.Empty)
+				me.Add(stack.Pop());
 		}
-		public static bool Remove<T>(this IList<T> data, Func<T, bool> predicate)
+		public static void Add<T>(this IList<T> me, System.Collections.Generic.IEnumerable<T> items)
+		{
+			IStack<T> stack = new Linked.Stack<T>();
+			foreach (T item in items)
+				stack.Push(item);
+			while (!stack.Empty)
+				me.Add(stack.Pop());
+		}
+		public static bool Remove<T>(this IList<T> me, Func<T, bool> predicate)
 		{
 			bool result = false;
 			int i = 0;
-			while (i < data.Count)
+			while (i < me.Count)
 			{
-				T item = data[i];
+				T item = me[i];
 				if (predicate(item))
-					result = item.NotNull() ? item.Equals(data.Remove(i)) : (data.Remove(i) == null);
+					result = item.NotNull() ? item.Equals(me.Remove(i)) : (me.Remove(i) == null);
 				else
 					i++;
 			}
 			return result;
 		}
-		public static void Clear<T>(this IList<T> data)
+		public static void Clear<T>(this IList<T> me)
 		{
-			while (data.Count > 0)
-				data.Remove();
+			while (me.Count > 0)
+				me.Remove();
 		}
 	}
 }

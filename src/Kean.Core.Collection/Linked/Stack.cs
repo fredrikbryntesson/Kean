@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Collection.Linked
@@ -42,13 +43,17 @@ namespace Kean.Core.Collection.Linked
 		}
 		public T Pop()
 		{
-			T result = this.top.Head;
-			this.top = this.top.Tail;
-			return result;
+			try
+			{
+				T result = this.top.Head;
+				this.top = this.top.Tail;
+				return result;
+			}
+			catch (NullReferenceException e) { throw new Exception.Empty(e); }
 		}
 		public T Peek()
 		{
-			return this.top.Head;
+			try { return this.top.Head; } catch (NullReferenceException e) { throw new Exception.Empty(e); }
 		}
 	}
 }

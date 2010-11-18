@@ -1,5 +1,5 @@
-﻿// 
-//  StackList.cs
+// 
+//  Queue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,33 +18,26 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection.Linked;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Test.Core.Collection.Linked
 {
-	public abstract class StackList<T> :
-		IStack<T>
+	[TestFixture]
+	public class Queue :
+		Base.Queue<Target.Queue<int>>
 	{
-		IList<T> data;
-		protected StackList(IList<T> data)
+		public Queue ()
 		{
-			this.data = data;
+			this.Prefix = "Kean.Test.Core.Collection.Linked.";
 		}
-		#region IStack<T>
-		public bool Empty { get { return this.data.Count < 1; } }
-		public void Push(T item)
+		public static void Test()
 		{
-			this.data.Add(item);
+			Queue fixture = new Queue();
+			fixture.Run();
 		}
-		public T Pop()
-		{
-			try { return this.data.Remove(); } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
-		}
-		public T Peek()
-		{
-			try { return this.data[0]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
-		}
-		#endregion
 	}
 }
+

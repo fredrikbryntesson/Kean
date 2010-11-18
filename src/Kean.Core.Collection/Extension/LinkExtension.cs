@@ -57,19 +57,23 @@ namespace Kean.Core.Collection.Extension
         {
             return me.IsNull() ? 0 : (1 + me.Tail.Count<L, T>());
         }
-		public static L Insert<L, T>(this L me, int index, T element)
+		public static L Insert<L, T>(this L me, int index, T item)
 			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull() && index > 0)
 				throw new Exception.InvalidIndex();
-			return (index == 0) ? me.Add(element) : me.Tail.Insert<L, T>(index - 1, element);
+			return (index == 0) ? 
+				me.Add(item) :
+				me.Tail.Insert<L, T>(index - 1, item).Add(me.Head);
 		}
 		public static L Remove<L, T>(this L me, int index)
 			where L : class, ILink<L, T>, new() 
 		{
 			if (me.IsNull())
 				throw new Exception.InvalidIndex();
-			return (index == 0) ? me.Tail : me.Tail.Remove<L, T>(index - 1);
+			return (index == 0) ? 
+				me.Tail : 
+				me.Tail.Remove<L, T>(index - 1).Add(me.Head);
 		}
 		public static L Remove<L, T>(this L me, int index, out T element)
 			where L : class, ILink<L, T>, new() 
@@ -83,7 +87,7 @@ namespace Kean.Core.Collection.Extension
 				result = me.Tail;
 			}
 			else
-				result = me.Tail.Remove<L, T>(index - 1, out element);
+				result = me.Tail.Remove<L, T>(index - 1, out element).Add(me.Head);
 			return result;
 		}
 		public static bool Equals<L, T>(this L me, L other)

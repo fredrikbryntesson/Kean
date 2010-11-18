@@ -28,14 +28,13 @@ namespace Kean.Test.Core.Collection
 {
 	[TestFixture]
 	public class Vector :
-		Abstract.Vector<Target.Vector<int>>
+		Base.Vector<Target.Vector<int>>
 	{
 		public Vector()
 		{
 			this.Prefix = "Kean.Test.Core.Collection.Vector.";
 			this.ZeroToNine = new Target.Vector<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);			
 		}
-		
 		public override Target.Vector<int> Create(int count)
 		{
 			return new Target.Vector<int>(count);
@@ -73,6 +72,11 @@ namespace Kean.Test.Core.Collection
 			Expect(data.Count, EqualTo(10), this.Prefix + "ConstructorCount0");
 			for (int i = 0; i < 10; i++)
 				Expect(data[i], EqualTo(0), this.Prefix + "ConstructorCount." + (i + 1).ToString());
+		}
+		public static void Test()
+		{
+			Vector fixture = new Vector();
+			fixture.Run();
 		}
 	}
 }

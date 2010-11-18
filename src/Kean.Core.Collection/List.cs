@@ -26,61 +26,70 @@ namespace Kean.Core.Collection
 	public class List<T> :
 		IList<T>
 	{
-		Array.List<T> items;
-		public List()
+		Array.List<T> data;
+		#region Constructors
+		public List() :
+			this(0)
+		{ }
+		public List(int count)
 		{
-			this.items = new Array.List<T>();
+			this.data = new Array.List<T>(count);
 		}
+		public List(params T[] items)
+		{
+			this.data = new Array.List<T>(items);
+		}
+		#endregion
 		#region IList<T>
-		public int Count { get { return this.items.Count; } }
+		public int Count { get { return this.data.Count; } }
 		public T this[int index]
 		{
-			get { return this.items[index]; }
-			set { this.items[index] = value; }
+			get { return this.data[index]; }
+			set { this.data[index] = value; }
 		}
 		public void Add(T item)
 		{
-			this.items.Add(item);
+			this.data.Add(item);
 		}
 		public T Remove()
 		{
-			return this.items.Remove();
+			return this.data.Remove();
 		}
         public T Remove(int index)
 		{
-			return this.items.Remove(index);
+			return this.data.Remove(index);
 		}
         public void Insert(int index, T item)
 		{
-			this.items.Insert(index, item);
+			this.data.Insert(index, item);
 		}
 		#endregion
 		#region System.Collections.IEnumerable
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return (this.items as System.Collections.IEnumerable).GetEnumerator();
+			return (this.data as System.Collections.IEnumerable).GetEnumerator();
 		}
 		#endregion
 		#region System.Collections.Generic.IEnumerable<T>
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
-			return (this.items as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
+			return (this.data as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
 		}
 		#endregion
 		#region System.IEquatable<Interface.IVector<T>>
 		public bool Equals(IVector<T> other)
 		{
-			return this.items.Equals(other);
+			return this.data.Equals(other);
 		}
 		#endregion
 		#region System.Object
 		public override bool Equals(object other)
 		{
-			return (this.items as object).Equals(other);
+			return (this.data as object).Equals(other);
 		}
 		public override int GetHashCode()
 		{
-			return this.items.GetHashCode();
+			return this.data.GetHashCode();
 		}
 		#endregion
 	}

@@ -48,7 +48,14 @@ namespace Kean.Core.Collection.Linked
 		}
 		public T Peek()
 		{
-			return this.first.Head;
+			try
+			{
+				return this.first.Head;
+			}
+			catch (NullReferenceException e)
+			{
+				throw new Exception.Empty(e);
+			}
 		}
 		public T Dequeue()
 		{

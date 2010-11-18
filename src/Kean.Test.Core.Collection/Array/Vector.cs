@@ -1,5 +1,5 @@
-﻿//
-//  Stack.cs
+// 
+//  Vector.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,51 +19,29 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Basis.Extension;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection.Array;
 
-namespace Kean.Core.Collection.Hooked
+namespace Kean.Test.Core.Collection.Array
 {
-	public class Stack<T> :
-		IStack<T>
+	public class Vector :
+		Base.Vector<Target.Vector<int>>
 	{
-		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		public Vector ()
 		{
-			this.data = data;
+			this.Prefix = "Kean.Test.Core.Collection.Array.Vector.";
+			this.ZeroToNine = new Target.Vector<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}
-		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
-		public void Push(T item)
+		public override Target.Vector<int> Create(int count)
 		{
-			if (this.OnPush.AllTrue(item))
-			{
-				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
+			return new Target.Vector<int>(count);
 		}
-
-		public T Pop()
+		public static void Test()
 		{
-			T result;
-			if (this.OnPop.AllTrue(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
-			return result;
+			Vector fixture = new Vector();
+			fixture.Run();
 		}
-
-		public T Peek()
-		{
-			return this.data.Peek();
-		}
-		#endregion
 	}
 }
+

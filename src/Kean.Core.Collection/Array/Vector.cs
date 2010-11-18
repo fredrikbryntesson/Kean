@@ -27,14 +27,14 @@ namespace Kean.Core.Collection.Array
 		T[] data;
 		public override int Count { get { return this.data.Length; } }
 		public override T this[int index] {
-			get { return this.data[index]; }
-			set { this.data[index] = value; }
+			get { try { return this.data[index]; } catch (IndexOutOfRangeException e) { throw new Exception.InvalidIndex(e); } }
+			set { try { this.data[index] = value; } catch (IndexOutOfRangeException e) { throw new Exception.InvalidIndex(e); } }
 		}
 		public Vector (int size) :
 			this(new T[size])
 		{
 		}
-		public Vector(T[] data)
+		public Vector(params T[] data)
 		{
 			this.data = data;
 		}
@@ -42,6 +42,10 @@ namespace Kean.Core.Collection.Array
 		public static implicit operator Vector<T>(T[] data)
 		{
 			return new Vector<T>(data);
+		}
+		public static explicit operator T[](Vector<T> data)
+		{
+			return data.data;
 		}
 		#endregion
 	}

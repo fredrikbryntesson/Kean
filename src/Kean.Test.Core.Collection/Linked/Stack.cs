@@ -1,4 +1,4 @@
-﻿//
+﻿// 
 //  Stack.cs
 //  
 //  Author:
@@ -19,51 +19,25 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Basis.Extension;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection.Linked;
 
-namespace Kean.Core.Collection.Hooked
+namespace Kean.Test.Core.Collection.Linked
 {
-	public class Stack<T> :
-		IStack<T>
+	[TestFixture]
+	public class Stack :
+		Base.Stack<Target.Stack<int>>
 	{
-		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		public Stack()
 		{
-			this.data = data;
+			this.Prefix = "Kean.Test.Core.Collection.Linked.Stack.";
 		}
-		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
-		public void Push(T item)
+		public static void Test()
 		{
-			if (this.OnPush.AllTrue(item))
-			{
-				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
+			Stack fixture = new Stack();
+			fixture.Run();
 		}
-
-		public T Pop()
-		{
-			T result;
-			if (this.OnPop.AllTrue(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
-			return result;
-		}
-
-		public T Peek()
-		{
-			return this.data.Peek();
-		}
-		#endregion
 	}
 }
+

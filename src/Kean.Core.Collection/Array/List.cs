@@ -20,6 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Collection.Array
 {
@@ -38,7 +40,7 @@ namespace Kean.Core.Collection.Array
 				System.Array.Resize<T>(ref this.items, value);
 			}
 		}
-
+		#region Constructors
 		public List()
 		{
 			this.items = List<T>.EmptyArray;
@@ -47,12 +49,20 @@ namespace Kean.Core.Collection.Array
 		{
 			this.Capacity = capacity;
 		}
-		void Increase()
+		public List(params T[] items) : this(items.Length)
+		{
+			Extension.ListExtension.Add(this, items);
+		}
+		#endregion
+		void Decrease()
 		{
 			if (this.count > 0)
+			{
+				this[0] = default(T); // let garbage collection work
 				this.count--;
+			}
 		}
-		void Decrease()
+		void Increase()
 		{
 			if (this.Capacity <= this.Count + 1)
 				this.Capacity = this.Count + 1;
@@ -66,7 +76,7 @@ namespace Kean.Core.Collection.Array
 		{
 			if ((uint)index >= (uint)this.Count)
 				throw new Exception.InvalidIndex();
-			return this.Count - index;
+			return this.Count - index - 1;
 		}
 		#region IVector<T>
 		int count;
@@ -90,15 +100,21 @@ namespace Kean.Core.Collection.Array
         public override T Remove(int index)
         {
         	T result = this[index];
-        	System.Array.Copy(this.items, this.IndexToAddress(index + 1), this.items, this.IndexToAddress(index), this.Count - index + 1);
+			if (index > 0)
+	        	System.Array.Copy(this.items, this.IndexToAddress(index - 1), this.items, this.IndexToAddress(index), this.Count - index + 1);
 			this.Decrease();
 			return result;
 		}
         public override void Insert(int index, T item)
         {
-        	this.Increase();
-        	System.Array.Copy(this.items, this.IndexToAddress(index + 1), this.items, this.IndexToAddress(index), index);
-        	this[index] = item;
+			if (index == 0)
+				this.Add(item);
+			else
+			{
+				this.Increase();
+				System.Array.Copy(this.items, this.IndexToAddress(index), this.items, this.IndexToAddress(index - 1), index);
+				this[index] = item;
+			}
 		}
 		#endregion
 	}

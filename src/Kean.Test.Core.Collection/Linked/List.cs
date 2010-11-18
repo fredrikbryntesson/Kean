@@ -1,5 +1,5 @@
-﻿//
-//  Stack.cs
+// 
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,51 +19,33 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Basis.Extension;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection.Linked;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Core.Collection.Hooked
+namespace Kean.Test.Core.Collection.Linked
 {
-	public class Stack<T> :
-		IStack<T>
+	public class List :
+		Base.List<Target.List<int>>
 	{
-		IStack<T> data;
-		public event Func<T, bool> OnPush;
-		public event Action<T> Pushed;
-		public event Func<T, bool> OnPop;
-		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		public List ()
 		{
-			this.data = data;
+			this.Prefix = "Kean.Test.Core.Collection.Linked.List.";
+			this.ZeroToNine = new Target.List<int>();
+			Kean.Core.Collection.Extension.ListExtension.Add(this.ZeroToNine, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}
-		#region IStack<T> Members
-		public bool Empty { get { return this.data.Empty; } }
-
-		public void Push(T item)
+		public override Target.List<int> Create(int count)
 		{
-			if (this.OnPush.AllTrue(item))
-			{
-				this.data.Push(item);
-				this.Pushed.Call(item);
-			}
-		}
-
-		public T Pop()
-		{
-			T result;
-			if (this.OnPop.AllTrue(this.Peek()))
-			{
-				result = this.data.Pop();
-				this.Poped.Call(result);
-			}
-			else
-				result = default(T);
+			Target.List<int> result = new Target.List<int>();
+			Kean.Core.Collection.Extension.ListExtension.Add(result, new Kean.Core.Collection.Vector<int>(count).ToArray());
 			return result;
 		}
-
-		public T Peek()
+		public static void Test()
 		{
-			return this.data.Peek();
+			List fixture = new List();
+			fixture.Run();
 		}
-		#endregion
 	}
 }
+

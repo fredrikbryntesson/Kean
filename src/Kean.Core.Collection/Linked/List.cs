@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Basis.Extension;
 using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Collection.Linked
@@ -40,7 +41,14 @@ namespace Kean.Core.Collection.Linked
 			get { return this.first.Get<L, T>(index); }
 			set { this.first.Set<L, T>(index, value); }
 		}
+		#region Constructors
 		public List() { }
+		public List(params T[] items) :
+			this()
+		{
+			Extension.ListExtension.Add(this, items);
+		}
+		#endregion
 		public override void Add(T element)
 		{
 			this.first = new L()
@@ -52,7 +60,7 @@ namespace Kean.Core.Collection.Linked
 		public override T Remove()
 		{
 			T result = default(T);
-			if (this.first != null)
+			if (this.first.NotNull())
 			{
 				result = this.first.Head;
 				this.first = this.first.Tail;

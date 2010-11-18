@@ -40,27 +40,30 @@ namespace Kean.Core.Collection.Wrap
 		{
 			if (this.size == this.data.Count)
 			{
-				this.data.Insert(this.tail, item);
+				this.data.Insert(this.head, item);
 				if (this.head > this.tail)
 					this.head++;
+				this.tail = (this.tail + 1) % this.data.Count;
 			}
 			else
-				this.data[this.tail] = item;
-			this.tail = (this.tail + 1) % this.data.Count;
+			{
+				this.head = (this.head - 1 + this.data.Count) % this.data.Count;
+				this.data[this.head] = item;
+			}
 			this.size++;
 		}
 		public T Peek()
 		{
 			if (this.size == 0)
 				throw new Exception.Empty();
-			return this.data[this.head];
+			return this.data[this.tail];
 		}
 		public T Dequeue()
 		{
 			T result = this.Peek();
 			// let garbage collector do its job
-			this.data[this.head] = default(T);
-			this.head = (this.head + 1) % this.data.Count;
+			this.data[this.tail] = default(T);
+			this.tail = (this.tail - 1 + this.data.Count) % this.data.Count;
 			this.size--;
 			return result;
 		}
