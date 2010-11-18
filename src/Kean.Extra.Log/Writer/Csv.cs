@@ -33,10 +33,10 @@ namespace Kean.Extra.Log.Writer
 			this.writer = new System.IO.StreamWriter(this.Filename, true);
 			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}", "Time", "Level", "Assembly", "Title", "Message", "File", "Line", "Column"); 
 			return (Error.IError entry) => {
-			this.writer.WriteLine("{0},{1},{2},\"{3}\",\"{4}\",{5},{6},{7}", 
+			this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7}", 
 				entry.Time, 
-				entry.Level, 
-				entry.Assembly.FullName,
+				entry.Level,
+				entry.Assembly.FullName.Replace("\"", "\"\""),
 				entry.Title.Replace("\"", "\"\""),
 				entry.Message.Replace("\"", "\"\""), 
 				entry.Trace.GetFrame(0).GetFileName(), 
