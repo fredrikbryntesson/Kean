@@ -37,7 +37,8 @@ namespace Kean.Core.Error
 		public System.Reflection.Assembly Assembly { get; private set; }
 		public string Title { get; private set; }
 		public System.Diagnostics.StackTrace Trace { get; private set; }
-        protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
+		public System.Diagnostics.StackFrame Location { get; private set; }
+		protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
         protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
             base(System.String.Format(message, arguments), exception)
         {
@@ -45,7 +46,11 @@ namespace Kean.Core.Error
             this.Level = level;
 			this.Assembly = System.Reflection.Assembly.GetCallingAssembly();
             this.Title = title;
-			this.Trace = new System.Diagnostics.StackTrace(1, true);
+			this.Trace = new System.Diagnostics.StackTrace(0, true);
+			int depth = 0;
+			while (this.Trace.GetFrame(depth).GetMethod().GetParameters()[0].GetType().IsInstanceOfType(this))
+				depth++;
+			this.Location = this.Trace.GetFrame(depth);
 			if (Exception.Log != null)
 				Exception.Log(this);
 		}

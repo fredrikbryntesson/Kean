@@ -31,14 +31,16 @@ namespace Kean.Extra.Log.Writer
 		public override Action<Error.IError> Open()
 		{
 			this.writer = new System.IO.StreamWriter(this.Filename, true);
-			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}", "Time", "Level", "Assembly", "Title", "Message", "File", "Line", "Column"); 
+			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Source", "Line", "Column"); 
 			return (Error.IError entry) => {
-			this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7}", 
+				System.Reflection.AssemblyName assembly = entry.Assembly.GetName();
+				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8}", 
 				entry.Time, 
 				entry.Level,
-				entry.Assembly.FullName.Replace("\"", "\"\""),
 				entry.Title.Replace("\"", "\"\""),
-				entry.Message.Replace("\"", "\"\""), 
+				entry.Message.Replace("\"", "\"\""),
+				assembly.Name,
+				assembly.Version,
 				entry.Trace.GetFrame(0).GetFileName(), 
 				entry.Trace.GetFrame(0).GetFileLineNumber(), 
 				entry.Trace.GetFrame(0).GetFileColumnNumber()); 
