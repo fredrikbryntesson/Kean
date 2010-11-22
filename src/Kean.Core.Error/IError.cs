@@ -31,5 +31,6 @@ namespace Kean.Core.Error
 		string Title { get; }
 		string Message { get; }
 		System.Diagnostics.StackTrace Trace { get; }
+		System.Diagnostics.StackFrame Location { get; }
 	}
 }

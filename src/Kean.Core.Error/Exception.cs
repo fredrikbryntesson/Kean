@@ -48,7 +48,7 @@ namespace Kean.Core.Error
             this.Title = title;
 			this.Trace = new System.Diagnostics.StackTrace(0, true);
 			int depth = 0;
-			while (this.Trace.GetFrame(depth).GetMethod().GetParameters()[0].GetType().IsInstanceOfType(this))
+			while (this.Trace.GetFrame(depth).GetMethod().DeclaringType.IsInstanceOfType(this))
 				depth++;
 			this.Location = this.Trace.GetFrame(depth);
 			if (Exception.Log != null)

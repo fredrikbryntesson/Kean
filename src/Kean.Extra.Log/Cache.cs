@@ -52,7 +52,8 @@ namespace Kean.Extra.Log
 		}
 		public Cache()
 		{
-			this.LogThreshold = Kean.Core.Error.Level.Recoverable;
+			this.LogThreshold = Kean.Core.Error.Level.Message;
+			this.AllThreshold = Kean.Core.Error.Level.Critical;
 			this.cache = new Collection.Wrap.QueueList<Error.IError>(this.cacheList);
 			this.Writers = new Kean.Core.Collection.List<IWriter>();
 			Cache.append += this.Append;
@@ -71,7 +72,7 @@ namespace Kean.Extra.Log
 		{
 			lock (this.Lock)
 			{
-				if (item.Level == Kean.Core.Error.Level.Critical)
+				if (item.Level >= this.AllThreshold)
 					this.log.Enqueue(this.cache);
 				else if (this.cacheList.Count >= this.CacheSize)
 					this.ReduceCache();
@@ -81,7 +82,7 @@ namespace Kean.Extra.Log
 		void ReduceCache()
 		{
 			Error.IError entry = this.cache.Dequeue();
-			if (entry.Level > this.LogThreshold)
+			if (entry.Level >= this.LogThreshold)
 				this.log.Enqueue(entry);
 		}
 		public void Flush()

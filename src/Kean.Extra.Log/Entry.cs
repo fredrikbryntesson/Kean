@@ -34,6 +34,7 @@ namespace Kean.Extra.Log
 		public string Title { get; internal set; }
 		public string Message { get; internal set; }
 		public System.Diagnostics.StackTrace Trace { get; internal set; }
+		public System.Diagnostics.StackFrame Location { get; internal set; }
 		#endregion
 	}
 }

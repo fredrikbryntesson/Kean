@@ -35,6 +35,8 @@ namespace Kean.Test.Run
 			Core.Collection.Array.List.Test();
 			Core.Collection.Array.Queue.Test();
 			Core.Collection.Array.Stack.Test();
+
+			Core.Error.Error.Test();
 		}
 	}
 }

@@ -31,6 +31,10 @@ namespace Kean.Test.Core.Error.Exception
 		internal Test (Abstract exception, Target.Level level, string title, string message, params object[] arguments) :
 			base(exception, level, title, message, arguments)
 		{ }
+		internal static void Check(Target.Level level, string title, string message, params object[] arguments)
+		{
+			new Exception.Test(level, title, message, arguments).Throw();
+		}
 	}
 }
 

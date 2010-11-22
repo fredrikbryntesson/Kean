@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 using Error = Kean.Core.Error;
 
 namespace Kean.Extra.Log.Writer
@@ -26,12 +27,15 @@ namespace Kean.Extra.Log.Writer
 	public class Csv :
 		Abstract
 	{
+		bool append;
 		System.IO.TextWriter writer;
 		public string Filename { get; set; }
 		public override Action<Error.IError> Open()
 		{
-			this.writer = new System.IO.StreamWriter(this.Filename, true);
-			this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Source", "Line", "Column"); 
+			this.writer = new System.IO.StreamWriter(this.Filename, this.append);
+			if (!this.append)
+				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Source", "Line", "Column");
+			this.append = true;
 			return (Error.IError entry) => {
 				System.Reflection.AssemblyName assembly = entry.Assembly.GetName();
 				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8}", 
@@ -48,7 +52,8 @@ namespace Kean.Extra.Log.Writer
 		}
 		public override void Close()
 		{
-			writer.Close();
+			if (writer.NotNull())
+				writer.Close();
 		}
 	}
 }
