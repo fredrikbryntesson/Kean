@@ -39,14 +39,14 @@ namespace Kean.Core.Configure
                 {
 					bool found = false;
 					foreach (System.Type type in property.PropertyType.GetInterfaces())
-						if (type == typeof(IString))
+						if (type == typeof(Basis.IString))
 						{
 							found = true;
 						    break;
 						};
                 	if(found)
                 	{
-                		IString value = System.Activator.CreateInstance(property.PropertyType) as IString;
+                		Basis.IString value = System.Activator.CreateInstance(property.PropertyType) as Basis.IString;
                 		value.String = attributes[0].Default as string;
                 		property.SetValue(this, value, null);                                
                 	}

@@ -1,5 +1,5 @@
 // 
-//  IString.cs
+//  Class.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,13 +18,17 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
-
-namespace Kean.Core.Configure
+using Target = Kean.Core.Configure;
+namespace Kean.Test.Core.Configure.Data
 {
-	public interface IString
+	public class Class
 	{
-		string String { get; set; }
+		[Target.Parameter]
+		public string String { get; set; }
+		public Class ()
+		{
+		}
 	}
 }
+

@@ -25,10 +25,10 @@ namespace Kean.Core.Configure
 {
 	public class Parameter
 	{
-		private object target;
-		private System.Reflection.PropertyInfo property;
-		private ParameterAttribute attribute;
-		private bool stringSerializable;
+		object target;
+		System.Reflection.PropertyInfo property;
+		ParameterAttribute attribute;
+		bool stringSerializable;
 
 		public string Name { get; private set; }
 		public object Default { get { return this.attribute.Default; } }
@@ -37,15 +37,15 @@ namespace Kean.Core.Configure
 			get
 			{
 				object result = property.GetValue(this, null);
-	        	if(this.stringSerializable && result is IString)
-	        		result = (result as IString).String;                                
+	        	if(this.stringSerializable && result is Basis.IString)
+	        		result = (result as Basis.IString).String;
 				return result;
 			}
 			set
 			{
 	        	if (this.stringSerializable)
 	        	{
-	        		IString v = System.Activator.CreateInstance(this.property.PropertyType) as IString;
+	        		Basis.IString v = System.Activator.CreateInstance(this.property.PropertyType) as Basis.IString;
 	        		v.String = value as string;
 	        		property.SetValue(this.target, v, null);                                
 	        	}
@@ -77,7 +77,7 @@ namespace Kean.Core.Configure
 						break;
 					}
 				}
-			this.stringSerializable = this.property.PropertyType.GetInterface(typeof(IString).Name) != null;
+			this.stringSerializable = this.property.PropertyType.GetInterface(typeof(Basis.IString).Name) != null;
 		}
 
 		public void SetDefault()
