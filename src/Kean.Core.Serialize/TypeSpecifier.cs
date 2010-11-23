@@ -26,7 +26,7 @@ using Kean.Core.Collection.Extension;
 namespace Kean.Core.Serialize
 {
     public class TypeSpecifier :
-        Configure.IString
+        Basis.IString
     {
         public string Assembly { get; set; }
         public string Name { get; set; }
@@ -259,8 +259,8 @@ namespace Kean.Core.Serialize
             }
         }
 
-        #region Configure.IString Members
-        string Configure.IString.String
+        #region Basis.IString Members
+        string Basis.IString.String
         {
             get { return this.FullName; }
             set { this.FullName = value; }

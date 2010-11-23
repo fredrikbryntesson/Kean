@@ -33,7 +33,7 @@ namespace Kean.Test.Core.Error
 		{
 		}
 		[Test]
-		public void MetaDataImediateThrow()
+		public void MetaDataImmediateThrow()
 		{
 			DateTime now = DateTime.Now;
 			try
@@ -42,14 +42,16 @@ namespace Kean.Test.Core.Error
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100)), prefix + "MetaDataImediateThrow.0");
-				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataImediateThrow.1");
-				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataImediateThrow.2");
-				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataImediateThrow.3");
-				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataImediateThrow.4");
-				Expect((e as Target.IError).Location.GetFileName(), EndsWith("Kean.Test.Core.Error\\Error.cs"), prefix + "MetaDataImediateThrow.5");
-				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(41), prefix + "MetaDataImediateThrow.6");
-				Expect((e as Target.IError).Location.GetFileColumnNumber(), EqualTo(5), prefix + "MetaDataImediateThrow.7");
+				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataImmediateThrow.0");
+				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataImmediateThrow.1");
+				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataImmediateThrow.2");
+				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataImmediateThrow.3");
+				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataImmediateThrow.4");
+				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataImmediateThrow"), prefix + "MetaDataImmediateThrow.5");
+				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataImmediateThrow.6");
+				Expect((e as Target.IError).Location.GetFileName(), EndsWith("Kean.Test.Core.Error\\Error.cs"), prefix + "MetaDataImmediateThrow.7");
+				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(41), prefix + "MetaDataImmediateThrow.8");
+				Expect((e as Target.IError).Location.GetFileColumnNumber(), EqualTo(5), prefix + "MetaDataImmediateThrow.9");
 			}
 		}
 		[Test]
@@ -62,14 +64,16 @@ namespace Kean.Test.Core.Error
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100)), prefix + "MetaDataFilteredThrow.0");
+				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataFilteredThrow.0");
 				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataFilteredThrow.1");
 				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataFilteredThrow.2");
 				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataFilteredThrow.3");
 				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataFilteredThrow.4");
-				Expect((e as Target.IError).Location.GetFileName(), EndsWith("Kean.Test.Core.Error\\Error.cs"), prefix + "MetaDataFilteredThrow.5");
-				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(61), prefix + "MetaDataFilteredThrow.6");
-				Expect((e as Target.IError).Location.GetFileColumnNumber(), EqualTo(5), prefix + "MetaDataFilteredThrow.7");
+				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataFilteredThrow"), prefix + "MetaDataFilteredThrow.5");
+				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataFilteredThrow.6");
+				Expect((e as Target.IError).Location.GetFileName(), EndsWith("Kean.Test.Core.Error\\Error.cs"), prefix + "MetaDataFilteredThrow.7");
+				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(63), prefix + "MetaDataFilteredThrow.8");
+				Expect((e as Target.IError).Location.GetFileColumnNumber(), EqualTo(5), prefix + "MetaDataFilteredThrow.9");
 			}
 		}
 		[Test]
@@ -82,20 +86,22 @@ namespace Kean.Test.Core.Error
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100)), prefix + "MetaDataIndirectThrow.0");
+				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataIndirectThrow.0");
 				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataIndirectThrow.1");
 				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataIndirectThrow.2");
 				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataIndirectThrow.3");
 				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataIndirectThrow.4");
+				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataIndirectThrow"), prefix + "MetaDataIndirectThrow.5");
+				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataIndirectThrow.6");
 				Expect((e as Target.IError).Location.GetFileName(), EndsWith("Kean.Test.Core.Error\\Error.cs"), prefix + "MetaDataIndirectThrow.5");
-				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(81), prefix + "MetaDataIndirectThrow.6");
+				Expect((e as Target.IError).Location.GetFileLineNumber(), EqualTo(85), prefix + "MetaDataIndirectThrow.6");
 				Expect((e as Target.IError).Location.GetFileColumnNumber(), EqualTo(5), prefix + "MetaDataIndirectThrow.7");
 			}
 		}
 		public static void Test()
 		{
 			Error fixture = new Error();
-			fixture.MetaDataImediateThrow();
+			fixture.MetaDataImmediateThrow();
 			fixture.MetaDataFilteredThrow();
 			fixture.MetaDataIndirectThrow();
 		}

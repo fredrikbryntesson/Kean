@@ -34,18 +34,20 @@ namespace Kean.Extra.Log.Writer
 		{
 			this.writer = new System.IO.StreamWriter(this.Filename, this.append);
 			if (!this.append)
-				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Source", "Line", "Column");
+				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
 			this.append = true;
 			return (Error.IError entry) => {
 				System.Reflection.AssemblyName assembly = entry.Assembly.GetName();
-				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8}", 
+				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
 				entry.Time, 
 				entry.Level,
 				entry.Title.Replace("\"", "\"\""),
 				entry.Message.Replace("\"", "\"\""),
 				assembly.Name,
 				assembly.Version,
-				entry.Trace.GetFrame(0).GetFileName(), 
+				entry.Trace.GetFrame(0).GetMethod().DeclaringType.FullName,
+				entry.Trace.GetFrame(0).GetMethod().Name,
+				entry.Trace.GetFrame(0).GetFileName(),
 				entry.Trace.GetFrame(0).GetFileLineNumber(), 
 				entry.Trace.GetFrame(0).GetFileColumnNumber()); 
 			};
