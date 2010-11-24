@@ -22,7 +22,7 @@ using System;
 using Target = Kean.Core.Error;
 namespace Kean.Test.Core.Error.Exception
 {
-	internal class Test :
+	public class Test :
 		Abstract
 	{
 		internal Test (Target.Level level, string title, string message, params object[] arguments) :

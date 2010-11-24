@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,6 +46,10 @@
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj">
+      <Project>{598867CF-A027-46EA-A5C8-0EF7FD21A61C}</Project>
+      <Name>Kean.Test.Core.Collection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Test.Core.Error\Kean.Test.Core.Error.csproj">
       <Project>{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}</Project>
