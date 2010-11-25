@@ -101,7 +101,7 @@ namespace Kean.Extra.Log
 		}
 		public static void Log(Error.Level level, string title, string message)
 		{
-			Cache.Log(new Entry() { Time = DateTime.Now, Level = level, Assembly = System.Reflection.Assembly.GetCallingAssembly(), Title = title, Message = message, Trace = new System.Diagnostics.StackTrace(1, true) });
+			Cache.Log(new Entry() { Time = DateTime.Now, Level = level, Assembly = System.Reflection.Assembly.GetCallingAssembly(), Title = title, Message = message, Trace = new System.Diagnostics.StackTrace(1, true), Location = new System.Diagnostics.StackTrace(1, true).GetFrame(0) });
 		}
 }	
 }
