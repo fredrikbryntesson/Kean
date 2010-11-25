@@ -45,11 +45,11 @@ namespace Kean.Extra.Log.Writer
 				entry.Message.Replace("\"", "\"\""),
 				assembly.Name,
 				assembly.Version,
-				entry.Trace.GetFrame(0).GetMethod().DeclaringType.FullName,
-				entry.Trace.GetFrame(0).GetMethod().Name,
-				entry.Trace.GetFrame(0).GetFileName(),
-				entry.Trace.GetFrame(0).GetFileLineNumber(), 
-				entry.Trace.GetFrame(0).GetFileColumnNumber()); 
+				entry.Location.GetMethod().DeclaringType.FullName,
+				entry.Location.GetMethod().Name,
+				entry.Location.GetFileName(),
+				entry.Location.GetFileLineNumber(), 
+				entry.Location.GetFileColumnNumber()); 
 			};
 		}
 		public override void Close()
