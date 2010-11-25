@@ -37,19 +37,18 @@ namespace Kean.Extra.Log.Writer
 				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
 			this.append = true;
 			return (Error.IError entry) => {
-				System.Reflection.AssemblyName assembly = entry.Assembly.GetName();
 				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
-				entry.Time, 
+				entry.Time,
 				entry.Level,
 				entry.Title.Replace("\"", "\"\""),
 				entry.Message.Replace("\"", "\"\""),
-				assembly.Name,
-				assembly.Version,
-				entry.Location.GetMethod().DeclaringType.FullName,
-				entry.Location.GetMethod().Name,
-				entry.Location.GetFileName(),
-				entry.Location.GetFileLineNumber(), 
-				entry.Location.GetFileColumnNumber()); 
+				entry.AssemblyName,
+				entry.AssemblyVersion,
+				entry.Type,
+				entry.Method,
+				entry.Filename,
+				entry.Line,
+				entry.Column); 
 			};
 		}
 		public override void Close()

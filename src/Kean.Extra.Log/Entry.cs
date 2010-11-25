@@ -30,11 +30,15 @@ namespace Kean.Extra.Log
 		#region IError Members
 		public DateTime Time { get; internal set; }
 		public Error.Level Level { get; internal set; }
-		public System.Reflection.Assembly Assembly { get; internal set; }
 		public string Title { get; internal set; }
 		public string Message { get; internal set; }
-		public System.Diagnostics.StackTrace Trace { get; internal set; }
-		public System.Diagnostics.StackFrame Location { get; internal set; }
+		public string AssemblyName { get; internal set; }
+		public string AssemblyVersion { get; internal set; }
+		public string Type { get; internal set; }
+		public string Method { get; internal set; }
+		public string Filename { get; internal set; }
+		public int Line { get; internal set; }
+		public int Column { get; internal set; }
 		#endregion
 	}
 }

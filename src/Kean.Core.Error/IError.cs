@@ -27,10 +27,14 @@ namespace Kean.Core.Error
 	{
 		DateTime Time { get; }
 		Level Level { get; }
-		System.Reflection.Assembly Assembly { get; }
 		string Title { get; }
 		string Message { get; }
-		System.Diagnostics.StackTrace Trace { get; }
-		System.Diagnostics.StackFrame Location { get; }
+		string AssemblyName { get; }
+		string AssemblyVersion { get; }
+		string Type { get; }
+		string Method { get; }
+		string Filename { get; }
+		int Line { get; }
+		int Column { get; }
 	}
 }

@@ -46,9 +46,10 @@ namespace Kean.Test.Core.Error
 				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataImmediateThrow.1");
 				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataImmediateThrow.2");
 				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataImmediateThrow.3");
-				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataImmediateThrow.4");
-				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataImmediateThrow"), prefix + "MetaDataImmediateThrow.5");
-				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataImmediateThrow.6");
+				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataImmediateThrow.4");
+				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataImmediateThrow.5");
+				Expect((e as Target.IError).Type, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataImmediateThrow.6");
+				Expect((e as Target.IError).Method, EqualTo("MetaDataImmediateThrow"), prefix + "MetaDataImmediateThrow.7");
 			}
 		}
 		[Test]
@@ -65,9 +66,10 @@ namespace Kean.Test.Core.Error
 				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataFilteredThrow.1");
 				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataFilteredThrow.2");
 				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataFilteredThrow.3");
-				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataFilteredThrow.4");
-				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataFilteredThrow"), prefix + "MetaDataFilteredThrow.5");
-				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataFilteredThrow.6");
+				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataFilteredThrow.4");
+				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataFilteredThrow.5");
+				Expect((e as Target.IError).Type, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataFilteredThrow.6");
+				Expect((e as Target.IError).Method, EqualTo("MetaDataFilteredThrow"), prefix + "MetaDataFilteredThrow.7");
 			}
 		}
 		[Test]
@@ -84,9 +86,10 @@ namespace Kean.Test.Core.Error
 				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataIndirectThrow.1");
 				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataIndirectThrow.2");
 				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataIndirectThrow.3");
-				Expect((e as Target.IError).Assembly, EqualTo(System.Reflection.Assembly.GetExecutingAssembly()), prefix + "MetaDataIndirectThrow.4");
-				Expect((e as Target.IError).Location.GetMethod().Name, EqualTo("MetaDataIndirectThrow"), prefix + "MetaDataIndirectThrow.5");
-				Expect((e as Target.IError).Location.GetMethod().DeclaringType.FullName, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataIndirectThrow.6");
+				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataIndirectThrow.4");
+				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataIndirectThrow.5");
+				Expect((e as Target.IError).Type, EqualTo("Kean.Test.Core.Error.Error"), prefix + "MetaDataIndirectThrow.6");
+				Expect((e as Target.IError).Method, EqualTo("MetaDataIndirectThrow"), prefix + "MetaDataIndirectThrow.7");
 			}
 		}
 		public static void Test()

@@ -34,23 +34,36 @@ namespace Kean.Core.Error
 		}
 		public DateTime Time { get; private set; }
 		public Level Level { get; private set; }
-		public System.Reflection.Assembly Assembly { get; private set; }
 		public string Title { get; private set; }
-		public System.Diagnostics.StackTrace Trace { get; private set; }
-		public System.Diagnostics.StackFrame Location { get; private set; }
+		public string AssemblyName { get; private set; }
+		public string AssemblyVersion { get; private set; }
+		public string Type { get; private set; }
+		public string Method { get; private set; }
+		public string Filename { get; private set; }
+		public int Line { get; private set; }
+		public int Column { get; private set; }
 		protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
         protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
             base(System.String.Format(message, arguments), exception)
         {
 			this.Time = DateTime.Now;
             this.Level = level;
-			this.Assembly = System.Reflection.Assembly.GetCallingAssembly();
             this.Title = title;
-			this.Trace = new System.Diagnostics.StackTrace(0, true);
+			System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace(0, true);
 			int depth = 0;
-			while (this.Trace.GetFrame(depth).GetMethod().DeclaringType.IsInstanceOfType(this))
+			while (trace.GetFrame(depth).GetMethod().DeclaringType.IsInstanceOfType(this))
 				depth++;
-			this.Location = this.Trace.GetFrame(depth);
+			System.Diagnostics.StackFrame frame = trace.GetFrame(depth);
+			System.Reflection.MethodBase method = frame.GetMethod();
+			Type type = method.DeclaringType;
+			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
+			this.AssemblyName = assembly.Name;
+			this.AssemblyVersion = assembly.Version.ToString();
+			this.Type = type.FullName;
+			this.Method = method.Name;
+			this.Filename = frame.GetFileName();
+			this.Line = frame.GetFileLineNumber();
+			this.Column = frame.GetFileColumnNumber();
 			if (Exception.Log != null)
 				Exception.Log(this);
 		}
