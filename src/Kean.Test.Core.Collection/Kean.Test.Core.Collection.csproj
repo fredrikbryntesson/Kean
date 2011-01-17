@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,6 +42,8 @@
     <Compile Include="Base\Stack.cs" />
     <Compile Include="Base\Vector.cs" />
     <Compile Include="Linked\Stack.cs" />
+    <Compile Include="Queue.cs" />
+    <Compile Include="Stack.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="List.cs" />
     <Compile Include="Linked\Queue.cs" />

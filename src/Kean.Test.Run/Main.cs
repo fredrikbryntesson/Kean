@@ -28,6 +28,8 @@ namespace Kean.Test.Run
 		{
 			Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
+			Core.Collection.Queue.Test();
+			Core.Collection.Stack.Test();
 			Core.Collection.Linked.List.Test();
 			Core.Collection.Linked.Queue.Test();
 			Core.Collection.Linked.Stack.Test();

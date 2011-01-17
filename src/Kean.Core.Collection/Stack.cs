@@ -1,5 +1,5 @@
 ﻿// 
-//  IList.cs
+//  Stack.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -17,16 +17,38 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-namespace Kean.Core.Collection.Hooked
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using Kean.Core.Basis.Extension;
+
+namespace Kean.Core.Collection
 {
-	public interface IList<T> : 
-		Collection.IList<T>
+	public class Stack<T> :
+		IStack<T>
 	{
-		event Action<int, T> Added;
-		event Func<int, T, bool> OnAdd;
-		event Func<int, T, bool> OnRemove;
-		event Action<int, T> Removed;
+		Linked.Stack<T> data;
+		#region Constructors
+		public Stack()
+		{
+			this.data = new Linked.Stack<T>();
+		}
+		#endregion
+		#region IStack<T> Members
+		public bool Empty
+		{
+			get { return this.data.Empty; }
+		}
+		public void Push(T item)
+		{
+			this.data.Push(item);
+		}
+		public T Pop()
+		{
+			return this.data.Pop();
+		}
+		public T Peek()
+		{
+			return this.data.Peek();
+		}
+		#endregion
 	}
 }

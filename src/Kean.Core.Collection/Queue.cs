@@ -1,5 +1,5 @@
 ﻿// 
-//  IList.cs
+//  Queue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -17,16 +17,39 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
-namespace Kean.Core.Collection.Hooked
+
+namespace Kean.Core.Collection
 {
-	public interface IList<T> : 
-		Collection.IList<T>
+	public class Queue<T> :
+		IQueue<T>
 	{
-		event Action<int, T> Added;
-		event Func<int, T, bool> OnAdd;
-		event Func<int, T, bool> OnRemove;
-		event Action<int, T> Removed;
+		Linked.Queue<T> data;
+		#region Constructors
+		public Queue()
+		{
+			this.data = new Linked.Queue<T>();
+		}
+		#endregion
+
+		#region IQueue<T> Members
+		public bool Empty
+		{
+			get { return this.data.Empty; }
+		}
+		public void Enqueue(T item)
+		{
+			this.data.Enqueue(item);
+		}
+		public T Peek()
+		{
+			return this.data.Peek();
+		}
+		public T Dequeue()
+		{
+			return this.data.Dequeue();
+		}
+		#endregion
 	}
 }

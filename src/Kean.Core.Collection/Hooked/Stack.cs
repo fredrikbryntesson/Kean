@@ -31,6 +31,9 @@ namespace Kean.Core.Collection.Hooked
 		public event Action<T> Pushed;
 		public event Func<T, bool> OnPop;
 		public event Action<T> Poped;
+		public Stack() :
+			this(new Collection.Stack<T>())
+		{ }
 		public Stack(Collection.IStack<T> data)
 		{
 			this.data = data;

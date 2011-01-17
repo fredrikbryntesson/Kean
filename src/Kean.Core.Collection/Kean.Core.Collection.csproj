@@ -46,6 +46,8 @@
     <Compile Include="Hooked\IQueue.cs" />
     <Compile Include="Hooked\IStack.cs" />
     <Compile Include="Hooked\IVector.cs" />
+    <Compile Include="Queue.cs" />
+    <Compile Include="Stack.cs" />
     <Compile Include="Wrap\QueueList.cs" />
     <Compile Include="Wrap\StackList.cs" />
     <Compile Include="AssemblyInfo.cs" />

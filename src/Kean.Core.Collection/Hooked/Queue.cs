@@ -31,6 +31,9 @@ namespace Kean.Core.Collection.Hooked
 		public event Action<T> Enqueued;
 		public event Func<T, bool> OnDequeue;
 		public event Action<T> Dequeued;
+		public Queue() :
+			this(new Collection.Queue<T>())
+		{ }
 		public Queue(Collection.IQueue<T> data)
 		{
 			this.data = data;

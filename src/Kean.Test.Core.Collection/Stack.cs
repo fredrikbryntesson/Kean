@@ -1,5 +1,5 @@
 ﻿// 
-//  IList.cs
+//  Stack.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,14 +19,24 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Kean.Core.Collection.Hooked
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection;
+
+namespace Kean.Test.Core.Collection
 {
-	public interface IList<T> : 
-		Collection.IList<T>
+	[TestFixture]
+	public class Stack :
+		Base.Stack<Target.Stack<int>>
 	{
-		event Action<int, T> Added;
-		event Func<int, T, bool> OnAdd;
-		event Func<int, T, bool> OnRemove;
-		event Action<int, T> Removed;
+		public Stack()
+		{
+			this.Prefix = "Kean.Test.Core.Collection.Stack.";
+		}
+		public static void Test()
+		{
+			Stack fixture = new Stack();
+			fixture.Run();
+		}
 	}
 }
