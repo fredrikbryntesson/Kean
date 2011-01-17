@@ -26,16 +26,16 @@ namespace Kean.Core.Collection.Hooked
 	public class Stack<T> :
 		IStack<T>
 	{
-		IStack<T> data;
+		Collection.IStack<T> data;
 		public event Func<T, bool> OnPush;
 		public event Action<T> Pushed;
 		public event Func<T, bool> OnPop;
 		public event Action<T> Poped;
-		public Stack(IStack<T> data)
+		public Stack(Collection.IStack<T> data)
 		{
 			this.data = data;
 		}
-		#region IStack<T> Members
+		#region Collection.IStack<T> Members
 		public bool Empty { get { return this.data.Empty; } }
 
 		public void Push(T item)

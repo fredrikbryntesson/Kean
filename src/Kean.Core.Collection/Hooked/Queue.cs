@@ -26,16 +26,16 @@ namespace Kean.Core.Collection.Hooked
 	public class Queue<T> :
 		IQueue<T>
 	{
-		IQueue<T> data;
+		Collection.IQueue<T> data;
 		public event Func<T, bool> OnEnqueue;
 		public event Action<T> Enqueued;
 		public event Func<T, bool> OnDequeue;
 		public event Action<T> Dequeued;
-		public Queue(IQueue<T> data)
+		public Queue(Collection.IQueue<T> data)
 		{
 			this.data = data;
 		}
-		#region IQueue<T> Members
+		#region Collection.IQueue<T> Members
 		public bool Empty
 		{
 			get { return this.data.Empty; }

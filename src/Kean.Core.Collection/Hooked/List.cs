@@ -26,12 +26,21 @@ namespace Kean.Core.Collection.Hooked
 		Vector<T>,
 		IList<T>
 	{
-		IList<T> data;
+		Collection.IList<T> data;
 		public event Action<int, T> Added;
 		public event Func<int, T, bool> OnAdd;
 		public event Action<int, T> Removed;
 		public event Func<int, T, bool> OnRemove;
-		public List (IList<T> data) :
+		public List() :
+			this(new Collection.List<T>())
+		{ }
+		public List(int count) :
+			this(new Collection.List<T>(count))
+		{ }
+		public List(params T[] items) :
+			this(new Collection.List<T>(items))
+		{ }
+		public List (Collection.IList<T> data) :
 			base(data)
 		{
 			this.data = data;

@@ -28,7 +28,7 @@ namespace Kean.Core.Collection.Hooked
 		Abstract.Vector<T>,
 		IVector<T>
 	{
-		IVector<T> data;
+		Collection.IVector<T> data;
 		public event Action<int, T, T> Replaced;
 		public event Func<int, T, T, bool> OnReplace;
 		public override T this[int index] {
@@ -47,7 +47,10 @@ namespace Kean.Core.Collection.Hooked
 		public override int Count {
 			get { return this.data.Count; }
 		}
-		public Vector (IVector<T> data)
+		public Vector(int count) :
+			this(new Collection.Vector<T>(count))
+		{ }
+		public Vector (Collection.IVector<T> data)
 		{
 			this.data = data;
 		}
