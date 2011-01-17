@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exception\Unsortable.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
     <Compile Include="Extension\VectorExtension.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Hooked\IStack.cs" />
     <Compile Include="Hooked\IVector.cs" />
     <Compile Include="Queue.cs" />
+    <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="Wrap\QueueList.cs" />
     <Compile Include="Wrap\StackList.cs" />
@@ -89,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cast\" />
-    <Folder Include="Sorted\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

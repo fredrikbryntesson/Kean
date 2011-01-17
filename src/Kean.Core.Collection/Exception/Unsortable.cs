@@ -1,10 +1,10 @@
 ﻿// 
-//  Synchronized.cs
+//  Unsortable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -17,19 +17,19 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Basis
+namespace Kean.Core.Collection.Exception
 {
-	public abstract class Synchronized
+	public class Unsortable :
+		Exception
 	{
-		protected object Lock { get; private set; }
-		protected Synchronized() :
-			this(new object())
+		internal Unsortable(Type type) :
+			this(null, type)
 		{ }
-		protected Synchronized(object @lock)
-		{
-			this.Lock = @lock;
-		}
+		internal Unsortable(System.Exception exception, Type type) :
+			base(exception, Error.Level.Warning, "Unsortable Collection.", "It is not possible to sort a collection with items of type \"{0}\" since it does not implement one of \"Kean.Core.Basis.IComparable<{0}>\", \"System.IComparable<{0}>\" or \"System.IComparable\". Either extend the type so that it implements one of the interfaces or provide a custom ordering function.", type.Name)
+		{ }
 	}
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,11 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Comparer.cs" />
     <Compile Include="Extension\FuncExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
+    <Compile Include="IComparable.cs" />
     <Compile Include="NonNullable.cs" />
     <Compile Include="Extension\ActionExtension.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Synchronized.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="ITuple.cs" />

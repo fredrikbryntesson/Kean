@@ -1,10 +1,10 @@
 ﻿// 
-//  Synchronized.cs
+//  Comparer.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,15 +21,5 @@ using System;
 
 namespace Kean.Core.Basis
 {
-	public abstract class Synchronized
-	{
-		protected object Lock { get; private set; }
-		protected Synchronized() :
-			this(new object())
-		{ }
-		protected Synchronized(object @lock)
-		{
-			this.Lock = @lock;
-		}
-	}
+	public delegate Order Comparer<T>(T left, T right);
 }
