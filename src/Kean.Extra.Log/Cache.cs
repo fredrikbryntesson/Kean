@@ -54,7 +54,7 @@ namespace Kean.Extra.Log
 		{
 			this.LogThreshold = Kean.Core.Error.Level.Message;
 			this.AllThreshold = Kean.Core.Error.Level.Critical;
-			this.cache = new Collection.Wrap.QueueList<Error.IError>(this.cacheList);
+			this.cache = new Collection.Wrap.ListQueue<Error.IError>(this.cacheList);
 			this.Writers = new Kean.Core.Collection.List<IWriter>();
 			Cache.append += this.Append;
 		}

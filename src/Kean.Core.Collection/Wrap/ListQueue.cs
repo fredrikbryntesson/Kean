@@ -1,5 +1,5 @@
 ﻿// 
-//  StackList.cs
+//  ListQueue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,27 +23,49 @@ using System;
 
 namespace Kean.Core.Collection.Wrap
 {
-	public abstract class StackList<T> :
-		IStack<T>
+	public class ListQueue<T> :
+		IQueue<T>
 	{
 		IList<T> data;
-		protected StackList(IList<T> data)
+		int head;
+		int tail;
+		int size;
+		public ListQueue(IList<T> data)
 		{
 			this.data = data;
 		}
-		#region IStack<T>
-		public bool Empty { get { return this.data.Count < 1; } }
-		public void Push(T item)
+		#region IQueue<T>
+		public bool Empty { get { return this.size == 0; } }
+		public void Enqueue(T item)
 		{
-			this.data.Add(item);
-		}
-		public T Pop()
-		{
-			try { return this.data.Remove(); } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			if (this.size == this.data.Count)
+			{
+				this.data.Insert(this.head, item);
+				if (this.head > this.tail)
+					this.head++;
+				this.tail = (this.tail + 1) % this.data.Count;
+			}
+			else
+			{
+				this.head = (this.head - 1 + this.data.Count) % this.data.Count;
+				this.data[this.head] = item;
+			}
+			this.size++;
 		}
 		public T Peek()
 		{
-			try { return this.data[0]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			if (this.size == 0)
+				throw new Exception.Empty();
+			return this.data[this.tail];
+		}
+		public T Dequeue()
+		{
+			T result = this.Peek();
+			// let garbage collector do its job
+			this.data[this.tail] = default(T);
+			this.tail = (this.tail - 1 + this.data.Count) % this.data.Count;
+			this.size--;
+			return result;
 		}
 		#endregion
 	}

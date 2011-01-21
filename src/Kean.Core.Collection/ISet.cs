@@ -1,10 +1,10 @@
-// 
-//  Queue.cs
+﻿// 
+//  ISet.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,12 +21,14 @@
 
 using System;
 
-namespace Kean.Core.Collection.Array
+namespace Kean.Core.Collection
 {
-	public class Queue<T> :
-		Wrap.ListQueue<T>
-	{
-		public Queue() : this(0) { }
-		public Queue(int capacity) : base(new List<T>(capacity)) {}
-	}
+    public interface ISet<T> :
+		System.Collections.Generic.IEnumerable<T>,
+		System.IEquatable<ISet<T>>
+    {
+        bool Add(T item);
+        bool Remove(T item);
+        bool Contains(T item);
+    }
 }
