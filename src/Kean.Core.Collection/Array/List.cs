@@ -58,7 +58,7 @@ namespace Kean.Core.Collection.Array
 		{
 			if (this.count > 0)
 			{
-				this[0] = default(T); // let garbage collection work
+				this[this.Count - 1] = default(T); // let garbage collection work
 				this.count--;
 			}
 		}
@@ -72,36 +72,36 @@ namespace Kean.Core.Collection.Array
 		{
 			this.Capacity = this.Count;
 		}
-		int IndexToAddress(int index)
+		int VerifyIndex(int index)
 		{
 			if ((uint)index >= (uint)this.Count)
 				throw new Exception.InvalidIndex();
-			return this.Count - index - 1;
+			return index;
 		}
 		#region IVector<T>
 		int count;
 		public override int Count { get { return this.count; } }
 		public override T this[int index]
 		{
-			get	{ return this.items[this.IndexToAddress(index)]; }
-			set { this.items[this.IndexToAddress(index)] = value; }
+			get	{ return this.items[this.VerifyIndex(index)]; }
+			set { this.items[this.VerifyIndex(index)] = value; }
 		}
 		#endregion
 		#region IList<T>
 		public override void Add(T item)
 		{
 			this.Increase();
-			this[0] = item;
+			this[this.Count - 1] = item;
 		}
 		public override T Remove()
 		{
-			return this.Remove(0);
+			return this.Remove(this.Count - 1);
 		}
         public override T Remove(int index)
         {
         	T result = this[index];
-			if (index > 0)
-	        	System.Array.Copy(this.items, this.IndexToAddress(index - 1), this.items, this.IndexToAddress(index), this.Count - index + 1);
+			if (0 <= index && index < this.Count - 1)
+	        	System.Array.Copy(this.items, index + 1, this.items, index, this.Count - index - 1);
 			this.Decrease();
 			return result;
 		}
@@ -112,7 +112,7 @@ namespace Kean.Core.Collection.Array
 			else
 			{
 				this.Increase();
-				System.Array.Copy(this.items, this.IndexToAddress(index), this.items, this.IndexToAddress(index - 1), index);
+				System.Array.Copy(this.items, index, this.items, index + 1, this.Count - index - 1);
 				this[index] = item;
 			}
 		}

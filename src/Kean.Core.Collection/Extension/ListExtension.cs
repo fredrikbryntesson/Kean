@@ -26,19 +26,13 @@ namespace Kean.Core.Collection.Extension
 	{
 		public static void Add<T>(this IList<T> me, params T[] items)
 		{
-			IStack<T> stack = new Linked.Stack<T>();
 			foreach (T item in items)
-				stack.Push(item);
-			while (!stack.Empty)
-				me.Add(stack.Pop());
+				me.Add(item);
 		}
 		public static void Add<T>(this IList<T> me, System.Collections.Generic.IEnumerable<T> items)
 		{
-			IStack<T> stack = new Linked.Stack<T>();
 			foreach (T item in items)
-				stack.Push(item);
-			while (!stack.Empty)
-				me.Add(stack.Pop());
+				me.Add(item);
 		}
 		public static bool Remove<T>(this IList<T> me, Func<T, bool> predicate)
 		{

@@ -62,13 +62,13 @@ namespace Kean.Test.Core.Collection.Base
 			Expect(target.Count, EqualTo(10), this.Prefix + "AddReplaceRemoveTen.10");
 			for (int i = 0; i < 10; i++)
 			{
-				Expect(target[i], EqualTo(42 + 9 - i), this.Prefix + "AddReplaceRemoveTen." + (11 + 2 * i));
+				Expect(target[i], EqualTo(42 + i), this.Prefix + "AddReplaceRemoveTen." + (11 + 2 * i));
 				target[i] = 1337 + i;
 				Expect(target[i], EqualTo(1337 + i), this.Prefix + "AddReplaceRemoveTen." + (12 + 2 * i));
 			}
 			for (int i = 0; i < 10; i++)
 			{
-				Expect(target.Remove(), EqualTo(1337 + i), this.Prefix + "AddReplaceRemoveTen." + (30 + 2 * i));
+				Expect(target.Remove(), EqualTo(1337 + (9 - i)), this.Prefix + "AddReplaceRemoveTen." + (30 + 2 * i));
 				Expect(target.Count, EqualTo(9 - i), this.Prefix + "AddReplaceRemoveTen." + (31 + 2 * i));
 			}
 		}
@@ -81,20 +81,20 @@ namespace Kean.Test.Core.Collection.Base
 				Expect(target.Count, EqualTo(i), this.Prefix + "InsertReplaceRemove." + i);
 				target.Add(i);
 			}
-			Expect(target[6], EqualTo(3), this.Prefix + "InsertReplaceRemove.10");
+			Expect(target[6], EqualTo(6), this.Prefix + "InsertReplaceRemove.10");
 			target.Insert(6, 42);
 			Expect(target.Count, EqualTo(11), this.Prefix + "InsertReplaceRemove.11");
 			for (int i = 0; i < 6; i++)
-				Expect(target[i], EqualTo(9 - i), this.Prefix + "InsertReplaceRemove." + (12 + i));
+				Expect(target[i], EqualTo(i), this.Prefix + "InsertReplaceRemove." + (12 + i));
 			Expect(target[6], EqualTo(42), this.Prefix + "InsertReplaceRemove.18");
 			for (int i = 7; i < 10; i++)
-				Expect(target[i], EqualTo(10 - i), this.Prefix + "InsertReplaceRemove." + (19 + i));
+				Expect(target[i], EqualTo(i - 1), this.Prefix + "InsertReplaceRemove." + (19 + i));
 			target[6] = 1337;
 			Expect(target[6], EqualTo(1337), this.Prefix + "InsertReplaceRemove.23");
 			Expect(target.Remove(6), EqualTo(1337), this.Prefix + "AddReplaceRemoveTen.24");
 			Expect(target.Count, EqualTo(10), this.Prefix + "InsertReplaceRemove.15");
 			for (int i = 0; i < 10; i++)
-				Expect(target[i], EqualTo(9 - i), this.Prefix + "InsertReplaceRemove." + (16 + i));
+				Expect(target[i], EqualTo(i), this.Prefix + "InsertReplaceRemove." + (16 + i));
 		}
 	}
 }

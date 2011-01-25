@@ -28,15 +28,15 @@ namespace Kean.Test.Run
 		{
 			Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
-			Core.Collection.Queue.Test();
-			Core.Collection.Stack.Test();
+			//Core.Collection.Queue.Test();
+			//Core.Collection.Stack.Test();
 			Core.Collection.Linked.List.Test();
-			Core.Collection.Linked.Queue.Test();
-			Core.Collection.Linked.Stack.Test();
+			//Core.Collection.Linked.Queue.Test();
+			//Core.Collection.Linked.Stack.Test();
 			Core.Collection.Array.Vector.Test();
 			Core.Collection.Array.List.Test();
-			Core.Collection.Array.Queue.Test();
-			Core.Collection.Array.Stack.Test();
+			//Core.Collection.Array.Queue.Test();
+			//Core.Collection.Array.Stack.Test();
 
 			Core.Error.Error.Test();
 		}
