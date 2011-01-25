@@ -39,11 +39,11 @@ namespace Kean.Core.Collection.Wrap
 		}
 		public T Pop()
 		{
-			try { return this.data.Remove(); } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			try { return this.data.Remove(this.data.Count - 1); } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
 		}
 		public T Peek()
 		{
-			try { return this.data[0]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			try { return this.data[this.data.Count - 1]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
 		}
 		#endregion
 	}

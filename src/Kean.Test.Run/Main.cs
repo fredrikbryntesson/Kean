@@ -26,7 +26,6 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-            Core.Collection.Sorted.List.Test();
 			Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
 			Core.Collection.Queue.Test();
@@ -38,6 +37,7 @@ namespace Kean.Test.Run
 			Core.Collection.Array.List.Test();
 			Core.Collection.Array.Queue.Test();
 			Core.Collection.Array.Stack.Test();
+			Core.Collection.Sorted.List.Test();
 
 			Core.Error.Error.Test();
 		}
