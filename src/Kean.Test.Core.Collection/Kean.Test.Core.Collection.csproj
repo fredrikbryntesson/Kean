@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{598867CF-A027-46EA-A5C8-0EF7FD21A61C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -44,6 +44,7 @@
     <Compile Include="Base\Vector.cs" />
     <Compile Include="Linked\Stack.cs" />
     <Compile Include="Queue.cs" />
+    <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="List.cs" />

@@ -36,6 +36,7 @@ namespace Kean.Test.Core.Collection.Base
 			this.AddReplaceRemove();
 			this.AddReplaceRemoveTen();
 			this.InsertReplaceRemove();
+            this.BoundaryCases();
 		}
 		[Test]
 		public void AddReplaceRemove()
@@ -87,8 +88,8 @@ namespace Kean.Test.Core.Collection.Base
 			for (int i = 0; i < 6; i++)
 				Expect(target[i], EqualTo(i), this.Prefix + "InsertReplaceRemove." + (12 + i));
 			Expect(target[6], EqualTo(42), this.Prefix + "InsertReplaceRemove.18");
-			for (int i = 7; i < 10; i++)
-				Expect(target[i], EqualTo(i - 1), this.Prefix + "InsertReplaceRemove." + (19 + i));
+			for (int i = 7; i < 11; i++)
+				Expect(target[i], EqualTo(i - 1), this.Prefix + "InsertReplaceRemove." + (19 - 7 + i));
 			target[6] = 1337;
 			Expect(target[6], EqualTo(1337), this.Prefix + "InsertReplaceRemove.23");
 			Expect(target.Remove(6), EqualTo(1337), this.Prefix + "AddReplaceRemoveTen.24");
@@ -96,5 +97,17 @@ namespace Kean.Test.Core.Collection.Base
 			for (int i = 0; i < 10; i++)
 				Expect(target[i], EqualTo(i), this.Prefix + "InsertReplaceRemove." + (16 + i));
 		}
+        [Test]
+        public void BoundaryCases()
+        {
+            L target = new L();
+            for (int i = 0; i < 10; i++)
+                target.Add(i);
+            target.Insert(10, 1111);
+            Expect(target[10], EqualTo(1111), this.Prefix + "BoundaryCases.15");
+            target.Insert(0, 2222);
+            Expect(target[0], EqualTo(2222), this.Prefix + "BoundaryCases.15");
+        }
+	
 	}
 }

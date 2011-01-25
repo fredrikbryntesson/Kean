@@ -22,7 +22,8 @@ using System;
 namespace Kean.Core.Collection.Hooked
 {
 	public interface IList<T> : 
-		Collection.IList<T>
+		Collection.IList<T>,
+        IVector<T>
 	{
 		event Action<int, T> Added;
 		event Func<int, T, bool> OnAdd;
