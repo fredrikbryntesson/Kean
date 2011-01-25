@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Array
 {
 	public class Queue<T> :
-		Wraped.ListQueue<T>
+		Wrap.ListQueue<T>
 	{
 		public Queue() : this(0) { }
 		public Queue(int capacity) : base(new List<T>(capacity)) {}

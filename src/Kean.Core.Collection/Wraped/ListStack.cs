@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wraped
+namespace Kean.Core.Collection.Wrap
 {
 	public abstract class ListStack<T> :
 		IStack<T>
@@ -43,7 +43,7 @@ namespace Kean.Core.Collection.Wraped
 		}
 		public T Peek()
 		{
-			try { return this.data[this.data.Count - 1]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			try { return this.data[0]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
 		}
 		#endregion
 	}

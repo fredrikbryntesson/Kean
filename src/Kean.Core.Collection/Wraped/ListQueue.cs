@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wraped
+namespace Kean.Core.Collection.Wrap
 {
 	public class ListQueue<T> :
 		IQueue<T>
