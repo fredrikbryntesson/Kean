@@ -1,5 +1,5 @@
 ﻿// 
-//  Queue.cs
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,34 +21,36 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Core.Collection.Wraped
 {
-	public class Queue<T> :
-		IQueue<T>
+	public class List<T> :
+		Vector<T>,
+		IList<T>
 	{
-		IQueue<T> data;
+		IList<T> data;
 		#region Constructors
-		public Queue(IQueue<T> data)
+		public List(IList<T> data) :
+			base(data)
 		{
 			this.data = data;
 		}
 		#endregion
-		#region IQueue<T> Members
-		public bool Empty
+		#region IList<T> Members
+		public void Add(T item)
 		{
-			get { return this.data.Empty; }
+			this.data.Add(item);
 		}
-		public void Enqueue(T item)
+		public T Remove()
 		{
-			this.data.Enqueue(item);
+			return this.data.Remove();
 		}
-		public T Peek()
+		public void Insert(int index, T item)
 		{
-			return this.data.Peek();
+			this.data.Insert(index, item);
 		}
-		public T Dequeue()
+		public T Remove(int index)
 		{
-			return this.data.Dequeue();
+			return this.data.Remove(index);
 		}
 		#endregion
 	}

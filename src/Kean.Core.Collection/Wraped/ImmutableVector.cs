@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Core.Collection.Wraped
 {
     public class ImmutableVector<T> :
         IImmutableVector<T>

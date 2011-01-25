@@ -1,5 +1,5 @@
 ﻿// 
-//  ListQueue.cs
+//  Queue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,51 +21,34 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Core.Collection.Wraped
 {
-	public class ListQueue<T> :
+	public class Queue<T> :
 		IQueue<T>
 	{
-		IList<T> data;
-		int head;
-		int tail;
-		int size;
-		public ListQueue(IList<T> data)
+		IQueue<T> data;
+		#region Constructors
+		public Queue(IQueue<T> data)
 		{
 			this.data = data;
 		}
-		#region IQueue<T>
-		public bool Empty { get { return this.size == 0; } }
+		#endregion
+		#region IQueue<T> Members
+		public bool Empty
+		{
+			get { return this.data.Empty; }
+		}
 		public void Enqueue(T item)
 		{
-			if (this.size == this.data.Count)
-			{
-				this.data.Insert(this.head, item);
-				if (this.head > this.tail)
-					this.head++;
-				this.tail = (this.tail + 1) % this.data.Count;
-			}
-			else
-			{
-				this.head = (this.head - 1 + this.data.Count) % this.data.Count;
-				this.data[this.head] = item;
-			}
-			this.size++;
+			this.data.Enqueue(item);
 		}
 		public T Peek()
 		{
-			if (this.size == 0)
-				throw new Exception.Empty();
-			return this.data[this.tail];
+			return this.data.Peek();
 		}
 		public T Dequeue()
 		{
-			T result = this.Peek();
-			// let garbage collector do its job
-			this.data[this.tail] = default(T);
-			this.tail = (this.tail - 1 + this.data.Count) % this.data.Count;
-			this.size--;
-			return result;
+			return this.data.Dequeue();
 		}
 		#endregion
 	}

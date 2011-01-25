@@ -107,7 +107,7 @@ namespace Kean.Core.Collection.Array
 		}
         public override void Insert(int index, T item)
         {
-			if (index == 0)
+			if (index == this.Count)
 				this.Add(item);
 			else
 			{

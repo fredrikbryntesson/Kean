@@ -1,5 +1,5 @@
 ﻿// 
-//  ListStack.cs
+//  Stack.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,29 +21,34 @@
 
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Core.Collection.Wraped
 {
-	public abstract class ListStack<T> :
+	public class Stack<T> :
 		IStack<T>
 	{
-		IList<T> data;
-		protected ListStack(IList<T> data)
+		IStack<T> data;
+		#region Constructors
+		public Stack(IStack<T> data)
 		{
 			this.data = data;
 		}
-		#region IStack<T>
-		public bool Empty { get { return this.data.Count < 1; } }
+		#endregion
+		#region IStack<T> Members
+		public bool Empty
+		{
+			get { return this.data.Empty; }
+		}
 		public void Push(T item)
 		{
-			this.data.Add(item);
+			this.data.Push(item);
 		}
 		public T Pop()
 		{
-			try { return this.data.Remove(); } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			return this.data.Pop();
 		}
 		public T Peek()
 		{
-			try { return this.data[0]; } catch (Exception.InvalidIndex e) { throw new Exception.Empty(e); }
+			return this.data.Peek();
 		}
 		#endregion
 	}

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -57,9 +57,9 @@
     <Compile Include="Set.cs" />
     <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
-    <Compile Include="Wrap\ImmutableVector.cs" />
-    <Compile Include="Wrap\ListQueue.cs" />
-    <Compile Include="Wrap\ListStack.cs" />
+    <Compile Include="Wraped\ImmutableVector.cs" />
+    <Compile Include="Wraped\ListQueue.cs" />
+    <Compile Include="Wraped\ListStack.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Extension\LinkExtension.cs" />
     <Compile Include="Exception\Exception.cs" />
@@ -85,11 +85,11 @@
     <Compile Include="Array\List.cs" />
     <Compile Include="Array\Queue.cs" />
     <Compile Include="Array\Stack.cs" />
-    <Compile Include="Wrap\List.cs" />
-    <Compile Include="Wrap\Queue.cs" />
-    <Compile Include="Wrap\Set.cs" />
-    <Compile Include="Wrap\Stack.cs" />
-    <Compile Include="Wrap\Vector.cs" />
+    <Compile Include="Wraped\List.cs" />
+    <Compile Include="Wraped\Queue.cs" />
+    <Compile Include="Wraped\Set.cs" />
+    <Compile Include="Wraped\Stack.cs" />
+    <Compile Include="Wraped\Vector.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Synchronized\Vector.cs" />
     <Compile Include="Hooked\Vector.cs" />
