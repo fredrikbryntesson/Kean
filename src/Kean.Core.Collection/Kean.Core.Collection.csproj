@@ -42,6 +42,7 @@
     <Compile Include="Abstract\ListSet.cs" />
     <Compile Include="Array\Set.cs" />
     <Compile Include="Exception\Unsortable.cs" />
+    <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
     <Compile Include="Extension\SetExtension.cs" />
