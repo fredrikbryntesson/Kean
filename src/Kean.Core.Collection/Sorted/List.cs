@@ -29,9 +29,12 @@ namespace Kean.Core.Collection.Sorted
         Basis.Comparer<T> comparer;
         #region Constructors
         public List() :
-            this(List<T>.Compare, new Collection.List<T>())
+            this(new Collection.List<T>())
         { }
-        public List(Basis.Comparer<T> comparer) :
+		public List(IList<T> data) :
+			this(List<T>.Compare, data)
+		{ }
+		public List(Basis.Comparer<T> comparer) :
             this(comparer, new Collection.List<T>())
         { }
         public List(Basis.Comparer<T> comparer, IList<T> data)
