@@ -23,11 +23,11 @@ using System;
 
 namespace Kean.Core.Collection.Wrap
 {
-	public abstract class ListStack<T> :
+	public class ListStack<T> :
 		IStack<T>
 	{
 		IList<T> data;
-		protected ListStack(IList<T> data)
+		public ListStack(IList<T> data)
 		{
 			this.data = data;
 		}
