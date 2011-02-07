@@ -31,10 +31,10 @@ namespace Kean.Math
 		public override Single Two { get { return 2; } }
 		#endregion
 		#region Constructors
-		public Single () :
+		public Single() :
 			base(0)
 		{ }
-		public Single (float value) :
+		public Single(float value) :
 			base(value)
 		{ }
 		#endregion
@@ -86,15 +86,16 @@ namespace Kean.Math
 		#region Properties
 		public static float MinimumValue { get { return float.MinValue; } }
 		public static float MaximumValue { get { return float.MaxValue; } }
+		public static float PI { get { return (float)System.Math.PI; } }
 		#endregion
 		#region Trigometric Functions
 		public static float Sinus(float value)
 		{
-			return (float) System.Math.Sin(value);
+			return (float)System.Math.Sin(value);
 		}
-		public static float Cosinus (float value)
+		public static float Cosinus(float value)
 		{
-			return (float) System.Math.Cos(value);
+			return (float)System.Math.Cos(value);
 		}
 		public static float Tangens(float value)
 		{
