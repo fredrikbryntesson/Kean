@@ -23,7 +23,7 @@ namespace Kean.Math
 {
 	public abstract class Abstract<R, V>
 		where R : Abstract<R, V>, new()
-		where V : struct
+		where V : struct 
 	{
 		public V Value { get; private set; }
 		#region Constants
@@ -37,9 +37,9 @@ namespace Kean.Math
 			this.Value = value;
 		}
 		#endregion
-		#region Functions
-		#region Arithmetic Functions
-		public abstract R Add(R value);
+        #region Functions
+        #region Arithmetic Functions
+        public abstract R Add(R value);
 		public abstract R Substract(R value);
 		public abstract R Multiply(R value);
 		public abstract R Divide(R value);
@@ -48,8 +48,50 @@ namespace Kean.Math
 		public abstract R Sinus();
 		public abstract R Cosinus();
 		public abstract R Tangens();
-		#endregion
-		#endregion
-	}
+        #endregion
+        #region Inverse Trigometric Functions
+        public abstract R ArcusSinus();
+        public abstract R ArcusCosinus();
+        public abstract R ArcusTangens();
+        #endregion
+        #region Transcendental Functions
+        public abstract R Exponential();
+        public abstract R Logarithm();
+        #endregion
+        #region Power Function
+        public abstract R Power(R value);
+        #endregion
+        #region Auxilary Functions
+        public  R Maximum(R left, params R[] right)
+        {
+            R result = new R() { Value = left.Value };
+            foreach (R r in right)
+                if (result.LessThan(r))
+                    result.Value = r.Value;
+            return result;
+        }
+        public R Miminum(R left, params R[] right)
+        {
+            R result = new R() { Value = left.Value };
+            foreach (R r in right)
+                if (result.GreaterThan(r))
+                    result.Value = r.Value;
+            return result;
+        }
+        #endregion
+        #region Comparison Functions
+        public abstract bool LessThan(R other);
+        public bool LessOrEqualThan(R other)
+        {
+            return this.LessThan(other) || this == other; 
+        }
+        public abstract bool GreaterThan(R other);
+        public bool GreaterOrEqualThan(R other)
+        {
+            return this.GreaterThan(other) || this == other;
+        }
+        #endregion
+        #endregion
+    }
 }
 

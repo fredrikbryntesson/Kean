@@ -23,12 +23,16 @@ namespace Abstract
 {
 	public abstract class Size<SizeType, R, V> :
 		Vector<SizeType, R, V>
+        where R : Kean.Math.Abstract<R, V>, new()
+        where V : struct
 	{
 		public R Width { get { return base.X; } }
 		public R Height { get { return base.Y; } }
-		protected Size(R width, R height) :
+        public R Area { get { return base.X.Multiply(base.Y); } }
+        protected Size() { }
+	    protected Size(R width, R height) :
 			base(width, height)
 		{ }
-	}
+  	}
 }
 

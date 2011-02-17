@@ -22,14 +22,23 @@ using System;
 namespace Abstract
 {
 	public class Vector<VectorType, R, V>
+        where R : Kean.Math.Abstract<R, V>, new()
+        where V : struct
 	{
 		protected R X { get; private set; }
 		protected R Y { get; private set; }
-		protected Vector(R x, R y)
+        #region Constructors
+        protected Vector() 
+        {
+            this.X = new R().Zero;
+            this.Y = new R().Zero;
+        }
+        protected Vector(R x, R y)
 		{
 			this.X = x;
 			this.Y = y;
-		}
-	}
+        }
+        #endregion
+    }
 }
 

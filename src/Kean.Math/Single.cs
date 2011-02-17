@@ -69,11 +69,41 @@ namespace Kean.Math
 		public override Single Tangens()
 		{
 			return Single.Tangens(this.Value);
-		}
+        }
+        #endregion
+        #region Inverse Trigometric Functions
+        public override Single ArcusSinus()
+        {
+            return Single.ArcusSinus(this.Value);
+        }
+        public override Single ArcusCosinus()
+        {
+            return Single.ArcusCosinus(this.Value);
+        }
+        public override Single ArcusTangens()
+        {
+            return Single.ArcusTangens(this.Value);
+        }
 		#endregion
-		#endregion
-		#region Cast Operators
-		public static implicit operator float(Single value)
+        #region Transcendental Functions
+        public override Single Exponential()
+        {
+            return Single.Exponential(this.Value);
+        }
+        public override Single Logarithm()
+        {
+            return Single.Logarithm(this.Value);
+        }
+        #endregion
+        #region Power Function
+        public override Single Power(Single exponent)
+        {
+            return Single.Power(this.Value, exponent);
+        }
+        #endregion
+        #endregion
+        #region Cast Operators
+        public static implicit operator float(Single value)
 		{
 			return value.IsNull() ? 0 : value.Value;
 		}
@@ -101,8 +131,48 @@ namespace Kean.Math
 		{
 			return (float)System.Math.Tan(value);
 		}
-		#endregion
-		#endregion
-	}
+	    #endregion
+        #region Inverse Trigometric Functions
+        public static float ArcusSinus(float value)
+        {
+            return (float)System.Math.Asin(value);
+        }
+        public static float ArcusCosinus(float value)
+        {
+            return (float)System.Math.Acos(value);
+        }
+        public static float ArcusTangens(float value)
+        {
+            return (float)System.Math.Atan(value);
+        }
+	    #endregion
+        #region Transcendental Functions
+        public static float Exponential(float value)
+        {
+            return (float)System.Math.Exp(value);
+        }
+        public static float Logarithm(float value)
+        {
+            return (float)System.Math.Log(value);
+        }
+	    #endregion
+        #region Power Function
+        public static float Power(float @base, float exponent)
+        {
+            return (float)System.Math.Pow(@base, exponent);
+        }
+        #endregion
+        #region Comparison Functions
+        public override bool LessThan(Single other)
+        {
+            return this.Value < other.Value;
+        }
+        public override bool GreaterThan(Single other)
+        {
+            return this.Value > other.Value;
+        }
+        #endregion
+        #endregion
+    }
 }
 
