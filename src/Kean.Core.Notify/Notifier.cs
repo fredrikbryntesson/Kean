@@ -25,6 +25,7 @@ using Kean.Core.Notify.Extension;
 
 namespace Kean.Core.Notify
 {
+	[Obsolete("Use \"Kean.Core.Notify.Variable\" instead.")]
 	public class Notifier<T> :
 		Abstract<T>
 	{
@@ -47,11 +48,6 @@ namespace Kean.Core.Notify
 			this(value)
 		{
 			this.changed = changed;
-		}
-		public Notifier(T value, Action<T> changed, OnChange<T> onChange) :
-			this(value, changed)
-		{
-			this.onChange = onChange;
 		}
 		#endregion
 
@@ -77,14 +73,5 @@ namespace Kean.Core.Notify
             add { this.onChange += value; }
             remove { this.onChange -= value; }
         }
-        public void Update(Notifier<T> changes)
-		{
-			if (!object.ReferenceEquals(this, changes) && (changes is Notifier<T>) && (changes as Notifier<T>).changed.IsNull())
-				this.Value = changes.Value;
-		}
-		public override string ToString ()
-		{
-			return this.Value.ToString();
-		}		
     }
 }

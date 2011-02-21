@@ -6,21 +6,28 @@ namespace Kean.Core.Notify
 	public class Proxy<T> :
 		Abstract<T>
 	{
-		public Func<T> Get { get; set; }
-		public Action<T> Set { get; set; }
+		Func<T> get;
+		Action<T> set;
 		public override T Value
 		{
-			get { return this.Get(); }
+			get { return this.get(); }
 			set
 			{
 				if (!value.Equals(this.Value) && this.OnChange(value))
 				{
-					this.Set.Call(value);
-					this.Changed.Call(this.Get());
+					this.set(value);
+					this.Changed.Call(this.get());
 				}
 			}
 		}
 		public override event Action<T> Changed;
 		public override event OnChange<T> OnChange;
+		#region Constructors
+		public Proxy(Func<T> get, Action<T> set)
+		{
+			this.get = get;
+			this.set = set;
+		}
+		#endregion
 	}
 }

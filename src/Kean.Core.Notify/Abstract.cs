@@ -10,6 +10,17 @@ namespace Kean.Core.Notify
 		public abstract event Action<T> Changed;
 		public abstract event OnChange<T> OnChange;
 		#endregion
+		public void Update(Abstract<T> changes)
+		{
+			if (!object.ReferenceEquals(this, changes))
+				this.Value = changes.Value;
+		}
+		#region Object Overrides
+		public override string ToString()
+		{
+			return this.Value.ToString();
+		}
+		#endregion
 		#region Casts
 		public static implicit operator Abstract<T>(T value)
 		{

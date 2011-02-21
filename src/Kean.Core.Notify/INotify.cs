@@ -23,6 +23,7 @@ using System;
 
 namespace Kean.Core.Notify
 {
+	[Obsolete("Use \"Kean.Core.Notify.Abstract\" instead.")]
 	public interface INotify<T>
 	{
 		T Value { get; set; }

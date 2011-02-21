@@ -45,6 +45,7 @@
     <Compile Include="OnChange.cs" />
     <Compile Include="Extension\OnChangeExtension.cs" />
     <Compile Include="Proxy.cs" />
+    <Compile Include="Variable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
