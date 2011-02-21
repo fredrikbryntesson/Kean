@@ -26,12 +26,13 @@ using Kean.Core.Notify.Extension;
 namespace Kean.Core.Notify
 {
 	public class Notifier<T> :
-		INotify<T>
+		Abstract<T>
 	{
 		T value;
 		event Action<T> changed;
         event OnChange<T> onChange;
 
+		#region Constructors
 		public Notifier()
 		{ }
 		public Notifier(T value)
@@ -42,13 +43,19 @@ namespace Kean.Core.Notify
 		{
 			this.changed = changed;
 		}
-		public Notifier(T value, Action<T> changed)
+		public Notifier(T value, Action<T> changed) :
+			this(value)
 		{
-			this.value = value;
 			this.changed = changed;
 		}
-		
-		public T Value
+		public Notifier(T value, Action<T> changed, OnChange<T> onChange) :
+			this(value, changed)
+		{
+			this.onChange = onChange;
+		}
+		#endregion
+
+		public override T Value
 		{
 			get { return this.value; }
 			set
@@ -60,12 +67,12 @@ namespace Kean.Core.Notify
 				}
 			}
 		}
-		public event Action<T> Changed
+		public override event Action<T> Changed
 		{
 			add { this.changed += value; }
 			remove { this.changed -= value; }
 		}
-        public event OnChange<T> OnChange
+        public override event OnChange<T> OnChange
         {
             add { this.onChange += value; }
             remove { this.onChange -= value; }
@@ -78,36 +85,6 @@ namespace Kean.Core.Notify
 		public override string ToString ()
 		{
 			return this.Value.ToString();
-		}
-
-		
-		public static implicit operator Notifier<T>(T value)
-		{
-			return new Notifier<T>(value);
-		}
-		public static implicit operator T(Notifier<T> value)
-		{
-			return value.value;
-		}
-		public static Notifier<T> operator +(Notifier<T> left, Action<T> right)
-		{
-			left.changed += right;
-			return left;
-		}
-		public static Notifier<T> operator -(Notifier<T> left, Action<T> right)
-		{
-			left.changed -= right;
-			return left;
-		}
-        public static Notifier<T> operator +(Notifier<T> left, OnChange<T> right)
-        {
-            left.onChange += right;
-            return left;
-        }
-        public static Notifier<T> operator -(Notifier<T> left, OnChange<T> right)
-        {
-            left.onChange -= right;
-            return left;
-        }
+		}		
     }
 }
