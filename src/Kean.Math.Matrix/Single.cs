@@ -2,7 +2,7 @@
 
 namespace Kean.Math.Matrix
 {
-    public class Single : Abstract<Kean.Math.Single, float>
+    public class Single : Kean.Math.Matrix.Abstract<Single, Kean.Math.Single, float>
     {
         public Single() { }
         public Single(Kean.Math.Integer order) : base(order) { }

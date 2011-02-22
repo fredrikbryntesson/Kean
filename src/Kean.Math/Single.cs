@@ -40,22 +40,26 @@ namespace Kean.Math
 		#endregion
 		#region Functions
 		#region Arithmetic Functions
-		public override Single Add(Single value)
+		public override Single Add(float value)
 		{
-			return this + value;
+			return new Single(this.Value + value);
 		}
-		public override Single Substract(Single value)
+        public override Single Substract(float value)
 		{
-			return this - value;
+			return new Single(this.Value - value);
 		}
-		public override Single Multiply(Single value)
+        public override Single Multiply(float value)
 		{
-			return this * value;
+			return new Single(this.Value * value);
 		}
-		public override Single Divide(Single value)
+        public override Single Divide(float value)
 		{
-			return this / value;
+			return new Single(this.Value / value);
 		}
+        public override Single Negate()
+        {
+            return new Single(-this.Value);
+        }
 		#endregion
 		#region Trigometric Functions
 		public override Single Sinus()

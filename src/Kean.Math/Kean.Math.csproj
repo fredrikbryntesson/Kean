@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Abstract.cs" />
+    <Compile Include="Exception\DivisionByZero.cs" />
     <Compile Include="Integer.cs" />
     <Compile Include="Single.cs" />
   </ItemGroup>
@@ -44,6 +45,10 @@
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

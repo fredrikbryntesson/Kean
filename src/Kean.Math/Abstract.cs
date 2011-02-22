@@ -37,13 +37,41 @@ namespace Kean.Math
 			this.Value = value;
 		}
 		#endregion
+        public R Copy()
+        {
+            return new R() { Value = this.Value };
+        }
+        #region Artihmetic Operators
+        public static R operator +(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return left.Add(right);
+        }
+        public static R operator -(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return left.Substract(right);
+        }
+        public static R operator -(Kean.Math.Abstract<R, V> value)
+        {
+            return value.Negate();
+        }
+        public static R operator *(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return left.Multiply(right);
+        }
+        public static R operator /(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return left.Divide(right);
+        }
+        
+        #endregion
         #region Functions
         #region Arithmetic Functions
-        public abstract R Add(R value);
-		public abstract R Substract(R value);
-		public abstract R Multiply(R value);
-		public abstract R Divide(R value);
-		#endregion
+        public abstract R Add(V value);
+		public abstract R Substract(V value);
+		public abstract R Multiply(V value);
+		public abstract R Divide(V value);
+        public abstract R Negate();
+        #endregion
 		#region Trigometric Functions
 		public abstract R Sinus();
 		public abstract R Cosinus();
@@ -92,6 +120,17 @@ namespace Kean.Math
         }
         #endregion
         #endregion
+        #region Cast between class and struct.
+        public static implicit operator V(Abstract<R, V> value)
+        {
+            return value.Value;
+        }
+        public static implicit operator Abstract<R, V>(V value)
+        {
+            return new R() { Value = value };
+        }
+        #endregion
+  
     }
 }
 

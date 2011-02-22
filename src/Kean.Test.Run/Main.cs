@@ -26,7 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			Core.Collection.Vector.Test();
+            Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
 			Core.Collection.Queue.Test();
 			Core.Collection.Stack.Test();

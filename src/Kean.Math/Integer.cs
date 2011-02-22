@@ -40,21 +40,25 @@ namespace Kean.Math
         #endregion
         #region Functions
         #region Arithmetic Functions
-        public override Integer Add(Integer value)
+        public override Integer Add(int value)
         {
-            return this + value;
+            return new Integer(this.Value + value);
         }
-        public override Integer Substract(Integer value)
+        public override Integer Substract(int value)
         {
-            return this - value;
+            return new Integer(this.Value - value);
         }
-        public override Integer Multiply(Integer value)
+        public override Integer Multiply(int value)
         {
-            return this * value;
+            return new Integer(this.Value * value);
         }
-        public override Integer Divide(Integer value)
+        public override Integer Divide(int value)
         {
-            return this / value;
+            return new Integer(this.Value / value);
+        }
+        public override Integer Negate()
+        {
+            return new Integer(-this.Value);
         }
         #endregion
         #region Trigometric Functions

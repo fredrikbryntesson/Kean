@@ -26,9 +26,9 @@ namespace Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
-		public R Width { get { return base.X; } }
-		public R Height { get { return base.Y; } }
-        public R Area { get { return base.X.Multiply(base.Y); } }
+		public V Width { get { return base.X; } }
+		public V Height { get { return base.Y; } }
+        public V Area { get { return base.X.Multiply(base.Y); } }
         protected Size() { }
 	    protected Size(R width, R height) :
 			base(width, height)

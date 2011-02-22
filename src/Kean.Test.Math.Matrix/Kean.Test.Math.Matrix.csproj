@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5E3AAF21-1E60-493D-B58B-66F1BDA18668}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Kean.Test.Run</RootNamespace>
-    <AssemblyName>Kean.Test.Run</AssemblyName>
+    <ProjectGuid>{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Kean.Test.Math.Matrix</RootNamespace>
+    <AssemblyName>Kean.Test.Math.Matrix</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -16,17 +16,17 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -34,23 +34,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
+    <Compile Include="Abstract.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Single.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Communication.Sms\Kean.Communication.Sms.csproj">
-      <Project>{65681DE0-A252-46AD-890B-948EFCC7FAE1}</Project>
-      <Name>Kean.Communication.Sms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
-      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
-      <Name>Kean.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
@@ -63,18 +61,6 @@
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj">
-      <Project>{598867CF-A027-46EA-A5C8-0EF7FD21A61C}</Project>
-      <Name>Kean.Test.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Test.Core.Error\Kean.Test.Core.Error.csproj">
-      <Project>{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}</Project>
-      <Name>Kean.Test.Core.Error</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Test.Math.Matrix\Kean.Test.Math.Matrix.csproj">
-      <Project>{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}</Project>
-      <Name>Kean.Test.Math.Matrix</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
