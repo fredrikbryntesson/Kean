@@ -21,14 +21,19 @@ namespace Kean.Core.Notify
 			}
 			set
 			{
+				bool update;
 				lock (this.@lock)
-					if (!(this.initialized && value.Equals(this.value)) && this.OnChange.Call(value))
+					update = !(this.initialized && value.Equals(this.value));
+				if (update && this.OnChange.Call(value))
+				{
+					this.set(value);
+					lock (this.@lock)
 					{
-						this.set(value);
 						this.initialized = true;
 						this.value = value;
-						this.Changed.Call(this.Value);
 					}
+					this.Changed.Call(this.Value);
+				}
 			}
 		}
 		public override event Action<T> Changed;
