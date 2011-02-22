@@ -1,4 +1,5 @@
 ﻿using System;
+using Kean.Core.Notify.Extension;
 using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Notify
@@ -6,18 +7,28 @@ namespace Kean.Core.Notify
 	public class Proxy<T> :
 		Abstract<T>
 	{
+		object @lock = new object();
 		Func<T> get;
 		Action<T> set;
+		bool initialized;
+		T value;
 		public override T Value
 		{
-			get { return this.get(); }
+			get 
+			{
+				lock (this.@lock)
+					return this.get();
+			}
 			set
 			{
-				if (!value.Equals(this.Value) && this.OnChange(value))
-				{
-					this.set(value);
-					this.Changed.Call(this.get());
-				}
+				lock (this.@lock)
+					if (!(this.initialized && value.Equals(this.value)) && this.OnChange.Call(value))
+					{
+						this.set(value);
+						this.initialized = true;
+						this.value = value;
+						this.Changed.Call(this.Value);
+					}
 			}
 		}
 		public override event Action<T> Changed;

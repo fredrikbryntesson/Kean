@@ -2,14 +2,11 @@
 
 namespace Kean.Core.Notify
 {
-	public abstract class Abstract<T> :
-		INotify<T>
+	public abstract class Abstract<T>
 	{
-		#region INotify<T> Members
 		public abstract T Value { get; set; }
 		public abstract event Action<T> Changed;
 		public abstract event OnChange<T> OnChange;
-		#endregion
 		public void Update(Abstract<T> changes)
 		{
 			if (!object.ReferenceEquals(this, changes))
