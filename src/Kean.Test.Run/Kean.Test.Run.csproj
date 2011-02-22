@@ -76,6 +76,10 @@
       <Project>{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}</Project>
       <Name>Kean.Test.Math.Matrix</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Math\Kean.Test.Math.csproj">
+      <Project>{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}</Project>
+      <Name>Kean.Test.Math</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

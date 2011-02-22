@@ -62,7 +62,34 @@ namespace Kean.Math
         {
             return left.Divide(right);
         }
-        
+        public static bool operator ==(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return 
+                object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
+                left.Equals(right);
+        }
+        public static bool operator !=(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return !(left == right);
+        }
+        #endregion
+        #region Static Functions
+        public static R Maximum(params R[] values)
+        {
+            R result = new R();
+            foreach (R r in values)
+                if (result.LessThan(r))
+                    result.Value = r.Value;
+            return result;
+        }
+        public static R Miminum(params R[] values)
+        {
+            R result = new R();
+            foreach (R r in values)
+                if (result.GreaterThan(r))
+                    result.Value = r.Value;
+            return result;
+        }
         #endregion
         #region Functions
         #region Arithmetic Functions
@@ -89,22 +116,23 @@ namespace Kean.Math
         #region Power Function
         public abstract R Power(R value);
         #endregion
-        #region Auxilary Functions
-        public  R Maximum(R left, params R[] right)
+        #region Object overides
+        public override bool Equals(object other)
         {
-            R result = new R() { Value = left.Value };
-            foreach (R r in right)
-                if (result.LessThan(r))
-                    result.Value = r.Value;
-            return result;
+            return (other is R) && this.Equals(other as R);
         }
-        public R Miminum(R left, params R[] right)
+        // other is not null here.
+        public bool Equals(R other)
         {
-            R result = new R() { Value = left.Value };
-            foreach (R r in right)
-                if (result.GreaterThan(r))
-                    result.Value = r.Value;
-            return result;
+            return this.Value.Equals(other.Value);
+        }
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.Value.ToString();
         }
         #endregion
         #region Comparison Functions

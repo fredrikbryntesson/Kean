@@ -15,10 +15,13 @@ namespace Kean.Math.Matrix
         protected Abstract() { }
         protected Abstract(Integer order) : this(order, order) { }
         protected Abstract(Integer width, Integer height) : this(new Geometry2D.Integer.Size(width, height)) { }
-        protected Abstract(Geometry2D.Integer.Size dimension)
+        protected Abstract(Geometry2D.Integer.Size dimension) : this(dimension, new V[dimension.Area]) { } 
+        protected Abstract(Geometry2D.Integer.Size dimension, V[] elements)
 		{
             this.Dimension = dimension;
-            this.elements = new V[dimension.Area]; 
+            int minimum = Kean.Math.Integer.Maximum(elements.Length, dimension.Area);
+            this.elements = new V[dimension.Area];
+            Array.Copy(elements, 0, this.elements, 0, minimum);
         }
         #endregion
         public V this[int x, int y]
