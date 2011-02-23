@@ -52,7 +52,7 @@ namespace Kean.Core.Collection.Extension
 		}
 		public static S[] Map<T, S>(this T[] input, Func<T, S> function)
 		{
-			S[] result = new Vector<S>(input.Length);
+			S[] result = new S[input.Length];
 			for (int i = 0; i < input.Length; i++)
 				result[i] = function(input[i]);
 			return result;

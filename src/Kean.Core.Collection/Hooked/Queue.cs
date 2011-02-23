@@ -43,6 +43,10 @@ namespace Kean.Core.Collection.Hooked
 		{
 			get { return this.data.Empty; }
 		}
+		public int Count
+		{
+			get { return this.data.Count; }
+		}
 		public void Enqueue(T item)
 		{
 			if (this.OnEnqueue.AllTrue(item))

@@ -26,6 +26,7 @@ namespace Kean.Core.Collection
 	public interface IQueue<T>
 	{
 		bool Empty { get; }
+		int Count { get; }
 		void Enqueue(T item);
 		T Peek();
 		T Dequeue();

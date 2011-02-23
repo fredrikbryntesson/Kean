@@ -56,11 +56,9 @@ namespace Kean.Core.Collection.Sorted
                         case Basis.Order.Equal:
                             this.data[i] = item;
                             goto Done;
-                            break;
                         case Basis.Order.GreaterThan:
                             this.data.Insert(i, item);
                             goto Done;
-                            break;
                     }
                 this.data.Insert(this.data.Count, item);
             Done:

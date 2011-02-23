@@ -36,6 +36,7 @@ namespace Kean.Core.Collection.Linked
 		L first;
 		L last;
 		public bool Empty { get { return this.first == null; } }
+		public int Count { get { return this.first.Count<L, T>(); } }
 		public Queue() { }
 		public void Enqueue(T item)
 		{

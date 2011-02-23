@@ -46,6 +46,10 @@ namespace Kean.Core.Collection.Synchronized
 		{
 			get { lock (this.Lock) return this.Empty; }
 		}
+		public int Count
+		{
+			get { lock (this.Lock) return this.data.Count; }
+		}
 		public void Enqueue(T item)
 		{
 			lock (this.Lock)

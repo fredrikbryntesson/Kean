@@ -38,6 +38,10 @@ namespace Kean.Core.Collection
 		{
 			get { return this.data.Empty; }
 		}
+		public int Count
+		{
+			get { return this.data.Count; }
+		}
 		public void Enqueue(T item)
 		{
 			this.data.Enqueue(item);
