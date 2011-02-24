@@ -44,7 +44,7 @@ namespace Kean.Core.Collection.Synchronized
 		#region IQueue<T> Members
 		public bool Empty
 		{
-			get { lock (this.Lock) return this.Empty; }
+			get { lock (this.Lock) return this.data.Empty; }
 		}
 		public int Count
 		{
