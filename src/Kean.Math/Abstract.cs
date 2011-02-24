@@ -21,8 +21,10 @@
 using System;
 namespace Kean.Math
 {
-	public abstract class Abstract<R, V>
-		where R : Abstract<R, V>, new()
+	public abstract class Abstract<R, V> :
+        IEquatable<R>,
+        IComparable<R>
+        where R : Abstract<R, V>, new()
 		where V : struct 
 	{
 		public V Value { get; private set; }
@@ -76,18 +78,18 @@ namespace Kean.Math
         #region Static Functions
         public static R Maximum(params R[] values)
         {
-            R result = new R();
-            foreach (R r in values)
-                if (result.LessThan(r))
-                    result.Value = r.Value;
+            R result = values[0].Copy();
+            for(int i = 1; i < values.Length; i++)
+                if (result.LessThan(values[i]))
+                    result.Value = values[i].Value;
             return result;
         }
-        public static R Miminum(params R[] values)
+        public static R Minimum(params R[] values)
         {
-            R result = new R();
-            foreach (R r in values)
-                if (result.GreaterThan(r))
-                    result.Value = r.Value;
+            R result = values[0].Copy();
+            for (int i = 1; i < values.Length; i++)
+                if (result.GreaterThan(values[i]))
+                    result.Value = values[i].Value;
             return result;
         }
         #endregion
@@ -116,7 +118,7 @@ namespace Kean.Math
         #region Power Function
         public abstract R Power(R value);
         #endregion
-        #region Object overides
+        #region Object overides and IEquatable<R>
         public override bool Equals(object other)
         {
             return (other is R) && this.Equals(other as R);
@@ -135,7 +137,7 @@ namespace Kean.Math
             return this.Value.ToString();
         }
         #endregion
-        #region Comparison Functions
+        #region Comparison Functions and IComparable<R>
         public abstract bool LessThan(R other);
         public bool LessOrEqualThan(R other)
         {
@@ -145,6 +147,10 @@ namespace Kean.Math
         public bool GreaterOrEqualThan(R other)
         {
             return this.GreaterThan(other) || this == other;
+        }
+        public int CompareTo(R other)
+        {
+            return this.LessThan(other) ? -1 : (this.GreaterThan(other) ? 1 : 0);
         }
         #endregion
         #endregion
@@ -158,7 +164,6 @@ namespace Kean.Math
             return new R() { Value = value };
         }
         #endregion
-  
     }
 }
 

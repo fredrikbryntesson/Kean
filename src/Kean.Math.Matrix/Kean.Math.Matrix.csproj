@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Abstract.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Exception\DivisionByZero.cs" />
     <Compile Include="Exception\InvalidDimensions.cs" />
     <Compile Include="Single.cs" />
   </ItemGroup>

@@ -15,6 +15,8 @@ namespace Kean.Test.Math.Matrix
             this.OrderTwo[1, 0] = 2;
             this.OrderTwo[0, 1] = 3;
             this.OrderTwo[1, 1] = 4;
+            this.TwoThree = new Kean.Math.Matrix.Single(2, 3, new float[] { -1, -2, -3, -4, -5, -6, -7 });
+            this.OneThree = new Kean.Math.Matrix.Single(1, 3, new float[] { -1, -2, -3, -4, -5, -6, -7 });
         }
         public static void Test()
         {

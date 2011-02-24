@@ -21,7 +21,8 @@
 using System;
 namespace Abstract
 {
-	public class Vector<VectorType, R, V>
+	public class Vector<VectorType, R, V> :
+        IEquatable<Vector<VectorType, R, V>>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
@@ -39,6 +40,25 @@ namespace Abstract
 			this.Y = y;
         }
         #endregion
+        #region Object overides and IEquatable<VectorType>
+        public override bool Equals(object other)
+        {
+            return (other is Vector<VectorType, R, V>) && this.Equals(other as Vector<VectorType, R, V>);
+        }
+        // other is not null here.
+        public bool Equals(Vector<VectorType, R, V> other)
+        {
+            return this.X == other.X && this.Y == other.Y;
+        }
+        public override int GetHashCode()
+        {
+            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.X.ToString() + " " + this.Y.ToString();
+        }
+        #endregion 
     }
 }
 
