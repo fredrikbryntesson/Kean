@@ -17,7 +17,11 @@ namespace Kean.Core.Notify
 			get 
 			{
 				lock (this.@lock)
-					return this.get();
+				{
+					this.initialized = true;
+					this.value = this.get();
+					return this.value;
+				}
 			}
 			set
 			{
@@ -27,12 +31,8 @@ namespace Kean.Core.Notify
 				if (update && this.OnChange.Call(value))
 				{
 					this.set(value);
-					lock (this.@lock)
-					{
-						this.initialized = true;
-						this.value = value;
-					}
-					this.Changed.Call(this.Value);
+					T newValue = this.Value;
+					this.Changed.Call(newValue);
 				}
 			}
 		}
