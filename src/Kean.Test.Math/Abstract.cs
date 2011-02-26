@@ -52,6 +52,12 @@ namespace Kean.Test.Math
             Assert.That((two / (-two)).Value, Is.EqualTo(-1));
         }
         [Test]
+        public void Absolute()
+        {
+            Assert.That(Kean.Math.Abstract<R, V>.Absolute(new R().Two), Is.EqualTo(new R().Two));
+            Assert.That(Kean.Math.Abstract<R, V>.Absolute(-new R().Two), Is.EqualTo(new R().Two));
+        }
+        [Test]
         public void Minimum()
         {
             R zero = new R();
@@ -86,7 +92,6 @@ namespace Kean.Test.Math
             Assert.That(new R().PlusInfinity.GreaterThan(new R().Zero), Is.True);
             Assert.That(new R().PlusInfinity.GreaterThan(new R().MinusInfinity), Is.True);
         }
-
         public void Run()
         {
             this.Run(
@@ -94,6 +99,7 @@ namespace Kean.Test.Math
                 this.Equality,
                 this.Copy,
                 this.Arithmetics,
+                this.Absolute,
                 this.Minimum,
                 this.Maximum,
                 this.Compare

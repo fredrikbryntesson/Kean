@@ -78,6 +78,10 @@ namespace Kean.Math
         }
         #endregion
         #region Static Functions
+        public static R Absolute(R value)
+        {
+            return value.LessThan(new R().Zero) ? -value : value;
+        }
         public static R Maximum(params R[] values)
         {
             R result = new R().MinusInfinity;
