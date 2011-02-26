@@ -138,6 +138,17 @@ namespace Kean.Math.Matrix
             return result;
         }
         #endregion
+        #region Matrix Invariants
+        public V Trace()
+        {
+            
+            R result = new R();
+            int diagonal = Math.Integer.Minimum(this.Dimensions.Width, this.Dimensions.Height);
+            for (int i = 0; i < diagonal; i++)
+                result += this[i, i];
+            return result;
+        }
+        #endregion
         #region Matrix Operations
         public MatrixType Transpose()
         {

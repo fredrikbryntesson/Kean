@@ -184,6 +184,11 @@ namespace Kean.Test.Math.Matrix
             Assert.That(values[4], Is.EqualTo(-5));
             Assert.That(values[5], Is.EqualTo(-6));
         }
+        [Test]
+        public void Trace()
+        {
+            Assert.That(this.TwoThree.Trace(), Is.EqualTo(-6));
+        }
         public void Run()
         {
             this.Run(
@@ -205,7 +210,8 @@ namespace Kean.Test.Math.Matrix
                 this.Subtraction,
                 this.SubtractionInvalidDimensions,
                 this.Transpose,
-                this.Cast
+                this.Cast,
+                this.Trace
             );
         }
         internal void Run(params System.Action[] tests)
