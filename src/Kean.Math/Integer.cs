@@ -29,6 +29,8 @@ namespace Kean.Math
         public override Integer Zero { get { return 0; } }
         public override Integer One { get { return 1; } }
         public override Integer Two { get { return 2; } }
+        public override Integer MinusInfinity { get { return int.MinValue; } }
+        public override Integer PlusInfinity { get { return int.MaxValue; } }
         #endregion
         #region Constructors
         public Integer() :

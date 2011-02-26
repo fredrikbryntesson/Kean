@@ -172,6 +172,18 @@ namespace Kean.Test.Math.Matrix
         {
             MatrixType result = this.TwoThree * this.TwoThree;
         }
+        [Test]
+        public void Cast()
+        {
+            V[] values = this.TwoThree;
+            Assert.That(values.Length, Is.EqualTo(this.TwoThree.Dimensions.Area));
+            Assert.That(values[0], Is.EqualTo(-1));
+            Assert.That(values[1], Is.EqualTo(-2));
+            Assert.That(values[2], Is.EqualTo(-3));
+            Assert.That(values[3], Is.EqualTo(-4));
+            Assert.That(values[4], Is.EqualTo(-5));
+            Assert.That(values[5], Is.EqualTo(-6));
+        }
         public void Run()
         {
             this.Run(
@@ -192,7 +204,8 @@ namespace Kean.Test.Math.Matrix
                 this.ScalarMultiplication,
                 this.Subtraction,
                 this.SubtractionInvalidDimensions,
-                this.Transpose
+                this.Transpose,
+                this.Cast
             );
         }
         internal void Run(params System.Action[] tests)

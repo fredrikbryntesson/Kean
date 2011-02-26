@@ -32,7 +32,9 @@ namespace Kean.Math
 		public abstract R Zero { get; }
 		public abstract R One { get; }
 		public abstract R Two { get; }
-		#endregion
+        public abstract R MinusInfinity { get; }
+        public abstract R PlusInfinity { get; }
+        #endregion
 		#region Constructors
 		protected Abstract (V value)
 		{
@@ -78,16 +80,16 @@ namespace Kean.Math
         #region Static Functions
         public static R Maximum(params R[] values)
         {
-            R result = values[0].Copy();
-            for(int i = 1; i < values.Length; i++)
+            R result = new R().MinusInfinity;
+            for(int i = 0; i < values.Length; i++)
                 if (result.LessThan(values[i]))
                     result.Value = values[i].Value;
             return result;
         }
         public static R Minimum(params R[] values)
         {
-            R result = values[0].Copy();
-            for (int i = 1; i < values.Length; i++)
+            R result = new R().PlusInfinity;
+            for (int i = 0; i < values.Length; i++)
                 if (result.GreaterThan(values[i]))
                     result.Value = values[i].Value;
             return result;

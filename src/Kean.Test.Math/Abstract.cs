@@ -52,15 +52,25 @@ namespace Kean.Test.Math
             Assert.That((two / (-two)).Value, Is.EqualTo(-1));
         }
         [Test]
-        public void MinimumMaximum()
+        public void Minimum()
         {
             R zero = new R();
             R one = new R().One;
             R two = new R().Two;
-            Assert.That(Kean.Math.Abstract<R, V>.Maximum(zero, -one, two), Is.EqualTo(two));
+            Assert.That(Kean.Math.Abstract<R, V>.Minimum(), Is.EqualTo(new R().PlusInfinity));
+            Assert.That(Kean.Math.Abstract<R, V>.Minimum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Minimum(zero, -one, two), Is.EqualTo(-one));
+        }
+        [Test]
+        public void Maximum()
+        {
+            R zero = new R();
+            R one = new R().One;
+            R two = new R().Two;
+            Assert.That(Kean.Math.Abstract<R, V>.Maximum(), Is.EqualTo(new R().MinusInfinity));
+            Assert.That(Kean.Math.Abstract<R, V>.Maximum(two), Is.EqualTo(two));
+            Assert.That(Kean.Math.Abstract<R, V>.Maximum(zero, -one, two), Is.EqualTo(two));
          }
-
         public void Run()
         {
             this.Run(
@@ -68,7 +78,9 @@ namespace Kean.Test.Math
                 this.Equality,
                 this.Copy,
                 this.Arithmetics,
-                this.MinimumMaximum
+                this.Minimum,
+                this.Maximum
+
             );
         }
         internal void Run(params System.Action[] tests)

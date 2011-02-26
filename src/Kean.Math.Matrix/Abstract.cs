@@ -11,7 +11,7 @@ namespace Kean.Math.Matrix
     {
         public Geometry2D.Integer.Size Dimensions { get; private set; }
         // Matrix elements are supposed to be in column major order 
-        private V[] elements;
+        V[] elements;
         #region Constructors
         protected Abstract() { }
         protected Abstract(Integer order) : this(order, order) { }
@@ -30,7 +30,7 @@ namespace Kean.Math.Matrix
             get { return this.elements[this.Index(x, y)]; }
             set { this.elements[this.Index(x, y)] = value; }
         }
-        private int Index(int x, int y)
+        int Index(int x, int y)
         {
             return x * this.Dimensions.Height + y; // Column major order 
             // Use y * this.Dimensions.Width + x for row major order
