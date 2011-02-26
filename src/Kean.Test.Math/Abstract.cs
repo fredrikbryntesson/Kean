@@ -70,7 +70,23 @@ namespace Kean.Test.Math
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(), Is.EqualTo(new R().MinusInfinity));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(zero, -one, two), Is.EqualTo(two));
-         }
+        }
+        [Test]
+        public void Compare()
+        {
+            Assert.That(new R().One.LessThan(new R().Two), Is.True);
+            Assert.That(new R().One.LessOrEqualThan(new R().Two), Is.True);
+            Assert.That(new R().Two.LessOrEqualThan(new R().Two), Is.True);
+            Assert.That(new R().Two.LessThan(new R().One), Is.False);
+            Assert.That(new R().MinusInfinity.LessThan(new R().Zero), Is.True);
+            Assert.That(new R().Two.GreaterThan(new R().One), Is.True);
+            Assert.That(new R().Two.GreaterOrEqualThan(new R().One), Is.True);
+            Assert.That(new R().Two.GreaterOrEqualThan(new R().Two), Is.True);
+            Assert.That(new R().Two.GreaterOrEqualThan(new R().One), Is.True);
+            Assert.That(new R().PlusInfinity.GreaterThan(new R().Zero), Is.True);
+            Assert.That(new R().PlusInfinity.GreaterThan(new R().MinusInfinity), Is.True);
+        }
+
         public void Run()
         {
             this.Run(
@@ -79,7 +95,8 @@ namespace Kean.Test.Math
                 this.Copy,
                 this.Arithmetics,
                 this.Minimum,
-                this.Maximum
+                this.Maximum,
+                this.Compare
 
             );
         }
