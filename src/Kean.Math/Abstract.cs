@@ -41,6 +41,7 @@ namespace Kean.Math
 			this.Value = value;
 		}
 		#endregion
+        public abstract R SetValue(int value);
         public R Copy()
         {
             return new R() { Value = this.Value };
@@ -160,7 +161,7 @@ namespace Kean.Math
         }
         #endregion
         #endregion
-        #region Cast between class and struct.
+        #region SetValue between class and struct.
         public static implicit operator V(Abstract<R, V> value)
         {
             return value.Value;

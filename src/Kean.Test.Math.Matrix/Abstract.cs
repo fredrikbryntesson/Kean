@@ -11,17 +11,18 @@ namespace Kean.Test.Math.Matrix
         where V : struct
     {
         public MatrixType ZeroOrderThree { get; set; }
-        public MatrixType OrderTwo { get; set; }
+        public MatrixType TwoTwo { get; set; }
+        public MatrixType ThreeThree { get; set; }
         public MatrixType TwoThree { get; set; }
         public MatrixType OneThree { get; set; }
         #region Constructors
         [Test]
         public void ConstructorsOrderTwo()
         {
-            Assert.That(this.OrderTwo[0, 0], Is.EqualTo(1));
-            Assert.That(this.OrderTwo[1, 0], Is.EqualTo(2));
-            Assert.That(this.OrderTwo[0, 1], Is.EqualTo(3));
-            Assert.That(this.OrderTwo[1, 1], Is.EqualTo(4));
+            Assert.That(this.TwoTwo[0, 0], Is.EqualTo(1));
+            Assert.That(this.TwoTwo[1, 0], Is.EqualTo(2));
+            Assert.That(this.TwoTwo[0, 1], Is.EqualTo(3));
+            Assert.That(this.TwoTwo[1, 1], Is.EqualTo(4));
         }
         [Test]
         public void ConstructorTwoThree()
@@ -46,9 +47,9 @@ namespace Kean.Test.Math.Matrix
         public void Identity()
         {
             MatrixType a = Kean.Math.Matrix.Abstract<MatrixType, R, V>.Identity(10);
-            for(int x  = 0; x < a.Dimensions.Width; x++)
-                  for(int y  = 0; y < a.Dimensions.Height; y++)
-                      Assert.That(a[x,y], Is.EqualTo( x== y ? 1 : 0));
+            for (int x = 0; x < a.Dimensions.Width; x++)
+                for (int y = 0; y < a.Dimensions.Height; y++)
+                    Assert.That(a[x, y], Is.EqualTo(x == y ? 1 : 0));
         }
         #endregion
         #region Equality
@@ -75,7 +76,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void HashCodeNotEqual()
         {
-            Assert.That(this.TwoThree.GetHashCode(), Is.Not.EqualTo(this.OrderTwo.Copy().GetHashCode()));
+            Assert.That(this.TwoThree.GetHashCode(), Is.Not.EqualTo(this.TwoTwo.Copy().GetHashCode()));
         }
         #endregion
         [Test]
@@ -88,7 +89,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void Copy()
         {
-            Assert.That(this.OrderTwo.Copy(), Is.Not.SameAs(this.OrderTwo));
+            Assert.That(this.TwoTwo.Copy(), Is.Not.SameAs(this.TwoTwo));
         }
         [Test]
         public void Transpose()
@@ -105,12 +106,12 @@ namespace Kean.Test.Math.Matrix
         [ExpectedException(typeof(Kean.Math.Matrix.Exception.InvalidDimensions))]
         public void AdditionInvalidDimensions()
         {
-            MatrixType result = this.OrderTwo + this.TwoThree;
+            MatrixType result = this.TwoTwo + this.TwoThree;
         }
         [Test]
         public void Addition()
         {
-            MatrixType result = this.OrderTwo + this.OrderTwo;
+            MatrixType result = this.TwoTwo + this.TwoTwo;
             Assert.That(result[0, 0], Is.EqualTo(2));
             Assert.That(result[1, 0], Is.EqualTo(4));
             Assert.That(result[0, 1], Is.EqualTo(6));
@@ -119,12 +120,12 @@ namespace Kean.Test.Math.Matrix
         [ExpectedException(typeof(Kean.Math.Matrix.Exception.InvalidDimensions))]
         public void SubtractionInvalidDimensions()
         {
-            MatrixType result = this.OrderTwo - this.TwoThree;
+            MatrixType result = this.TwoTwo - this.TwoThree;
         }
         [Test]
         public void Subtraction()
         {
-            MatrixType result = -this.OrderTwo - this.OrderTwo;
+            MatrixType result = -this.TwoTwo - this.TwoTwo;
             Assert.That(result[0, 0], Is.EqualTo(-2));
             Assert.That(result[1, 0], Is.EqualTo(-4));
             Assert.That(result[0, 1], Is.EqualTo(-6));
@@ -133,7 +134,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void ScalarMultiplication()
         {
-            MatrixType result = new R().Two * this.OrderTwo;
+            MatrixType result = new R().Two * this.TwoTwo;
             Assert.That(result[0, 0], Is.EqualTo(2));
             Assert.That(result[1, 0], Is.EqualTo(4));
             Assert.That(result[0, 1], Is.EqualTo(6));
@@ -142,7 +143,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void ScalarDivision()
         {
-            MatrixType result = this.OrderTwo / new R().Two;
+            MatrixType result = this.TwoTwo / new R().Two;
             Assert.That(result[0, 0], Is.EqualTo(1 / 2.0f));
             Assert.That(result[1, 0], Is.EqualTo(2 / 2.0f));
             Assert.That(result[0, 1], Is.EqualTo(3 / 2.0f));
@@ -157,14 +158,14 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void MatrixMultiplication()
         {
-            MatrixType result = this.TwoThree * this.OrderTwo;
+            MatrixType result = this.TwoThree * this.TwoTwo;
             Assert.That(result[0, 0], Is.EqualTo(-13));
             Assert.That(result[0, 1], Is.EqualTo(-17));
             Assert.That(result[0, 2], Is.EqualTo(-21));
             Assert.That(result[1, 0], Is.EqualTo(-18));
             Assert.That(result[1, 1], Is.EqualTo(-24));
             Assert.That(result[1, 2], Is.EqualTo(-30));
-           
+
         }
         [Test]
         [ExpectedException(typeof(Kean.Math.Matrix.Exception.InvalidDimensions))]
@@ -189,6 +190,40 @@ namespace Kean.Test.Math.Matrix
         {
             Assert.That(this.TwoThree.Trace(), Is.EqualTo(-6));
         }
+        [Test]
+        public void DeterminantOrder1()
+        {
+            Assert.That((this.OneThree.Transpose() * this.OneThree).Determinant(), Is.EqualTo(14));
+        }
+        [Test]
+        public void DeterminantOrder2()
+        {
+            Assert.That(this.TwoTwo.Determinant(), Is.EqualTo(-2));
+        }
+        [Test]
+        public void DeterminantOrder3()
+        {
+            Assert.That(this.ThreeThree.Determinant(), Is.EqualTo(6));
+        }
+        [Test]
+        public void InverseOrder3()
+        {
+            Assert.That(this.ThreeThree.Inverse()[0, 0], Is.EqualTo(-0.5));
+            Assert.That(this.ThreeThree.Inverse()[0, 1], Is.EqualTo(1));
+            Assert.That(this.ThreeThree.Inverse()[0, 2], Is.EqualTo(-0.5));
+            Assert.That(this.ThreeThree.Inverse()[1, 0], Is.EqualTo(1));
+            Assert.That(this.ThreeThree.Inverse()[1, 1], Is.EqualTo(-5));
+            Assert.That(this.ThreeThree.Inverse()[1, 2], Is.EqualTo(3));
+            Assert.That(this.ThreeThree.Inverse()[2, 0], Is.EqualTo(-0.5));
+            Assert.That(this.ThreeThree.Inverse()[2, 1], Is.EqualTo(3.66666675f));
+            Assert.That(this.ThreeThree.Inverse()[2, 2], Is.EqualTo(-2.16666675f));
+        }
+        [Test]
+        public void Minor()
+        {
+            Assert.That(this.TwoThree.Minor(1, 1)[0, 0], Is.EqualTo(-1));
+            Assert.That(this.TwoThree.Minor(1, 1)[0, 1], Is.EqualTo(-3));
+        }
         public void Run()
         {
             this.Run(
@@ -198,7 +233,7 @@ namespace Kean.Test.Math.Matrix
                 this.Identity,
                 this.Copy,
                 this.Elements,
-                this.Addition, 
+                this.Addition,
                 this.AdditionInvalidDimensions,
                 this.Equality,
                 this.HashCodeEqual,
@@ -211,7 +246,12 @@ namespace Kean.Test.Math.Matrix
                 this.SubtractionInvalidDimensions,
                 this.Transpose,
                 this.Cast,
-                this.Trace
+                this.Trace,
+                this.Minor,
+                this.DeterminantOrder1,
+                this.DeterminantOrder2,
+                this.DeterminantOrder3,
+                this.InverseOrder3
             );
         }
         internal void Run(params System.Action[] tests)

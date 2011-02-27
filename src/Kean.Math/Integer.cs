@@ -40,6 +40,10 @@ namespace Kean.Math
             base(value)
         { }
         #endregion
+        public override Integer SetValue(int value)
+        {
+            return new Integer(value);
+        }
         #region Functions
         #region Arithmetic Functions
         public override Integer Add(int value)
@@ -108,7 +112,7 @@ namespace Kean.Math
         }
         #endregion
         #endregion
-        #region Cast Operators
+        #region SetValue Operators
         public static implicit operator int(Integer value)
         {
             return value.IsNull() ? 0 : value.Value;

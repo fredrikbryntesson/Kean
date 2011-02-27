@@ -40,7 +40,11 @@ namespace Kean.Math
 			base(value)
 		{ }
 		#endregion
-		#region Functions
+        public override Single SetValue(int value)
+        {
+            return new Single(value);
+        }
+   		#region Functions
 		#region Arithmetic Functions
 		public override Single Add(float value)
 		{
@@ -108,7 +112,7 @@ namespace Kean.Math
         }
         #endregion
         #endregion
-        #region Cast Operators
+        #region SetValue Operators
         public static implicit operator float(Single value)
 		{
 			return value.IsNull() ? 0 : value.Value;

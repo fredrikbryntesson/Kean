@@ -46,10 +46,10 @@ namespace Kean.Math.Matrix
         {
             if (left.Dimensions != right.Dimensions)
                 new Exception.InvalidDimensions();
-            MatrixType result = new MatrixType() 
-            { 
-                Dimensions = left.Dimensions, 
-                elements = new V[left.Dimensions.Area] 
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = left.Dimensions,
+                elements = new V[left.Dimensions.Area]
             };
             for (int i = 0; i < result.elements.Length; i++)
                 result.elements[i] = (R)left.elements[i] + right.elements[i];
@@ -59,9 +59,9 @@ namespace Kean.Math.Matrix
         {
             if (left.Dimensions.Width != right.Dimensions.Height)
                 new Exception.InvalidDimensions();
-            MatrixType result = new MatrixType() 
-            { 
-                Dimensions = new Geometry2D.Integer.Size(right.Dimensions.Width, left.Dimensions.Height) ,
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Geometry2D.Integer.Size(right.Dimensions.Width, left.Dimensions.Height),
                 elements = new V[right.Dimensions.Width * left.Dimensions.Height]
             };
             for (int x = 0; x < right.Dimensions.Width; x++)
@@ -78,8 +78,8 @@ namespace Kean.Math.Matrix
         #region Static Operators
         public static MatrixType operator +(V left, Abstract<MatrixType, R, V> right)
         {
-            MatrixType result = new MatrixType() 
-            { 
+            MatrixType result = new MatrixType()
+            {
                 Dimensions = right.Dimensions,
                 elements = new V[right.Dimensions.Area]
             };
@@ -141,11 +141,31 @@ namespace Kean.Math.Matrix
         #region Matrix Invariants
         public V Trace()
         {
-            
+
             R result = new R();
             int diagonal = Math.Integer.Minimum(this.Dimensions.Width, this.Dimensions.Height);
             for (int i = 0; i < diagonal; i++)
                 result += this[i, i];
+            return result;
+        }
+        public V Determinant()
+        {
+            if (this.Dimensions.Width != this.Dimensions.Height)
+                new Exception.InvalidDimensions();
+            int order = this.Dimensions.Width;
+            R result = new R();
+            if (order > 2)
+            {
+                for (int x = 0; x < this.Dimensions.Width; x++)
+                    result += this[x, 0] * 
+                         (-new R().One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
+            }
+            else if (order == 2)
+            {
+                result = (R)this[0, 0] * this[1, 1] - (R)this[0, 1] * this[1, 0];
+            }
+            else if (order == 1)
+                result = (R)this[0, 0];
             return result;
         }
         #endregion
@@ -160,6 +180,52 @@ namespace Kean.Math.Matrix
             for (int x = 0; x < result.Dimensions.Width; x++)
                 for (int y = 0; y < result.Dimensions.Height; y++)
                     result[x, y] = this[y, x];
+            return result;
+        }
+        public MatrixType Adjoint()
+        {
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Geometry2D.Integer.Size(this.Dimensions.Width, this.Dimensions.Height),
+                elements = new V[this.Dimensions.Area]
+            };
+            for (int x = 0; x < result.Dimensions.Width; x++)
+                for (int y = 0; y < result.Dimensions.Height; y++)
+                    result[x, y] = (-new R().One).Power(new R().SetValue(x + 1 + y + 1)) * this.Minor(y, x).Determinant();
+            return result;
+      
+        }
+        public MatrixType Inverse()
+        {
+            R determinant = (R)this.Determinant();
+            if (determinant == new R())
+                new Exception.DivisionByZero();
+            return this.Adjoint() / determinant;  
+        }
+        public MatrixType Minor(int x, int y)
+        {
+            if (this.Dimensions.Width < 2 || this.Dimensions.Height < 2)
+                new Exception.InvalidDimensions();
+
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Kean.Math.Geometry2D.Integer.Size(this.Dimensions.Height - 1, this.Dimensions.Width - 1),
+                elements = new V[(this.Dimensions.Height - 1) * (this.Dimensions.Width - 1)]
+            };
+            for (int xx = 0; xx < x; xx++)
+            {
+                for (int yy = 0; yy < y; yy++)
+                    result[xx, yy] = this[xx, yy];
+                for (int yy = y + 1; yy < this.Dimensions.Height; yy++)
+                    result[xx, yy - 1] = this[xx, yy];
+            }
+            for (int xx = x + 1; xx < this.Dimensions.Width; xx++)
+            {
+                for (int yy = 0; yy < y; yy++)
+                    result[xx - 1, yy] = this[xx, yy];
+                for (int yy = y + 1; yy < this.Dimensions.Height; yy++)
+                    result[xx - 1, yy - 1] = this[xx, yy];
+            }
             return result;
         }
         #endregion
@@ -191,10 +257,10 @@ namespace Kean.Math.Matrix
         {
             System.Text.StringBuilder builder = new System.Text.StringBuilder();
             for (int y = 0; y < this.Dimensions.Height; y++)
-                for (int x = 0; x < this.Dimensions.Width - 1; x++)
+                for (int x = 0; x < this.Dimensions.Width; x++)
                 {
                     builder.Append(this[x, y].ToString());
-                    builder.Append((x == this.Dimensions.Width - 1) ? "; " : ", ");
+                    builder.Append((x == this.Dimensions.Width - 1) ?((y == this.Dimensions.Width - 1) ? "" : "; ") : ", ");
                 }
             return builder.ToString();
         }
