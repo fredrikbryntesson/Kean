@@ -206,6 +206,11 @@ namespace Kean.Test.Math.Matrix
             Assert.That(this.ThreeThree.Determinant(), Is.EqualTo(6));
         }
         [Test]
+        public void DeterminantIdentity()
+        {
+            Assert.That(Kean.Math.Matrix.Abstract<MatrixType, R,V>.Identity(4).Determinant(), Is.EqualTo(1));
+        }
+        [Test]
         public void InverseOrder3()
         {
             Assert.That(this.ThreeThree.Inverse()[0, 0], Is.EqualTo(-0.5));
@@ -223,6 +228,19 @@ namespace Kean.Test.Math.Matrix
         {
             Assert.That(this.TwoThree.Minor(1, 1)[0, 0], Is.EqualTo(-1));
             Assert.That(this.TwoThree.Minor(1, 1)[0, 1], Is.EqualTo(-3));
+        }
+        [Test]
+        public void AdjointOrder1()
+        {
+            Assert.That((this.OneThree.Transpose() * this.OneThree).Adjoint()[0,0], Is.EqualTo(1));
+        }
+        [Test]
+        public void AdjointOrder2()
+        {
+            Assert.That(this.TwoTwo.Adjoint()[0, 0], Is.EqualTo(4));
+            Assert.That(this.TwoTwo.Adjoint()[0, 1], Is.EqualTo(-3));
+            Assert.That(this.TwoTwo.Adjoint()[1, 0], Is.EqualTo(-2));
+            Assert.That(this.TwoTwo.Adjoint()[1, 1], Is.EqualTo(1));
         }
         public void Run()
         {
@@ -251,7 +269,10 @@ namespace Kean.Test.Math.Matrix
                 this.DeterminantOrder1,
                 this.DeterminantOrder2,
                 this.DeterminantOrder3,
-                this.InverseOrder3
+                this.DeterminantIdentity,
+                this.InverseOrder3,
+                this.AdjointOrder1,
+                this.AdjointOrder2
             );
         }
         internal void Run(params System.Action[] tests)

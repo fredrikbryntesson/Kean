@@ -157,7 +157,7 @@ namespace Kean.Math.Matrix
             if (order > 2)
             {
                 for (int x = 0; x < this.Dimensions.Width; x++)
-                    result += this[x, 0] * 
+                    result += this[x, 0] *
                          (-new R().One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
             }
             else if (order == 2)
@@ -166,6 +166,8 @@ namespace Kean.Math.Matrix
             }
             else if (order == 1)
                 result = (R)this[0, 0];
+            else
+                result = new R().One;
             return result;
         }
         #endregion
