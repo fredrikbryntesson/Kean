@@ -226,6 +226,8 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void Minor()
         {
+            Assert.That((this.OneThree.Transpose() * this.OneThree).Minor(0, 0).Dimensions.Width, Is.EqualTo(0));
+            Assert.That((this.OneThree.Transpose() * this.OneThree).Minor(0, 0).Dimensions.Height, Is.EqualTo(0));
             Assert.That(this.TwoThree.Minor(1, 1)[0, 0], Is.EqualTo(-1));
             Assert.That(this.TwoThree.Minor(1, 1)[0, 1], Is.EqualTo(-3));
         }

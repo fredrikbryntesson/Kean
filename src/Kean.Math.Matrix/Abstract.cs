@@ -11,6 +11,7 @@ namespace Kean.Math.Matrix
     {
         public Geometry2D.Integer.Size Dimensions { get; private set; }
         // Matrix elements are supposed to be in column major order 
+        public bool IsSquare { get { return this.Dimensions.Width == this.Dimensions.Height; } }
         V[] elements;
         #region Constructors
         protected Abstract() { }
@@ -150,24 +151,21 @@ namespace Kean.Math.Matrix
         }
         public V Determinant()
         {
-            if (this.Dimensions.Width != this.Dimensions.Height)
-                new Exception.InvalidDimensions();
-            int order = this.Dimensions.Width;
             R result = new R();
-            if (order > 2)
-            {
-                for (int x = 0; x < this.Dimensions.Width; x++)
-                    result += this[x, 0] *
-                         (-new R().One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
-            }
-            else if (order == 2)
-            {
-                result = (R)this[0, 0] * this[1, 1] - (R)this[0, 1] * this[1, 0];
-            }
-            else if (order == 1)
-                result = (R)this[0, 0];
+            if (!this.IsSquare)
+                new Exception.InvalidDimensions();
             else
-                result = new R().One;
+            {
+                int order = this.Dimensions.Width;
+                if (order > 0)
+                {
+                    for (int x = 0; x < this.Dimensions.Width; x++)
+                        result += this[x, 0] *
+                             (-new R().One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
+                }
+                else
+                    result = new R().One;
+            }
             return result;
         }
         #endregion
@@ -206,9 +204,8 @@ namespace Kean.Math.Matrix
         }
         public MatrixType Minor(int x, int y)
         {
-            if (this.Dimensions.Width < 2 || this.Dimensions.Height < 2)
+            if (this.Dimensions.Width < 1 || this.Dimensions.Height < 1)
                 new Exception.InvalidDimensions();
-
             MatrixType result = new MatrixType()
             {
                 Dimensions = new Kean.Math.Geometry2D.Integer.Size(this.Dimensions.Height - 1, this.Dimensions.Width - 1),
