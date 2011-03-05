@@ -19,10 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Abstract
+namespace Kean.Math.Geometry2D.Abstract
 {
 	public class Vector<VectorType, R, V> :
         IEquatable<Vector<VectorType, R, V>>
+        where VectorType : Vector<VectorType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
@@ -31,13 +32,62 @@ namespace Abstract
         #region Constructors
         protected Vector() 
         {
-            this.X = new R().Zero;
-            this.Y = new R().Zero;
+            this.X = Kean.Math.Abstract<R,V>.Zero;
+            this.Y = Kean.Math.Abstract<R, V>.Zero;
         }
         protected Vector(R x, R y)
 		{
 			this.X = x;
 			this.Y = y;
+        }
+        #endregion
+        #region Methods
+        public VectorType Copy()
+        {
+            return new VectorType() { X = this.X, Y = this.Y };
+        }
+        public VectorType Swap()
+        {
+            return new VectorType() { X = this.Y, Y = this.X };
+        }
+        #endregion
+        #region Arithmetic Vector - Vector Operators
+        public static VectorType operator +(Vector<VectorType, R, V> left, VectorType right)
+        {
+            VectorType result = new VectorType()
+            {
+                X = left.X + right.X,
+                Y = left.Y + right.Y,
+            };
+            return result;
+        }
+        public static VectorType operator -(Vector<VectorType, R, V> vector)
+        {
+            VectorType result = new VectorType()
+            {
+                X = -vector.X,
+                Y = -vector.Y,
+            };
+            return result;
+        }
+        public static VectorType operator -(Vector<VectorType, R, V> left, VectorType right)
+        {
+            return left + (-right);
+        }
+        #endregion
+        #region Arithmetic Vector and Scalar
+        public static VectorType operator *(Vector<VectorType, R, V> left, R right)
+        {
+            VectorType result = new VectorType()
+            {
+                X = left.X * right,
+                Y = left.Y * right,
+            };
+            return result;
+        }
+        public static VectorType operator *(R left, Vector<VectorType, R, V> right)
+        {
+            return right * left;
         }
         #endregion
         #region Object overides and IEquatable<VectorType>

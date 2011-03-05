@@ -109,11 +109,11 @@ namespace Kean.Math.Matrix
         }
         public static MatrixType operator /(Abstract<MatrixType, R, V> left, V right)
         {
-            return (new R().One / right) * left;
+            return (Kean.Math.Abstract<R,V>.One / right) * left;
         }
         public static MatrixType operator -(Abstract<MatrixType, R, V> value)
         {
-            return new R().One.Negate() * value;
+            return Kean.Math.Abstract<R, V>.One.Negate() * value;
         }
         public static bool operator ==(Abstract<MatrixType, R, V> left, Abstract<MatrixType, R, V> right)
         {
@@ -135,7 +135,7 @@ namespace Kean.Math.Matrix
                 elements = new V[order * order]
             };
             for (int i = 0; i < order; i++)
-                result[i, i] = new R().One;
+                result[i, i] = Kean.Math.Abstract<R, V>.One;
             return result;
         }
         #endregion
@@ -161,10 +161,10 @@ namespace Kean.Math.Matrix
                 {
                     for (int x = 0; x < this.Dimensions.Width; x++)
                         result += this[x, 0] *
-                             (-new R().One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
+                             (-Kean.Math.Abstract<R,V>.One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
                 }
                 else
-                    result = new R().One;
+                    result = Kean.Math.Abstract<R, V>.One;
             }
             return result;
         }
@@ -191,7 +191,7 @@ namespace Kean.Math.Matrix
             };
             for (int x = 0; x < result.Dimensions.Width; x++)
                 for (int y = 0; y < result.Dimensions.Height; y++)
-                    result[x, y] = (-new R().One).Power(new R().SetValue(x + 1 + y + 1)) * this.Minor(y, x).Determinant();
+                    result[x, y] = (-Kean.Math.Abstract<R, V>.One).Power(new R().SetValue(x + 1 + y + 1)) * this.Minor(y, x).Determinant();
             return result;
       
         }

@@ -72,6 +72,10 @@
       <Project>{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}</Project>
       <Name>Kean.Test.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Math.Geometry2D\Kean.Test.Math.Geometry2D.csproj">
+      <Project>{D0806771-B1E2-48E8-9AC0-8D841E0252A9}</Project>
+      <Name>Kean.Test.Math.Geometry2D</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Test.Math.Matrix\Kean.Test.Math.Matrix.csproj">
       <Project>{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}</Project>
       <Name>Kean.Test.Math.Matrix</Name>

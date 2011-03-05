@@ -28,12 +28,21 @@ namespace Kean.Math
 		where V : struct 
 	{
 		public V Value { get; private set; }
-		#region Constants
-		public abstract R Zero { get; }
-		public abstract R One { get; }
-		public abstract R Two { get; }
-        public abstract R MinusInfinity { get; }
-        public abstract R PlusInfinity { get; }
+        #region Abstract Properties
+        protected abstract R ZeroHelper { get; }
+        protected abstract R OneHelper { get; }
+        protected abstract R TwoHelper { get; }
+        protected abstract R PlusInfinityHelper { get; }
+        protected abstract R MinusInfinityHelper { get; }
+        protected abstract R PrecisionHelper { get; }
+        #endregion
+        #region Static Constants
+        public static R Zero { get { return new R().ZeroHelper; } }
+        public static R One { get { return new R().OneHelper; } }
+        public static R Two { get { return new R().TwoHelper; } }
+        public static R MinusInfinity { get { return new R().MinusInfinityHelper; } }
+        public static R PlusInfinity { get { return new R().PlusInfinityHelper; } }
+        public static R Precision { get { return new R().PrecisionHelper; } }
         #endregion
 		#region Constructors
 		protected Abstract (V value)
@@ -81,11 +90,11 @@ namespace Kean.Math
         #region Static Functions
         public static R Absolute(R value)
         {
-            return value.LessThan(new R().Zero) ? -value : value;
+            return value.LessThan(Kean.Math.Abstract<R,V>.Zero) ? -value : value;
         }
         public static R Maximum(params R[] values)
         {
-            R result = new R().MinusInfinity;
+            R result = Kean.Math.Abstract<R,V>.MinusInfinity;
             for(int i = 0; i < values.Length; i++)
                 if (result.LessThan(values[i]))
                     result.Value = values[i].Value;
@@ -93,7 +102,7 @@ namespace Kean.Math
         }
         public static R Minimum(params R[] values)
         {
-            R result = new R().PlusInfinity;
+            R result = Kean.Math.Abstract<R,V>.PlusInfinity;
             for (int i = 0; i < values.Length; i++)
                 if (result.GreaterThan(values[i]))
                     result.Value = values[i].Value;

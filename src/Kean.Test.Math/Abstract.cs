@@ -15,7 +15,7 @@ namespace Kean.Test.Math
         [Test]
         public void Constructors()
         {
-            R r = new R().One;
+            R r = Kean.Math.Abstract<R, V>.One;
             Assert.That(r.Value, Is.EqualTo(1));
             r = new R();
             Assert.That(r.Value, Is.EqualTo(0));
@@ -23,9 +23,9 @@ namespace Kean.Test.Math
         [Test]
         public void Equality()
         {
-            R r = new R().One;
-            R s = new R().One;
-            R t = new R().Two;
+            R r = Kean.Math.Abstract<R, V>.One;
+            R s = Kean.Math.Abstract<R, V>.One;
+            R t = Kean.Math.Abstract<R, V>.Two;
             R u = null;
             Assert.That(r.Equals(s), Is.True);
             Assert.That(r.Equals(s as object), Is.True);
@@ -44,8 +44,8 @@ namespace Kean.Test.Math
         public void Arithmetics()
         {
             R zero = new R();
-            R one = new R().One;
-            R two = new R().Two;
+            R one = Kean.Math.Abstract<R, V>.One;
+            R two = Kean.Math.Abstract<R, V>.Two;
             Assert.That(one - one, Is.EqualTo(zero));
             Assert.That(one + one, Is.EqualTo(two));
             Assert.That((two * (-two)).Value, Is.EqualTo(-4));
@@ -54,16 +54,16 @@ namespace Kean.Test.Math
         [Test]
         public void Absolute()
         {
-            Assert.That(Kean.Math.Abstract<R, V>.Absolute(new R().Two), Is.EqualTo(new R().Two));
-            Assert.That(Kean.Math.Abstract<R, V>.Absolute(-new R().Two), Is.EqualTo(new R().Two));
+            Assert.That(Kean.Math.Abstract<R, V>.Absolute(Kean.Math.Abstract<R, V>.Two), Is.EqualTo(Kean.Math.Abstract<R, V>.Two));
+            Assert.That(Kean.Math.Abstract<R, V>.Absolute(-Kean.Math.Abstract<R, V>.Two), Is.EqualTo(Kean.Math.Abstract<R, V>.Two));
         }
         [Test]
         public void Minimum()
         {
             R zero = new R();
-            R one = new R().One;
-            R two = new R().Two;
-            Assert.That(Kean.Math.Abstract<R, V>.Minimum(), Is.EqualTo(new R().PlusInfinity));
+            R one = Kean.Math.Abstract<R, V>.One;
+            R two = Kean.Math.Abstract<R, V>.Two;
+            Assert.That(Kean.Math.Abstract<R, V>.Minimum(), Is.EqualTo(Kean.Math.Abstract<R, V>.PlusInfinity));
             Assert.That(Kean.Math.Abstract<R, V>.Minimum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Minimum(zero, -one, two), Is.EqualTo(-one));
         }
@@ -71,26 +71,26 @@ namespace Kean.Test.Math
         public void Maximum()
         {
             R zero = new R();
-            R one = new R().One;
-            R two = new R().Two;
-            Assert.That(Kean.Math.Abstract<R, V>.Maximum(), Is.EqualTo(new R().MinusInfinity));
+            R one = Kean.Math.Abstract<R, V>.One;
+            R two = Kean.Math.Abstract<R, V>.Two;
+            Assert.That(Kean.Math.Abstract<R, V>.Maximum(), Is.EqualTo(Kean.Math.Abstract<R, V>.MinusInfinity));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(zero, -one, two), Is.EqualTo(two));
         }
         [Test]
         public void Compare()
         {
-            Assert.That(new R().One.LessThan(new R().Two), Is.True);
-            Assert.That(new R().One.LessOrEqualThan(new R().Two), Is.True);
-            Assert.That(new R().Two.LessOrEqualThan(new R().Two), Is.True);
-            Assert.That(new R().Two.LessThan(new R().One), Is.False);
-            Assert.That(new R().MinusInfinity.LessThan(new R().Zero), Is.True);
-            Assert.That(new R().Two.GreaterThan(new R().One), Is.True);
-            Assert.That(new R().Two.GreaterOrEqualThan(new R().One), Is.True);
-            Assert.That(new R().Two.GreaterOrEqualThan(new R().Two), Is.True);
-            Assert.That(new R().Two.GreaterOrEqualThan(new R().One), Is.True);
-            Assert.That(new R().PlusInfinity.GreaterThan(new R().Zero), Is.True);
-            Assert.That(new R().PlusInfinity.GreaterThan(new R().MinusInfinity), Is.True);
+            Assert.That(Kean.Math.Abstract<R, V>.One.LessThan(Kean.Math.Abstract<R, V>.Two), Is.True);
+            Assert.That(Kean.Math.Abstract<R, V>.One.LessOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.LessOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.LessThan(Kean.Math.Abstract<R, V>.One), Is.False);
+            Assert.That(Kean.Math.Abstract<R,V>.MinusInfinity.LessThan(new R()), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterThan(Kean.Math.Abstract<R, V>.One), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.One), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.One), Is.True);
+            Assert.That(Kean.Math.Abstract<R, V>.PlusInfinity.GreaterThan(new R()), Is.True);
+            Assert.That(Kean.Math.Abstract<R,V>.PlusInfinity.GreaterThan(Kean.Math.Abstract<R, V>.MinusInfinity), Is.True);
         }
         public void Run()
         {

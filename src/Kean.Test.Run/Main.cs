@@ -27,6 +27,8 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Kean.Test.Math.Single.Test();
+            Kean.Test.Math.Geometry2D.Single.Point.Test();
+            Kean.Test.Math.Geometry2D.Single.Size.Test();
             Kean.Test.Math.Matrix.Single.Test();
             Core.Collection.Vector.Test();
 			Core.Collection.List.Test();

@@ -25,12 +25,14 @@ namespace Kean.Math
     public class Integer :
         Abstract<Integer, int>
     {
-        #region Constants
-        public override Integer Zero { get { return 0; } }
-        public override Integer One { get { return 1; } }
-        public override Integer Two { get { return 2; } }
-        public override Integer MinusInfinity { get { return int.MinValue; } }
-        public override Integer PlusInfinity { get { return int.MaxValue; } }
+        
+        #region Abtract Properties
+        protected override Integer ZeroHelper { get { return 0; } }
+        protected override Integer OneHelper { get { return 1; } }
+        protected override Integer TwoHelper { get { return 2; } }
+        protected override Integer MinusInfinityHelper { get { return int.MinValue; } }
+        protected override Integer PlusInfinityHelper { get { return int.MaxValue; } }
+        protected override Integer PrecisionHelper { get { return 1; } }
         #endregion
         #region Constructors
         public Integer() :

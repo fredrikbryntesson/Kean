@@ -65,7 +65,7 @@ namespace Kean.Test.Math.Matrix
             Assert.That(this.TwoThree != m, Is.True);
             Assert.That(m != this.OneThree, Is.True);
             m = this.TwoThree.Copy();
-            m[1, 1] += new R().One;
+            m[1, 1] += Kean.Math.Abstract<R, V>.One;
             Assert.That(this.TwoThree != m, Is.True);
         }
         [Test]
@@ -83,7 +83,7 @@ namespace Kean.Test.Math.Matrix
         public void Elements()
         {
             // Insert
-            this.ZeroOrderThree[1, 1] = -new R().Two;
+            this.ZeroOrderThree[1, 1] = -Kean.Math.Abstract<R, V>.Two;
             Assert.That(this.ZeroOrderThree[1, 1], Is.EqualTo(-2.0f));
         }
         [Test]
@@ -134,7 +134,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void ScalarMultiplication()
         {
-            MatrixType result = new R().Two * this.TwoTwo;
+            MatrixType result = Kean.Math.Abstract<R, V>.Two * this.TwoTwo;
             Assert.That(result[0, 0], Is.EqualTo(2));
             Assert.That(result[1, 0], Is.EqualTo(4));
             Assert.That(result[0, 1], Is.EqualTo(6));
@@ -143,7 +143,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void ScalarDivision()
         {
-            MatrixType result = this.TwoTwo / new R().Two;
+            MatrixType result = this.TwoTwo / Kean.Math.Abstract<R, V>.Two;
             Assert.That(result[0, 0], Is.EqualTo(1 / 2.0f));
             Assert.That(result[1, 0], Is.EqualTo(2 / 2.0f));
             Assert.That(result[0, 1], Is.EqualTo(3 / 2.0f));

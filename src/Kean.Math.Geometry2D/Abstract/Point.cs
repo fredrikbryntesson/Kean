@@ -19,10 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Abstract
+namespace Kean.Math.Geometry2D.Abstract
 {
 	public abstract class Point<PointType, R, V> :
 		Vector<PointType, R, V>
+        where PointType : Point<PointType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{

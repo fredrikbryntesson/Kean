@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Matrix", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math", "src\Kean.Test.Math\Kean.Test.Math.csproj", "{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Geometry2D", "src\Kean.Test.Math.Geometry2D\Kean.Test.Math.Geometry2D.csproj", "{D0806771-B1E2-48E8-9AC0-8D841E0252A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Deb'g|Any CPU = Deb'g|Any CPU
@@ -189,6 +191,14 @@ Global
 		{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Deb'g|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Deb'g|Any CPU.Build.0 = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

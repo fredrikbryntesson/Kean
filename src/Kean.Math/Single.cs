@@ -25,14 +25,15 @@ namespace Kean.Math
 	public class Single :
 		Abstract<Single, float>
 	{
-		#region Constants
-		public override Single Zero { get { return 0; } }
-		public override Single One { get { return 1; } }
-		public override Single Two { get { return 2; } }
-        public override Single MinusInfinity { get { return float.MinValue; } }
-        public override Single PlusInfinity { get { return float.MaxValue; } }
+        #region Abtract Properties
+        protected override Single ZeroHelper { get { return 0; } }
+        protected override Single OneHelper { get { return 1; } }
+        protected override Single TwoHelper { get { return 2; } }
+        protected override Single MinusInfinityHelper { get { return float.MinValue; } }
+        protected override Single PlusInfinityHelper { get { return float.MaxValue; } }
+        protected override Single PrecisionHelper { get { return 1e-2f; } }
         #endregion
-		#region Constructors
+        #region Constructors
 		public Single() :
 			base(0)
 		{ }
