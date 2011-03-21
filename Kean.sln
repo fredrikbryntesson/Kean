@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+# SharpDevelop 4.0.0.7070
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Basis", "src\Kean.Core.Basis\Kean.Core.Basis.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
@@ -199,6 +200,7 @@ Global
 		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0806771-B1E2-48E8-9AC0-8D841E0252A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44CAE32-71EA-4BD9-8A41-8EC84526B596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

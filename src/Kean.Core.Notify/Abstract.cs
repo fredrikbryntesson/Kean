@@ -21,7 +21,7 @@ namespace Kean.Core.Notify
 		#region Casts
 		public static implicit operator Abstract<T>(T value)
 		{
-			return new Notifier<T>(value);
+			return new Variable<T>(value);
 		}
 		public static implicit operator T(Abstract<T> value)
 		{
