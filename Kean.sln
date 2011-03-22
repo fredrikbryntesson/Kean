@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Geometry2D",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D", "src\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj", "{98F827EA-9073-43FD-9131-6B2448461519}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Geometry3D", "src\Kean.Test.Math.Geometry3D\Kean.Test.Math.Geometry3D.csproj", "{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Deb'g|Any CPU = Deb'g|Any CPU
@@ -210,6 +212,14 @@ Global
 		{98F827EA-9073-43FD-9131-6B2448461519}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{98F827EA-9073-43FD-9131-6B2448461519}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98F827EA-9073-43FD-9131-6B2448461519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Deb'g|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Deb'g|Any CPU.Build.0 = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
