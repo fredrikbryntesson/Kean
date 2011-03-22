@@ -66,7 +66,7 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Arithmetic Point - Point Operators
         public static PointType operator *(Quaternion<QuaternionType, PointType, R, V> left, PointType right)
         {
-            return  (left * new QuaternionType() { X = new R(), Y = right } * left.Reciprocal()).Y;
+            return (left * new QuaternionType() { X = new R(), Y = right } * left.Reciprocal()).Y;
         }
         public static QuaternionType operator *(Quaternion<QuaternionType, PointType, R, V> left, QuaternionType right)
         {
