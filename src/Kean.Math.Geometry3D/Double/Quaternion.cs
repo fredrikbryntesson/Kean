@@ -1,5 +1,5 @@
 ﻿// 
-//  Single.cs
+//  Quaternion.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -17,24 +17,16 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 
-namespace Kean.Math.Matrix
+namespace Kean.Math.Geometry3D.Double
 {
-    public class Single : 
-		Abstract<Single, Kean.Math.Single, float>
+    public class Quaternion :
+        Abstract.Quaternion<Quaternion, Point, Kean.Math.Double, double>
     {
-        public Single() { }
-        public Single(Kean.Math.Integer order) : 
-			base(order) { }
-        public Single(Kean.Math.Integer width, Kean.Math.Integer height) : 
-			base(width, height) { }
-        public Single(Geometry2D.Integer.Size size) : 
-			base(size) { }
-        public Single(Geometry2D.Integer.Size size, float[] elements) : 
-			base(size, elements) { }
-        public Single(Kean.Math.Integer width, Kean.Math.Integer height, float[] elements) : 
-			base(new Geometry2D.Integer.Size(width, height), elements) { }
+        public Quaternion() { }
+        public Quaternion(Kean.Math.Double x, Point y) :
+            base(x, y) { }
     }
 }

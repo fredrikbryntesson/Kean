@@ -144,6 +144,7 @@ namespace Kean.Math
         public abstract R ArcusSinus();
         public abstract R ArcusCosinus();
         public abstract R ArcusTangens();
+        public abstract R ArcusTangensExtended( R x);
         #endregion
         #region Transcendental Functions
         public abstract R Exponential();
@@ -151,6 +152,8 @@ namespace Kean.Math
         #endregion
         #region Power Function
         public abstract R Power(R value);
+        public abstract R SquareRoot();
+        public abstract R Squared();
         #endregion
         #region Object overides and IEquatable<R>
         public override bool Equals(object other)

@@ -92,6 +92,10 @@ namespace Kean.Math
         {
             return Double.ArcusTangens(this.Value);
         }
+        public override Double ArcusTangensExtended(Double x)
+        {
+            return Double.ArcusTangensExtended(this.Value, x);
+        }
 		#endregion
         #region Transcendental Functions
         public override Double Exponential()
@@ -107,6 +111,14 @@ namespace Kean.Math
         public override Double Power(Double exponent)
         {
             return Double.Power(this.Value, exponent);
+        }
+        public override Double SquareRoot()
+        {
+            return Double.SquareRoot(this.Value);
+        }
+        public override Double Squared()
+        {
+            return this.Value * this.Value;
         }
         #endregion
 		#region Comparison Functions
@@ -166,6 +178,10 @@ namespace Kean.Math
         {
             return System.Math.Atan(value);
         }
+        public static double ArcusTangensExtended(double y, double x)
+        {
+            return System.Math.Atan2(y, x);
+        }
 	    #endregion
         #region Transcendental Functions
         public static double Exponential(double value)
@@ -181,6 +197,10 @@ namespace Kean.Math
         public static double Power(double @base, double exponent)
         {
             return System.Math.Pow(@base, exponent);
+        }
+        public static double SquareRoot(double value)
+        {
+            return System.Math.Sqrt(value);
         }
         #endregion
         #endregion

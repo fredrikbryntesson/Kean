@@ -2,7 +2,7 @@
 //  Abstract.cs
 //  
 //  Author:
-//       Anders Frisk <@>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
 //  Copyright (c) 2011 Anders Frisk
 // 
@@ -35,8 +35,8 @@ namespace Kean.Math.Matrix
         V[] elements;
         #region Constructors
         protected Abstract() { }
-        protected Abstract(Integer order) : this(order, order) { }
-        protected Abstract(Integer width, Integer height) : this(new Geometry2D.Integer.Size(width, height)) { }
+        protected Abstract(Kean.Math.Integer order) : this(order, order) { }
+        protected Abstract(Kean.Math.Integer width, Kean.Math.Integer height) : this(new Geometry2D.Integer.Size(width, height)) { }
         protected Abstract(Geometry2D.Integer.Size dimension) : this(dimension, new V[dimension.Area]) { }
         protected Abstract(Geometry2D.Integer.Size dimension, V[] elements)
         {

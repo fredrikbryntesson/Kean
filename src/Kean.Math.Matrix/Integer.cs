@@ -1,5 +1,5 @@
 ﻿// 
-//  Single.cs
+//  Integer.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -22,19 +22,19 @@ using System;
 
 namespace Kean.Math.Matrix
 {
-    public class Single : 
-		Abstract<Single, Kean.Math.Single, float>
+    public class Integer :
+        Abstract<Integer, Kean.Math.Integer, int>
     {
-        public Single() { }
-        public Single(Kean.Math.Integer order) : 
-			base(order) { }
-        public Single(Kean.Math.Integer width, Kean.Math.Integer height) : 
-			base(width, height) { }
-        public Single(Geometry2D.Integer.Size size) : 
-			base(size) { }
-        public Single(Geometry2D.Integer.Size size, float[] elements) : 
-			base(size, elements) { }
-        public Single(Kean.Math.Integer width, Kean.Math.Integer height, float[] elements) : 
-			base(new Geometry2D.Integer.Size(width, height), elements) { }
+        public Integer() { }
+        public Integer(Kean.Math.Integer order) :
+            base(order) { }
+        public Integer(Kean.Math.Integer width, Kean.Math.Integer height) :
+            base(width, height) { }
+        public Integer(Geometry2D.Integer.Size size) :
+            base(size) { }
+        public Integer(Geometry2D.Integer.Size size, int[] elements) :
+            base(size, elements) { }
+        public Integer(Kean.Math.Integer width, Kean.Math.Integer height, int[] elements) :
+            base(new Geometry2D.Integer.Size(width, height), elements) { }
     }
 }
