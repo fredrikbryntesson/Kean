@@ -5,7 +5,7 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Test.Math.Geometry2D.Abstract
 {
-    public abstract class Point<PointType, R, V> : Abstract<PointType, R,V>
+    public abstract class Point<PointType, R, V> : Vector<PointType, R,V>
         where PointType : Kean.Math.Geometry2D.Abstract.Point<PointType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct

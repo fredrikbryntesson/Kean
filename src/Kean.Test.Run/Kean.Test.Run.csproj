@@ -56,6 +56,10 @@
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj">
+      <Project>{98F827EA-9073-43FD-9131-6B2448461519}</Project>
+      <Name>Kean.Math.Geometry3D</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Math.Matrix\Kean.Math.Matrix.csproj">
       <Project>{5CC44E3B-2D32-4DA2-BE7C-34835F41E096}</Project>
       <Name>Kean.Math.Matrix</Name>
@@ -75,6 +79,10 @@
     <ProjectReference Include="..\Kean.Test.Math.Geometry2D\Kean.Test.Math.Geometry2D.csproj">
       <Project>{D0806771-B1E2-48E8-9AC0-8D841E0252A9}</Project>
       <Name>Kean.Test.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test.Math.Geometry3D\Kean.Test.Math.Geometry3D.csproj">
+      <Project>{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}</Project>
+      <Name>Kean.Test.Math.Geometry3D</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Test.Math.Matrix\Kean.Test.Math.Matrix.csproj">
       <Project>{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}</Project>

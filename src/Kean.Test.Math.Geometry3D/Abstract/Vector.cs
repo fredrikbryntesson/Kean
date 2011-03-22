@@ -3,10 +3,10 @@ using Kean.Core.Basis.Extension;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Test.Math.Geometry2D.Abstract
+namespace Kean.Test.Math.Geometry3D.Abstract
 {
-    public abstract class Abstract<VectorType, R, V>
-        where VectorType : Kean.Math.Geometry2D.Abstract.Vector<VectorType, R, V>, new()
+    public abstract class Vector<VectorType, R, V>
+        where VectorType : Kean.Math.Geometry3D.Abstract.Vector<VectorType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {

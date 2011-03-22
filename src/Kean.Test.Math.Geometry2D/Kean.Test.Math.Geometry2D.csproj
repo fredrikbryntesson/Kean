@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\Abstract.cs" />
+    <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Abstract\Point.cs" />
     <Compile Include="Abstract\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

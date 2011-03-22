@@ -3,10 +3,10 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Test.Math.Geometry2D.Abstract
+namespace Kean.Test.Math.Geometry3D.Abstract
 {
     public abstract class Size<SizeType, R, V> : Vector<SizeType, R, V>
-        where SizeType : Kean.Math.Geometry2D.Abstract.Size<SizeType, R, V>, new()
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<SizeType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -15,15 +15,9 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         {
             Assert.That(this.Vector0.Width, Is.EqualTo(this.Cast(22.221)).Within(this.Precision));
             Assert.That(this.Vector0.Height, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision));
+            Assert.That(this.Vector0.Depth, Is.EqualTo(this.Cast(10)).Within(this.Precision));
         }
-        [Test]
-        public void Swap()
-        {
-            SizeType result = this.Vector0.Swap();
-            Assert.That(result.Width, Is.EqualTo(this.Vector0.Height));
-            Assert.That(result.Height, Is.EqualTo(this.Vector0.Width));
-        }
-
+       
         public void Run()
         {
             this.Run(
@@ -31,8 +25,7 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.Addition,
                 this.Subtraction,
                 this.ScalarMultitplication,
-                this.GetValues,
-                this.Swap
+                this.GetValues
                 );
         }
     }
