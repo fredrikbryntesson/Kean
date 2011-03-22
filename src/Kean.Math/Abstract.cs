@@ -21,17 +21,17 @@
 using System;
 namespace Kean.Math
 {
-	public abstract class Abstract<R, V> :
+    public abstract class Abstract<R, V> :
         IEquatable<R>,
         IComparable<R>
         where R : Abstract<R, V>, new()
-		where V : struct 
-	{
-		public V Value { get; private set; }
+        where V : struct
+    {
+        public V Value { get; private set; }
         #region Abstract Properties
-		protected R ZeroHelper { get { return this.CreateConstant(0); } }
-		protected R OneHelper { get { return this.CreateConstant(1); } }
-		protected R TwoHelper { get { return this.CreateConstant(2); } }
+        protected R ZeroHelper { get { return this.CreateConstant(0); } }
+        protected R OneHelper { get { return this.CreateConstant(1); } }
+        protected R TwoHelper { get { return this.CreateConstant(2); } }
         protected abstract R PositiveInfinityHelper { get; }
         protected abstract R NegativeInfinityHelper { get; }
         protected abstract R EpsilonHelper { get; }
@@ -44,12 +44,12 @@ namespace Kean.Math
         public static R PlusInfinity { get { return new R().PositiveInfinityHelper; } }
         public static R Precision { get { return new R().EpsilonHelper; } }
         #endregion
-		#region Constructors
-		protected Abstract (V value)
-		{
-			this.Value = value;
-		}
-		#endregion
+        #region Constructors
+        protected Abstract(V value)
+        {
+            this.Value = value;
+        }
+        #endregion
         public abstract R CreateConstant(int value);
         public R Copy()
         {
@@ -78,7 +78,7 @@ namespace Kean.Math
         }
         public static bool operator ==(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
         {
-            return 
+            return
                 object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
                 left.Equals(right);
         }
@@ -90,37 +90,55 @@ namespace Kean.Math
         #region Static Functions
         public static R Absolute(R value)
         {
-            return value.LessThan(Kean.Math.Abstract<R,V>.Zero) ? -value : value;
+            return value.LessThan(Kean.Math.Abstract<R, V>.Zero) ? -value : value;
         }
         public static R Maximum(params R[] values)
         {
-            R result = Kean.Math.Abstract<R,V>.MinusInfinity;
-            for(int i = 0; i < values.Length; i++)
-                if (result.LessThan(values[i]))
-                    result.Value = values[i].Value;
+            R result;
+            if (values.Length == 0)
+                result = Kean.Math.Abstract<R, V>.MinusInfinity;
+            else
+            {
+                result = new R() { Value = values[0] };
+                if (values.Length > 1)
+                {
+                    for (int i = 1; i < values.Length; i++)
+                        if (result.LessThan(values[i]))
+                            result.Value = values[i].Value;
+                }
+            }
             return result;
         }
         public static R Minimum(params R[] values)
         {
-            R result = Kean.Math.Abstract<R,V>.PlusInfinity;
-            for (int i = 0; i < values.Length; i++)
-                if (result.GreaterThan(values[i]))
-                    result.Value = values[i].Value;
+            R result;
+            if (values.Length == 0)
+                result = Kean.Math.Abstract<R, V>.PlusInfinity;
+            else
+            {
+                result = new R() { Value = values[0] };
+                if (values.Length > 1)
+                {
+                    for (int i = 1; i < values.Length; i++)
+                        if (result.GreaterThan(values[i]))
+                            result.Value = values[i].Value;
+                }
+            }
             return result;
         }
         #endregion
         #region Functions
         #region Arithmetic Functions
         public abstract R Add(V value);
-		public abstract R Substract(V value);
-		public abstract R Multiply(V value);
-		public abstract R Divide(V value);
+        public abstract R Substract(V value);
+        public abstract R Multiply(V value);
+        public abstract R Divide(V value);
         public abstract R Negate();
         #endregion
-		#region Trigometric Functions
-		public abstract R Sinus();
-		public abstract R Cosinus();
-		public abstract R Tangens();
+        #region Trigometric Functions
+        public abstract R Sinus();
+        public abstract R Cosinus();
+        public abstract R Tangens();
         #endregion
         #region Inverse Trigometric Functions
         public abstract R ArcusSinus();
@@ -157,7 +175,7 @@ namespace Kean.Math
         public abstract bool LessThan(R other);
         public bool LessOrEqualThan(R other)
         {
-            return this.LessThan(other) || this == other; 
+            return this.LessThan(other) || this == other;
         }
         public abstract bool GreaterThan(R other);
         public bool GreaterOrEqualThan(R other)
