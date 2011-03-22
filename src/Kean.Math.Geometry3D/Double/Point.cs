@@ -22,9 +22,11 @@ using System;
 
 namespace Kean.Math.Geometry3D.Double
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Double, double>
+    public class Point : 
+		Abstract.Point<Point, Kean.Math.Double, double>
     {
         public Point() { }
-		public Point(Kean.Math.Double x, Kean.Math.Double y, Kean.Math.Double z) : base(x, y, z) { }
+		public Point(Kean.Math.Double x, Kean.Math.Double y, Kean.Math.Double z) : 
+			base(x, y, z) { }
     }
 }

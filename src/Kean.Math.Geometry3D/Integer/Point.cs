@@ -22,9 +22,11 @@ using System;
 
 namespace Kean.Math.Geometry3D.Integer
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Integer, int>
+    public class Point : 
+		Abstract.Point<Point, Kean.Math.Integer, int>
     {
         public Point() { }
-		public Point(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : base(x, y, z) { }
+		public Point(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : 
+			base(x, y, z) { }
     }
 }

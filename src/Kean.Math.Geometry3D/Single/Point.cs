@@ -22,9 +22,11 @@ using System;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Single, float>
+    public class Point : 
+		Abstract.Point<Point, Kean.Math.Single, float>
     {
         public Point() { }
-		public Point(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z) : base(x, y, z) { }
+		public Point(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z) : 
+			base(x, y, z) { }
     }
 }

@@ -22,9 +22,11 @@ using System;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public class Size : Abstract.Size<Size, Kean.Math.Single, float>
+    public class Size : 
+		Abstract.Size<Size, Kean.Math.Single, float>
     {
         public Size() { }
-		public Size(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z) : base(x, y, z) { }
+		public Size(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z) : 
+			base(x, y, z) { }
     }
 }
