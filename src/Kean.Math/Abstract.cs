@@ -29,20 +29,20 @@ namespace Kean.Math
 	{
 		public V Value { get; private set; }
         #region Abstract Properties
-        protected abstract R ZeroHelper { get; }
-        protected abstract R OneHelper { get; }
-        protected abstract R TwoHelper { get; }
-        protected abstract R PlusInfinityHelper { get; }
-        protected abstract R MinusInfinityHelper { get; }
-        protected abstract R PrecisionHelper { get; }
+		protected R ZeroHelper { get { return this.CreateConstant(0); } }
+		protected R OneHelper { get { return this.CreateConstant(1); } }
+		protected R TwoHelper { get { return this.CreateConstant(2); } }
+        protected abstract R PositiveInfinityHelper { get; }
+        protected abstract R NegativeInfinityHelper { get; }
+        protected abstract R EpsilonHelper { get; }
         #endregion
         #region Static Constants
         public static R Zero { get { return new R().ZeroHelper; } }
         public static R One { get { return new R().OneHelper; } }
         public static R Two { get { return new R().TwoHelper; } }
-        public static R MinusInfinity { get { return new R().MinusInfinityHelper; } }
-        public static R PlusInfinity { get { return new R().PlusInfinityHelper; } }
-        public static R Precision { get { return new R().PrecisionHelper; } }
+        public static R MinusInfinity { get { return new R().NegativeInfinityHelper; } }
+        public static R PlusInfinity { get { return new R().PositiveInfinityHelper; } }
+        public static R Precision { get { return new R().EpsilonHelper; } }
         #endregion
 		#region Constructors
 		protected Abstract (V value)
@@ -50,7 +50,7 @@ namespace Kean.Math
 			this.Value = value;
 		}
 		#endregion
-        public abstract R SetValue(int value);
+        public abstract R CreateConstant(int value);
         public R Copy()
         {
             return new R() { Value = this.Value };

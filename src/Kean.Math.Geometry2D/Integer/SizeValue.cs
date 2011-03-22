@@ -1,5 +1,5 @@
 ﻿// 
-//  Point.cs
+//  SizeValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,13 +18,35 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
-using System;
-
-namespace Kean.Math.Geometry2D.Single
+namespace Kean.Math.Geometry2D.Integer
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Single, float>
-    {
-        public Point() { }
-        public Point(Kean.Math.Single x, Kean.Math.Single y) : base(x, y) { }
-    }
+	public struct SizeValue :
+		Abstract.ISize<int>
+	{
+		int width;
+		int height;
+		public int Width
+		{
+			get { return this.width; }
+			set { this.width = value; }
+		}
+		public int Height
+		{
+			get { return this.height; }
+			set { this.height = value; }
+		}
+		public SizeValue(int width, int height)
+		{
+			this.width = width;
+			this.height = height;
+		}
+		public static implicit operator Size(SizeValue value)
+		{
+			return new Size(value.Width, value.Height);
+		}
+		public static explicit operator SizeValue(Size value)
+		{
+			return new SizeValue(value.Width, value.Height);
+		}
+	}
 }

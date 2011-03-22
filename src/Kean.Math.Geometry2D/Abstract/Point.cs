@@ -22,14 +22,19 @@ using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
 	public abstract class Point<PointType, R, V> :
-		Vector<PointType, R, V>
+		Vector<PointType, R, V>,
+		IPoint<V>
         where PointType : Point<PointType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
 		public new R X { get { return base.X; } }
 		public new R Y { get { return base.Y; } }
-        #region Constructors
+		#region IPoint<V> Members
+		V IPoint<V>.X { get { return this.X; } }
+		V IPoint<V>.Y { get { return this.Y; } }
+		#endregion
+		#region Constructors
         protected Point() { }
         protected Point(R x, R y) :
 			base(x, y)

@@ -161,7 +161,7 @@ namespace Kean.Math.Matrix
                 {
                     for (int x = 0; x < this.Dimensions.Width; x++)
                         result += this[x, 0] *
-                             (-Kean.Math.Abstract<R,V>.One).Power(new R().SetValue(x + 1 + 1)) * this.Minor(x, 0).Determinant();
+                             (-Kean.Math.Abstract<R,V>.One).Power(new R().CreateConstant(x + 1 + 1)) * this.Minor(x, 0).Determinant();
                 }
                 else
                     result = Kean.Math.Abstract<R, V>.One;
@@ -191,7 +191,7 @@ namespace Kean.Math.Matrix
             };
             for (int x = 0; x < result.Dimensions.Width; x++)
                 for (int y = 0; y < result.Dimensions.Height; y++)
-                    result[x, y] = (-Kean.Math.Abstract<R, V>.One).Power(new R().SetValue(x + 1 + y + 1)) * this.Minor(y, x).Determinant();
+                    result[x, y] = (-Kean.Math.Abstract<R, V>.One).Power(new R().CreateConstant(x + 1 + y + 1)) * this.Minor(y, x).Determinant();
             return result;
       
         }

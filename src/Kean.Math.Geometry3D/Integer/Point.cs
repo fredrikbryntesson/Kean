@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 
-namespace Kean.Math.Geometry2D.Single
+namespace Kean.Math.Geometry3D.Integer
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Single, float>
+    public class Point : Abstract.Point<Point, Kean.Math.Integer, int>
     {
         public Point() { }
-        public Point(Kean.Math.Single x, Kean.Math.Single y) : base(x, y) { }
+		public Point(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : base(x, y, z) { }
     }
 }

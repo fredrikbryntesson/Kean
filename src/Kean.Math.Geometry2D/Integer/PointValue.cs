@@ -1,5 +1,5 @@
 ﻿// 
-//  Point.cs
+//  PointValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,13 +18,35 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
-using System;
-
-namespace Kean.Math.Geometry2D.Single
+namespace Kean.Math.Geometry2D.Integer
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Single, float>
-    {
-        public Point() { }
-        public Point(Kean.Math.Single x, Kean.Math.Single y) : base(x, y) { }
-    }
+	public struct PointValue :
+		Abstract.IPoint<int>
+	{
+		int x;
+		int y;
+		public int X
+		{
+			get { return this.x; }
+			set { this.x = value; }
+		}
+		public int Y
+		{
+			get { return this.y; }
+			set { this.y = value; }
+		}
+		public PointValue(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+		public static implicit operator Point(PointValue value)
+		{
+			return new Point(value.X, value.Y);
+		}
+		public static explicit operator PointValue(Point value)
+		{
+			return new PointValue(value.X, value.Y);
+		}
+	}
 }

@@ -1,5 +1,5 @@
 // 
-//  Size.cs
+//  Point.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,26 +19,29 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Kean.Math.Geometry2D.Abstract
+namespace Kean.Math.Geometry3D.Abstract
 {
-	public abstract class Size<SizeType, R, V> :
-		Vector<SizeType, R, V>,
-		ISize<V>
-        where SizeType : Size<SizeType, R, V>, new()
+	public abstract class Point<PointType, R, V> :
+		Vector<PointType, R, V>,
+		IPoint<V>
+        where PointType : Point<PointType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
-		public V Width { get { return base.X; } }
-		public V Height { get { return base.Y; } }
-		#region ISize<V> Members
-		V ISize<V>.Width { get { return this.Width; } }
-		V ISize<V>.Height { get { return this.Height; } }
+		public new R X { get { return base.X; } }
+		public new R Y { get { return base.Y; } }
+		public new R Z { get { return base.Z; } }
+		#region IPoint<V> Members
+		V IPoint<V>.X { get { return this.X; } }
+		V IPoint<V>.Y { get { return this.Y; } }
+		V IPoint<V>.Z { get { return this.Z; } }
 		#endregion
-		public V Area { get { return base.X.Multiply(base.Y); } }
-        protected Size() { }
-	    protected Size(R width, R height) :
-			base(width, height)
+		#region Constructors
+        protected Point() { }
+        protected Point(R x, R y, R z) :
+			base(x, y, z)
 		{ }
-  	}
+        #endregion
+    }
 }
 

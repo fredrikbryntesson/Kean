@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Kean.Math.Geometry2D.Abstract
+namespace Kean.Math.Geometry3D.Abstract
 {
 	public class Vector<VectorType, R, V> :
 		IVector<V>,
@@ -30,30 +30,30 @@ namespace Kean.Math.Geometry2D.Abstract
 	{
 		protected R X { get; private set; }
 		protected R Y { get; private set; }
+		protected R Z { get; private set; }
 		#region IVector<V> Members
 		V IVector<V>.X { get { return this.X; } }
 		V IVector<V>.Y { get { return this.Y; } }
+		V IVector<V>.Z { get { return this.Z; } }
 		#endregion
 		#region Constructors
         protected Vector() 
         {
             this.X = Kean.Math.Abstract<R,V>.Zero;
             this.Y = Kean.Math.Abstract<R, V>.Zero;
-        }
-        protected Vector(R x, R y)
+			this.Z = Kean.Math.Abstract<R, V>.Zero;
+		}
+        protected Vector(R x, R y, R z)
 		{
 			this.X = x;
 			this.Y = y;
-        }
+			this.Z = z;
+		}
         #endregion
         #region Methods
         public VectorType Copy()
         {
-            return new VectorType() { X = this.X, Y = this.Y };
-        }
-        public VectorType Swap()
-        {
-            return new VectorType() { X = this.Y, Y = this.X };
+			return new VectorType() { X = this.X, Y = this.Y, Z = this.Z };
         }
         #endregion
         #region Arithmetic Vector - Vector Operators
@@ -63,7 +63,8 @@ namespace Kean.Math.Geometry2D.Abstract
             {
                 X = left.X + right.X,
                 Y = left.Y + right.Y,
-            };
+				Z = left.Z + right.Z,
+			};
             return result;
         }
         public static VectorType operator -(Vector<VectorType, R, V> vector)
@@ -72,7 +73,8 @@ namespace Kean.Math.Geometry2D.Abstract
             {
                 X = -vector.X,
                 Y = -vector.Y,
-            };
+				Z = -vector.Z,
+			};
             return result;
         }
         public static VectorType operator -(Vector<VectorType, R, V> left, VectorType right)
@@ -87,7 +89,8 @@ namespace Kean.Math.Geometry2D.Abstract
             {
                 X = left.X * right,
                 Y = left.Y * right,
-            };
+				Z = left.Z * right,
+			};
             return result;
         }
         public static VectorType operator *(R left, Vector<VectorType, R, V> right)
@@ -103,15 +106,15 @@ namespace Kean.Math.Geometry2D.Abstract
         // other is not null here.
         public bool Equals(Vector<VectorType, R, V> other)
         {
-            return this.X == other.X && this.Y == other.Y;
+			return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
         }
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+			return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
         }
         public override string ToString()
         {
-            return this.X.ToString() + " " + this.Y.ToString();
+			return this.X.ToString() + " " + this.Y.ToString() + " " + this.Z.ToString();
         }
         #endregion     
 	}
