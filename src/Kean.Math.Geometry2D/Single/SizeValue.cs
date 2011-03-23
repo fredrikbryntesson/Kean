@@ -21,11 +21,12 @@
 namespace Kean.Math.Geometry2D.Single
 {
 	public struct SizeValue :
-		Abstract.ISize<float>
+		Abstract.ISize<float>, Abstract.IVector<float>
 	{
 		float width;
 		float height;
-		public float Width
+        #region ISize<float>
+        public float Width
 		{
 			get { return this.width; }
 			set { this.width = value; }
@@ -34,8 +35,13 @@ namespace Kean.Math.Geometry2D.Single
 		{
 			get { return this.height; }
 			set { this.height = value; }
-		}
-		public SizeValue(float width, float height)
+        }
+        #endregion
+        #region IVector<float> Members
+        float Abstract.IVector<float>.X { get { return this.width; } }
+        float Abstract.IVector<float>.Y { get { return this.height; } }
+        #endregion
+       	public SizeValue(float width, float height)
 		{
 			this.width = width;
 			this.height = height;

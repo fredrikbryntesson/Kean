@@ -21,11 +21,12 @@
 namespace Kean.Math.Geometry2D.Double
 {
 	public struct SizeValue :
-		Abstract.ISize<double>
+		Abstract.ISize<double>, Abstract.IVector<double>
 	{
 		double width;
 		double height;
-		public double Width
+        #region ISize<double>
+        public double Width
 		{
 			get { return this.width; }
 			set { this.width = value; }
@@ -35,18 +36,15 @@ namespace Kean.Math.Geometry2D.Double
 			get { return this.height; }
 			set { this.height = value; }
 		}
-		public SizeValue(double width, double height)
+        #endregion
+        #region IVector<double> Members
+        double Abstract.IVector<double>.X { get { return this.width; } }
+        double Abstract.IVector<double>.Y { get { return this.height; } }
+        #endregion
+        public SizeValue(double width, double height)
 		{
 			this.width = width;
 			this.height = height;
 		}
-		public static implicit operator Size(SizeValue value)
-		{
-			return new Size(value.Width, value.Height);
-		}
-		public static explicit operator SizeValue(Size value)
-		{
-			return new SizeValue(value.Width, value.Height);
-		}
-	}
+    }
 }

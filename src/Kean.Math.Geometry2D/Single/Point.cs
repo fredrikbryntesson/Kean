@@ -23,10 +23,17 @@ using System;
 namespace Kean.Math.Geometry2D.Single
 {
     public class Point : 
-		Abstract.Point<Point, Kean.Math.Single, float>
+		Abstract.Point<Point, PointValue, Kean.Math.Single, float>
     {
+        public override PointValue Value { get { return new PointValue(this.X, this.Y); } }
         public Point() { }
         public Point(Kean.Math.Single x, Kean.Math.Single y) : 
 			base(x, y) { }
+        #region Casts
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue() { X = value.X, Y = value.Y };
+        }
+        #endregion
     }
 }

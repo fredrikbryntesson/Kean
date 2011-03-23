@@ -5,8 +5,9 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Test.Math.Geometry2D.Abstract
 {
-    public abstract class Vector<VectorType, R, V>
-        where VectorType : Kean.Math.Geometry2D.Abstract.Vector<VectorType, R, V>, new()
+    public abstract class Vector<VectorType, VectorValue, R, V>
+        where VectorType : Kean.Math.Geometry2D.Abstract.Vector<VectorType, VectorValue, R, V>, new()
+        where VectorValue : struct, Kean.Math.Geometry2D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {

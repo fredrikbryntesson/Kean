@@ -44,6 +44,8 @@
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Abstract\Point.cs" />
     <Compile Include="Abstract\Size.cs" />
+    <Compile Include="Double\Box.cs" />
+    <Compile Include="Double\BoxValue.cs" />
     <Compile Include="Double\Point.cs" />
     <Compile Include="Double\PointValue.cs" />
     <Compile Include="Double\Size.cs" />

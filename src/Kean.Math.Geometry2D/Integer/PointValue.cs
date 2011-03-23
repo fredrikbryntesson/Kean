@@ -21,7 +21,7 @@
 namespace Kean.Math.Geometry2D.Integer
 {
 	public struct PointValue :
-		Abstract.IPoint<int>
+		Abstract.IPoint<int>, Abstract.IVector<int>
 	{
 		int x;
 		int y;

@@ -5,8 +5,9 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Test.Math.Geometry2D.Abstract
 {
-    public abstract class Size<SizeType, R, V> : Vector<SizeType, R, V>
-        where SizeType : Kean.Math.Geometry2D.Abstract.Size<SizeType, R, V>, new()
+    public abstract class Size<SizeType, SizeValue, R, V> : Vector<SizeType, SizeValue, R, V>
+        where SizeType : Kean.Math.Geometry2D.Abstract.Size<SizeType, SizeValue, R, V>, new()
+        where SizeValue : struct, Kean.Math.Geometry2D.Abstract.ISize<V>, Kean.Math.Geometry2D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -23,7 +24,6 @@ namespace Kean.Test.Math.Geometry2D.Abstract
             Assert.That(result.Width, Is.EqualTo(this.Vector0.Height));
             Assert.That(result.Height, Is.EqualTo(this.Vector0.Width));
         }
-
         public void Run()
         {
             this.Run(

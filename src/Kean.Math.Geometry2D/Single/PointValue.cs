@@ -21,7 +21,7 @@
 namespace Kean.Math.Geometry2D.Single
 {
 	public struct PointValue :
-		Abstract.IPoint<float>
+		Abstract.IPoint<float>, Abstract.IVector<float>
 	{
 		float x;
 		float y;

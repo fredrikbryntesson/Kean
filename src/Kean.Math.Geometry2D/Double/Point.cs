@@ -22,9 +22,16 @@ using System;
 
 namespace Kean.Math.Geometry2D.Double
 {
-    public class Point : Abstract.Point<Point, Kean.Math.Double, double>
+    public class Point : Abstract.Point<Point, PointValue, Kean.Math.Double, double>
     {
+        public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }
         public Point(Kean.Math.Double x, Kean.Math.Double y) : base(x, y) { }
+        #region Casts
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue() { X = value.X, Y = value.Y };
+        }
+        #endregion
     }
 }

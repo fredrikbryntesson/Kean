@@ -76,16 +76,6 @@ namespace Kean.Math
         {
             return left.Divide(right);
         }
-        public static bool operator ==(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
-        {
-            return
-                object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
-                left.Equals(right);
-        }
-        public static bool operator !=(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
-        {
-            return !(left == right);
-        }
         #endregion
         #region Static Functions
         public static R Absolute(R value)
@@ -175,6 +165,32 @@ namespace Kean.Math
         }
         #endregion
         #region Comparison Functions and IComparable<R>
+        public static bool operator ==(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return
+                object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
+                left.Equals(right);
+        }
+        public static bool operator !=(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
+        {
+            return !(left == right);
+        }
+        public static bool operator <(Abstract<R, V> left, R right)
+        {
+            return left.LessThan(right);
+        }
+        public static bool operator <=(Abstract<R, V> left, R right)
+        {
+            return left<right || left == right;
+        }
+        public static bool operator >(Abstract<R, V> left, R right)
+        {
+            return left.GreaterThan(right);
+        }
+        public static bool operator >=(Abstract<R, V> left, R right)
+        {
+            return left > right || left == right;
+        }
         public abstract bool LessThan(R other);
         public bool LessOrEqualThan(R other)
         {

@@ -21,7 +21,7 @@
 namespace Kean.Math.Geometry2D.Double
 {
 	public struct PointValue :
-		Abstract.IPoint<double>
+        Abstract.IPoint<double>, Abstract.IVector<double>
 	{
 		double x;
 		double y;
@@ -35,18 +35,10 @@ namespace Kean.Math.Geometry2D.Double
 			get { return this.y; }
 			set { this.y = value; }
 		}
-		public PointValue(double x, double y)
+        public PointValue(double x, double y)
 		{
 			this.x = x;
 			this.y = y;
-		}
-		public static implicit operator Point(PointValue value)
-		{
-			return new Point(value.X, value.Y);
-		}
-		public static explicit operator PointValue(Point value)
-		{
-			return new PointValue(value.X, value.Y);
 		}
 	}
 }

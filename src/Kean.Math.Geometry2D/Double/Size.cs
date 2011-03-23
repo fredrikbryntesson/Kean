@@ -22,9 +22,17 @@ using System;
 
 namespace Kean.Math.Geometry2D.Double
 {
-    public class Size : Abstract.Size<Size, Kean.Math.Double, double>
+    public class Size : Abstract.Size<Size, SizeValue, Kean.Math.Double, double>
     {
+        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
         public Size() { }
         public Size(Kean.Math.Double x, Kean.Math.Double y) : base(x, y) { }
+        #region Casts
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
+        #endregion
+
     }
 }
