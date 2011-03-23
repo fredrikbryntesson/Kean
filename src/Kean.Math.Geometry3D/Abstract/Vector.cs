@@ -31,7 +31,7 @@ namespace Kean.Math.Geometry3D.Abstract
         protected R X { get; private set; }
         protected R Y { get; private set; }
         protected R Z { get; private set; }
-        public R Norm { get { return (this.X * this.X + this.Y * this.Y + this.Z * this.Z).SquareRoot(); } }
+        public R Norm { get { return (this.X.Squared() + this.Y.Squared() + this.Z.Squared()).SquareRoot(); } }
         #region IVector<V> Members
         V IVector<V>.X { get { return this.X; } }
         V IVector<V>.Y { get { return this.Y; } }

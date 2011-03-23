@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -35,6 +35,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Box.cs" />
+    <Compile Include="Abstract\IBox.cs" />
     <Compile Include="Abstract\IPoint.cs" />
     <Compile Include="Abstract\ISize.cs" />
     <Compile Include="Abstract\IVector.cs" />
