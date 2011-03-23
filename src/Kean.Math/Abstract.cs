@@ -135,12 +135,16 @@ namespace Kean.Math
         public abstract R Divide(V value);
         public abstract R Negate();
         #endregion
-        #region Trigometric Functions
+        #region Trigonometric Helpers
+        public abstract R ToRadians();
+        public abstract R ToDegrees();
+        #endregion
+        #region Trigonometric Functions
         public abstract R Sinus();
         public abstract R Cosinus();
         public abstract R Tangens();
         #endregion
-        #region Inverse Trigometric Functions
+        #region Inverse Trigonometric Functions
         public abstract R ArcusSinus();
         public abstract R ArcusCosinus();
         public abstract R ArcusTangens();
@@ -168,10 +172,6 @@ namespace Kean.Math
         public override int GetHashCode()
         {
             return this.Value.GetHashCode();
-        }
-        public override string ToString()
-        {
-            return this.Value.ToString();
         }
         #endregion
         #region Comparison Functions and IComparable<R>

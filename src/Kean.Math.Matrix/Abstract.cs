@@ -35,9 +35,12 @@ namespace Kean.Math.Matrix
         V[] elements;
         #region Constructors
         protected Abstract() { }
-        protected Abstract(Kean.Math.Integer order) : this(order, order) { }
-        protected Abstract(Kean.Math.Integer width, Kean.Math.Integer height) : this(new Geometry2D.Integer.Size(width, height)) { }
-        protected Abstract(Geometry2D.Integer.Size dimension) : this(dimension, new V[dimension.Area]) { }
+        protected Abstract(Kean.Math.Integer order) : 
+            this(order, order) { }
+        protected Abstract(Kean.Math.Integer width, Kean.Math.Integer height) : 
+            this(new Geometry2D.Integer.Size(width, height)) { }
+        protected Abstract(Geometry2D.Integer.Size dimension) : 
+            this(dimension, new V[dimension.Area]) { }
         protected Abstract(Geometry2D.Integer.Size dimension, V[] elements)
         {
             this.Dimensions = dimension;
@@ -46,6 +49,17 @@ namespace Kean.Math.Matrix
             Array.Copy(elements, 0, this.elements, 0, minimum);
         }
         #endregion
+        public V Norm
+        {
+            get
+            {
+                R result = new R();
+                for (int i = 0; i < this.elements.Length; i++)
+                    result += ((R)this.elements[i]).Squared();
+                result = result.SquareRoot();
+                return result;
+            }
+        }
         public V this[int x, int y]
         {
             get { return this.elements[this.Index(x, y)]; }
@@ -158,6 +172,48 @@ namespace Kean.Math.Matrix
                 result[i, i] = Kean.Math.Abstract<R, V>.One;
             return result;
         }
+        public static MatrixType RotationX(R radian)
+        {
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Kean.Math.Geometry2D.Integer.Size(3, 3),
+                elements = new V[3 * 3]
+            };
+            result[0, 0] = Kean.Math.Abstract<R, V>.One;
+            result[1, 1] = radian.Cosinus();
+            result[2, 2] = radian.Cosinus();
+            result[2, 1] = -radian.Sinus();
+            result[1, 2] = radian.Sinus();
+            return result;
+        }
+        public static MatrixType RotationY(R radian)
+        {
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Kean.Math.Geometry2D.Integer.Size(3, 3),
+                elements = new V[3 * 3]
+            };
+            result[0, 0] = radian.Cosinus();
+            result[2, 2] = radian.Cosinus();
+            result[1, 1] = Kean.Math.Abstract<R, V>.One;
+            result[2, 0] = -radian.Sinus();
+            result[0, 2] = radian.Sinus();
+            return result;
+        }
+        public static MatrixType RotationZ(R radian)
+        {
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Kean.Math.Geometry2D.Integer.Size(3, 3),
+                elements = new V[3 * 3]
+            };
+            result[0, 0] = radian.Cosinus();
+            result[1, 1] = radian.Cosinus();
+            result[1, 0] = -radian.Sinus();
+            result[0, 1] = radian.Sinus();
+            result[2, 2] = Kean.Math.Abstract<R, V>.One;
+            return result;
+        }
         #endregion
         #region Matrix Invariants
         public V Trace()
@@ -187,6 +243,12 @@ namespace Kean.Math.Matrix
                     result = Kean.Math.Abstract<R, V>.One;
             }
             return result;
+        }
+        #endregion
+        #region Distance
+        public V Distance(MatrixType other)
+        {
+            return (this - other).Norm;
         }
         #endregion
         #region Matrix Operations
@@ -278,14 +340,14 @@ namespace Kean.Math.Matrix
             for (int y = 0; y < this.Dimensions.Height; y++)
                 for (int x = 0; x < this.Dimensions.Width; x++)
                 {
-                    builder.Append(this[x, y].ToString());
+                    builder.Append(((R)this[x, y]).ToString());
                     builder.Append((x == this.Dimensions.Width - 1) ?((y == this.Dimensions.Width - 1) ? "" : "; ") : ", ");
                 }
             return builder.ToString();
         }
         #endregion
         #region Casts
-        public static implicit operator Abstract<MatrixType, R, V>(V[] value)
+        public static explicit operator Abstract<MatrixType, R, V>(V[] value)
         {
             MatrixType result = new MatrixType()
             {
@@ -295,10 +357,30 @@ namespace Kean.Math.Matrix
             Array.Copy(value, result.elements, value.Length);
             return result;
         }
-        public static implicit operator V[](Abstract<MatrixType, R, V> value)
+        public static explicit operator V[](Abstract<MatrixType, R, V> value)
         {
             V[] result = new V[value.elements.Length];
             Array.Copy(value.elements, result, result.Length);
+            return result;
+        }
+        public static explicit operator V[,](Abstract<MatrixType, R, V> value)
+        {
+            V[,] result = new V[value.Dimensions.Width, value.Dimensions.Height];
+            for (int x = 0; x < value.Dimensions.Width; x++)
+                for (int y = 0; y < value.Dimensions.Height; y++)
+                    result[x, y] = value[x, y];
+            return result;
+        }
+        public static explicit operator Abstract<MatrixType, R, V>(V[,] value)
+        {
+            MatrixType result = new MatrixType()
+            {
+                Dimensions = new Geometry2D.Integer.Size(value.GetLength(0), value.GetLength(1)),
+                elements = new V[value.GetLength(0) * value.GetLength(1)]
+            };
+            for (int x = 0; x < result.Dimensions.Width; x++)
+                for (int y = 0; y < result.Dimensions.Height; y++)
+                    result[x, y] = value[x, y];
             return result;
         }
         #endregion

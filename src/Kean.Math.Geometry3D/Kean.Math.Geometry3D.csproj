@@ -53,11 +53,13 @@
     <Compile Include="Double\SizeValue.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\PointValue.cs" />
+    <Compile Include="Integer\Quaternion.cs" />
     <Compile Include="Integer\Size.cs" />
     <Compile Include="Integer\SizeValue.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\PointValue.cs" />
+    <Compile Include="Single\Quaternion.cs" />
     <Compile Include="Single\Size.cs" />
     <Compile Include="Single\SizeValue.cs" />
   </ItemGroup>

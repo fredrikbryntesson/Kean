@@ -176,7 +176,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void Cast()
         {
-            V[] values = this.TwoThree;
+            V[] values = (V[])(this.TwoThree as Kean.Math.Matrix.Abstract<MatrixType, R, V>);
             Assert.That(values.Length, Is.EqualTo(this.TwoThree.Dimensions.Area));
             Assert.That(values[0], Is.EqualTo(-1));
             Assert.That(values[1], Is.EqualTo(-2));

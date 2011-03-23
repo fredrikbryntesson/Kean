@@ -21,29 +21,29 @@
 using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
-	public class Vector<VectorType, R, V> :
-		IVector<V>,
+    public class Vector<VectorType, R, V> :
+        IVector<V>,
         IEquatable<Vector<VectorType, R, V>>
         where VectorType : Vector<VectorType, R, V>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
-	{
-		protected R X { get; private set; }
-		protected R Y { get; private set; }
-		#region IVector<V> Members
-		V IVector<V>.X { get { return this.X; } }
-		V IVector<V>.Y { get { return this.Y; } }
-		#endregion
-		#region Constructors
-        protected Vector() 
+    {
+        protected R X { get; private set; }
+        protected R Y { get; private set; }
+        #region IVector<V> Members
+        V IVector<V>.X { get { return this.X; } }
+        V IVector<V>.Y { get { return this.Y; } }
+        #endregion
+        #region Constructors
+        protected Vector()
         {
-            this.X = Kean.Math.Abstract<R,V>.Zero;
+            this.X = Kean.Math.Abstract<R, V>.Zero;
             this.Y = Kean.Math.Abstract<R, V>.Zero;
         }
         protected Vector(R x, R y)
-		{
-			this.X = x;
-			this.Y = y;
+        {
+            this.X = x;
+            this.Y = y;
         }
         #endregion
         #region Methods
@@ -95,6 +95,29 @@ namespace Kean.Math.Geometry2D.Abstract
             return right * left;
         }
         #endregion
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        public static bool operator ==(Vector<VectorType, R, V> left, IVector<V> right)
+        {
+            return object.ReferenceEquals(left, right) ||
+                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) && left.X == right.X && left.Y == right.Y;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        public static bool operator !=(Vector<VectorType, R, V> left, IVector<V> right)
+        {
+            return !(left == right);
+        }
+        #endregion
         #region Object overides and IEquatable<VectorType>
         public override bool Equals(object other)
         {
@@ -113,7 +136,22 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return this.X.ToString() + " " + this.Y.ToString();
         }
-        #endregion     
-	}
+        #endregion
+        #region Casts.
+        /// <summary>
+        /// Cast from Real to a quaternion.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static explicit operator V[](Vector<VectorType, R, V> value)
+        {
+            return new V[] { value.X, value.Y};
+        }
+        public static explicit operator Vector<VectorType, R, V>(V[] value)
+        {
+            return new VectorType() { X = (R)value[0], Y = (R)value[1]};
+        }
+        #endregion
+    }
 }
 

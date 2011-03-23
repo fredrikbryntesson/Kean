@@ -65,6 +65,10 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this.X * other.X + this.Y * other.Y + this.Z * other.Z;
         }
+        public R Distance(VectorType other)
+        {
+            return (this - other).Norm;
+        }
         #endregion
         #region Arithmetic Vector - Vector Operators
         public static VectorType operator *(Vector<VectorType, R, V> left, VectorType right)
@@ -128,6 +132,29 @@ namespace Kean.Math.Geometry3D.Abstract
             return result;
         }
         #endregion
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        public static bool operator ==(Vector<VectorType, R, V> left, IVector<V> right)
+        {
+            return object.ReferenceEquals(left, right) ||
+                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) && left.X == right.X && left.Y == right.Y && left.Z == right.Z;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        public static bool operator !=(Vector<VectorType, R, V> left, IVector<V> right)
+        {
+            return !(left == right);
+        }
+        #endregion
         #region Object overides and IEquatable<VectorType>
         public override bool Equals(object other)
         {
@@ -145,6 +172,21 @@ namespace Kean.Math.Geometry3D.Abstract
         public override string ToString()
         {
             return this.X.ToString() + " " + this.Y.ToString() + " " + this.Z.ToString();
+        }
+        #endregion
+        #region Casts.
+        /// <summary>
+        /// Cast from Real to a quaternion.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static explicit operator V[](Vector<VectorType, R, V> value)
+        {
+            return new V[] { value.X, value.Y, value.Z};
+        }
+        public static explicit operator Vector<VectorType, R, V>(V[] value)
+        {
+            return new VectorType() { X = (R)value[0], Y = (R)value[1], Z = (R)value[2] };
         }
         #endregion
     }

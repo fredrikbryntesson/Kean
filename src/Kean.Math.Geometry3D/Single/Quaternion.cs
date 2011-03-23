@@ -20,15 +20,15 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 
-namespace Kean.Math.Geometry3D.Double
+namespace Kean.Math.Geometry3D.Single
 {
     public class Quaternion :
-        Abstract.Quaternion<Quaternion, Point, Kean.Math.Double, double>
+        Abstract.Quaternion<Quaternion, Point, Kean.Math.Single, float>
     {
         public Quaternion() { }
-        public Quaternion(Kean.Math.Double x, Point y) :
+        public Quaternion(Kean.Math.Single x, Point y) :
             base(x, y) { }
-        public Quaternion(Kean.Math.Double x, Kean.Math.Double y, Kean.Math.Double z, Kean.Math.Double w) :
+        public Quaternion(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z, Kean.Math.Single w) :
             base(x, new Point(y, z, w)) { }
     }
 }

@@ -65,7 +65,17 @@ namespace Kean.Math
             return new Double(-this.Value);
         }
 		#endregion
-		#region Trigometric Functions
+        #region Trigonometric Helpers
+        public override Double ToRadians()
+        {
+            return Double.PI /180 * this;
+        }
+        public override Double ToDegrees()
+        {
+            return 180 / Double.PI * this;
+        }
+        #endregion
+       	#region Trigonometric Functions
 		public override Double Sinus()
 		{
 			return Double.Sinus(this.Value);
@@ -79,7 +89,7 @@ namespace Kean.Math
 			return Double.Tangens(this.Value);
         }
         #endregion
-        #region Inverse Trigometric Functions
+        #region Inverse Trigonometric Functions
         public override Double ArcusSinus()
         {
             return Double.ArcusSinus(this.Value);
@@ -151,7 +161,7 @@ namespace Kean.Math
 		public static double MaximumValue { get { return double.MaxValue; } }
 		public static double PI { get { return (double)System.Math.PI; } }
 		#endregion
-		#region Trigometric Functions
+		#region Trigonometric Functions
 		public static double Sinus(double value)
 		{
 			return System.Math.Sin(value);
@@ -165,7 +175,7 @@ namespace Kean.Math
 			return System.Math.Tan(value);
 		}
 	    #endregion
-        #region Inverse Trigometric Functions
+        #region Inverse Trigonometric Functions
         public static double ArcusSinus(double value)
         {
             return System.Math.Asin(value);
@@ -203,6 +213,12 @@ namespace Kean.Math
             return System.Math.Sqrt(value);
         }
         #endregion
+        #endregion
+        #region Object overides
+        public override string ToString()
+        {
+            return this.Value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+        }
         #endregion
     }
 }

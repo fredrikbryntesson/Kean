@@ -31,6 +31,7 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry2D.Single.Size.Test();
             Kean.Test.Math.Geometry3D.Single.Point.Test();
             Kean.Test.Math.Geometry3D.Single.Size.Test();
+            Kean.Test.Math.Geometry3D.Single.Quaternion.Test();
             Kean.Test.Math.Matrix.Single.Test();
             Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
