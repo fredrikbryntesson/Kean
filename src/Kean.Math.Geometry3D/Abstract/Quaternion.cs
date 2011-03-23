@@ -31,6 +31,7 @@ namespace Kean.Math.Geometry3D.Abstract
         protected R Real { get; private set; }
         protected PointType Imaginary { get; private set; }
         public R Norm { get { return (this.Real.Squared() + this.Imaginary.Norm.Squared()).SquareRoot(); } }
+        public QuaternionType Inverse { get { return this.Conjugate / this.Norm.Squared(); } }
         public QuaternionType Conjugate { get { return new QuaternionType() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
         public R Roll { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.X.Squared() + this.Imaginary.Y.Squared())); } }
@@ -59,15 +60,11 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return new QuaternionType() { Real = this.Real, Imaginary = this.Imaginary };
         }
-        public QuaternionType Reciprocal()
-        {
-            return this.Conjugate / this.Norm;
-        }
         #endregion
         #region Arithmetic Point - Point Operators
         public static PointType operator *(Quaternion<QuaternionType, PointType, R, V> left, PointType right)
         {
-            return (left * new QuaternionType() { Real = new R(), Imaginary = right } * left.Reciprocal()).Imaginary;
+            return (left * new QuaternionType() { Real = new R(), Imaginary = right } * left.Inverse).Imaginary;
         }
         public static QuaternionType operator *(Quaternion<QuaternionType, PointType, R, V> left, QuaternionType right)
         {

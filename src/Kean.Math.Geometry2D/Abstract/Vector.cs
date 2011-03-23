@@ -138,11 +138,6 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Casts.
-        /// <summary>
-        /// Cast from Real to a quaternion.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static explicit operator V[](Vector<VectorType, R, V> value)
         {
             return new V[] { value.X, value.Y};

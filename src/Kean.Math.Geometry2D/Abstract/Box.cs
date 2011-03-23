@@ -29,5 +29,30 @@ namespace Kean.Math.Geometry2D.Abstract
         public V Top { get { return (this.LeftTop as IPoint<V>).Y; } }
         public V Bottom { get { return (R)((this.LeftTop as IPoint<V>).Y) + this.Size.Height; } }
         #endregion
+        #region Constructors
+        protected Box()
+        {
+            this.leftTop = new PointValue();
+            this.size = new SizeValue();
+        }
+        protected Box(PointValue leftTop, SizeValue size)
+        {
+            this.leftTop = leftTop;
+            this.size = size;
+        }
+        #endregion
+        #region Methods
+        /*
+        public BoxType Copy()
+        {
+            return new BoxType()
+            {
+                leftTop = this.LeftTop.Copy();
+                size = this.Size.Copy()
+            };
+        }
+        */
+        #endregion
+    
     }
 }
