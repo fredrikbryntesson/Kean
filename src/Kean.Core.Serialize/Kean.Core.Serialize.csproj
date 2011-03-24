@@ -35,19 +35,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Serializable.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\Branch.cs" />
     <Compile Include="Data\Leaf.cs" />
     <Compile Include="TypeSpecifier.cs" />
     <Compile Include="ISerializable.cs" />
+    <Compile Include="Serializer\Abstract.cs" />
+    <Compile Include="ISerializer.cs" />
+    <Compile Include="Storage.cs" />
+    <Compile Include="IDeserializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Storage\Kean.Core.Storage.csproj">
-      <Project>{C385107F-C2D1-4651-8C9B-2B9858783193}</Project>
-      <Name>Kean.Core.Storage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core.Basis</Name>
@@ -64,5 +63,9 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Serializer\" />
+    <Folder Include="Deserializer\" />
   </ItemGroup>
 </Project>
