@@ -21,7 +21,7 @@
 using System;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Math.Geometry2D.Abstract
+namespace Kean.Math.Geometry3D.Abstract
 {
     public abstract class Transform<TransformType, TransformValue, R, V> :
         ITransform<V>,
@@ -37,6 +37,10 @@ namespace Kean.Math.Geometry2D.Abstract
         public R D { get; private set; }
         public R E { get; private set; }
         public R F { get; private set; }
+        public R G { get; private set; }
+        public R H { get; private set; }
+        public R I { get; private set; }
+       
         public R this[int x, int y]
         {
             get
@@ -49,7 +53,7 @@ namespace Kean.Math.Geometry2D.Abstract
                         {
                             case 0: result = this.A; break;
                             case 1: result = this.B; break;
-                            case 2: result = Kean.Math.Abstract<R, V>.Zero; break;
+                            case 2: result = this.C; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
@@ -58,7 +62,7 @@ namespace Kean.Math.Geometry2D.Abstract
                         {
                             case 0: result = this.C; break;
                             case 1: result = this.D; break;
-                            case 2: result = Kean.Math.Abstract<R, V>.Zero; break;
+                            case 2: result = this.E; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
@@ -67,7 +71,7 @@ namespace Kean.Math.Geometry2D.Abstract
                         {
                             case 0: result = this.E; break;
                             case 1: result = this.F; break;
-                            case 2: result = Kean.Math.Abstract<R, V>.One; break;
+                            case 2: result = this.F; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
@@ -94,13 +98,23 @@ namespace Kean.Math.Geometry2D.Abstract
             }
         }
         #region Current Properties
-        public V TransformScaleX { get { return (this.A.Squared() + this.B.Squared()).SquareRoot(); } }
-        public V TransformScaleY { get { return (this.C.Squared() + this.D.Squared()).SquareRoot(); } }
+        public V TransformScaleX { get { return (this.A.Squared() + this.B.Squared() + this.C.Squared()).SquareRoot(); } }
+        public V TransformScaleY { get { return (this.C.Squared() + this.D.Squared() + this.E.Squared()).SquareRoot(); } }
+        public V TransformScaleZ { get { return (this.G.Squared() + this.H.Squared() + this.I.Squared()).SquareRoot(); } }
+        
+        
+        
+        SOPOPssssss  TODO stop.
+        
+        
+        
+        
+        
         public V TransformScale { get { return ((R)this.TransformScaleX + (R)this.TransformScaleX) / Kean.Math.Abstract<R, V>.Two; } }
         public V TransformRotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
         //public SizeType Translation { get { return new SizeType() { Width = this.E, Height = this.F, }; } }
         #endregion
-	
+
         #region Constructors
         protected Transform() : this(new R(), new R(), new R(), new R(), new R(), new R()) { }
         protected Transform(R a, R b, R c, R d, R e, R f)

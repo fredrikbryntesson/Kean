@@ -31,15 +31,15 @@ namespace Kean.Math.Geometry2D.Double
         public Box(Point leftTop, Size size) : base(leftTop, size) { }
         public override Box Pad(double left, double right, double top, double bottom)
         {
-            return new Box(new PointValue(this.Left - left, this.Top - top) , new SizeValue(this.Size.Width + left + right, this.Size.Height + top + bottom));
+            return new Box(new PointValue(this.Left - left, this.Top - top), new SizeValue(this.Size.Width + left + right, this.Size.Height + top + bottom));
         }
         public override Box Intersection(Box other)
         {
             double left = this.Left > other.Left ? this.Left : other.Left;
             double top = this.Top > other.Top ? this.Top : other.Top;
-            double width =Kean.Math.Double.Maximum((this.Right < other.Right ? this.Right : other.Right) - left, 0);
+            double width = Kean.Math.Double.Maximum((this.Right < other.Right ? this.Right : other.Right) - left, 0);
             double height = Kean.Math.Double.Maximum((this.Bottom < other.Bottom ? this.Bottom : other.Bottom) - top, 0);
-            return new Box(left,top, width, height);
+            return new Box(left, top, width, height);
         }
         public static explicit operator BoxValue(Box value)
         {

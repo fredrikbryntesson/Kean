@@ -57,9 +57,9 @@ namespace Kean.Math.Geometry3D.Abstract
         }
         #endregion
         #region Methods
-        public VectorType Copy()
+        protected VectorType Create(R x, R y, R z)
         {
-            return new VectorType() { X = this.X, Y = this.Y, Z = this.Z };
+            return new VectorType() { X = x, Y = y, Z = z};
         }
         public R ScalarProduct(VectorType other)
         {

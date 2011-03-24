@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Math.Geometry2D.Abstract
+namespace Kean.Math.Geometry3D.Abstract
 {
     public abstract class Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
         IBox<PointValue, SizeValue, V>,
@@ -44,8 +44,9 @@ namespace Kean.Math.Geometry2D.Abstract
         #endregion
 
         #region Sizes
-        public V Width {get{return this.Size.Width;}}
+        public V Width { get { return this.Size.Width; } }
         public V Height { get { return this.Size.Height; } }
+        public V Depth { get { return this.Size.Depth; } }
         #endregion
 
         #region All sides
@@ -53,6 +54,8 @@ namespace Kean.Math.Geometry2D.Abstract
         public V Right { get { return (R)((this.LeftTop as IPoint<V>).X) + this.Size.Width; } }
         public V Top { get { return (this.LeftTop as IPoint<V>).Y; } }
         public V Bottom { get { return (R)((this.LeftTop as IPoint<V>).Y) + this.Size.Height; } }
+        public V Front { get { return (this.LeftTop as IPoint<V>).Z; } }
+        public V Back { get { return (R)((this.LeftTop as IPoint<V>).Z) + this.Size.Depth; } }
         #endregion
 
         #region IBox<PointValue, SizeValue, V>
@@ -74,22 +77,21 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Methods
-        public BoxType Swap()
-        {
-            return new BoxType() { leftTop = this.leftTop.Swap(), size = this.size.Swap() };
-        }
         public BoxType Pad(V pad)
         {
-            return this.Pad(pad, pad, pad, pad);
+            return this.Pad(pad, pad, pad, pad, pad, pad);
         }
         public BoxType Pad(SizeType padding)
         {
-            return this.Pad(padding.Width, padding.Width, padding.Height, padding.Height);
+            return this.Pad(padding.Width, padding.Width, padding.Height, padding.Height, padding.Depth, padding.Depth);
         }
-        public abstract BoxType Pad(V left, V right, V top, V bottom);
+        public abstract BoxType Pad(V left, V right, V top, V bottom, V front, V back);
         public bool Contains(PointType point)
         {
-            return point.X >= (R)this.Left && point.X <= (R)this.Right && point.Y >= (R)this.Top && point.Y <= (R)this.Bottom;
+            return
+                point.X >= (R)this.Left && point.X <= (R)this.Right &&
+                point.Y >= (R)this.Top && point.Y <= (R)this.Bottom &&
+                point.Z >= (R)this.Front && point.Z <= (R)this.Back;
         }
         public bool Contains(BoxType box)
         {

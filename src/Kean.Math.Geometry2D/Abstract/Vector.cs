@@ -49,12 +49,12 @@ namespace Kean.Math.Geometry2D.Abstract
             this.X = x;
             this.Y = y;
         }
+        #endregion
+        #region Methods
         protected VectorType Create(R x, R y)
         {
             return new VectorType() { X = x, Y = y };
         }
-        #endregion
-        #region Methods
         public VectorType Swap()
         {
             return new VectorType() { X = this.Y, Y = this.X };

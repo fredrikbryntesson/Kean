@@ -39,12 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Box.cs" />
+    <Compile Include="Abstract\IBox.cs" />
     <Compile Include="Abstract\IPoint.cs" />
     <Compile Include="Abstract\ISize.cs" />
+    <Compile Include="Abstract\ITransform.cs" />
     <Compile Include="Abstract\IVector.cs" />
     <Compile Include="Abstract\Point.cs" />
     <Compile Include="Abstract\Quaternion.cs" />
     <Compile Include="Abstract\Size.cs" />
+    <Compile Include="Abstract\Transform.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Double\Point.cs" />
     <Compile Include="Double\PointValue.cs" />

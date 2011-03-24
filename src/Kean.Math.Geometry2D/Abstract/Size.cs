@@ -42,10 +42,12 @@ namespace Kean.Math.Geometry2D.Abstract
 	    protected Size(R width, R height) :
 			base(width, height)
 		{ }
-        protected override SizeType Create()
+        #region Arithmetic Operators
+        public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, SizeType, SizeValue, R, V> right)
         {
-            return new SizeType();
+            return new SizeType().Create(left.A * right.Width + left.C * right.Height, left.B * right.Width + left.D * right.Height);
         }
+        #endregion
   	}
 }
 
