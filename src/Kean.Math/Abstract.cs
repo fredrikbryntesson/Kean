@@ -32,16 +32,12 @@ namespace Kean.Math
         protected R ZeroHelper { get { return this.CreateConstant(0); } }
         protected R OneHelper { get { return this.CreateConstant(1); } }
         protected R TwoHelper { get { return this.CreateConstant(2); } }
-        protected abstract R PositiveInfinityHelper { get; }
-        protected abstract R NegativeInfinityHelper { get; }
         protected abstract R EpsilonHelper { get; }
         #endregion
         #region Static Constants
         public static R Zero { get { return new R().ZeroHelper; } }
         public static R One { get { return new R().OneHelper; } }
         public static R Two { get { return new R().TwoHelper; } }
-        public static R MinusInfinity { get { return new R().NegativeInfinityHelper; } }
-        public static R PlusInfinity { get { return new R().PositiveInfinityHelper; } }
         public static R Precision { get { return new R().EpsilonHelper; } }
         #endregion
         #region Constructors
@@ -82,39 +78,19 @@ namespace Kean.Math
         {
             return value.LessThan(Kean.Math.Abstract<R, V>.Zero) ? -value : value;
         }
-        public static R Maximum(params R[] values)
+        public static R Maximum(R value, params R[] values)
         {
-            R result;
-            if (values.Length == 0)
-                result = Kean.Math.Abstract<R, V>.MinusInfinity;
-            else
-            {
-                result = new R() { Value = values[0] };
-                if (values.Length > 1)
-                {
-                    for (int i = 1; i < values.Length; i++)
-                        if (result.LessThan(values[i]))
-                            result.Value = values[i].Value;
-                }
-            }
-            return result;
+            foreach (R v in values)
+                if (value < v)
+                    value = v;
+            return value;
         }
-        public static R Minimum(params R[] values)
+        public static R Minimum(R value, params R[] values)
         {
-            R result;
-            if (values.Length == 0)
-                result = Kean.Math.Abstract<R, V>.PlusInfinity;
-            else
-            {
-                result = new R() { Value = values[0] };
-                if (values.Length > 1)
-                {
-                    for (int i = 1; i < values.Length; i++)
-                        if (result.GreaterThan(values[i]))
-                            result.Value = values[i].Value;
-                }
-            }
-            return result;
+            foreach (R v in values)
+                if (value > v)
+                    value = v;
+            return value;
         }
         #endregion
         #region Functions

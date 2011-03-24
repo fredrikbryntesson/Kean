@@ -22,12 +22,10 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math
 {
-	public class Double :
+	public partial class Double :
 		Abstract<Double, double>
 	{
         #region Abtract Properties
-        protected override Double NegativeInfinityHelper { get { return Double.NegativeInfinity; } }
-        protected override Double PositiveInfinityHelper { get { return Double.PositiveInfinity; } }
         protected override Double EpsilonHelper { get { return Double.Epsilon; } }
         #endregion
         #region Constructors
@@ -68,11 +66,11 @@ namespace Kean.Math
         #region Trigonometric Helpers
         public override Double ToRadians()
         {
-            return Double.PI /180 * this;
+            return Double.Pi /180 * this;
         }
         public override Double ToDegrees()
         {
-            return 180 / Double.PI * this;
+            return 180 / Double.Pi * this;
         }
         #endregion
        	#region Trigonometric Functions
@@ -152,68 +150,6 @@ namespace Kean.Math
 			return new Double(value);
 		}
 		#endregion
-		#region Static Functions
-		#region Properties
-		public static double NegativeInfinity { get { return double.NegativeInfinity; } }
-		public static double PositiveInfinity { get { return double.PositiveInfinity; } }
-		public static double Epsilon { get { return double.Epsilon; } }
-		public static double MinimumValue { get { return double.MinValue; } }
-		public static double MaximumValue { get { return double.MaxValue; } }
-		public static double PI { get { return (double)System.Math.PI; } }
-		#endregion
-		#region Trigonometric Functions
-		public static double Sinus(double value)
-		{
-			return System.Math.Sin(value);
-		}
-		public static double Cosinus(double value)
-		{
-			return System.Math.Cos(value);
-		}
-		public static double Tangens(double value)
-		{
-			return System.Math.Tan(value);
-		}
-	    #endregion
-        #region Inverse Trigonometric Functions
-        public static double ArcusSinus(double value)
-        {
-            return System.Math.Asin(value);
-        }
-        public static double ArcusCosinus(double value)
-        {
-            return System.Math.Acos(value);
-        }
-        public static double ArcusTangens(double value)
-        {
-            return System.Math.Atan(value);
-        }
-        public static double ArcusTangensExtended(double y, double x)
-        {
-            return System.Math.Atan2(y, x);
-        }
-	    #endregion
-        #region Transcendental Functions
-        public static double Exponential(double value)
-        {
-            return System.Math.Exp(value);
-        }
-        public static double Logarithm(double value)
-        {
-            return System.Math.Log(value);
-        }
-	    #endregion
-        #region Power Function
-        public static double Power(double @base, double exponent)
-        {
-            return System.Math.Pow(@base, exponent);
-        }
-        public static double SquareRoot(double value)
-        {
-            return System.Math.Sqrt(value);
-        }
-        #endregion
-        #endregion
         #region Object overides
         public override string ToString()
         {

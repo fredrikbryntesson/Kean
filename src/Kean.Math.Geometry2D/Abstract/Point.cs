@@ -21,10 +21,12 @@
 using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
-	public abstract class Point<PointType, PointValue, R, V> :
-		Vector<PointType, PointValue, R, V>,
+    public abstract class Point<TransformType, TransformValue, PointType, PointValue, R, V> :
+		Vector<TransformType, TransformValue, PointType, PointValue, R, V>,
 		IPoint<V>
-        where PointType : Point<PointType, PointValue, R, V>, new()
+        where TransformType : Transform<TransformType, TransformValue, R, V>, ITransform<V>, new()
+        where TransformValue : struct, ITransform<V>
+        where PointType : Point<TransformType, TransformValue, PointType, PointValue, R, V>, new()
         where PointValue : struct, IPoint<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct

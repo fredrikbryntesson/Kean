@@ -63,7 +63,6 @@ namespace Kean.Test.Math
             R zero = new R();
             R one = Kean.Math.Abstract<R, V>.One;
             R two = Kean.Math.Abstract<R, V>.Two;
-            Assert.That(Kean.Math.Abstract<R, V>.Minimum(), Is.EqualTo(Kean.Math.Abstract<R, V>.PlusInfinity));
             Assert.That(Kean.Math.Abstract<R, V>.Minimum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Minimum(zero, -one, two), Is.EqualTo(-one));
         }
@@ -73,7 +72,6 @@ namespace Kean.Test.Math
             R zero = new R();
             R one = Kean.Math.Abstract<R, V>.One;
             R two = Kean.Math.Abstract<R, V>.Two;
-            Assert.That(Kean.Math.Abstract<R, V>.Maximum(), Is.EqualTo(Kean.Math.Abstract<R, V>.MinusInfinity));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(two), Is.EqualTo(two));
             Assert.That(Kean.Math.Abstract<R, V>.Maximum(zero, -one, two), Is.EqualTo(two));
         }
@@ -84,13 +82,10 @@ namespace Kean.Test.Math
             Assert.That(Kean.Math.Abstract<R, V>.One.LessOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.LessOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.LessThan(Kean.Math.Abstract<R, V>.One), Is.False);
-            Assert.That(Kean.Math.Abstract<R,V>.MinusInfinity.LessThan(new R()), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterThan(Kean.Math.Abstract<R, V>.One), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.One), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.One), Is.True);
-            Assert.That(Kean.Math.Abstract<R, V>.PlusInfinity.GreaterThan(new R()), Is.True);
-            Assert.That(Kean.Math.Abstract<R,V>.PlusInfinity.GreaterThan(Kean.Math.Abstract<R, V>.MinusInfinity), Is.True);
         }
         public void Run()
         {

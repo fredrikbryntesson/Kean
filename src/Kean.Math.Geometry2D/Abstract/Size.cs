@@ -21,10 +21,12 @@
 using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
-	public abstract class Size<SizeType, SizeValue, R, V> :
-		Vector<SizeType, SizeValue, R, V>,
+    public abstract class Size<TransformType, TransformValue, SizeType, SizeValue, R, V> :
+        Vector<TransformType, TransformValue, SizeType, SizeValue, R, V>,
 		ISize<V>
-        where SizeType : Size<SizeType, SizeValue, R, V>, IVector<V>, new()
+        where TransformType : Transform<TransformType, TransformValue, R, V>, ITransform<V>, new()
+        where TransformValue : struct, ITransform<V>
+        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct

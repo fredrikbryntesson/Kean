@@ -22,12 +22,10 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math
 {
-    public class Integer :
+    public partial class Integer :
         Abstract<Integer, int>
     {
         #region Abtract Properties
-        protected override Integer NegativeInfinityHelper { get { return Integer.NegativeInfinity; } }
-        protected override Integer PositiveInfinityHelper { get { return Integer.PositiveInfinity; } }
         protected override Integer EpsilonHelper { get { return Integer.Epsilon; } }
         #endregion
         #region Constructors
@@ -68,11 +66,11 @@ namespace Kean.Math
         #region Trigonometric Helpers
         public override Integer ToRadians()
         {
-            return Integer.PI / 180 * this;
+            return Integer.Pi / 180 * this;
         }
         public override Integer ToDegrees()
         {
-            return 180 / Integer.PI * this;
+            return 180 / Integer.Pi * this;
         }
         #endregion
         
@@ -152,68 +150,6 @@ namespace Kean.Math
         {
             return new Integer(value);
         }
-        #endregion
-        #region Static Functions
-        #region Properties
-        public static int NegativeInfinity { get { return int.MaxValue; } }
-        public static int PositiveInfinity { get { return int.MinValue; } }
-        public static int Epsilon { get { return 1; } }
-        public static int MinimumValue { get { return int.MinValue; } }
-        public static int MaximumValue { get { return int.MaxValue; } }
-        public static int PI { get { return (int)System.Math.PI; } }
-        #endregion
-        #region Trigonometric Functions
-        public static int Sinus(int value)
-        {
-            return (int)System.Math.Sin(value);
-        }
-        public static int Cosinus(int value)
-        {
-            return (int)System.Math.Cos(value);
-        }
-        public static int Tangens(int value)
-        {
-            return (int)System.Math.Tan(value);
-        }
-        #endregion
-        #region Inverse Trigonometric Functions
-        public static int ArcusSinus(int value)
-        {
-            return (int)System.Math.Asin(value);
-        }
-        public static int ArcusCosinus(int value)
-        {
-            return (int)System.Math.Acos(value);
-        }
-        public static int ArcusTangens(int value)
-        {
-            return (int)System.Math.Atan(value);
-        }
-        public static int ArcusTangensExtended(int y, int x)
-        {
-            return (int)System.Math.Atan2(y, x);
-        }
-        #endregion
-        #region Transcendental Functions
-        public static int Exponential(int value)
-        {
-            return (int)System.Math.Exp(value);
-        }
-        public static int Logarithm(int value)
-        {
-            return (int)System.Math.Log(value);
-        }
-        #endregion
-        #region Power Function
-        public static int Power(int @base, int exponent)
-        {
-            return (int)System.Math.Pow(@base, exponent);
-        }
-        public static int SquareRoot(int value)
-        {
-            return (int)System.Math.Sqrt(value);
-        }
-        #endregion
         #endregion
         #region Object overides
         public override string ToString()

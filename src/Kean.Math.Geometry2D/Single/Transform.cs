@@ -1,8 +1,8 @@
 ﻿// 
-//  IBox.cs
+//  Transform.cs
 //  
 //  Author:
-//       Anders Frisk <@>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
 //  Copyright (c) 2011 Anders Frisk
 // 
@@ -20,14 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Math.Geometry2D.Abstract
+namespace Kean.Math.Geometry2D.Single
 {
-    public interface IBox<PointValueType, SizeValueType, V>
-        where PointValueType : struct, IPoint<V>
-        where SizeValueType : struct, ISize<V>
-        where V : struct
+    public class Transform : Abstract.Transform<Transform, TransformValue, Kean.Math.Single, float>
     {
-        PointValueType LeftTop { get; }
-        SizeValueType Size { get; }
+        public Transform() { }
+        public Transform(Kean.Math.Single a, Kean.Math.Single b, Kean.Math.Single c, Kean.Math.Single d, Kean.Math.Single e, Kean.Math.Single f) : base(a, b, c, d, e, f) { }
+        public override TransformValue Value { get { return (TransformValue)this; } }
+        #region Casts
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        #endregion
     }
 }

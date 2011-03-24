@@ -1,5 +1,5 @@
 ﻿// 
-//  Size.cs
+//  ITransform.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,14 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Math.Geometry2D.Integer
+namespace Kean.Math.Geometry2D.Abstract
 {
-    public class Size : 
-		Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Integer, int>
+    public interface ITransform<V>
+        where V : struct
     {
-        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
-        public Size() { }
-        public Size(Kean.Math.Integer x, Kean.Math.Integer y) : 
-			base(x, y) { }
+        V A { get; }
+        V B { get; }
+        V C { get; }
+        V D { get; }
+        V E { get; }
+        V F { get; }
     }
 }

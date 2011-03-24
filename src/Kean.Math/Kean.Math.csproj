@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -38,9 +38,12 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Abstract.cs" />
     <Compile Include="Double.cs" />
+    <Compile Include="Double.Function.cs" />
     <Compile Include="Exception\DivisionByZero.cs" />
     <Compile Include="Integer.cs" />
+    <Compile Include="Integer.Function.cs" />
     <Compile Include="Single.cs" />
+    <Compile Include="Single.Function.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">

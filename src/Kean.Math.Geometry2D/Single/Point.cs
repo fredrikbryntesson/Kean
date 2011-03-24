@@ -23,7 +23,7 @@ using System;
 namespace Kean.Math.Geometry2D.Single
 {
     public class Point : 
-		Abstract.Point<Point, PointValue, Kean.Math.Single, float>
+		Abstract.Point<Transform, TransformValue, Point, PointValue, Kean.Math.Single, float>
     {
         public override PointValue Value { get { return new PointValue(this.X, this.Y); } }
         public Point() { }

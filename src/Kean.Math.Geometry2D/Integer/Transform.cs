@@ -1,10 +1,10 @@
 ﻿// 
-//  Size.cs
+//  Transform.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,12 +22,16 @@ using System;
 
 namespace Kean.Math.Geometry2D.Integer
 {
-    public class Size : 
-		Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Integer, int>
+    public class Transform : Abstract.Transform<Transform, TransformValue, Kean.Math.Integer, int>
     {
-        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
-        public Size() { }
-        public Size(Kean.Math.Integer x, Kean.Math.Integer y) : 
-			base(x, y) { }
+        public Transform() { }
+        public Transform(Kean.Math.Integer a, Kean.Math.Integer b, Kean.Math.Integer c, Kean.Math.Integer d, Kean.Math.Integer e, Kean.Math.Integer f) : base(a, b, c, d, e, f) { }
+        public override TransformValue Value { get { return (TransformValue)this; } }
+        #region Casts
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        #endregion
     }
 }

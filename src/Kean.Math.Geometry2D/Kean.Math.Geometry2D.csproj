@@ -39,7 +39,9 @@
     <Compile Include="Abstract\IBox.cs" />
     <Compile Include="Abstract\IPoint.cs" />
     <Compile Include="Abstract\ISize.cs" />
+    <Compile Include="Abstract\ITransform.cs" />
     <Compile Include="Abstract\IVector.cs" />
+    <Compile Include="Abstract\Transform.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Abstract\Point.cs" />
@@ -50,16 +52,26 @@
     <Compile Include="Double\PointValue.cs" />
     <Compile Include="Double\Size.cs" />
     <Compile Include="Double\SizeValue.cs" />
+    <Compile Include="Double\Transform.cs" />
+    <Compile Include="Double\TransformValue.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\PointValue.cs" />
     <Compile Include="Integer\Size.cs" />
     <Compile Include="Integer\SizeValue.cs" />
+    <Compile Include="Integer\Transform.cs" />
+    <Compile Include="Integer\TransformValue.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\PointValue.cs" />
     <Compile Include="Single\Size.cs" />
     <Compile Include="Single\SizeValue.cs" />
+    <Compile Include="Single\Transform.cs" />
+    <Compile Include="Single\TransformValue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>

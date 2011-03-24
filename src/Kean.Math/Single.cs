@@ -22,12 +22,10 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math
 {
-    public class Single :
+    public partial class Single :
         Abstract<Single, float>
     {
         #region Abtract Properties
-        protected override Single NegativeInfinityHelper { get { return Single.NegativeInfinity; } }
-        protected override Single PositiveInfinityHelper { get { return Single.PositiveInfinity; } }
         protected override Single EpsilonHelper { get { return Single.Epsilon; } }
         #endregion
         #region Constructors
@@ -68,11 +66,11 @@ namespace Kean.Math
         #region Trigonometric Helpers
         public override Single ToRadians()
         {
-            return Single.PI / 180 * this;
+            return Single.Pi / 180 * this;
         }
         public override Single ToDegrees()
         {
-            return 180 / Single.PI * this;
+            return 180 / Single.Pi * this;
         }
         #endregion
         #region Trigonometric Functions
@@ -151,68 +149,6 @@ namespace Kean.Math
         {
             return new Single(value);
         }
-        #endregion
-        #region Static Functions
-        #region Properties
-        public static float NegativeInfinity { get { return float.NegativeInfinity; } }
-        public static float PositiveInfinity { get { return float.PositiveInfinity; } }
-        public static float Epsilon { get { return float.Epsilon; } }
-        public static float MinimumValue { get { return float.MinValue; } }
-        public static float MaximumValue { get { return float.MaxValue; } }
-        public static float PI { get { return (float)System.Math.PI; } }
-        #endregion
-        #region Trigonometric Functions
-        public static float Sinus(float value)
-        {
-            return (float)System.Math.Sin(value);
-        }
-        public static float Cosinus(float value)
-        {
-            return (float)System.Math.Cos(value);
-        }
-        public static float Tangens(float value)
-        {
-            return (float)System.Math.Tan(value);
-        }
-        #endregion
-        #region Inverse Trigonometric Functions
-        public static float ArcusSinus(float value)
-        {
-            return (float)System.Math.Asin(value);
-        }
-        public static float ArcusCosinus(float value)
-        {
-            return (float)System.Math.Acos(value);
-        }
-        public static float ArcusTangens(float value)
-        {
-            return (float)System.Math.Atan(value);
-        }
-        public static float ArcusTangensExtended(float y, float x)
-        {
-            return (float)System.Math.Atan2(y, x);
-        }
-        #endregion
-        #region Transcendental Functions
-        public static float Exponential(float value)
-        {
-            return (float)System.Math.Exp(value);
-        }
-        public static float Logarithm(float value)
-        {
-            return (float)System.Math.Log(value);
-        }
-        #endregion
-        #region Power Function
-        public static float Power(float @base, float exponent)
-        {
-            return (float)System.Math.Pow(@base, exponent);
-        }
-        public static float SquareRoot(float value)
-        {
-            return (float)System.Math.Sqrt(value);
-        }
-        #endregion
         #endregion
         #region Object overides
         public override string ToString()

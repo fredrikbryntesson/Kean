@@ -1,10 +1,10 @@
 ﻿// 
-//  Point.cs
+//  Transform.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -17,20 +17,21 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
 namespace Kean.Math.Geometry2D.Double
 {
-    public class Point : Abstract.Point<Transform, TransformValue, Point, PointValue, Kean.Math.Double, double>
+    public class Transform : 
+        Abstract.Transform<Transform, TransformValue, Kean.Math.Double, double>
     {
-        public override PointValue Value { get { return (PointValue)this; } }
-        public Point() { }
-        public Point(Kean.Math.Double x, Kean.Math.Double y) : base(x, y) { }
+        public Transform() { }
+        public Transform(Kean.Math.Double a, Kean.Math.Double b, Kean.Math.Double c, Kean.Math.Double d, Kean.Math.Double e, Kean.Math.Double f) : base(a, b, c, d, e, f) { }
+        public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
-        public static explicit operator PointValue(Point value)
+        public static explicit operator TransformValue(Transform value)
         {
-            return new PointValue() { X = value.X, Y = value.Y };
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
         }
         #endregion
     }

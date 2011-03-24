@@ -23,7 +23,7 @@ using System;
 namespace Kean.Math.Geometry2D.Single
 {
     public class Size : 
-		Abstract.Size<Size, SizeValue, Kean.Math.Single, float>
+		Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
         public Size() { }

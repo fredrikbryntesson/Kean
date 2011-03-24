@@ -22,9 +22,9 @@ using System;
 
 namespace Kean.Math.Geometry2D.Double
 {
-    public class Box : Abstract.Box<Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Double, double>
+    public class Box : Abstract.Box<Transform, TransformValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Double, double>
     {
-        public BoxValue Value { get { return (BoxValue)this; } }
+        public override BoxValue Value { get { return (BoxValue)this; } }
         public Box() { }
         public Box(double left, double top, double width, double height) : this(new Point(left, top), new Size(width, height)) { }
         public Box(PointValue leftTop, SizeValue size) : base((Point)leftTop, (Size)size) { }
