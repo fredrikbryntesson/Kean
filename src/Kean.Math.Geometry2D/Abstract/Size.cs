@@ -42,6 +42,10 @@ namespace Kean.Math.Geometry2D.Abstract
 	    protected Size(R width, R height) :
 			base(width, height)
 		{ }
+        protected override SizeType Create()
+        {
+            return new SizeType();
+        }
   	}
 }
 

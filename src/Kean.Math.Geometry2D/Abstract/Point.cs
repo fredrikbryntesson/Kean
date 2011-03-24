@@ -42,6 +42,20 @@ namespace Kean.Math.Geometry2D.Abstract
         protected Point(R x, R y) :
 			base(x, y)
 		{ }
+        #region Arithmetic Operators
+        public static Point<TransformType, TransformValue, PointType, PointValue, R, V> operator *(TransformType left, Point<TransformType, TransformValue, PointType, PointValue, R, V> right)
+        {
+            VectorType result;
+            if (right is Point<TransformType, TransformValue, PointType, PointValue, R, V>)
+            {
+                result = new VectorType()
+                {
+                    X = left.A * right.X + (R)left.C * right.Y + left.E,
+                    Y = (R)left.B * right.X + (R)left.D * right.Y + left.F,
+                };
+            }
+            return result;
+        }
         #endregion
     }
 }
