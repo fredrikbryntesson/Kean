@@ -73,7 +73,7 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void Roll()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerAngles(angle, new R(), new R());
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerRoll(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationX(angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));
@@ -83,7 +83,7 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void Pitch()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerAngles(new R(), angle, new R());
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerPitch(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationY(-angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));
@@ -93,7 +93,7 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void Yaw()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerAngles(new R(), new R(), angle);
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>.EulerYaw(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<QuaternionType, PointType, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationZ(angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));

@@ -124,7 +124,28 @@ namespace Kean.Math.Geometry3D.Abstract
         #endregion
         #region Static Functions
         /// <summary>
-        /// First yaw, then roll, then pitch.
+        /// Rotation around the x-axis
+        /// </summary>
+        /// <param name="roll"></param>
+        /// <returns></returns>
+        public static QuaternionType EulerRoll(R roll)
+        {
+            R halfRoll = roll / Kean.Math.Abstract<R, V>.Two;
+            return ((Quaternion<QuaternionType, PointType, R, V>)halfRoll.Cosinus() + halfRoll.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis1);
+        }
+        /// <summary>
+        /// Rotation around the y-axis
+        /// </summary>
+        /// <param name="pitch"></param>
+        /// <returns></returns>
+        public static QuaternionType EulerPitch(R pitch)
+        {
+            R halfPitch = pitch / Kean.Math.Abstract<R, V>.Two;
+            return ((Quaternion<QuaternionType, PointType, R, V>)halfPitch.Cosinus() + halfPitch.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis2);
+         
+        }
+        /// <summary>
+        /// Create quaternion with Euler angles according to the x-y-z convention. Meaning first we roll, then we pitch and at last we do the yaw.
         /// </summary>
         /// <param name="roll"></param>
         /// <param name="pitch"></param>
@@ -132,13 +153,17 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType EulerAngles(R roll, R pitch, R yaw)
         {
-            R halfRoll = roll / Kean.Math.Abstract<R, V>.Two;
-            R halfPitch = pitch / Kean.Math.Abstract<R, V>.Two;
+            return Quaternion<QuaternionType, PointType, R, V>.EulerYaw(yaw) * Quaternion<QuaternionType, PointType, R, V>.EulerPitch(pitch) * Quaternion<QuaternionType, PointType, R, V>.EulerRoll(roll);
+        }
+        /// <summary>
+        /// Rotation around the z-axis
+        /// </summary>
+        /// <param name="yaw"></param>
+        /// <returns></returns>
+        public static QuaternionType EulerYaw(R yaw)
+        {
             R halfYaw = yaw / Kean.Math.Abstract<R, V>.Two;
-            return
-                 ((Quaternion<QuaternionType, PointType, R, V>)halfRoll.Cosinus() + halfRoll.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis1) *
-                 ((Quaternion<QuaternionType, PointType, R, V>)halfPitch.Cosinus() + halfPitch.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis2) *
-                 ((Quaternion<QuaternionType, PointType, R, V>)halfYaw.Cosinus() + halfYaw.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis3);
+            return ((Quaternion<QuaternionType, PointType, R, V>)halfYaw.Cosinus() + halfYaw.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis3);
         }
         #endregion
         #region Comparison Operators
