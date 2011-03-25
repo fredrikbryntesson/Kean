@@ -3,9 +3,13 @@ using NUnit.Framework;
 
 namespace Kean.Test.Math.Geometry3D.Single
 {
+    
     [TestFixture]
     public class Quaternion :
-        Kean.Test.Math.Geometry3D.Abstract.Quaternion<Kean.Math.Geometry3D.Single.Quaternion, Kean.Math.Matrix.Single, Kean.Math.Geometry3D.Single.Point, Kean.Math.Single, float>
+        Kean.Test.Math.Geometry3D.Abstract.Quaternion<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, 
+        Kean.Math.Geometry3D.Single.Quaternion, Kean.Math.Geometry3D.Single.Point, Kean.Math.Geometry3D.Single.PointValue, 
+        Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Matrix.Single,  
+        Kean.Math.Single, float>
     {
         [TestFixtureSetUp]
         public virtual void FixtureSetup()

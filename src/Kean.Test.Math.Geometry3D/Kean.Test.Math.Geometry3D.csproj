@@ -51,6 +51,7 @@
     <Compile Include="Abstract\Point.cs" />
     <Compile Include="Abstract\Quaternion.cs" />
     <Compile Include="Abstract\Size.cs" />
+    <Compile Include="Abstract\Transform.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Single\Point.cs" />

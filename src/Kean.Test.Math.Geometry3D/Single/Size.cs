@@ -5,7 +5,7 @@ namespace Kean.Test.Math.Geometry3D.Single
 {
     [TestFixture]
     public class Size :
-        Kean.Test.Math.Geometry3D.Abstract.Size<Kean.Math.Geometry3D.Single.Size,
+        Kean.Test.Math.Geometry3D.Abstract.Size<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue,
         Kean.Math.Single, float>
     {
         [TestFixtureSetUp]

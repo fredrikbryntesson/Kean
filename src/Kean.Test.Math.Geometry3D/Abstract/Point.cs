@@ -5,8 +5,14 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Test.Math.Geometry3D.Abstract
 {
-    public abstract class Point<PointType, R, V> : Vector<PointType, R,V>
-        where PointType : Kean.Math.Geometry3D.Abstract.Point<PointType, R, V>, new()
+    public abstract class Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Vector<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>
+        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
+        where PointValue : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
+        where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.IVector<V>, new()
+        where SizeValue : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {

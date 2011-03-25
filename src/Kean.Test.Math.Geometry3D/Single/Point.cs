@@ -5,8 +5,7 @@ namespace Kean.Test.Math.Geometry3D.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry3D.Abstract.Point<Kean.Math.Geometry3D.Single.Point, 
-        Kean.Math.Single, float>
+        Kean.Test.Math.Geometry3D.Abstract.Point<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Point, Kean.Math.Geometry3D.Single.PointValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Single, float>
     {
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
