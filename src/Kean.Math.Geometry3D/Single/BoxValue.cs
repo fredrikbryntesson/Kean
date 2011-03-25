@@ -20,40 +20,30 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 namespace Kean.Math.Geometry3D.Single
 {
-	public struct PointValue :
-		Abstract.IPoint<float>
-	{
-		float x;
-		float y;
-		float z;
-		public float X
-		{
-			get { return this.x; }
-			set { this.x = value; }
-		}
-		public float Y
-		{
-			get { return this.y; }
-			set { this.y = value; }
-		}
-		public float Z
-		{
-			get { return this.z; }
-			set { this.z = value; }
-		}
-		public PointValue(float x, float y, float z)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-		public static implicit operator Point(PointValue value)
-		{
-			return new Point(value.X, value.Y, value.Z);
-		}
-		public static explicit operator PointValue(Point value)
-		{
-			return new PointValue(value.X, value.Y, value.Z);
-		}
-	}
+    public struct BoxValue :
+        Abstract.IBox<PointValue, SizeValue, float>
+    {
+        PointValue leftTop;
+        SizeValue size;
+        public PointValue LeftTop
+        {
+            get { return this.leftTop; }
+            set { this.leftTop = value; }
+        }
+        public SizeValue Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
+        public BoxValue(float left, float top, float front, float width, float height, float depth)
+        {
+            this.leftTop = new PointValue(left, top, front);
+            this.size = new SizeValue(width, height, depth);
+        }
+        public BoxValue(PointValue leftTop, SizeValue size)
+        {
+            this.leftTop = leftTop;
+            this.size = size;
+        }
+    }
 }

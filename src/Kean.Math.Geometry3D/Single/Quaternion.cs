@@ -23,7 +23,7 @@ using System;
 namespace Kean.Math.Geometry3D.Single
 {
     public class Quaternion :
-        Abstract.Quaternion<Quaternion, Point, Kean.Math.Single, float>
+        Abstract.Quaternion<Transform, TransformValue, Quaternion, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public Quaternion() { }
         public Quaternion(Kean.Math.Single x, Point y) :

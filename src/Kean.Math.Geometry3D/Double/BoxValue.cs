@@ -1,5 +1,5 @@
 ﻿// 
-//  Point.cs
+//  PointValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,15 +18,32 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
-using System;
-
 namespace Kean.Math.Geometry3D.Double
 {
-    public class Point : 
-		Abstract.Point<Point, Kean.Math.Double, double>
+    public struct BoxValue :
+        Abstract.IBox<PointValue, SizeValue, double>
     {
-        public Point() { }
-		public Point(Kean.Math.Double x, Kean.Math.Double y, Kean.Math.Double z) : 
-			base(x, y, z) { }
+        PointValue leftTop;
+        SizeValue size;
+        public PointValue LeftTop
+        {
+            get { return this.leftTop; }
+            set { this.leftTop = value; }
+        }
+        public SizeValue Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
+        public BoxValue(double left, double top, double front, double width, double height, double depth)
+        {
+            this.leftTop = new PointValue(left, top, front);
+            this.size = new SizeValue(width, height, depth);
+        }
+        public BoxValue(PointValue leftTop, SizeValue size)
+        {
+            this.leftTop = leftTop;
+            this.size = size;
+        }
     }
 }

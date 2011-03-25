@@ -1,5 +1,5 @@
 ﻿// 
-//  Point.cs
+//  ShellValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,15 +18,32 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
-using System;
-
 namespace Kean.Math.Geometry3D.Integer
 {
-    public class Point : 
-		Abstract.Point<Point, Kean.Math.Integer, int>
+    public struct ShellValue :
+        Abstract.IShell<int>
     {
-        public Point() { }
-		public Point(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : 
-			base(x, y, z) { }
+        int left;
+        int right;
+        int top;
+        int bottom;
+        int front;
+        int back;
+        public int Left { get { return this.left; } }
+        public int Right { get { return this.right; } }
+        public int Top { get { return this.top; } }
+        public int Bottom { get { return this.bottom; } }
+        public int Front { get { return this.front; } }
+        public int Back { get { return this.back; } }
+
+        public ShellValue(int left, int right, int top, int bottom, int front, int back)
+        {
+            this.left = left;
+            this.right = right;
+            this.top = top;
+            this.bottom = bottom;
+            this.front = front;
+            this.back = back;
+        }
     }
 }

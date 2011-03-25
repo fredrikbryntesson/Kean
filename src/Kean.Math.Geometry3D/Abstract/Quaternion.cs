@@ -21,10 +21,15 @@
 using System;
 namespace Kean.Math.Geometry3D.Abstract
 {
-    public abstract class Quaternion<QuaternionType, PointType, R, V> :
-        IEquatable<Quaternion<QuaternionType, PointType, R, V>>
-        where QuaternionType : Quaternion<QuaternionType, PointType, R, V>, new()
-        where PointType : Point<PointType, R, V>, new()
+    public abstract class Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> :
+        IEquatable<QuaternionType>
+        where QuaternionType : Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>, new()
+        where PointType : Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
+        where PointValue : struct, IPoint<V>, IVector<V>
+        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+        where TransformValue : struct, ITransform<V>
+        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+        where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -39,9 +44,9 @@ namespace Kean.Math.Geometry3D.Abstract
         public R Yaw { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
         #endregion
         #region Static Constants
-        public static QuaternionType Basis1 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<PointType, R, V>.Basis1 }; } }
-        public static QuaternionType Basis2 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<PointType, R, V>.Basis2 }; } }
-        public static QuaternionType Basis3 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<PointType, R, V>.Basis3 }; } }
+        public static QuaternionType Basis1 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 }; } }
+        public static QuaternionType Basis2 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 }; } }
+        public static QuaternionType Basis3 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 }; } }
         #endregion
         #region Constructors
         protected Quaternion()
@@ -62,11 +67,11 @@ namespace Kean.Math.Geometry3D.Abstract
         }
         #endregion
         #region Arithmetic Point - Point Operators
-        public static PointType operator *(Quaternion<QuaternionType, PointType, R, V> left, PointType right)
+        public static PointType operator *(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
             return (left * new QuaternionType() { Real = new R(), Imaginary = right } * left.Inverse).Imaginary;
         }
-        public static QuaternionType operator *(Quaternion<QuaternionType, PointType, R, V> left, QuaternionType right)
+        public static QuaternionType operator *(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, QuaternionType right)
         {
             QuaternionType result = new QuaternionType()
             {
@@ -75,7 +80,7 @@ namespace Kean.Math.Geometry3D.Abstract
             };
             return result;
         }
-        public static QuaternionType operator +(Quaternion<QuaternionType, PointType, R, V> left, QuaternionType right)
+        public static QuaternionType operator +(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, QuaternionType right)
         {
             QuaternionType result = new QuaternionType()
             {
@@ -84,7 +89,7 @@ namespace Kean.Math.Geometry3D.Abstract
             };
             return result;
         }
-        public static QuaternionType operator -(Quaternion<QuaternionType, PointType, R, V> quaternion)
+        public static QuaternionType operator -(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> quaternion)
         {
             QuaternionType result = new QuaternionType()
             {
@@ -93,13 +98,13 @@ namespace Kean.Math.Geometry3D.Abstract
             };
             return result;
         }
-        public static QuaternionType operator -(Quaternion<QuaternionType, PointType, R, V> left, QuaternionType right)
+        public static QuaternionType operator -(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, QuaternionType right)
         {
             return left + (-right);
         }
         #endregion
         #region Arithmetic Point and Scalar
-        public static QuaternionType operator *(Quaternion<QuaternionType, PointType, R, V> left, R right)
+        public static QuaternionType operator *(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, R right)
         {
             QuaternionType result = new QuaternionType()
             {
@@ -108,11 +113,11 @@ namespace Kean.Math.Geometry3D.Abstract
             };
             return result;
         }
-        public static QuaternionType operator *(R left, Quaternion<QuaternionType, PointType, R, V> right)
+        public static QuaternionType operator *(R left, Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return right * left;
         }
-        public static QuaternionType operator /(Quaternion<QuaternionType, PointType, R, V> left, R right)
+        public static QuaternionType operator /(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, R right)
         {
             QuaternionType result = new QuaternionType()
             {
@@ -131,7 +136,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType EulerRoll(R roll)
         {
             R halfRoll = roll / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<QuaternionType, PointType, R, V>)halfRoll.Cosinus() + halfRoll.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis1);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfRoll.Cosinus() + halfRoll.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
         }
         /// <summary>
         /// Rotation around the y-axis
@@ -141,7 +146,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType EulerPitch(R pitch)
         {
             R halfPitch = pitch / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<QuaternionType, PointType, R, V>)halfPitch.Cosinus() + halfPitch.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis2);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfPitch.Cosinus() + halfPitch.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
         }
         /// <summary>
         /// Create quaternion with Euler angles according to the x-y-z convention. Meaning first we roll, then we pitch and at last we do the yaw.
@@ -152,7 +157,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType EulerAngles(R roll, R pitch, R yaw)
         {
-            return Quaternion<QuaternionType, PointType, R, V>.EulerYaw(yaw) * Quaternion<QuaternionType, PointType, R, V>.EulerPitch(pitch) * Quaternion<QuaternionType, PointType, R, V>.EulerRoll(roll);
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerYaw(yaw) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerPitch(pitch) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerRoll(roll);
         }
         /// <summary>
         /// Rotation around the z-axis
@@ -162,7 +167,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType EulerYaw(R yaw)
         {
             R halfYaw = yaw / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<QuaternionType, PointType, R, V>)halfYaw.Cosinus() + halfYaw.Sinus() * Quaternion<QuaternionType, PointType, R, V>.Basis3);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfYaw.Cosinus() + halfYaw.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
         }
         #endregion
         #region Comparison Operators
@@ -172,7 +177,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <param name="left">Point left of operator.</param>
         /// <param name="right">Point right of operator.</param>
         /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
-        public static bool operator ==(Quaternion<QuaternionType, PointType, R, V> left, Quaternion<QuaternionType, PointType, R, V> right)
+        public static bool operator ==(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) && left.Real == right.Real && left.Imaginary == right.Imaginary;
@@ -183,7 +188,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <param name="left">Point left of operator.</param>
         /// <param name="right">Point right of operator.</param>
         /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
-        public static bool operator !=(Quaternion<QuaternionType, PointType, R, V> left, Quaternion<QuaternionType, PointType, R, V> right)
+        public static bool operator !=(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return !(left == right);
         }
@@ -191,10 +196,10 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Object overides and IEquatable<QuaternionType>
         public override bool Equals(object other)
         {
-            return (other is Quaternion<QuaternionType, PointType, R, V>) && this.Equals(other as Quaternion<QuaternionType, PointType, R, V>);
+            return (other is QuaternionType) && this.Equals(other as QuaternionType);
         }
         // other is not null here.
-        public bool Equals(Quaternion<QuaternionType, PointType, R, V> other)
+        public bool Equals(QuaternionType other)
         {
             return this.Real == other.Real && this.Imaginary == other.Imaginary;
         }
@@ -213,15 +218,15 @@ namespace Kean.Math.Geometry3D.Abstract
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static explicit operator Quaternion<QuaternionType, PointType, R, V>(R value)
+        public static explicit operator Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>(R value)
         {
             return new QuaternionType() { Real = value, Imaginary = new PointType() };
         }
-        public static explicit operator V[](Quaternion<QuaternionType, PointType, R, V> value)
+        public static explicit operator V[](Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {
             return new V[] { value.Real, value.Imaginary.X, value.Imaginary.Y, value.Imaginary.Z };
         }
-        public static explicit operator V[,](Quaternion<QuaternionType, PointType, R, V> value)
+        public static explicit operator V[,](Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {
             V[,] result = new V[3, 3];
             QuaternionType normalized = value / value.Norm;

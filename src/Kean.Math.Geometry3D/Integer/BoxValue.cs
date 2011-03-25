@@ -1,5 +1,5 @@
 ﻿// 
-//  SizeValue.cs
+//  PointValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,40 +20,30 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 namespace Kean.Math.Geometry3D.Integer
 {
-	public struct SizeValue :
-		Abstract.ISize<int>
-	{
-		int width;
-		int height;
-		int depth;
-		public int Width
-		{
-			get { return this.width; }
-			set { this.width = value; }
-		}
-		public int Height
-		{
-			get { return this.height; }
-			set { this.height = value; }
-		}
-		public int Depth
-		{
-			get { return this.depth; }
-			set { this.depth = value; }
-		}
-		public SizeValue(int width, int height, int depth)
-		{
-			this.width = width;
-			this.height = height;
-			this.depth = depth;
-		}
-		public static implicit operator Size(SizeValue value)
-		{
-			return new Size(value.Width, value.Height, value.Depth);
-		}
-		public static explicit operator SizeValue(Size value)
-		{
-			return new SizeValue(value.Width, value.Height, value.Depth);
-		}
-	}
+    public struct BoxValue :
+        Abstract.IBox<PointValue, SizeValue, int>
+    {
+        PointValue leftTop;
+        SizeValue size;
+        public PointValue LeftTop
+        {
+            get { return this.leftTop; }
+            set { this.leftTop = value; }
+        }
+        public SizeValue Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
+        public BoxValue(int left, int top, int front, int width, int height, int depth)
+        {
+            this.leftTop = new PointValue(left, top, front);
+            this.size = new SizeValue(width, height, depth);
+        }
+        public BoxValue(PointValue leftTop, SizeValue size)
+        {
+            this.leftTop = leftTop;
+            this.size = size;
+        }
+    }
 }

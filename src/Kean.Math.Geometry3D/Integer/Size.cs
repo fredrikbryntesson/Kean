@@ -22,11 +22,17 @@ using System;
 
 namespace Kean.Math.Geometry3D.Integer
 {
-    public class Size : 
-		Abstract.Size<Size, Kean.Math.Integer, int>
+    public class Size : Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Integer, int>
     {
+        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height, this.Depth); } }
         public Size() { }
-		public Size(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : 
-			base(x, y, z) { }
+        public Size(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : base(x, y, z) { }
+        #region Casts
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height, value.Depth);
+        }
+        #endregion
+
     }
 }
