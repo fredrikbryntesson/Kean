@@ -201,6 +201,14 @@ namespace Kean.Test.Math.Geometry2D.Abstract
             Assert.That(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision));
             Assert.That(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision));
         }
+        [Test]
+        public void CastToArray()
+        {
+            V[,] values = (V[,])((Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity);
+            for(int x = 0; x < 3; x++)
+                for(int y = 0; y < 3; y++)
+                    Assert.That(values[x,y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
+        }
         internal void Run(params System.Action[] tests)
         {
             foreach (System.Action test in tests)
@@ -223,6 +231,7 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.MultiplicationTransformTransform,
                 this.MultiplicationTransformPoint,
                 this.GetValueValues,
+                this.CastToArray,
                 this.GetTranslation,
                 this.GetScalingX,
                 this.GetScalingY,
