@@ -30,6 +30,8 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry2D.Single.Point.Test();
             Kean.Test.Math.Geometry2D.Single.Size.Test();
             Kean.Test.Math.Geometry2D.Single.Transform.Test();
+            Kean.Test.Math.Geometry2D.Integer.Point.Test();
+            Kean.Test.Math.Geometry2D.Integer.Size.Test();
             //Kean.Test.Math.Geometry3D.Single.Point.Test();
             //Kean.Test.Math.Geometry3D.Single.Size.Test();
             //Kean.Test.Math.Geometry3D.Single.Quaternion.Test();

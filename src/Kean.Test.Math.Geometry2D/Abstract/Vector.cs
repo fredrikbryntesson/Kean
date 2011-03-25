@@ -15,7 +15,7 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
-        protected float Precision { get { return 1e-5f; } }
+        protected float Precision { get { return 1e-4f; } }
         protected abstract V Cast(double value);
 
         protected VectorType Vector0 { get; set; }
