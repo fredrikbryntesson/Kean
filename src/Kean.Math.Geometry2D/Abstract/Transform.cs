@@ -98,7 +98,7 @@ namespace Kean.Math.Geometry2D.Abstract
         #region Properties
         public V ScalingX { get { return (this.A.Squared() + this.B.Squared()).SquareRoot(); } }
         public V ScalingY { get { return (this.C.Squared() + this.D.Squared()).SquareRoot(); } }
-        public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingX) / Kean.Math.Abstract<R, V>.Two; } }
+        public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; } }
         public V Rotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
         public SizeType Translation { get { return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(this.E,this.F); } }
         #endregion

@@ -168,6 +168,39 @@ namespace Kean.Test.Math.Geometry2D.Abstract
             Assert.That(transform.E, Is.EqualTo(this.Cast(3)).Within(this.Precision));
             Assert.That(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision));
         }
+        [Test]
+        public void GetScalingX()
+        {
+            V scale = this.Transform0.ScalingX;
+            Assert.That(scale, Is.EqualTo(this.Cast(4.1231)).Within(this.Precision));
+        }
+        [Test]
+        public void GetScalingY()
+        {
+            V scale = this.Transform0.ScalingY;
+            Assert.That(scale, Is.EqualTo(this.Cast(5.38516474f)).Within(this.Precision));
+        }
+        [Test]
+        public void GetScaling()
+        {
+            V scale = this.Transform0.Scaling;
+            Assert.That(scale, Is.EqualTo(this.Cast(4.75413513f)).Within(this.Precision));
+        }
+        [Test]
+        public void GetRotation()
+        {
+            R angle = new R().CreateConstant(20).ToRadians();
+            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
+            R value = ((R)transform.Rotation).ToDegrees();
+            Assert.That(value.Value, Is.EqualTo(this.Cast(20)).Within(this.Precision));
+        }
+        [Test]
+        public void GetTranslation()
+        {
+            SizeType translation = this.Transform0.Translation;
+            Assert.That(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision));
+            Assert.That(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision));
+        }
         internal void Run(params System.Action[] tests)
         {
             foreach (System.Action test in tests)
@@ -189,7 +222,12 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.InverseTransform,
                 this.MultiplicationTransformTransform,
                 this.MultiplicationTransformPoint,
-                this.GetValueValues
+                this.GetValueValues,
+                this.GetTranslation,
+                this.GetScalingX,
+                this.GetScalingY,
+                this.GetScaling,
+                this.GetRotation
                 );
         }
     }
