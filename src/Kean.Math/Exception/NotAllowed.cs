@@ -1,5 +1,5 @@
 ﻿// 
-//  Transform.cs
+//  NotAllowed.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -19,20 +19,15 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Error = Kean.Core.Error;
 
-namespace Kean.Math.Geometry2D.Double
+namespace Kean.Math.Exception
 {
-    public class Transform : 
-        Abstract.Transform<Transform, TransformValue, Size, SizeValue, Kean.Math.Double, double>
+    public class NotAllowed :
+        Error.Exception
     {
-        public Transform() { }
-        public Transform(Kean.Math.Double a, Kean.Math.Double b, Kean.Math.Double c, Kean.Math.Double d, Kean.Math.Double e, Kean.Math.Double f) : base(a, b, c, d, e, f) { }
-        public override TransformValue Value { get { return (TransformValue)this; }}
-        #region Casts
-        public static explicit operator TransformValue(Transform value)
-        {
-            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
-        }
-        #endregion
+        public NotAllowed() :
+            base(Error.Level.Warning, "Not allowed operation.", "Not allowed operation.")
+        { }
     }
 }

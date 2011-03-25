@@ -23,11 +23,13 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Transform<TransformType, TransformValue, R, V> :
+    public abstract class Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> :
         ITransform<V>,
         IEquatable<TransformType>
-        where TransformType : Transform<TransformType, TransformValue, R, V>, ITransform<V>, new()
+        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
+        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+        where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -93,12 +95,12 @@ namespace Kean.Math.Geometry2D.Abstract
                 };
             }
         }
-        #region Current Properties
-        public V TransformScaleX { get { return (this.A.Squared() + this.B.Squared()).SquareRoot(); } }
-        public V TransformScaleY { get { return (this.C.Squared() + this.D.Squared()).SquareRoot(); } }
-        public V TransformScale { get { return ((R)this.TransformScaleX + (R)this.TransformScaleX) / Kean.Math.Abstract<R, V>.Two; } }
-        public V TransformRotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
-        //public SizeType Translation { get { return new SizeType() { Width = this.E, Height = this.F, }; } }
+        #region Properties
+        public V ScalingX { get { return (this.A.Squared() + this.B.Squared()).SquareRoot(); } }
+        public V ScalingY { get { return (this.C.Squared() + this.D.Squared()).SquareRoot(); } }
+        public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingX) / Kean.Math.Abstract<R, V>.Two; } }
+        public V Rotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
+        public SizeType Translation { get { return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(this.E,this.F); } }
         #endregion
 	
         #region Constructors
@@ -124,23 +126,23 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public TransformType Translate(V xDelta, V yDelta)
         {
-            return Transform<TransformType, TransformValue, R, V>.Translation(xDelta, yDelta) * this;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta) * this;
         }
         public TransformType Scale(V xFactor, V yFactor)
         {
-            return Transform<TransformType, TransformValue, R, V>.Scaling(xFactor, yFactor) * this;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(xFactor, yFactor) * this;
         }
         public TransformType Rotate(V angle)
         {
-            return Transform<TransformType, TransformValue, R, V>.Rotation(angle) * this;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle) * this;
         }
         public TransformType SkewX(V angle)
         {
-            return Transform<TransformType, TransformValue, R, V>.SkewingX(angle) * this;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateSkewingX(angle) * this;
         }
         public TransformType SkewY(V angle)
         {
-            return Transform<TransformType, TransformValue, R, V>.SkewingY(angle) * this;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateSkewingY(angle) * this;
         }
         #endregion
         #region Static Creators
@@ -153,28 +155,29 @@ namespace Kean.Math.Geometry2D.Abstract
                 return new TransformType() { A = one, B = zero, C = zero, D = one, E = zero, F = zero, };
             }
         }
-        public static TransformType Translation(V xDelta, V yDelta)
+        public static TransformType CreateTranslation(V xDelta, V yDelta)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
-            return new TransformType() { A = zero, B = zero, C = zero, D = zero, E = (R)xDelta, F = (R)yDelta };
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = one, B = zero, C = zero, D = one, E = (R)xDelta, F = (R)yDelta };
         }
-        public static TransformType Scaling(V xFactor, V yFactor)
+        public static TransformType CreateScaling(V xFactor, V yFactor)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             return new TransformType() { A = (R)xFactor, B = zero, C = zero, D = (R)yFactor, E = zero, F = zero };
         }
-        public static TransformType Rotation(V angle)
+        public static TransformType CreateRotation(V angle)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             return new TransformType() { A = ((R)angle).Cosinus(), B = ((R)angle).Sinus(), C = -((R)angle).Sinus(), D = ((R)angle).Cosinus(), E = zero, F = zero };
         }
-        public static TransformType SkewingX(V angle)
+        public static TransformType CreateSkewingX(V angle)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             R one = Kean.Math.Abstract<R, V>.One;
             return new TransformType() { A = one, B = zero, C = ((R)angle).Tangens(), D = one, E = zero, F = zero, };
         }
-        public static TransformType SkewingY(V angle)
+        public static TransformType CreateSkewingY(V angle)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             R one = Kean.Math.Abstract<R, V>.One;
@@ -182,7 +185,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Arithmetic Operators
-        public static TransformType operator *(Transform<TransformType, TransformValue, R, V> left, ITransform<V> right)
+        public static TransformType operator *(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, ITransform<V> right)
         {
             return new TransformType()
             {
@@ -204,13 +207,13 @@ namespace Kean.Math.Geometry2D.Abstract
         V ITransform<V>.F { get { return this.F; } }
         #endregion
         #region Comparison Operators
-        public static bool operator ==(Transform<TransformType, TransformValue, R, V> left, TransformType right)
+        public static bool operator ==(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
                 left.Equals(right);
         }
-        public static bool operator !=(Transform<TransformType, TransformValue, R, V> left, TransformType right)
+        public static bool operator !=(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
         {
             return !(left == right);
         }
@@ -247,6 +250,16 @@ namespace Kean.Math.Geometry2D.Abstract
         public override string ToString()
         {
             return this.A.ToString() + ", " + this.B.ToString() + ", " + this.C.ToString() + ", " + this.D.ToString() + ", " + this.E.ToString() + ", " + this.F.ToString();
+        }
+        #endregion
+        #region Casts
+        public static explicit operator V[,](Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> value)
+        {
+            V[,] result = new V[3, 3];
+            for (int x = 0; x < 3; x++)
+                for (int y = 0; y < 3; y++)
+                    result[x, y] = value[x, y];
+            return result;
         }
         #endregion
     }

@@ -40,7 +40,10 @@ namespace Kean.Math.Geometry3D.Abstract
         public R G { get; private set; }
         public R H { get; private set; }
         public R I { get; private set; }
-       
+        public R J { get; private set; }
+        public R K { get; private set; }
+        public R L { get; private set; }
+
         public R this[int x, int y]
         {
             get
@@ -54,24 +57,37 @@ namespace Kean.Math.Geometry3D.Abstract
                             case 0: result = this.A; break;
                             case 1: result = this.B; break;
                             case 2: result = this.C; break;
+                            case 3: result = Kean.Math.Abstract<R,V>.Zero; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
                     case 1:
                         switch (y)
                         {
-                            case 0: result = this.C; break;
-                            case 1: result = this.D; break;
-                            case 2: result = this.E; break;
+                            case 0: result = this.D; break;
+                            case 1: result = this.E; break;
+                            case 2: result = this.F; break;
+                            case 3: result = Kean.Math.Abstract<R,V>.Zero; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
                     case 2:
                         switch (y)
                         {
-                            case 0: result = this.E; break;
-                            case 1: result = this.F; break;
-                            case 2: result = this.F; break;
+                            case 0: result = this.G; break;
+                            case 1: result = this.H; break;
+                            case 2: result = this.I; break;
+                            case 3: result = Kean.Math.Abstract<R,V>.Zero; break;
+                            default: throw new System.Exception(); // TODO: create new exception
+                        }
+                        break;
+                    case 3:
+                        switch (y)
+                        {
+                            case 0: result = this.J; break;
+                            case 1: result = this.K; break;
+                            case 2: result = this.L; break;
+                            case 3: result = Kean.Math.Abstract<R,V>.One; break;
                             default: throw new System.Exception(); // TODO: create new exception
                         }
                         break;
@@ -97,20 +113,12 @@ namespace Kean.Math.Geometry3D.Abstract
                 };
             }
         }
-        #region Current Properties
-        public V TransformScaleX { get { return (this.A.Squared() + this.B.Squared() + this.C.Squared()).SquareRoot(); } }
-        public V TransformScaleY { get { return (this.C.Squared() + this.D.Squared() + this.E.Squared()).SquareRoot(); } }
-        public V TransformScaleZ { get { return (this.G.Squared() + this.H.Squared() + this.I.Squared()).SquareRoot(); } }
+        #region Transform Properties
+        public V ScalingX { get { return (this.A.Squared() + this.B.Squared() + this.C.Squared()).SquareRoot(); } }
+        public V ScalingY { get { return (this.C.Squared() + this.D.Squared() + this.E.Squared()).SquareRoot(); } }
+        public V ScalingZ { get { return (this.G.Squared() + this.H.Squared() + this.I.Squared()).SquareRoot(); } }
         
-        
-        
-        SOPOPssssss  TODO stop.
-        
-        
-        
-        
-        
-        public V TransformScale { get { return ((R)this.TransformScaleX + (R)this.TransformScaleX) / Kean.Math.Abstract<R, V>.Two; } }
+        public V TransformScale { get { return ((R)this.ScalingX + (R)this.ScalingX) / Kean.Math.Abstract<R, V>.Two; } }
         public V TransformRotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
         //public SizeType Translation { get { return new SizeType() { Width = this.E, Height = this.F, }; } }
         #endregion

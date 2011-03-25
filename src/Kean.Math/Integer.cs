@@ -62,6 +62,10 @@ namespace Kean.Math
         {
             return new Integer(-this.Value);
         }
+        public override Integer Invert()
+        {
+            throw new Exception.NotAllowed();
+        }
         #endregion
         #region Trigonometric Helpers
         public override Integer ToRadians()

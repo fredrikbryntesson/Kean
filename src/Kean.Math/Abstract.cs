@@ -100,6 +100,7 @@ namespace Kean.Math
         public abstract R Multiply(V value);
         public abstract R Divide(V value);
         public abstract R Negate();
+        public abstract R Invert();
         #endregion
         #region Trigonometric Helpers
         public abstract R ToRadians();

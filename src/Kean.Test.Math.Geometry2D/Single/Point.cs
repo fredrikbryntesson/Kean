@@ -5,7 +5,7 @@ namespace Kean.Test.Math.Geometry2D.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry2D.Abstract.Point<Kean.Math.Geometry2D.Single.Point,Kean.Math.Geometry2D.Single.PointValue,  
+        Kean.Test.Math.Geometry2D.Abstract.Point< Kean.Math.Geometry2D.Single.Transform,  Kean.Math.Geometry2D.Single.TransformValue, Kean.Math.Geometry2D.Single.Point, Kean.Math.Geometry2D.Single.PointValue,  Kean.Math.Geometry2D.Single.Size,  Kean.Math.Geometry2D.Single.SizeValue, 
         Kean.Math.Single, float>
     {
         [TestFixtureSetUp]

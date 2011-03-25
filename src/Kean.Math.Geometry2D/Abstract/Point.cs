@@ -21,13 +21,15 @@
 using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Point<TransformType, TransformValue, PointType, PointValue, R, V> :
-		Vector<TransformType, TransformValue, PointType, PointValue, R, V>,
+    public abstract class Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue,R, V> :
+		Vector<TransformType, TransformValue, PointType, PointValue,SizeType, SizeValue, R, V>,
 		IPoint<V>
-        where TransformType : Transform<TransformType, TransformValue, R, V>, ITransform<V>, new()
-        where TransformValue : struct, ITransform<V>
-        where PointType : Point<TransformType, TransformValue, PointType, PointValue, R, V>, new()
+        where PointType : Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
         where PointValue : struct, IPoint<V>, IVector<V>
+        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+        where TransformValue : struct, ITransform<V>
+        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+        where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
@@ -44,7 +46,7 @@ namespace Kean.Math.Geometry2D.Abstract
 		{ }
         #endregion
         #region Arithmetic Operators
-        public static PointType operator *(TransformType left, Point<TransformType, TransformValue, PointType, PointValue, R, V> right)
+        public static PointType operator *(TransformType left, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return new PointType().Create(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
         }

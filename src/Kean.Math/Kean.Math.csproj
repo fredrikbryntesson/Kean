@@ -40,6 +40,7 @@
     <Compile Include="Double.cs" />
     <Compile Include="Double.Function.cs" />
     <Compile Include="Exception\DivisionByZero.cs" />
+    <Compile Include="Exception\NotAllowed.cs" />
     <Compile Include="Integer.cs" />
     <Compile Include="Integer.Function.cs" />
     <Compile Include="Single.cs" />

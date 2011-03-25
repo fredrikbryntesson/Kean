@@ -22,7 +22,7 @@ using System;
 
 namespace Kean.Math.Geometry2D.Single
 {
-    public class Transform : Abstract.Transform<Transform, TransformValue, Kean.Math.Single, float>
+    public class Transform : Abstract.Transform<Transform, TransformValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public Transform() { }
         public Transform(Kean.Math.Single a, Kean.Math.Single b, Kean.Math.Single c, Kean.Math.Single d, Kean.Math.Single e, Kean.Math.Single f) : base(a, b, c, d, e, f) { }

@@ -5,9 +5,13 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Test.Math.Geometry2D.Abstract
 {
-    public abstract class Vector<VectorType, VectorValue, R, V>
-        where VectorType : Kean.Math.Geometry2D.Abstract.Vector<VectorType, VectorValue, R, V>, new()
+    public abstract class Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>
+        where VectorType : Kean.Math.Geometry2D.Abstract.Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>, new()
         where VectorValue : struct, Kean.Math.Geometry2D.Abstract.IVector<V>
+        where TransformType : Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
+        where TransformValue : struct, Kean.Math.Geometry2D.Abstract.ITransform<V>
+        where SizeType : Kean.Math.Geometry2D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
+        where SizeValue : struct, Kean.Math.Geometry2D.Abstract.ISize<V>, Kean.Math.Geometry2D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -23,8 +27,6 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         {
             VectorType point = null;
             Assert.That(this.Vector0, Is.EqualTo(this.Vector0));
-            Assert.That(this.Vector0.Copy(), Is.EqualTo(this.Vector0));
-            Assert.That(this.Vector0.Copy().Equals(this.Vector0), Is.True);
             Assert.That(this.Vector0.Equals(this.Vector0 as object), Is.True);
             Assert.That(this.Vector0 == this.Vector0, Is.True);
             Assert.That(this.Vector0 != this.Vector1, Is.True);

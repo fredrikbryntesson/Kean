@@ -22,69 +22,73 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math
 {
-	public partial class Double :
-		Abstract<Double, double>
-	{
+    public partial class Double :
+        Abstract<Double, double>
+    {
         #region Abtract Properties
         protected override Double EpsilonHelper { get { return Double.Epsilon; } }
         #endregion
         #region Constructors
-		public Double() :
-			base(0)
-		{ }
-		public Double(double value) :
-			base(value)
-		{ }
-		#endregion
+        public Double() :
+            base(0)
+        { }
+        public Double(double value) :
+            base(value)
+        { }
+        #endregion
         public override Double CreateConstant(int value)
         {
             return new Double(value);
         }
-   		#region Functions
-		#region Arithmetic Functions
-		public override Double Add(double value)
-		{
-			return new Double(this.Value + value);
-		}
+        #region Functions
+        #region Arithmetic Functions
+        public override Double Add(double value)
+        {
+            return new Double(this.Value + value);
+        }
         public override Double Substract(double value)
-		{
-			return new Double(this.Value - value);
-		}
+        {
+            return new Double(this.Value - value);
+        }
         public override Double Multiply(double value)
-		{
-			return new Double(this.Value * value);
-		}
+        {
+            return new Double(this.Value * value);
+        }
         public override Double Divide(double value)
-		{
-			return new Double(this.Value / value);
-		}
+        {
+            return new Double(this.Value / value);
+        }
         public override Double Negate()
         {
             return new Double(-this.Value);
         }
-		#endregion
+        public override Double Invert()
+        {
+            return new Double(1 / this.Value);
+        }
+        #endregion
         #region Trigonometric Helpers
         public override Double ToRadians()
         {
-            return Double.Pi /180 * this;
+            return Double.Pi / 180 * this;
         }
         public override Double ToDegrees()
         {
             return 180 / Double.Pi * this;
         }
         #endregion
-       	#region Trigonometric Functions
-		public override Double Sinus()
-		{
-			return Double.Sinus(this.Value);
-		}
-		public override Double Cosinus()
-		{
-			return Double.Cosinus(this.Value);
-		}
-		public override Double Tangens()
-		{
-			return Double.Tangens(this.Value);
+        #region Trigonometric Functions
+        public override Double Sinus()
+        {
+            return Double.Sinus(this.Value);
+        }
+        public override Double Cosinus()
+        {
+            return Double.Cosinus(this.Value);
+        }
+        public override Double Tangens()
+        {
+            return Double.Tangens(this.Value);
         }
         #endregion
         #region Inverse Trigonometric Functions
@@ -104,7 +108,7 @@ namespace Kean.Math
         {
             return Double.ArcusTangensExtended(this.Value, x);
         }
-		#endregion
+        #endregion
         #region Transcendental Functions
         public override Double Exponential()
         {
@@ -129,27 +133,27 @@ namespace Kean.Math
             return this.Value * this.Value;
         }
         #endregion
-		#region Comparison Functions
-		public override bool LessThan(Double other)
-		{
-			return this.Value < other.Value;
-		}
-		public override bool GreaterThan(Double other)
-		{
-			return this.Value > other.Value;
-		}
-		#endregion
-		#endregion
+        #region Comparison Functions
+        public override bool LessThan(Double other)
+        {
+            return this.Value < other.Value;
+        }
+        public override bool GreaterThan(Double other)
+        {
+            return this.Value > other.Value;
+        }
+        #endregion
+        #endregion
         #region Cast Operators
         public static implicit operator double(Double value)
-		{
-			return value.IsNull() ? 0 : value.Value;
-		}
-		public static implicit operator Double(double value)
-		{
-			return new Double(value);
-		}
-		#endregion
+        {
+            return value.IsNull() ? 0 : value.Value;
+        }
+        public static implicit operator Double(double value)
+        {
+            return new Double(value);
+        }
+        #endregion
         #region Object overides
         public override string ToString()
         {

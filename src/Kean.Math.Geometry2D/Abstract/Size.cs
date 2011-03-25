@@ -22,9 +22,9 @@ using System;
 namespace Kean.Math.Geometry2D.Abstract
 {
     public abstract class Size<TransformType, TransformValue, SizeType, SizeValue, R, V> :
-        Vector<TransformType, TransformValue, SizeType, SizeValue, R, V>,
+        Vector<TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>,
 		ISize<V>
-        where TransformType : Transform<TransformType, TransformValue, R, V>, ITransform<V>, new()
+        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
         where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
@@ -45,9 +45,13 @@ namespace Kean.Math.Geometry2D.Abstract
         #region Arithmetic Operators
         public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, SizeType, SizeValue, R, V> right)
         {
-            return new SizeType().Create(left.A * right.Width + left.C * right.Height, left.B * right.Width + left.D * right.Height);
+            return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(left.A * right.Width + left.C * right.Height, left.B * right.Width + left.D * right.Height);
         }
         #endregion
-  	}
+        public static SizeType Create(V width, V height)
+        {
+            return Vector<TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>.Create(width, height);
+        }
+    }
 }
 

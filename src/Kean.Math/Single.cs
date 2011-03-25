@@ -62,6 +62,10 @@ namespace Kean.Math
         {
             return new Single(-this.Value);
         }
+        public override Single Invert()
+        {
+            return new Single(1 / this.Value);
+        }
         #endregion
         #region Trigonometric Helpers
         public override Single ToRadians()
