@@ -156,10 +156,18 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         {
             R angle = new R().CreateConstant(20).ToRadians();
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
+            Assert.That(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+            Assert.That(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
             Assert.That(transform.E, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
             Assert.That(transform.F, Is.EqualTo(angle.Sinus()).Within(this.Precision));
             Assert.That(transform.H, Is.EqualTo(-angle.Sinus()).Within(this.Precision));
             Assert.That(transform.I, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
+            Assert.That(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateScale()
@@ -169,6 +177,15 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(transform.A, Is.EqualTo(scale).Within(this.Precision));
             Assert.That(transform.E, Is.EqualTo(scale).Within(this.Precision));
             Assert.That(transform.I, Is.EqualTo(scale).Within(this.Precision));
+            Assert.That(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateTranslation()
@@ -177,6 +194,15 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             R yDelta = new R().CreateConstant(-40);
             R zDelta = new R().CreateConstant(30);
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
+            Assert.That(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+            Assert.That(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+            Assert.That(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+            Assert.That(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
             Assert.That(transform.J, Is.EqualTo(xDelta).Within(this.Precision));
             Assert.That(transform.K, Is.EqualTo(yDelta).Within(this.Precision));
             Assert.That(transform.L, Is.EqualTo(zDelta).Within(this.Precision));
@@ -185,54 +211,57 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void GetValueValues()
         {
             TransformValue transform = this.Transform0.Value;
-            Assert.That(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Assert.That(transform.B, Is.EqualTo(this.Cast(4)).Within(this.Precision));
-            Assert.That(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision));
-            Assert.That(transform.D, Is.EqualTo(this.Cast(5)).Within(this.Precision));
-            Assert.That(transform.E, Is.EqualTo(this.Cast(3)).Within(this.Precision));
+            Assert.That(transform.A, Is.EqualTo(this.Cast(-1)).Within(this.Precision));
+            Assert.That(transform.B, Is.EqualTo(this.Cast(2)).Within(this.Precision));
+            Assert.That(transform.C, Is.EqualTo(this.Cast(3)).Within(this.Precision));
+            Assert.That(transform.D, Is.EqualTo(this.Cast(4)).Within(this.Precision));
+            Assert.That(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision));
             Assert.That(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision));
+            Assert.That(transform.G, Is.EqualTo(this.Cast(7)).Within(this.Precision));
+            Assert.That(transform.H, Is.EqualTo(this.Cast(8)).Within(this.Precision));
+            Assert.That(transform.I, Is.EqualTo(this.Cast(9)).Within(this.Precision));
+            Assert.That(transform.J, Is.EqualTo(this.Cast(10)).Within(this.Precision));
+            Assert.That(transform.K, Is.EqualTo(this.Cast(11)).Within(this.Precision));
+            Assert.That(transform.L, Is.EqualTo(this.Cast(12)).Within(this.Precision));
         }
         [Test]
         public void GetScalingX()
         {
             V scale = this.Transform0.ScalingX;
-            Assert.That(scale, Is.EqualTo(this.Cast(4.1231)).Within(this.Precision));
+            Assert.That(scale, Is.EqualTo(this.Cast(3.7416575f)).Within(this.Precision));
         }
         [Test]
         public void GetScalingY()
         {
             V scale = this.Transform0.ScalingY;
-            Assert.That(scale, Is.EqualTo(this.Cast(5.38516474f)).Within(this.Precision));
+            Assert.That(scale, Is.EqualTo(this.Cast(8.77496433f)).Within(this.Precision));
+        }
+        [Test]
+        public void GetScalingZ()
+        {
+            V scale = this.Transform0.ScalingZ;
+            Assert.That(scale, Is.EqualTo(this.Cast(13.9283886f)).Within(this.Precision));
         }
         [Test]
         public void GetScaling()
         {
             V scale = this.Transform0.Scaling;
-            Assert.That(scale, Is.EqualTo(this.Cast(4.75413513f)).Within(this.Precision));
+            Assert.That(scale, Is.EqualTo(this.Cast(8.8150)).Within(this.Precision));
         }
-        /*
-        [Test]
-        public void GetRotation()
-        {
-            R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
-            R value = ((R)transform.RotationX).ToDegrees();
-            Assert.That(value.Value, Is.EqualTo(this.Cast(20)).Within(this.Precision));
-        }
-        */
         [Test]
         public void GetTranslation()
         {
             SizeType translation = this.Transform0.Translation;
-            Assert.That(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision));
-            Assert.That(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision));
+            Assert.That(translation.Width, Is.EqualTo(this.Cast(10)).Within(this.Precision));
+            Assert.That(translation.Height, Is.EqualTo(this.Cast(11)).Within(this.Precision));
+            Assert.That(translation.Depth, Is.EqualTo(this.Cast(12)).Within(this.Precision));
         }
         [Test]
         public void CastToArray()
         {
             V[,] values = (V[,])((Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity);
-            for (int x = 0; x < 3; x++)
-                for (int y = 0; y < 3; y++)
+            for (int x = 0; x < 4; x++)
+                for (int y = 0; y < 4; y++)
                     Assert.That(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
         }
         internal void Run(params System.Action[] tests)
@@ -261,7 +290,12 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 this.GetTranslation,
                 this.GetScalingX,
                 this.GetScalingY,
-                this.GetScaling
+                this.GetScalingZ,
+                this.GetScaling,
+                this.CastToArray,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.InverseTransform
                 );
         }
     }

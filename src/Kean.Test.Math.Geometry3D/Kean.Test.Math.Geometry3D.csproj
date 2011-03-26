@@ -57,6 +57,7 @@
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\Quaternion.cs" />
     <Compile Include="Single\Size.cs" />
+    <Compile Include="Single\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">

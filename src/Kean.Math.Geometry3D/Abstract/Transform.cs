@@ -103,21 +103,32 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             get
             {
-                R determinant = this.A * this.D - this.B * this.C;
-                return new TransformType()
+                R determinant = this.A * (this.E *  this.I - this.F * this.H) + this.D * (this.H* this.C - this.I * this.B) + this.G * (this.B * this.F - this.E * this.C);
+                TransformType result = new TransformType()
                 {
-                    A = this.D / determinant,
-                    B = -this.B / determinant,
-                    C = -this.C / determinant,
-                    D = this.A / determinant,
-                    E = (this.C * this.F - this.D * this.E) / determinant,
-                    F = -(this.A * this.F - this.B * this.E) / determinant,
+                    A = (this.E * this.I - this.H * this.F) / determinant,
+                    B = (this.G * this.F - this.D * this.I) / determinant,
+                    C = (this.D * this.H - this.G * this.E) / determinant,
+                    D = (this.H * this.C - this.B * this.I) / determinant,
+                    E = (this.A * this.I - this.G * this.C) / determinant,
+                    F = (this.D * this.C - this.A * this.F) / determinant,
+                    G = (this.B * this.F - this.E * this.C) / determinant,
+                    H = (this.G * this.B - this.A * this.H) / determinant,
+                    I = (this.A * this.E - this.D * this.B) / determinant,
+                    J = new R(),
+                    K = new R(),
+                    L = new R()
                 };
+                TransformType translation = result * Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(this.J, this.K, this.L);
+                result.J = -translation.J;
+                result.K = -translation.K;
+                result.L = -translation.L;
+                return result;
             }
         }
         #region Transform Properties
         public V ScalingX { get { return (this.A.Squared() + this.B.Squared() + this.C.Squared()).SquareRoot(); } }
-        public V ScalingY { get { return (this.C.Squared() + this.D.Squared() + this.E.Squared()).SquareRoot(); } }
+        public V ScalingY { get { return (this.D.Squared() + this.E.Squared() + this.F.Squared()).SquareRoot(); } }
         public V ScalingZ { get { return (this.G.Squared() + this.H.Squared() + this.I.Squared()).SquareRoot(); } }
         public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY + (R)this.ScalingZ) / new R().CreateConstant(3); } }
         public SizeType Translation { get { return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(this.J,this.K, this.L); } }
