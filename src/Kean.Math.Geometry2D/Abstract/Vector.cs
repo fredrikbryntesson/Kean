@@ -36,6 +36,7 @@ namespace Kean.Math.Geometry2D.Abstract
         protected R X { get; private set; }
         protected R Y { get; private set; }
         public abstract VectorValue Value { get; }
+        public R Norm { get { return (this.X.Squared() + this.Y.Squared()).SquareRoot(); } }
         #region IVector<V> Members
         V IVector<V>.X { get { return this.X; } }
         V IVector<V>.Y { get { return this.Y; } }
@@ -84,6 +85,10 @@ namespace Kean.Math.Geometry2D.Abstract
         public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> left, VectorType right)
         {
             return left + (-right);
+        }
+        public static R operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
+        {
+            return left.X * right.X + left.Y * right.Y;
         }
         #endregion
         #region Arithmetic Vector and Scalar

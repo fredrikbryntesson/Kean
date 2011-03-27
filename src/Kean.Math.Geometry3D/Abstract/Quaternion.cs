@@ -54,10 +54,10 @@ namespace Kean.Math.Geometry3D.Abstract
             this.Real = new R();
             this.Imaginary = new PointType();
         }
-        protected Quaternion(R x, PointType y)
+        protected Quaternion(R real, PointType imaginary)
         {
-            this.Real = x;
-            this.Imaginary = y;
+            this.Real = real;
+            this.Imaginary = imaginary;
         }
         #endregion
         #region Methods
@@ -129,45 +129,45 @@ namespace Kean.Math.Geometry3D.Abstract
         #endregion
         #region Static Functions
         /// <summary>
-        /// Rotation around the x-axis
+        /// Rotation around the real-axis
         /// </summary>
-        /// <param name="roll"></param>
+        /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType EulerRoll(R roll)
+        public static QuaternionType RotationX(R angle)
         {
-            R halfRoll = roll / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfRoll.Cosinus() + halfRoll.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
+            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
         }
         /// <summary>
-        /// Rotation around the y-axis
+        /// Rotation around the imaginary-axis
         /// </summary>
-        /// <param name="pitch"></param>
+        /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType EulerPitch(R pitch)
+        public static QuaternionType RotationY(R angle)
         {
-            R halfPitch = pitch / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfPitch.Cosinus() + halfPitch.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
-        }
-        /// <summary>
-        /// Create quaternion with Euler angles according to the x-y-z convention. Meaning first we roll, then we pitch and at last we do the yaw.
-        /// </summary>
-        /// <param name="roll"></param>
-        /// <param name="pitch"></param>
-        /// <param name="yaw"></param>
-        /// <returns></returns>
-        public static QuaternionType EulerAngles(R roll, R pitch, R yaw)
-        {
-            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerYaw(yaw) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerPitch(pitch) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerRoll(roll);
+            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
         }
         /// <summary>
         /// Rotation around the z-axis
         /// </summary>
-        /// <param name="yaw"></param>
+        /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType EulerYaw(R yaw)
+        public static QuaternionType RotationZ(R angle)
         {
-            R halfYaw = yaw / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfYaw.Cosinus() + halfYaw.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
+            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
+        }
+        /// <summary>
+        /// Create quaternion with Euler angles according to the real-imaginary-z convention. Meaning first we angle, then we angle and at last we do the angle.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="angle"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static QuaternionType EulerAngles(R roll, R pitch, R yaw)
+        {
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationZ(yaw) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationY(pitch) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationX(roll);
         }
         #endregion
         #region Comparison Operators
@@ -244,6 +244,11 @@ namespace Kean.Math.Geometry3D.Abstract
             result[1, 2] = Kean.Math.Abstract<R, V>.Two * (q0 * q1 + q2 * q3);
             result[2, 2] = q0.Squared() - q1.Squared() - q2.Squared() + q3.Squared();
             return result;
+        }
+        public static explicit operator Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> value)
+        {
+            V[,] values = (V[,])value;
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(values[0, 0], values[0, 1], values[0, 2], values[1, 0], values[1, 1], values[1, 2], values[2, 0], values[2, 1], values[2, 2], new R(), new R(), new R());
         }
         #endregion
     }

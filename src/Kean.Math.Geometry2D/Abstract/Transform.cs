@@ -144,6 +144,14 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateSkewingY(angle) * this;
         }
+        public TransformType ReflectX()
+        {
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionX() * this;
+        }
+        public TransformType ReflectY()
+        {
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionY() * this;
+        }
         #endregion
         #region Static Creators
         public static TransformType Identity
@@ -154,6 +162,10 @@ namespace Kean.Math.Geometry2D.Abstract
                 R one = Kean.Math.Abstract<R, V>.One;
                 return new TransformType() { A = one, B = zero, C = zero, D = one, E = zero, F = zero, };
             }
+        }
+        public static TransformType CreateTranslation(IVector<V> delta)
+        {
+            return Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(delta.X, delta.Y);
         }
         public static TransformType CreateTranslation(V xDelta, V yDelta)
         {
@@ -183,6 +195,22 @@ namespace Kean.Math.Geometry2D.Abstract
             R one = Kean.Math.Abstract<R, V>.One;
             return new TransformType() { A = one, B = ((R)angle).Tangens(), C = zero, D = one, E = zero, F = zero };
         }
+        public static TransformType CreateReflectionX()
+        {
+            R zero = Kean.Math.Abstract<R, V>.Zero;
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = -one, B = zero, C = zero, D = one, E = zero, F = zero, };
+        }
+        public static TransformType CreateReflectionY()
+        {
+            R zero = Kean.Math.Abstract<R, V>.Zero;
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = one, B = zero, C = zero, D = -one, E = zero, F = zero, };
+        }
+        public static TransformType Create(V a, V b, V c, V d, V e, V f)
+        {
+            return new TransformType() { A = (R)a, B = (R)b, C = (R)c, D = (R)d, E = (R)e, F = (R)f };
+        } 
         #endregion
         #region Arithmetic Operators
         public static TransformType operator *(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, ITransform<V> right)
@@ -262,5 +290,6 @@ namespace Kean.Math.Geometry2D.Abstract
             return result;
         }
         #endregion
+       
     }
 }

@@ -184,6 +184,18 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationZ(angle) * this;
         }
+        public TransformType ReflectX()
+        {
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionX() * this;
+        }
+        public TransformType ReflectY()
+        {
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionY() * this;
+        }
+        public TransformType ReflectZ()
+        {
+            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionZ() * this;
+        }
         #endregion
         #region Static Creators
         public static TransformType Identity
@@ -194,6 +206,10 @@ namespace Kean.Math.Geometry3D.Abstract
                 R one = Kean.Math.Abstract<R, V>.One;
                 return new TransformType() { A = one, B = zero, C = zero, D = zero, E = one, F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero};
             }
+        }
+        public static TransformType CreateTranslation(IVector<V> delta)
+        {
+            return Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(delta.X, delta.Y, delta.Z);
         }
         public static TransformType CreateTranslation(V xDelta, V yDelta, V zDelta)
         {
@@ -223,6 +239,28 @@ namespace Kean.Math.Geometry3D.Abstract
             R zero = Kean.Math.Abstract<R, V>.Zero;
             R one = Kean.Math.Abstract<R, V>.One;
             return new TransformType() { A = one, B = zero, C = zero, D = zero, E = ((R)angle).Cosinus(), F =  ((R)angle).Sinus(), G = zero, H = -((R)angle).Sinus(), I = ((R)angle).Cosinus(), J = zero, K = zero, L = zero };
+        }
+        public static TransformType CreateReflectionX()
+        {
+            R zero = Kean.Math.Abstract<R, V>.Zero;
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = -one, B = zero, C = zero, D = zero, E = one, F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
+        }
+        public static TransformType CreateReflectionY()
+        {
+            R zero = Kean.Math.Abstract<R, V>.Zero;
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = one, B = zero, C = zero, D = zero, E = -one, F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
+        }
+        public static TransformType CreateReflectionZ()
+        {
+            R zero = Kean.Math.Abstract<R, V>.Zero;
+            R one = Kean.Math.Abstract<R, V>.One;
+            return new TransformType() { A = one, B = zero, C = zero, D = zero, E = one, F = zero, G = zero, H = zero, I = -one, J = zero, K = zero, L = zero };
+        }
+        public static TransformType Create(V a, V b, V c, V d, V e, V f, V g, V h, V i, V j, V k, V l)
+        {
+            return new TransformType() { A = (R)a, B = (R)b, C = (R)c, D = (R)d, E = (R)e, F = (R)f, G = (R)g, H = (R)h, I = (R)i, J = (R)j, K = (R)k, L = (R)l};
         }
         #endregion
         #region Arithmetic Operators

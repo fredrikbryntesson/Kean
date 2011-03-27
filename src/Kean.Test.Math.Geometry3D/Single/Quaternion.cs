@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-
+using Kean.Core.Basis.Extension;
 namespace Kean.Test.Math.Geometry3D.Single
 {
     
@@ -21,10 +21,61 @@ namespace Kean.Test.Math.Geometry3D.Single
             this.P0 = new Kean.Math.Geometry3D.Single.Point(22.221f, -3.1f, 10);
             this.P1 = new Kean.Math.Geometry3D.Single.Point(12.221f, 13.1f, 20);
         }
+        [Test]
+        public void ProjectToCamera()
+        {
+            float roll = Kean.Math.Single.ToRadians(-25);
+            float pitch = Kean.Math.Single.ToRadians(0);
+            float yaw = Kean.Math.Single.ToRadians(0);
+            Kean.Math.Geometry3D.Single.Quaternion quaternion = Kean.Math.Geometry3D.Single.Quaternion.RotationZ(yaw) * Kean.Math.Geometry3D.Single.Quaternion.RotationY(pitch) * Kean.Math.Geometry3D.Single.Quaternion.RotationX(roll);
+            
+            Kean.Math.Geometry3D.Single.Point uav = new Kean.Math.Geometry3D.Single.Point(20, 50, -100);
+            Kean.Math.Geometry3D.Single.Transform transform = (Kean.Math.Geometry3D.Single.Transform)(quaternion) * Kean.Math.Geometry3D.Single.Transform.CreateTranslation(uav).Inverse;
+            Kean.Math.Geometry3D.Single.InfinityPoint infinityPoint0 = new Kean.Math.Geometry3D.Single.InfinityPoint(1, -1, 0); // Point on the infinity line
+            Kean.Math.Geometry3D.Single.InfinityPoint infinityPoint1 = new Kean.Math.Geometry3D.Single.InfinityPoint(1, 1, 0); // Point on the infinity
+
+            Kean.Math.Geometry3D.Single.InfinityPoint cameraSpacePoint0 = transform * infinityPoint0; // Transform
+            Kean.Math.Geometry3D.Single.InfinityPoint cameraSpacePoint1 = transform * infinityPoint1;
+            // Project onto Camera plane.
+            Kean.Math.Geometry2D.Single.Point cameraProjectedPoint0 = new Kean.Math.Geometry2D.Single.Point(cameraSpacePoint0.Y / cameraSpacePoint0.X, cameraSpacePoint0.Z / cameraSpacePoint0.X);
+            Kean.Math.Geometry2D.Single.Point cameraProjectedPoint1 = new Kean.Math.Geometry2D.Single.Point(cameraSpacePoint1.Y / cameraSpacePoint1.X, cameraSpacePoint1.Z / cameraSpacePoint1.X);
+            // Compute angle between projected line of infinity and horizontal real-axis.
+            Kean.Math.Geometry2D.Single.Point e1 = new Kean.Math.Geometry2D.Single.Point(1, 0);
+            Kean.Math.Geometry2D.Single.Point v = cameraProjectedPoint1 - cameraProjectedPoint0;
+            float degree = Kean.Math.Single.ToDegrees(Kean.Math.Single.ArcusSinus((e1.X * v.Y - e1.Y * v.X) / (e1.Norm * v.Norm)));
+            float degree2 = Kean.Math.Single.ToDegrees(Kean.Math.Single.ArcusCosinus((e1 * v) / (e1.Norm * v.Norm)));
+        }
+      
         protected override float Cast(double value)
         {
             return (float)value;
         }
+        public void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.Multitplication,
+                this.GetValues,
+                this.Roll,
+                this.Pitch,
+                this.Yaw,
+                this.Norm,
+                this.Action,
+                this.CastToTransform,
+                this.ProjectToCamera
+
+                );
+        }
+        internal void Run(params System.Action[] tests)
+        {
+            foreach (System.Action test in tests)
+                if (test.NotNull())
+                    test();
+        }
+
         public static void Test()
         {
             Quaternion fixture = new Quaternion();

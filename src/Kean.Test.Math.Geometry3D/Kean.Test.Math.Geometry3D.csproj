@@ -64,6 +64,10 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core.Basis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj">
       <Project>{98F827EA-9073-43FD-9131-6B2448461519}</Project>
       <Name>Kean.Math.Geometry3D</Name>

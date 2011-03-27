@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Abstract\Box.cs" />
     <Compile Include="Abstract\IBox.cs" />
+    <Compile Include="Abstract\InfinityPoint.cs" />
     <Compile Include="Abstract\IPoint.cs" />
     <Compile Include="Abstract\IShell.cs" />
     <Compile Include="Abstract\ISize.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Double\Box.cs" />
     <Compile Include="Double\BoxValue.cs" />
+    <Compile Include="Double\InfinityPoint.cs" />
     <Compile Include="Double\Point.cs" />
     <Compile Include="Double\PointValue.cs" />
     <Compile Include="Double\Quaternion.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Double\TransformValue.cs" />
     <Compile Include="Integer\Box.cs" />
     <Compile Include="Integer\BoxValue.cs" />
+    <Compile Include="Integer\InfinityPoint.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\PointValue.cs" />
     <Compile Include="Integer\Quaternion.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Integer\TransformValue.cs" />
     <Compile Include="Single\Box.cs" />
     <Compile Include="Single\BoxValue.cs" />
+    <Compile Include="Single\InfinityPoint.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\PointValue.cs" />
     <Compile Include="Single\Quaternion.cs" />

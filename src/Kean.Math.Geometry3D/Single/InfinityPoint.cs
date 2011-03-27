@@ -1,10 +1,10 @@
 ﻿// 
-//  Quaternion.cs
+//  InfinityPoint.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Anders Frisk
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,13 +22,16 @@ using System;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public class Quaternion :
-        Abstract.Quaternion<Transform, TransformValue, Quaternion, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
+    public class InfinityPoint : Abstract.InfinityPoint<Transform, TransformValue, InfinityPoint, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
-        public Quaternion() { }
-        public Quaternion(Kean.Math.Single real, Point imaginary) :
-            base(real, imaginary) { }
-        public Quaternion(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z, Kean.Math.Single w) :
-            base(x, new Point(y, z, w)) { }
+        public override PointValue Value { get { return (PointValue)this; } }
+        public InfinityPoint() { }
+        public InfinityPoint(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z) : base(x, y, z) { }
+        #region Casts
+        public static explicit operator PointValue(InfinityPoint value)
+        {
+            return new PointValue() { X = value.X, Y = value.Y, Z = value.Z };
+        }
+        #endregion
     }
 }
