@@ -38,9 +38,9 @@ namespace Kean.Math.Geometry2D.Abstract
     {
         #region IBox<PointValue,SizeValue,V> Members
         PointType leftTop;
-        public PointValue LeftTop { get { return this.LeftTop; } }
+        public PointType LeftTop { get { return this.LeftTop; } }
         SizeType size;
-        public SizeValue Size { get { return this.Size; } }
+        public SizeType Size { get { return this.Size; } }
         #endregion
 
         #region Sizes
@@ -56,8 +56,8 @@ namespace Kean.Math.Geometry2D.Abstract
         #endregion
 
         #region IBox<PointValue, SizeValue, V>
-        PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTop; } }
-        SizeValue IBox<PointValue, SizeValue, V>.Size { get { return this.Size; } }
+        PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTop.Value; } }
+        SizeValue IBox<PointValue, SizeValue, V>.Size { get { return this.Size.Value; } }
         #endregion
         public abstract BoxValue Value { get; }
 

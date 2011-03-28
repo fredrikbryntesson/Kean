@@ -43,7 +43,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public static explicit operator BoxValue(Box value)
         {
-            return new BoxValue(value.LeftTop, value.Size);
+            return new BoxValue(value.LeftTop.Value, value.Size.Value);
         }
     }
 }
