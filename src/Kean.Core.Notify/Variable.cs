@@ -31,6 +31,29 @@ namespace Kean.Core.Notify
 		T value;
 		event Action<T> changed;
 		event OnChange<T> onChange;
+		public override bool Connected { get { return true; } }
+		public override T Value
+		{
+			get { return this.value; }
+			set
+			{
+				if (!value.Equals(this.value) && this.onChange.Call(value))
+				{
+					this.value = value;
+					this.changed.Call(this.value);
+				}
+			}
+		}
+		public override event Action<T> Changed
+		{
+			add { this.changed += value; }
+			remove { this.changed -= value; }
+		}
+		public override event OnChange<T> OnChange
+		{
+			add { this.onChange += value; }
+			remove { this.onChange -= value; }
+		}
 
 		#region Constructors
 		public Variable()
@@ -55,27 +78,5 @@ namespace Kean.Core.Notify
 		}
 		#endregion
 
-		public override T Value
-		{
-			get { return this.value; }
-			set
-			{
-				if (!value.Equals(this.value) && this.onChange.Call(value))
-				{
-					this.value = value;
-					this.changed.Call(this.value);
-				}
-			}
-		}
-		public override event Action<T> Changed
-		{
-			add { this.changed += value; }
-			remove { this.changed -= value; }
-		}
-		public override event OnChange<T> OnChange
-		{
-			add { this.onChange += value; }
-			remove { this.onChange -= value; }
-		}
 	}
 }

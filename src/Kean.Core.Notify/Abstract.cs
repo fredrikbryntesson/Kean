@@ -4,6 +4,7 @@ namespace Kean.Core.Notify
 {
 	public abstract class Abstract<T>
 	{
+		public abstract bool Connected { get; }
 		public abstract T Value { get; set; }
 		public abstract event Action<T> Changed;
 		public abstract event OnChange<T> OnChange;

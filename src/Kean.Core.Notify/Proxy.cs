@@ -11,6 +11,7 @@ namespace Kean.Core.Notify
 		Func<T> get;
 		Action<T> set;
 		bool initialized;
+		public override bool Connected { get { return true; } }
 		T value;
 		public override T Value
 		{

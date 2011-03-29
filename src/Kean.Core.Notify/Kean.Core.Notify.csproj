@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="Abstract.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Notifier.cs" />
     <Compile Include="OnChange.cs" />
     <Compile Include="Extension\OnChangeExtension.cs" />
     <Compile Include="Proxy.cs" />
