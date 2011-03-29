@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry2D.Integer
     {
         public override PointValue Value { get { return new PointValue(this.X, this.Y); } }
         public Point() { }
-        public Point(Kean.Math.Integer x, Kean.Math.Integer y) : 
+        public Point(int x, int y) : 
 			base(x, y) { }
         #region Casts
         public static explicit operator PointValue(Point value)

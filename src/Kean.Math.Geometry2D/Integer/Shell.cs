@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry2D.Integer
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
         public Shell() { }
-        public Shell(Kean.Math.Integer left, Kean.Math.Integer right, Kean.Math.Integer top, Kean.Math.Integer bottom) : base(left, right, top, bottom) { }
+        public Shell(int left, int right, int top, int bottom) : base(left, right, top, bottom) { }
         public Box Decrease(Size size)
         {
             return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);

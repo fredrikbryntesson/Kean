@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Double
         Abstract.Transform<Transform, TransformValue, Size, SizeValue, Kean.Math.Double, double>
     {
         public Transform() { }
-        public Transform(Kean.Math.Double a, Kean.Math.Double b, Kean.Math.Double c, Kean.Math.Double d, Kean.Math.Double e, Kean.Math.Double f, Kean.Math.Double g, Kean.Math.Double h, Kean.Math.Double i, Kean.Math.Double j, Kean.Math.Double k, Kean.Math.Double l) : base(a, b, c, d, e, f, g, h, i, j, k, l) { }
+        public Transform(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l) : base(a, b, c, d, e, f, g, h, i, j, k, l) { }
         public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
         public static explicit operator TransformValue(Transform value)

@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Integer
     {
         public override SizeValue Value { get { return new SizeValue(this.Width, this.Height, this.Depth); } }
         public Size() { }
-        public Size(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : base(x, y, z) { }
+        public Size(int x, int y, int z) : base(x, y, z) { }
         #region Casts
         public static explicit operator SizeValue(Size value)
         {

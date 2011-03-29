@@ -62,6 +62,10 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return new VectorType() { X = this.Y, Y = this.X };
         }
+        public R Angle(VectorType other)
+        {
+            return ((this.X * other.Y - this.Y * other.X)/(this.Norm * other.Norm)).ArcusSinus();
+        }
         #endregion
         #region Arithmetic Vector - Vector Operators
         public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)

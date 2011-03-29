@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry2D.Double
     {
         public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }
-        public Point(Kean.Math.Double x, Kean.Math.Double y) : base(x, y) { }
+        public Point(double x, double y) : base(x, y) { }
         #region Casts
         public static explicit operator PointValue(Point value)
         {

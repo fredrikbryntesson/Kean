@@ -39,9 +39,9 @@ namespace Kean.Math.Geometry3D.Abstract
         public QuaternionType Inverse { get { return this.Conjugate / this.Norm.Squared(); } }
         public QuaternionType Conjugate { get { return new QuaternionType() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
-        public R Roll { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.X.Squared() + this.Imaginary.Y.Squared())); } }
-        public R Pitch { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - this.Imaginary.Z * this.Imaginary.X)).ArcusSinus(); } }
-        public R Yaw { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
+        public R RotationX { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.X.Squared() + this.Imaginary.Y.Squared())); } }
+        public R RotationY { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - this.Imaginary.Z * this.Imaginary.X)).ArcusSinus(); } }
+        public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
         #endregion
         #region Static Constants
         public static QuaternionType Basis1 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 }; } }
@@ -133,7 +133,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType RotationX(R angle)
+        public static QuaternionType CreateRotationX(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
             return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
@@ -143,7 +143,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType RotationY(R angle)
+        public static QuaternionType CreateRotationY(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
             return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
@@ -153,21 +153,10 @@ namespace Kean.Math.Geometry3D.Abstract
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static QuaternionType RotationZ(R angle)
+        public static QuaternionType CreateRotationZ(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
             return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
-        }
-        /// <summary>
-        /// Create quaternion with Euler angles according to the real-imaginary-z convention. Meaning first we angle, then we angle and at last we do the angle.
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <param name="angle"></param>
-        /// <param name="angle"></param>
-        /// <returns></returns>
-        public static QuaternionType EulerAngles(R roll, R pitch, R yaw)
-        {
-            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationZ(yaw) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationY(pitch) * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationX(roll);
         }
         #endregion
         #region Comparison Operators

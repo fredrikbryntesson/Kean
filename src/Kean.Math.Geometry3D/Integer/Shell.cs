@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Integer
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
         public Shell() { }
-        public Shell(Kean.Math.Integer left, Kean.Math.Integer right, Kean.Math.Integer top, Kean.Math.Integer bottom, Kean.Math.Integer front, Kean.Math.Integer back) : base(left, right, top, bottom, front, back) { }
+        public Shell(int left, int right, int top, int bottom, int front, int back) : base(left, right, top, bottom, front, back) { }
         public Box Decrease(Size size)
           {
               return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);

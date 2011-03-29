@@ -26,9 +26,9 @@ namespace Kean.Math.Geometry3D.Single
         Abstract.Quaternion<Transform, TransformValue, Quaternion, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public Quaternion() { }
-        public Quaternion(Kean.Math.Single real, Point imaginary) :
+        public Quaternion(float real, Point imaginary) :
             base(real, imaginary) { }
-        public Quaternion(Kean.Math.Single x, Kean.Math.Single y, Kean.Math.Single z, Kean.Math.Single w) :
+        public Quaternion(float x, float y, float z, float w) :
             base(x, new Point(y, z, w)) { }
     }
 }

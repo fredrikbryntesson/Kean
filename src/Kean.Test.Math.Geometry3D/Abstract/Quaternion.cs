@@ -78,31 +78,31 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void Roll()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationX(angle);
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationX(angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));
-            Assert.That(quaternion.Roll.Value, Is.EqualTo(angle.Value).Within(this.Precision));
+            Assert.That(quaternion.RotationX.Value, Is.EqualTo(angle.Value).Within(this.Precision));
         }
         [Test]
         public void Pitch()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationY(angle);
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationY(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationY(-angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));
-            Assert.That(quaternion.Pitch.Value, Is.EqualTo(angle.Value).Within(this.Precision));
+            Assert.That(quaternion.RotationY.Value, Is.EqualTo(angle.Value).Within(this.Precision));
         }
         [Test]
         public void Yaw()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationZ(angle);
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationZ(angle);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>);
             MatrixType rotation2 = Kean.Math.Matrix.Abstract<MatrixType, R, V>.RotationZ(angle);
             Assert.That(rotation.Distance(rotation2), Is.EqualTo(0).Within(this.Precision));
-            Assert.That(quaternion.Yaw.Value, Is.EqualTo(angle.Value).Within(this.Precision));
+            Assert.That(quaternion.RotationZ.Value, Is.EqualTo(angle.Value).Within(this.Precision));
         }
         [Test]
         public void Action()
@@ -110,7 +110,7 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             R roll = new R().CreateConstant(20).ToRadians();
             R pitch = new R().CreateConstant(-30).ToRadians();
             R yaw = new R().CreateConstant(45).ToRadians();
-            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.EulerAngles(roll, pitch, yaw);
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationZ(pitch) * Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationY(pitch) * Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationX(roll);
             PointType rotatedPointQuaternion = quaternion * this.P0;
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotation = (Kean.Math.Matrix.Abstract<MatrixType, R, V>)(V[,])(quaternion as Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>);
             Kean.Math.Matrix.Abstract<MatrixType, R, V> rotatedPoint = rotation * (MatrixType)(Kean.Math.Matrix.Abstract<MatrixType, R, V>)((V[])(this.P0 as Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType,SizeValue, R, V>));
@@ -127,7 +127,7 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void CastToTransform()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.RotationX(angle);
+            Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
             TransformType transform0 = (TransformType)(Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)(quaternion);
             TransformType transform1 = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle.Value);
             MatrixType matrix0 = (MatrixType)(V[,])(Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)(transform0);

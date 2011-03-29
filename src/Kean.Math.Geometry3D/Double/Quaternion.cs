@@ -26,9 +26,9 @@ namespace Kean.Math.Geometry3D.Double
         Abstract.Quaternion<Transform, TransformValue, Quaternion, Point, PointValue, Size, SizeValue, Kean.Math.Double, double>
     {
         public Quaternion() { }
-        public Quaternion(Kean.Math.Double real, Point imaginary) :
+        public Quaternion(double real, Point imaginary) :
             base(real, imaginary) { }
-        public Quaternion(Kean.Math.Double x, Kean.Math.Double y, Kean.Math.Double z, Kean.Math.Double w) :
+        public Quaternion(double x, double y, double z, double w) :
             base(x, new Point(y, z, w)) { }
     }
 }

@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry2D.Single
     {
         public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
         public Size() { }
-        public Size(Kean.Math.Single x, Kean.Math.Single y) : 
+        public Size(float x, float y) : 
 			base(x, y) { }
     }
 }

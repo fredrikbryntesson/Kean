@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Double
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
         public Shell() { }
-        public Shell(Kean.Math.Double left, Kean.Math.Double right, Kean.Math.Double top, Kean.Math.Double bottom, Kean.Math.Double front, Kean.Math.Double back) : base(left, right, top, bottom, front, back) { }
+        public Shell(double left, double right, double top, double bottom, double front, double back) : base(left, right, top, bottom, front, back) { }
         public Box Decrease(Size size)
           {
               return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);

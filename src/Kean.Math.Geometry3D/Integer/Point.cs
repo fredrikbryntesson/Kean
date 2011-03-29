@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Integer
     {
         public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }
-        public Point(Kean.Math.Integer x, Kean.Math.Integer y, Kean.Math.Integer z) : base(x, y, z) { }
+        public Point(int x, int y, int z) : base(x, y, z) { }
         #region Casts
         public static explicit operator PointValue(Point value)
         {

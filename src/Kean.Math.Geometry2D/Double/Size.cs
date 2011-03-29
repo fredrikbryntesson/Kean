@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry2D.Double
     {
         public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
         public Size() { }
-        public Size(Kean.Math.Double x, Kean.Math.Double y) : base(x, y) { }
+        public Size(double x, double y) : base(x, y) { }
         #region Casts
         public static explicit operator SizeValue(Size value)
         {

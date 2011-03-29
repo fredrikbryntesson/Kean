@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry2D.Integer
     {
         public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
         public Size() { }
-        public Size(Kean.Math.Integer x, Kean.Math.Integer y) : 
+        public Size(int x, int y) : 
 			base(x, y) { }
     }
 }
