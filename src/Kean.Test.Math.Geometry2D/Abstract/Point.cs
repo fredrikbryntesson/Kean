@@ -29,7 +29,13 @@ namespace Kean.Test.Math.Geometry2D.Abstract
             Assert.That(result.X, Is.EqualTo(this.Vector0.Y));
             Assert.That(result.Y, Is.EqualTo(this.Vector0.X));
         }
-
+        [Test]
+        public void Casting()
+        {
+            string value = "10 20";
+            Assert.That(this.CastToString(this.Vector3), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(this.Vector3));
+        }
         public void Run()
         {
             this.Run(
@@ -38,7 +44,8 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.Subtraction,
                 this.ScalarMultitplication,
                 this.GetValues,
-                this.Swap
+                this.Swap,
+                this.Casting
                 );
         }
     }

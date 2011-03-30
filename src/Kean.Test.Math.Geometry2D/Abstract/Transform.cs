@@ -15,12 +15,17 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
+        protected abstract string CastToString(TransformType value);
+        protected abstract TransformType CastFromString(string value);
+     
         protected float Precision { get { return 1e-5f; } }
         protected abstract V Cast(double value);
         protected TransformType Transform0 { get; set; }
         protected TransformType Transform1 { get; set; }
         protected TransformType Transform2 { get; set; }
         protected TransformType Transform3 { get; set; }
+        protected TransformType Transform4 { get { return Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60)); } }
+        
         protected PointType Point0 { get; set; }
         protected PointType Point1 { get; set; }
         protected SizeType Size0 { get; set; }
@@ -209,6 +214,13 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 for(int y = 0; y < 3; y++)
                     Assert.That(values[x,y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
         }
+        [Test]
+        public void Casting()
+        {
+            string value = "10, 30, 50; 20, 40, 60; 0, 0, 1";
+            Assert.That(this.CastToString(this.Transform4), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(this.Transform4));
+        }
         internal void Run(params System.Action[] tests)
         {
             foreach (System.Action test in tests)
@@ -236,7 +248,8 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.GetScalingX,
                 this.GetScalingY,
                 this.GetScaling,
-                this.GetRotation
+                this.GetRotation,
+                this.Casting
                 );
         }
     }

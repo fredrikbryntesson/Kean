@@ -8,6 +8,14 @@ namespace Kean.Test.Math.Geometry2D.Integer
         Kean.Test.Math.Geometry2D.Abstract.Point< Kean.Math.Geometry2D.Integer.Transform,  Kean.Math.Geometry2D.Integer.TransformValue, Kean.Math.Geometry2D.Integer.Point, Kean.Math.Geometry2D.Integer.PointValue,  Kean.Math.Geometry2D.Integer.Size,  Kean.Math.Geometry2D.Integer.SizeValue, 
         Kean.Math.Integer, int>
     {
+        protected override Kean.Math.Geometry2D.Integer.Point CastFromString(string value)
+        {
+            return value;
+        }
+        protected override string CastToString(Kean.Math.Geometry2D.Integer.Point value)
+        {
+            return value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {

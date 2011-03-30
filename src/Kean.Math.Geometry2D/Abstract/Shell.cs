@@ -83,5 +83,14 @@ namespace Kean.Math.Geometry2D.Abstract
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
         }
         #endregion
+        public static ShellType Create(V left, V right, V top, V bottom)
+        {
+            ShellType result = new ShellType();
+            result.left = (R)left;
+            result.right = (R)right;
+            result.top = (R)top;
+            result.bottom = (R)bottom;
+            return result;
+        }
     }
 }

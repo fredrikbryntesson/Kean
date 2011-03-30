@@ -9,6 +9,14 @@ namespace Kean.Test.Math.Geometry3D.Single
     public class Transform :
         Kean.Test.Math.Geometry3D.Abstract.Transform<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Point, Kean.Math.Geometry3D.Single.PointValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Single, float>
     {
+        protected override Kean.Math.Geometry3D.Single.Transform CastFromString(string value)
+        {
+            return (Kean.Math.Geometry3D.Single.Transform)value;
+        }
+        protected override string CastToString(Kean.Math.Geometry3D.Single.Transform value)
+        {
+            return (string)value;
+        } 
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
@@ -87,7 +95,8 @@ namespace Kean.Test.Math.Geometry3D.Single
                 this.MultiplicationTransformPoint,
                 this.InverseTransform1,
                 this.InverseTransform2,
-                this.InverseTransform3
+                this.InverseTransform3,
+                this.Casting
                 );
         }
         public static void Test()

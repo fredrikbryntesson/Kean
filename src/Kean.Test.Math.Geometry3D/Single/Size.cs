@@ -8,6 +8,14 @@ namespace Kean.Test.Math.Geometry3D.Single
         Kean.Test.Math.Geometry3D.Abstract.Size<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue,
         Kean.Math.Single, float>
     {
+        protected override Kean.Math.Geometry3D.Single.Size CastFromString(string value)
+        {
+            return value;
+        }
+        protected override string CastToString(Kean.Math.Geometry3D.Single.Size value)
+        {
+            return value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {

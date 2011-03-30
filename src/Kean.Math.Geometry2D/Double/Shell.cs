@@ -40,6 +40,25 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
         }
+        public static implicit operator string(Shell value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Shell(string value)
+        {
+            Shell result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 4)
+                    result = new Shell(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
         #endregion
     }
 }

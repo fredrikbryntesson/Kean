@@ -41,9 +41,30 @@ namespace Kean.Math.Geometry2D.Single
             float height = Kean.Math.Single.Maximum((this.Bottom < other.Bottom ? this.Bottom : other.Bottom) - top, 0);
             return new Box(left, top, width, height);
         }
+        #region Casts
         public static explicit operator BoxValue(Box value)
         {
             return new BoxValue(value.LeftTop.Value, value.Size.Value);
         }
+        public static implicit operator string(Box value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Box(string value)
+        {
+            Box result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 4)
+                    result = new Box((Point)(values[0] + " " + value[1]), (Size)(values[2] + " " + value[3]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
     }
 }

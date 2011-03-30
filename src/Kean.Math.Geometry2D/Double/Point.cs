@@ -32,6 +32,25 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new PointValue() { X = value.X, Y = value.Y };
         }
+        public static implicit operator string(Point value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Point(string value)
+        {
+            Point result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new Point(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
         #endregion
     }
 }

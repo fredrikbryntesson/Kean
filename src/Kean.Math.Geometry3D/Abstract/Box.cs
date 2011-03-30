@@ -37,8 +37,8 @@ namespace Kean.Math.Geometry3D.Abstract
         where V : struct
     {
         #region IBox<PointValue,SizeValue,V> Members
-        PointType leftTop;
-        public PointType LeftTop { get { return this.LeftTop; } }
+        PointType leftTopFront;
+        public PointType LeftTopFront { get { return this.LeftTopFront; } }
         SizeType size;
         public SizeType Size { get { return this.Size; } }
         #endregion
@@ -50,16 +50,16 @@ namespace Kean.Math.Geometry3D.Abstract
         #endregion
 
         #region All sides
-        public V Left { get { return (this.LeftTop as IPoint<V>).X; } }
-        public V Right { get { return (R)((this.LeftTop as IPoint<V>).X) + this.Size.Width; } }
-        public V Top { get { return (this.LeftTop as IPoint<V>).Y; } }
-        public V Bottom { get { return (R)((this.LeftTop as IPoint<V>).Y) + this.Size.Height; } }
-        public V Front { get { return (this.LeftTop as IPoint<V>).Z; } }
-        public V Back { get { return (R)((this.LeftTop as IPoint<V>).Z) + this.Size.Depth; } }
+        public V Left { get { return (this.LeftTopFront as IPoint<V>).X; } }
+        public V Right { get { return (R)((this.LeftTopFront as IPoint<V>).X) + this.Size.Width; } }
+        public V Top { get { return (this.LeftTopFront as IPoint<V>).Y; } }
+        public V Bottom { get { return (R)((this.LeftTopFront as IPoint<V>).Y) + this.Size.Height; } }
+        public V Front { get { return (this.LeftTopFront as IPoint<V>).Z; } }
+        public V Back { get { return (R)((this.LeftTopFront as IPoint<V>).Z) + this.Size.Depth; } }
         #endregion
 
         #region IBox<PointValue, SizeValue, V>
-        PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTop.Value; } }
+        PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTopFront.Value; } }
         SizeValue IBox<PointValue, SizeValue, V>.Size { get { return this.Size.Value; } }
         #endregion
         public abstract BoxValue Value { get; }
@@ -67,12 +67,12 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Constructors
         protected Box()
         {
-            this.leftTop = new PointType();
+            this.leftTopFront = new PointType();
             this.size = new SizeType();
         }
         protected Box(PointType leftTop, SizeType size)
         {
-            this.leftTop = leftTop;
+            this.leftTopFront = leftTop;
             this.size = size;
         }
         #endregion
@@ -102,23 +102,23 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Arithmetic operators
         public static BoxType operator +(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
-            return new BoxType() { leftTop = left.leftTop + right, size = left.size };
+            return new BoxType() { leftTopFront = left.leftTopFront + right, size = left.size };
         }
         public static BoxType operator -(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
-            return new BoxType() { leftTop = left.leftTop - right, size = left.size };
+            return new BoxType() { leftTopFront = left.leftTopFront - right, size = left.size };
         }
         public static BoxType operator +(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
         {
-            return new BoxType() { leftTop = left.leftTop, size = left.size + right };
+            return new BoxType() { leftTopFront = left.leftTopFront, size = left.size + right };
         }
         public static BoxType operator -(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
         {
-            return new BoxType() { leftTop = left.leftTop, size = left.size - right };
+            return new BoxType() { leftTopFront = left.leftTopFront, size = left.size - right };
         }
         public static BoxType operator *(TransformType left, Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
-            return new BoxType() { leftTop = left * right.leftTop, size = left * right.size };
+            return new BoxType() { leftTopFront = left * right.leftTopFront, size = left * right.size };
         }
         #endregion
         #region Comparison Operators
@@ -126,7 +126,7 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.leftTop == right.LeftTop &&
+                left.leftTopFront == right.LeftTop &&
                 left.size == right.Size;
         }
         public static bool operator !=(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
@@ -137,7 +137,7 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Casts
         public static explicit operator Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(BoxValue value)
         {
-            return new BoxType() { leftTop = (PointType)value.LeftTop, size = (SizeType)value.Size };
+            return new BoxType() { leftTopFront = (PointType)value.LeftTop, size = (SizeType)value.Size };
         }
         #endregion
         #region Object Overrides
@@ -151,8 +151,15 @@ namespace Kean.Math.Geometry3D.Abstract
         }
         public override string ToString()
         {
-            return this.leftTop.ToString() + " " + this.size.ToString();
+            return this.leftTopFront.ToString() + " " + this.size.ToString();
         }
         #endregion
+        public static BoxType Create(PointType leftTopFront, SizeType size)
+        {
+            BoxType result = new BoxType();
+            result.leftTopFront = leftTopFront;
+            result.size = size;
+            return result;
+        }
     }
 }

@@ -35,11 +35,30 @@ namespace Kean.Math.Geometry3D.Single
           {
               return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
           }
-        #region Casts
-        public static explicit operator ShellValue(Shell value)
-        {
-            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
-        }
-        #endregion
+          #region Casts
+          public static explicit operator ShellValue(Shell value)
+          {
+              return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static implicit operator string(Shell value)
+          {
+              return value.ToString();
+          }
+          public static implicit operator Shell(string value)
+          {
+              Shell result = null;
+              try
+              {
+                  string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                  if (values.Length == 4)
+                      result = new Shell(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[5]));
+              }
+              catch
+              {
+                  result = null;
+              }
+              return result;
+          }
+          #endregion
     }
 }

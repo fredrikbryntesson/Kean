@@ -15,12 +15,17 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
+        protected abstract string CastToString(TransformType value);
+        protected abstract TransformType CastFromString(string value);
+     
         protected float Precision { get { return 1e-5f; } }
         protected abstract V Cast(double value);
         protected TransformType Transform0 { get; set; }
         protected TransformType Transform1 { get; set; }
         protected TransformType Transform2 { get; set; }
         protected TransformType Transform3 { get; set; }
+        protected TransformType Transform4 { get { return Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60), new R().CreateConstant(70), new R().CreateConstant(80), new R().CreateConstant(90), new R().CreateConstant(100), new R().CreateConstant(110), new R().CreateConstant(120)); } }
+        
         protected PointType Point0 { get; set; }
         protected PointType Point1 { get; set; }
         protected SizeType Size0 { get; set; }
@@ -43,7 +48,20 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         [Test]
         public void InverseTransform()
         {
-            Assert.That(this.Transform0.Inverse, Is.EqualTo(this.Transform3));
+            TransformType transform = this.Transform0.Inverse;
+            TransformType correct = this.Transform3;
+            Assert.That(transform.A.Value, Is.EqualTo(correct.A.Value).Within(this.Precision));
+            Assert.That(transform.B.Value, Is.EqualTo(correct.B.Value).Within(this.Precision));
+            Assert.That(transform.C.Value, Is.EqualTo(correct.C.Value).Within(this.Precision));
+            Assert.That(transform.D.Value, Is.EqualTo(correct.D.Value).Within(this.Precision));
+            Assert.That(transform.E.Value, Is.EqualTo(correct.E.Value).Within(this.Precision));
+            Assert.That(transform.F.Value, Is.EqualTo(correct.F.Value).Within(this.Precision));
+            Assert.That(transform.G.Value, Is.EqualTo(correct.G.Value).Within(this.Precision));
+            Assert.That(transform.H.Value, Is.EqualTo(correct.H.Value).Within(this.Precision));
+            Assert.That(transform.I.Value, Is.EqualTo(correct.I.Value).Within(this.Precision));
+            Assert.That(transform.J.Value, Is.EqualTo(correct.J.Value).Within(this.Precision));
+            Assert.That(transform.K.Value, Is.EqualTo(correct.K.Value).Within(this.Precision));
+            Assert.That(transform.L.Value, Is.EqualTo(correct.L.Value).Within(this.Precision));
         }
         [Test]
         public void MultiplicationTransformTransform()
@@ -263,6 +281,13 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             for (int x = 0; x < 4; x++)
                 for (int y = 0; y < 4; y++)
                     Assert.That(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
+        }
+        [Test]
+        public void Casting()
+        {
+            string value = "10, 40, 70, 100; 20, 50, 80, 110; 30, 60, 90, 120; 0, 0, 0, 1";
+            Assert.That(this.CastToString(this.Transform4), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(this.Transform4));
         }
     }
 }

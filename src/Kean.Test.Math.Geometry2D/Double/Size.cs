@@ -8,6 +8,14 @@ namespace Kean.Test.Math.Geometry2D.Double
         Kean.Test.Math.Geometry2D.Abstract.Size<Kean.Math.Geometry2D.Double.Transform, Kean.Math.Geometry2D.Double.TransformValue, Kean.Math.Geometry2D.Double.Size, Kean.Math.Geometry2D.Double.SizeValue,
         Kean.Math.Double, double>
     {
+        protected override Kean.Math.Geometry2D.Double.Size CastFromString(string value)
+        {
+            return value;
+        }
+        protected override string CastToString(Kean.Math.Geometry2D.Double.Size value)
+        {
+            return value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {

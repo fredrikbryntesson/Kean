@@ -53,6 +53,12 @@
     <Compile Include="Abstract\Size.cs" />
     <Compile Include="Abstract\Transform.cs" />
     <Compile Include="Abstract\Vector.cs" />
+    <Compile Include="Double\Point.cs" />
+    <Compile Include="Double\Quaternion.cs" />
+    <Compile Include="Double\Size.cs" />
+    <Compile Include="Double\Transform.cs" />
+    <Compile Include="Integer\Point.cs" />
+    <Compile Include="Integer\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\Quaternion.cs" />
@@ -80,9 +86,6 @@
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Double\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

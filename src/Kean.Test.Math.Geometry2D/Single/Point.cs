@@ -8,6 +8,14 @@ namespace Kean.Test.Math.Geometry2D.Single
         Kean.Test.Math.Geometry2D.Abstract.Point< Kean.Math.Geometry2D.Single.Transform,  Kean.Math.Geometry2D.Single.TransformValue, Kean.Math.Geometry2D.Single.Point, Kean.Math.Geometry2D.Single.PointValue,  Kean.Math.Geometry2D.Single.Size,  Kean.Math.Geometry2D.Single.SizeValue, 
         Kean.Math.Single, float>
     {
+        protected override Kean.Math.Geometry2D.Single.Point CastFromString(string value)
+        {
+            return value;
+        }
+        protected override string CastToString(Kean.Math.Geometry2D.Single.Point value)
+        {
+            return value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {

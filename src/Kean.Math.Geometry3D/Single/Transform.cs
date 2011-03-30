@@ -33,6 +33,29 @@ namespace Kean.Math.Geometry3D.Single
         {
             return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
         }
+        public static implicit operator string(Transform value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Transform(string value)
+        {
+            Transform result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 16)
+                    result = new Transform(
+                        Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[8]),
+                        Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[5]), Kean.Math.Single.Parse(values[9]),
+                        Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[6]), Kean.Math.Single.Parse(values[10]),
+                        Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[7]), Kean.Math.Single.Parse(values[11]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
         #endregion
     }
 }

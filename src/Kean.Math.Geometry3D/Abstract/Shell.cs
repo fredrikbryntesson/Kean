@@ -92,5 +92,16 @@ namespace Kean.Math.Geometry3D.Abstract
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode() ^ this.Front.GetHashCode() ^ this.Back.GetHashCode();
         }
         #endregion
+        protected static ShellType Create(V left, V right, V top, V bottom, V front, V back)
+        {
+            ShellType result = new ShellType();
+            result.left = (R)left;
+            result.right = (R)right;
+            result.top = (R)top;
+            result.bottom = (R)bottom;
+            result.front = (R)front;
+            result.back = (R)back;
+            return result;
+        }
     }
 }

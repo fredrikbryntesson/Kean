@@ -43,9 +43,30 @@ namespace Kean.Math.Geometry3D.Integer
             int depth = Kean.Math.Integer.Maximum((this.Back < other.Back ? this.Back : other.Back) - front, 0);
             return new Box(left, top, width, height, front, depth);
         }
+        #region Casts
         public static explicit operator BoxValue(Box value)
         {
-            return new BoxValue(value.LeftTop.Value, value.Size.Value);
+            return new BoxValue(value.LeftTopFront.Value, value.Size.Value);
         }
+        public static implicit operator string(Box value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Box(string value)
+        {
+            Box result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 6)
+                    result = new Box((Point)(values[0] + " " + value[1] + " " + value[2]), (Size)(values[3] + " " + value[4] + " " + value[5]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
     }
 }

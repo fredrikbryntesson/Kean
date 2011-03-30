@@ -30,5 +30,26 @@ namespace Kean.Math.Geometry3D.Integer
             base(real, imaginary) { }
         public Quaternion(int x, int y, int z, int w) :
             base(x, new Point(y, z, w)) { }
+        #region Casts
+        public static implicit operator string(Quaternion value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Quaternion(string value)
+        {
+            Quaternion result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 3)
+                    result = new Quaternion(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
     }
 }

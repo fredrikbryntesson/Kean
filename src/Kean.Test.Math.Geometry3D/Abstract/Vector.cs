@@ -16,12 +16,16 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         where V : struct
  
     {
-        protected float Precision { get { return 1e-5f; } }
+        protected float Precision { get { return 1e-4f; } }
         protected abstract V Cast(double value);
-
+        protected abstract string CastToString(VectorType value);
+        protected abstract VectorType CastFromString(string value);
+      
         protected VectorType Vector0 { get; set; }
         protected VectorType Vector1 { get; set; }
         protected VectorType Vector2 { get; set; }
+        protected VectorType Vector3 { get { return Kean.Math.Geometry3D.Abstract.Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30)); } }
+       
         #region Equality
         [Test]
         public void Equality()
@@ -42,7 +46,9 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         [Test]
         public void Addition()
         {
-            Assert.That(this.Vector0 + this.Vector1, Is.EqualTo(this.Vector2));
+            Assert.That((this.Vector0 + this.Vector1).Value.X, Is.EqualTo(this.Vector2.Value.X).Within(this.Precision));
+            Assert.That((this.Vector0 + this.Vector1).Value.Y, Is.EqualTo(this.Vector2.Value.Y).Within(this.Precision));
+            Assert.That((this.Vector0 + this.Vector1).Value.Z, Is.EqualTo(this.Vector2.Value.Z).Within(this.Precision));
         }
         [Test]
         public void Subtraction()

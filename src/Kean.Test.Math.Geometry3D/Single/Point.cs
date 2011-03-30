@@ -7,6 +7,14 @@ namespace Kean.Test.Math.Geometry3D.Single
     public class Point :
         Kean.Test.Math.Geometry3D.Abstract.Point<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Point, Kean.Math.Geometry3D.Single.PointValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Single, float>
     {
+        protected override Kean.Math.Geometry3D.Single.Point CastFromString(string value)
+        {
+            return value;
+        }
+        protected override string CastToString(Kean.Math.Geometry3D.Single.Point value)
+        {
+            return value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {

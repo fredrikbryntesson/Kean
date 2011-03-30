@@ -43,6 +43,13 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(this.Vector0.Norm.Value, Is.EqualTo(this.Cast(24.56385)).Within(this.Precision));
             Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Vector0.ScalarProduct(this.Vector0).Value).Within(this.Precision));
         }
+        [Test]
+        public void Casting()
+        {
+            string value = "10 20 30";
+            Assert.That(this.CastToString(this.Vector3), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(this.Vector3));
+        }
         public void Run()
         {
             this.Run(
@@ -53,8 +60,8 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 this.GetValues,
                 this.ScalarProduct,
                 this.Norm,
-                this.CrossProduct
-
+                this.CrossProduct,
+                this.Casting
                 );
         }
     }

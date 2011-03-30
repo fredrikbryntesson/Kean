@@ -152,5 +152,12 @@ namespace Kean.Math.Geometry2D.Abstract
             return this.leftTop.ToString() + " " + this.size.ToString();
         }
         #endregion
+        public static BoxType Create(PointType leftTop, SizeType size)
+        {
+            BoxType result = new BoxType();
+            result.leftTop = leftTop;
+            result.size = size;
+            return result;
+        }
     }
 }

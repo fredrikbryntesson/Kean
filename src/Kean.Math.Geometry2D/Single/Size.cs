@@ -29,5 +29,30 @@ namespace Kean.Math.Geometry2D.Single
         public Size() { }
         public Size(float x, float y) : 
 			base(x, y) { }
+        #region Casts
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
+        public static implicit operator string(Size value)
+        {
+            return value.ToString();
+        }
+        public static implicit operator Size(string value)
+        {
+            Size result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new Size(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
     }
 }

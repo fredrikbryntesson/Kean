@@ -27,15 +27,29 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Kean.Test.Math.Single.Test();
-            Kean.Test.Math.Geometry2D.Single.Point.Test();
-            Kean.Test.Math.Geometry2D.Single.Size.Test();
-            Kean.Test.Math.Geometry2D.Single.Transform.Test();
             Kean.Test.Math.Geometry2D.Integer.Point.Test();
             Kean.Test.Math.Geometry2D.Integer.Size.Test();
+            Kean.Test.Math.Geometry2D.Single.Point.Test();
+            Kean.Test.Math.Geometry2D.Single.Size.Test();
+            Kean.Test.Math.Geometry2D.Double.Point.Test();
+            Kean.Test.Math.Geometry2D.Double.Size.Test();
+
+            //Kean.Test.Math.Geometry3D.Integer.Point.Test();
+            //Kean.Test.Math.Geometry3D.Integer.Size.Test();
             Kean.Test.Math.Geometry3D.Single.Point.Test();
             Kean.Test.Math.Geometry3D.Single.Size.Test();
-            Kean.Test.Math.Geometry3D.Single.Quaternion.Test();
+            Kean.Test.Math.Geometry3D.Double.Point.Test();
+            Kean.Test.Math.Geometry3D.Double.Size.Test();
+           
+            Kean.Test.Math.Geometry2D.Single.Transform.Test();
+            Kean.Test.Math.Geometry2D.Double.Transform.Test();
+
             Kean.Test.Math.Geometry3D.Single.Transform.Test();
+            Kean.Test.Math.Geometry3D.Double.Transform.Test();
+           
+            Kean.Test.Math.Geometry3D.Single.Quaternion.Test();
+            Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
+
             Kean.Test.Math.Matrix.Single.Test();
             Core.Collection.Vector.Test();
 			Core.Collection.List.Test();
