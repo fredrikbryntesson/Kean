@@ -277,7 +277,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.A.ToString() + ", " + this.B.ToString() + ", " + this.C.ToString() + ", " + this.D.ToString() + ", " + this.E.ToString() + ", " + this.F.ToString();
+            return this.A.ToString() + ", " + this.C.ToString() + ", " + this.E.ToString() + "; " + this.B.ToString() + ", " + this.D.ToString() + ", " + this.F.ToString() + "; " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R,V>.One.ToString();
         }
         #endregion
         #region Casts

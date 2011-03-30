@@ -344,10 +344,10 @@ namespace Kean.Math.Geometry3D.Abstract
         public override string ToString()
         {
             return
-                this.A.ToString() + ", " + this.B.ToString() + ", " + this.C.ToString() + ", " +
-                this.D.ToString() + ", " + this.E.ToString() + ", " + this.F.ToString() + ", " +
-                this.G.ToString() + ", " + this.H.ToString() + ", " + this.I.ToString() + ", " +
-                this.J.ToString() + ", " + this.K.ToString() + ", " + this.L.ToString();
+                this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; " +
+                this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; " +
+                this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; " +
+                new R().ToString() + ", " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R,V>.One.ToString(); 
         }
         #endregion
         #region Casts
