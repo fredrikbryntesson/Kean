@@ -107,12 +107,12 @@ namespace Kean.Math.Geometry3D.Abstract
                 TransformType result = new TransformType()
                 {
                     A = (this.E * this.I - this.H * this.F) / determinant,
-                    B = (this.G * this.F - this.D * this.I) / determinant,
-                    C = (this.D * this.H - this.G * this.E) / determinant,
-                    D = (this.H * this.C - this.B * this.I) / determinant,
+                    B = (this.H * this.C - this.I * this.B) / determinant,
+                    C = (this.B * this.F - this.E * this.C) / determinant,
+                    D = (this.G * this.F - this.I * this.D) / determinant,
                     E = (this.A * this.I - this.G * this.C) / determinant,
-                    F = (this.D * this.C - this.A * this.F) / determinant,
-                    G = (this.B * this.F - this.E * this.C) / determinant,
+                    F = (this.D * this.C - this.F * this.A) / determinant,
+                    G = (this.D * this.H - this.E * this.G) / determinant,
                     H = (this.G * this.B - this.A * this.H) / determinant,
                     I = (this.A * this.E - this.D * this.B) / determinant,
                     J = new R(),

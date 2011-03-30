@@ -24,7 +24,30 @@ namespace Kean.Test.Math.Geometry3D.Single
             return (float)value;
         }
         [Test]
-        public void InverseTransform()
+        public void InverseTransform1()
+        {
+
+            Kean.Math.Geometry3D.Single.Transform transform = 
+                new Kean.Math.Geometry3D.Single.Transform(0.035711678574190f, 0.849129305868777f, 0.933993247757551f, 0.678735154857773f, 0.757740130578333f, 0.743132468124916f, 0.392227019534168f, 0.655477890177557f,   0.171186687811562f, 0.706046088019609f, 0.031832846377421f, 0.276922984960890f);
+            Kean.Math.Geometry3D.Single.Transform transformInverseCorrect = new Kean.Math.Geometry3D.Single.Transform(-1.304260393891308f, 1.703723523873863f, -0.279939209639535f, 0.639686782697661f, -1.314595978968342f, 2.216619899417434f, 0.538976631155336f, 1.130007253038916f, -2.004511083979782f, 0.751249880258891f, -1.473984978790241f, 0.682183855876876f);
+                
+            Kean.Math.Matrix.Single transformInverseMatrix1 = (Kean.Math.Matrix.Single)(float[,])transform.Inverse;
+            Kean.Math.Matrix.Single transformInverseMatrix2 = (Kean.Math.Matrix.Single)(float[,])transformInverseCorrect;
+            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.00001));
+        }
+        [Test]
+        public void InverseTransform2()
+        {
+            Kean.Math.Geometry3D.Single.Transform transform =
+                new Kean.Math.Geometry3D.Single.Transform(-0.829516518295923f, -0.207909983627822f, -0.518339449185655f, -0.176317665787488f, 0.978147963606672f, -0.110175505550793f, 0.529919264233205f, 0, -0.848048096156426f, 0, 0, 0);
+            Kean.Math.Geometry3D.Single.Transform transformInverseCorrect =
+                new Kean.Math.Geometry3D.Single.Transform(-0.829516518295923f, -0.176317665787488f, 0.529919264233205f, -0.207909983627822f, 0.978147963606672f, -1.15118542239879e-17f, -0.518339449185655f, -0.110175505550793f, -0.848048096156426f, 0, 0 ,0);
+            Kean.Math.Matrix.Single transformInverseMatrix1 = (Kean.Math.Matrix.Single)(float[,])transform.Inverse;
+            Kean.Math.Matrix.Single transformInverseMatrix2 = (Kean.Math.Matrix.Single)(float[,])transformInverseCorrect;
+            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
+        }
+        [Test]
+        public void InverseTransform3()
         {
             Kean.Math.Matrix.Single transformMatrix = (Kean.Math.Matrix.Single)(float[,])this.Transform0;
             Kean.Math.Matrix.Single transformInverseMatrix1 = transformMatrix.Inverse();
@@ -62,7 +85,9 @@ namespace Kean.Test.Math.Geometry3D.Single
                 this.CastToArray,
                 this.MultiplicationTransformTransform,
                 this.MultiplicationTransformPoint,
-                this.InverseTransform
+                this.InverseTransform1,
+                this.InverseTransform2,
+                this.InverseTransform3
                 );
         }
         public static void Test()
