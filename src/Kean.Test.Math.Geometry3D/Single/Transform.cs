@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Test.Math.Geometry3D.Single
 {
@@ -20,6 +22,48 @@ namespace Kean.Test.Math.Geometry3D.Single
         protected override float Cast(double value)
         {
             return (float)value;
+        }
+        [Test]
+        public void InverseTransform()
+        {
+            Kean.Math.Matrix.Single transformMatrix = (Kean.Math.Matrix.Single)(float[,])this.Transform0;
+            Kean.Math.Matrix.Single transformInverseMatrix1 = transformMatrix.Inverse();
+            Kean.Math.Matrix.Single transformInverseMatrix2 = (Kean.Math.Matrix.Single)(float[,])(this.Transform0.Inverse);
+            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
+        }
+        internal void Run(params System.Action[] tests)
+        {
+            foreach (System.Action test in tests)
+                if (test.NotNull())
+                    test();
+        }
+        public void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.CreateZeroTransform,
+                this.CreateIdentity,
+                this.CreateRotation,
+                this.CreateScale,
+                this.CreateTranslation,
+                this.Rotatate,
+                this.Scale,
+                this.Translatate,
+                this.InverseTransform,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.GetValueValues,
+                this.CastToArray,
+                this.GetTranslation,
+                this.GetScalingX,
+                this.GetScalingY,
+                this.GetScalingZ,
+                this.GetScaling,
+                this.CastToArray,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.InverseTransform
+                );
         }
         public static void Test()
         {

@@ -264,39 +264,5 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 for (int y = 0; y < 4; y++)
                     Assert.That(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
         }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Equality,
-                this.CreateZeroTransform,
-                this.CreateIdentity,
-                this.CreateRotation,
-                this.CreateScale,
-                this.CreateTranslation,
-                this.Rotatate,
-                this.Scale,
-                this.Translatate,
-                this.InverseTransform,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
-                this.GetValueValues,
-                this.CastToArray,
-                this.GetTranslation,
-                this.GetScalingX,
-                this.GetScalingY,
-                this.GetScalingZ,
-                this.GetScaling,
-                this.CastToArray,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
-                this.InverseTransform
-                );
-        }
     }
 }
