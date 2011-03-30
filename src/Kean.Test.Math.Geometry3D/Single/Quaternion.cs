@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+
 using Kean.Core.Basis.Extension;
 namespace Kean.Test.Math.Geometry3D.Single
 {
@@ -47,7 +49,15 @@ namespace Kean.Test.Math.Geometry3D.Single
             float degree = Kean.Math.Single.ToDegrees(e1.Angle(v));
             float degree2 = Kean.Math.Single.ToDegrees(Kean.Math.Single.ArcusCosinus((e1 * v) / (e1.Norm * v.Norm)));
         }
-      
+        [Test]
+        public void InverseMatrix()
+        {
+            Kean.Math.Geometry3D.Single.Quaternion q = Kean.Math.Geometry3D.Single.Quaternion.CreateRotationX(Kean.Math.Single.ToRadians(30)) * Kean.Math.Geometry3D.Single.Quaternion.CreateRotationY(Kean.Math.Single.ToRadians(-20)) * Kean.Math.Geometry3D.Single.Quaternion.CreateRotationZ(Kean.Math.Single.ToRadians(50));
+            Kean.Math.Matrix.Single matrix = (Kean.Math.Matrix.Single)(float[,])q;
+            Kean.Math.Matrix.Single matrixInverse = (Kean.Math.Matrix.Single)(float[,])(q.Inverse);
+            Kean.Math.Matrix.Single matrixInverse2 = matrix.Inverse();
+            Assert.That(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
+        }
         protected override float Cast(double value)
         {
             return (float)value;
@@ -67,8 +77,8 @@ namespace Kean.Test.Math.Geometry3D.Single
                 this.Norm,
                 this.Action,
                 this.CastToTransform,
-                this.ProjectToCamera
-
+                this.ProjectToCamera,
+                this.InverseMatrix
                 );
         }
         internal void Run(params System.Action[] tests)
