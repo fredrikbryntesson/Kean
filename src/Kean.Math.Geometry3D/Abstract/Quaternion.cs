@@ -40,7 +40,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public QuaternionType Conjugate { get { return new QuaternionType() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
         public R RotationX { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.X.Squared() + this.Imaginary.Y.Squared())); } }
-        public R RotationY { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - this.Imaginary.Z * this.Imaginary.X)).ArcusSinus(); } }
+        public R RotationY { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - this.Imaginary.Z * this.Imaginary.X)).Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusSinus(); } }
         public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
         #endregion
         #region Static Constants

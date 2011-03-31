@@ -87,6 +87,16 @@ namespace Kean.Test.Math
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.Two), Is.True);
             Assert.That(Kean.Math.Abstract<R,V>.Two.GreaterOrEqualThan(Kean.Math.Abstract<R, V>.One), Is.True);
         }
+        [Test]
+        public void Clamp()
+        {
+            R zero = new R();
+            R one = Kean.Math.Abstract<R, V>.One;
+            R two = Kean.Math.Abstract<R, V>.Two;
+            Assert.That(two.Clamp(zero, one), Is.EqualTo(one));
+            Assert.That(one.Clamp(zero, two), Is.EqualTo(one));
+            Assert.That(zero.Clamp(one, two), Is.EqualTo(one));
+        }
         public void Run()
         {
             this.Run(
@@ -97,7 +107,8 @@ namespace Kean.Test.Math
                 this.Absolute,
                 this.Minimum,
                 this.Maximum,
-                this.Compare
+                this.Compare,
+                this.Clamp
 
             );
         }

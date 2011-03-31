@@ -106,6 +106,19 @@ namespace Kean.Math
         public abstract R ToRadians();
         public abstract R ToDegrees();
         #endregion
+        #region Utility Functions
+        public R Clamp(R floor, R ceiling)
+        {
+            R result = null;
+            if (this > ceiling)
+                result = ceiling;
+            else if (this < floor)
+                result = floor;
+            else
+                result = (R)this;
+            return result;
+        }
+        #endregion
         #region Trigonometric Functions
         public abstract R Sinus();
         public abstract R Cosinus();
