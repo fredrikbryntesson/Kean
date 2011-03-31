@@ -289,5 +289,13 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(this.CastToString(this.Transform4), Is.EqualTo(value));
             Assert.That(this.CastFromString(value), Is.EqualTo(this.Transform4));
         }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            TransformType tranform = null;
+            Assert.That(this.CastToString(tranform), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(tranform));
+        }
     }
 }

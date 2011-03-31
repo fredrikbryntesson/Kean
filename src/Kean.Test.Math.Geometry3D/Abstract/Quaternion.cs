@@ -17,6 +17,8 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
+        protected abstract string CastToString(QuaternionType value);
+        protected abstract QuaternionType CastFromString(string value);
         protected float Precision { get { return 1e-5f; } }
         protected abstract V Cast(double value);
         protected QuaternionType Q0 { get; set; }
@@ -134,7 +136,22 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             MatrixType matrix1 = (MatrixType)(V[,])(Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)(transform1);
             Assert.That(matrix0.Distance(matrix1), Is.EqualTo(0).Within(this.Precision));
         }
-        
+        [Test]
+        public void Casting()
+        {
+            string value = "1 2 3 4";
+            QuaternionType quaternion = (Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(new R().CreateConstant(1)) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 * new R().CreateConstant(2) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 * new R().CreateConstant(3) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 * new R().CreateConstant(4);
+            Assert.That(this.CastToString(quaternion), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(quaternion));
+        }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            QuaternionType quaternion = null;
+            Assert.That(this.CastToString(quaternion), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(quaternion));
+        }
        
     }
 }

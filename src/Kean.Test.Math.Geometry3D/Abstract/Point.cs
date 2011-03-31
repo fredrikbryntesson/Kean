@@ -50,6 +50,14 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(this.CastToString(this.Vector3), Is.EqualTo(value));
             Assert.That(this.CastFromString(value), Is.EqualTo(this.Vector3));
         }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            PointType point = null;
+            Assert.That(this.CastToString(point), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(point));
+        }
         public void Run()
         {
             this.Run(
@@ -61,7 +69,8 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 this.ScalarProduct,
                 this.Norm,
                 this.CrossProduct,
-                this.Casting
+                this.Casting,
+                this.CastingNull
                 );
         }
     }

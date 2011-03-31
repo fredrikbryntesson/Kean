@@ -13,6 +13,14 @@ namespace Kean.Test.Math.Geometry3D.Single
         Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Matrix.Single,  
         Kean.Math.Single, float>
     {
+        protected override Kean.Math.Geometry3D.Single.Quaternion CastFromString(string value)
+        {
+            return (Kean.Math.Geometry3D.Single.Quaternion)value;
+        }
+        protected override string CastToString(Kean.Math.Geometry3D.Single.Quaternion value)
+        {
+            return (string)value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
@@ -51,7 +59,8 @@ namespace Kean.Test.Math.Geometry3D.Single
                 this.Norm,
                 this.Action,
                 this.CastToTransform,
-                this.InverseMatrix
+                this.InverseMatrix,
+                this.CastingNull
                 );
         }
         internal void Run(params System.Action[] tests)

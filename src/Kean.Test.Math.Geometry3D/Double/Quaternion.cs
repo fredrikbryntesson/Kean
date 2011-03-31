@@ -14,6 +14,14 @@ namespace Kean.Test.Math.Geometry3D.Double
         Kean.Math.Geometry3D.Double.Size, Kean.Math.Geometry3D.Double.SizeValue, Kean.Math.Matrix.Double,  
         Kean.Math.Double, double>
     {
+        protected override Kean.Math.Geometry3D.Double.Quaternion CastFromString(string value)
+        {
+            return (Kean.Math.Geometry3D.Double.Quaternion)value;
+        }
+        protected override string CastToString(Kean.Math.Geometry3D.Double.Quaternion value)
+        {
+            return (string)value;
+        }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
@@ -59,7 +67,8 @@ namespace Kean.Test.Math.Geometry3D.Double
                 this.Action,
                 this.CastToTransform,
                 this.InverseMatrix,
-                this.ExtractRotations
+                this.ExtractRotations,
+                this.CastingNull
                 );
         }
         internal void Run(params System.Action[] tests)

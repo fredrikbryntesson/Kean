@@ -221,6 +221,14 @@ namespace Kean.Test.Math.Geometry2D.Abstract
             Assert.That(this.CastToString(this.Transform4), Is.EqualTo(value));
             Assert.That(this.CastFromString(value), Is.EqualTo(this.Transform4));
         }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            TransformType transform = null;
+            Assert.That(this.CastToString(transform), Is.EqualTo(value));
+            Assert.That(this.CastFromString(value), Is.EqualTo(transform));
+        }
         internal void Run(params System.Action[] tests)
         {
             foreach (System.Action test in tests)
@@ -249,7 +257,8 @@ namespace Kean.Test.Math.Geometry2D.Abstract
                 this.GetScalingY,
                 this.GetScaling,
                 this.GetRotation,
-                this.Casting
+                this.Casting,
+                this.CastingNull
                 );
         }
     }

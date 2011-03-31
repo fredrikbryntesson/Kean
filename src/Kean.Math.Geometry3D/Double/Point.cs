@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry3D.Double
 {
@@ -34,7 +35,7 @@ namespace Kean.Math.Geometry3D.Double
         }
         public static implicit operator string(Point value)
         {
-            return value.ToString();
+            return value.NotNull() ? value.ToString() : null;
         }
         public static implicit operator Point(string value)
         {

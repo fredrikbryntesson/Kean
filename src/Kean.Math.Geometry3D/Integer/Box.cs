@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry3D.Integer
 {
@@ -50,7 +51,7 @@ namespace Kean.Math.Geometry3D.Integer
         }
         public static implicit operator string(Box value)
         {
-            return value.ToString();
+            return value.NotNull() ? value.ToString() : null;
         }
         public static implicit operator Box(string value)
         {
