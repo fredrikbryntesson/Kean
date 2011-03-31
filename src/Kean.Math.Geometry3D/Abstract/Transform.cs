@@ -302,7 +302,10 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.Equals(right);
+                left.A == right.A && left.B == right.B && left.C == right.C &&
+                left.D == right.D && left.E == right.E && left.F == right.F &&
+                left.G == right.G && left.H == right.H && left.I == right.I &&
+                left.J == right.J && left.K == right.K && left.L == right.L;
         }
         public static bool operator !=(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
         {
@@ -312,11 +315,8 @@ namespace Kean.Math.Geometry3D.Abstract
         #region IEquatable<TransformType> Members
         public bool Equals(TransformType other)
         {
-            return other.NotNull() && 
-                this.A == other.A && this.B == other.B && this.C == other.C && 
-                this.D == other.D && this.E == other.E && this.F == other.F && 
-                this.G == other.G && this.H == other.H && this.I == other.I && 
-                this.J == other.J && this.K == other.K && this.L == other.L;
+            return this == other; 
+                
         }
         #endregion
         #region Object Overrides

@@ -169,7 +169,7 @@ namespace Kean.Math.Geometry3D.Abstract
         // other is not null here.
         public bool Equals(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> other)
         {
-            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+            return this == other;
         }
         public override int GetHashCode()
         {

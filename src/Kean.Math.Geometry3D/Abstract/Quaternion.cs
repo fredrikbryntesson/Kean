@@ -190,7 +190,7 @@ namespace Kean.Math.Geometry3D.Abstract
         // other is not null here.
         public bool Equals(QuaternionType other)
         {
-            return this.Real == other.Real && this.Imaginary == other.Imaginary;
+            return this == other;
         }
         public override int GetHashCode()
         {
