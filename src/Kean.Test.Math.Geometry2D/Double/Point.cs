@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Test.Math.Geometry2D.Double
 {
@@ -26,6 +27,53 @@ namespace Kean.Test.Math.Geometry2D.Double
         protected override double Cast(double value)
         {
             return (double)value;
+        }
+        #region Polar Representation
+        [Test]
+        public void Polar0()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point();
+            Assert.That(point.Norm.Value, Is.EqualTo(0));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(0));
+        }
+        [Test]
+        public void Polar1()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point(1,0);
+            Assert.That(point.Norm.Value, Is.EqualTo(1));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(0));
+        }
+        [Test]
+        public void Polar2()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point(0, 1);
+            Assert.That(point.Norm.Value, Is.EqualTo(1));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(90)));
+        }
+        [Test]
+        public void Polar3()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point(0, -5);
+            Assert.That(point.Norm.Value, Is.EqualTo(5));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(-90)));
+        }
+        [Test]
+        public void Polar4()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point(-1, 0);
+            Assert.That(point.Norm.Value, Is.EqualTo(1));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
+        }
+        #endregion
+        public void Run()
+        {
+            this.Run(
+                this.Polar0,
+                this.Polar1,
+                this.Polar2,
+                this.Polar3,
+                this.Polar4
+                );
         }
         public static void Test()
         {

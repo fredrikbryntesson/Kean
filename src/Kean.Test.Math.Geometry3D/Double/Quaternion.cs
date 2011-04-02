@@ -42,10 +42,55 @@ namespace Kean.Test.Math.Geometry3D.Double
             Assert.That(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
         }
         [Test]
-        public void ExtractRotations()
+        public void Action()
         {
-            Target q = new Target(0.448822250111341, -0.54640514987049, -0.448822250111341,-0.54640514987049);
-
+            double roll = Kean.Math.Double.ToRadians(30);
+            double pitch = Kean.Math.Double.ToRadians(20);
+            double yaw = Kean.Math.Double.ToRadians(-45);
+            Target quaternion = Target.CreateRotationZ(yaw) * Target.CreateRotationY(pitch) * Target.CreateRotationX(roll);
+            Assert.That(quaternion.RotationX.Value, Is.EqualTo(roll).Within(this.Precision));
+            Assert.That(quaternion.RotationY.Value, Is.EqualTo(pitch).Within(this.Precision));
+            Assert.That(quaternion.RotationZ.Value, Is.EqualTo(yaw).Within(this.Precision));
+        }
+        [Test]
+        public void RotationDirectionRepresentation1()
+        {
+            double angle = Kean.Math.Double.ToRadians(30);
+            Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(1,4,7);
+            direction /= direction.Norm;
+            Target q = Target.CreateRotation(angle, direction);
+            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+        }
+        [Test]
+        public void RotationDirectionRepresentation2()
+        {
+            double angle = Kean.Math.Double.ToRadians(110);
+            Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(1, 4, 7);
+            direction /= direction.Norm;
+            Target q = Target.CreateRotation(angle, direction);
+            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+        }
+        [Test]
+        public void RotationDirectionRepresentation3()
+        {
+            double angle = Kean.Math.Double.ToRadians(110);
+            Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(0,0,5);
+            direction /= direction.Norm;
+            Target q = Target.CreateRotation(angle, direction);
+            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+        }
+        [Test]
+        public void RotationDirectionRepresentation4()
+        {
+            double angle = Kean.Math.Double.ToRadians(110);
+            Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(0, 0, -5);
+            direction /= direction.Norm;
+            Target q = Target.CreateRotation(angle, direction);
+            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         protected override double Cast(double value)
         {
@@ -67,8 +112,12 @@ namespace Kean.Test.Math.Geometry3D.Double
                 this.Action,
                 this.CastToTransform,
                 this.InverseMatrix,
-                this.ExtractRotations,
-                this.CastingNull
+                this.RotationDirectionRepresentation1,
+                this.RotationDirectionRepresentation2,
+                this.RotationDirectionRepresentation3,
+                this.RotationDirectionRepresentation4,
+                this.CastingNull,
+                this.Action
                 );
         }
         internal void Run(params System.Action[] tests)

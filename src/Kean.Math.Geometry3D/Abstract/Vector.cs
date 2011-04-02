@@ -37,7 +37,29 @@ namespace Kean.Math.Geometry3D.Abstract
         protected R Y { get; private set; }
         protected R Z { get; private set; }
         public abstract VectorValue Value { get; }
+        /// <summary>
+        /// Length of vector. 
+        /// </summary>
         public R Norm { get { return (this.X.Squared() + this.Y.Squared() + this.Z.Squared()).SquareRoot(); } }
+        /// <summary>
+        /// Angle in radians describing the projection in the xy-plane of the vector. [0, 2 * pi]
+        /// </summary>
+        public R Azimuth { get { return this.Y.ArcusTangensExtended(this.X); } }
+        /// <summary>
+        /// Angle of elevation beteen the xy-projection and the vector. [0, pi]
+        /// </summary>
+        public R Elevation 
+        {
+            get 
+            {   R result = new R();
+                R r = (this.X.Squared() + this.Y.Squared()).SquareRoot();
+                if (r != result)
+                    result = (this.Z / r).Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
+                else if (this.Z > new R())
+                    result = new R().CreateConstant(180).ToRadians();
+                return result;
+            } 
+        }
         #region IVector<V> Members
         V IVector<V>.X { get { return this.X; } }
         V IVector<V>.Y { get { return this.Y; } }

@@ -33,9 +33,17 @@ namespace Kean.Math.Geometry3D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
-        protected R Real { get; private set; }
-        protected PointType Imaginary { get; private set; }
+        public R Real { get; private set; }
+        public PointType Imaginary { get; private set; }
         public R Norm { get { return (this.Real.Squared() + this.Imaginary.Norm.Squared()).SquareRoot(); } }
+        /// <summary>
+        /// Clockwise rotation around the direction vector of the corresponding rotation.
+        /// </summary>
+        public R Rotation { get { return Kean.Math.Abstract<R, V>.Two * (this.Logarithm().Imaginary).Norm; } }
+        /// <summary>
+        /// Direction vector of corresponding rotation. 
+        /// </summary>
+        public PointType Direction { get { return this.Logarithm().Imaginary / this.Logarithm().Imaginary.Norm;}}
         public QuaternionType Inverse { get { return this.Conjugate / this.Norm.Squared(); } }
         public QuaternionType Conjugate { get { return new QuaternionType() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
@@ -65,6 +73,35 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return new QuaternionType() { Real = this.Real, Imaginary = this.Imaginary };
         }
+        #region Transcendental Functions
+        public QuaternionType Exponential()
+        {
+            QuaternionType result = new QuaternionType();
+            R norm = this.Imaginary.Norm;
+            R exponentialReal = this.Real.Exponential();
+            if(norm != new R())
+            {
+                result.Real = exponentialReal * norm.Cosinus();
+                result.Imaginary = exponentialReal * (this.Imaginary / norm) * norm.Sinus(); 
+            }
+            else
+                result = (QuaternionType)(exponentialReal);
+            return result;
+        }
+        public QuaternionType Logarithm()
+        {
+            QuaternionType result = new QuaternionType();
+            R norm = this.Imaginary.Norm;
+            if (norm != new R())
+            {
+                result.Real = this.Norm.Logarithm();
+                result.Imaginary = (this.Imaginary / norm) * (this.Real / this.Norm).ArcusCosinus();
+            }
+            else
+                result = (QuaternionType)(this.Norm);
+            return result;
+        }
+        #endregion
         #endregion
         #region Arithmetic Point - Point Operators
         public static PointType operator *(Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
@@ -136,7 +173,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType CreateRotationX(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1));
         }
         /// <summary>
         /// Rotation around the imaginary-axis
@@ -146,7 +183,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType CreateRotationY(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2));
         }
         /// <summary>
         /// Rotation around the z-axis
@@ -156,7 +193,17 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType CreateRotationZ(R angle)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3));
+        }
+        /// <summary>
+        /// Rotation around the given axis vector 
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static QuaternionType CreateRotation(R angle, PointType direction)
+        {
+            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
+            return (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(direction);
         }
         #endregion
         #region Comparison Operators
@@ -210,6 +257,15 @@ namespace Kean.Math.Geometry3D.Abstract
         public static explicit operator Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>(R value)
         {
             return new QuaternionType() { Real = value, Imaginary = new PointType() };
+        }
+        /// <summary>
+        /// Cast from Vector to a quaternion.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static explicit operator Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>(PointType value)
+        {
+            return new QuaternionType() { Real = new R(), Imaginary = value };
         }
         public static explicit operator V[](Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {

@@ -60,7 +60,8 @@ namespace Kean.Test.Math.Geometry3D.Single
                 this.Action,
                 this.CastToTransform,
                 this.InverseMatrix,
-                this.CastingNull
+                this.CastingNull,
+                this.LogarithmExponential
                 );
         }
         internal void Run(params System.Action[] tests)

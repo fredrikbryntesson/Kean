@@ -37,6 +37,7 @@ namespace Kean.Math.Geometry2D.Abstract
         protected R Y { get; private set; }
         public abstract VectorValue Value { get; }
         public R Norm { get { return (this.X.Squared() + this.Y.Squared()).SquareRoot(); } }
+        public R Azimuth { get { return this.Y.ArcusTangensExtended(this.X); } }
         #region IVector<V> Members
         V IVector<V>.X { get { return this.X; } }
         V IVector<V>.Y { get { return this.Y; } }

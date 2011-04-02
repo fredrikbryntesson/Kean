@@ -19,8 +19,8 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         [Test]
         public void GetValues()
         {
-            Assert.That(this.Vector0.X.Value, Is.EqualTo(this.Cast(22.221)).Within(this.Precision));
-            Assert.That(this.Vector0.Y.Value, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision));
+            Assert.That(this.Vector0.X.Value, Is.EqualTo(this.Cast(22.221f)).Within(this.Precision));
+            Assert.That(this.Vector0.Y.Value, Is.EqualTo(this.Cast(-3.1f)).Within(this.Precision));
             Assert.That(this.Vector0.Z.Value, Is.EqualTo(this.Cast(10)).Within(this.Precision));
         }
         [Test]
