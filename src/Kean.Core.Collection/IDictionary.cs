@@ -27,7 +27,7 @@ namespace Kean.Core.Collection
 	{
         TValue this[TKey key] { get; set; }
         bool Contains(TKey key);
-        void Remove(TKey key);
+		bool Remove(TKey key);
 	}
 }
 
