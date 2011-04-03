@@ -19,9 +19,15 @@ namespace Kean.Test.Math.Geometry3D.Double
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry3D.Double.Point(22.221f, -3.1f, 10);
-            this.Vector1 = new Kean.Math.Geometry3D.Double.Point(12.221f, 13.1f, 20);
-            this.Vector2 = new Kean.Math.Geometry3D.Double.Point(34.442f, 10.0f, 30);
+            this.Vector0 = new Kean.Math.Geometry3D.Double.Point(22, -3, 10);
+            this.Vector1 = new Kean.Math.Geometry3D.Double.Point(12, 13, 20);
+            this.Vector2 = new Kean.Math.Geometry3D.Double.Point(34, 10, 30);
+        }
+        [Test]
+        public void Norm()
+        {
+            Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Cast(593)).Within(this.Precision));
+            Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Vector0.ScalarProduct(this.Vector0).Value).Within(this.Precision));
         }
         #region Spherical Coordinates Representation
         [Test]
@@ -69,7 +75,6 @@ namespace Kean.Test.Math.Geometry3D.Double
         {
             return (double)value;
         }
-
         public void Run()
         {
             this.Run(
@@ -77,7 +82,8 @@ namespace Kean.Test.Math.Geometry3D.Double
                 this.Sphere1,
                 this.Sphere2,
                 this.Sphere3,
-                this.Sphere4
+                this.Sphere4,
+                this.Norm
                 );
         }
         public static void Test()

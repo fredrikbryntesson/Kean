@@ -19,9 +19,9 @@ namespace Kean.Test.Math.Geometry3D.Double
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry3D.Double.Size(22.221f, -3.1f, 10);
-            this.Vector1 = new Kean.Math.Geometry3D.Double.Size(12.221f, 13.1f, 20);
-            this.Vector2 = new Kean.Math.Geometry3D.Double.Size(34.442f, 10.0f, 30);
+            this.Vector0 = new Kean.Math.Geometry3D.Double.Size(22, -3, 10);
+            this.Vector1 = new Kean.Math.Geometry3D.Double.Size(12, 13, 20);
+            this.Vector2 = new Kean.Math.Geometry3D.Double.Size(34, 10, 30);
         }
         protected override double Cast(double value)
         {

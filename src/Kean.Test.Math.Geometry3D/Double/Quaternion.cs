@@ -99,34 +99,15 @@ namespace Kean.Test.Math.Geometry3D.Double
         public void Run()
         {
             this.Run(
-                this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.Multitplication,
-                this.GetValues,
-                this.Roll,
-                this.Pitch,
-                this.Yaw,
-                this.Norm,
-                this.Action,
                 this.CastToTransform,
                 this.InverseMatrix,
                 this.RotationDirectionRepresentation1,
                 this.RotationDirectionRepresentation2,
                 this.RotationDirectionRepresentation3,
                 this.RotationDirectionRepresentation4,
-                this.CastingNull,
                 this.Action
                 );
         }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-
         public static void Test()
         {
             Quaternion fixture = new Quaternion();

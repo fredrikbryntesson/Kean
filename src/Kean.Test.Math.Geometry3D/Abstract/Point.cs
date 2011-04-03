@@ -19,29 +19,23 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         [Test]
         public void GetValues()
         {
-            Assert.That(this.Vector0.X.Value, Is.EqualTo(this.Cast(22.221f)).Within(this.Precision));
-            Assert.That(this.Vector0.Y.Value, Is.EqualTo(this.Cast(-3.1f)).Within(this.Precision));
+            Assert.That(this.Vector0.X.Value, Is.EqualTo(this.Cast(22)).Within(this.Precision));
+            Assert.That(this.Vector0.Y.Value, Is.EqualTo(this.Cast(-3)).Within(this.Precision));
             Assert.That(this.Vector0.Z.Value, Is.EqualTo(this.Cast(10)).Within(this.Precision));
         }
         [Test]
         public void ScalarProduct()
         {
             Assert.That(this.Vector0.ScalarProduct(new PointType()).Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Assert.That(this.Vector0.ScalarProduct(this.Vector1).Value, Is.EqualTo(this.Cast(430.95282)).Within(this.Precision));
+            Assert.That(this.Vector0.ScalarProduct(this.Vector1).Value, Is.EqualTo(this.Cast(425)).Within(this.Precision));
         }
         [Test]
         public void CrossProduct()
         {
             Assert.That(this.Vector0 * this.Vector1, Is.EqualTo(-this.Vector1 * this.Vector0));
-            Assert.That((this.Vector0 * this.Vector1).X.Value, Is.EqualTo(this.Cast(-193)).Within(this.Precision));
-            Assert.That((this.Vector0 * this.Vector1).Y.Value, Is.EqualTo(this.Cast(-322.210022)).Within(this.Precision));
-            Assert.That((this.Vector0 * this.Vector1).Z.Value, Is.EqualTo(this.Cast(328.980225)).Within(this.Precision));
-        }
-        [Test]
-        public void Norm()
-        {
-            Assert.That(this.Vector0.Norm.Value, Is.EqualTo(this.Cast(24.56385)).Within(this.Precision));
-            Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Vector0.ScalarProduct(this.Vector0).Value).Within(this.Precision));
+            Assert.That((this.Vector0 * this.Vector1).X.Value, Is.EqualTo(this.Cast(-190)).Within(this.Precision));
+            Assert.That((this.Vector0 * this.Vector1).Y.Value, Is.EqualTo(this.Cast(-320)).Within(this.Precision));
+            Assert.That((this.Vector0 * this.Vector1).Z.Value, Is.EqualTo(this.Cast(322)).Within(this.Precision));
         }
         [Test]
         public void Casting()
@@ -67,7 +61,6 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 this.ScalarMultitplication,
                 this.GetValues,
                 this.ScalarProduct,
-                this.Norm,
                 this.CrossProduct,
                 this.Casting,
                 this.CastingNull

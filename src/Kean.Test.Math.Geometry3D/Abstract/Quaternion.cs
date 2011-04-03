@@ -170,6 +170,30 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(this.CastToString(quaternion), Is.EqualTo(value));
             Assert.That(this.CastFromString(value), Is.EqualTo(quaternion));
         }
+        internal void Run(params System.Action[] tests)
+        {
+            foreach (System.Action test in tests)
+                if (test.NotNull())
+                    test();
+        }
+        public void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.Multitplication,
+                this.GetValues,
+                this.Roll,
+                this.Pitch,
+                this.Yaw,
+                this.Norm,
+                this.Casting,
+                this.CastingNull,
+                this.LogarithmExponential
+                );
+        }
        
     }
 }

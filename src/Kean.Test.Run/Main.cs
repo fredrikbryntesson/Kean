@@ -34,8 +34,8 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry2D.Double.Point.Test();
             Kean.Test.Math.Geometry2D.Double.Size.Test();
 
-            //Kean.Test.Math.Geometry3D.Integer.Point.Test();
-            //Kean.Test.Math.Geometry3D.Integer.Size.Test();
+            Kean.Test.Math.Geometry3D.Integer.Point.Test();
+            Kean.Test.Math.Geometry3D.Integer.Size.Test();
             Kean.Test.Math.Geometry3D.Single.Point.Test();
             Kean.Test.Math.Geometry3D.Single.Size.Test();
             Kean.Test.Math.Geometry3D.Double.Point.Test();

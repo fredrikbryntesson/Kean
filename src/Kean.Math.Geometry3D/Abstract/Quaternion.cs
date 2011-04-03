@@ -172,8 +172,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationX(R angle)
         {
-            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1));
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
         }
         /// <summary>
         /// Rotation around the imaginary-axis
@@ -182,8 +181,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationY(R angle)
         {
-            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2));
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
         }
         /// <summary>
         /// Rotation around the z-axis
@@ -192,8 +190,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationZ(R angle)
         {
-            R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3));
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
         }
         /// <summary>
         /// Rotation around the given axis vector 
@@ -203,7 +200,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType CreateRotation(R angle, PointType direction)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
-            return (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)halfAngle.Cosinus() + halfAngle.Sinus() * (Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(direction);
+            return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(halfAngle * direction)).Exponential();
         }
         #endregion
         #region Comparison Operators
