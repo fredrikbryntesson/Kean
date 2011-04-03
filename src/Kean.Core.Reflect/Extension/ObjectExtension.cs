@@ -23,13 +23,13 @@ namespace Kean.Core.Reflect.Extension
 {
 	public static class ObjectExtension
 	{
-		public static void Set(this object me, string property, object value)
+		public static void Set<T>(this object me, string property, T value)
 		{
 			me.GetType().GetProperty(property).SetValue(me, value, null);
 		}
-		public static object Get(this object me, string property)
+		public static T Get<T>(this object me, string property)
 		{
-			return me.GetType().GetProperty(property).GetValue(me, null);
+			return (T)me.GetType().GetProperty(property).GetValue(me, null);
 		}
 	}
 }

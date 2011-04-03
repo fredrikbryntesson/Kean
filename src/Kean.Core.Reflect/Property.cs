@@ -23,8 +23,28 @@ namespace Kean.Core.Reflect
 {
 	public class Property
 	{
-		public Property()
+		object parent;
+		Type parentType;
+		System.Reflection.PropertyInfo information;
+		public string Name { get; private set; }
+		public object Value
 		{
+			get { return this.information.GetValue(this.parent, null); }
+			set { this.information.SetValue(this.parent, value, null); }
+		}
+		internal Property(object parent, string name)
+		{
+			this.parent = parent;
+			this.parentType = this.parent.GetType();
+			this.Name = name;
+			this.information = this.parentType.GetProperty(name);
+		}
+		internal Property(object parent, System.Reflection.PropertyInfo property)
+		{
+			this.parent = parent;
+			this.parentType = this.parent.GetType();
+			this.Name = property.Name;
+			this.information = property;
 		}
 	}
 }
