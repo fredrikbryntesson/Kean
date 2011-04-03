@@ -99,6 +99,7 @@ namespace Kean.Test.Math.Geometry3D.Double
         public void Run()
         {
             this.Run(
+                base.Run,
                 this.CastToTransform,
                 this.InverseMatrix,
                 this.RotationDirectionRepresentation1,

@@ -42,7 +42,7 @@ namespace Kean.Math.Geometry3D.Single
             try
             {
                 string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 3)
+                if (values.Length == 4)
                     result = new Quaternion(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]));
             }
             catch

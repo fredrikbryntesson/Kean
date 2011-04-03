@@ -29,7 +29,7 @@ namespace Kean.Test.Math.Geometry3D.Double
         }
         public static void Test()
         {
-            Point fixture = new Point();
+            Size fixture = new Size();
             fixture.FixtureSetup();
             fixture.Run();
         }

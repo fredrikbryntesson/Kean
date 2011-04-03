@@ -47,21 +47,8 @@ namespace Kean.Test.Math.Geometry3D.Single
         public void Run()
         {
             this.Run(
-                this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.Multitplication,
-                this.GetValues,
-                this.Roll,
-                this.Pitch,
-                this.Yaw,
-                this.Norm,
-                this.Action,
-                this.CastToTransform,
-                this.InverseMatrix,
-                this.CastingNull,
-                this.LogarithmExponential
+                base.Run,
+                this.InverseMatrix
                 );
         }
         internal void Run(params System.Action[] tests)

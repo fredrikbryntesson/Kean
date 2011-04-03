@@ -155,10 +155,20 @@ namespace Kean.Test.Math.Geometry3D.Abstract
             Assert.That(matrix0.Distance(matrix1), Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
+        public void ActionOnVector()
+        {
+            PointType direction = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Kean.Math.Abstract<R, V>.One, Kean.Math.Abstract<R, V>.One, Kean.Math.Abstract<R, V>.One);
+            direction = direction / direction.Norm;
+            QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(new R().CreateConstant(120).ToRadians(), direction);
+            PointType point = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(5), new R().CreateConstant(6), new R().CreateConstant(7));
+            PointType point2 = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(7), new R().CreateConstant(5), new R().CreateConstant(6));
+            Assert.That((quaternion * point).Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
+        }
+        [Test]
         public void Casting()
         {
             string value = "1 2 3 4";
-            QuaternionType quaternion = (Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(new R().CreateConstant(1)) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 * new R().CreateConstant(2) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 * new R().CreateConstant(3) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 * new R().CreateConstant(4);
+            QuaternionType quaternion = (Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(new R().CreateConstant(1))  + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 * new R().CreateConstant(2) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 * new R().CreateConstant(3) + Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 * new R().CreateConstant(4);
             Assert.That(this.CastToString(quaternion), Is.EqualTo(value));
             Assert.That(this.CastFromString(value), Is.EqualTo(quaternion));
         }
@@ -191,7 +201,8 @@ namespace Kean.Test.Math.Geometry3D.Abstract
                 this.Norm,
                 this.Casting,
                 this.CastingNull,
-                this.LogarithmExponential
+                this.LogarithmExponential,
+                this.ActionOnVector
                 );
         }
        

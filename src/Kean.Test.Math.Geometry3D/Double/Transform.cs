@@ -71,32 +71,10 @@ namespace Kean.Test.Math.Geometry3D.Double
         public void Run()
         {
             this.Run(
-                this.Equality,
-                this.CreateZeroTransform,
-                this.CreateIdentity,
-                this.CreateRotation,
-                this.CreateScale,
-                this.CreateTranslation,
-                this.Rotatate,
-                this.Scale,
-                this.Translatate,
-                this.InverseTransform,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
-                this.GetValueValues,
-                this.CastToArray,
-                this.GetTranslation,
-                this.GetScalingX,
-                this.GetScalingY,
-                this.GetScalingZ,
-                this.GetScaling,
-                this.CastToArray,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
+                base.Run,
                 this.InverseTransform1,
                 this.InverseTransform2,
-                this.InverseTransform3,
-                this.Casting
+                this.InverseTransform3
                 );
         }
         public static void Test()
