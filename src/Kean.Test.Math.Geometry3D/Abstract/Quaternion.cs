@@ -142,7 +142,6 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         {
             Assert.That(this.Q0.Norm.Value, Is.EqualTo(this.Cast(65.5991592)).Within(this.Precision));
         }
-        
         [Test]
         public void CastToTransform()
         {
@@ -158,7 +157,6 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void ActionOnVector()
         {
             PointType direction = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Kean.Math.Abstract<R, V>.One, Kean.Math.Abstract<R, V>.One, Kean.Math.Abstract<R, V>.One);
-            direction = direction / direction.Norm;
             QuaternionType quaternion = Kean.Math.Geometry3D.Abstract.Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(new R().CreateConstant(120).ToRadians(), direction);
             PointType point = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(5), new R().CreateConstant(6), new R().CreateConstant(7));
             PointType point2 = Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(7), new R().CreateConstant(5), new R().CreateConstant(6));

@@ -19,9 +19,9 @@ namespace Kean.Test.Math.Geometry2D.Integer
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry2D.Integer.Size(5, 7);
-            this.Vector1 = new Kean.Math.Geometry2D.Integer.Size(3, 6);
-            this.Vector2 = new Kean.Math.Geometry2D.Integer.Size(8, 13);
+            this.Vector0 = new Kean.Math.Geometry2D.Integer.Size(22, -3);
+            this.Vector1 = new Kean.Math.Geometry2D.Integer.Size(12, 13);
+            this.Vector2 = new Kean.Math.Geometry2D.Integer.Size(34, 10);
         }
         protected override int Cast(double value)
         {
@@ -29,7 +29,7 @@ namespace Kean.Test.Math.Geometry2D.Integer
         }
         public static void Test()
         {
-            Point fixture = new Point();
+            Size fixture = new Size();
             fixture.FixtureSetup();
             fixture.Run();
         }

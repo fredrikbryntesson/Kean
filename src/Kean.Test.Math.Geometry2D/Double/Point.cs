@@ -68,6 +68,7 @@ namespace Kean.Test.Math.Geometry2D.Double
         public void Run()
         {
             this.Run(
+                base.Run,
                 this.Polar0,
                 this.Polar1,
                 this.Polar2,

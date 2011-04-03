@@ -200,6 +200,9 @@ namespace Kean.Math.Geometry3D.Abstract
         public static QuaternionType CreateRotation(R angle, PointType direction)
         {
             R halfAngle = angle / Kean.Math.Abstract<R, V>.Two;
+            R norm = direction.Norm;
+            if(norm != new R())
+                direction = direction / direction.Norm;
             return ((Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>)(halfAngle * direction)).Exponential();
         }
         #endregion
