@@ -154,6 +154,14 @@ namespace Kean.Math
         {
             return new Integer(value);
         }
+        public static implicit operator Single(Integer value)
+        {
+            return new Single(value.Value);
+        }
+        public static explicit operator Integer(Single value)
+        {
+            return new Integer(System.Convert.ToInt32(value.Value));
+        }
         #endregion
         #region Object overides
         public override string ToString()

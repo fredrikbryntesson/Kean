@@ -153,6 +153,22 @@ namespace Kean.Math
         {
             return new Double(value);
         }
+        public static implicit operator Double(Single value)
+        {
+            return new Double(value.Value);
+        }
+        public static implicit operator Double(Integer value)
+        {
+            return new Double(value.Value);
+        }
+        public static explicit operator Single(Double value)
+        {
+            return new Single(System.Convert.ToSingle(value.Value));
+        }
+        public static implicit operator Integer(Double value)
+        {
+            return new Integer(System.Convert.ToInt32(value.Value));
+        }
         #endregion
         #region Object overides
         public override string ToString()

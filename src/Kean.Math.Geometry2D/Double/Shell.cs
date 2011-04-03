@@ -29,14 +29,30 @@ namespace Kean.Math.Geometry2D.Double
         public Shell() { }
         public Shell(double left, double right, double top, double bottom) : base(left, right, top, bottom) { }
         public Box Decrease(Size size)
-          {
-              return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
-          }
-          public Box Increase(Size size)
-          {
-              return new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
-          }
+        {
+            return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
+        }
+        public Box Increase(Size size)
+        {
+            return new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
+        }
         #region Casts
+        public static implicit operator Shell(Kean.Math.Geometry2D.Single.Shell value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        public static implicit operator Shell(Kean.Math.Geometry2D.Integer.Shell value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        public static explicit operator Kean.Math.Geometry2D.Single.Shell(Shell value)
+        {
+            return new Kean.Math.Geometry2D.Single.Shell((Kean.Math.Single)(value.Left), (Kean.Math.Single)(value.Right), (Kean.Math.Single)(value.Top), (Kean.Math.Single)(value.Bottom));
+        }
+        public static explicit operator Kean.Math.Geometry2D.Integer.Shell(Shell value)
+        {
+            return new Kean.Math.Geometry2D.Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+        }
         public static explicit operator ShellValue(Shell value)
         {
             return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);

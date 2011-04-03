@@ -43,6 +43,22 @@ namespace Kean.Math.Geometry2D.Double
             return new Box(left, top, width, height);
         }
         #region Casts
+        public static implicit operator Box(Kean.Math.Geometry2D.Single.Box value)
+        {
+            return new Box(value.LeftTop, value.Size);
+        }
+        public static implicit operator Box(Kean.Math.Geometry2D.Integer.Box value)
+        {
+            return new Box(value.LeftTop, value.Size);
+        }
+        public static explicit operator Kean.Math.Geometry2D.Single.Box(Box value)
+        {
+            return new Kean.Math.Geometry2D.Single.Box((Kean.Math.Geometry2D.Single.Point)(value.LeftTop), (Kean.Math.Geometry2D.Single.Size)(value.Size));
+        }
+        public static implicit operator Kean.Math.Geometry2D.Integer.Box(Box value)
+        {
+            return new Kean.Math.Geometry2D.Integer.Box((Kean.Math.Geometry2D.Integer.Point)(value.LeftTop), (Kean.Math.Geometry2D.Integer.Size)(value.Size));
+        }
         public static explicit operator BoxValue(Box value)
         {
             return new BoxValue(value.LeftTop.Value, value.Size.Value);

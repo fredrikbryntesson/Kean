@@ -30,6 +30,22 @@ namespace Kean.Math.Geometry2D.Double
         public Transform(double a, double b, double c, double d, double e, double f) : base(a, b, c, d, e, f) { }
         public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
+        public static implicit operator Transform(Kean.Math.Geometry2D.Single.Transform value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static implicit operator Transform(Kean.Math.Geometry2D.Integer.Transform value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static explicit operator Kean.Math.Geometry2D.Single.Transform(Transform value)
+        {
+            return new Kean.Math.Geometry2D.Single.Transform((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E),(Kean.Math.Single)( value.F));
+        }
+        public static explicit operator Kean.Math.Geometry2D.Integer.Transform(Transform value)
+        {
+            return new Kean.Math.Geometry2D.Integer.Transform((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+        }
         public static explicit operator TransformValue(Transform value)
         {
             return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
