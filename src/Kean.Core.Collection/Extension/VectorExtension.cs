@@ -60,7 +60,7 @@ namespace Kean.Core.Collection.Extension
 		public static int Index<T>(this IVector<T> data, Func<T, bool> function)
 		{
 			int result = -1;
-			for (int i = 0; i < data.Count; i++)
+			for (int i = 0; data.NotNull() && i < data.Count; i++)
 				if (function(data[i]))
 				{
 					result = i;

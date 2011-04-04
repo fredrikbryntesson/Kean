@@ -23,28 +23,96 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Core.Collection;
 
-namespace Base
+namespace Kean.Test.Core.Collection.Base
 {
-	public abstract class Dictionary<D, TKey, TValue> :
+	public abstract class Dictionary<D> :
 		AssertionHelper
-		where D : Target.IDictionary<TKey, TValue>
+		where D : Target.IDictionary<string, int>
 	{
-		public D ZeroToNine { get; set; }
-
+		public string[] Correct { get; private set; }
+		public string Prefix { get; set; }
 		protected Dictionary()
 		{
+			this.Correct = new string[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen" };
 		}
 
 		protected abstract D Create(int size);
 
 		[Test]
-		public void Add()
+		public void SingleElement()
 		{
 			D target = this.Create(10);
+			Expect(target.Contains(this.Correct[1]), Is.EqualTo(false), this.Prefix + "SingleElement.0");
+			Expect(target[this.Correct[1]], Is.EqualTo(0), this.Prefix + "SingleElement.1");
+			Expect(target.Remove(this.Correct[1]), Is.EqualTo(false), this.Prefix + "SingleElement.2");
+			target[this.Correct[1]] = 1;
+			Expect(target.Contains(this.Correct[2]), Is.EqualTo(false), this.Prefix + "SingleElement.3");
+			Expect(target[this.Correct[2]], Is.EqualTo(0), this.Prefix + "SingleElement.4");
+			Expect(target.Remove(this.Correct[2]), Is.EqualTo(false), this.Prefix + "SingleElement.5");
+			Expect(target.Contains(this.Correct[1]), Is.EqualTo(true), this.Prefix + "SingleElement.6");
+			Expect(target[this.Correct[1]], Is.EqualTo(1), this.Prefix + "SingleElement.7");
+			Expect(target.Remove(this.Correct[1]), Is.EqualTo(true), this.Prefix + "SingleElement.8");
+			Expect(target.Contains(this.Correct[1]), Is.EqualTo(false), this.Prefix + "SingleElement.9");
+			Expect(target[this.Correct[1]], Is.EqualTo(0), this.Prefix + "SingleElement.10");
+			Expect(target.Remove(this.Correct[1]), Is.EqualTo(false), this.Prefix + "SingleElement.11");
+		}
+		[Test]
+		public void TwoElements()
+		{
+			D target = this.Create(10);
+			target[this.Correct[1]] = 1;
+			target[this.Correct[2]] = 2;
+			Expect(target.Contains(this.Correct[3]), Is.EqualTo(false), this.Prefix + "TwoElements.0");
+			Expect(target[this.Correct[3]], Is.EqualTo(0), this.Prefix + "TwoElements.1");
+			Expect(target.Remove(this.Correct[3]), Is.EqualTo(false), this.Prefix + "TwoElements.2");
+			Expect(target.Contains(this.Correct[1]), Is.EqualTo(true), this.Prefix + "TwoElements.3");
+			Expect(target.Contains(this.Correct[2]), Is.EqualTo(true), this.Prefix + "TwoElements.4");
+			Expect(target[this.Correct[1]], Is.EqualTo(1), this.Prefix + "TwoElements.5");
+			Expect(target[this.Correct[2]], Is.EqualTo(2), this.Prefix + "TwoElements.6");
+			Expect(target.Remove(this.Correct[1]), Is.EqualTo(true), this.Prefix + "TwoElements.7");
+			Expect(target.Remove(this.Correct[2]), Is.EqualTo(true), this.Prefix + "TwoElements.8");
+			Expect(target.Contains(this.Correct[1]), Is.EqualTo(false), this.Prefix + "TwoElements.9");
+			Expect(target[this.Correct[1]], Is.EqualTo(0), this.Prefix + "TwoElements.10");
+			Expect(target.Remove(this.Correct[1]), Is.EqualTo(false), this.Prefix + "TwoElements.11");
+			Expect(target.Contains(this.Correct[2]), Is.EqualTo(false), this.Prefix + "SingleElement.12");
+			Expect(target[this.Correct[2]], Is.EqualTo(0), this.Prefix + "SingleElement.13");
+			Expect(target.Remove(this.Correct[2]), Is.EqualTo(false), this.Prefix + "SingleElement.14");
+		}
+		[Test]
+		public void TwelveElements()
+		{
+			D target = this.Create(10);
+			for (int i = 1; i < 13; i++)
+				Expect(target.Contains(this.Correct[i]), Is.EqualTo(false), this.Prefix + "TwelveElement." + (i - 1));
+			for (int i = 1; i < 13; i++)
+				Expect(target[this.Correct[i]], Is.EqualTo(0), this.Prefix + "SingleElement." + 11 + i);
+			for (int i = 1; i < 13; i++)
+				Expect(target.Remove(this.Correct[i]), Is.EqualTo(false), this.Prefix + "SingleElement." + (23 + i));
+			for (int i = 1; i < 13; i++)
+				target[this.Correct[i]] = i;
+			Expect(target.Contains(this.Correct[13]), Is.EqualTo(false), this.Prefix + "SingleElement.36");
+			Expect(target[this.Correct[13]], Is.EqualTo(0), this.Prefix + "SingleElement.37");
+			Expect(target.Remove(this.Correct[13]), Is.EqualTo(false), this.Prefix + "SingleElement.38");
+			for (int i = 1; i < 13; i++)
+				Expect(target.Contains(this.Correct[i]), Is.EqualTo(true), this.Prefix + "SingleElement." + (38 + i));
+			for (int i = 1; i < 13; i++)
+				Expect(target[this.Correct[i]], Is.EqualTo(i), this.Prefix + "SingleElement." + (50 + i));
+			for (int i = 1; i < 13; i++)
+				Expect(target.Remove(this.Correct[i]), Is.EqualTo(true), this.Prefix + "SingleElement." + (62 + i));
+			for (int i = 1; i < 13; i++)
+				Expect(target.Contains(this.Correct[i]), Is.EqualTo(false), this.Prefix + "SingleElement." + (74 + i));
+			for (int i = 1; i < 13; i++)
+				Expect(target[this.Correct[i]], Is.EqualTo(0), this.Prefix + "SingleElement." + (86 + i));
+			for (int i = 1; i < 13; i++)
+				Expect(target.Remove(this.Correct[i]), Is.EqualTo(false), this.Prefix + "SingleElement." + (98 + i));
+
 		}
 
 		public virtual void Run()
 		{
+			this.SingleElement();
+			this.TwoElements();
+			this.TwelveElements();
 		}
 	}
 }

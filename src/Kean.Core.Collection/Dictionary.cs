@@ -46,10 +46,10 @@ namespace Kean.Core.Collection
 			set
 			{
 				IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
-				if (list.NotNull())
+				if (list.IsNull())
 					this.data[this.Index(key)] = list = new Linked.List<Tuple<TKey, TValue>>();
 				int index = list.Index(entry => entry.Item1.Equals(key));
-				if (index <= 0)
+				if (index >= 0)
 					list[index] = Tuple.Create(key, value);
 				else
 					list.Add(Tuple.Create(key, value));
@@ -64,7 +64,10 @@ namespace Kean.Core.Collection
 		}
 		int Index(TKey key)
 		{
-			return key.GetHashCode() % this.data.Length;
+			int divided = key.GetHashCode();
+			if (divided < 0)
+				divided *= -1;
+			return divided % this.data.Length;
 		}
 		public bool Contains(TKey key)
 		{

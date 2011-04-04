@@ -19,14 +19,30 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection;
 
 namespace Kean.Test.Core.Collection
 {
-	public class Dictionary
+	[TestFixture]
+	public class Dictionary :
+		Base.Dictionary<Target.Dictionary<string, int>>
 	{
 		public Dictionary()
 		{
+			this.Prefix = "Kean.Test.Core.Collection.Dictionary.";
 		}
+		protected override Target.Dictionary<string, int> Create (int size)
+		{
+			return new Target.Dictionary<string, int>(size);
+		}
+		public static void Test()
+		{
+			Dictionary fixture = new Dictionary();
+			fixture.Run();
+		}
+
 	}
 }
 
