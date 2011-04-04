@@ -32,6 +32,10 @@ namespace Kean.Test.Core.Collection.Base
 	{
 		public A ZeroToNine { get; set; }
 		public string Prefix { get; set; }
+
+		protected Vector ()
+		{ }
+
 		public abstract A Create(int count);
 
 

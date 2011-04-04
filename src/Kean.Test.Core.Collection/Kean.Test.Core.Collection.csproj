@@ -54,6 +54,8 @@
     <Compile Include="Linked\List.cs" />
     <Compile Include="Array\Vector.cs" />
     <Compile Include="Array\List.cs" />
+    <Compile Include="Dictionary.cs" />
+    <Compile Include="Base\Dictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
