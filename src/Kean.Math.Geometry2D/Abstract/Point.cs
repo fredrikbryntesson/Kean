@@ -51,6 +51,10 @@ namespace Kean.Math.Geometry2D.Abstract
             return new PointType().Create(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
         }
         #endregion
+        public static PointType Polar(R radius, R azimuth)
+        {
+            return new PointType().Create(radius * azimuth.Cosinus(), radius * azimuth.Sinus());
+        }
     }
 }
 

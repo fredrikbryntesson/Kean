@@ -64,6 +64,15 @@ namespace Kean.Test.Math.Geometry2D.Double
             Assert.That(point.Norm.Value, Is.EqualTo(1));
             Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
         }
+        [Test]
+        public void Polar5()
+        {
+            Kean.Math.Geometry2D.Double.Point point = new Kean.Math.Geometry2D.Double.Point(33, -7);
+            double radius = point.Norm.Value;
+            double azimuth = point.Azimuth.Value;
+            Kean.Math.Geometry2D.Double.Point point2 = Kean.Math.Geometry2D.Double.Point.Polar(radius, azimuth);
+            Assert.That(point.Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
+        }
         #endregion
         public void Run()
         {
@@ -73,7 +82,8 @@ namespace Kean.Test.Math.Geometry2D.Double
                 this.Polar1,
                 this.Polar2,
                 this.Polar3,
-                this.Polar4
+                this.Polar4,
+                this.Polar5
                 );
         }
         public static void Test()

@@ -67,6 +67,10 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return ((this.X * other.Y - this.Y * other.X)/(this.Norm * other.Norm)).ArcusSinus();
         }
+        public R Distance(VectorType other)
+        {
+            return (this - other).Norm;
+        }
         #endregion
         #region Arithmetic Vector - Vector Operators
         public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)

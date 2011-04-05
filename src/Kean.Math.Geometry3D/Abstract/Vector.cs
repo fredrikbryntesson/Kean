@@ -42,21 +42,21 @@ namespace Kean.Math.Geometry3D.Abstract
         /// </summary>
         public R Norm { get { return (this.X.Squared() + this.Y.Squared() + this.Z.Squared()).SquareRoot(); } }
         /// <summary>
-        /// Angle in radians describing the projection in the xy-plane of the vector. [0, 2 * pi]
+        /// Angle in radians describing the projection in the xy-plane of the vector. [-pi, pi]. See http://mathworld.wolfram.com/SphericalCoordinates.html.
+        /// Example: point (1,0,0) has azimuth 0, and point (0,1,0) has azimuth pi/2.
         /// </summary>
         public R Azimuth { get { return this.Y.ArcusTangensExtended(this.X); } }
         /// <summary>
-        /// Angle of elevation beteen the xy-projection and the vector. [0, pi]
+        /// Angle of elevation beteen the z-axis and the vector. [0, pi]. Elevation = 0 refers to a point on the z-axis.
+        /// Example: point (1,0,0) has elevation pi/2, and point (0,0,1) has elevation 0.
         /// </summary>
         public R Elevation 
         {
             get 
             {   R result = new R();
-                R r = (this.X.Squared() + this.Y.Squared()).SquareRoot();
+                R r = this.Norm;
                 if (r != result)
                     result = (this.Z / r).Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
-                else if (this.Z > new R())
-                    result = new R().CreateConstant(180).ToRadians();
                 return result;
             } 
         }

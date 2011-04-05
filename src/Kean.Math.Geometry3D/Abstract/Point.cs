@@ -53,6 +53,12 @@ namespace Kean.Math.Geometry3D.Abstract
             return new PointType().Create(left.A * right.X + left.D * right.Y + left.G * right.Z + left.J, left.B * right.X + left.E * right.Y + left.H * right.Z + left.K, left.C * right.X + left.F * right.Y + left.I * right.Z + left.L);
         }
         #endregion
+        #region Static Creators
+        public static PointType Spherical(R radius, R azimuth, R elevation)
+        {
+            return new PointType().Create(radius * azimuth.Cosinus() * elevation.Sinus(), radius * azimuth.Sinus() * elevation.Sinus(), radius * elevation.Cosinus());
+        }
+        #endregion
     }
 }
 

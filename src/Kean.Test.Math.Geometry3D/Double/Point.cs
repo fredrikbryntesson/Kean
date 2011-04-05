@@ -65,10 +65,28 @@ namespace Kean.Test.Math.Geometry3D.Double
         [Test]
         public void Sphere4()
         {
+            Kean.Math.Geometry3D.Double.Point point = new Kean.Math.Geometry3D.Double.Point(-5, 0, 0);
+            Assert.That(point.Norm.Value, Is.EqualTo(5));
+            Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
+            Assert.That(point.Elevation.Value, Is.EqualTo(Kean.Math.Double.ToRadians(90)));
+        }
+        [Test]
+        public void Sphere5()
+        {
             Kean.Math.Geometry3D.Double.Point point = new Kean.Math.Geometry3D.Double.Point(0, 0, 1);
             Assert.That(point.Norm.Value, Is.EqualTo(1));
             Assert.That(point.Azimuth.Value, Is.EqualTo(Kean.Math.Double.ToRadians(0)));
-            Assert.That(point.Elevation.Value, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
+            Assert.That(point.Elevation.Value, Is.EqualTo(Kean.Math.Double.ToRadians(0)));
+        }
+        [Test]
+        public void Sphere6()
+        {
+            Kean.Math.Geometry3D.Double.Point point = new Kean.Math.Geometry3D.Double.Point(33, -7, 12);
+            double radius = point.Norm.Value;
+            double azimuth = point.Azimuth.Value;
+            double elevation = point.Elevation.Value;
+            Kean.Math.Geometry3D.Double.Point point2 = Kean.Math.Geometry3D.Double.Point.Spherical(radius, azimuth, elevation);
+            Assert.That(point.Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
         protected override double Cast(double value)
@@ -83,6 +101,8 @@ namespace Kean.Test.Math.Geometry3D.Double
                 this.Sphere2,
                 this.Sphere3,
                 this.Sphere4,
+                this.Sphere5,
+                this.Sphere6,
                 this.Norm
                 );
         }
