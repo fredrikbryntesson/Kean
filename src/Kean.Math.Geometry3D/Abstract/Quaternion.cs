@@ -52,6 +52,7 @@ namespace Kean.Math.Geometry3D.Abstract
         public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
         #endregion
         #region Static Constants
+        public static QuaternionType Basis0 { get { return new QuaternionType() { Real = Kean.Math.Abstract<R,V>.One, Imaginary = new PointType() }; } }
         public static QuaternionType Basis1 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 }; } }
         public static QuaternionType Basis2 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 }; } }
         public static QuaternionType Basis3 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 }; } }

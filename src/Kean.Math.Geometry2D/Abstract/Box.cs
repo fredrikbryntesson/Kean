@@ -151,6 +151,10 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return this.leftTop.ToString() + " " + this.size.ToString();
         }
+        public override int GetHashCode()
+        {
+            return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
+        }
         #endregion
         public static BoxType Create(PointType leftTop, SizeType size)
         {

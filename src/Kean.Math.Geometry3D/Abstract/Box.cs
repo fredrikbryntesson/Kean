@@ -153,6 +153,10 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this.leftTopFront.ToString() + " " + this.size.ToString();
         }
+        public override int GetHashCode()
+        {
+            return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
+        }
         #endregion
         public static BoxType Create(PointType leftTopFront, SizeType size)
         {

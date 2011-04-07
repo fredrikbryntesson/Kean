@@ -42,6 +42,10 @@ namespace Kean.Math.Geometry2D.Abstract
         V IVector<V>.X { get { return this.X; } }
         V IVector<V>.Y { get { return this.Y; } }
         #endregion
+        #region Static Constants
+        public static VectorType Basis1 { get { return new VectorType() { X = Kean.Math.Abstract<R, V>.One, Y = new R()}; } }
+        public static VectorType Basis2 { get { return new VectorType() { X = new R(), Y = Kean.Math.Abstract<R, V>.One}; } }
+        #endregion
         #region Constructors
         protected Vector()
         {
