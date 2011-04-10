@@ -66,9 +66,9 @@ namespace Kean.Math.Geometry3D.Abstract
         V IVector<V>.Z { get { return this.Z; } }
         #endregion
         #region Static Constants
-        public static VectorType Basis1 { get { return new VectorType() { X = Kean.Math.Abstract<R, V>.One, Y = new R(), Z = new R() }; } }
-        public static VectorType Basis2 { get { return new VectorType() { X = new R(), Y = Kean.Math.Abstract<R, V>.One, Z = new R() }; } }
-        public static VectorType Basis3 { get { return new VectorType() { X = new R(), Y = new R(), Z = Kean.Math.Abstract<R, V>.One }; } }
+        public static VectorType BasisX { get { return new VectorType() { X = Kean.Math.Abstract<R, V>.One, Y = new R(), Z = new R() }; } }
+        public static VectorType BasisY { get { return new VectorType() { X = new R(), Y = Kean.Math.Abstract<R, V>.One, Z = new R() }; } }
+        public static VectorType BasisZ { get { return new VectorType() { X = new R(), Y = new R(), Z = Kean.Math.Abstract<R, V>.One }; } }
         #endregion
         #region Constructors
         protected Vector()

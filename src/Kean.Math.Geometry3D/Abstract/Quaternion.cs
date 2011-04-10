@@ -52,10 +52,10 @@ namespace Kean.Math.Geometry3D.Abstract
         public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
         #endregion
         #region Static Constants
-        public static QuaternionType Basis0 { get { return new QuaternionType() { Real = Kean.Math.Abstract<R,V>.One, Imaginary = new PointType() }; } }
-        public static QuaternionType Basis1 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1 }; } }
-        public static QuaternionType Basis2 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2 }; } }
-        public static QuaternionType Basis3 { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3 }; } }
+        public static QuaternionType BasisReal { get { return new QuaternionType() { Real = Kean.Math.Abstract<R,V>.One, Imaginary = new PointType() }; } }
+        public static QuaternionType BasisImaginaryX { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisX }; } }
+        public static QuaternionType BasisImaginaryY { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisY }; } }
+        public static QuaternionType BasisImaginaryZ { get { return new QuaternionType() { Real = new R(), Imaginary = Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisZ }; } }
         #endregion
         #region Constructors
         protected Quaternion()
@@ -173,7 +173,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationX(R angle)
         {
-            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis1);
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisX);
         }
         /// <summary>
         /// Rotation around the imaginary-axis
@@ -182,7 +182,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationY(R angle)
         {
-            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis2);
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisY);
         }
         /// <summary>
         /// Rotation around the z-axis
@@ -191,7 +191,7 @@ namespace Kean.Math.Geometry3D.Abstract
         /// <returns></returns>
         public static QuaternionType CreateRotationZ(R angle)
         {
-            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Basis3);
+            return Quaternion<TransformType, TransformValue, QuaternionType, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.BasisZ);
         }
         /// <summary>
         /// Rotation around the given axis vector 
