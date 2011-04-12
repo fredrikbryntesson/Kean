@@ -74,6 +74,15 @@ namespace Kean.Test.Math.Geometry2D.Double
             Assert.That(point.Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
+        [Test]
+        public void Angles()
+        {
+           Assert.That(Kean.Math.Geometry2D.Single.Point.BasisX.Angle(Kean.Math.Geometry2D.Single.Point.BasisX).Value, Is.EqualTo(0).Within(this.Precision));
+           Assert.That(Kean.Math.Geometry2D.Single.Point.BasisX.Angle(Kean.Math.Geometry2D.Single.Point.BasisY).Value, Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+           Assert.That(Kean.Math.Geometry2D.Single.Point.BasisX.Angle(-Kean.Math.Geometry2D.Single.Point.BasisY).Value, Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+           Assert.That(Kean.Math.Geometry2D.Single.Point.BasisX.Angle(-Kean.Math.Geometry2D.Single.Point.BasisX).Value, Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+        }
+        
         public void Run()
         {
             this.Run(
@@ -83,7 +92,8 @@ namespace Kean.Test.Math.Geometry2D.Double
                 this.Polar2,
                 this.Polar3,
                 this.Polar4,
-                this.Polar5
+                this.Polar5,
+                this.Angles
                 );
         }
         public static void Test()

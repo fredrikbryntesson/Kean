@@ -71,7 +71,8 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             R result = this * other / (this.Norm * other.Norm);
             R sign = this.X * other.Y - this.Y * other.X;
-            result *= sign < Kean.Math.Abstract<R, V>.Zero ? -Kean.Math.Abstract<R, V>.One : Kean.Math.Abstract<R, V>.One;
+            result = result.Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
+            result *= sign < Kean.Math.Abstract<R, V>.Zero ? Kean.Math.Abstract<R, V>.One.Negate() : Kean.Math.Abstract<R, V>.One;
             return result;
         }
         public R Distance(VectorType other)
