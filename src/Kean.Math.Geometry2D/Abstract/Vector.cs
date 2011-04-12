@@ -69,7 +69,10 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public R Angle(VectorType other)
         {
-            return ((this.X * other.Y - this.Y * other.X)/(this.Norm * other.Norm)).ArcusSinus();
+            R result = this * other / (this.Norm * other.Norm);
+            R sign = this.X * other.Y - this.Y * other.X;
+            result *= sign < Kean.Math.Abstract<R, V>.Zero ? -Kean.Math.Abstract<R, V>.One : Kean.Math.Abstract<R, V>.One;
+            return result;
         }
         public R Distance(VectorType other)
         {
