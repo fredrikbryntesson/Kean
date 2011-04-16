@@ -20,33 +20,61 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 namespace Kean.Math.Geometry2D.Single
 {
-	public struct PointValue :
-		Abstract.IPoint<float>, Abstract.IVector<float>
-	{
-		float x;
-		float y;
-		public float X
-		{
-			get { return this.x; }
-			set { this.x = value; }
-		}
-		public float Y
-		{
-			get { return this.y; }
-			set { this.y = value; }
-		}
-		public PointValue(float x, float y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-		public static implicit operator Point(PointValue value)
-		{
-			return new Point(value.X, value.Y);
-		}
-		public static explicit operator PointValue(Point value)
-		{
-			return new PointValue(value.X, value.Y);
-		}
-	}
+    public struct PointValue :
+        Abstract.IPoint<float>, Abstract.IVector<float>
+    {
+        float x;
+        float y;
+        public float X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
+        public float Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
+        public PointValue(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        #region Arithmetic Vector - Vector Operators
+        public static PointValue operator +(PointValue left, PointValue right)
+        {
+            return new PointValue(left.X + right.X, left.Y + right.Y);
+        }
+        public static PointValue operator -(PointValue left, PointValue right)
+        {
+            return new PointValue(left.X - right.X, left.Y - right.Y);
+        }
+        public static PointValue operator -(PointValue vector)
+        {
+            return new PointValue(-vector.X, -vector.Y);
+        }
+        public static float operator *(PointValue left, PointValue right)
+        {
+            return left.X * right.X + left.Y * right.Y;
+        }
+        #endregion
+        #region Arithmetic Vector and Scalar
+        public static PointValue operator *(PointValue left, float right)
+        {
+            return new PointValue(left.X * right, left.Y * right);
+        }
+        public static PointValue operator *(float left, PointValue right)
+        {
+            return right * left;
+        }
+        #endregion
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+    }
 }
