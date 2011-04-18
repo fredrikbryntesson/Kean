@@ -100,7 +100,7 @@ namespace Kean.Math
         public static int Modulo(int dividend, int divisor)
         {
             if (dividend < 0)
-                dividend += Integer.Ceiling(Integer.Absolute(dividend) / divisor) * divisor;
+                dividend += Integer.Ceiling(Integer.Absolute(dividend) / (float)divisor) * divisor;
             return dividend % divisor;
         }
         #endregion
