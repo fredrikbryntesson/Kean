@@ -46,5 +46,15 @@ namespace Kean.Math.Geometry2D.Double
 			this.width = width;
 			this.height = height;
 		}
+        #region Casts
+        public static implicit operator Size(SizeValue value)
+        {
+            return new Size(value.Width, value.Height);
+        }
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
+        #endregion
     }
 }

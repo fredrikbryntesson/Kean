@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry3D.Abstract
         where SizeValueType : struct, ISize<V>
         where V : struct
     {
-        PointValueType LeftTop { get; }
+        PointValueType LeftTopFront { get; }
         SizeValueType Size { get; }
     }
 }

@@ -45,10 +45,6 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new Kean.Math.Geometry2D.Integer.Point((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
         }
-        public static explicit operator PointValue(Point value)
-        {
-            return new PointValue() { X = value.X, Y = value.Y };
-        }
         public static implicit operator string(Point value)
         {
             return value.NotNull() ? value.ToString() : null;

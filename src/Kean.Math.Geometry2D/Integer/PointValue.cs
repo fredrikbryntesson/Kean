@@ -39,8 +39,9 @@ namespace Kean.Math.Geometry2D.Integer
 		{
 			this.x = x;
 			this.y = y;
-		}
-		public static implicit operator Point(PointValue value)
+        }
+        #region Casts
+        public static implicit operator Point(PointValue value)
 		{
 			return new Point(value.X, value.Y);
 		}
@@ -48,5 +49,14 @@ namespace Kean.Math.Geometry2D.Integer
 		{
 			return new PointValue(value.X, value.Y);
 		}
-	}
+        public static implicit operator Geometry2D.Double.PointValue(PointValue value)
+        {
+            return new Geometry2D.Double.PointValue(value.X, value.Y);
+        }
+        public static explicit operator PointValue(Geometry2D.Double.PointValue value)
+        {
+            return new PointValue((int)value.X, (int)value.Y);
+        }
+        #endregion
+    }
 }

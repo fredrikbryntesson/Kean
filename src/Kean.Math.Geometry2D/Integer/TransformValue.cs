@@ -70,5 +70,15 @@ namespace Kean.Math.Geometry2D.Integer
             this.e = e;
             this.f = f;
         }
+        #region Casts
+        public static implicit operator Transform(TransformValue value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        #endregion
    }
 }

@@ -30,10 +30,6 @@ namespace Kean.Math.Geometry3D.Double
         public Transform(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l) : base(a, b, c, d, e, f, g, h, i, j, k, l) { }
         public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
-        public static explicit operator TransformValue(Transform value)
-        {
-            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
-        }
         public static implicit operator string(Transform value)
         {
             return value.NotNull() ? value.ToString() : null;

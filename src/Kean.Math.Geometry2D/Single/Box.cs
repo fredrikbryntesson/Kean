@@ -43,10 +43,6 @@ namespace Kean.Math.Geometry2D.Single
             return new Box(left, top, width, height);
         }
         #region Casts
-        public static explicit operator BoxValue(Box value)
-        {
-            return new BoxValue(value.LeftTop.Value, value.Size.Value);
-        }
         public static implicit operator string(Box value)
         {
             return value.NotNull() ? value.ToString() : null;

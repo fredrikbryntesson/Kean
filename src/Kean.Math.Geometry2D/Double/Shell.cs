@@ -53,10 +53,6 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new Kean.Math.Geometry2D.Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
         }
-        public static explicit operator ShellValue(Shell value)
-        {
-            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
-        }
         public static implicit operator string(Shell value)
         {
             return value.NotNull() ? value.ToString() : null;

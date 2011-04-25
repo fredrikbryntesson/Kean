@@ -40,5 +40,15 @@ namespace Kean.Math.Geometry2D.Double
 			this.x = x;
 			this.y = y;
 		}
-	}
+        #region Casts
+        public static implicit operator Point(PointValue value)
+		{
+			return new Point(value.X, value.Y);
+		}
+		public static explicit operator PointValue(Point value)
+		{
+			return new PointValue(value.X, value.Y);
+        }
+        #endregion
+    }
 }

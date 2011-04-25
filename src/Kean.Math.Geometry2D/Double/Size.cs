@@ -45,10 +45,6 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new Kean.Math.Geometry2D.Integer.Size((Kean.Math.Integer)(value.Width), (Kean.Math.Integer)(value.Height));
         }
-        public static explicit operator SizeValue(Size value)
-        {
-            return new SizeValue(value.Width, value.Height);
-        }
         public static implicit operator string(Size value)
         {
             return value.NotNull() ? value.ToString() : null;

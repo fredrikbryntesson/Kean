@@ -29,10 +29,6 @@ namespace Kean.Math.Geometry3D.Single
         public Size() { }
         public Size(float x, float y, float z) : base(x, y, z) { }
         #region Casts
-        public static explicit operator SizeValue(Size value)
-        {
-            return new SizeValue(value.Width, value.Height, value.Depth);
-        }
         public static implicit operator string(Size value)
         {
             return value.NotNull() ? value.ToString() : null;

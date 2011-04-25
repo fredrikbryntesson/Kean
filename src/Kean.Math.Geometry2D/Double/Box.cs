@@ -59,10 +59,6 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new Kean.Math.Geometry2D.Integer.Box((Kean.Math.Geometry2D.Integer.Point)(value.LeftTop), (Kean.Math.Geometry2D.Integer.Size)(value.Size));
         }
-        public static explicit operator BoxValue(Box value)
-        {
-            return new BoxValue(value.LeftTop.Value, value.Size.Value);
-        }
         public static implicit operator string(Box value)
         {
             return value.NotNull() ? value.ToString() : null;

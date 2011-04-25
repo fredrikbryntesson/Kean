@@ -47,5 +47,15 @@ namespace Kean.Math.Geometry3D.Integer
             this.y = y;
             this.z = z;
         }
+        #region Casts
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y, value.Z);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y, value.Z);
+        }
+        #endregion
     }
 }

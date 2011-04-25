@@ -39,5 +39,15 @@ namespace Kean.Math.Geometry2D.Double
             this.top = top;
             this.bottom = bottom;
         }
+        #region Casts
+        public static implicit operator Shell(ShellValue value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        public static explicit operator ShellValue(Shell value)
+        {
+            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        #endregion
     }
 }

@@ -37,10 +37,6 @@ namespace Kean.Math.Geometry2D.Integer
             return new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
         }
         #region Casts
-        public static explicit operator ShellValue(Shell value)
-        {
-            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
-        }
         public static implicit operator string(Shell value)
         {
             return value.NotNull() ? value.ToString() : null;

@@ -29,10 +29,6 @@ namespace Kean.Math.Geometry3D.Single
         public Point() { }
         public Point(float x, float y, float z) : base(x, y, z) { }
         #region Casts
-        public static explicit operator PointValue(Point value)
-        {
-            return new PointValue() { X = value.X, Y = value.Y, Z = value.Z };
-        }
         public static implicit operator string(Point value)
         {
             return value.NotNull() ? value.ToString() : null;

@@ -113,5 +113,15 @@ namespace Kean.Math.Geometry3D.Single
             this.k = k;
             this.l = l;
         }
+        #region Casts
+        public static implicit operator Transform(TransformValue value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        #endregion
    }
 }

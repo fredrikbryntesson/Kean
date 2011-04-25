@@ -35,6 +35,10 @@ namespace Kean.Math.Geometry2D.Double
             get { return this.size; }
             set { this.size = value; }
         }
+        public double Left { get { return this.leftTop.X; } }
+        public double Top { get { return this.leftTop.Y; } }
+        public double Right { get { return this.leftTop.X + this.size.Width; } }
+        public double Bottom { get { return this.leftTop.Y + this.size.Height; } }
         public BoxValue(double left, double top, double width, double height)
         {
             this.leftTop = new PointValue(left, top);
@@ -45,5 +49,15 @@ namespace Kean.Math.Geometry2D.Double
             this.leftTop = leftTop;
             this.size = size;
         }
+        #region Casts
+        public static explicit operator BoxValue(Box value)
+        {
+            return new BoxValue(value.LeftTop.Value, value.Size.Value);
+        }
+        public static implicit operator Box(BoxValue value)
+        {
+            return new Box(value.LeftTop, value.Size);
+        }
+        #endregion
     }
 }

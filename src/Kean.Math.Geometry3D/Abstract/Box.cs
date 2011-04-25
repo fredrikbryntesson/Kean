@@ -59,7 +59,7 @@ namespace Kean.Math.Geometry3D.Abstract
         #endregion
 
         #region IBox<PointValue, SizeValue, V>
-        PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTopFront.Value; } }
+        PointValue IBox<PointValue, SizeValue, V>.LeftTopFront { get { return this.LeftTopFront.Value; } }
         SizeValue IBox<PointValue, SizeValue, V>.Size { get { return this.Size.Value; } }
         #endregion
         public abstract BoxValue Value { get; }
@@ -126,7 +126,7 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.leftTopFront == right.LeftTop &&
+                left.leftTopFront == right.LeftTopFront &&
                 left.size == right.Size;
         }
         public static bool operator !=(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
@@ -137,7 +137,7 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Casts
         public static explicit operator Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(BoxValue value)
         {
-            return new BoxType() { leftTopFront = (PointType)value.LeftTop, size = (SizeType)value.Size };
+            return new BoxType() { leftTopFront = (PointType)value.LeftTopFront, size = (SizeType)value.Size };
         }
         #endregion
         #region Object Overrides

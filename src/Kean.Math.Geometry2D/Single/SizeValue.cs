@@ -45,14 +45,32 @@ namespace Kean.Math.Geometry2D.Single
 		{
 			this.width = width;
 			this.height = height;
-		}
-		public static implicit operator Size(SizeValue value)
+        }
+        #region Casts
+        public static implicit operator Size(SizeValue value)
 		{
 			return new Size(value.Width, value.Height);
 		}
 		public static explicit operator SizeValue(Size value)
 		{
 			return new SizeValue(value.Width, value.Height);
-		}
-	}
+        }
+        public static implicit operator SizeValue(Geometry2D.Integer.SizeValue value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
+        public static implicit operator Geometry2D.Double.SizeValue(SizeValue value)
+        {
+            return new Geometry2D.Double.SizeValue(value.Width, value.Height);
+        }
+        public static explicit operator Geometry2D.Integer.SizeValue(SizeValue value)
+        {
+            return new Geometry2D.Integer.SizeValue((int)value.Width, (int)value.Height);
+        }
+        public static explicit operator SizeValue(Geometry2D.Double.SizeValue value)
+        {
+            return new SizeValue((float)value.Width, (float)value.Height);
+        }
+        #endregion
+    }
 }

@@ -45,5 +45,15 @@ namespace Kean.Math.Geometry3D.Double
             this.front = front;
             this.back = back;
         }
+        #region Casts
+        public static implicit operator Shell(ShellValue value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+        }
+        public static explicit operator ShellValue(Shell value)
+        {
+            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+        }
+        #endregion
     }
 }

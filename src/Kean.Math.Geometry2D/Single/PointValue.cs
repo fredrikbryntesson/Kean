@@ -59,6 +59,26 @@ namespace Kean.Math.Geometry2D.Single
         }
         #endregion
         #region Arithmetic Vector and Scalar
+        public void Add(float x, float y)
+        {
+            this.X += x;
+            this.Y += y;
+        }
+        public void Add(ref float x, ref float y)
+        {
+            this.X += x;
+            this.Y += y;
+        }
+        public void Add(ref PointValue other)
+        {
+            this.X += other.X;
+            this.Y += other.Y;
+        }
+        public void Multiply(float scalar)
+        {
+            this.X *= scalar;
+            this.Y *= scalar;
+        }
         public static PointValue operator *(PointValue left, float right)
         {
             return new PointValue(left.X * right, left.Y * right);
@@ -68,6 +88,7 @@ namespace Kean.Math.Geometry2D.Single
             return right * left;
         }
         #endregion
+        #region Casts
         public static implicit operator Point(PointValue value)
         {
             return new Point(value.X, value.Y);
@@ -76,5 +97,22 @@ namespace Kean.Math.Geometry2D.Single
         {
             return new PointValue(value.X, value.Y);
         }
+        public static implicit operator PointValue(Geometry2D.Integer.PointValue value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+        public static implicit operator Geometry2D.Double.PointValue(PointValue value)
+        {
+            return new Geometry2D.Double.PointValue(value.X, value.Y);
+        }
+        public static explicit operator Geometry2D.Integer.PointValue(PointValue value)
+        {
+            return new Geometry2D.Integer.PointValue((int)value.X, (int)value.Y);
+        }
+        public static explicit operator PointValue(Geometry2D.Double.PointValue value)
+        {
+            return new PointValue((float)value.X, (float)value.Y);
+        }
+        #endregion
     }
 }

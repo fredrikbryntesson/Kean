@@ -23,12 +23,12 @@ namespace Kean.Math.Geometry3D.Single
     public struct BoxValue :
         Abstract.IBox<PointValue, SizeValue, float>
     {
-        PointValue leftTop;
+        PointValue leftTopFront;
         SizeValue size;
-        public PointValue LeftTop
+        public PointValue LeftTopFront
         {
-            get { return this.leftTop; }
-            set { this.leftTop = value; }
+            get { return this.leftTopFront; }
+            set { this.leftTopFront = value; }
         }
         public SizeValue Size
         {
@@ -37,13 +37,24 @@ namespace Kean.Math.Geometry3D.Single
         }
         public BoxValue(float left, float top, float front, float width, float height, float depth)
         {
-            this.leftTop = new PointValue(left, top, front);
+            this.leftTopFront = new PointValue(left, top, front);
             this.size = new SizeValue(width, height, depth);
         }
-        public BoxValue(PointValue leftTop, SizeValue size)
+        public BoxValue(PointValue leftTopFront, SizeValue size)
         {
-            this.leftTop = leftTop;
+            this.leftTopFront = leftTopFront;
             this.size = size;
         }
+        #region Casts
+        public static implicit operator Box(BoxValue value)
+        {
+            return new Box(value.LeftTopFront, value.Size);
+        }
+        public static explicit operator BoxValue(Box value)
+        {
+            return new BoxValue(value.LeftTopFront.Value, value.Size.Value);
+        }
+        #endregion
+
     }
 }

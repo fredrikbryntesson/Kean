@@ -29,10 +29,6 @@ namespace Kean.Math.Geometry2D.Single
         public Transform(float a, float b, float c, float d, float e, float f) : base(a, b, c, d, e, f) { }
         public override TransformValue Value { get { return (TransformValue)this; } }
         #region Casts
-        public static explicit operator TransformValue(Transform value)
-        {
-            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
-        }
         public static implicit operator string(Transform value)
         {
             return value.NotNull() ? value.ToString() : null;
