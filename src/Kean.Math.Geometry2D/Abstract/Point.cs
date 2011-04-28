@@ -33,8 +33,8 @@ namespace Kean.Math.Geometry2D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
-		public new R X { get { return base.X; } }
-		public new R Y { get { return base.Y; } }
+		public V X { get { return base.X; } }
+		public V Y { get { return base.Y; } }
 		#region IPoint<V> Members
 		V IPoint<V>.X { get { return this.X; } }
 		V IPoint<V>.Y { get { return this.Y; } }

@@ -47,10 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Box.cs" />
     <Compile Include="Abstract\Transform.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Abstract\Point.cs" />
     <Compile Include="Abstract\Size.cs" />
+    <Compile Include="Double\Box.cs" />
     <Compile Include="Double\Point.cs" />
     <Compile Include="Double\Size.cs" />
     <Compile Include="Double\Transform.cs" />

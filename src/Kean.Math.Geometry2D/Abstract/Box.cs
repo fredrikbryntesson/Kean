@@ -38,9 +38,9 @@ namespace Kean.Math.Geometry2D.Abstract
     {
         #region IBox<PointValue,SizeValue,V> Members
         PointType leftTop;
-        public PointType LeftTop { get { return this.LeftTop; } }
+        public PointType LeftTop { get { return this.leftTop; } }
         SizeType size;
-        public SizeType Size { get { return this.Size; } }
+        public SizeType Size { get { return this.size; } }
         #endregion
 
         #region Sizes
