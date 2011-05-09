@@ -69,10 +69,20 @@ namespace Kean.Math.Geometry2D.Single
             this.X += x;
             this.Y += y;
         }
+        public void Add(PointValue other)
+        {
+            this.X += other.X;
+            this.Y += other.Y;
+        }
         public void Add(ref PointValue other)
         {
             this.X += other.X;
             this.Y += other.Y;
+        }
+        public void Multiply(ref float scalar)
+        {
+            this.X *= scalar;
+            this.Y *= scalar;
         }
         public void Multiply(float scalar)
         {
