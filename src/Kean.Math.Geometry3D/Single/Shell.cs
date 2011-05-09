@@ -37,6 +37,22 @@ namespace Kean.Math.Geometry3D.Single
               return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
           }
           #region Casts
+          public static implicit operator Shell(Integer.Shell value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static explicit operator Integer.Shell(Shell value)
+          {
+              return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom), (Kean.Math.Integer)(value.Front), (Kean.Math.Integer)(value.Back));
+          }
+          public static implicit operator Shell(ShellValue value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static explicit operator ShellValue(Shell value)
+          {
+              return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
           public static implicit operator string(Shell value)
           {
               return value.NotNull() ? value.ToString() : null;
@@ -47,7 +63,7 @@ namespace Kean.Math.Geometry3D.Single
               try
               {
                   string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                  if (values.Length == 4)
+                  if (values.Length == 6)
                       result = new Shell(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[5]));
               }
               catch

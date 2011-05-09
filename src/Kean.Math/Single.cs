@@ -118,6 +118,10 @@ namespace Kean.Math
         {
             return Single.Logarithm(this.Value);
         }
+        public override Single Logarithm(Single @base)
+        {
+            return Single.Logarithm(this.Value, @base);
+        }
         #endregion
         #region Power Function
         public override Single Power(Single exponent)

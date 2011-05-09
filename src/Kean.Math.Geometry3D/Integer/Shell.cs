@@ -37,6 +37,14 @@ namespace Kean.Math.Geometry3D.Integer
               return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
           }
           #region Casts
+          public static implicit operator Shell(ShellValue value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static explicit operator ShellValue(Shell value)
+          {
+              return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
           public static implicit operator string(Shell value)
           {
               return value.NotNull() ? value.ToString() : null;
@@ -47,7 +55,7 @@ namespace Kean.Math.Geometry3D.Integer
               try
               {
                   string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                  if (values.Length == 4)
+                  if (values.Length == 6)
                       result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
               }
               catch

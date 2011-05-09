@@ -1,27 +1,27 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-
+using Target = Kean.Math.Geometry3D;
 namespace Kean.Test.Math.Geometry3D.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry3D.Abstract.Point<Kean.Math.Geometry3D.Single.Transform, Kean.Math.Geometry3D.Single.TransformValue, Kean.Math.Geometry3D.Single.Point, Kean.Math.Geometry3D.Single.PointValue, Kean.Math.Geometry3D.Single.Size, Kean.Math.Geometry3D.Single.SizeValue, Kean.Math.Single, float>
+        Kean.Test.Math.Geometry3D.Abstract.Point<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
-        protected override Kean.Math.Geometry3D.Single.Point CastFromString(string value)
+        protected override Target.Single.Point CastFromString(string value)
         {
             return value;
         }
-        protected override string CastToString(Kean.Math.Geometry3D.Single.Point value)
+        protected override string CastToString(Target.Single.Point value)
         {
             return value;
         }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry3D.Single.Point(22, -3, 10);
-            this.Vector1 = new Kean.Math.Geometry3D.Single.Point(12, 13, 20);
-            this.Vector2 = new Kean.Math.Geometry3D.Single.Point(34, 10, 30);
+            this.Vector0 = new Target.Single.Point(22, -3, 10);
+            this.Vector1 = new Target.Single.Point(12, 13, 20);
+            this.Vector2 = new Target.Single.Point(34, 10, 30);
         }
         [Test]
         public void Norm()
@@ -33,9 +33,44 @@ namespace Kean.Test.Math.Geometry3D.Single
         {
             return (float)value;
         }
+        [Test]
+        public void Casts()
+        {
+            // integer - single
+            Target.Integer.Point integer = new Target.Integer.Point(10, 20, 30);
+            Target.Single.Point single = integer;
+            Assert.That(single.X, Is.EqualTo(10));
+            Assert.That(single.Y, Is.EqualTo(20));
+            Assert.That(single.Z, Is.EqualTo(30));
+            Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueCasts()
+        {
+            // integer - single
+            Target.Integer.PointValue integer = new Target.Integer.PointValue(10, 20, 30);
+            Target.Single.PointValue single = integer;
+            Assert.That(single.X, Is.EqualTo(10));
+            Assert.That(single.Y, Is.EqualTo(20));
+            Assert.That(single.Z, Is.EqualTo(30));
+            Assert.That((Target.Integer.PointValue)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueStringCasts()
+        {
+            string textFromValue = new Target.Single.PointValue(10, 20, 30);
+            Assert.That(textFromValue, Is.EqualTo("10 20 30"));
+            Target.Single.PointValue @integerFromText = "10 20 30";
+            Assert.That(@integerFromText.X, Is.EqualTo(10));
+            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+            Assert.That(@integerFromText.Z, Is.EqualTo(30));
+        }
         public void Run()
         {
             this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts,
                 this.Norm
                 );
         }

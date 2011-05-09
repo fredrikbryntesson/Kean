@@ -36,7 +36,32 @@ namespace Kean.Math.Geometry3D.Double
           {
               return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
           }
-        #region Casts
+          #region Casts
+          public static implicit operator Shell(Single.Shell value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static implicit operator Shell(Integer.Shell value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static explicit operator Single.Shell(Shell value)
+          {
+              return new Single.Shell((Kean.Math.Single)(value.Left), (Kean.Math.Single)(value.Right), (Kean.Math.Single)(value.Top), (Kean.Math.Single)(value.Bottom), (Kean.Math.Single)(value.Front), (Kean.Math.Single)(value.Back));
+          }
+          public static explicit operator Integer.Shell(Shell value)
+          {
+              return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom), (Kean.Math.Integer)(value.Front), (Kean.Math.Integer)(value.Back));
+          }
+          public static implicit operator Shell(ShellValue value)
+          {
+              return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+          public static explicit operator ShellValue(Shell value)
+          {
+              return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+          }
+      
         public static implicit operator string(Shell value)
         {
             return value.NotNull() ? value.ToString() : null;
@@ -47,7 +72,7 @@ namespace Kean.Math.Geometry3D.Double
             try
             {
                 string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
+                if (values.Length == 6)
                     result = new Shell(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]));
             }
             catch

@@ -18,6 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Integer
 {
 	public struct SizeValue :
@@ -47,22 +50,34 @@ namespace Kean.Math.Geometry2D.Integer
 			this.height = height;
         }
         #region Casts
-        public static implicit operator Size(SizeValue value)
-		{
-			return new Size(value.Width, value.Height);
-		}
-		public static explicit operator SizeValue(Size value)
-		{
-			return new SizeValue(value.Width, value.Height);
-		}
-        public static implicit operator Geometry2D.Double.SizeValue(SizeValue value)
+        public static implicit operator string(SizeValue value)
         {
-            return new Geometry2D.Double.SizeValue(value.Width, value.Height);
+            return value.NotNull() ? value.ToString() : null;
         }
-        public static explicit operator SizeValue(Geometry2D.Double.SizeValue value)
+        public static implicit operator SizeValue(string value)
         {
-            return new SizeValue((int)value.Width, (int)value.Height);
+            SizeValue result = new SizeValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new SizeValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]));
+            }
+            catch
+            {
+            }
+            return result;
         }
         #endregion
-	}
+        #region Object Overrides
+        public override int GetHashCode()
+        {
+            return this.Width.GetHashCode() ^ this.Height.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.Width.ToString() + " " + this.Height.ToString();
+        }
+        #endregion
+   	}
 }

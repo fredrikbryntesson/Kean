@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry2D.Double
 {
@@ -71,13 +72,59 @@ namespace Kean.Math.Geometry2D.Double
             this.f = f;
         }
         #region Casts
-        public static implicit operator Transform(TransformValue value)
-        {
-            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F);
-        }
-        public static explicit operator TransformValue(Transform value)
+        public static implicit operator TransformValue(Single.TransformValue value)
         {
             return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static implicit operator TransformValue(Integer.TransformValue value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static explicit operator Single.TransformValue(TransformValue value)
+        {
+            return new Single.TransformValue((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E), (Kean.Math.Single)(value.F));
+        }
+        public static explicit operator Integer.TransformValue(TransformValue value)
+        {
+            return new Integer.TransformValue((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+        }
+        public static implicit operator string(TransformValue value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator TransformValue(string value)
+        {
+            TransformValue result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 9)
+                    result = new TransformValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>Hash code for this instance.</returns>
+        public override int GetHashCode()
+        {
+            return this.A.GetHashCode()
+                ^ this.B.GetHashCode()
+                ^ this.C.GetHashCode()
+                ^ this.D.GetHashCode()
+                ^ this.E.GetHashCode()
+                ^ this.F.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.A.ToString() + ", " + this.C.ToString() + ", " + this.E.ToString() + "; " + this.B.ToString() + ", " + this.D.ToString() + ", " + this.F.ToString() + "; " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion
     }

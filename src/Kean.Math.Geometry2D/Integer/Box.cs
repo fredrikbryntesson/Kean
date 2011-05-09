@@ -43,6 +43,14 @@ namespace Kean.Math.Geometry2D.Integer
             return new Box(left, top, width, height);
         }
         #region Casts
+        public static explicit operator BoxValue(Box value)
+        {
+            return new BoxValue(value.LeftTop.Value, value.Size.Value);
+        }
+        public static implicit operator Box(BoxValue value)
+        {
+            return new Box(value.LeftTop, value.Size);
+        }
         public static implicit operator string(Box value)
         {
             return value.NotNull() ? value.ToString() : null;

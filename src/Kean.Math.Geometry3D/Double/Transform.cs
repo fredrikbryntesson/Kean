@@ -30,6 +30,31 @@ namespace Kean.Math.Geometry3D.Double
         public Transform(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l) : base(a, b, c, d, e, f, g, h, i, j, k, l) { }
         public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
+        public static implicit operator Transform(Single.Transform value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static implicit operator Transform(Integer.Transform value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator Single.Transform(Transform value)
+        {
+            return new Single.Transform((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E), (Kean.Math.Single)(value.F), (Kean.Math.Single)(value.G), (Kean.Math.Single)(value.H), (Kean.Math.Single)(value.I), (Kean.Math.Single)(value.J), (Kean.Math.Single)(value.K), (Kean.Math.Single)(value.L));
+        }
+        public static explicit operator Integer.Transform(Transform value)
+        {
+            return new Integer.Transform((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F), (Kean.Math.Integer)(value.G), (Kean.Math.Integer)(value.H), (Kean.Math.Integer)(value.I), (Kean.Math.Integer)(value.J), (Kean.Math.Integer)(value.K), (Kean.Math.Integer)(value.L));
+        }
+        public static implicit operator Transform(TransformValue value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+     
         public static implicit operator string(Transform value)
         {
             return value.NotNull() ? value.ToString() : null;

@@ -232,6 +232,10 @@ namespace Kean.Math
         {
             return Integer.Convert(System.Math.Log(value));
         }
+        public static int Logarithm(int value, int @base)
+        {
+            return Integer.Convert(System.Math.Log(value, @base));
+        }
         public static int Power(int @base, int exponent)
         {
             return Integer.Convert(System.Math.Pow(@base, exponent));
@@ -239,6 +243,26 @@ namespace Kean.Math
         public static int SquareRoot(int value)
         {
             return Integer.Convert(System.Math.Sqrt(value));
+        }
+        public static int Squared(int value)
+        {
+            return value * value;
+        }
+        public static int Squared(int a, int b)
+        {
+            return Integer.Squared(a) + Integer.Squared(b);
+        }
+        public static int Squared(int a, int b, int c)
+        {
+            return Integer.Squared(a) + Integer.Squared(b) + Integer.Squared(c);
+        }
+        public static int SquareRoot(int a, int b)
+        {
+            return Integer.SquareRoot(Integer.Squared(a, b));
+        }
+        public static int SquareRoot(int a, int b, int c)
+        {
+            return Integer.SquareRoot(Integer.Squared(a, b, c));
         }
         #endregion
     }

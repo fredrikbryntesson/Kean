@@ -119,6 +119,10 @@ namespace Kean.Math
         {
             return Integer.Logarithm(this.Value);
         }
+        public override Integer Logarithm(Integer @base)
+        {
+            return Integer.Logarithm(this.Value, @base);
+        }
         #endregion
         #region Power Function
         public override Integer Power(Integer exponent)

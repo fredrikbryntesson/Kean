@@ -1,34 +1,65 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry2D;
 
 namespace Kean.Test.Math.Geometry2D.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry2D.Abstract.Point< Kean.Math.Geometry2D.Single.Transform,  Kean.Math.Geometry2D.Single.TransformValue, Kean.Math.Geometry2D.Single.Point, Kean.Math.Geometry2D.Single.PointValue,  Kean.Math.Geometry2D.Single.Size,  Kean.Math.Geometry2D.Single.SizeValue, 
+        Kean.Test.Math.Geometry2D.Abstract.Point< Target.Single.Transform,  Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue,  Target.Single.Size,  Target.Single.SizeValue, 
         Kean.Math.Single, float>
     {
-        protected override Kean.Math.Geometry2D.Single.Point CastFromString(string value)
+        protected override Target.Single.Point CastFromString(string value)
         {
             return value;
         }
-        protected override string CastToString(Kean.Math.Geometry2D.Single.Point value)
+        protected override string CastToString(Target.Single.Point value)
         {
             return value;
         }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry2D.Single.Point(22.221f, -3.1f);
-            this.Vector1 = new Kean.Math.Geometry2D.Single.Point(12.221f, 13.1f);
-            this.Vector2 = new Kean.Math.Geometry2D.Single.Point(34.442f, 10.0f);
+            this.Vector0 = new Target.Single.Point(22.221f, -3.1f);
+            this.Vector1 = new Target.Single.Point(12.221f, 13.1f);
+            this.Vector2 = new Target.Single.Point(34.442f, 10.0f);
         }
         protected override float Cast(double value)
         {
             return (float)value;
         }
         [Test]
-        public void Add()
+        public void Casts()
+        {
+            // integer - single
+                Target.Integer.Point integer = new Target.Integer.Point(10, 20);
+                Target.Single.Point single = integer;
+                Assert.That(single.X, Is.EqualTo(10));
+                Assert.That(single.Y, Is.EqualTo(20));
+                Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueCasts()
+        {
+            // integer - single
+            Target.Integer.PointValue integer = new Target.Integer.PointValue(10, 20);
+            Target.Single.PointValue single = integer;
+            Assert.That(single.X, Is.EqualTo(10));
+            Assert.That(single.Y, Is.EqualTo(20));
+            Assert.That((Target.Integer.PointValue)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueStringCasts()
+        {
+            string textFromValue = new Target.Single.PointValue(10, 20);
+            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Target.Single.PointValue @integerFromText = "10 20";
+            Assert.That(@integerFromText.X, Is.EqualTo(10));
+            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+        }
+        [Test]
+        public void PerformanceAddition()
         {
             /*
                 Add new created class (static method): Elapsed time 12405
@@ -81,7 +112,7 @@ namespace Kean.Test.Math.Geometry2D.Single
             Console.WriteLine("Add previously created struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
         }
         [Test]
-        public void Multiply()
+        public void PerformanceMultiplication()
         {
             Kean.Math.Geometry2D.Single.PointValue a = new Kean.Math.Geometry2D.Single.PointValue(10, 20);
             Kean.Math.Geometry2D.Single.Point b = new Kean.Math.Geometry2D.Single.Point(10, 20);
@@ -114,11 +145,13 @@ namespace Kean.Test.Math.Geometry2D.Single
         }
         public void Run()
         {
-            this.Run
-                (
-                base.Run,
-                this.Add,       
-                this.Multiply
+            this.Run(
+                this.PerformanceAddition,
+                this.PerformanceMultiplication,
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts,
+                base.Run
                 );
         }
         public static void Test()

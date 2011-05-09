@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry3D.Double
 {
@@ -114,13 +115,69 @@ namespace Kean.Math.Geometry3D.Double
             this.l = l;
         }
         #region Casts
-        public static implicit operator Transform(TransformValue value)
-        {
-            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
-        }
-        public static explicit operator TransformValue(Transform value)
+        public static implicit operator TransformValue(Single.TransformValue value)
         {
             return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static implicit operator TransformValue(Integer.TransformValue value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator Single.TransformValue(TransformValue value)
+        {
+            return new Single.TransformValue((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E), (Kean.Math.Single)(value.F), (Kean.Math.Single)(value.G), (Kean.Math.Single)(value.H), (Kean.Math.Single)(value.I), (Kean.Math.Single)(value.J), (Kean.Math.Single)(value.K), (Kean.Math.Single)(value.L));
+        }
+        public static explicit operator Integer.TransformValue(TransformValue value)
+        {
+            return new Integer.TransformValue((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F), (Kean.Math.Integer)(value.G), (Kean.Math.Integer)(value.H), (Kean.Math.Integer)(value.I), (Kean.Math.Integer)(value.J), (Kean.Math.Integer)(value.K), (Kean.Math.Integer)(value.L));
+        }
+        public static implicit operator string(TransformValue value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator TransformValue(string value)
+        {
+            TransformValue result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 9)
+                    result = new TransformValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]), Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]), Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>Hash code for this instance.</returns>
+        public override int GetHashCode()
+        {
+            return this.A.GetHashCode()
+                ^ this.B.GetHashCode()
+                ^ this.C.GetHashCode()
+                ^ this.D.GetHashCode()
+                ^ this.E.GetHashCode()
+                ^ this.F.GetHashCode()
+                ^ this.G.GetHashCode()
+                ^ this.H.GetHashCode()
+                ^ this.I.GetHashCode()
+                ^ this.J.GetHashCode()
+                ^ this.K.GetHashCode()
+                ^ this.L.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return 
+                    this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; " 
+                +   this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; "
+                +   this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; "
+                +   0 + ", " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion
    }

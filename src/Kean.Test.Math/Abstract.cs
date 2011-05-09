@@ -97,6 +97,12 @@ namespace Kean.Test.Math
             Assert.That(one.Clamp(zero, two), Is.EqualTo(one));
             Assert.That(zero.Clamp(one, two), Is.EqualTo(one));
         }
+        [Test]
+        public void Logarithm()
+        {
+            R two = Kean.Math.Abstract<R, V>.Two;
+            Assert.That(two.Logarithm(two).Value, Is.EqualTo(1));
+        }
         public void Run()
         {
             this.Run(
@@ -108,8 +114,8 @@ namespace Kean.Test.Math
                 this.Minimum,
                 this.Maximum,
                 this.Compare,
-                this.Clamp
-
+                this.Clamp,
+                this.Logarithm
             );
         }
         internal void Run(params System.Action[] tests)

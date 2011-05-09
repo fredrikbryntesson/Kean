@@ -56,9 +56,12 @@
     <Compile Include="Double\Point.cs" />
     <Compile Include="Double\Size.cs" />
     <Compile Include="Double\Transform.cs" />
+    <Compile Include="Integer\Box.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\Size.cs" />
+    <Compile Include="Integer\Transform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Single\Box.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\Size.cs" />
     <Compile Include="Single\Transform.cs" />

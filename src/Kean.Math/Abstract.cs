@@ -133,6 +133,7 @@ namespace Kean.Math
         #region Transcendental Functions
         public abstract R Exponential();
         public abstract R Logarithm();
+        public abstract R Logarithm(R @base);
         #endregion
         #region Power Function
         public abstract R Power(R value);

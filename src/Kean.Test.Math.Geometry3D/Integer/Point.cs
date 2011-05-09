@@ -1,30 +1,49 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry3D;
 
 namespace Kean.Test.Math.Geometry3D.Integer
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry3D.Abstract.Point<Kean.Math.Geometry3D.Integer.Transform, Kean.Math.Geometry3D.Integer.TransformValue, Kean.Math.Geometry3D.Integer.Point, Kean.Math.Geometry3D.Integer.PointValue, Kean.Math.Geometry3D.Integer.Size, Kean.Math.Geometry3D.Integer.SizeValue, Kean.Math.Integer, int>
+        Kean.Test.Math.Geometry3D.Abstract.Point<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
-        protected override Kean.Math.Geometry3D.Integer.Point CastFromString(string value)
+        protected override Target.Integer.Point CastFromString(string value)
         {
             return value;
         }
-        protected override string CastToString(Kean.Math.Geometry3D.Integer.Point value)
+        protected override string CastToString(Target.Integer.Point value)
         {
             return value;
         }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry3D.Integer.Point(22, -3, 10);
-            this.Vector1 = new Kean.Math.Geometry3D.Integer.Point(12, 13, 20);
-            this.Vector2 = new Kean.Math.Geometry3D.Integer.Point(34, 10, 30);
+            this.Vector0 = new Target.Integer.Point(22, -3, 10);
+            this.Vector1 = new Target.Integer.Point(12, 13, 20);
+            this.Vector2 = new Target.Integer.Point(34, 10, 30);
         }
         protected override int Cast(double value)
         {
             return (int)value;
+        }
+        [Test]
+        public void ValueStringCasts()
+        {
+            string textFromValue = new Target.Integer.PointValue(10, 20, 30);
+            Assert.That(textFromValue, Is.EqualTo("10 20 30"));
+            Target.Integer.PointValue @integerFromText = "10 20 30";
+            Assert.That(@integerFromText.X, Is.EqualTo(10));
+            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+            Assert.That(@integerFromText.Z, Is.EqualTo(30));
+        }
+        public void Run()
+        {
+            this.Run(
+                this.ValueStringCasts,
+                base.Run
+                );
         }
         public static void Test()
         {

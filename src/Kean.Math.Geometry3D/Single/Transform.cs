@@ -30,6 +30,22 @@ namespace Kean.Math.Geometry3D.Single
         public Transform(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l) : base(a, b, c, d, e, f, g, h, i, j, k, l) { }
         public override TransformValue Value { get { return (TransformValue)this; }}
         #region Casts
+        public static implicit operator Transform(Integer.Transform value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator Integer.Transform(Transform value)
+        {
+            return new Integer.Transform((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F), (Kean.Math.Integer)(value.G), (Kean.Math.Integer)(value.H), (Kean.Math.Integer)(value.I), (Kean.Math.Integer)(value.J), (Kean.Math.Integer)(value.K), (Kean.Math.Integer)(value.L));
+        }
+        public static implicit operator Transform(TransformValue value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+        }
         public static implicit operator string(Transform value)
         {
             return value.NotNull() ? value.ToString() : null;

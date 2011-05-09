@@ -29,6 +29,30 @@ namespace Kean.Math.Geometry3D.Double
         public Point() { }
         public Point(double x, double y, double z) : base(x, y, z) { }
         #region Casts
+        public static implicit operator Point(Single.Point value)
+        {
+            return new Point(value.X, value.Y, value.Z);
+        }
+        public static implicit operator Point(Integer.Point value)
+        {
+            return new Point(value.X, value.Y, value.Z);
+        }
+        public static explicit operator Single.Point(Point value)
+        {
+            return new Single.Point((Kean.Math.Single)(value.X), (Kean.Math.Single)(value.Y), (Kean.Math.Single)(value.Z));
+        }
+        public static explicit operator Integer.Point(Point value)
+        {
+            return new Integer.Point((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y), (Kean.Math.Integer)(value.Z));
+        }
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y, value.Z);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y, value.Z);
+        }
         public static implicit operator string(Point value)
         {
             return value.NotNull() ? value.ToString() : null;

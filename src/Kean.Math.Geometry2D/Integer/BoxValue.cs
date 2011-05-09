@@ -18,6 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Integer
 {
     public struct BoxValue :
@@ -35,6 +38,9 @@ namespace Kean.Math.Geometry2D.Integer
             get { return this.size; }
             set { this.size = value; }
         }
+        public int Width { get { return this.size.Width; } }
+        public int Height { get { return this.Size.Height; } }
+
         public int Left { get { return this.leftTop.X; } }
         public int Top { get { return this.leftTop.Y; } }
         public int Right { get { return this.leftTop.X + this.size.Width; } }
@@ -50,13 +56,33 @@ namespace Kean.Math.Geometry2D.Integer
             this.size = size;
         }
         #region Casts
-        public static explicit operator BoxValue(Box value)
+        public static implicit operator string(BoxValue value)
         {
-            return new BoxValue(value.LeftTop.Value, value.Size.Value);
+            return value.NotNull() ? value.ToString() : null;
         }
-        public static implicit operator Box(BoxValue value)
+        public static implicit operator BoxValue(string value)
         {
-            return new Box(value.LeftTop, value.Size);
+            BoxValue result = new BoxValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 4)
+                    result = new BoxValue((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
+            }
+            catch
+            {
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override string ToString()
+        {
+            return this.leftTop.ToString() + " " + this.size.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
     }

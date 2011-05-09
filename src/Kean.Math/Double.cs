@@ -118,6 +118,10 @@ namespace Kean.Math
         {
             return Double.Logarithm(this.Value);
         }
+        public override Double Logarithm(Double @base)
+        {
+            return Double.Logarithm(this.Value, @base);
+        }
         #endregion
         #region Power Function
         public override Double Power(Double exponent)

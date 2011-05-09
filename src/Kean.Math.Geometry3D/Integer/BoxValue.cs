@@ -17,7 +17,10 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry3D.Integer
 {
     public struct BoxValue :
@@ -35,6 +38,12 @@ namespace Kean.Math.Geometry3D.Integer
             get { return this.size; }
             set { this.size = value; }
         }
+        public int Left { get { return this.leftTopFront.X; } }
+        public int Top { get { return this.leftTopFront.Y; } }
+        public int Front { get { return this.leftTopFront.Z; } }
+        public int Width { get { return this.size.Width; } }
+        public int Height { get { return this.Size.Height; } }
+        public int Depth { get { return this.Size.Depth; } }
         public BoxValue(int left, int top, int front, int width, int height, int depth)
         {
             this.leftTopFront = new PointValue(left, top, front);
@@ -46,13 +55,33 @@ namespace Kean.Math.Geometry3D.Integer
             this.size = size;
         }
         #region Casts
-        public static implicit operator Box(BoxValue value)
+        public static implicit operator string(BoxValue value)
         {
-            return new Box(value.LeftTopFront, value.Size);
+            return value.NotNull() ? value.ToString() : null;
         }
-        public static explicit operator BoxValue(Box value)
+        public static implicit operator BoxValue(string value)
         {
-            return new BoxValue(value.LeftTopFront.Value, value.Size.Value);
+            BoxValue result = new BoxValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 6)
+                    result = new BoxValue((PointValue)(values[0] + " " + values[1] + " " + values[2]), (SizeValue)(values[3] + " " + values[4] + " " + values[5]));
+            }
+            catch
+            {
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override string ToString()
+        {
+            return this.leftTopFront.ToString() + " " + this.size.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
     }

@@ -29,6 +29,14 @@ namespace Kean.Math.Geometry2D.Integer
         public Transform(int a, int b, int c, int d, int e, int f) : base(a, b, c, d, e, f) { }
         public override TransformValue Value { get { return (TransformValue)this; } }
         #region Casts
+        public static implicit operator Transform(TransformValue value)
+        {
+            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
+        public static explicit operator TransformValue(Transform value)
+        {
+            return new TransformValue(value.A, value.B, value.C, value.D, value.E, value.F);
+        }
         public static implicit operator string(Transform value)
         {
             return value.NotNull() ? value.ToString() : null;
@@ -39,7 +47,7 @@ namespace Kean.Math.Geometry2D.Integer
             try
             {
                 string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
+                if (values.Length == 9)
                     result = new Transform(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[5]));
             }
             catch

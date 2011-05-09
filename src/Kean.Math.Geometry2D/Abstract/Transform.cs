@@ -33,17 +33,17 @@ namespace Kean.Math.Geometry2D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
-        public R A { get; private set; }
-        public R B { get; private set; }
-        public R C { get; private set; }
-        public R D { get; private set; }
-        public R E { get; private set; }
-        public R F { get; private set; }
-        public R this[int x, int y]
+        public V A { get; private set; }
+        public V B { get; private set; }
+        public V C { get; private set; }
+        public V D { get; private set; }
+        public V E { get; private set; }
+        public V F { get; private set; }
+        public V this[int x, int y]
         {
             get
             {
-                R result;
+                V result;
                 switch (x)
                 {
                     case 0:
@@ -83,23 +83,23 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             get
             {
-                R determinant = this.A * this.D - this.B * this.C;
+                R determinant = this.A * (R)this.D - this.B * (R)this.C;
                 return new TransformType()
                 {
                     A = this.D / determinant,
-                    B = -this.B / determinant,
-                    C = -this.C / determinant,
+                    B = -(R)this.B / determinant,
+                    C = -(R)this.C / determinant,
                     D = this.A / determinant,
-                    E = (this.C * this.F - this.D * this.E) / determinant,
-                    F = -(this.A * this.F - this.B * this.E) / determinant,
+                    E = (this.C * (R)this.F - this.D * (R)this.E) / determinant,
+                    F = -(this.A * (R)this.F - this.B * (R)this.E) / determinant,
                 };
             }
         }
         #region Properties
-        public V ScalingX { get { return (this.A.Squared() + this.B.Squared()).SquareRoot(); } }
-        public V ScalingY { get { return (this.C.Squared() + this.D.Squared()).SquareRoot(); } }
+        public V ScalingX { get { return (((R)(this.A)).Squared() + ((R)this.B).Squared()).SquareRoot(); } }
+        public V ScalingY { get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); } }
         public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; } }
-        public V Rotation { get { return ((R)this.B).ArcusTangensExtended(this.A); } }
+        public V Rotation { get { return ((R)this.B).ArcusTangensExtended((R)this.A); } }
         public SizeType Translation { get { return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(this.E,this.F); } }
         #endregion
 	
@@ -127,6 +127,14 @@ namespace Kean.Math.Geometry2D.Abstract
         public TransformType Translate(V xDelta, V yDelta)
         {
             return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta) * this;
+        }
+        public TransformType Scale(V factor)
+        {
+            return this.Scale(factor, factor);
+        }
+        public TransformType Scale(IVector<V> factor)
+        {
+            return this.Scale(factor.X, factor.Y);
         }
         public TransformType Scale(V xFactor, V yFactor)
         {
@@ -217,12 +225,12 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return new TransformType()
             {
-                A = left.A * right.A + left.C * right.B,
-                B = left.B * right.A + left.D * right.B,
-                C = left.A * right.C + left.C * right.D,
-                D = left.B * right.C + left.D * right.D,
-                E = left.A * right.E + left.C * right.F + left.E,
-                F = left.B * right.E + left.D * right.F + left.F,
+                A = left.A * (R)right.A + left.C * (R)right.B,
+                B = left.B * (R)right.A + left.D * (R)right.B,
+                C = left.A * (R)right.C + left.C * (R)right.D,
+                D = left.B * (R)right.C + left.D * (R)right.D,
+                E = left.A * (R)right.E + left.C * (R)right.F + left.E,
+                F = left.B * (R)right.E + left.D * (R)right.F + left.F,
             };
         }
         #endregion
@@ -239,7 +247,7 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.A == right.A && left.B == right.B && left.C == right.C && left.D == right.D && left.E == right.E && left.F == right.F;
+                (R)left.A == (R)right.A && (R)left.B == (R)right.B && (R)left.C == (R)right.C && (R)left.D == (R)right.D && (R)left.E == (R)right.E && (R)left.F == (R)right.F;
         }
         public static bool operator !=(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
         {

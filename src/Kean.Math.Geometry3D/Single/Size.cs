@@ -25,10 +25,27 @@ namespace Kean.Math.Geometry3D.Single
 {
     public class Size : Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Single, float>
     {
-        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height, this.Depth); } }
+        public override SizeValue Value { get { return (SizeValue)this; } }
         public Size() { }
         public Size(float x, float y, float z) : base(x, y, z) { }
         #region Casts
+        public static implicit operator Size(Integer.Size value)
+        {
+            return new Size(value.Width, value.Height, value.Depth);
+        }
+        public static explicit operator Integer.Size(Size value)
+        {
+            return new Integer.Size((Kean.Math.Integer)value.Width, (Kean.Math.Integer)value.Height, (Kean.Math.Integer)value.Depth);
+        }
+        public static implicit operator Size(SizeValue value)
+        {
+            return new Size(value.Width, value.Height, value.Depth);
+        }
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height, value.Depth);
+        }
+  
         public static implicit operator string(Size value)
         {
             return value.NotNull() ? value.ToString() : null;

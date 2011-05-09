@@ -26,11 +26,19 @@ namespace Kean.Math.Geometry2D.Integer
     public class Point :
         Abstract.Point<Transform, TransformValue, Point, PointValue, Size, SizeValue, Kean.Math.Integer, int>
     {
-        public override PointValue Value { get { return new PointValue(this.X, this.Y); } }
+        public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }
         public Point(int x, int y) : 
 			base(x, y) { }
         #region Casts
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
         public static implicit operator string(Point value)
         {
             return value.NotNull() ? value.ToString() : null;

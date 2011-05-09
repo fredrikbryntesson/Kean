@@ -17,7 +17,10 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Double
 {
 	public struct PointValue :
@@ -41,13 +44,50 @@ namespace Kean.Math.Geometry2D.Double
 			this.y = y;
 		}
         #region Casts
-        public static implicit operator Point(PointValue value)
-		{
-			return new Point(value.X, value.Y);
-		}
-		public static explicit operator PointValue(Point value)
-		{
-			return new PointValue(value.X, value.Y);
+        public static implicit operator PointValue(Single.PointValue value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+        public static implicit operator PointValue(Integer.PointValue value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+        public static explicit operator Single.PointValue(PointValue value)
+        {
+            return new Single.PointValue((Kean.Math.Single)(value.X), (Kean.Math.Single)(value.Y));
+        }
+        public static explicit operator Integer.PointValue(PointValue value)
+        {
+            return new Integer.PointValue((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
+        }
+        public static implicit operator string(PointValue value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator PointValue(string value)
+        {
+            PointValue result = new PointValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new PointValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override int GetHashCode()
+        {
+            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.X.ToString() + " " + this.Y.ToString();
         }
         #endregion
     }

@@ -27,26 +27,36 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Kean.Test.Math.Single.Test();
-
-            Kean.Test.Math.Geometry2D.Double.Box.Test();
-
+            
             Kean.Test.Math.Geometry2D.Integer.Point.Test();
-            Kean.Test.Math.Geometry2D.Integer.Size.Test();
             Kean.Test.Math.Geometry2D.Single.Point.Test();
-            Kean.Test.Math.Geometry2D.Single.Size.Test();
             Kean.Test.Math.Geometry2D.Double.Point.Test();
-            Kean.Test.Math.Geometry2D.Double.Size.Test();
 
-            Kean.Test.Math.Geometry3D.Integer.Point.Test();
-            Kean.Test.Math.Geometry3D.Integer.Size.Test();
-            Kean.Test.Math.Geometry3D.Single.Point.Test();
-            Kean.Test.Math.Geometry3D.Single.Size.Test();
-            Kean.Test.Math.Geometry3D.Double.Point.Test();
-            Kean.Test.Math.Geometry3D.Double.Size.Test();
-           
+            Kean.Test.Math.Geometry2D.Integer.Size.Test();
+            Kean.Test.Math.Geometry2D.Single.Size.Test();
+            Kean.Test.Math.Geometry2D.Double.Size.Test();
+            
+            Kean.Test.Math.Geometry2D.Integer.Box.Test();
+            Kean.Test.Math.Geometry2D.Single.Box.Test();
+            Kean.Test.Math.Geometry2D.Double.Box.Test();
+            
+            Kean.Test.Math.Geometry2D.Integer.Transform.Test();
             Kean.Test.Math.Geometry2D.Single.Transform.Test();
             Kean.Test.Math.Geometry2D.Double.Transform.Test();
 
+            Kean.Test.Math.Geometry3D.Integer.Point.Test();
+            Kean.Test.Math.Geometry3D.Single.Point.Test();
+            Kean.Test.Math.Geometry3D.Double.Point.Test();
+
+            Kean.Test.Math.Geometry3D.Integer.Size.Test();
+            Kean.Test.Math.Geometry3D.Single.Size.Test();
+            Kean.Test.Math.Geometry3D.Double.Size.Test();
+          
+            Kean.Test.Math.Geometry3D.Integer.Box.Test();
+            Kean.Test.Math.Geometry3D.Single.Box.Test();
+            Kean.Test.Math.Geometry3D.Double.Box.Test();
+            
+            
             Kean.Test.Math.Geometry3D.Single.Transform.Test();
             Kean.Test.Math.Geometry3D.Double.Transform.Test();
            

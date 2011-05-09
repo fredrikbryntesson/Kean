@@ -44,7 +44,7 @@ namespace Kean.Math.Geometry2D.Abstract
         #endregion
 
         #region Sizes
-        public V Width {get{return this.Size.Width;}}
+        public V Width { get { return this.Size.Width; } }
         public V Height { get { return this.Size.Height; } }
         #endregion
 
@@ -156,6 +156,7 @@ namespace Kean.Math.Geometry2D.Abstract
             return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
+        #region Static Methods
         public static BoxType Create(PointType leftTop, SizeType size)
         {
             BoxType result = new BoxType();
@@ -163,5 +164,44 @@ namespace Kean.Math.Geometry2D.Abstract
             result.size = size;
             return result;
         }
+        public static BoxType Bounds(V left, V right, V top, V bottom)
+        {
+            return Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(left, top), Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create((R)right - left, (R)bottom - top));
+        }
+        public static BoxType Bounds(params PointType[] points)
+        {
+            R xMinimum = Kean.Math.Abstract<R,V>.Zero;
+            R xMaximum = xMinimum;
+            R yMinimum = xMinimum;
+            R yMaximum = xMinimum;
+            bool initilized = false;
+            foreach (PointType point in points)
+            {
+                if (point != null)
+                {
+                    if (!initilized)
+                    {
+                        initilized = true;
+                        xMinimum = (R)point.X;
+                        xMaximum = (R)point.X;
+                        yMinimum = (R)point.Y;
+                        yMaximum = (R)point.Y;
+                    }
+                    else
+                    {
+                        if (point.X < xMinimum)
+                            xMinimum = (R)point.X;
+                        else if (point.X > xMaximum)
+                            xMaximum = (R)point.X;
+                        if (point.Y < yMinimum)
+                            yMinimum = (R)point.Y;
+                        else if (point.Y > yMaximum)
+                            yMaximum = (R)point.Y;
+                    }
+                }
+            }
+            return Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(xMinimum, yMinimum), Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(xMaximum - xMinimum, yMaximum - yMinimum));
+        }
+        #endregion
     }
 }

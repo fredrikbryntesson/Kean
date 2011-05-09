@@ -26,11 +26,19 @@ namespace Kean.Math.Geometry2D.Integer
     public class Size : 
 		Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Integer, int>
     {
-        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
+        public override SizeValue Value { get { return (SizeValue)this; } }
         public Size() { }
         public Size(int x, int y) : 
 			base(x, y) { }
         #region Casts
+        public static implicit operator Size(SizeValue value)
+        {
+            return new Size(value.Width, value.Height);
+        }
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
         public static implicit operator string(Size value)
         {
             return value.NotNull() ? value.ToString() : null;

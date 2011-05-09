@@ -48,7 +48,7 @@ namespace Kean.Math.Geometry2D.Abstract
         #region Arithmetic Operators
         public static PointType operator *(TransformType left, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
-            return new PointType().Create(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
+            return new PointType().Create(left.A * (R)right.X + left.C * (R)right.Y + left.E, left.B * (R)right.X + left.D * (R)right.Y + left.F);
         }
         #endregion
         public static PointType Polar(R radius, R azimuth)

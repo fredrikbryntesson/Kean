@@ -168,6 +168,14 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta) * this;
         }
+        public TransformType Scale(V factor)
+        {
+            return this.Scale(factor, factor, factor);
+        }
+        public TransformType Scale(IVector<V> factor)
+        {
+            return this.Scale(factor.X, factor.Y, factor.Z);
+        }
         public TransformType Scale(V xFactor, V yFactor, V zFactor)
         {
             return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(xFactor, yFactor, zFactor) * this;

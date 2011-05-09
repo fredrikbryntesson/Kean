@@ -43,21 +43,29 @@ namespace Kean.Math.Geometry2D.Double
             return new Box(left, top, width, height);
         }
         #region Casts
-        public static implicit operator Box(Kean.Math.Geometry2D.Single.Box value)
+        public static implicit operator Box(Single.Box value)
         {
             return new Box(value.LeftTop, value.Size);
         }
-        public static implicit operator Box(Kean.Math.Geometry2D.Integer.Box value)
+        public static implicit operator Box(Integer.Box value)
         {
             return new Box(value.LeftTop, value.Size);
         }
-        public static explicit operator Kean.Math.Geometry2D.Single.Box(Box value)
+        public static explicit operator Single.Box(Box value)
         {
-            return new Kean.Math.Geometry2D.Single.Box((Kean.Math.Geometry2D.Single.Point)(value.LeftTop), (Kean.Math.Geometry2D.Single.Size)(value.Size));
+            return new Single.Box((Single.Point)(value.LeftTop), (Single.Size)(value.Size));
         }
-        public static implicit operator Kean.Math.Geometry2D.Integer.Box(Box value)
+        public static explicit operator Integer.Box(Box value)
         {
-            return new Kean.Math.Geometry2D.Integer.Box((Kean.Math.Geometry2D.Integer.Point)(value.LeftTop), (Kean.Math.Geometry2D.Integer.Size)(value.Size));
+            return new Integer.Box((Integer.Point)(value.LeftTop), (Integer.Size)(value.Size));
+        }
+        public static explicit operator BoxValue(Box value)
+        {
+            return new BoxValue(value.LeftTop.Value, value.Size.Value);
+        }
+        public static implicit operator Box(BoxValue value)
+        {
+            return new Box(value.LeftTop, value.Size);
         }
         public static implicit operator string(Box value)
         {

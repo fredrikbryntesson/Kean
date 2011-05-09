@@ -1,31 +1,71 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry2D;
 
 namespace Kean.Test.Math.Geometry2D.Single
 {
     [TestFixture]
     public class Size :
-        Kean.Test.Math.Geometry2D.Abstract.Size<Kean.Math.Geometry2D.Single.Transform, Kean.Math.Geometry2D.Single.TransformValue, Kean.Math.Geometry2D.Single.Size, Kean.Math.Geometry2D.Single.SizeValue,
+        Kean.Test.Math.Geometry2D.Abstract.Size<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Size, Target.Single.SizeValue,
         Kean.Math.Single, float>
     {
-        protected override Kean.Math.Geometry2D.Single.Size CastFromString(string value)
+        protected override Target.Single.Size CastFromString(string value)
         {
             return value;
         }
-        protected override string CastToString(Kean.Math.Geometry2D.Single.Size value)
+        protected override string CastToString(Target.Single.Size value)
         {
             return value;
         }
         [TestFixtureSetUp]
         public virtual void FixtureSetup()
         {
-            this.Vector0 = new Kean.Math.Geometry2D.Single.Size(22.221f, -3.1f);
-            this.Vector1 = new Kean.Math.Geometry2D.Single.Size(12.221f, 13.1f);
-            this.Vector2 = new Kean.Math.Geometry2D.Single.Size(34.442f, 10.0f);
+            this.Vector0 = new Target.Single.Size(22.221f, -3.1f);
+            this.Vector1 = new Target.Single.Size(12.221f, 13.1f);
+            this.Vector2 = new Target.Single.Size(34.442f, 10.0f);
         }
         protected override float Cast(double value)
         {
             return (float)value;
+        }
+        [Test]
+        public void Casts()
+        {
+            // integer - single
+            Target.Integer.Size integer = new Target.Integer.Size(10, 20);
+            Target.Single.Size single = integer;
+            Assert.That(single.Width, Is.EqualTo(10));
+            Assert.That(single.Height, Is.EqualTo(20));
+            Assert.That((Target.Integer.Size)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueCasts()
+        {
+            // integer - single
+            Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20);
+            Target.Single.SizeValue single = integer;
+            Assert.That(single.Width, Is.EqualTo(10));
+            Assert.That(single.Height, Is.EqualTo(20));
+            Assert.That((Target.Integer.SizeValue)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueStringCasts()
+        {
+            string textFromValue = new Target.Single.SizeValue(10, 20);
+            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Target.Single.SizeValue @integerFromText = "10 20";
+            Assert.That(@integerFromText.Width, Is.EqualTo(10));
+            Assert.That(@integerFromText.Height, Is.EqualTo(20));
+        }
+        public void Run()
+        {
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts,
+                base.Run
+                );
         }
         public static void Test()
         {

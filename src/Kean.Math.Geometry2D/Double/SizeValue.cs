@@ -18,6 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Double
 {
 	public struct SizeValue :
@@ -47,13 +50,50 @@ namespace Kean.Math.Geometry2D.Double
 			this.height = height;
 		}
         #region Casts
-        public static implicit operator Size(SizeValue value)
-        {
-            return new Size(value.Width, value.Height);
-        }
-        public static explicit operator SizeValue(Size value)
+        public static implicit operator SizeValue(Single.SizeValue value)
         {
             return new SizeValue(value.Width, value.Height);
+        }
+        public static implicit operator SizeValue(Integer.SizeValue value)
+        {
+            return new SizeValue(value.Width, value.Height);
+        }
+        public static explicit operator Single.SizeValue(SizeValue value)
+        {
+            return new Single.SizeValue((Kean.Math.Single)(value.Width), (Kean.Math.Single)(value.Height));
+        }
+        public static explicit operator Integer.SizeValue(SizeValue value)
+        {
+            return new Integer.SizeValue((Kean.Math.Integer)(value.Width), (Kean.Math.Integer)(value.Height));
+        }
+        public static implicit operator string(SizeValue value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator SizeValue(string value)
+        {
+            SizeValue result = new SizeValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new SizeValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override int GetHashCode()
+        {
+            return this.Width.GetHashCode() ^ this.Height.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.Width.ToString() + " " + this.Height.ToString();
         }
         #endregion
     }

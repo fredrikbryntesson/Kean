@@ -17,7 +17,10 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry3D.Double
 {
     public struct ShellValue :
@@ -46,13 +49,50 @@ namespace Kean.Math.Geometry3D.Double
             this.back = back;
         }
         #region Casts
-        public static implicit operator Shell(ShellValue value)
-        {
-            return new Shell(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
-        }
-        public static explicit operator ShellValue(Shell value)
+        public static implicit operator ShellValue(Single.ShellValue value)
         {
             return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+        }
+        public static implicit operator ShellValue(Integer.ShellValue value)
+        {
+            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom, value.Front, value.Back);
+        }
+        public static explicit operator Single.ShellValue(ShellValue value)
+        {
+            return new Single.ShellValue((Kean.Math.Single)(value.Left), (Kean.Math.Single)(value.Right), (Kean.Math.Single)(value.Top), (Kean.Math.Single)(value.Bottom), (Kean.Math.Single)(value.Front), (Kean.Math.Single)(value.Back));
+        }
+        public static explicit operator Integer.ShellValue(ShellValue value)
+        {
+            return new Integer.ShellValue((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom), (Kean.Math.Integer)(value.Front), (Kean.Math.Integer)(value.Back));
+        }
+        public static implicit operator string(ShellValue value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator ShellValue(string value)
+        {
+            ShellValue result = null;
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 6)
+                    result = new ShellValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]));
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override int GetHashCode()
+        {
+            return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode() ^ this.Front.GetHashCode() ^ this.Back.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString() + " " + this.Front.ToString() + " " + this.Back.ToString();
         }
         #endregion
     }

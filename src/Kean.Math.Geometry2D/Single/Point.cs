@@ -26,11 +26,27 @@ namespace Kean.Math.Geometry2D.Single
     public class Point :
         Abstract.Point<Transform, TransformValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
-        public override PointValue Value { get { return new PointValue(this.X, this.Y); } }
+        public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }
         public Point(float x, float y) : 
 			base(x, y) { }
         #region Casts
+        public static implicit operator Point(Integer.Point value)
+        {
+            return new Point(value.X, value.Y);
+        }
+        public static explicit operator Integer.Point(Point value)
+        {
+            return new Integer.Point((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
+        }
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
         public static implicit operator string(Point value)
         {
             return value.NotNull() ? value.ToString() : null;

@@ -47,9 +47,9 @@ namespace Kean.Math.Geometry3D.Abstract
         public QuaternionType Inverse { get { return this.Conjugate / this.Norm.Squared(); } }
         public QuaternionType Conjugate { get { return new QuaternionType() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
-        public R RotationX { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.X.Squared() + this.Imaginary.Y.Squared())); } }
-        public R RotationY { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - this.Imaginary.Z * this.Imaginary.X)).Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusSinus(); } }
-        public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (this.Imaginary.Y.Squared() + this.Imaginary.Z.Squared())); } }
+        public R RotationX { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.X + (R)this.Imaginary.Y * this.Imaginary.Z)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (((R)this.Imaginary.X).Squared() + ((R)this.Imaginary.Y).Squared())); } }
+        public R RotationY { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Y - (R)this.Imaginary.Z * this.Imaginary.X)).Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusSinus(); } }
+        public R RotationZ { get { return (Kean.Math.Abstract<R, V>.Two * (this.Real * this.Imaginary.Z + (R)this.Imaginary.X * this.Imaginary.Y)).ArcusTangensExtended(Kean.Math.Abstract<R, V>.One - Kean.Math.Abstract<R, V>.Two * (((R)this.Imaginary.Y).Squared() + ((R)this.Imaginary.Z).Squared())); } }
         #endregion
         #region Static Constants
         public static QuaternionType BasisReal { get { return new QuaternionType() { Real = Kean.Math.Abstract<R,V>.One, Imaginary = new PointType() }; } }
@@ -277,9 +277,9 @@ namespace Kean.Math.Geometry3D.Abstract
             V[,] result = new V[3, 3];
             QuaternionType normalized = value / value.Norm;
             R q0 = normalized.Real;
-            R q1 = normalized.Imaginary.X;
-            R q2 = normalized.Imaginary.Y;
-            R q3 = normalized.Imaginary.Z;
+            R q1 = (R)normalized.Imaginary.X;
+            R q2 = (R)normalized.Imaginary.Y;
+            R q3 = (R)normalized.Imaginary.Z;
             result[0, 0] = q0.Squared() + q1.Squared() - q2.Squared() - q3.Squared();
             result[1, 0] = Kean.Math.Abstract<R, V>.Two * (q1 * q2 - q0 * q3);
             result[2, 0] = Kean.Math.Abstract<R, V>.Two * (q0 * q2 + q1 * q3);

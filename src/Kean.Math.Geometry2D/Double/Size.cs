@@ -25,25 +25,33 @@ namespace Kean.Math.Geometry2D.Double
 {
     public class Size : Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Double, double>
     {
-        public override SizeValue Value { get { return new SizeValue(this.Width, this.Height); } }
+        public override SizeValue Value { get { return (SizeValue)this; } }
         public Size() { }
         public Size(double x, double y) : base(x, y) { }
         #region Casts
-        public static implicit operator Size(Kean.Math.Geometry2D.Single.Size value)
+        public static implicit operator Size(Single.Size value)
         {
             return new Size(value.Width, value.Height);
         }
-        public static implicit operator Size(Kean.Math.Geometry2D.Integer.Size value)
+        public static implicit operator Size(Integer.Size value)
         {
             return new Size(value.Width, value.Height);
         }
-        public static explicit operator Kean.Math.Geometry2D.Single.Size(Size value)
+        public static explicit operator Single.Size(Size value)
         {
-            return new Kean.Math.Geometry2D.Single.Size((Kean.Math.Single)(value.Width), (Kean.Math.Single)(value.Height));
+            return new Single.Size((Kean.Math.Single)(value.Width), (Kean.Math.Single)(value.Height));
         }
-        public static explicit operator Kean.Math.Geometry2D.Integer.Size(Size value)
+        public static explicit operator Integer.Size(Size value)
         {
-            return new Kean.Math.Geometry2D.Integer.Size((Kean.Math.Integer)(value.Width), (Kean.Math.Integer)(value.Height));
+            return new Integer.Size((Kean.Math.Integer)(value.Width), (Kean.Math.Integer)(value.Height));
+        }
+        public static implicit operator Size(SizeValue value)
+        {
+            return new Size(value.Width, value.Height);
+        }
+        public static explicit operator SizeValue(Size value)
+        {
+            return new SizeValue(value.Width, value.Height);
         }
         public static implicit operator string(Size value)
         {

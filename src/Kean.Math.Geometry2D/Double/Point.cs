@@ -29,21 +29,29 @@ namespace Kean.Math.Geometry2D.Double
         public Point() { }
         public Point(double x, double y) : base(x, y) { }
         #region Casts
-        public static implicit operator Point(Kean.Math.Geometry2D.Single.Point value)
+        public static implicit operator Point(Single.Point value)
         {
             return new Point(value.X, value.Y);
         }
-        public static implicit operator Point(Kean.Math.Geometry2D.Integer.Point value)
+        public static implicit operator Point(Integer.Point value)
         {
             return new Point(value.X, value.Y);
         }
-        public static explicit operator Kean.Math.Geometry2D.Single.Point(Point value)
+        public static explicit operator Single.Point(Point value)
         {
-            return new Kean.Math.Geometry2D.Single.Point((Kean.Math.Single)(value.X), (Kean.Math.Single)(value.Y));
+            return new Single.Point((Kean.Math.Single)(value.X), (Kean.Math.Single)(value.Y));
         }
-        public static explicit operator Kean.Math.Geometry2D.Integer.Point(Point value)
+        public static explicit operator Integer.Point(Point value)
         {
-            return new Kean.Math.Geometry2D.Integer.Point((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
+            return new Integer.Point((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
+        }
+        public static implicit operator Point(PointValue value)
+        {
+            return new Point(value.X, value.Y);
+        }
+        public static explicit operator PointValue(Point value)
+        {
+            return new PointValue(value.X, value.Y);
         }
         public static implicit operator string(Point value)
         {

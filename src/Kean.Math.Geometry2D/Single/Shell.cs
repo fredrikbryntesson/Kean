@@ -37,6 +37,22 @@ namespace Kean.Math.Geometry2D.Single
             return new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
         }
         #region Casts
+        public static implicit operator Shell(Integer.Shell value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        public static explicit operator Integer.Shell(Shell value)
+        {
+            return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+        }
+        public static implicit operator Shell(ShellValue value)
+        {
+            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+        }
+        public static explicit operator ShellValue(Shell value)
+        {
+            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
+        }
         public static implicit operator string(Shell value)
         {
             return value.NotNull() ? value.ToString() : null;

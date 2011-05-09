@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry2D;
 
 namespace Kean.Test.Math.Geometry2D.Integer
 {
@@ -26,6 +28,22 @@ namespace Kean.Test.Math.Geometry2D.Integer
         protected override int Cast(double value)
         {
             return (int)value;
+        }
+        [Test]
+        public void ValueStringCasts()
+        {
+            string textFromValue = new Target.Integer.PointValue(10, 20);
+            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Target.Integer.PointValue @integerFromText = "10 20";
+            Assert.That(@integerFromText.X, Is.EqualTo(10));
+            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+        }
+        public void Run()
+        {
+            this.Run(
+                base.Run,
+                this.ValueStringCasts
+                );
         }
         public static void Test()
         {

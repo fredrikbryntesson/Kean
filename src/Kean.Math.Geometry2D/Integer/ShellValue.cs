@@ -17,7 +17,10 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Integer
 {
     public struct ShellValue :
@@ -40,13 +43,33 @@ namespace Kean.Math.Geometry2D.Integer
             this.bottom = bottom;
         }
         #region Casts
-        public static implicit operator Shell(ShellValue value)
+        public static implicit operator string(ShellValue value)
         {
-            return new Shell(value.Left, value.Right, value.Top, value.Bottom);
+            return value.NotNull() ? value.ToString() : null;
         }
-        public static explicit operator ShellValue(Shell value)
+        public static implicit operator ShellValue(string value)
         {
-            return new ShellValue(value.Left, value.Right, value.Top, value.Bottom);
+            ShellValue result = new ShellValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new ShellValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
+            }
+            catch
+            {
+            }
+            return result;
+        }
+        #endregion
+        #region Object Overrides
+        public override int GetHashCode()
+        {
+            return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString();
         }
         #endregion
     }

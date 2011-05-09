@@ -18,6 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Single
 {
     public struct PointValue :
@@ -99,29 +102,41 @@ namespace Kean.Math.Geometry2D.Single
         }
         #endregion
         #region Casts
-        public static implicit operator Point(PointValue value)
-        {
-            return new Point(value.X, value.Y);
-        }
-        public static explicit operator PointValue(Point value)
+        public static implicit operator PointValue(Integer.PointValue value)
         {
             return new PointValue(value.X, value.Y);
         }
-        public static implicit operator PointValue(Geometry2D.Integer.PointValue value)
+        public static explicit operator Integer.PointValue(PointValue value)
         {
-            return new PointValue(value.X, value.Y);
+            return new Integer.PointValue((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
         }
-        public static implicit operator Geometry2D.Double.PointValue(PointValue value)
+        public static implicit operator string(PointValue value)
         {
-            return new Geometry2D.Double.PointValue(value.X, value.Y);
+            return value.NotNull() ? value.ToString() : null;
         }
-        public static explicit operator Geometry2D.Integer.PointValue(PointValue value)
+        public static implicit operator PointValue(string value)
         {
-            return new Geometry2D.Integer.PointValue((int)value.X, (int)value.Y);
+            PointValue result = new PointValue();
+            try
+            {
+                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2)
+                    result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
+            }
+            catch
+            {
+            }
+            return result;
         }
-        public static explicit operator PointValue(Geometry2D.Double.PointValue value)
+        #endregion
+        #region Object Overrides
+        public override int GetHashCode()
         {
-            return new PointValue((float)value.X, (float)value.Y);
+            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return this.X.ToString() + " " + this.Y.ToString();
         }
         #endregion
     }
