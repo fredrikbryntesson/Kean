@@ -136,7 +136,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return this.X.ToString() + " " + this.Y.ToString();
+            return Kean.Math.Single.ToString(this.X) + " " + Kean.Math.Single.ToString(this.Y);
         }
         #endregion
     }

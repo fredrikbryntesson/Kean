@@ -69,7 +69,7 @@ namespace Kean.Math.Geometry2D.Integer
         }
         public override string ToString()
         {
-            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString();
+            return Kean.Math.Integer.ToString(this.Left) + " " + Kean.Math.Integer.ToString(this.Right) + " " + Kean.Math.Integer.ToString(this.Top) + " " + Kean.Math.Integer.ToString(this.Bottom);
         }
         #endregion
     }

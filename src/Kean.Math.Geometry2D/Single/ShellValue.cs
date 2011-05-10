@@ -77,7 +77,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString();
+            return Kean.Math.Single.ToString(this.Left) + " " + Kean.Math.Single.ToString(this.Right) + " " + Kean.Math.Single.ToString(this.Top) + " " + Kean.Math.Single.ToString(this.Bottom);
         }
         #endregion
     }

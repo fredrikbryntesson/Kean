@@ -107,7 +107,7 @@ namespace Kean.Math.Geometry2D.Integer
         }
         public override string ToString()
         {
-            return this.A.ToString() + ", " + this.C.ToString() + ", " + this.E.ToString() + "; " + this.B.ToString() + ", " + this.D.ToString() + ", " + this.F.ToString() + "; " + 0 + ", " + 0 + ", " + 1;
+            return Kean.Math.Integer.ToString(this.A) + ", " + Kean.Math.Integer.ToString(this.C) + ", " + Kean.Math.Integer.ToString(this.E) + "; " + Kean.Math.Integer.ToString(this.B) + ", " + Kean.Math.Integer.ToString(this.D) + ", " + Kean.Math.Integer.ToString(this.F) + "; " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion
    }
