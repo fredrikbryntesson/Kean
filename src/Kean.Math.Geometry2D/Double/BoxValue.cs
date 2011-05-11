@@ -79,15 +79,18 @@ namespace Kean.Math.Geometry2D.Double
         public static implicit operator BoxValue(string value)
         {
             BoxValue result = new BoxValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
-                    result = new BoxValue((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
-            }
-            catch
-            {
-                result = null;
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 4)
+                        result = new BoxValue((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }

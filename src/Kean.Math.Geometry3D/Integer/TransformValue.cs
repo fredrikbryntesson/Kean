@@ -122,18 +122,22 @@ namespace Kean.Math.Geometry3D.Integer
         public static implicit operator TransformValue(string value)
         {
             TransformValue result = new TransformValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 16)
-                    result = new TransformValue(
-                   Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[8]),
-                   Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[5]), Kean.Math.Integer.Parse(values[9]),
-                   Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[6]), Kean.Math.Integer.Parse(values[10]),
-                   Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[7]), Kean.Math.Integer.Parse(values[11]));
-            }
-            catch
-            {
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 16)
+                        result = new TransformValue(
+                       Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[8]),
+                       Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[5]), Kean.Math.Integer.Parse(values[9]),
+                       Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[6]), Kean.Math.Integer.Parse(values[10]),
+                       Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[7]), Kean.Math.Integer.Parse(values[11]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -161,9 +165,9 @@ namespace Kean.Math.Geometry3D.Integer
         public override string ToString()
         {
             return
-                    this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; "
-                + this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; "
-                + this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; "
+                    Kean.Math.Integer.ToString(this.A) + ", " + Kean.Math.Integer.ToString(this.D) + ", " + Kean.Math.Integer.ToString(this.G) + ", " + Kean.Math.Integer.ToString(this.J) + "; "
+                + Kean.Math.Integer.ToString(this.B) + ", " + Kean.Math.Integer.ToString(this.E) + ", " + Kean.Math.Integer.ToString(this.H) + ", " + Kean.Math.Integer.ToString(this.K) + "; "
+                + Kean.Math.Integer.ToString(this.C) + ", " + Kean.Math.Integer.ToString(this.F) + ", " + Kean.Math.Integer.ToString(this.I) + ", " + Kean.Math.Integer.ToString(this.L) + "; "
                 + 0 + ", " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion

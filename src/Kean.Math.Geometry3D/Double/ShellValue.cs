@@ -71,16 +71,19 @@ namespace Kean.Math.Geometry3D.Double
         }
         public static implicit operator ShellValue(string value)
         {
-            ShellValue result = null;
-            try
+            ShellValue result = new ShellValue();
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 6)
-                    result = new ShellValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]));
-            }
-            catch
-            {
-                result = null;
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 6)
+                        result = new ShellValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -92,7 +95,7 @@ namespace Kean.Math.Geometry3D.Double
         }
         public override string ToString()
         {
-            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString() + " " + this.Front.ToString() + " " + this.Back.ToString();
+            return Kean.Math.Double.ToString(this.Left) + " " + Kean.Math.Double.ToString(this.Right) + " " + Kean.Math.Double.ToString(this.Top) + " " + Kean.Math.Double.ToString(this.Bottom) + " " + Kean.Math.Double.ToString(this.Front) + " " + Kean.Math.Double.ToString(this.Back);
         }
         #endregion
     }

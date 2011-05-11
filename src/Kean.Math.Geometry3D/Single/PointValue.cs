@@ -66,14 +66,18 @@ namespace Kean.Math.Geometry3D.Single
         public static implicit operator PointValue(string value)
         {
             PointValue result = new PointValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 3)
-                    result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]));
-            }
-            catch
-            {
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 3)
+                        result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -85,7 +89,7 @@ namespace Kean.Math.Geometry3D.Single
         }
         public override string ToString()
         {
-            return this.X.ToString() + " " + this.Y.ToString() + " " + this.Z.ToString();
+            return Kean.Math.Single.ToString(this.X) + " " + Kean.Math.Single.ToString(this.Y) + " " + Kean.Math.Single.ToString(this.Z);
         }
         #endregion
 	}

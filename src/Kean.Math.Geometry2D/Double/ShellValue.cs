@@ -65,16 +65,18 @@ namespace Kean.Math.Geometry2D.Double
         }
         public static implicit operator ShellValue(string value)
         {
-            ShellValue result = null;
-            try
+            ShellValue result = new ShellValue();
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
-                    result = new ShellValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]));
-            }
-            catch
-            {
-                result = null;
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 4)
+                        result = new ShellValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }

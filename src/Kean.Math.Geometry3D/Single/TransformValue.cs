@@ -130,18 +130,21 @@ namespace Kean.Math.Geometry3D.Single
         public static implicit operator TransformValue(string value)
         {
             TransformValue result = new TransformValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 16)
-                    result = new TransformValue(
-                        Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[8]),
-                        Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[5]), Kean.Math.Single.Parse(values[9]),
-                        Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[6]), Kean.Math.Single.Parse(values[10]),
-                        Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[7]), Kean.Math.Single.Parse(values[11]));
-            }
-            catch
-            {
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 16)
+                        result = new TransformValue(
+                            Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[8]),
+                            Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[5]), Kean.Math.Single.Parse(values[9]),
+                            Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[6]), Kean.Math.Single.Parse(values[10]),
+                            Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[7]), Kean.Math.Single.Parse(values[11]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -169,9 +172,9 @@ namespace Kean.Math.Geometry3D.Single
         public override string ToString()
         {
             return
-                    this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; "
-                + this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; "
-                + this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; "
+                    Kean.Math.Single.ToString(this.A) + ", " + Kean.Math.Single.ToString(this.D) + ", " + Kean.Math.Single.ToString(this.G) + ", " + Kean.Math.Single.ToString(this.J) + "; "
+                + Kean.Math.Single.ToString(this.B) + ", " + Kean.Math.Single.ToString(this.E) + ", " + Kean.Math.Single.ToString(this.H) + ", " + Kean.Math.Single.ToString(this.K) + "; "
+                + Kean.Math.Single.ToString(this.C) + ", " + Kean.Math.Single.ToString(this.F) + ", " + Kean.Math.Single.ToString(this.I) + ", " + Kean.Math.Single.ToString(this.L) + "; "
                 + 0 + ", " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion

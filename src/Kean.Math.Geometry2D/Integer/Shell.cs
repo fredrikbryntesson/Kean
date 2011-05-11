@@ -52,15 +52,18 @@ namespace Kean.Math.Geometry2D.Integer
         public static implicit operator Shell(string value)
         {
             Shell result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
-                    result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
-            }
-            catch
-            {
-                result = null;
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 4)
+                        result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

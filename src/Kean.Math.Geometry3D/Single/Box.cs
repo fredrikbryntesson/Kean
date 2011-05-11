@@ -69,15 +69,19 @@ namespace Kean.Math.Geometry3D.Single
         public static implicit operator Box(string value)
         {
             Box result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 6)
-                    result = new Box((Point)(values[0] + " " + value[1] + " " + value[2]), (Size)(values[3] + " " + value[4] + " " + value[5]));
-            }
-            catch
-            {
-                result = null;
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 6)
+                        result = new Box((Point)(values[0] + " " + value[1] + " " + value[2]), (Size)(values[3] + " " + value[4] + " " + value[5]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

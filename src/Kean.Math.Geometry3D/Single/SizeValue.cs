@@ -73,14 +73,18 @@ namespace Kean.Math.Geometry3D.Single
         public static implicit operator SizeValue(string value)
         {
             SizeValue result = new SizeValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 3)
-                    result = new SizeValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]));
-            }
-            catch
-            {
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 3)
+                        result = new SizeValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -92,7 +96,7 @@ namespace Kean.Math.Geometry3D.Single
         }
         public override string ToString()
         {
-            return this.Width.ToString() + " " + this.Height.ToString() + " " + this.Depth.ToString();
+            return Kean.Math.Single.ToString(this.Width) + " " + Kean.Math.Single.ToString(this.Height) + " " + Kean.Math.Single.ToString(this.Depth);
         }
         #endregion
     }

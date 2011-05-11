@@ -62,14 +62,18 @@ namespace Kean.Math.Geometry3D.Integer
         public static implicit operator BoxValue(string value)
         {
             BoxValue result = new BoxValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 6)
-                    result = new BoxValue((PointValue)(values[0] + " " + values[1] + " " + values[2]), (SizeValue)(values[3] + " " + values[4] + " " + values[5]));
-            }
-            catch
-            {
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 6)
+                        result = new BoxValue((PointValue)(values[0] + " " + values[1] + " " + values[2]), (SizeValue)(values[3] + " " + values[4] + " " + values[5]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }

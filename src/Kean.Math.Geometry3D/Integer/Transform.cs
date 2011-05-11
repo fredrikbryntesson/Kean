@@ -45,19 +45,23 @@ namespace Kean.Math.Geometry3D.Integer
         public static implicit operator Transform(string value)
         {
             Transform result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 16)
-                    result = new Transform(
-                   Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[8]),
-                   Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[5]), Kean.Math.Integer.Parse(values[9]),
-                   Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[6]), Kean.Math.Integer.Parse(values[10]),
-                   Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[7]), Kean.Math.Integer.Parse(values[11]));
-            }
-            catch
-            {
-                result = null;
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 16)
+                        result = new Transform(
+                       Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[8]),
+                       Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[5]), Kean.Math.Integer.Parse(values[9]),
+                       Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[6]), Kean.Math.Integer.Parse(values[10]),
+                       Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[7]), Kean.Math.Integer.Parse(values[11]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

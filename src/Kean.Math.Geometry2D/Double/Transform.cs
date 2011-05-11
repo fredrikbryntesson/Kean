@@ -61,15 +61,18 @@ namespace Kean.Math.Geometry2D.Double
         public static implicit operator Transform(string value)
         {
             Transform result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 9)
-                    result = new Transform(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]),Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]));
-            }
-            catch
-            {
-                result = null;
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 9)
+                        result = new Transform(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

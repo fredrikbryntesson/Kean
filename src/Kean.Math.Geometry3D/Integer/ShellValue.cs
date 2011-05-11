@@ -56,14 +56,18 @@ namespace Kean.Math.Geometry3D.Integer
         public static implicit operator ShellValue(string value)
         {
             ShellValue result = new ShellValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 6)
-                    result = new ShellValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
-            }
-            catch
-            {
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 6)
+                        result = new ShellValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -75,7 +79,7 @@ namespace Kean.Math.Geometry3D.Integer
         }
         public override string ToString()
         {
-            return this.Left.ToString() + " " + this.Right.ToString() + " " + this.Top.ToString() + " " + this.Bottom.ToString() + " " + this.Front.ToString() + " " + this.Back.ToString();
+            return Kean.Math.Integer.ToString(this.Left) + " " + Kean.Math.Integer.ToString(this.Right) + " " + Kean.Math.Integer.ToString(this.Top) + " " + Kean.Math.Integer.ToString(this.Bottom) + " " + Kean.Math.Integer.ToString(this.Front) + " " + Kean.Math.Integer.ToString(this.Back);
         }
         #endregion
     }

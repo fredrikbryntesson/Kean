@@ -60,15 +60,18 @@ namespace Kean.Math.Geometry2D.Double
         public static implicit operator Point(string value)
         {
             Point result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2)
-                    result = new Point(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
-            }
-            catch
-            {
-                result = null;
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 2)
+                        result = new Point(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

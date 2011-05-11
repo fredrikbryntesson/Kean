@@ -117,14 +117,17 @@ namespace Kean.Math.Geometry2D.Single
         public static implicit operator PointValue(string value)
         {
             PointValue result = new PointValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2)
-                    result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
-            }
-            catch
-            {
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 2)
+                        result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }

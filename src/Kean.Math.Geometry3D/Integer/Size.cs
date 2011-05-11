@@ -44,15 +44,18 @@ namespace Kean.Math.Geometry3D.Integer
         public static implicit operator Size(string value)
         {
             Size result = null;
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 3)
-                    result = new Size(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]));
-            }
-            catch
-            {
-                result = null;
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 3)
+                        result = new Size(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]));
+                }
+                catch
+                {
+                    result = null;
+                }
             }
             return result;
         }

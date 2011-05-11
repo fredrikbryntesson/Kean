@@ -137,16 +137,19 @@ namespace Kean.Math.Geometry3D.Double
         }
         public static implicit operator TransformValue(string value)
         {
-            TransformValue result = null;
-            try
+            TransformValue result = new TransformValue();
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 9)
-                    result = new TransformValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]), Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]), Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
-            }
-            catch
-            {
-                result = null;
+
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 9)
+                        result = new TransformValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]), Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]), Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
@@ -174,9 +177,9 @@ namespace Kean.Math.Geometry3D.Double
         public override string ToString()
         {
             return 
-                    this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; " 
-                +   this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; "
-                +   this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; "
+                    Kean.Math.Double.ToString(this.A) + ", " + Kean.Math.Double.ToString(this.D) + ", " + Kean.Math.Double.ToString(this.G) + ", " + Kean.Math.Double.ToString(this.J) + "; " 
+                +   Kean.Math.Double.ToString(this.B) + ", " + Kean.Math.Double.ToString(this.E) + ", " + Kean.Math.Double.ToString(this.H) + ", " + Kean.Math.Double.ToString(this.K) + "; "
+                +   Kean.Math.Double.ToString(this.C) + ", " + Kean.Math.Double.ToString(this.F) + ", " + Kean.Math.Double.ToString(this.I) + ", " + Kean.Math.Double.ToString(this.L) + "; "
                 +   0 + ", " + 0 + ", " + 0 + ", " + 1;
         }
         #endregion

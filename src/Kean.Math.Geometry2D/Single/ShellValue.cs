@@ -58,14 +58,17 @@ namespace Kean.Math.Geometry2D.Single
         public static implicit operator ShellValue(string value)
         {
             ShellValue result = new ShellValue();
-            try
+            if (value.NotEmpty())
             {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2)
-                    result = new ShellValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]));
-            }
-            catch
-            {
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 2)
+                        result = new ShellValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]));
+                }
+                catch
+                {
+                }
             }
             return result;
         }
