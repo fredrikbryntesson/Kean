@@ -71,6 +71,28 @@ namespace Kean.Math.Geometry2D.Double
             this.e = e;
             this.f = f;
         }
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        public static bool operator ==(TransformValue left, TransformValue right)
+        {
+            return left.A == right.A && left.B == right.B && left.C == right.C && left.D == right.D && left.E == right.E && left.F == right.F;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        public static bool operator !=(TransformValue left, TransformValue right)
+        {
+            return !(left == right);
+        }
+        #endregion
         #region Casts
         public static implicit operator TransformValue(Single.TransformValue value)
         {

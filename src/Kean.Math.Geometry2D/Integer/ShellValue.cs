@@ -42,6 +42,28 @@ namespace Kean.Math.Geometry2D.Integer
             this.top = top;
             this.bottom = bottom;
         }
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        public static bool operator ==(ShellValue left, ShellValue right)
+        {
+            return left.Left == right.Left && left.Right == right.Right && left.Top == right.Top && left.Bottom == right.Bottom;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        public static bool operator !=(ShellValue left, ShellValue right)
+        {
+            return !(left == right);
+        }
+        #endregion
         #region Casts
         public static implicit operator string(ShellValue value)
         {

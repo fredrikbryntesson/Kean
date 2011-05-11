@@ -49,6 +49,28 @@ namespace Kean.Math.Geometry2D.Double
 			this.width = width;
 			this.height = height;
 		}
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        public static bool operator ==(SizeValue left, SizeValue right)
+        {
+            return left.width == right.Width && left.Height == right.Height;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="left">Point left of operator.</param>
+        /// <param name="right">Point right of operator.</param>
+        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        public static bool operator !=(SizeValue left, SizeValue right)
+        {
+            return !(left == right);
+        }
+        #endregion
         #region Casts
         public static implicit operator SizeValue(Single.SizeValue value)
         {
