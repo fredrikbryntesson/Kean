@@ -104,12 +104,13 @@ namespace Kean.Test.Math.Geometry2D.Single
             watch.Stop();
             Console.WriteLine("Add previously created struct (non-static method, non-reference): Elapsed time " + watch.ElapsedMilliseconds);
             watch.Reset();
-            a = new Kean.Math.Geometry2D.Single.PointValue(10, 20);
+            /*a = new Kean.Math.Geometry2D.Single.PointValue(10, 20);
             watch.Start();
             for (int i = 0; i < n; i++)
                 a.Add(ref c);
             watch.Stop();
             Console.WriteLine("Add previously created struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
+             */
         }
         [Test]
         public void PerformanceMultiplication()
@@ -137,17 +138,18 @@ namespace Kean.Test.Math.Geometry2D.Single
             watch.Stop();
             Console.WriteLine("Multiply struct (non-static method, non-reference): Elapsed time " + watch.ElapsedMilliseconds);
             watch.Reset();
-            watch.Start();
+            /*watch.Start();
             for (int i = 0; i < n; i++)
                 a.Multiply(ref x);
             watch.Stop();
             Console.WriteLine("Multiply struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
+            */
         }
         public void Run()
         {
             this.Run(
-                this.PerformanceAddition,
-                this.PerformanceMultiplication,
+               // this.PerformanceAddition,
+               // this.PerformanceMultiplication,
                 this.Casts,
                 this.ValueCasts,
                 this.ValueStringCasts,

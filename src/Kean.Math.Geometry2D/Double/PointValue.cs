@@ -43,6 +43,49 @@ namespace Kean.Math.Geometry2D.Double
 			this.x = x;
 			this.y = y;
 		}
+        #region Arithmetic Vector - Vector Operators
+        public static PointValue operator +(PointValue left, PointValue right)
+        {
+            return new PointValue(left.X + right.X, left.Y + right.Y);
+        }
+        public static PointValue operator -(PointValue left, PointValue right)
+        {
+            return new PointValue(left.X - right.X, left.Y - right.Y);
+        }
+        public static PointValue operator -(PointValue vector)
+        {
+            return new PointValue(-vector.X, -vector.Y);
+        }
+        public static double operator *(PointValue left, PointValue right)
+        {
+            return left.X * right.X + left.Y * right.Y;
+        }
+        public void Add(double x, double y)
+        {
+            this.X += x;
+            this.Y += y;
+        }
+        public void Add(PointValue other)
+        {
+            this.X += other.X;
+            this.Y += other.Y;
+        }
+        #endregion
+        #region Arithmetic Vector and Scalar
+        public void Multiply(double scalar)
+        {
+            this.X *= scalar;
+            this.Y *= scalar;
+        }
+        public static PointValue operator *(PointValue left, double right)
+        {
+            return new PointValue(left.X * right, left.Y * right);
+        }
+        public static PointValue operator *(double left, PointValue right)
+        {
+            return right * left;
+        }
+        #endregion
         #region Casts
         public static implicit operator PointValue(Single.PointValue value)
         {

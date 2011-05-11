@@ -60,14 +60,7 @@ namespace Kean.Math.Geometry2D.Single
         {
             return left.X * right.X + left.Y * right.Y;
         }
-        #endregion
-        #region Arithmetic Vector and Scalar
         public void Add(float x, float y)
-        {
-            this.X += x;
-            this.Y += y;
-        }
-        public void Add(ref float x, ref float y)
         {
             this.X += x;
             this.Y += y;
@@ -77,16 +70,8 @@ namespace Kean.Math.Geometry2D.Single
             this.X += other.X;
             this.Y += other.Y;
         }
-        public void Add(ref PointValue other)
-        {
-            this.X += other.X;
-            this.Y += other.Y;
-        }
-        public void Multiply(ref float scalar)
-        {
-            this.X *= scalar;
-            this.Y *= scalar;
-        }
+        #endregion
+        #region Arithmetic Vector and Scalar
         public void Multiply(float scalar)
         {
             this.X *= scalar;
