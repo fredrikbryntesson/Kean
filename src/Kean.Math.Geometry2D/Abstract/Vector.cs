@@ -19,6 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
+
 namespace Kean.Math.Geometry2D.Abstract
 {
     public abstract class Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> :
@@ -43,8 +45,8 @@ namespace Kean.Math.Geometry2D.Abstract
         V IVector<V>.Y { get { return this.Y; } }
         #endregion
         #region Static Constants
-        public static VectorType BasisX { get { return new VectorType() { X = Kean.Math.Abstract<R, V>.One, Y = new R()}; } }
-        public static VectorType BasisY { get { return new VectorType() { X = new R(), Y = Kean.Math.Abstract<R, V>.One}; } }
+        public static VectorType BasisX { get { return new VectorType() { X = Kean.Math.Abstract<R, V>.One, Y = new R() }; } }
+        public static VectorType BasisY { get { return new VectorType() { X = new R(), Y = Kean.Math.Abstract<R, V>.One }; } }
         #endregion
         #region Constructors
         protected Vector()
@@ -69,71 +71,77 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public R Angle(VectorType other)
         {
-            R result = this.ScalarProduct(other) / (this.Norm * other.Norm);
-            R sign = this.X * other.Y - this.Y * other.X;
-            result = result.Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
-            result *= sign < Kean.Math.Abstract<R, V>.Zero ? Kean.Math.Abstract<R, V>.One.Negate() : Kean.Math.Abstract<R, V>.One;
+            R result = new R();
+            if (other.NotNull())
+            {
+                result = this.ScalarProduct(other) / (this.Norm * other.Norm);
+                R sign = this.X * other.Y - this.Y * other.X;
+                result = result.Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
+                result *= sign < Kean.Math.Abstract<R, V>.Zero ? Kean.Math.Abstract<R, V>.One.Negate() : Kean.Math.Abstract<R, V>.One;
+            }
             return result;
         }
         public R ScalarProduct(VectorType other)
         {
-            return this.X * other.X + this.Y * other.Y;
+
+            return other.IsNull() ? null : this.X * other.X + this.Y * other.Y;
         }
         public R Distance(VectorType other)
         {
-            return (this - other).Norm;
+            return other.IsNull() ? null : (this - other).Norm;
         }
         #endregion
         #region Arithmetic Vector - Vector Operators
-        public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
+        public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
-            VectorType result = new VectorType()
-            {
-                X = left.X + right.X,
-                Y = left.Y + right.Y,
-            };
-            return result;
+            return (left.IsNull() || right.IsNull()) ? null : 
+                new VectorType()
+                {
+                    X = left.X + right.X,
+                    Y = left.Y + right.Y,
+                };
         }
-        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue,SizeType, SizeValue, R, V> vector)
+        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> vector)
         {
-            VectorType result = new VectorType()
-            {
-                X = -vector.X,
-                Y = -vector.Y,
-            };
-            return result;
+            return vector.IsNull() ? null : new VectorType()
+             {
+                 X = -vector.X,
+                 Y = -vector.Y,
+             };
         }
-        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> left, VectorType right)
+        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
-            return left + (-right);
+            return (left.IsNull() || right.IsNull()) ? null : new VectorType()
+                {
+                    X = left.X - right.X,
+                    Y = left.Y - right.Y,
+                };
         }
-        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
+        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
-            return new VectorType()
-            {
-                X = left.X * right.X,
-                Y = left.Y * right.Y,
-            };
+            return (left.IsNull() || right.IsNull()) ? null : new VectorType()
+                {
+                    X = left.X * right.X,
+                    Y = left.Y * right.Y,
+                };
         }
         #endregion
         #region Arithmetic Vector and Scalar
-        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue,SizeType, SizeValue, R, V> left, R right)
+        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, R right)
         {
-            VectorType result = new VectorType()
-            {
-                X = left.X * right,
-                Y = left.Y * right,
-            };
-            return result;
+            return (left.IsNull() || right.IsNull()) ? null : new VectorType()
+                {
+                    X = left.X * right,
+                    Y = left.Y * right,
+                };
         }
         public static VectorType operator /(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, R right)
         {
-            VectorType result = new VectorType()
-            {
-                X = left.X / right,
-                Y = left.Y / right,
-            };
-            return result;
+            return (left.IsNull() || right.IsNull()) ? null : new VectorType()
+                {
+                    X = left.X / right,
+                    Y = left.Y / right,
+                };
         }
         public static VectorType operator *(R left, Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> right)
         {
@@ -147,7 +155,7 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <param name="left">Point left of operator.</param>
         /// <param name="right">Point right of operator.</param>
         /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
-        public static bool operator ==(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> left, IVector<V> right)
+        public static bool operator ==(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) && left.X == right.X && left.Y == right.Y;
@@ -158,7 +166,7 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <param name="left">Point left of operator.</param>
         /// <param name="right">Point right of operator.</param>
         /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
-        public static bool operator !=(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> left, IVector<V> right)
+        public static bool operator !=(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return !(left == right);
         }
@@ -169,7 +177,7 @@ namespace Kean.Math.Geometry2D.Abstract
             return (other is Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>) && this.Equals(other as Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>);
         }
         // other is not null here.
-        public bool Equals(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> other)
+        public bool Equals(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> other)
         {
             return this == other;
         }
@@ -183,11 +191,11 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Casts
-        public static explicit operator V[](Vector<TransformType, TransformValue, VectorType, VectorValue,SizeType, SizeValue, R, V> value)
+        public static explicit operator V[](Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> value)
         {
             return new V[] { value.X, value.Y };
         }
-        public static explicit operator Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V>(V[] value)
+        public static explicit operator Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>(V[] value)
         {
             return new VectorType() { X = (R)value[0], Y = (R)value[1] };
         }

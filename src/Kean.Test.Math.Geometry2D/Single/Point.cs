@@ -7,7 +7,7 @@ namespace Kean.Test.Math.Geometry2D.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Test.Math.Geometry2D.Abstract.Point< Target.Single.Transform,  Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue,  Target.Single.Size,  Target.Single.SizeValue, 
+        Kean.Test.Math.Geometry2D.Abstract.Point<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue,
         Kean.Math.Single, float>
     {
         protected override Target.Single.Point CastFromString(string value)
@@ -33,11 +33,11 @@ namespace Kean.Test.Math.Geometry2D.Single
         public void Casts()
         {
             // integer - single
-                Target.Integer.Point integer = new Target.Integer.Point(10, 20);
-                Target.Single.Point single = integer;
-                Assert.That(single.X, Is.EqualTo(10));
-                Assert.That(single.Y, Is.EqualTo(20));
-                Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
+            Target.Integer.Point integer = new Target.Integer.Point(10, 20);
+            Target.Single.Point single = integer;
+            Assert.That(single.X, Is.EqualTo(10));
+            Assert.That(single.Y, Is.EqualTo(20));
+            Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -145,11 +145,18 @@ namespace Kean.Test.Math.Geometry2D.Single
             Console.WriteLine("Multiply struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
             */
         }
+        [Test]
+        public void PointSize()
+        {
+            Target.Single.Point a = new Target.Single.Point(10,20) * new Target.Single.Size(2,3);
+            Assert.That(a, Is.EqualTo(new Target.Single.Point(20,60)));
+        }
         public void Run()
         {
             this.Run(
-               // this.PerformanceAddition,
-               // this.PerformanceMultiplication,
+                // this.PerformanceAddition,
+                // this.PerformanceMultiplication,
+               this.PointSize,
                 this.Casts,
                 this.ValueCasts,
                 this.ValueStringCasts,
