@@ -114,7 +114,7 @@ namespace Kean.Math.Geometry3D.Abstract
             QuaternionType result = new QuaternionType()
             {
                 Real = left.Real * right.Real - left.Imaginary.ScalarProduct(right.Imaginary),
-                Imaginary = left.Real * right.Imaginary + left.Imaginary * right.Real + left.Imaginary * right.Imaginary
+                Imaginary = left.Real * right.Imaginary + left.Imaginary * right.Real + left.Imaginary.VectorProduct(right.Imaginary)
             };
             return result;
         }

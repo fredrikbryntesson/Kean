@@ -69,11 +69,15 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public R Angle(VectorType other)
         {
-            R result = this * other / (this.Norm * other.Norm);
+            R result = this.ScalarProduct(other) / (this.Norm * other.Norm);
             R sign = this.X * other.Y - this.Y * other.X;
             result = result.Clamp(Kean.Math.Abstract<R, V>.One.Negate(), Kean.Math.Abstract<R, V>.One).ArcusCosinus();
             result *= sign < Kean.Math.Abstract<R, V>.Zero ? Kean.Math.Abstract<R, V>.One.Negate() : Kean.Math.Abstract<R, V>.One;
             return result;
+        }
+        public R ScalarProduct(VectorType other)
+        {
+            return this.X * other.X + this.Y * other.Y;
         }
         public R Distance(VectorType other)
         {
@@ -103,9 +107,13 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return left + (-right);
         }
-        public static R operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
+        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
         {
-            return left.X * right.X + left.Y * right.Y;
+            return new VectorType()
+            {
+                X = left.X * right.X,
+                Y = left.Y * right.Y,
+            };
         }
         #endregion
         #region Arithmetic Vector and Scalar
@@ -118,7 +126,16 @@ namespace Kean.Math.Geometry2D.Abstract
             };
             return result;
         }
-        public static VectorType operator *(R left, Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue,R, V> right)
+        public static VectorType operator /(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, R right)
+        {
+            VectorType result = new VectorType()
+            {
+                X = left.X / right,
+                Y = left.Y / right,
+            };
+            return result;
+        }
+        public static VectorType operator *(R left, Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> right)
         {
             return right * left;
         }

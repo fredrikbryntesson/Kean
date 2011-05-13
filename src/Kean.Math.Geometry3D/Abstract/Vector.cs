@@ -93,6 +93,15 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this.X * other.X + this.Y * other.Y + this.Z * other.Z;
         }
+        public VectorType VectorProduct(VectorType other)
+        {
+            return new VectorType()
+            {
+                X = this.Y * other.Z - other.Y * this.Z,
+                Y = -(this.X * other.Z - other.X * this.Z),
+                Z = this.X * other.Y - other.X * this.Y
+            };
+        }
         public R Distance(VectorType other)
         {
             return (this - other).Norm;
@@ -101,13 +110,12 @@ namespace Kean.Math.Geometry3D.Abstract
         #region Arithmetic Vector - Vector Operators
         public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
         {
-            VectorType result = new VectorType()
+            return new VectorType()
             {
-                X = left.Y * right.Z - right.Y * left.Z,
-                Y = -(left.X * right.Z - right.X * left.Z),
-                Z = left.X * right.Y - right.X * left.Y
+                X = left.X * right.X,
+                Y = left.Y * right.Y,
+                Z = left.Z * right.Z
             };
-            return result;
         }
         public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, VectorType right)
         {

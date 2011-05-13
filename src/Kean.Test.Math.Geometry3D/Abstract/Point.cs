@@ -32,10 +32,10 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         [Test]
         public void CrossProduct()
         {
-            Assert.That(this.Vector0 * this.Vector1, Is.EqualTo(-this.Vector1 * this.Vector0));
-            Assert.That((this.Vector0 * this.Vector1).X, Is.EqualTo(this.Cast(-190)).Within(this.Precision));
-            Assert.That((this.Vector0 * this.Vector1).Y, Is.EqualTo(this.Cast(-320)).Within(this.Precision));
-            Assert.That((this.Vector0 * this.Vector1).Z, Is.EqualTo(this.Cast(322)).Within(this.Precision));
+            Assert.That(this.Vector0.VectorProduct(this.Vector1), Is.EqualTo(-this.Vector1.VectorProduct(this.Vector0)));
+            Assert.That((this.Vector0.VectorProduct(this.Vector1)).X, Is.EqualTo(this.Cast(-190)).Within(this.Precision));
+            Assert.That((this.Vector0.VectorProduct(this.Vector1)).Y, Is.EqualTo(this.Cast(-320)).Within(this.Precision));
+            Assert.That((this.Vector0.VectorProduct(this.Vector1)).Z, Is.EqualTo(this.Cast(322)).Within(this.Precision));
         }
         [Test]
         public void Casting()
