@@ -30,10 +30,10 @@ namespace Kean.Math.Geometry2D.Single
         float right;
         float top;
         float bottom;
-        public float Left { get { return this.left; } }
-        public float Right { get { return this.right; } }
-        public float Top { get { return this.top; } }
-        public float Bottom { get { return this.bottom; } }
+        public float Left { get { return this.left; } set { this.left = value; } }
+        public float Right { get { return this.right; } set { this.right = value; } }
+        public float Top { get { return this.top; } set { this.top = value; } }
+        public float Bottom { get { return this.bottom; } set { this.bottom = value; } }
 
         public ShellValue(float left, float right, float top, float bottom)
         {

@@ -30,10 +30,10 @@ namespace Kean.Math.Geometry2D.Double
         double right;
         double top;
         double bottom;
-        public double Left { get { return this.left; } }
-        public double Right { get { return this.right; } }
-        public double Top { get { return this.top; } }
-        public double Bottom { get { return this.bottom; } }
+        public double Left { get { return this.left; } set { this.left = value; } }
+        public double Right { get { return this.right; } set { this.right = value; } }
+        public double Top { get { return this.top; } set { this.top = value; } }
+        public double Bottom { get { return this.bottom; } set { this.bottom = value; } }
 
         public ShellValue(double left, double right, double top, double bottom)
         {

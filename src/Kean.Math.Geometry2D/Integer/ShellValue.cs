@@ -30,10 +30,10 @@ namespace Kean.Math.Geometry2D.Integer
         int right;
         int top;
         int bottom;
-        public int Left { get { return this.left; } }
-        public int Right { get { return this.right; } }
-        public int Top { get { return this.top; } }
-        public int Bottom { get { return this.bottom; } }
+        public int Left { get { return this.left; } set { this.left = value; } }
+        public int Right { get { return this.right; } set { this.right = value; } }
+        public int Top { get { return this.top; } set { this.top = value; } }
+        public int Bottom { get { return this.bottom; } set { this.bottom = value; } }
 
         public ShellValue(int left, int right, int top, int bottom)
         {
