@@ -79,6 +79,21 @@ namespace Kean.Core.Collection
 			IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
 			return list.NotNull() && list.Remove(entry => entry.Item1.Equals(key));
 		}
+
+		#region IEnumerable Members
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.GetEnumerator();
+		}
+		#endregion
+		#region IEnumerable<Tuple<TKey,TValue>> Members
+		public System.Collections.Generic.IEnumerator<Tuple<TKey, TValue>> GetEnumerator()
+		{
+			foreach (IList<Tuple<TKey, TValue>> list in this.data)
+				foreach (Tuple<TKey, TValue> pair in list)
+					yield return pair;
+		}
+		#endregion
 	}
 }
 
