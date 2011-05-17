@@ -22,9 +22,11 @@ using System;
 
 namespace Kean.Core.Serialize
 {
-	public interface ISerializer<T>
+	public interface ISerializer
 	{
-		Data.Node Serialize(Storage storage, T data);
+		bool Accepts(Type type);
+		Data.Node Serialize<T>(Storage storage, T data);
+		T Deserialize<T>(Storage storage, Data.Node data);
 	}
 }
 

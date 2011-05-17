@@ -23,7 +23,8 @@ using System;
 
 namespace Kean.Core.Serialize
 {
-	public interface ISerializable
+	public interface ISerializable<T>
+		where T : ISerializable<T>, new()
 	{
 		Data.Node Serialize();
 		void Unserialize(Data.Node node);

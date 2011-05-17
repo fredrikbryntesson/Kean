@@ -23,45 +23,17 @@ using System;
 namespace Kean.Core.Collection.Abstract
 {
 	public abstract class Vector<T> :
-		IVector<T>
+		CommonVector<T>,
+		IVector<T>,
+		IImmutableVector<T>
 	{
-		public abstract int Count { get; }
 		public abstract T this[int index] { get; set; }
 		
 		protected Vector ()
 		{ }
-		#region IEnumerator<T>
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		protected sealed override T Get (int index)
 		{
-			return (this as System.Collections.Generic.IEnumerable<T>).GetEnumerator();
+			return this[index];
 		}
-		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-		{
-			for (int i = 0; i < (this as IVector<T>).Count; i++)
-				yield return (this as IVector<T>)[i];
-		}
-		#endregion
-		#region Object override
-		public override bool Equals(object other)
-		{
-			return other is IVector<T> && this.Equals(other as IVector<T>);
-		}
-		public override int GetHashCode ()
-		{
-			int result = 0;
-			foreach (T item in (this as IVector<T>))
-				result ^= item.GetHashCode();
-			return result;
-		}
-		#endregion
-		#region IEquatable<IVector<T>>
-		public bool Equals(IVector<T> other)
-		{
-			bool result = !object.ReferenceEquals(other, null) && (this as IVector<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
-				result &= (this as IVector<T>)[i].Equals(other[i]);
-			return result;
-		}
-		#endregion
 	}
 }

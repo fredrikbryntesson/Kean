@@ -100,6 +100,8 @@
     <Compile Include="Abstract\List.cs" />
     <Compile Include="Array\Vector.cs" />
     <Compile Include="Dictionary.cs" />
+    <Compile Include="Abstract\ImmutableVector.cs" />
+    <Compile Include="Abstract\CommonVector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cast\" />

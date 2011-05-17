@@ -1,5 +1,5 @@
 // 
-//  Abstract.cs
+//  Primitive.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,30 +22,24 @@ using System;
 
 namespace Kean.Core.Serialize.Serializer
 {
-	public abstract class Abstract :
-		ISerializer
+	public class Primitive :
+		Abstract
 	{
-		protected Abstract()
+		public Primitive()
 		{
 		}
-
-		public abstract T Deserialize<T>(Storage storage, Reflect.TypeName type, Data.Node data);
-		public abstract Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data);
-		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
+		public override bool Accepts(Type type)
 		{
-			Reflect.TypeName type = data.GetType();
-			Data.Node result = this.Serialize<T>(storage, type, data);
-			if (type != typeof(T))
-				result.Type = type;
-			return result;
+			return type.IsPrimitive;
 		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
+		public override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
 		{
-			return this.Deserialize<T>(storage, data.Type ?? typeof(T), data);
+			return new Data.Leaf<T>(data);
 		}
-		#endregion
+		public override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		{
+			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+		}
 	}
 }
 

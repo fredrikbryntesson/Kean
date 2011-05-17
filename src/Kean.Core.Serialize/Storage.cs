@@ -19,49 +19,30 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Serialize
 {
 	public abstract class Storage
 	{
+		public Collection.IList<ISerializer> Serializers { get; private set; }
+
 		protected Storage()
 		{
+			this.Serializers = new Collection.List<ISerializer>();
 		}
 
-		public void Add<T>(ISerializer<T> serializer)
+		protected abstract Data.Node Load(string[] key);
+		public T Load<T>(params string[] key)
 		{
-		}
-		public void Add<T>(IDeserializer<T> deserializer)
-		{
-		}
-		public void Add<T>(ISerializer<T> serializer, IDeserializer<T> deserializer)
-		{
-			this.Add(serializer);
-			this.Add(deserializer);
-		}
-		public void Add<T, S>(S serializer) where S : ISerializer<T>, IDeserializer<T>
-		{
-			this.Add(serializer, serializer);
+			return this.Serializers.Find(serializer => serializer.Accepts(typeof(T))).Deserialize<T>(this, this.Load(key));
 		}
 
-		ISerializer<T> GetSerializer<T>()
+		protected abstract bool Store(Data.Node value, string key);
+		public bool Store<T>(T value, params string[] key)
 		{
-			return null;
-		}
-		protected abstract Data.Node Load(string[] path);
-		public T Load<T>(params string[] path)
-		{
-			return this.GetDeserializer<T>().Deserialize(this, this.Load(path));
-		}
-
-		IDeserializer<T> GetDeserializer<T>()
-		{
-			return null;
-		}
-		protected abstract bool Store(Data.Node data, string path);
-		public bool Store<T>(T data, params string[] path)
-		{
-			return this.Store(this.GetSerializer<T>().Serialize(this, data));
+			return this.Store(this.Serializers.Find(serializer => serializer.Accepts(typeof(T))).Serialize(this, value), key);
 		}
 	}
 }

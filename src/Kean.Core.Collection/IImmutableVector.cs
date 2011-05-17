@@ -25,7 +25,8 @@ namespace Kean.Core.Collection
 {
     public interface IImmutableVector<T> :
         System.Collections.Generic.IEnumerable<T>,
-        System.IEquatable<IVector<T>>
+        System.IEquatable<IVector<T>>,
+        System.IEquatable<IImmutableVector<T>>
     {
         int Count { get; }
         T this[int index] { get; }

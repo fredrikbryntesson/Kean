@@ -38,12 +38,14 @@
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\Branch.cs" />
     <Compile Include="Data\Leaf.cs" />
-    <Compile Include="TypeSpecifier.cs" />
     <Compile Include="ISerializable.cs" />
     <Compile Include="Serializer\Abstract.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="Storage.cs" />
-    <Compile Include="IDeserializer.cs" />
+    <Compile Include="Serializer\Primitive.cs" />
+    <Compile Include="Serializer\Enumeration.cs" />
+    <Compile Include="Serializer\StringCastable.cs" />
+    <Compile Include="Serializer\StringInterface.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,9 +65,12 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
+      <Name>Kean.Core.Reflect</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Serializer\" />
-    <Folder Include="Deserializer\" />
   </ItemGroup>
 </Project>

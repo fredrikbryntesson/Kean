@@ -23,11 +23,16 @@ using System;
 
 namespace Kean.Core.Serialize.Data
 {
-	public class Leaf<T>
+	public class Leaf<T> :
+		Node
 	{
 		public T Value { get; set; }
 		public Leaf()
 		{
+		}
+		public Leaf(T value)
+		{
+			this.Value = value;
 		}
 	}
 }

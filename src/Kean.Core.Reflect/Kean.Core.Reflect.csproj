@@ -39,6 +39,17 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Property.cs" />
+    <Compile Include="TypeName.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

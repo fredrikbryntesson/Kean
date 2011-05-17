@@ -1,5 +1,5 @@
 // 
-//  IDeserializer.cs
+//  Enumeration.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,11 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize
+namespace Kean.Core.Serialize.Serializer
 {
-	public interface IDeserializer<T>
+	public class Enumeration :
+		Abstract
 	{
-		T Deserialize(Storage storage, Data.Node data);
+		public Enumeration()
+		{
+		}
+		public override bool Accepts(Type type)
+		{
+			return type.IsEnum;
+		}
+		public override Data.Node Serialize<T> (Kean.Core.Serialize.Storage storage, Reflect.TypeName type, T data)
+		{
+			return new Data.Leaf<T>(data);
+		}
+		public override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		{
+			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+		}
 	}
 }
 

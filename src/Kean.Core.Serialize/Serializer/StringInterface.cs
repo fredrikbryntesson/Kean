@@ -1,5 +1,5 @@
 // 
-//  Abstract.cs
+//  StringInterface.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,30 +22,32 @@ using System;
 
 namespace Kean.Core.Serialize.Serializer
 {
-	public abstract class Abstract :
-		ISerializer
+	public class StringInterface :
+		Abstract
 	{
-		protected Abstract()
+		public StringInterface()
 		{
 		}
-
-		public abstract T Deserialize<T>(Storage storage, Reflect.TypeName type, Data.Node data);
-		public abstract Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data);
-		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
+		public override bool Accepts(Type type)
 		{
-			Reflect.TypeName type = data.GetType();
-			Data.Node result = this.Serialize<T>(storage, type, data);
-			if (type != typeof(T))
-				result.Type = type;
+			return type is Basis.IString;
+		}
+		public override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
+		{
+			return new Data.Leaf<string>((data as Basis.IString).String);
+		}
+		public override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		{
+			T result;
+			if (data is Data.Leaf<string>)
+			{
+				result = type.Create<T>();
+				(result as Basis.IString).String = (data as Data.Leaf<string>).Value;
+			}
+			else
+				result = default(T);
 			return result;
 		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
-		{
-			return this.Deserialize<T>(storage, data.Type ?? typeof(T), data);
-		}
-		#endregion
 	}
 }
 

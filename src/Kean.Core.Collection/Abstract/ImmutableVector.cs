@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  ImmutableVector.cs
 //  
 //  Author:
@@ -18,29 +18,22 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Core.Collection.Abstract
 {
-    public class ImmutableVector<T> :
-		Abstract.ImmutableVector<T>,
-        IImmutableVector<T>
-    {
-        object data;
-        #region Constructor
-        public ImmutableVector(IVector<T> data)
-        {
-            this.data = data;
-        }
-        public ImmutableVector(IImmutableVector<T> data)
-        {
-            this.data = data;
-        }
-        #endregion
-        #region IImmutableVector<T>
-        public override int Count { get { return this.data is IVector<T> ? (this.data as IVector<T>).Count : (this.data as IImmutableVector<T>).Count; } }
-        public override T this[int index] { get { return this.data is IVector<T> ? (this.data as IVector<T>)[index] : (this.data as IImmutableVector<T>)[index]; } }
-        #endregion
-    }
+	public abstract class ImmutableVector<T> :
+		CommonVector<T>,
+		IImmutableVector<T>
+	{
+		public abstract T this[int index] { get; }
+		public ImmutableVector()
+		{
+		}
+		protected sealed override T Get (int index)
+		{
+			return this[index];
+		}
+	}
 }
+
