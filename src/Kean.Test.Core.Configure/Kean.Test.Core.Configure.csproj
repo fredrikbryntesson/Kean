@@ -51,6 +51,14 @@
       <Project>{5E44F980-7706-49A8-96F2-80DF5EF36A4A}</Project>
       <Name>Kean.Core.Configure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Serialize\Kean.Core.Serialize.csproj">
+      <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>
+      <Name>Kean.Core.Serialize</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
+      <Name>Kean.Core.Reflect</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
