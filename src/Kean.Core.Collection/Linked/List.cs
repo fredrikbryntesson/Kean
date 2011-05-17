@@ -21,7 +21,7 @@
 
 using System;
 using Kean.Core.Basis.Extension;
-using Kean.Core.Collection.Extension;
+using Kean.Core.Collection.Linked.Extension;
 
 namespace Kean.Core.Collection.Linked
 {
@@ -44,9 +44,12 @@ namespace Kean.Core.Collection.Linked
 		#region Constructors
 		public List() { }
 		public List(params T[] items) :
+			this(items as System.Collections.Generic.IEnumerable<T>)
+		{ }
+		public List(System.Collections.Generic.IEnumerable<T> items) :
 			this()
 		{
-			Extension.ListExtension.Add(this, items);
+			Collection.Extension.ListExtension.Add(this, items);
 		}
 		#endregion
 		public override void Add(T element)

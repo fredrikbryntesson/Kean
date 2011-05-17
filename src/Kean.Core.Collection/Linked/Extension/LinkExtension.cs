@@ -22,7 +22,7 @@
 using System;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Core.Collection.Extension
+namespace Kean.Core.Collection.Linked.Extension
 {
 	public static class LinkExtension
 	{

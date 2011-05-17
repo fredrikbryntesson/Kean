@@ -21,7 +21,7 @@
 
 using System;
 using Kean.Core.Basis.Extension;
-using Kean.Core.Collection.Extension;
+using Kean.Core.Collection.Linked.Extension;
 
 namespace Kean.Core.Collection.Linked
 {

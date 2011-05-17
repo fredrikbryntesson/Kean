@@ -32,7 +32,7 @@ namespace Kean.Core.Collection.Sorted
             this(new Collection.List<T>())
         { }
 		public List(IList<T> data) :
-			this(List<T>.Compare, data)
+			this((Basis.Comparer<T>) List<T>.Compare, data)
 		{ }
 		public List(Basis.Comparer<T> comparer) :
             this(comparer, new Collection.List<T>())
@@ -42,7 +42,13 @@ namespace Kean.Core.Collection.Sorted
             this.comparer = comparer;
             this.data = data;
         }
-        #endregion
+		public List(Comparison<T> comparer) :
+			this(comparer, new Collection.List<T>())
+		{ }
+		public List(Comparison<T> comparer, IList<T> data) :
+			this((left, right) => List<T>.Order(comparer(left, right)))
+		{ }
+		#endregion
         #region IList<T> Members
         public void Add(T item)
         {
@@ -142,14 +148,16 @@ namespace Kean.Core.Collection.Sorted
         }
         static Basis.Order Compare(IComparable<T> left, T right)
         {
-            int result = left.CompareTo(right);
-            return result > 0 ? Basis.Order.GreaterThan : result == 0 ? Basis.Order.Equal : Kean.Core.Basis.Order.LessThan;
+            return List<T>.Order(left.CompareTo(right));
         }
         static Basis.Order Compare(IComparable left, T right)
         {
-            int result = left.CompareTo(right);
-            return result > 0 ? Basis.Order.GreaterThan : result == 0 ? Basis.Order.Equal : Kean.Core.Basis.Order.LessThan;
+            return List<T>.Order(left.CompareTo(right));
         }
+		static Basis.Order Order(int order)
+		{
+            return order > 0 ? Basis.Order.GreaterThan : order == 0 ? Basis.Order.Equal : Kean.Core.Basis.Order.LessThan;
+		}
         #endregion
     }
 }
