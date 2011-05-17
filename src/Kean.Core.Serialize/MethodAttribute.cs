@@ -1,5 +1,5 @@
 // 
-//  Primitive.cs
+//  Method.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,25 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Serialize
 {
-	public class Primitive :
-		Abstract
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+	public class MethodAttribute :
+		Attribute
 	{
-		public Primitive()
+		public ISerializer Serializer { get; private set; }
+		public MethodAttribute(ISerializer serializer)
 		{
-		}
-		public override bool Accepts(Type type)
-		{
-			return type.IsPrimitive;
-		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
-		{
-			return new Data.Leaf<T>(data);
-		}
-		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
-		{
-			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+			this.Serializer = serializer;
 		}
 	}
 }

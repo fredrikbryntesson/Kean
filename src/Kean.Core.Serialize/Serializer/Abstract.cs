@@ -29,8 +29,8 @@ namespace Kean.Core.Serialize.Serializer
 		{
 		}
 
-		public abstract T Deserialize<T>(Storage storage, Reflect.TypeName type, Data.Node data);
-		public abstract Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data);
+		protected abstract T Deserialize<T>(Storage storage, Reflect.TypeName type, Data.Node data);
+		protected abstract Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data);
 		#region ISerializer implementation
 		public abstract bool Accepts(Type type);
 		public Data.Node Serialize<T> (Storage storage, T data)

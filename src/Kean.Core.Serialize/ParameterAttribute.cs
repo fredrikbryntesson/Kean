@@ -1,5 +1,5 @@
 // 
-//  ISerializable.cs
+//  ParameterAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,10 +23,29 @@ using System;
 
 namespace Kean.Core.Serialize
 {
-	public interface ISerializable<T>
-		where T : ISerializable<T>, new()
+	[System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+	public class ParameterAttribute :
+		Attribute
 	{
-		Data.Node Serialize(Storage storage);
-		void Unserialize(Storage storage, Data.Node node);
+    	public string Name { get; set; }
+		/// <summary>
+        /// If set the property is initialized to the given value.
+        /// </summary>
+        public object Default { get; set; }
+
+		public ParameterAttribute()
+		{
+		}
+		public ParameterAttribute(object defaultValue) :
+			this()
+		{
+			this.Default = defaultValue;
+		}
+		public ParameterAttribute(string name, object defaultValue) :
+			this()
+		{
+			this.Name = name;
+			this.Default = defaultValue;
+		}
 	}
 }

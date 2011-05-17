@@ -46,6 +46,10 @@
     <Compile Include="Serializer\Enumeration.cs" />
     <Compile Include="Serializer\StringCastable.cs" />
     <Compile Include="Serializer\StringInterface.cs" />
+    <Compile Include="Serializer\Class.cs" />
+    <Compile Include="ParameterAttribute.cs" />
+    <Compile Include="MethodAttribute.cs" />
+    <Compile Include="Serializer\Method.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -56,10 +60,6 @@
     <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Configure\Kean.Core.Configure.csproj">
-      <Project>{5E44F980-7706-49A8-96F2-80DF5EF36A4A}</Project>
-      <Name>Kean.Core.Configure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>

@@ -35,11 +35,11 @@ namespace Kean.Core.Serialize.Serializer
 			return this.GetFromStringCast(type).NotNull() &&
 					this.GetToStringCast(type).NotNull();
 		}
-		public override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
+		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
 		{
 			return new Data.Leaf<string>((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
 		}
-		public override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
 		{
 			return (T)this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.Leaf<string> ? (data as Data.Leaf<string>).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
 		}

@@ -35,12 +35,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Parameter.cs" />
-    <Compile Include="ParameterAttribute.cs" />
     <Compile Include="IConfigurable.cs" />
     <Compile Include="Configurable.cs" />
     <Compile Include="Initialize.cs" />
     <Compile Include="Configurator.cs" />
+    <Compile Include="Parameter.cs" />
+    <Compile Include="ParameterAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -56,6 +56,10 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Serialize\Kean.Core.Serialize.csproj">
+      <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>
+      <Name>Kean.Core.Serialize</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -67,4 +71,7 @@
     </MonoDevelop>
     <VisualStudio />
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="..\" />
+  </ItemGroup>
 </Project>

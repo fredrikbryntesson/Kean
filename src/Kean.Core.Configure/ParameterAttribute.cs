@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,39 +18,19 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
 namespace Kean.Core.Configure
 {
-	[System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
 	public class ParameterAttribute :
-		Attribute
+		Serialize.ParameterAttribute
 	{
-    	public string Name { get; set; }
-		/// <summary>
-        /// If set the property is initialized to the given value.
-        /// </summary>
-        public object Default { get; set; }
-        /// <summary>
-        /// True if property shall be initialized to default value. Defaults to true.
-        /// </summary>
-        public bool Initialize { get; set; }
-		
-		public ParameterAttribute()
+		public bool Initialize { get; set; }
+		public ParameterAttribute() :
+			base()
 		{
-        	this.Initialize = true;
-		}
-		public ParameterAttribute(object defaultValue) :
-			this()
-		{
-			this.Default = defaultValue;
-		}
-		public ParameterAttribute(string name, object defaultValue) :
-			this()
-		{
-			this.Name = name;
-			this.Default = defaultValue;
+			this.Initialize = true;
 		}
 	}
 }
+

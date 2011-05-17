@@ -1,5 +1,5 @@
 // 
-//  Primitive.cs
+//  Method.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,26 +19,42 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
-	public class Primitive :
+	public class Method :
 		Abstract
 	{
-		public Primitive()
+		Collection.Dictionary<Reflect.TypeName, ISerializer> cache = new Collection.Dictionary<Reflect.TypeName, ISerializer>();
+		public Method()
 		{
 		}
-		public override bool Accepts(Type type)
+		public override bool Accepts (Type type)
 		{
-			return type.IsPrimitive;
-		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
-		{
-			return new Data.Leaf<T>(data);
+			return !type.IsPrimitive && this.GetSerializer(type).NotNull();
 		}
 		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
 		{
-			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+			return this.GetSerializer(type).Deserialize<T>(storage, data);
+		}
+		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
+		{
+			return this.GetSerializer(type).Serialize<T>(storage, data);
+		}
+		ISerializer GetSerializer(Reflect.TypeName type)
+		{
+			ISerializer result = null;
+			if (cache.Contains(type))
+				result = cache[type];
+			else
+			{
+				object[] attributes = ((Type)type).GetCustomAttributes(typeof(MethodAttribute), true);
+				if (attributes.Length == 1)
+					result = (attributes[0] as MethodAttribute).Serializer;
+				cache[type] = result;
+			}
+			return result;
 		}
 	}
 }
