@@ -42,11 +42,11 @@ namespace Kean.Core.Collection.Sorted
             this.comparer = comparer;
             this.data = data;
         }
-		public List(Comparison<T> comparer) :
-			this(comparer, new Collection.List<T>())
+		public List(Comparison<T> comparison) :
+			this(comparison, new Collection.List<T>())
 		{ }
-		public List(Comparison<T> comparer, IList<T> data) :
-			this((left, right) => List<T>.Order(comparer(left, right)))
+		public List(Comparison<T> comparison, IList<T> data) :
+			this(comparison.AsComparer())
 		{ }
 		#endregion
         #region IList<T> Members

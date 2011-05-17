@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using RegularExpressions = System.Text.RegularExpressions;
 using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Basis.Extension
@@ -34,5 +35,10 @@ namespace Kean.Core.Basis.Extension
 		{
 			return me.IsNull() || me == "";
 		}
+		public static bool Like(this string me, string pattern)
+		{
+			return new RegularExpressions.Regex("^" + RegularExpressions.Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$", RegularExpressions.RegexOptions.IgnoreCase | RegularExpressions.RegexOptions.Singleline).IsMatch(pattern);
+		}
+
 	}
 }
