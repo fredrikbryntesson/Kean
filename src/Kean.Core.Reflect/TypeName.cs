@@ -18,193 +18,92 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Basis.Extension;
 using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Reflect
 {
-    public class TypeName :
+	public class TypeName :
 		IEquatable<TypeName>,
 		IEquatable<string>,
 		IEquatable<Type>
-    {
-        public string Assembly { get; private set; }
-        public string Name { get; private set; }
+	{
+		public string Assembly { get; private set; }
+		public string Name { get; private set; }
 		Collection.IList<TypeName> arguments;
-        public Collection.IImmutableVector<TypeName> Arguments { get; private set; }
-        string FullName
-        {
-            get
-            {
-                string result = "";
-                // Mapping according to http://msdn.microsoft.com/en-US/library/ya5y69ds%28v=VS.80%29.aspx
-                switch (this.Name)
-                {
-                    case "System.Boolean": result = "bool"; break;
-                    case "System.Byte": result = "byte"; break;
-                    case "System.SByte": result = "sbyte"; break;
-                    case "System.Char": result = "char"; break;
-                    case "System.Decimal": result = "decimal"; break;
-                    case "System.Int16": result = "short"; break;
-                    case "System.Uint16": result = "ushort"; break;
-                    case "System.Int32": result = "int"; break;
-                    case "System.UInt32": result = "uint"; break;
-                    case "System.Int64": result = "long"; break;
-                    case "System.UInt64": result = "ulong"; break;
-                    case "System.Single": result = "float"; break;
-                    case "System.Double": result = "double"; break;
-                    case "System.String": result = "string"; break;
-                    case "System.Object": result = "object"; break;
-                    default:
-                        System.Text.StringBuilder resultBuilder = null;
-                        if (this.Arguments.Count > 0)
-                        {
-                            resultBuilder = new System.Text.StringBuilder().Append("<");
-                            bool first = true;
-                            foreach (Type name in this.Arguments)
-                            {
-                                if (!first)
-                                    resultBuilder.Append(",");
-                                else
-                                    first = false;
-                                resultBuilder.Append(name.FullName);
-                            }
-                            resultBuilder.Append(">");
-                        }
+		public Collection.IImmutableVector<TypeName> Arguments { get; private set; }
 
-                        if (this.Name.StartsWith(this.Assembly))
-                            resultBuilder = new System.Text.StringBuilder(this.Assembly + ":" + this.Name.Substring(this.Assembly.Length + 1)).Append(resultBuilder);
-                        else
-                        {
-                            resultBuilder = new System.Text.StringBuilder(this.Name).Append(resultBuilder);
-                            if (this.Assembly.NotEmpty() && this.Assembly != "mscorlib")
-                                resultBuilder.AppendFormat(" {0}", this.Assembly);
-                        }
-                        result = resultBuilder.ToString();
-                        break;
-                }
-                return result;
-            }
-            set
-            {
-                int pointer = -1;
-                while (++pointer < value.Length)
-                    switch (value[pointer])
-                    {
-                        case '<':
-                            pointer++;
-                            int tail = value.Length;
-                            while (value[--tail] != '>');
-                            foreach (string argument in value.Substring(pointer, tail - pointer).Split(','))
-                                this.arguments.Add(new TypeName() { FullName = argument.Trim(' ') });
-                            pointer = tail;
-                            break;
-                        case ' ':
-                            this.Assembly = value.Substring(pointer + 1).Trim();
-                            pointer = value.Length;
-                            break;
-                        case ':':
-                            this.Assembly = this.Name;
-                            this.Name += '.';
-                            break;
-                        default:
-                            this.Name += value[pointer];
-                            break;
-                    }
-                string assembly = "mscorlib";
-                switch (this.Name)
-                {
-                    // Mapping according to http://msdn.microsoft.com/en-US/library/ya5y69ds%28v=VS.80%29.aspx
-                    case "bool": this.Name = "System.Boolean"; break;
-                    case "byte": this.Name = "System.Byte"; break;
-                    case "sbyte": this.Name = "System.SByte"; break;
-                    case "char": this.Name = "System.Char"; break;
-                    case "short": this.Name = "System.Int16"; break;
-                    case "ushort": this.Name = "System.Uint16"; break;
-                    case "int": this.Name = "System.Int32"; break;
-                    case "uint": this.Name = "System.UInt32"; break;
-                    case "long": this.Name = "System.Int64"; break;
-                    case "ulong":this.Name = "System.UInt64"; break;
-                    case "float": this.Name = "System.Single"; break;
-                    case "double": this.Name = "System.Double"; break;
-                    case "decimal": this.Name = "System.Decimal"; break;
-                    case "string": this.Name = "System.String"; break;
-                    case "object": this.Name = "System.Object"; break;
-                    default: assembly = this.Assembly; break;
-                }
-                this.Assembly = assembly;
-            }
-        }
-        string AssemblyQualifiedName
-        {
-            get
-            {
-                System.Text.StringBuilder resultBuilder = new System.Text.StringBuilder(this.Name);
-                if (this.Arguments.Count > 0)
-                {
-                    resultBuilder = resultBuilder.AppendFormat("`{0}[", this.Arguments.Count);
-                    bool first = true;
-                    foreach (Type name in this.Arguments)
-                    {
-                        if (!first)
-                            resultBuilder.Append(",");
-                        else
-                            first = false;
-                        resultBuilder.AppendFormat("[{0}]", name.AssemblyQualifiedName);
-                    }
-                    resultBuilder.Append("]");
-                }
-                if (this.Assembly.NotEmpty() && this.Assembly != "mscorlib")
-                    resultBuilder.AppendFormat(", {0}", this.Assembly);
-                return resultBuilder.ToString();
-            }
-            set
-            {
-                int pointer = -1;
-                while (++pointer < value.Length)
-                    switch (value[pointer])
-                    {
-                        case '`':
-                            while (value[++pointer] != '[') ;
-                            pointer++;
-                            int tail = value.Length;
-                            while (value[--tail] != ']') ;
-                            tail--;
-                            foreach (string argument in value.Substring(pointer, tail - pointer).Split(','))
-                                this.arguments.Add(new TypeName() { AssemblyQualifiedName = argument.Trim(' ', '[', ']') });
-                            pointer = tail + 1;
-                            break;
-                        case ',':
-                            this.Assembly = value.Substring(pointer + 1).Trim();
-                            pointer = value.Length;
-                            break;
-                        default:
-                            this.Name += value[pointer];
-                            break;
-                    }
-            }
-        }
-
-        Type Type
-        {
-            get { return Type.GetType(this.AssemblyQualifiedName, false); }
-            set
-            {
-                this.Name = value.Namespace + "." + value.Name.Split(new char[] { '`' }, 2)[0];
-                this.Assembly = value.Assembly.GetName().Name;
-                if (value.IsGenericType)
-                    foreach (Type t in value.GetGenericArguments())
-                        this.arguments.Add(new TypeName() { Type = t });
-            }
-        }
-
-        TypeName()
-        {
-            this.arguments = new Collection.List<TypeName>();
+		Type type;
+		TypeName()
+		{
+			this.arguments = new Collection.List<TypeName>();
 			this.Arguments = new Collection.Wrap.ImmutableVector<TypeName>(this.arguments);
-        }
+		}
+
+
+		TypeName(Type type) :
+			this()
+		{
+			this.Name = type.Namespace + "." + type.Name.Split(new char[] { '`' }, 2) [0];
+			this.Assembly = type.Assembly.GetName().Name;
+			if (type.IsGenericType)
+				foreach (Type t in type.GetGenericArguments())
+					this.arguments.Add(t);
+		}
+
+
+		TypeName(string name) :
+			this()
+		{
+			int pointer = -1;
+			while (++pointer < name.Length)
+				switch (name [pointer])
+				{
+				default:
+					this.Name += name [pointer];
+					break;
+				case '<':
+					pointer++;
+					int tail = name.Length;
+					while (name[--tail] != '>')
+						;
+					foreach (string argument in name.Substring(pointer, tail - pointer).Split(','))
+						this.arguments.Add(new TypeName(argument.Trim(' ')));
+					pointer = tail;
+					break;
+				case ':':
+					this.Assembly = this.Name;
+					this.Name += '.';
+					break;
+				case ' ':
+					this.Assembly = name.Substring(pointer + 1).Trim();
+					pointer = name.Length;
+					break;
+				}
+			string assembly = "mscorlib";
+			switch (this.Name)
+			{
+				// http://msdn.microsoft.com/en-US/library/ya5y69ds%28v=VS.80%29.aspx
+				case "bool": this.Name = "System.Boolean"; break;
+				case "byte": this.Name = "System.Byte";	break;
+				case "sbyte": this.Name = "System.SByte"; break;
+				case "char": this.Name = "System.Char";	break;
+				case "short": this.Name = "System.Int16"; break;
+				case "ushort": this.Name = "System.Uint16";	break;
+				case "int":	this.Name = "System.Int32";	break;
+				case "uint": this.Name = "System.UInt32"; break;
+				case "long": this.Name = "System.Int64"; break;
+				case "ulong": this.Name = "System.UInt64"; break;
+				case "float": this.Name = "System.Single"; break;
+				case "double": this.Name = "System.Double";	break;
+				case "decimal":	this.Name = "System.Decimal"; break;
+				case "string": this.Name = "System.String";	break;
+				case "object": this.Name = "System.Object";	break;
+				default: assembly = this.Assembly; break;
+			}
+			this.Assembly = assembly;
+		}
 		public TypeName(string assembly, string name, params TypeName[] arguments) :
 			this()
 		{
@@ -212,6 +111,7 @@ namespace Kean.Core.Reflect
 			this.Name = name;
 			this.arguments.Add(arguments);
 		}
+
 		public T Create<T>()
 		{
 			return (T)this.Create();
@@ -220,33 +120,36 @@ namespace Kean.Core.Reflect
 		{
 			return System.Activator.CreateInstance(this);
 		}
+
 		#region Object Overrides
-		public override string ToString ()
+		public override string ToString()
 		{
-			return this.FullName;
+			return this;
 		}
 		public override bool Equals(object other)
 		{
 			return base.Equals(other);
 		}
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
-			return this.FullName.GetHashCode();
+			return ((string)this).GetHashCode();
 		}
+
 		#endregion
 		#region IEquatable<Typename>, IEquatable<string>, IEquatable<Type>
 		public bool Equals(TypeName other)
 		{
-			return other.NotNull() && this.FullName == other.FullName;
+			return other.NotNull() && (string)this == (string)other;
 		}
 		public bool Equals(string other)
 		{
-			return this.FullName == other;
+			return this == other;
 		}
 		public bool Equals(Type other)
 		{
-			return other.NotNull() && this.FullName == ((TypeName)other).FullName;
+			return other.NotNull() && this == (TypeName)other;
 		}
+
 		#endregion
 		#region Binary Operators
 		public static bool operator ==(TypeName left, TypeName right)
@@ -293,20 +196,88 @@ namespace Kean.Core.Reflect
 		#region Casts
 		public static implicit operator TypeName(string value)
 		{
-			return new TypeName() { FullName = value };
+			return new TypeName(value);
 		}
 		public static implicit operator string(TypeName value)
 		{
-			return value.FullName;
+			string result = "";
+			// http://msdn.microsoft.com/en-US/library/ya5y69ds%28v=VS.80%29.aspx
+			switch (value.Name)
+			{
+			case "System.Boolean": result = "bool"; break;
+			case "System.Byte": result = "byte"; break;
+			case "System.SByte": result = "sbyte"; break;
+			case "System.Char":	result = "char"; break;
+			case "System.Decimal": result = "decimal"; break;
+			case "System.Int16": result = "short"; break;
+			case "System.Uint16": result = "ushort"; break;
+			case "System.Int32": result = "int"; break;
+			case "System.UInt32": result = "uint"; break;
+			case "System.Int64": result = "long"; break;
+			case "System.UInt64": result = "ulong";	break;
+			case "System.Single": result = "float";	break;
+			case "System.Double": result = "double"; break;
+			case "System.String": result = "string"; break;
+			case "System.Object": result = "object"; break;
+			default:
+				System.Text.StringBuilder resultBuilder = null;
+				if (value.Arguments.Count > 0)
+				{
+					resultBuilder = new System.Text.StringBuilder().Append("<");
+					bool first = true;
+					foreach (Type name in value.Arguments)
+					{
+						if (!first)
+							resultBuilder.Append(",");
+						else
+							first = false;
+						resultBuilder.Append(name.FullName);
+					}
+					resultBuilder.Append(">");
+				}
+
+				if (value.Name.StartsWith(value.Assembly))
+					resultBuilder = new System.Text.StringBuilder(value.Assembly + ":" + value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
+				else
+				{
+					resultBuilder = new System.Text.StringBuilder(value.Name).Append(resultBuilder);
+					if (value.Assembly.NotEmpty() && value.Assembly != "mscorlib")
+						resultBuilder.AppendFormat(" {0}", value.Assembly);
+				}
+				result = resultBuilder.ToString();
+				break;
+			}
+			return result;
 		}
 		public static implicit operator TypeName(Type value)
 		{
-			return new TypeName() { Type = value };
+			return new TypeName(value);
 		}
 		public static implicit operator Type(TypeName value)
 		{
-			return value.Type;
+			if (value.type.IsNull())
+			{
+				System.Text.StringBuilder name = new System.Text.StringBuilder(value.Name);
+				if (value.Arguments.Count > 0)
+				{
+					name = name.AppendFormat("`{0}[", value.Arguments.Count);
+					bool first = true;
+					foreach (TypeName argument in value.Arguments)
+					{
+						if (first)
+							first = false;
+						else
+							name.Append(",");
+						name.AppendFormat("[{0}]", ((Type)argument).AssemblyQualifiedName);
+					}
+					name.Append("]");
+				}
+				if (value.Assembly.NotEmpty() && value.Assembly != "mscorlib")
+					name.AppendFormat(", {0}", value.Assembly);
+				value.type = Type.GetType(name.ToString(), false);
+			}
+			return value.type;
 		}
 		#endregion
-    }
+	}
 }
