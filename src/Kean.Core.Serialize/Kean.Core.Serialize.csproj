@@ -49,7 +49,6 @@
     <Compile Include="Serializer\Class.cs" />
     <Compile Include="ParameterAttribute.cs" />
     <Compile Include="MethodAttribute.cs" />
-    <Compile Include="Serializer\Method.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

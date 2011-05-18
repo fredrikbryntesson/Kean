@@ -33,6 +33,9 @@ namespace Kean.Core.Serialize.Data
 		public Leaf(T value)
 		{
 			this.Value = value;
+			Reflect.TypeName type = (Reflect.TypeName)value.GetType();
+			if ((Reflect.TypeName)typeof(T) != type)
+				this.Type = type;
 		}
 	}
 }
