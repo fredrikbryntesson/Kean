@@ -26,46 +26,38 @@ namespace Kean.Math.Geometry2D.Single
 	public struct SizeValue :
 		Abstract.ISize<float>, Abstract.IVector<float>
 	{
-		float width;
-		float height;
+        public float Width;
+        public float Height;
         #region ISize<float>
-        public float Width
-		{
-			get { return this.width; }
-			set { this.width = value; }
-		}
-		public float Height
-		{
-			get { return this.height; }
-			set { this.height = value; }
-        }
+        float Abstract.ISize<float>.Width { get { return this.Width; } }
+        float Abstract.ISize<float>.Height { get { return this.Height; } }
         #endregion
         #region IVector<float> Members
-        float Abstract.IVector<float>.X { get { return this.width; } }
-        float Abstract.IVector<float>.Y { get { return this.height; } }
+        float Abstract.IVector<float>.X { get { return this.Width; } }
+        float Abstract.IVector<float>.Y { get { return this.Height; } }
         #endregion
-       	public SizeValue(float width, float height)
-		{
-			this.width = width;
-			this.height = height;
+        public SizeValue(float width, float height)
+        {
+            this.Width = width;
+            this.Height = height;
         }
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
         public static bool operator ==(SizeValue left, SizeValue right)
         {
-            return left.width == right.Width && left.Height == right.Height;
+            return left.Width == right.Width && left.Height == right.Height;
         }
         /// <summary>
         /// Defines inequality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
         public static bool operator !=(SizeValue left, SizeValue right)
         {
             return !(left == right);

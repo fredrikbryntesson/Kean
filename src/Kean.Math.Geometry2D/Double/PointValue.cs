@@ -23,26 +23,26 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Geometry2D.Double
 {
-	public struct PointValue :
+    public struct PointValue :
         Abstract.IPoint<double>, Abstract.IVector<double>
-	{
-		double x;
-		double y;
-		public double X
-		{
-			get { return this.x; }
-			set { this.x = value; }
-		}
-		public double Y
-		{
-			get { return this.y; }
-			set { this.y = value; }
-		}
+    {
+        public double X;
+        public double Y;
+        #region IPoint<double> Members
+        double Kean.Math.Geometry2D.Abstract.IPoint<double>.X { get { return this.X; } }
+        double Kean.Math.Geometry2D.Abstract.IPoint<double>.Y { get { return this.Y; } }
+        #endregion
+        #region IVector<double> Members
+        double Kean.Math.Geometry2D.Abstract.IVector<double>.X { get { return this.X; } }
+        double Kean.Math.Geometry2D.Abstract.IVector<double>.Y { get { return this.Y; } }
+        #endregion
+        public double Length { get { return Kean.Math.Double.SquareRoot(this.X * this.X + this.Y * this.Y); } }
+        public double LengthSquared { get { return this.X * this.X + this.Y * this.Y; } }
         public PointValue(double x, double y)
-		{
-			this.x = x;
-			this.y = y;
-		}
+        {
+            this.X = x;
+            this.Y = y;
+        }
         #region Arithmetic Vector - Vector Operators
         public static PointValue operator +(PointValue left, PointValue right)
         {
@@ -90,9 +90,9 @@ namespace Kean.Math.Geometry2D.Double
         /// <summary>
         /// Defines equality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
         public static bool operator ==(PointValue left, PointValue right)
         {
             return left.X == right.X && left.Y == right.Y;
@@ -100,9 +100,9 @@ namespace Kean.Math.Geometry2D.Double
         /// <summary>
         /// Defines inequality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
         public static bool operator !=(PointValue left, PointValue right)
         {
             return !(left == right);

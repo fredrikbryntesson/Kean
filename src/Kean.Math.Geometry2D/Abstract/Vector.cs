@@ -152,9 +152,9 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <summary>
         /// Defines equality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
         public static bool operator ==(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return object.ReferenceEquals(left, right) ||
@@ -163,9 +163,9 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <summary>
         /// Defines inequality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
         public static bool operator !=(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return !(left == right);

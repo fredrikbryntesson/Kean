@@ -26,29 +26,30 @@ namespace Kean.Math.Geometry2D.Single
     public struct ShellValue :
         Abstract.IShell<float>
     {
-        float left;
-        float right;
-        float top;
-        float bottom;
-        public float Left { get { return this.left; } set { this.left = value; } }
-        public float Right { get { return this.right; } set { this.right = value; } }
-        public float Top { get { return this.top; } set { this.top = value; } }
-        public float Bottom { get { return this.bottom; } set { this.bottom = value; } }
-
+        public float Left;
+        public float Right;
+        public float Top;
+        public float Bottom;
+        #region IShell<float> Members
+        float Kean.Math.Geometry2D.Abstract.IShell<float>.Left { get { return this.Left; } }
+        float Kean.Math.Geometry2D.Abstract.IShell<float>.Right { get { return this.Right; } }
+        float Kean.Math.Geometry2D.Abstract.IShell<float>.Top { get { return this.Top; } }
+        float Kean.Math.Geometry2D.Abstract.IShell<float>.Bottom { get { return this.Bottom; } }
+        #endregion
         public ShellValue(float left, float right, float top, float bottom)
         {
-            this.left = left;
-            this.right = right;
-            this.top = top;
-            this.bottom = bottom;
+            this.Left = left;
+            this.Right = right;
+            this.Top = top;
+            this.Bottom = bottom;
         }
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>True if <paramref name="left"/> equals <paramref name="right"/> else false.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
         public static bool operator ==(ShellValue left, ShellValue right)
         {
             return left.Left == right.Left && left.Right == right.Right && left.Top == right.Top && left.Bottom == right.Bottom;
@@ -56,9 +57,9 @@ namespace Kean.Math.Geometry2D.Single
         /// <summary>
         /// Defines inequality.
         /// </summary>
-        /// <param name="left">Point left of operator.</param>
-        /// <param name="right">Point right of operator.</param>
-        /// <returns>False if <paramref name="left"/> equals <paramref name="right"/> else true.</returns>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
         public static bool operator !=(ShellValue left, ShellValue right)
         {
             return !(left == right);

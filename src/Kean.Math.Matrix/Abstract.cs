@@ -68,7 +68,7 @@ namespace Kean.Math.Matrix
         int Index(int x, int y)
         {
             return x * this.Dimensions.Height + y; // Column major order 
-            // Use y * this.Dimensions.Width + x for row major order
+            // Use Y * this.Dimensions.Width + X for row major order
         }
         public MatrixType Copy()
         {

@@ -140,7 +140,7 @@ namespace Kean.Test.Math.Geometry2D.Single
             watch.Reset();
             /*watch.Start();
             for (int i = 0; i < n; i++)
-                a.Multiply(ref x);
+                a.Multiply(ref X);
             watch.Stop();
             Console.WriteLine("Multiply struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
             */
