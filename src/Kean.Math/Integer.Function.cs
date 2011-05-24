@@ -248,22 +248,6 @@ namespace Kean.Math
         {
             return value * value;
         }
-        public static int Squared(int a, int b)
-        {
-            return Integer.Squared(a) + Integer.Squared(b);
-        }
-        public static int Squared(int a, int b, int c)
-        {
-            return Integer.Squared(a) + Integer.Squared(b) + Integer.Squared(c);
-        }
-        public static int SquareRoot(int a, int b)
-        {
-            return Integer.SquareRoot(Integer.Squared(a, b));
-        }
-        public static int SquareRoot(int a, int b, int c)
-        {
-            return Integer.SquareRoot(Integer.Squared(a, b, c));
-        }
         #endregion
     }
 }

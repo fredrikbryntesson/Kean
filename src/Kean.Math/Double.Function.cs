@@ -232,22 +232,6 @@ namespace Kean.Math
         {
             return value * value;
         }
-        public static double Squared(double a, double b)
-        {
-            return Double.Squared(a) + Double.Squared(b);
-        } 
-        public static double Squared(double a, double b, double c)
-        {
-            return Double.Squared(a) + Double.Squared(b) + Double.Squared(c);
-        }
-        public static double SquareRoot(double a, double b)
-        {
-            return Double.SquareRoot(Double.Squared(a,b));
-        }
-        public static double SquareRoot(double a, double b, double c)
-        {
-            return Double.SquareRoot(Double.Squared(a, b, c));
-        }
         #endregion
     }
 }
