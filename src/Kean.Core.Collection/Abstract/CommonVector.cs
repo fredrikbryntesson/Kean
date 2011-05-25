@@ -69,9 +69,9 @@ namespace Kean.Core.Collection.Abstract
 		}
 		#endregion
 		#region IEquatable<IImmutableVector<T>>
-		public bool Equals(IImmutableVector<T> other)
+		bool  IEquatable<IImmutableVector<T>>.Equals(IImmutableVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as IImmutableVector<T>).Count == other.Count;
+			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IImmutableVector<T>).Count; i++)
 				result &= (this as IImmutableVector<T>)[i].Equals(other[i]);
 			return result;
