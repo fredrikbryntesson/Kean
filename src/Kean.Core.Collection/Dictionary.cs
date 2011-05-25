@@ -30,7 +30,8 @@ namespace Kean.Core.Collection
 		where TKey : System.IEquatable<TKey>
 	{
 		IList<Tuple<TKey, TValue>>[] data;
-		public TValue this[TKey key] {
+		public TValue this[TKey key]
+		{
 			get
 			{
 				TValue result = default(TValue);
@@ -79,7 +80,19 @@ namespace Kean.Core.Collection
 			IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
 			return list.NotNull() && list.Remove(entry => entry.Item1.Equals(key));
 		}
-
+		#region Object Overrides
+		public override bool Equals(object other)
+		{
+			return other is Dictionary<TKey, TValue> && base.Equals(other as Dictionary<TKey, TValue>);
+		}
+		public override int GetHashCode()
+		{
+			int result = 0;
+			foreach (Tuple<TKey, TValue> pair in this)
+				result ^= pair.Hash();
+			return result;
+		}
+		#endregion
 		#region IEnumerable Members
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
@@ -90,10 +103,23 @@ namespace Kean.Core.Collection
 		public System.Collections.Generic.IEnumerator<Tuple<TKey, TValue>> GetEnumerator()
 		{
 			foreach (IList<Tuple<TKey, TValue>> list in this.data)
-				foreach (Tuple<TKey, TValue> pair in list)
-					yield return pair;
+				if (list.NotNull())
+					foreach (Tuple<TKey, TValue> pair in list)
+						yield return pair;
+		}
+		#endregion
+		#region IEquatable<IDictionary<TKey,TValue>> Members
+		public bool Equals(IDictionary<TKey, TValue> other)
+		{
+			bool result = other.NotNull();
+			if (result)
+				foreach (Tuple<TKey, TValue> pair in this)
+					if (!(result = other[pair.Item1].Equals(pair.Item2)))
+						break;
+			return result;
 		}
 		#endregion
 	}
 }
+
 

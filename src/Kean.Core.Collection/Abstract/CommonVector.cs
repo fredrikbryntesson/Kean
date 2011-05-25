@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Collection.Abstract
 {
@@ -61,7 +62,7 @@ namespace Kean.Core.Collection.Abstract
 		#region IEquatable<IVector<T>>
 		public bool Equals(IVector<T> other)
 		{
-			bool result = !object.ReferenceEquals(other, null) && (this as IImmutableVector<T>).Count == other.Count;
+			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
 				result &= (this as IVector<T>)[i].Equals(other[i]);
 			return result;

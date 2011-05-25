@@ -24,7 +24,8 @@ using Kean.Core.Basis;
 namespace Kean.Core.Collection
 {
 	public interface IDictionary<TKey, TValue> :
-		System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>
+		System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>,
+		IEquatable<IDictionary<TKey, TValue>>
         where TKey : IEquatable<TKey>
 	{
         TValue this[TKey key] { get; set; }
