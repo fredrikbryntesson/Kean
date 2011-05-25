@@ -107,12 +107,35 @@ namespace Kean.Test.Core.Collection.Base
 				Expect(target.Remove(this.Correct[i]), Is.EqualTo(false), this.Prefix + "SingleElement." + (98 + i));
 
 		}
-
-		public virtual void Run()
+        [Test]
+        public void Equality()
+        {
+            D a = this.Create(10);
+            D b = this.Create(10);
+            for (int i = 0; i < 100; i++)
+            {
+                string index = "index" + i;
+                a["index" + i] = i;
+                b["index" + (99 - i)] = 99 - i;
+            }
+            Expect(a, Is.EqualTo(b),  this.Prefix + "Equality." + 0);
+            Expect(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
+            b["index100"] = 100;
+            Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 2);
+            Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 3);
+            b.Remove("index100");
+            Expect(a, Is.EqualTo(b), this.Prefix + "Equality." + 4);
+            Expect(b, Is.EqualTo(a), this.Prefix + "Equality." + 5);
+            b.Remove("index50");
+            Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 6);
+            Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 7);
+        }
+        public virtual void Run()
 		{
 			this.SingleElement();
 			this.TwoElements();
 			this.TwelveElements();
+            this.Equality();
 		}
 	}
 }

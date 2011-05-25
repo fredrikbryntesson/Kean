@@ -31,14 +31,14 @@ namespace Kean.Test.Core.Collection.Base
 		where A : Target.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
-		public string Prefix { get; set; }
+        public string Prefix { get; set; }
 
 		protected Vector ()
 		{ }
 
 		public abstract A Create(int count);
 
-
+        
 		[Test]
 		public void Count()
 		{
@@ -95,11 +95,28 @@ namespace Kean.Test.Core.Collection.Base
 		{
 			this.ZeroToNine[-8] = 32;
 		}
-		public virtual void Run()
+        [Test]
+        public void Equality()
+        {
+            A a = this.Create(10);
+            A b = this.Create(10);
+            A c = this.Create(11);
+            for (int i = 0; i < a.Count; i++)
+            {
+                a[i] = i;
+                b[i] = i;
+            }
+            Assert.That(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
+            b[5] = 33;
+            Assert.That(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 1);
+            Assert.That(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 2);
+        }   
+        public virtual void Run()
 		{
 			this.Count();
 			this.Get();
-			try
+            this.Equality();
+            try
 			{
 				this.GetIndexToBig();
 				throw new AssertionException(this.Prefix + "this.GetIndexToBig.0");
@@ -133,5 +150,6 @@ namespace Kean.Test.Core.Collection.Base
 			{
 			}
 		}
+       
 	}
 }

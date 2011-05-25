@@ -83,7 +83,7 @@ namespace Kean.Core.Collection
 		#region Object Overrides
 		public override bool Equals(object other)
 		{
-			return other is Dictionary<TKey, TValue> && base.Equals(other as Dictionary<TKey, TValue>);
+			return other is Dictionary<TKey, TValue> && this.Equals(other as Dictionary<TKey, TValue>);
 		}
 		public override int GetHashCode()
 		{
@@ -112,11 +112,13 @@ namespace Kean.Core.Collection
 		public bool Equals(IDictionary<TKey, TValue> other)
 		{
 			bool result = other.NotNull();
+            int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
 			if (result)
-				foreach (Tuple<TKey, TValue> pair in this)
-					if (!(result = other[pair.Item1].Equals(pair.Item2)))
+				foreach (Tuple<TKey, TValue> pair in other)
+                    if (!(result = count-- == 0 || this[pair.Item1].Equals(pair.Item2)))
 						break;
-			return result;
+
+			return result && count == 0;
 		}
 		#endregion
 	}
