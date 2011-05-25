@@ -33,12 +33,31 @@ namespace Kean.Test.Core.Collection.Base
 		public override void Run()
 		{
 			base.Run();
+            this.Equality();
 			this.AddReplaceRemove();
 			this.AddReplaceRemoveTen();
 			this.InsertReplaceRemove();
             this.BoundaryCases();
 		}
-		[Test]
+        [Test]
+        public void Equality()
+        {
+            L a = new L();
+            L b = new L();
+            for (int i = 0; i < 10; i++)
+            {
+                a.Add(i);
+                b.Add(i);
+            }
+            Expect(a, EqualTo(b), this.Prefix + "Equality.0");
+            Expect(a, EqualTo(b as object), this.Prefix + "Equality.1");
+            Expect(b, EqualTo(a), this.Prefix + "Equality.2");
+            Expect(b, EqualTo(a as object), this.Prefix + "Equality.3");
+            b.Add(10);
+            Expect(a, Is.Not.EqualTo(b as object), this.Prefix + "Equality.4");
+            Expect(b, Is.Not.EqualTo(a as object), this.Prefix + "Equality.5");
+        }
+        [Test]
 		public void AddReplaceRemove()
 		{
 			L target = new L();

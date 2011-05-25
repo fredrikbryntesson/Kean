@@ -85,7 +85,7 @@ namespace Kean.Core.Collection
 		#region System.Object
 		public override bool Equals(object other)
 		{
-			return (this.data as object).Equals(other);
+			return this.data.Equals(other);
 		}
 		public override int GetHashCode()
 		{
