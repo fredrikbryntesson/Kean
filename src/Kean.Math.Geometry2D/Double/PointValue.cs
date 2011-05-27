@@ -38,6 +38,8 @@ namespace Kean.Math.Geometry2D.Double
         #endregion
         public double Length { get { return Kean.Math.Double.SquareRoot(this.X * this.X + this.Y * this.Y); } }
         public double LengthSquared { get { return this.X * this.X + this.Y * this.Y; } }
+        public double NormAbsolute { get { return Kean.Math.Double.Maximum(Kean.Math.Double.Absolute(this.X), Kean.Math.Double.Absolute(this.Y)); } }
+        public double NormTaxicab { get { return Kean.Math.Double.Absolute(this.X) + Kean.Math.Double.Absolute(this.Y); } }
         public PointValue(double x, double y)
         {
             this.X = x;

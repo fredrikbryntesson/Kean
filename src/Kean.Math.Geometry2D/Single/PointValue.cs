@@ -37,6 +37,8 @@ namespace Kean.Math.Geometry2D.Single
         float Kean.Math.Geometry2D.Abstract.IVector<float>.Y { get { return this.Y; } }
         public float Length { get { return Kean.Math.Single.SquareRoot(this.X * this.X + this.Y * this.Y); } }
         public float LengthSquared { get { return this.X * this.X + this.Y * this.Y; } }
+        public float NormAbsolute { get { return Kean.Math.Single.Maximum(Kean.Math.Single.Absolute(this.X), Kean.Math.Single.Absolute(this.Y)); } }
+        public float NormTaxicab { get { return Kean.Math.Single.Absolute(this.X) + Kean.Math.Single.Absolute(this.Y); } }
         #endregion
         public PointValue(float x, float y)
         {
@@ -44,6 +46,36 @@ namespace Kean.Math.Geometry2D.Single
             this.Y = y;
         }
         #region Arithmetic Vector - Vector Operators
+        public static void Add(ref PointValue left, ref PointValue right, ref PointValue result)
+        {
+            result.X = left.X + right.X;
+            result.Y = left.Y + right.Y;
+        }
+        public static void Subtract(ref PointValue left, ref PointValue right, ref PointValue result)
+        {
+            result.X = left.X - right.X;
+            result.Y = left.Y - right.Y;
+        }
+        public static void Multiply(ref PointValue left, ref PointValue right, ref PointValue result)
+        {
+            result.X = left.X * right.X;
+            result.Y = left.Y * right.Y;
+        }
+        public static void Divide(ref PointValue left, ref PointValue right, ref PointValue result)
+        {
+            result.X = left.X / right.X;
+            result.Y = left.Y / right.Y;
+        }
+        public static void Multiply(ref PointValue left, ref float right, ref PointValue result)
+        {
+            result.X = left.X * right;
+            result.Y = left.Y * right;
+        }
+        public static void Divide(ref PointValue left, ref float right, ref PointValue result)
+        {
+            result.X = left.X / right;
+            result.Y = left.Y / right;
+        }
         public static PointValue operator +(PointValue left, PointValue right)
         {
             return new PointValue(left.X + right.X, left.Y + right.Y);
