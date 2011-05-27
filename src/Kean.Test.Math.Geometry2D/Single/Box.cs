@@ -27,11 +27,11 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - single
             Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
             Target.Single.Box single = integer;
-            Assert.That(single.Left, Is.EqualTo(10));
-            Assert.That(single.Top, Is.EqualTo(20));
-            Assert.That(single.Width, Is.EqualTo(30));
-            Assert.That(single.Height, Is.EqualTo(40));
-            Assert.That((Target.Integer.Box)single, Is.EqualTo(integer));
+            Expect(single.Left, Is.EqualTo(10));
+            Expect(single.Top, Is.EqualTo(20));
+            Expect(single.Width, Is.EqualTo(30));
+            Expect(single.Height, Is.EqualTo(40));
+            Expect((Target.Integer.Box)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -39,22 +39,22 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - float
             Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40);
             Target.Single.BoxValue single = integer;
-            Assert.That(single.Left, Is.EqualTo(10));
-            Assert.That(single.Top, Is.EqualTo(20));
-            Assert.That(single.Width, Is.EqualTo(30));
-            Assert.That(single.Height, Is.EqualTo(40));
-            Assert.That((Target.Integer.BoxValue)single, Is.EqualTo(integer));
+            Expect(single.Left, Is.EqualTo(10));
+            Expect(single.Top, Is.EqualTo(20));
+            Expect(single.Width, Is.EqualTo(30));
+            Expect(single.Height, Is.EqualTo(40));
+            Expect((Target.Integer.BoxValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40);
-            Assert.That(textFromValue, Is.EqualTo("10 20 30 40"));
+            Expect(textFromValue, Is.EqualTo("10 20 30 40"));
             Target.Single.BoxValue @integerFromText = "10 20 30 40";
-            Assert.That(@integerFromText.Left, Is.EqualTo(10));
-            Assert.That(@integerFromText.Top, Is.EqualTo(20));
-            Assert.That(@integerFromText.Width, Is.EqualTo(30));
-            Assert.That(@integerFromText.Height, Is.EqualTo(40));
+            Expect(@integerFromText.Left, Is.EqualTo(10));
+            Expect(@integerFromText.Top, Is.EqualTo(20));
+            Expect(@integerFromText.Width, Is.EqualTo(30));
+            Expect(@integerFromText.Height, Is.EqualTo(40));
         }
         public void Run()
         {

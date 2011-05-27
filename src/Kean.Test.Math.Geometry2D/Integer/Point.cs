@@ -33,10 +33,10 @@ namespace Kean.Test.Math.Geometry2D.Integer
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Integer.PointValue(10, 20);
-            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Expect(textFromValue, Is.EqualTo("10 20"));
             Target.Integer.PointValue @integerFromText = "10 20";
-            Assert.That(@integerFromText.X, Is.EqualTo(10));
-            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+            Expect(@integerFromText.X, Is.EqualTo(10));
+            Expect(@integerFromText.Y, Is.EqualTo(20));
         }
         public void Run()
         {

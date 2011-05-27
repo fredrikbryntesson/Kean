@@ -19,30 +19,30 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         [Test]
         public void GetValues()
         {
-            Assert.That(this.Vector0.X, Is.EqualTo(this.Cast(22.221)).Within(this.Precision));
-            Assert.That(this.Vector0.Y, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision));
+            Expect(this.Vector0.X, Is.EqualTo(this.Cast(22.221)).Within(this.Precision));
+            Expect(this.Vector0.Y, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision));
         }
         [Test]
         public void Swap()
         {
             PointType result = this.Vector0.Swap();
-            Assert.That(result.X, Is.EqualTo(this.Vector0.Y));
-            Assert.That(result.Y, Is.EqualTo(this.Vector0.X));
+            Expect(result.X, Is.EqualTo(this.Vector0.Y));
+            Expect(result.Y, Is.EqualTo(this.Vector0.X));
         }
         [Test]
         public void Casting()
         {
             string value = "10 20";
-            Assert.That(this.CastToString(this.Vector3), Is.EqualTo(value));
-            Assert.That(this.CastFromString(value), Is.EqualTo(this.Vector3));
+            Expect(this.CastToString(this.Vector3), Is.EqualTo(value));
+            Expect(this.CastFromString(value), Is.EqualTo(this.Vector3));
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             PointType point = null;
-            Assert.That(this.CastToString(point), Is.EqualTo(value));
-            Assert.That(this.CastFromString(value), Is.EqualTo(point));
+            Expect(this.CastToString(point), Is.EqualTo(value));
+            Expect(this.CastFromString(value), Is.EqualTo(point));
         }
         public void Run()
         {

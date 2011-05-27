@@ -35,9 +35,9 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - single
             Target.Integer.Size integer = new Target.Integer.Size(10, 20);
             Target.Single.Size single = integer;
-            Assert.That(single.Width, Is.EqualTo(10));
-            Assert.That(single.Height, Is.EqualTo(20));
-            Assert.That((Target.Integer.Size)single, Is.EqualTo(integer));
+            Expect(single.Width, Is.EqualTo(10));
+            Expect(single.Height, Is.EqualTo(20));
+            Expect((Target.Integer.Size)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -45,18 +45,18 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - single
             Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20);
             Target.Single.SizeValue single = integer;
-            Assert.That(single.Width, Is.EqualTo(10));
-            Assert.That(single.Height, Is.EqualTo(20));
-            Assert.That((Target.Integer.SizeValue)single, Is.EqualTo(integer));
+            Expect(single.Width, Is.EqualTo(10));
+            Expect(single.Height, Is.EqualTo(20));
+            Expect((Target.Integer.SizeValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20);
-            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Expect(textFromValue, Is.EqualTo("10 20"));
             Target.Single.SizeValue @integerFromText = "10 20";
-            Assert.That(@integerFromText.Width, Is.EqualTo(10));
-            Assert.That(@integerFromText.Height, Is.EqualTo(20));
+            Expect(@integerFromText.Width, Is.EqualTo(10));
+            Expect(@integerFromText.Height, Is.EqualTo(20));
         }
         public void Run()
         {

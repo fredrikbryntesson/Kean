@@ -25,12 +25,12 @@ namespace Kean.Test.Math.Geometry2D.Integer
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Integer.BoxValue(10, 20, 30, 40);
-            Assert.That(textFromValue, Is.EqualTo("10 20 30 40"));
+            Expect(textFromValue, Is.EqualTo("10 20 30 40"));
             Target.Integer.BoxValue @integerFromText = "10 20 30 40";
-            Assert.That(@integerFromText.Left, Is.EqualTo(10));
-            Assert.That(@integerFromText.Top, Is.EqualTo(20));
-            Assert.That(@integerFromText.Width, Is.EqualTo(30));
-            Assert.That(@integerFromText.Height, Is.EqualTo(40));
+            Expect(@integerFromText.Left, Is.EqualTo(10));
+            Expect(@integerFromText.Top, Is.EqualTo(20));
+            Expect(@integerFromText.Width, Is.EqualTo(30));
+            Expect(@integerFromText.Height, Is.EqualTo(40));
         }
         public void Run()
         {

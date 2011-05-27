@@ -35,9 +35,9 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - single
             Target.Integer.Point integer = new Target.Integer.Point(10, 20);
             Target.Single.Point single = integer;
-            Assert.That(single.X, Is.EqualTo(10));
-            Assert.That(single.Y, Is.EqualTo(20));
-            Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
+            Expect(single.X, Is.EqualTo(10));
+            Expect(single.Y, Is.EqualTo(20));
+            Expect((Target.Integer.Point)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -45,18 +45,18 @@ namespace Kean.Test.Math.Geometry2D.Single
             // integer - single
             Target.Integer.PointValue integer = new Target.Integer.PointValue(10, 20);
             Target.Single.PointValue single = integer;
-            Assert.That(single.X, Is.EqualTo(10));
-            Assert.That(single.Y, Is.EqualTo(20));
-            Assert.That((Target.Integer.PointValue)single, Is.EqualTo(integer));
+            Expect(single.X, Is.EqualTo(10));
+            Expect(single.Y, Is.EqualTo(20));
+            Expect((Target.Integer.PointValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.PointValue(10, 20);
-            Assert.That(textFromValue, Is.EqualTo("10 20"));
+            Expect(textFromValue, Is.EqualTo("10 20"));
             Target.Single.PointValue @integerFromText = "10 20";
-            Assert.That(@integerFromText.X, Is.EqualTo(10));
-            Assert.That(@integerFromText.Y, Is.EqualTo(20));
+            Expect(@integerFromText.X, Is.EqualTo(10));
+            Expect(@integerFromText.Y, Is.EqualTo(20));
         }
         [Test]
         public void PerformanceAddition()
@@ -149,7 +149,7 @@ namespace Kean.Test.Math.Geometry2D.Single
         public void PointSize()
         {
             Target.Single.Point a = new Target.Single.Point(10,20) * new Target.Single.Size(2,3);
-            Assert.That(a, Is.EqualTo(new Target.Single.Point(20,60)));
+            Expect(a, Is.EqualTo(new Target.Single.Point(20,60)));
         }
         public void Run()
         {

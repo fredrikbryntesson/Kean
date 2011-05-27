@@ -41,7 +41,7 @@ namespace Kean.Test.Math.Geometry3D.Double
                 
             Kean.Math.Matrix.Double transformInverseMatrix1 = (Kean.Math.Matrix.Double)(double[,])transform.Inverse;
             Kean.Math.Matrix.Double transformInverseMatrix2 = (Kean.Math.Matrix.Double)(double[,])transformInverseCorrect;
-            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.00001));
+            Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.00001));
         }
         [Test]
         public void InverseTransform2()
@@ -52,7 +52,7 @@ namespace Kean.Test.Math.Geometry3D.Double
                 new Kean.Math.Geometry3D.Double.Transform(-0.829516518295923f, -0.176317665787488f, 0.529919264233205f, -0.207909983627822f, 0.978147963606672f, -1.15118542239879e-17f, -0.518339449185655f, -0.110175505550793f, -0.848048096156426f, 0, 0 ,0);
             Kean.Math.Matrix.Double transformInverseMatrix1 = (Kean.Math.Matrix.Double)(double[,])transform.Inverse;
             Kean.Math.Matrix.Double transformInverseMatrix2 = (Kean.Math.Matrix.Double)(double[,])transformInverseCorrect;
-            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
+            Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
         }
         [Test]
         public void InverseTransform3()
@@ -60,7 +60,7 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Matrix.Double transformMatrix = (Kean.Math.Matrix.Double)(double[,])this.Transform0;
             Kean.Math.Matrix.Double transformInverseMatrix1 = transformMatrix.Inverse();
             Kean.Math.Matrix.Double transformInverseMatrix2 = (Kean.Math.Matrix.Double)(double[,])(this.Transform0.Inverse);
-            Assert.That(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
+            Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
         }
         internal void Run(params System.Action[] tests)
         {

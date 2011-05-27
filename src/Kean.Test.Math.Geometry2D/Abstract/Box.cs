@@ -5,7 +5,8 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Test.Math.Geometry2D.Abstract
 {
-    public abstract class Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>
+    public abstract class Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        AssertionHelper
         where BoxType : Kean.Math.Geometry2D.Abstract.Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
         where BoxValue : struct, Kean.Math.Geometry2D.Abstract.IBox<PointValue, SizeValue,V>
         where TransformType : Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
@@ -28,28 +29,28 @@ namespace Kean.Test.Math.Geometry2D.Abstract
         public void Equality()
         {
             BoxType box = null;
-            Assert.That(this.Box0, Is.EqualTo(this.Box0));
-            Assert.That(this.Box0.Equals(this.Box0 as object), Is.True);
-            Assert.That(this.Box0 == this.Box0, Is.True);
-            Assert.That(this.Box0 != this.Box1, Is.True);
-            Assert.That(this.Box0 == box, Is.False);
-            Assert.That(box == box, Is.True);
-            Assert.That(box == this.Box0, Is.False);
+            Expect(this.Box0, Is.EqualTo(this.Box0));
+            Expect(this.Box0.Equals(this.Box0 as object), Is.True);
+            Expect(this.Box0 == this.Box0, Is.True);
+            Expect(this.Box0 != this.Box1, Is.True);
+            Expect(this.Box0 == box, Is.False);
+            Expect(box == box, Is.True);
+            Expect(box == this.Box0, Is.False);
         }
         #endregion
         [Test]
         public void LeftTop()
         {
             PointType leftTop = this.Box0.LeftTop;
-            Assert.That(leftTop.X, Is.EqualTo(1));
-            Assert.That(leftTop.Y, Is.EqualTo(2));
+            Expect(leftTop.X, Is.EqualTo(1));
+            Expect(leftTop.Y, Is.EqualTo(2));
         }
         [Test]
         public void Size()
         {
             SizeType size = this.Box0.Size;
-            Assert.That(size.Width, Is.EqualTo(3));
-            Assert.That(size.Height, Is.EqualTo(4));
+            Expect(size.Width, Is.EqualTo(3));
+            Expect(size.Height, Is.EqualTo(4));
         }
         #region Arithmetic
         [Test]

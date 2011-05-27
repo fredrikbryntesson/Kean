@@ -48,8 +48,7 @@ namespace Kean.Core.Collection.Abstract
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is IVector<T> && this.Equals(other as IVector<T>) ||
-				other is IImmutableVector<T> && this.Equals(other as IImmutableVector<T>);
+			return other is IVector<T> ? this.Equals(other as IVector<T>) :	other is IImmutableVector<T> && this.Equals(other as IImmutableVector<T>);
 		}
 		public override int GetHashCode ()
 		{
@@ -64,7 +63,7 @@ namespace Kean.Core.Collection.Abstract
 		{
 			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
-				result &= (this as IVector<T>)[i].Equals(other[i]);
+				result = (this as IVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion
@@ -73,7 +72,7 @@ namespace Kean.Core.Collection.Abstract
 		{
 			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IImmutableVector<T>).Count; i++)
-				result &= (this as IImmutableVector<T>)[i].Equals(other[i]);
+				result = (this as IImmutableVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion

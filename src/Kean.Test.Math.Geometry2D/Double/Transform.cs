@@ -41,24 +41,24 @@ namespace Kean.Test.Math.Geometry2D.Double
             {
                 Target.Integer.Transform integer = new Target.Integer.Transform(10, 20, 30, 40,50, 60);
                 Target.Double.Transform @double = integer;
-                Assert.That(@double.A, Is.EqualTo(10));
-                Assert.That(@double.B, Is.EqualTo(20));
-                Assert.That(@double.C, Is.EqualTo(30));
-                Assert.That(@double.D, Is.EqualTo(40));
-                Assert.That(@double.E, Is.EqualTo(50));
-                Assert.That(@double.F, Is.EqualTo(60));
-                Assert.That((Target.Integer.Transform)@double, Is.EqualTo(integer));
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Integer.Transform)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.Transform single = new Target.Single.Transform(10, 20, 30, 40, 50, 60);
                 Target.Double.Transform @double = single;
-                Assert.That(@double.A, Is.EqualTo(10));
-                Assert.That(@double.B, Is.EqualTo(20));
-                Assert.That(@double.C, Is.EqualTo(30));
-                Assert.That(@double.D, Is.EqualTo(40));
-                Assert.That(@double.E, Is.EqualTo(50));
-                Assert.That(@double.F, Is.EqualTo(60));
-                Assert.That((Target.Single.Transform)@double, Is.EqualTo(single));
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Single.Transform)@double, Is.EqualTo(single));
             }
         }
         [Test]
@@ -68,38 +68,38 @@ namespace Kean.Test.Math.Geometry2D.Double
             {
                 Target.Integer.TransformValue integer = new Target.Integer.TransformValue(10, 20, 30, 40, 50, 60);
                 Target.Double.TransformValue @double = integer;
-                Assert.That(@double.A, Is.EqualTo(10));
-                Assert.That(@double.B, Is.EqualTo(20));
-                Assert.That(@double.C, Is.EqualTo(30));
-                Assert.That(@double.D, Is.EqualTo(40));
-                Assert.That(@double.E, Is.EqualTo(50));
-                Assert.That(@double.F, Is.EqualTo(60));
-                Assert.That((Target.Integer.TransformValue)@double, Is.EqualTo(integer));
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Integer.TransformValue)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.TransformValue single = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
                 Target.Double.TransformValue @double = single;
-                Assert.That(@double.A, Is.EqualTo(10));
-                Assert.That(@double.B, Is.EqualTo(20));
-                Assert.That(@double.C, Is.EqualTo(30));
-                Assert.That(@double.D, Is.EqualTo(40));
-                Assert.That(@double.E, Is.EqualTo(50));
-                Assert.That(@double.F, Is.EqualTo(60));
-                Assert.That((Target.Single.TransformValue)@double, Is.EqualTo(single));
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Single.TransformValue)@double, Is.EqualTo(single));
             }
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
-            Assert.That(textFromValue, Is.EqualTo("10, 30, 50; 20, 40, 60; 0, 0, 1"));
+            Expect(textFromValue, Is.EqualTo("10, 30, 50; 20, 40, 60; 0, 0, 1"));
             Target.Single.TransformValue @integerFromText = "10, 30, 50; 20, 40, 60; 0, 0, 1";
-            Assert.That(@integerFromText.A, Is.EqualTo(10));
-            Assert.That(@integerFromText.B, Is.EqualTo(20));
-            Assert.That(@integerFromText.C, Is.EqualTo(30));
-            Assert.That(@integerFromText.D, Is.EqualTo(40));
-            Assert.That(@integerFromText.E, Is.EqualTo(50));
-            Assert.That(@integerFromText.F, Is.EqualTo(60));
+            Expect(@integerFromText.A, Is.EqualTo(10));
+            Expect(@integerFromText.B, Is.EqualTo(20));
+            Expect(@integerFromText.C, Is.EqualTo(30));
+            Expect(@integerFromText.D, Is.EqualTo(40));
+            Expect(@integerFromText.E, Is.EqualTo(50));
+            Expect(@integerFromText.F, Is.EqualTo(60));
         }
         public void Run()
         {

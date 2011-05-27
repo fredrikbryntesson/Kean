@@ -38,7 +38,7 @@ namespace Kean.Test.Math.Geometry3D.Single
             Kean.Math.Matrix.Single matrix = (Kean.Math.Matrix.Single)(float[,])q;
             Kean.Math.Matrix.Single matrixInverse = (Kean.Math.Matrix.Single)(float[,])(q.Inverse);
             Kean.Math.Matrix.Single matrixInverse2 = matrix.Inverse();
-            Assert.That(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
+            Expect(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
         }
         protected override float Cast(double value)
         {

@@ -28,24 +28,24 @@ namespace Kean.Test.Math.Geometry3D.Double
             {
                 Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40, 50, 60);
                 Target.Double.Box @double = integer;
-                Assert.That(@double.Left, Is.EqualTo(10));
-                Assert.That(@double.Top, Is.EqualTo(20));
-                Assert.That(@double.Front, Is.EqualTo(30));
-                Assert.That(@double.Width, Is.EqualTo(40));
-                Assert.That(@double.Height, Is.EqualTo(50));
-                Assert.That(@double.Depth, Is.EqualTo(60));
-                Assert.That((Target.Integer.Box)@double, Is.EqualTo(integer));
+                Expect(@double.Left, Is.EqualTo(10));
+                Expect(@double.Top, Is.EqualTo(20));
+                Expect(@double.Front, Is.EqualTo(30));
+                Expect(@double.Width, Is.EqualTo(40));
+                Expect(@double.Height, Is.EqualTo(50));
+                Expect(@double.Depth, Is.EqualTo(60));
+                Expect((Target.Integer.Box)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.Box single = new Target.Single.Box(10, 20, 30, 40, 50, 60);
                 Target.Double.Box @double = single;
-                Assert.That(@double.Left, Is.EqualTo(10));
-                Assert.That(@double.Top, Is.EqualTo(20));
-                Assert.That(@double.Front, Is.EqualTo(30));
-                Assert.That(@double.Width, Is.EqualTo(40));
-                Assert.That(@double.Height, Is.EqualTo(50));
-                Assert.That(@double.Depth, Is.EqualTo(60));
-                Assert.That((Target.Single.Box)@double, Is.EqualTo(single));
+                Expect(@double.Left, Is.EqualTo(10));
+                Expect(@double.Top, Is.EqualTo(20));
+                Expect(@double.Front, Is.EqualTo(30));
+                Expect(@double.Width, Is.EqualTo(40));
+                Expect(@double.Height, Is.EqualTo(50));
+                Expect(@double.Depth, Is.EqualTo(60));
+                Expect((Target.Single.Box)@double, Is.EqualTo(single));
             }
         }
         [Test]
@@ -55,38 +55,38 @@ namespace Kean.Test.Math.Geometry3D.Double
             {
                 Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40, 50, 60);
                 Target.Double.BoxValue @double = integer;
-                Assert.That(@double.Left, Is.EqualTo(10));
-                Assert.That(@double.Top, Is.EqualTo(20));
-                Assert.That(@double.Front, Is.EqualTo(30));
-                Assert.That(@double.Width, Is.EqualTo(40));
-                Assert.That(@double.Height, Is.EqualTo(50));
-                Assert.That(@double.Depth, Is.EqualTo(60));
-                Assert.That((Target.Integer.BoxValue)@double, Is.EqualTo(integer));
+                Expect(@double.Left, Is.EqualTo(10));
+                Expect(@double.Top, Is.EqualTo(20));
+                Expect(@double.Front, Is.EqualTo(30));
+                Expect(@double.Width, Is.EqualTo(40));
+                Expect(@double.Height, Is.EqualTo(50));
+                Expect(@double.Depth, Is.EqualTo(60));
+                Expect((Target.Integer.BoxValue)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.BoxValue single = new Target.Single.BoxValue(10, 20, 30, 40, 50, 60);
                 Target.Double.BoxValue @double = single;
-                Assert.That(@double.Left, Is.EqualTo(10));
-                Assert.That(@double.Top, Is.EqualTo(20));
-                Assert.That(@double.Front, Is.EqualTo(30));
-                Assert.That(@double.Width, Is.EqualTo(40));
-                Assert.That(@double.Height, Is.EqualTo(50));
-                Assert.That(@double.Depth, Is.EqualTo(60));
-                Assert.That((Target.Single.BoxValue)@double, Is.EqualTo(single));
+                Expect(@double.Left, Is.EqualTo(10));
+                Expect(@double.Top, Is.EqualTo(20));
+                Expect(@double.Front, Is.EqualTo(30));
+                Expect(@double.Width, Is.EqualTo(40));
+                Expect(@double.Height, Is.EqualTo(50));
+                Expect(@double.Depth, Is.EqualTo(60));
+                Expect((Target.Single.BoxValue)@double, Is.EqualTo(single));
             }
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Double.BoxValue(10, 20, 30, 40, 50, 60);
-            Assert.That(textFromValue, Is.EqualTo("10 20 30 40 50 60"));
+            Expect(textFromValue, Is.EqualTo("10 20 30 40 50 60"));
             Target.Double.BoxValue @doubleFromText = "10 20 30 40 50 60";
-            Assert.That(@doubleFromText.Left, Is.EqualTo(10));
-            Assert.That(@doubleFromText.Top, Is.EqualTo(20));
-            Assert.That(@doubleFromText.Front, Is.EqualTo(30));
-            Assert.That(@doubleFromText.Width, Is.EqualTo(40));
-            Assert.That(@doubleFromText.Height, Is.EqualTo(50));
-            Assert.That(@doubleFromText.Depth, Is.EqualTo(60));
+            Expect(@doubleFromText.Left, Is.EqualTo(10));
+            Expect(@doubleFromText.Top, Is.EqualTo(20));
+            Expect(@doubleFromText.Front, Is.EqualTo(30));
+            Expect(@doubleFromText.Width, Is.EqualTo(40));
+            Expect(@doubleFromText.Height, Is.EqualTo(50));
+            Expect(@doubleFromText.Depth, Is.EqualTo(60));
      
         }
         public void Run()

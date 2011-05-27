@@ -5,7 +5,8 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Test.Math.Geometry3D.Abstract
 {
-    public abstract class Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>
+    public abstract class Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> : 
+        AssertionHelper
         where VectorType : Kean.Math.Geometry3D.Abstract.Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType,SizeValue, R, V>, new()
         where VectorValue : struct, Kean.Math.Geometry3D.Abstract.IVector<V>
         where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
@@ -31,34 +32,34 @@ namespace Kean.Test.Math.Geometry3D.Abstract
         public void Equality()
         {
             VectorType point = null;
-            Assert.That(this.Vector0, Is.EqualTo(this.Vector0));
-            Assert.That(this.Vector0, Is.EqualTo(this.Vector0));
-            Assert.That(this.Vector0.Equals(this.Vector0), Is.True);
-            Assert.That(this.Vector0.Equals(this.Vector0 as object), Is.True);
-            Assert.That(this.Vector0 == this.Vector0, Is.True);
-            Assert.That(this.Vector0 != this.Vector1, Is.True);
-            Assert.That(this.Vector0 == point, Is.False);
-            Assert.That(point == point, Is.True);
-            Assert.That(point == this.Vector0, Is.False);
+            Expect(this.Vector0, Is.EqualTo(this.Vector0));
+            Expect(this.Vector0, Is.EqualTo(this.Vector0));
+            Expect(this.Vector0.Equals(this.Vector0), Is.True);
+            Expect(this.Vector0.Equals(this.Vector0 as object), Is.True);
+            Expect(this.Vector0 == this.Vector0, Is.True);
+            Expect(this.Vector0 != this.Vector1, Is.True);
+            Expect(this.Vector0 == point, Is.False);
+            Expect(point == point, Is.True);
+            Expect(point == this.Vector0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void Addition()
         {
-            Assert.That((this.Vector0 + this.Vector1).Value.X, Is.EqualTo(this.Vector2.Value.X).Within(this.Precision));
-            Assert.That((this.Vector0 + this.Vector1).Value.Y, Is.EqualTo(this.Vector2.Value.Y).Within(this.Precision));
-            Assert.That((this.Vector0 + this.Vector1).Value.Z, Is.EqualTo(this.Vector2.Value.Z).Within(this.Precision));
+            Expect((this.Vector0 + this.Vector1).Value.X, Is.EqualTo(this.Vector2.Value.X).Within(this.Precision));
+            Expect((this.Vector0 + this.Vector1).Value.Y, Is.EqualTo(this.Vector2.Value.Y).Within(this.Precision));
+            Expect((this.Vector0 + this.Vector1).Value.Z, Is.EqualTo(this.Vector2.Value.Z).Within(this.Precision));
         }
         [Test]
         public void Subtraction()
         {
-            Assert.That(this.Vector0 - this.Vector0, Is.EqualTo(new VectorType()));
+            Expect(this.Vector0 - this.Vector0, Is.EqualTo(new VectorType()));
         }
         [Test]
         public void ScalarMultitplication()
         {
-            Assert.That((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
+            Expect((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
         }
         #endregion
 

@@ -26,8 +26,8 @@ namespace Kean.Test.Math.Geometry3D.Single
         [Test]
         public void Norm()
         {
-            Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Cast(593)).Within(this.Precision));
-            Assert.That(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Vector0.ScalarProduct(this.Vector0).Value).Within(this.Precision));
+            Expect(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Cast(593)).Within(this.Precision));
+            Expect(this.Vector0.Norm.Squared().Value, Is.EqualTo(this.Vector0.ScalarProduct(this.Vector0).Value).Within(this.Precision));
         }
         protected override float Cast(double value)
         {
@@ -39,10 +39,10 @@ namespace Kean.Test.Math.Geometry3D.Single
             // integer - single
             Target.Integer.Point integer = new Target.Integer.Point(10, 20, 30);
             Target.Single.Point single = integer;
-            Assert.That(single.X, Is.EqualTo(10));
-            Assert.That(single.Y, Is.EqualTo(20));
-            Assert.That(single.Z, Is.EqualTo(30));
-            Assert.That((Target.Integer.Point)single, Is.EqualTo(integer));
+            Expect(single.X, Is.EqualTo(10));
+            Expect(single.Y, Is.EqualTo(20));
+            Expect(single.Z, Is.EqualTo(30));
+            Expect((Target.Integer.Point)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -50,20 +50,20 @@ namespace Kean.Test.Math.Geometry3D.Single
             // integer - single
             Target.Integer.PointValue integer = new Target.Integer.PointValue(10, 20, 30);
             Target.Single.PointValue single = integer;
-            Assert.That(single.X, Is.EqualTo(10));
-            Assert.That(single.Y, Is.EqualTo(20));
-            Assert.That(single.Z, Is.EqualTo(30));
-            Assert.That((Target.Integer.PointValue)single, Is.EqualTo(integer));
+            Expect(single.X, Is.EqualTo(10));
+            Expect(single.Y, Is.EqualTo(20));
+            Expect(single.Z, Is.EqualTo(30));
+            Expect((Target.Integer.PointValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.PointValue(10, 20, 30);
-            Assert.That(textFromValue, Is.EqualTo("10 20 30"));
+            Expect(textFromValue, Is.EqualTo("10 20 30"));
             Target.Single.PointValue @integerFromText = "10 20 30";
-            Assert.That(@integerFromText.X, Is.EqualTo(10));
-            Assert.That(@integerFromText.Y, Is.EqualTo(20));
-            Assert.That(@integerFromText.Z, Is.EqualTo(30));
+            Expect(@integerFromText.X, Is.EqualTo(10));
+            Expect(@integerFromText.Y, Is.EqualTo(20));
+            Expect(@integerFromText.Z, Is.EqualTo(30));
         }
         public void Run()
         {

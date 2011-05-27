@@ -106,14 +106,14 @@ namespace Kean.Test.Core.Collection.Base
                 a[i] = i;
                 b[i] = i;
             }
-            Assert.That(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
-            Assert.That(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
-            Assert.That(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
+            Expect(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
+            Expect(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
+            Expect(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
             b[5] = 33;
-            Assert.That(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
-            Assert.That(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
-            Assert.That(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
-            Assert.That(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
+            Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
+            Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
+            Expect(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
+            Expect(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
         }   
         public virtual void Run()
 		{

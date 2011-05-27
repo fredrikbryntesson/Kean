@@ -39,7 +39,7 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Matrix.Double matrix = (Kean.Math.Matrix.Double)(double[,])q;
             Kean.Math.Matrix.Double matrixInverse = (Kean.Math.Matrix.Double)(double[,])(q.Inverse);
             Kean.Math.Matrix.Double matrixInverse2 = matrix.Inverse();
-            Assert.That(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
+            Expect(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
         }
         [Test]
         public void Action()
@@ -48,9 +48,9 @@ namespace Kean.Test.Math.Geometry3D.Double
             double pitch = Kean.Math.Double.ToRadians(20);
             double yaw = Kean.Math.Double.ToRadians(-45);
             Target quaternion = Target.CreateRotationZ(yaw) * Target.CreateRotationY(pitch) * Target.CreateRotationX(roll);
-            Assert.That(quaternion.RotationX.Value, Is.EqualTo(roll).Within(this.Precision));
-            Assert.That(quaternion.RotationY.Value, Is.EqualTo(pitch).Within(this.Precision));
-            Assert.That(quaternion.RotationZ.Value, Is.EqualTo(yaw).Within(this.Precision));
+            Expect(quaternion.RotationX.Value, Is.EqualTo(roll).Within(this.Precision));
+            Expect(quaternion.RotationY.Value, Is.EqualTo(pitch).Within(this.Precision));
+            Expect(quaternion.RotationZ.Value, Is.EqualTo(yaw).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation1()
@@ -59,8 +59,8 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(1,4,7);
             direction /= direction.Norm;
             Target q = Target.CreateRotation(angle, direction);
-            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
-            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Expect(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation2()
@@ -69,8 +69,8 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(1, 4, 7);
             direction /= direction.Norm;
             Target q = Target.CreateRotation(angle, direction);
-            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
-            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Expect(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation3()
@@ -79,8 +79,8 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(0,0,5);
             direction /= direction.Norm;
             Target q = Target.CreateRotation(angle, direction);
-            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
-            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Expect(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation4()
@@ -89,8 +89,8 @@ namespace Kean.Test.Math.Geometry3D.Double
             Kean.Math.Geometry3D.Double.Point direction = new Kean.Math.Geometry3D.Double.Point(0, 0, -5);
             direction /= direction.Norm;
             Target q = Target.CreateRotation(angle, direction);
-            Assert.That(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
-            Assert.That(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Expect(q.Rotation.Value, Is.EqualTo(angle).Within(this.Precision));
+            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         protected override double Cast(double value)
         {
