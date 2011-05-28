@@ -45,6 +45,20 @@ namespace Kean.Math.Geometry2D.Double
             this.X = x;
             this.Y = y;
         }
+        public void Clear()
+        {
+            this.X = this.Y = 0;    
+        }
+        public void Set(double x, double y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+        public void Set(ref double x, ref double y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
         #region Arithmetic Vector - Vector Operators
         public static PointValue operator +(PointValue left, PointValue right)
         {

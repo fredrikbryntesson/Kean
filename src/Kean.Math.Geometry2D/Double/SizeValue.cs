@@ -36,6 +36,8 @@ namespace Kean.Math.Geometry2D.Double
         double Abstract.IVector<double>.X { get { return this.Width; } }
         double Abstract.IVector<double>.Y { get { return this.Height; } }
         #endregion
+        public double Area { get { return this.Width * this.Height; } }
+        public bool IsEmpty { get { return this.Width == 0 || this.Height == 0; } }
         public SizeValue(double width, double height)
 		{
 			this.Width = width;

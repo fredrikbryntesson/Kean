@@ -45,6 +45,20 @@ namespace Kean.Math.Geometry2D.Single
             this.X = x;
             this.Y = y;
         }
+        public void Clear()
+        {
+            this.X = this.Y = 0;
+        }
+        public void Set(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+        public void Set(ref float x, ref float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
         #region Arithmetic Vector - Vector Operators
         public static void Add(ref PointValue left, ref PointValue right, ref PointValue result)
         {
