@@ -26,6 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			Console.WriteLine("Started");
             Kean.Test.Math.Single.Test();
             
             Kean.Test.Math.Geometry2D.Integer.Point.Test();
@@ -64,21 +65,22 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
 
             Kean.Test.Math.Matrix.Single.Test();
-            Core.Collection.Vector.Test();
-			Core.Collection.List.Test();
-			Core.Collection.Queue.Test();
-			Core.Collection.Stack.Test();
-			Core.Collection.Dictionary.Test();
-			Core.Collection.Linked.List.Test();
-			Core.Collection.Linked.Queue.Test();
-			Core.Collection.Linked.Stack.Test();
-			Core.Collection.Array.Vector.Test();
-			Core.Collection.Array.List.Test();
-			Core.Collection.Array.Queue.Test();
-			Core.Collection.Array.Stack.Test();
-			Core.Collection.Sorted.List.Test();
+            Kean.Test.Core.Collection.Vector.Test();
+			Kean.Test.Core.Collection.List.Test();
+			Kean.Test.Core.Collection.Queue.Test();
+			Kean.Test.Core.Collection.Stack.Test();
+			Kean.Test.Core.Collection.Dictionary.Test();
+			Kean.Test.Core.Collection.Linked.List.Test();
+			Kean.Test.Core.Collection.Linked.Queue.Test();
+			Kean.Test.Core.Collection.Linked.Stack.Test();
+			Kean.Test.Core.Collection.Array.Vector.Test();
+			Kean.Test.Core.Collection.Array.List.Test();
+			Kean.Test.Core.Collection.Array.Queue.Test();
+			Kean.Test.Core.Collection.Array.Stack.Test();
+			Kean.Test.Core.Collection.Sorted.List.Test();
 
-			Core.Error.Error.Test();
+			Kean.Test.Core.Error.Error.Test();
+			Console.WriteLine("Done");
 		}
 	}
 }
