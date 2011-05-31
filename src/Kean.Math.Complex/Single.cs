@@ -22,167 +22,94 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math.Complex
 {
-    public class Single :
-        Complex.Abstract<Single, Kean.Math.Single, float>
+    public struct Single
     {
-        #region Constructors
-        public Single() :
-            this(0)
-        { }
-        public Single(float real) :
-            this(real, 0)
-        { }
-        public Single(float real, float imaginary) :
-            base(real, imaginary)
-        { }
-        #endregion
-        public override Single CreateConstant(int real, int imaginary)
+        public float Real;
+        public float Imaginary;
+        public Single Conjugate { get { return new Single(this.Real, -this.Imaginary); } }
+        public float AbsoluteValue { get { return Kean.Math.Single.SquareRoot(this.Real * this.Real + this.Imaginary * this.Imaginary); } }
+        public Single(float real, float imaginary)
         {
-            return new Single(real, imaginary);
+            this.Real = real;
+            this.Imaginary = imaginary;
         }
-        #region Functions
-        #region Arithmetic Functions
-        public override Single Add(Single other)
+        #region Static Operators
+        public static Single operator +(Single left, Single right)
         {
-            return new Single(this.Real + other.Real, this.Imaginary + other.Imaginary);
+            return new Single(left.Real + right.Real, left.Imaginary + right.Imaginary);
         }
-        public override Single Substract(Single other)
+        public static Single operator -(Single left, Single right)
         {
-            return new Single(this.Real - other.Real, this.Imaginary - other.Imaginary);
+            return new Single(left.Real - right.Real, left.Imaginary - right.Imaginary);
         }
-        public override Single Multiply(Single other)
+        public static Single operator -(Single value)
         {
-            return new Single(this.Real * other.Real - this.Imaginary * other.Imaginary, this.Real* other.Imaginary + this.Imaginary * other.Real);
+            return new Single(-value.Real, -value.Imaginary);
         }
-        public override Single Divide(Single value)
+        public static Single operator *(Single left, Single right)
         {
-            return value.Conjugate / ((Kean.Math.Single)value.Norm).Squared();  
+            return new Single(left.Real * right.Real - left.Imaginary * right.Imaginary, left.Real * right.Imaginary + left.Imaginary * right.Real);
         }
-        public override Single Negate()
+        public static Single operator *(Single left, float right)
         {
-            return new Single(-this.Real, -this.Imaginary);
+            return new Single(left.Real * right, left.Imaginary * right);
         }
-        #endregion
-        #endregion
-
-        /*
-        #region Trigonometric Functions
-        public override Single Sinus()
+        public static Single operator *(float left, Single right)
         {
-            return Single.Sinus(this.Value);
+            return right * left;
         }
-        public override Single Cosinus()
+        public static Single operator /(Single left, Single right)
         {
-            return Single.Cosinus(this.Value);
+            return (left * right.Conjugate) / right.AbsoluteValue;
         }
-        public override Single Tangens()
+        public static Single operator /(Single left, float right)
         {
-            return Single.Tangens(this.Value);
+            return new Single(left.Real / right, left.Imaginary / right);
         }
         #endregion
-        #region Inverse Trigonometric Functions
-        public override Single ArcusSinus()
+        #region Static Functions
+        public static Single Exponential(Single value)
         {
-            return Single.ArcusSinus(this.Value);
+            return Kean.Math.Single.Exponential(value.Real) * new Single(Kean.Math.Single.Cosinus(value.Imaginary), Kean.Math.Single.Sinus(value.Imaginary));
         }
-        public override Single ArcusCosinus()
+        public static Single Logarithm(Single value)
         {
-            return Single.ArcusCosinus(this.Value);
+            return Kean.Math.Single.Logarithm(value.AbsoluteValue) + new Single(0, Kean.Math.Single.ArcusTangensExtended(value.Imaginary, value.Real));
         }
-        public override Single ArcusTangens()
+        public static Single RootOfUnity(int n, int k)
         {
-            return Single.ArcusTangens(this.Value);
-        }
-        public override Single ArcusTangensExtended(Single x)
-        {
-            return Single.ArcusTangensExtended(this.Value, x);
+            return Single.Exponential(new Single(0, Kean.Math.Single.Pi * 2 * k / (float)n));
         }
         #endregion
-        #region Transcendental Functions
-        public override Single Exponential()
+        #region Object overides and IEquatable<Single>
+        public override bool Equals(object other)
         {
-            return Single.Exponential(this.Value);
+            return (other is Single) && this.Equals((Single)other);
         }
-        public override Single Logarithm()
+        // other is not null here.
+        public bool Equals(Single other)
         {
-            return Single.Logarithm(this.Value);
+            return this.Real == other.Real && this.Imaginary == other.Imaginary;
         }
-        #endregion
-        #region Power Function
-        public override Single Power(Single exponent)
+        public override int GetHashCode()
         {
-            return Single.Power(this.Value, exponent);
-        }
-        public override Single SquareRoot()
-        {
-            return Single.SquareRoot(this.Value);
-        }
-        public override Single Squared()
-        {
-            return this.Value * this.Value;
+            return this.Real.GetHashCode() ^ this.Imaginary.GetHashCode();
         }
         #endregion
-        */
-        //#region Static Functions
-        /*
-        #region Trigonometric Functions
-        public static float Sinus(float value)
+        #region Comparison Functions and IComparable<R>
+        public static bool operator ==(Single left, Single right)
         {
-            return (float)System.Math.Sin(value);
+            return left.Equals(right);
         }
-        public static float Cosinus(float value)
+        public static bool operator !=(Single left, Single right)
         {
-            return (float)System.Math.Cos(value);
-        }
-        public static float Tangens(float value)
-        {
-            return (float)System.Math.Tan(value);
+            return !(left == right);
         }
         #endregion
-        #region Inverse Trigonometric Functions
-        public static float ArcusSinus(float value)
+        #region Casts
+        public static implicit operator Single(float value)
         {
-            return (float)System.Math.Asin(value);
-        }
-        public static float ArcusCosinus(float value)
-        {
-            return (float)System.Math.Acos(value);
-        }
-        public static float ArcusTangens(float value)
-        {
-            return (float)System.Math.Atan(value);
-        }
-        public static float ArcusTangensExtended(float y, float x)
-        {
-            return (float)System.Math.Atan2(y, x);
-        }
-        #endregion
-        #region Transcendental Functions
-        public static float Exponential(float value)
-        {
-            return (float)System.Math.Exp(value);
-        }
-        public static float Logarithm(float value)
-        {
-            return (float)System.Math.Log(value);
-        }
-        #endregion
-        #region Power Function
-        public static float Power(float @base, float exponent)
-        {
-            return (float)System.Math.Pow(@base, exponent);
-        }
-        public static float SquareRoot(float value)
-        {
-            return (float)System.Math.Sqrt(value);
-        }
-        #endregion
-        #endregion
-        */
-        #region Object overides
-        public override string ToString()
-        {
-            return this.Real.ToString() + " i"+ this.Imaginary.ToString();
+            return new Single(value, 0);
         }
         #endregion
     }
