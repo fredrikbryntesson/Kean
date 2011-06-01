@@ -28,7 +28,11 @@ namespace Kean.Test.Run
 		{
 			Console.WriteLine("Started");
             Kean.Test.Math.Single.Test();
+            Kean.Test.Math.Double.Test();
             Kean.Test.Math.Complex.Single.Test();
+            Kean.Test.Math.Complex.Double.Test();
+            Kean.Test.Math.Complex.Fourier.Single.Test();
+            Kean.Test.Math.Complex.Fourier.Double.Test();
 
             Kean.Test.Math.Geometry2D.Integer.Point.Test();
             Kean.Test.Math.Geometry2D.Single.Point.Test();

@@ -1,5 +1,5 @@
 ﻿// 
-//  Single.cs
+//  Double.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -22,74 +22,74 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math.Complex
 {
-    public partial struct Single
+    public partial struct Double
     {
-        public float Real;
-        public float Imaginary;
-        public Single Conjugate { get { return new Single(this.Real, -this.Imaginary); } }
-        public float AbsoluteValue { get { return Kean.Math.Single.SquareRoot(Kean.Math.Single.Squared(this.Real) + Kean.Math.Single.Squared(this.Imaginary)); } }
-        public Single(float real, float imaginary)
+        public double Real;
+        public double Imaginary;
+        public Double Conjugate { get { return new Double(this.Real, -this.Imaginary); } }
+        public double AbsoluteValue { get { return Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(this.Real) + Kean.Math.Double.Squared(this.Imaginary)); } }
+        public Double(double real, double imaginary)
         {
             this.Real = real;
             this.Imaginary = imaginary;
         }
         #region Static Operators
-        public static Single operator +(Single left, Single right)
+        public static Double operator +(Double left, Double right)
         {
-            return new Single(left.Real + right.Real, left.Imaginary + right.Imaginary);
+            return new Double(left.Real + right.Real, left.Imaginary + right.Imaginary);
         }
-        public static Single operator -(Single left, Single right)
+        public static Double operator -(Double left, Double right)
         {
-            return new Single(left.Real - right.Real, left.Imaginary - right.Imaginary);
+            return new Double(left.Real - right.Real, left.Imaginary - right.Imaginary);
         }
-        public static Single operator -(Single value)
+        public static Double operator -(Double value)
         {
-            return new Single(-value.Real, -value.Imaginary);
+            return new Double(-value.Real, -value.Imaginary);
         }
-        public static Single operator *(Single left, Single right)
+        public static Double operator *(Double left, Double right)
         {
-            return new Single(left.Real * right.Real - left.Imaginary * right.Imaginary, left.Real * right.Imaginary + left.Imaginary * right.Real);
+            return new Double(left.Real * right.Real - left.Imaginary * right.Imaginary, left.Real * right.Imaginary + left.Imaginary * right.Real);
         }
-        public static Single operator /(Single left, float right)
+        public static Double operator /(Double left, double right)
         {
-            return new Single(left.Real / right, left.Imaginary / right);
+            return new Double(left.Real / right, left.Imaginary / right);
         }
-        public static Single operator /(Single left, Single right)
+        public static Double operator /(Double left, Double right)
         {
-            return (left * right.Conjugate) / Kean.Math.Single.Squared(right.AbsoluteValue);
+            return (left * right.Conjugate) / Kean.Math.Double.Squared(right.AbsoluteValue);
         }
         #endregion
         #region Static Functions
-        public static Single Exponential(Single value)
+        public static Double Exponential(Double value)
         {
-            return Kean.Math.Single.Exponential(value.Real) * new Single(Kean.Math.Single.Cosinus(value.Imaginary), Kean.Math.Single.Sinus(value.Imaginary));
+            return Kean.Math.Double.Exponential(value.Real) * new Double(Kean.Math.Double.Cosinus(value.Imaginary), Kean.Math.Double.Sinus(value.Imaginary));
         }
-        public static Single Logarithm(Single value)
+        public static Double Logarithm(Double value)
         {
-            return Kean.Math.Single.Logarithm(value.AbsoluteValue) + new Single(0, Kean.Math.Single.ArcusTangensExtended(value.Imaginary, value.Real));
+            return Kean.Math.Double.Logarithm(value.AbsoluteValue) + new Double(0, Kean.Math.Double.ArcusTangensExtended(value.Imaginary, value.Real));
         }
-        public static Single RootOfUnity(int n)
+        public static Double RootOfUnity(int n)
         {
-            return Single.RootOfUnity(n, 1);
+            return Double.RootOfUnity(n, 1);
         }
-        public static Single RootOfUnity(int n, int k)
+        public static Double RootOfUnity(int n, int k)
         {
-            return Single.Exponential(new Single(0, 2 * k * Kean.Math.Single.Pi / n));
+            return Double.Exponential(new Double(0, 2 * k * Kean.Math.Double.Pi / n));
         }
         #endregion
-        #region Object overides and IEquatable<Single>
+        #region Object overides and IEquatable<Double>
         public override bool Equals(object other)
         {
-            return (other is Single) && this.Equals((Single)other);
+            return (other is Double) && this.Equals((Double)other);
         }
         // other is not null here.
-        public bool Equals(Single other)
+        public bool Equals(Double other)
         {
             return this.Real == other.Real && this.Imaginary == other.Imaginary;
         }
-        public bool Equals(Single other, float tolerance)
+        public bool Equals(Double other, double tolerance)
         {
-            return Kean.Math.Single.Absolute(this.Real - other.Real) < tolerance && Kean.Math.Single.Absolute(this.Imaginary - other.Imaginary) < tolerance;
+            return Kean.Math.Double.Absolute(this.Real - other.Real) < tolerance && Kean.Math.Double.Absolute(this.Imaginary - other.Imaginary) < tolerance;
         }
         public override int GetHashCode()
         {
@@ -97,48 +97,48 @@ namespace Kean.Math.Complex
         }
         public override string ToString()
         {
-            return Kean.Math.Single.ToString(this.Real) + " "  + (Kean.Math.Single.Sign(this.Imaginary)>= 0 ? "+" : "") + Kean.Math.Single.ToString(this.Imaginary)+ "i";
+            return Kean.Math.Double.ToString(this.Real) + " " + (Kean.Math.Double.Sign(this.Imaginary) >= 0 ? "+" : "") + Kean.Math.Double.ToString(this.Imaginary) + "i";
         }
         #endregion
-        #region Comparison Functions and IComparable<Single>
-        public static bool operator ==(Single left, Single right)
+        #region Comparison Functions and IComparable<Double>
+        public static bool operator ==(Double left, Double right)
         {
             return left.Equals(right);
         }
-        public static bool operator !=(Single left, Single right)
+        public static bool operator !=(Double left, Double right)
         {
             return !(left == right);
         }
         #endregion
         #region Casts
-        public static implicit operator Single(float value)
+        public static implicit operator Double(double value)
         {
-            return new Single(value, 0);
+            return new Double(value, 0);
         }
-        public static implicit operator string(Single value)
+        public static implicit operator string(Double value)
         {
             return value.ToString();
         }
-        public static implicit operator Single(string value)
+        public static implicit operator Double(string value)
         {
-            Single result = new Single();
+            Double result = new Double();
             if (value.NotEmpty())
             {
                 try
                 {
-                    value = value.ToLower().Replace(" ", "").Replace("f", "").Replace("\t","");
+                    value = value.ToLower().Replace(" ", "").Replace("f", "").Replace("\t", "");
                     if (!value.Contains("i"))
-                        result = Kean.Math.Single.Parse(value);
+                        result = Kean.Math.Double.Parse(value);
                     else
                     {
-                        string[] values = value.Split(new char[] { '+','-' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] values = value.Split(new char[] { '+', '-' }, StringSplitOptions.RemoveEmptyEntries);
                         if (values.Length == 1)
-                            result = new Single(0, Kean.Math.Single.Parse(value.Trim('i', '*')));
+                            result = new Double(0, Kean.Math.Double.Parse(value.Trim('i', '*')));
                         else
                         {
                             string real = null;
                             string imaginary = null;
-                            if(values[0].Contains("i"))
+                            if (values[0].Contains("i"))
                             {
                                 int index = value.IndexOf(values[0]);
                                 char sign = index >= 1 && value[index - 1] == '-' ? '-' : '+';
@@ -147,7 +147,7 @@ namespace Kean.Math.Complex
                                 sign = index >= 1 && value[index - 1] == '-' ? '-' : '+';
                                 real = sign + values[1];
                             }
-                            else if(values[1].Contains("i"))
+                            else if (values[1].Contains("i"))
                             {
                                 int index = value.IndexOf(values[1]);
                                 char sign = index >= 1 && value[index - 1] == '-' ? '-' : '+';
@@ -157,12 +157,12 @@ namespace Kean.Math.Complex
                                 real = sign + values[0];
                             }
                             if (real.NotEmpty() && imaginary.NotEmpty())
-                                result = new Single(Kean.Math.Single.Parse(real), Kean.Math.Single.Parse(imaginary));
+                                result = new Double(Kean.Math.Double.Parse(real), Kean.Math.Double.Parse(imaginary));
                         }
                     }
                 }
                 catch
-                {}
+                { }
             }
             return result;
         }

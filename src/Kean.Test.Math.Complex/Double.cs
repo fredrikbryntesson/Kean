@@ -2,10 +2,10 @@
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Basis.Extension;
-using Target = Kean.Math.Complex.Single;
+using Target = Kean.Math.Complex.Double;
 namespace Kean.Test.Math.Complex
 {
-    public class Single : AssertionHelper
+    public class Double : AssertionHelper
     {
         class Comparer :
             System.Collections.IComparer
@@ -22,7 +22,7 @@ namespace Kean.Test.Math.Complex
             }
             #endregion
         }
-        string prefix = "Kean.Test.Math.Complex.Single.";
+        string prefix = "Kean.Test.Math.Complex.Double.";
         [Test]
         public void Constructors()
         {
@@ -48,7 +48,7 @@ namespace Kean.Test.Math.Complex
         public void BasicFunctions()
         {
             Expect(new Target(1, 2).Conjugate, Is.EqualTo(new Target(1, -2)), this.prefix + "BasicFunctions.0");
-            Expect(new Target(1, 2).AbsoluteValue, Is.EqualTo(Kean.Math.Single.SquareRoot(5)), this.prefix + "BasicFunctions.1");
+            Expect(new Target(1, 2).AbsoluteValue, Is.EqualTo(Kean.Math.Double.SquareRoot(5)), this.prefix + "BasicFunctions.1");
         }
         [Test]
         public void Arithmetics()
@@ -63,16 +63,16 @@ namespace Kean.Test.Math.Complex
             Expect(a - b, Is.EqualTo(d), this.prefix + "Arithmetics.1");
             Expect(a - a, Is.EqualTo(new Target()), this.prefix + "Arithmetics.2");
             Expect(a * b, Is.EqualTo(e), this.prefix + "Arithmetics.3");
-            Expect(a / b, Is.EqualTo(f).Comparer(new Comparer(1e-9f)), this.prefix + "Arithmetics.4");
+            Expect(a / b, Is.EqualTo(f).Comparer(new Comparer(1e-7f)), this.prefix + "Arithmetics.4");
         }
         [Test]
         public void Functions()
         {
             Target a = new Target(1, 2);
-            Target b = new Kean.Math.Complex.Single(-1.131204383756814f, 2.471726672004819f);
-            Target c = new Kean.Math.Complex.Single(0.804718956217050f, 1.107148717794090f);
-            Expect(Kean.Math.Complex.Single.Exponential(a), Is.EqualTo(b), this.prefix + "Functions.0");
-            Expect(Kean.Math.Complex.Single.Logarithm(a), Is.EqualTo(c), this.prefix + "Functions.1");
+            Target b = new Kean.Math.Complex.Double(-1.131204383756814f, 2.471726672004819f);
+            Target c = new Kean.Math.Complex.Double(0.804718956217050f, 1.107148717794090f);
+            Expect(Kean.Math.Complex.Double.Exponential(a), Is.EqualTo(b).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.0");
+            Expect(Kean.Math.Complex.Double.Logarithm(a), Is.EqualTo(c).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.1");
         }
         [Test]
         public void Casts()
@@ -115,7 +115,7 @@ namespace Kean.Test.Math.Complex
         }
         public static void Test()
         {
-            Single fixture = new Single();
+            Double fixture = new Double();
             fixture.Run();
         }
     }
