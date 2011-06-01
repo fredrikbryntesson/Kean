@@ -246,7 +246,7 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             R one = Kean.Math.Abstract<R, V>.One;
-            return new TransformType() { A = one, B = zero, C = zero, D = zero, E = ((R)angle).Cosinus(), F =  ((R)angle).Sinus(), G = zero, H = -((R)angle).Sinus(), I = ((R)angle).Cosinus(), J = zero, K = zero, L = zero };
+            return new TransformType() { A = ((R)angle).Cosinus(), B = ((R)angle).Sinus(), C = zero, D = -((R)angle).Sinus(), E = ((R)angle).Cosinus(), F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
         }
         public static TransformType CreateReflectionX()
         {

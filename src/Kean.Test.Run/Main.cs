@@ -61,7 +61,10 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Integer.Box.Test();
             Kean.Test.Math.Geometry3D.Single.Box.Test();
             Kean.Test.Math.Geometry3D.Double.Box.Test();
-            
+
+            Kean.Test.Math.Matrix.Single.Test();
+            //Kean.Test.Math.Matrix.Algorithms.Double.Test();
+
             
             Kean.Test.Math.Geometry3D.Single.Transform.Test();
             Kean.Test.Math.Geometry3D.Double.Transform.Test();

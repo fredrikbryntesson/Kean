@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract.cs" />
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Algorithms\Double.cs" />
+    <Compile Include="Algorithms\Single.cs" />
     <Compile Include="Single.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
