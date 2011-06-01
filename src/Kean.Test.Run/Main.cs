@@ -88,7 +88,7 @@ namespace Kean.Test.Run
 			Kean.Test.Core.Collection.Array.Stack.Test();
 			Kean.Test.Core.Collection.Sorted.List.Test();
 
-			Kean.Test.Core.Error.Error.Test();
+			//Kean.Test.Core.Error.Error.Test();
 			Console.WriteLine("Done");
 		}
 	}

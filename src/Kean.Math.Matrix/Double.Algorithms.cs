@@ -45,11 +45,11 @@ namespace Kean.Math.Matrix
                 Double b = working.Extract(new Geometry2D.Integer.Box(0, 1, 1, working.Dimensions.Height - 1));
                 l[i] = Double.Identity(order);
                 l[i][i, i] = aSquareRoot;
-                l[i].Paste(new Geometry2D.Integer.Point(i, i + 1), (1 / aSquareRoot) * b);
+                l[i] = l[i].Paste(new Geometry2D.Integer.Point(i, i + 1), (1 / aSquareRoot) * b);
                 Double corner = working.Extract(new Geometry2D.Integer.Box(1, 1, working.Dimensions.Width - 1, working.Dimensions.Height - 1));
                 working = corner - (1 / a) * b * b.Transpose();
             }
-            l[order -1] = Double.Identity(order);
+            l[order - 1] = Double.Identity(order);
             l[order - 1][order - 1, order - 1] = Kean.Math.Double.SquareRoot(working[0, 0]);
             for (int i = 0; i < l.Length; i++)
                 result *= l[i];
@@ -115,29 +115,28 @@ namespace Kean.Math.Matrix
             if (!this.IsSquare)
                 throw new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
-            Double[] q = new Double[order];
+            int iterations = Kean.Math.Integer.Minimum(this.Dimensions.Height - 1, this.Dimensions.Width);
+            Double[] q = new Double[iterations];
             Double worker = this;
-            for (int i = 0; i < order; i++)
+            for (int i = 0; i < iterations; i++)
             {
-                q[i] = Double.HouseHolder(worker.Extract(new Kean.Math.Geometry2D.Integer.Box(0, 0, 1, worker.Dimensions.Height)));
+                q[i] = Double.Identity(order).Paste(i, i, Double.HouseHolder(worker.Extract(new Kean.Math.Geometry2D.Integer.Box(i, i, 1, worker.Dimensions.Height - i))));
                 worker = q[i] * worker;
-                worker = worker.Extract(new Kean.Math.Geometry2D.Integer.Box(1, 1, worker.Dimensions.Width - 1, worker.Dimensions.Height - 1));    
             }
-            Double r = this;
-            Double qq = Double.Identity(order);
-            for(int i = 0; i < order; i++)
-            {
-                Double temp = Double.Identity(order);
-                temp.Paste(i,i, q[i]);
-                r = temp * r;
-                qq *= temp.Transpose();
-            }
-            return new Double[]  {qq , r}; 
+            Double qTotal = Double.Identity(order);
+            for (int i = 0; i < iterations; i++)
+                qTotal *= q[i].Transpose();
+            return new Double[] { qTotal, worker };
         }
-        static Double HouseHolder(Double x)
+        public static Double HouseHolder(Double x)
         {
             int length = x.Dimensions.Height;
-            return Double.Identity(length) - 2 * x * x.Transpose();
+            Double e1 = new Double(1, length);
+            e1[0, 0] = 1;
+            double alpha = Kean.Math.Double.Power(-1, length) * Kean.Math.Double.Sign(x[0, 0]) * x.Norm;
+            Double u = x + alpha * e1;
+            Double v = u / u.Norm;
+            return Double.Identity(length) - 2 * v * v.Transpose();
         }
 
     }

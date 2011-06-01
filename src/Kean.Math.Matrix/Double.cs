@@ -207,16 +207,25 @@ namespace Kean.Math.Matrix
                     result[x, y] = this[x + region.Left, y + region.Top];
             return result;
         }
-        public void Paste(int x, int y, Double submatrix)
+        public Double Paste(int x, int y, Double submatrix)
         {
-            this.Paste(new Geometry2D.Integer.Point(x, y), submatrix);
+            return this.Paste(new Geometry2D.Integer.Point(x, y), submatrix);
         }
-        public void Paste(Geometry2D.Integer.Point leftTop, Double submatrix)
+        public Double Paste(Geometry2D.Integer.Point leftTop, Double submatrix)
         {
+            Double result = this.Copy();
             for (int x = 0; x < submatrix.Dimensions.Width; x++)
                 for (int y = 0; y < submatrix.Dimensions.Height; y++)
-                    this[x + leftTop.X, y + leftTop.Y] = submatrix[x, y];
+                    result[x + leftTop.X, y + leftTop.Y] = submatrix[x, y];
+            return result;
         }
+        public Double Copy()
+        {
+            Double result = new Double(this.Dimensions);
+            Array.Copy(this.elements, result.elements, this.elements.Length);
+            return result;
+        }
+        
         #endregion
         #region Static Methods
         public static Double Identity(int order)
