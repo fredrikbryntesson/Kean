@@ -207,6 +207,10 @@ namespace Kean.Math.Matrix
                     result[x, y] = this[x + region.Left, y + region.Top];
             return result;
         }
+        public void Paste(int x, int y, Single submatrix)
+        {
+            this.Paste(new Geometry2D.Integer.Point(x, y), submatrix);
+        }
         public void Paste(Geometry2D.Integer.Point leftTop, Single submatrix)
         {
             for (int x = 0; x < submatrix.Dimensions.Width; x++)

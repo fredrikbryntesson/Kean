@@ -63,7 +63,8 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Double.Box.Test();
 
             Kean.Test.Math.Matrix.Single.Test();
-            //Kean.Test.Math.Matrix.Algorithms.Double.Test();
+            Kean.Test.Math.Matrix.Algorithms.Single.Test();
+            Kean.Test.Math.Matrix.Algorithms.Double.Test();
 
             
             Kean.Test.Math.Geometry3D.Single.Transform.Test();

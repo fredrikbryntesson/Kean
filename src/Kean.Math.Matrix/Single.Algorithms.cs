@@ -36,19 +36,21 @@ namespace Kean.Math.Matrix
                 new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
             Single result = Single.Identity(order);
-            Single[] l = new Single[order - 1];
+            Single[] l = new Single[order];
             Single working = this;
             for (int i = 0; i < order - 1; i++)
             {
                 float a = working[0, 0];
                 float aSquareRoot = Kean.Math.Single.SquareRoot(a);
-                Single b = working.Extract(new Geometry2D.Integer.Box(0, 1, 1, working.Dimensions.Height-1));
+                Single b = working.Extract(new Geometry2D.Integer.Box(0, 1, 1, working.Dimensions.Height - 1));
                 l[i] = Single.Identity(order);
                 l[i][i, i] = aSquareRoot;
                 l[i].Paste(new Geometry2D.Integer.Point(i, i + 1), (1 / aSquareRoot) * b);
                 Single corner = working.Extract(new Geometry2D.Integer.Box(1, 1, working.Dimensions.Width - 1, working.Dimensions.Height - 1));
                 working = corner - (1 / a) * b * b.Transpose();
             }
+            l[order - 1] = Single.Identity(order);
+            l[order - 1][order - 1, order - 1] = Kean.Math.Single.SquareRoot(working[0, 0]);
             for (int i = 0; i < l.Length; i++)
                 result *= l[i];
             return result;
@@ -101,6 +103,8 @@ namespace Kean.Math.Matrix
         }
         public Single LeastSquare(Single y)
         {
+            if (this.Dimensions.Width > this.Dimensions.Height || this.Dimensions.Height != y.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
             Single transpose = this.Transpose();
             Single lower = (transpose * this).Cholesky();
             Single z = (transpose * y).ForwardSubstituion(lower);
