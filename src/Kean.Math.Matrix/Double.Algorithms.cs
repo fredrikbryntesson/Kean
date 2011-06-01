@@ -83,7 +83,7 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="lower">Upper triangual matrix.</param>
         /// <returns>Solution x.</returns>
-        public Double BackwardSubstituion(Double upper)
+        public Double BackwardSubstitution(Double upper)
         {
             Double result = new Double(this.Dimensions);
             for (int x = 0; x < this.Dimensions.Width; x++)
@@ -108,8 +108,17 @@ namespace Kean.Math.Matrix
             Double transpose = this.Transpose();
             Double lower = (transpose * this).Cholesky();
             Double z = (transpose * y).ForwardSubstituion(lower);
-            return z.BackwardSubstituion(lower.Transpose());
+            return z.BackwardSubstitution(lower.Transpose());
         }
+        public Double LeastSquareQR(Double y)
+        {
+            if (this.Dimensions.Width > this.Dimensions.Height || this.Dimensions.Height != y.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
+            Double[] qr  = this.Transpose().QRFactorization();
+            Double z = y.ForwardSubstituion(qr[1].Transpose());
+            return qr[0] * z;
+        }
+        
         public Double[] QRFactorization()
         {
             if (!this.IsSquare)

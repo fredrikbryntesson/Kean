@@ -20,6 +20,15 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Expect(d.Transpose() * d, Is.EqualTo(a), this.prefix + "Cholesky.1");
         }
         [Test]
+        public void LeastSquareQR()
+        {
+            Target a = new Kean.Math.Matrix.Double(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
+            Target y = new Kean.Math.Matrix.Double(1, 5, new double[] { -1, 2, -3, 4, 5 });
+            Target correct = new Kean.Math.Matrix.Double(1, 5, new double[] { -70, 231, -296, 172, -38 });
+            Target x = a.LeastSquareQR(y);
+            Expect(x.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquareQR.0");
+        }
+        [Test]
         public void LeastSquare1()
         {
             Target a = new Kean.Math.Matrix.Double(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
@@ -98,6 +107,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
         {
             this.Run(
                 this.Cholesky,
+                this.LeastSquareQR,
                 this.LeastSquare1,
                 this.LeastSquare2,
                 this.HouseHolder,
