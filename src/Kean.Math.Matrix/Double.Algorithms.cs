@@ -112,7 +112,7 @@ namespace Kean.Math.Matrix
         }
         public Double LeastSquareQR(Double y)
         {
-            if (this.Dimensions.Width > this.Dimensions.Height || this.Dimensions.Height != y.Dimensions.Height)
+            if (this.Dimensions.Height != y.Dimensions.Height)
                 throw new Exception.InvalidDimensions();
             Double[] qr  = this.Transpose().QRFactorization();
             Double z = y.ForwardSubstituion(qr[1].Transpose());
@@ -121,8 +121,6 @@ namespace Kean.Math.Matrix
         
         public Double[] QRFactorization()
         {
-            if (!this.IsSquare)
-                throw new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
             int iterations = Kean.Math.Integer.Minimum(this.Dimensions.Height - 1, this.Dimensions.Width);
             Double[] q = new Double[iterations];
