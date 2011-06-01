@@ -26,25 +26,42 @@ namespace Kean.Math.Complex
 {
     public partial struct Single
     {
+        /// <summary>
+        /// Discrete Fourier transform. Input array of arbitrary size.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Single[] DiscreteTransform(Single[] input)
         {
             Single[] result = new Single[input.Length];
-            for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < input.Length; j++)
-                    result[i] += input[j] * Single.RootOfUnity(input.Length, -i * j);
+            if (input.Length > 0)
+            {
+                for (int i = 0; i < input.Length; i++)
+                    for (int j = 0; j < input.Length; j++)
+                        result[i] += input[j] * Single.RootOfUnity(input.Length, -i * j);
+            }
             return result;
         }
+        /// <summary>
+        /// Inverse discrete Fourier transform. Input array of arbitrary size. 
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Single[] InverseDiscreteTransform(Single[] input)
         {
-            Single[] swapped = input.Map(c => c.Conjugate);
-            return Single.DiscreteTransform(swapped).Map(c => c.Conjugate / input.Length);           
+            return input.Length > 0 ? Single.DiscreteTransform(input.Map(c => c.Conjugate)).Map(c => c.Conjugate / input.Length) : new Single[0];
         }
+        /// <summary>
+        /// Fast Fourier transform. Input array must have a length which is a power of 2.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Single[] FastTransform(Single[] input)
         {
             Single[] result = new Single[input.Length];
             if (input.Length == 1)
                 result[0] = input[0];
-            else
+            else if (input.Length > 1)
             {
                 int halfLength = input.Length / 2;
                 Single[] evenInput = new Single[halfLength];
@@ -58,17 +75,20 @@ namespace Kean.Math.Complex
                 for (int i = 0; i < halfLength; i++)
                 {
                     Single root = Single.RootOfUnity(input.Length, -i);
-                    result[i] = evenOutput[i] +  root * oddOutput[i];
+                    result[i] = evenOutput[i] + root * oddOutput[i];
                     result[halfLength + i] = evenOutput[i] - root * oddOutput[i];
                 }
             }
             return result;
         }
+        /// <summary>
+        /// Inverse fast Fourier transform. nput array must have a length which is a power of 2.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Single[] InverseFastTransform(Single[] input)
         {
-            Single[] swapped = input.Map(c => c.Conjugate);
-            return Single.FastTransform(swapped).Map(c => c.Conjugate / input.Length);
+            return input.Length > 0 ? Single.FastTransform(input.Map(c => c.Conjugate)).Map(c => c.Conjugate / input.Length) : new Single[0];
         }
-       
     }
 }

@@ -26,25 +26,42 @@ namespace Kean.Math.Complex
 {
     public partial struct Double
     {
+        /// <summary>
+        /// Discrete Fourier transform. Input array of arbitrary size.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Double[] DiscreteTransform(Double[] input)
         {
             Double[] result = new Double[input.Length];
-            for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < input.Length; j++)
-                    result[i] += input[j] * Double.RootOfUnity(input.Length, -i * j);
+            if (input.Length > 0)
+            {
+                for (int i = 0; i < input.Length; i++)
+                    for (int j = 0; j < input.Length; j++)
+                        result[i] += input[j] * Double.RootOfUnity(input.Length, -i * j);
+            }
             return result;
         }
+        /// <summary>
+        /// Inverse discrete Fourier transform. Input array of arbitrary size. 
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Double[] InverseDiscreteTransform(Double[] input)
         {
-            Double[] swapped = input.Map(c => c.Conjugate);
-            return Double.DiscreteTransform(swapped).Map(c => c.Conjugate / input.Length);
+            return input.Length > 0 ? Double.DiscreteTransform(input.Map(c => c.Conjugate)).Map(c => c.Conjugate / input.Length) : new Double[0];
         }
+        /// <summary>
+        /// Fast Fourier transform. Input array must have a length which is a power of 2.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Double[] FastTransform(Double[] input)
         {
             Double[] result = new Double[input.Length];
             if (input.Length == 1)
                 result[0] = input[0];
-            else
+            else if (input.Length > 1)
             {
                 int halfLength = input.Length / 2;
                 Double[] evenInput = new Double[halfLength];
@@ -64,11 +81,14 @@ namespace Kean.Math.Complex
             }
             return result;
         }
+        /// <summary>
+        /// Inverse fast Fourier transform. nput array must have a length which is a power of 2.
+        /// </summary>
+        /// <param name="input">Input array to be transformed.</param>
+        /// <returns>Output Fourier transformed array.</returns>
         public static Double[] InverseFastTransform(Double[] input)
         {
-            Double[] swapped = input.Map(c => c.Conjugate);
-            return Double.FastTransform(swapped).Map(c => c.Conjugate / input.Length);
+            return input.Length > 0 ? Double.FastTransform(input.Map(c => c.Conjugate)).Map(c => c.Conjugate / input.Length) : new Double[0];
         }
-
     }
 }
