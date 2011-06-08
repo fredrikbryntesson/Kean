@@ -42,8 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\Double.cs" />
-    <Compile Include="Algorithms\Single.cs" />
-    <Compile Include="Single.cs" />
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

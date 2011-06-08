@@ -26,8 +26,8 @@ namespace Kean.Math.Matrix
     public partial class Double :
         System.IEquatable<Double>
     {
-        Geometry2D.Integer.Size dimensions;
-        public Geometry2D.Integer.Size Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
+        Geometry2D.Integer.SizeValue dimensions;
+        public Geometry2D.Integer.SizeValue Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
         // Matrix elements are supposed to be in column major order 
         public bool IsSquare { get { return this.Dimensions.Width == this.Dimensions.Height; } }
         #region Matrix Invariants
@@ -82,10 +82,10 @@ namespace Kean.Math.Matrix
         double[] elements;
         public Double() : this(0) { }
         public Double(int order) : this(order, order) { }
-        public Double(int width, int height) : this(new Kean.Math.Geometry2D.Integer.Size(width, height)) { }
-        public Double(Geometry2D.Integer.Size dimensions) : this(dimensions, new double[dimensions.Area]) { }
-        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.Size(width, height), elements) { }
-        public Double(Geometry2D.Integer.Size dimensions, double[] elements)
+        public Double(int width, int height) : this(new Geometry2D.Integer.SizeValue(width, height)) { }
+        public Double(Geometry2D.Integer.SizeValue dimensions) : this(dimensions, new double[dimensions.Area]) { }
+        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.SizeValue(width, height), elements) { }
+        public Double(Geometry2D.Integer.SizeValue dimensions, double[] elements)
         {
             this.Dimensions = dimensions;
             int minimum = Kean.Math.Integer.Minimum(elements.Length, this.Dimensions.Area);
@@ -199,12 +199,16 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
-        public Double Extract(Geometry2D.Integer.Box region)
+        public Double Extract(int left, int top)
         {
-            Double result = new Double(region.Size);
-            for (int x = 0; x < region.Size.Width; x++)
-                for (int y = 0; y < region.Size.Height; y++)
-                    result[x, y] = this[x + region.Left, y + region.Top];
+            return this.Extract(left, this.Dimensions.Width, top, this.Dimensions.Height);
+        }
+        public Double Extract(int left, int right, int top, int bottom)
+        {
+            Double result = new Double(right-left, bottom- top);
+            for (int x = left; x < right; x++)
+                for (int y = top; y < bottom; y++)
+                    result[x-left, y-top] = this[x, y];
             return result;
         }
         public Double Paste(int x, int y, Double submatrix)
@@ -219,6 +223,12 @@ namespace Kean.Math.Matrix
                     result[x + leftTop.X, y + leftTop.Y] = submatrix[x, y];
             return result;
         }
+        public void Set( int left, int top, Double submatrix)
+        {
+            for (int x = 0; x < submatrix.Dimensions.Width; x++)
+                for (int y = 0; y < submatrix.Dimensions.Height; y++)
+                    this[x + left, y + top] = submatrix[x, y];
+        }
         public Double Copy()
         {
             Double result = new Double(this.Dimensions);
@@ -227,12 +237,24 @@ namespace Kean.Math.Matrix
         }
         
         #endregion
-        #region Static Methods
+        #region Static Constructors
         public static Double Identity(int order)
         {
             Double result = new Double(order, order);
             for (int i = 0; i < order; i++)
                 result[i, i] = 1;
+            return result;
+        }
+        public static Double Basis(int length, int index)
+        {
+            return Double.Basis(length, index, true);
+        }
+        public static Double Basis(int length, int index, bool column)
+        {
+            Double result = new Double(1, length);
+            result[0, index] = 1;
+            if (!column)
+                result = result.Transpose();
             return result;
         }
         #endregion
