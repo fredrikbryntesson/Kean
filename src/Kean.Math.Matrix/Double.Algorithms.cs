@@ -281,6 +281,80 @@ namespace Kean.Math.Matrix
             }
             return new Double[] { };
         }
+        Double[] GolubKahanSvdStep()
+        {
+            Double b = this.Copy();
+            int m = b.Dimensions.Height;
+            int n = b.Dimensions.Width;
+            Double t = b.Transpose() * b;
+            Double trail = t.Extract(m, m + 1, m, m + 1);
+            double trace = trail.Trace;
+            double determinant = trail.Determinant;
+            double mu1 = trace / 2 + Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(trace / 2) - determinant);
+            double mu2 = trace / 2 - Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(trace / 2) - determinant);
+            double tnn = trail[1,1];
+            double mu = Kean.Math.Double.Absolute(tnn - mu1) < Kean.Math.Double.Absolute(tnn - mu2) ? mu1 : mu2;
+            double y = t[0, 0];
+            double z = t[1, 0];
+            Double u = Double.Identity(m);
+            Double v = Double.Identity(n);
+            for (int k = 0; k < n; k++)
+            {
+                double[] cs = Double.Givens(y, z);
+                Double g = Double.GivensRotation(m, k, k + 1, cs[0], cs[1]);
+                v *= g;
+                b *= g;
+                y = b[k, k];
+                z = b[k, k + 1];
+                cs = Double.Givens(y, z);
+                g = Double.GivensRotation(n, k, k + 1, cs[0], cs[1]);
+                b = g.Transpose() * b;
+                u = g.Transpose() * u;
+                if (k < n - 1)
+                {
+                    y = b[k + 1, k];
+                    z = b[k + 2, k];
+                }
+            }
+            return new Double[] {u, b, v};
+        }
+        static Double GivensRotation(int m, int i, int k, double c, double s)
+        {
+            Double result = Double.Identity(m);
+            result[i, i] = c;
+            result[k, k] = c;
+            result[k, i] = s;
+            result[i, k] = -s;
+            return result;
+        }
+        static double[] Givens(double a, double b)
+        {
+            double[] result = new double[2];
+            double c,s;
+            if (b == 0)
+            {
+                c = 1;
+                s = 0;
+            }
+            else
+            {
+                if (Kean.Math.Double.Absolute(b) > Kean.Math.Double.Absolute(a))
+                {
+                    double tau = -a / b;
+                    s = 1 / Kean.Math.Double.SquareRoot(1 + Kean.Math.Double.Squared(tau));
+                    c = s * tau;
+                }
+                else
+                {
+                    double tau = -b / a;
+                    c = 1 / Kean.Math.Double.SquareRoot(1 + Kean.Math.Double.Squared(tau));
+                    s = c * tau;
+                }
+            }
+            result[0] = c;
+            result[1] = s;
+            return result;
+        }
         public Double[] QRFactorization()
         {
             int order = this.Dimensions.Height;
