@@ -154,18 +154,21 @@ namespace Kean.Math.Matrix
             return result;
         }
         /// <summary>
-        /// Computation of the Householder bidiagonalization of current matrix. 
+        /// Computation of the Householder bidiagonalization of current matrix. Note height >= width.
         /// The method return {u, b, v}, where u,v are orthogonal matrices such that u' * current * v = b,
         /// where b is a bidiagonal matrix with a posssibly nonzero superdiagonal.
         /// </summary>
         /// <returns>Array of matrices {u,b,v}.</returns>
         public Double[] BiDiagonalization()
         {
+            Double[] result;
             Double b = this.Copy();
             int n = b.Dimensions.Width;
             int m = b.Dimensions.Height;
             Double[] leftHouseholder = new Double[n];
-            Double[] rightHouseholder = new Double[n - 2];
+            Double[] rightHouseholder = null;
+            if (n - 2 >= 1)
+                rightHouseholder = new Double[n - 2];
 
             for (int j = 0; j < n; j++)
             {
@@ -187,8 +190,8 @@ namespace Kean.Math.Matrix
             Double v = Double.Identity(n);
             for (int j = n - 3; j >= 0; j--)
                 v.Set(j + 1, j + 1, rightHouseholder[j] * v.Extract(j + 1, j + 1));
-
-            return new Double[] { u, b, v };
+            result = new Double[] { u, b, v };
+            return result;
         }
         /// <summary>
         /// Eigenvalue decomposition of a symmetric square matrix.
@@ -221,63 +224,80 @@ namespace Kean.Math.Matrix
         }
         public Double[] Svd()
         {
+            return this.Svd(1e-10);
+        }
+        public Double[] Svd(double tolerance)
+        {
+            Double[] result;
             int m = this.Dimensions.Height;
             int n = this.Dimensions.Width;
-            Double[] ubv = this.BiDiagonalization();
-            Double u = ubv[0];
-            Double b = ubv[1].Extract(0, n, 0, n);
-            Double v = ubv[2];
-            double epsilon = 1e-5;
-            int q = n - 1;
-            int p = 0;
-            while (q < n)
+            if (m == 1 && n == 1)
+                result = new Double[] { Double.Identity(1), this, Double.Identity(1) };
+            else
             {
-                for (int i = 0; i < n - 1; i++)
-                    if (Kean.Math.Double.Absolute(b[i + 1, i]) < epsilon * (Kean.Math.Double.Absolute(b[i, i]) + Kean.Math.Double.Absolute(b[i + 1, i + 1])))
-                        b[i + 1, i] = 0;
-                Double b11, b22, b33;
-                for (int j = n - 1; j >= 0; j--)
+                Double[] ubv = this.BiDiagonalization();
+                Double u = ubv[0];
+                Double b = ubv[1]; //.Extract(0, n, 0, n);
+                Double v = ubv[2];
+                int q = 0;
+                while (q < n)
                 {
-                    Double lower = b.Extract(j, j);
-                    if (lower.IsDiagonal(epsilon))
+                    for (int i = 0; i < n - 1; i++)
+                        if (Kean.Math.Double.Absolute(b[i + 1, i]) < tolerance * (Kean.Math.Double.Absolute(b[i, i]) + Kean.Math.Double.Absolute(b[i + 1, i + 1])))
+                            b[i + 1, i] = 0;
+                    Double b22;
+                    int p = 0;
+                    q = 0;
+                    int b22Order = 0;
+                    int j = n - 1;
+                    for (; j >= 1; j--)
                     {
-                        b33 = lower;
-                        q = j;
+                        if (Kean.Math.Double.Absolute(b[j, j - 1]) < tolerance)
+                            q++;
+                        else
+                            break;
                     }
-                    else
-                        break;
-                }
-                for (int j = 1; j < q; j++)
-                {
-                    Double upper = b.Extract(0, j, 0, j);
-                    if (!upper.IsDiagonal(epsilon))
-                        break;
-                    else
+                    if (j == 0 && q > 0)
+                        q++;
+                    for (; j >= 1; j--)
                     {
-                        p = j;
-                        b11 = upper;
+                        if (Kean.Math.Double.Absolute(b[j, j - 1]) > tolerance)
+                            b22Order++;
+                        else
+                            break;
                     }
-                }
-                b22 = b.Extract(p, q, p, q);
-                if (q < n)
-                {
-                    bool zeros = false;
-                    for (int i = 0; i < b22.Dimensions.Width; i++)
-                        if (Kean.Math.Double.Absolute(b22[i, i]) < epsilon && Kean.Math.Double.Absolute(b22[i + 1, i]) > epsilon)
+                    if (j == 0 && b22Order > 0)
+                        b22Order++;
+                    p = n - b22Order - q;
+                    if (b22Order == 0)
+                        break;
+                    if (q < n)
+                    {
+                        b22 = b.Extract(p, n - q, p, n - q);
+                        bool zeros = false;
+                        for (int i = 0; i < b22.Dimensions.Width; i++)
+                            if (Kean.Math.Double.Absolute(b22[i, i]) < tolerance && Kean.Math.Double.Absolute(b22[i + 1, i]) > tolerance)
+                            {
+                                b22[i, i] = 0;
+                                b22[i + 1, i] = 0;
+                                zeros = true;
+                            }
+                        if (!zeros)
                         {
-                            b22[i, i] = 0;
-                            b22[i + 1, i] = 0;
-                            zeros = true;
+                            Double[] gkubv = b22.GolubKahanSvdStep();
+                            Double uprime = Double.Diagonal(Double.Identity(p), gkubv[0], Double.Identity(q + m - n));
+                            Double vprime = Double.Diagonal(Double.Identity(p), gkubv[2], Double.Identity(q));
+                            u = u * uprime;
+                            v = v * vprime;
+                            b = uprime.Transpose() * b * vprime;
                         }
-                    if (!zeros)
-                    {
-                        Double[] gkubv = b22.GolubKahanSvdStep();
-                        b = Double.Diagonal(Double.Identity(p), gkubv[0], Double.Identity(n - q)).Transpose() * b * Double.Diagonal(Double.Identity(p), gkubv[2], Double.Identity(n - q));
                     }
-                }
 
+
+                }
+                result = new Double[] { u, b, v };
             }
-            return new Double[] { };
+            return result;
         }
         public Double[] GolubKahanSvdStep()
         {

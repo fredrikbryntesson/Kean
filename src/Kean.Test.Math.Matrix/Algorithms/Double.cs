@@ -150,11 +150,57 @@ namespace Kean.Test.Math.Matrix.Algorithms
                     if(y > x || x > y + 1)
                         Expect(b[x,y], Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization2.5");
         }
+        public void BiDiagonalization3()
+        {
+            Target a = new Target(4, 3, new double[] { 1, 4, 7, 10, 2, 5, 8, 11, 3, 6, 9, 12 });
+            Target[] ubv = a.BiDiagonalization();
+            Target u = ubv[0];
+            Target b = ubv[1];
+            Target v = ubv[2];
+            Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.0");
+            Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.1");
+            Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.2");
+            Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.3");
+            Expect((u.Transpose() * a * v).Distance(b), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.4");
+            for (int x = 0; x < b.Dimensions.Width; x++)
+                for (int y = 0; y < b.Dimensions.Height; y++)
+                    if (y > x || x > y + 1)
+                        Expect(b[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.5");
+        }
         [Test]
         public void Svd()
         {
-            Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
-            Target[] ubv = a.Svd();
+            Target data = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
+            Target a = data;
+            this.TestSvd(a);
+            a = new Target(data.Dimensions.Width, 2 * data.Dimensions.Height);
+            a.Set(0, 0, data);
+            a.Set(0, data.Dimensions.Height, data);
+            this.TestSvd(a);
+            a = new Target(2,2);
+            this.TestSvd(a);
+            a = new Target(1, 1);
+            this.TestSvd(a);
+            a = Target.Identity(1);
+            this.TestSvd(a);
+            a = new Target(1, 3, new double[] {1,2,3});
+            this.TestSvd(a);
+            //a = new Target(2 * data.Dimensions.Width, data.Dimensions.Height);
+            //a.Set(0, 0, data);
+            //a.Set(data.Dimensions.Width, 0, data);
+            //this.TestSvd(a);
+        }
+        void TestSvd(Target a)
+        {
+            Target[] usv = a.Svd();
+            Target u = usv[0];
+            Target s = usv[1];
+            Target v = usv[2];
+            Expect(a.Distance(u * s * v.Transpose()), Is.EqualTo(0).Within(1e-7), this.prefix + "Svd.0");
+            for (int x = 0; x < s.Dimensions.Width; x++)
+                for (int y = 0; y < s.Dimensions.Height; y++)
+                    if (x != y)
+                        Expect(s[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "Svd.1");
         }
         [Test]
         public void Eigenvalues()
@@ -162,7 +208,6 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             Target[] x = a.Eigenvalues();
             Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare3.1");
-      
         }
         [Test]
         public void GolubKahanStep()
@@ -178,21 +223,20 @@ namespace Kean.Test.Math.Matrix.Algorithms
                 b = ubv[1];
                 v = v * ubv[2];
             }
-
             Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.0");
             Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.1");
             Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.2");
             Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.3");
             Expect((u.Transpose() * a * v).Distance(b), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.4");
-            
         }
         public void Run()
         {
             this.Run(
-            //    this.Svd,
+                this.Svd,
                 this.GolubKahanStep,
                 this.BiDiagonalization1,
                 this.BiDiagonalization2,
+            //    this.BiDiagonalization3,
                 this.Eigenvalues,
                 this.Cholesky,
                 this.HouseHolder,
