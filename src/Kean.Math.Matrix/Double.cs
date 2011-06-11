@@ -245,6 +245,26 @@ namespace Kean.Math.Matrix
                 result[i, i] = 1;
             return result;
         }
+        public static Double Diagonal(params Double[] matrices)
+        {
+            int width = 0;
+            int height = 0;
+            for (int i = 0; i < matrices.Length; i++)
+            {
+                width += matrices[i].Dimensions.Width;
+                height += matrices[i].Dimensions.Height;
+            }
+            Double result = new Double(width, height);
+            int k = 0;
+            int l = 0;
+            for (int i = 0; i < matrices.Length; i++)
+            {
+                result.Set(k, l, matrices[i]);
+                k += matrices[i].Dimensions.Width;
+                l += matrices[i].Dimensions.Height;
+            }
+            return result;
+        }
         public static Double Basis(int length, int index)
         {
             return Double.Basis(length, index, true);

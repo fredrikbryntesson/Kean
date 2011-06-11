@@ -26,23 +26,20 @@ namespace Kean.Math.Matrix
 {
     public partial class Double
     {
-        public bool IsDiagonal
+        public bool IsDiagonal(double epsilon)
         {
-            get
-            {
-                bool result = true;
-                for (int x = 0; x < this.Dimensions.Width; x++)
-                    for (int y = 0; y < this.Dimensions.Height; y++)
+            bool result = true;
+            for (int x = 0; x < this.Dimensions.Width; x++)
+                for (int y = 0; y < this.Dimensions.Height; y++)
+                {
+                    if (x != y && Kean.Math.Double.Absolute(this[x, y]) > epsilon)
                     {
-                        if (x != y && this[x, y] != 0)
-                        {
-                            result = false;
-                            x = this.Dimensions.Width;
-                            break;
-                        }
+                        result = false;
+                        x = this.Dimensions.Width;
+                        break;
                     }
-                return result;
-            }
+                }
+            return result;
         }
         /// <summary>
         /// Gaxby (Algorithm 4.2.1 p.144) Cholesky factorization of positive symmetric matrix. A = C * C'.  The matrix C is lower triangular.
@@ -228,10 +225,10 @@ namespace Kean.Math.Matrix
             int n = this.Dimensions.Width;
             Double[] ubv = this.BiDiagonalization();
             Double u = ubv[0];
-            Double b = ubv[1].Extract(0,n,0,n);
+            Double b = ubv[1].Extract(0, n, 0, n);
             Double v = ubv[2];
             double epsilon = 1e-5;
-            int q = n-1;
+            int q = n - 1;
             int p = 0;
             while (q < n)
             {
@@ -242,7 +239,7 @@ namespace Kean.Math.Matrix
                 for (int j = n - 1; j >= 0; j--)
                 {
                     Double lower = b.Extract(j, j);
-                    if (lower.IsDiagonal)
+                    if (lower.IsDiagonal(epsilon))
                     {
                         b33 = lower;
                         q = j;
@@ -250,10 +247,10 @@ namespace Kean.Math.Matrix
                     else
                         break;
                 }
-                for (int j = 1; j < q ; j++)
+                for (int j = 1; j < q; j++)
                 {
-                    Double upper = b.Extract(0, j, 0,j);
-                    if (!upper.IsDiagonal)
+                    Double upper = b.Extract(0, j, 0, j);
+                    if (!upper.IsDiagonal(epsilon))
                         break;
                     else
                     {
@@ -266,57 +263,54 @@ namespace Kean.Math.Matrix
                 {
                     bool zeros = false;
                     for (int i = 0; i < b22.Dimensions.Width; i++)
-                        if (b22[i, i] == 0 && b[i + 1, i] != 0)
+                        if (Kean.Math.Double.Absolute(b22[i, i]) < epsilon && Kean.Math.Double.Absolute(b22[i + 1, i]) > epsilon)
                         {
+                            b22[i, i] = 0;
                             b22[i + 1, i] = 0;
                             zeros = true;
                         }
                     if (!zeros)
                     {
-                        ; // todo
+                        Double[] gkubv = b22.GolubKahanSvdStep();
+                        b = Double.Diagonal(Double.Identity(p), gkubv[0], Double.Identity(n - q)).Transpose() * b * Double.Diagonal(Double.Identity(p), gkubv[2], Double.Identity(n - q));
                     }
-
                 }
 
             }
             return new Double[] { };
         }
-        Double[] GolubKahanSvdStep()
+        public Double[] GolubKahanSvdStep()
         {
             Double b = this.Copy();
             int m = b.Dimensions.Height;
             int n = b.Dimensions.Width;
             Double t = b.Transpose() * b;
-            Double trail = t.Extract(m, m + 1, m, m + 1);
-            double trace = trail.Trace;
-            double determinant = trail.Determinant;
-            double mu1 = trace / 2 + Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(trace / 2) - determinant);
-            double mu2 = trace / 2 - Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(trace / 2) - determinant);
-            double tnn = trail[1,1];
-            double mu = Kean.Math.Double.Absolute(tnn - mu1) < Kean.Math.Double.Absolute(tnn - mu2) ? mu1 : mu2;
-            double y = t[0, 0];
+            Double trail = t.Extract(n - 2, n, n - 2, n);
+            double d = (trail[0, 0] - trail[1, 1]) / 2;
+            double mu = trail[1, 1] + d - Kean.Math.Double.Sign(d) * Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(d) + Kean.Math.Double.Squared(trail[1, 0]));
+            double y = t[0, 0] - mu;
             double z = t[1, 0];
             Double u = Double.Identity(m);
             Double v = Double.Identity(n);
-            for (int k = 0; k < n; k++)
+            for (int k = 0; k < n - 1; k++)
             {
                 double[] cs = Double.Givens(y, z);
                 Double g = Double.GivensRotation(m, k, k + 1, cs[0], cs[1]);
-                v *= g;
-                b *= g;
+                v = v * g;
+                b = b * g;
                 y = b[k, k];
                 z = b[k, k + 1];
                 cs = Double.Givens(y, z);
                 g = Double.GivensRotation(n, k, k + 1, cs[0], cs[1]);
                 b = g.Transpose() * b;
-                u = g.Transpose() * u;
-                if (k < n - 1)
+                u = u * g;
+                if (k < n - 2)
                 {
                     y = b[k + 1, k];
                     z = b[k + 2, k];
                 }
             }
-            return new Double[] {u, b, v};
+            return new Double[] { u, b, v };
         }
         static Double GivensRotation(int m, int i, int k, double c, double s)
         {
@@ -330,7 +324,7 @@ namespace Kean.Math.Matrix
         static double[] Givens(double a, double b)
         {
             double[] result = new double[2];
-            double c,s;
+            double c, s;
             if (b == 0)
             {
                 c = 1;

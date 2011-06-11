@@ -164,10 +164,33 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare3.1");
       
         }
+        [Test]
+        public void GolubKahanStep()
+        {
+            Target a = new Target(4, 4, new double[] {1,0,0,0,1,2,0,0,0,1,3,0,0,0,1,4 });
+            Target b = a.Copy();
+            Target u = Target.Identity(4);
+            Target v = Target.Identity(4);
+            for (int i = 0; i < 4; i++)
+            {
+                Target[] ubv = b.GolubKahanSvdStep();
+                u = u * ubv[0];
+                b = ubv[1];
+                v = v * ubv[2];
+            }
+
+            Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.0");
+            Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.1");
+            Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.2");
+            Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.3");
+            Expect((u.Transpose() * a * v).Distance(b), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.4");
+            
+        }
         public void Run()
         {
             this.Run(
             //    this.Svd,
+                this.GolubKahanStep,
                 this.BiDiagonalization1,
                 this.BiDiagonalization2,
                 this.Eigenvalues,
