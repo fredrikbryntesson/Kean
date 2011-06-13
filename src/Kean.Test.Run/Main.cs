@@ -70,7 +70,6 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Single.Transform.Test();
             Kean.Test.Math.Geometry3D.Double.Transform.Test();
            
-            Kean.Test.Math.Geometry3D.Single.Quaternion.Test();
             Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
 
             Kean.Test.Core.Collection.Vector.Test();

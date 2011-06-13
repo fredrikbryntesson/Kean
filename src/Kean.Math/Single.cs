@@ -27,6 +27,7 @@ namespace Kean.Math
     {
         #region Abtract Properties
         protected override Single EpsilonHelper { get { return Single.Epsilon; } }
+        protected override Single PiHelper { get { return Single.Pi; } }
         #endregion
         #region Constructors
         public Single() :

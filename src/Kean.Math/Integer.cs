@@ -27,6 +27,7 @@ namespace Kean.Math
     {
         #region Abtract Properties
         protected override Integer EpsilonHelper { get { return Integer.Epsilon; } }
+        protected override Integer PiHelper { get { return Integer.Pi; } }
         #endregion
         #region Constructors
         public Integer() :
