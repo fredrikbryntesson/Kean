@@ -54,8 +54,7 @@ namespace Kean.Math.Geometry3D.Double
             {
                 double result;
                 double value = this.X * this.Z - this.W * this.Y;
-                double half = 1 / 2.0;
-                if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - half) < 1e-5)
+                if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - 0.5) < 1e-5)
                     result = 0;
                 else
                     result = Kean.Math.Double.ArcusTangensExtended(2 * (this.X * this.Y + this.Z * this.W), 1 - 2 * (Kean.Math.Double.Squared(this.Y) + Kean.Math.Double.Squared(this.Z)));
