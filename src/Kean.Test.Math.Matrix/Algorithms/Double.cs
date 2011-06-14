@@ -183,12 +183,16 @@ namespace Kean.Test.Math.Matrix.Algorithms
             this.TestSvd(a);
             a = Target.Identity(1);
             this.TestSvd(a);
-            a = new Target(1, 3, new double[] {1,2,3});
+            a = Target.Identity(11);
             this.TestSvd(a);
-            //a = new Target(2 * data.Dimensions.Width, data.Dimensions.Height);
-            //a.Set(0, 0, data);
-            //a.Set(data.Dimensions.Width, 0, data);
-            //this.TestSvd(a);
+            a = Target.Identity(10);
+            this.TestSvd(a);
+            a = new Target(1, 3, new double[] { 1, 2, 3 });
+            this.TestSvd(a);
+            a = new Target(2 * data.Dimensions.Width, data.Dimensions.Height);
+            a.Set(0, 0, data);
+            a.Set(data.Dimensions.Width, 0, data);
+            this.TestSvd(a);
         }
         void TestSvd(Target a)
         {
@@ -196,11 +200,11 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target u = usv[0];
             Target s = usv[1];
             Target v = usv[2];
-            Expect(a.Distance(u * s * v.Transpose()), Is.EqualTo(0).Within(1e-7), this.prefix + "Svd.0");
+            Expect(a.Distance(u * s * v.Transpose()), Is.EqualTo(0).Within(1e-7), this.prefix + "SvdHelper.0");
             for (int x = 0; x < s.Dimensions.Width; x++)
                 for (int y = 0; y < s.Dimensions.Height; y++)
                     if (x != y)
-                        Expect(s[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "Svd.1");
+                        Expect(s[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "SvdHelper.1");
         }
         [Test]
         public void Eigenvalues()
@@ -236,7 +240,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
                 this.GolubKahanStep,
                 this.BiDiagonalization1,
                 this.BiDiagonalization2,
-            //    this.BiDiagonalization3,
+                //this.BiDiagonalization3,
                 this.Eigenvalues,
                 this.Cholesky,
                 this.HouseHolder,

@@ -229,6 +229,18 @@ namespace Kean.Math.Matrix
         public Double[] Svd(double tolerance)
         {
             Double[] result;
+            if (this.Dimensions.Height >= this.Dimensions.Width)
+                result = this.SvdHelper(tolerance);
+            else
+            {
+                result = this.Transpose().SvdHelper(tolerance);
+                result = new Double[] { result[2], result[1].Transpose(), result[0] };
+            }
+            return result;
+        }
+        Double[] SvdHelper(double tolerance)
+        {
+            Double[] result;
             int m = this.Dimensions.Height;
             int n = this.Dimensions.Width;
             if (m == 1 && n == 1)
