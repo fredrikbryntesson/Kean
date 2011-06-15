@@ -299,11 +299,11 @@ namespace Kean.Test.Math.Geometry3D.Double
         [Test]
         public void SplitOutRotation()
         {
-            for (double r = -180; r < 180; r += 20)
-                for (double p = -90; p <= 90; p += 20)
-                    for (double y = -180; y < 180; y += 20)
-                        for (double pp = -90; pp <= 90; pp += 20)
-                            for (double yy = -180; yy < 180; yy += 20)
+            for (double r = -180; r < 180; r += 30)
+                for (double p = -90; p <= 90; p += 30)
+                    for (double y = -180; y < 180; y += 30)
+                        for (double pp = -90; pp <= 90; pp += 30)
+                            for (double yy = -180; yy < 180; yy += 30)
                                 if (p != 90 && p != -90 && pp != 90 && pp != -90)
                                 {
                                     Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(Kean.Math.Double.ToRadians(y)) * Target.Quaternion.CreateRotationY(Kean.Math.Double.ToRadians(p)) * Target.Quaternion.CreateRotationX(Kean.Math.Double.ToRadians(r));

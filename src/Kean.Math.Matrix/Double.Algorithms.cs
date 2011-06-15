@@ -41,6 +41,15 @@ namespace Kean.Math.Matrix
                 }
             return result;
         }
+        public double Trace()
+        {
+            double result = 0;
+            int order = this.Order;
+            for (int i = 0; i < order; i++)
+                result += this[i, i];
+            return result;
+        }
+        #region Cholesky Methods
         /// <summary>
         /// Gaxby (Algorithm 4.2.1 p.144) Cholesky factorization of positive symmetric matrix. A = C * C'.  The matrix C is lower triangular.
         /// </summary>
@@ -62,53 +71,7 @@ namespace Kean.Math.Matrix
                     result[x, y] = 0;
             return result;
         }
-        /// <summary>
-        /// Forward solver lower * x = y. Current object is y. 
-        /// </summary>
-        /// <param name="lower">Lower triangual matrix.</param>
-        /// <returns>Solution x.</returns>
-        public Double ForwardSubstituion(Double lower)
-        {
-            Double result = new Double(this.Dimensions);
-            for (int x = 0; x < this.Dimensions.Width; x++)
-            {
-                for (int y = 0; y < this.Dimensions.Height; y++)
-                {
-                    double accumulator = this[x, y];
-                    for (int x2 = 0; x2 < y; x2++)
-                        accumulator -= lower[x2, y] * result[x, x2];
-                    if (lower[y, y] != 0)
-                        result[x, y] = accumulator / lower[y, y];
-                    else
-                        throw new Exception.DivisionByZero();
-                }
-            }
-            return result;
-        }
-        /// <summary>
-        /// Backward solver upper * x = y. Current object is y. 
-        /// </summary>
-        /// <param name="lower">Upper triangual matrix.</param>
-        /// <returns>Solution x.</returns>
-        public Double BackwardSubstitution(Double upper)
-        {
-            Double result = new Double(this.Dimensions);
-            for (int x = 0; x < this.Dimensions.Width; x++)
-            {
-                for (int y = this.Dimensions.Height - 1; y >= 0; y--)
-                {
-                    double accumulator = this[x, y];
-                    for (int x2 = y + 1; x2 < upper.Dimensions.Width; x2++)
-                        accumulator -= upper[x2, y] * result[x, x2];
-                    if (upper[y, y] != 0)
-                        result[x, y] = accumulator / upper[y, y];
-                    else
-                        throw new Exception.DivisionByZero();
-                }
-            }
-            return result;
-        }
-        public Double LeastSquareCholesky(Double y)
+        public Double SolveCholesky(Double y)
         {
             Double result;
             if (this.Dimensions.Height < this.Dimensions.Width)
@@ -116,7 +79,7 @@ namespace Kean.Math.Matrix
                 // Least norm
                 Double transpose = this.Transpose();
                 Double lower = (this * transpose).Cholesky();
-                Double z = y.ForwardSubstituion(lower);
+                Double z = y.ForwardSubstitution(lower);
                 z = z.BackwardSubstitution(lower.Transpose());
                 result = transpose * z;
             }
@@ -125,12 +88,14 @@ namespace Kean.Math.Matrix
                 // Standard
                 Double transpose = this.Transpose();
                 Double lower = (transpose * this).Cholesky();
-                Double z = (transpose * y).ForwardSubstituion(lower);
+                Double z = (transpose * y).ForwardSubstitution(lower);
                 result = z.BackwardSubstitution(lower.Transpose());
             }
             return result;
         }
-        public Double LeastSquareQr(Double y)
+        #endregion
+        #region QR methods
+        public Double SolveQr(Double y)
         {
             Double result;
             if (this.Dimensions.Height < this.Dimensions.Width)
@@ -140,7 +105,7 @@ namespace Kean.Math.Matrix
                 Double[] qr = transpose.QRFactorization();
                 Double q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
                 Double r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
-                Double z = y.ForwardSubstituion(r.Transpose());
+                Double z = y.ForwardSubstitution(r.Transpose());
                 result = q * z;
             }
             else
@@ -153,6 +118,69 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        public Double[] QRFactorization()
+        {
+            int order = this.Dimensions.Height;
+            int iterations = Kean.Math.Integer.Minimum(this.Dimensions.Height - 1, this.Dimensions.Width);
+            Double r = this;
+            Double q = Double.Identity(order);
+            for (int i = 0; i < iterations; i++)
+            {
+                Double x = r.Extract(i, i + 1, i, r.Dimensions.Height);
+                Double y = (Kean.Math.Double.Sign(x[0, 0]) * x.Norm) * Double.Basis(r.Dimensions.Height - i, 0);
+                Double qi = Double.Identity(order).Paste(i, i, Double.HouseHolder(x, y));
+                r = qi * r;
+                q *= qi.Transpose();
+            }
+            return new Double[] { q, r };
+        }
+        // Contruct Householder transform from two  column vectors of same length and norm.
+        public static Double HouseHolder(Double x, Double y)
+        {
+            if (x.Dimensions.Width != y.Dimensions.Width && x.Dimensions.Width != 1 && x.Dimensions.Height != y.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
+            int length = x.Dimensions.Height;
+            Double w = x - y;
+            double norm = w.Norm;
+            Double result = Double.Identity(length);
+            if (norm != 0)
+            {
+                w /= norm;
+                result -= 2 * w * w.Transpose();
+            }
+            return result;
+        }
+        /// <summary>
+        /// Eigenvalue decomposition of a symmetric square matrix.
+        /// a = u * d * u.Transpose();
+        /// </summary>
+        /// <returns>Array of matrices {u, d}.</returns>
+        public Double[] Eigenvalues()
+        {
+            if (!this.IsSquare)
+                new Exception.InvalidDimensions();
+            int order = this.Dimensions.Width;
+            double tolerance = 1e-5;
+            int iterations = 100;
+            Double u = this;
+            Double q = Double.Identity(order);
+            int i = 0;
+            double error = double.MaxValue;
+            while (error > tolerance && i < iterations)
+            {
+                Double[] qr = u.QRFactorization();
+                u = qr[0].Transpose() * u * qr[0];
+                q *= qr[0];
+                error = 0;
+                for (int j = 0; j < order; j++)
+                    for (int k = 0; k < order; k++)
+                        error += j != k ? Kean.Math.Double.Absolute(u[j, k]) : 0;
+                i++;
+            }
+            return new Double[] { q, u };
+        }
+        #endregion
+        #region Diagonalization
         /// <summary>
         /// Computation of the Householder bidiagonalization of current matrix. Note height >= width.
         /// The method return {u, b, v}, where u,v are orthogonal matrices such that u' * current * v = b,
@@ -192,35 +220,62 @@ namespace Kean.Math.Matrix
                 v.Set(j + 1, j + 1, rightHouseholder[j] * v.Extract(j + 1, j + 1));
             result = new Double[] { u, b, v };
             return result;
+
         }
-        /// <summary>
-        /// Eigenvalue decomposition of a symmetric square matrix.
-        /// a = u * d * u.Transpose();
-        /// </summary>
-        /// <returns>Array of matrices {u, d}.</returns>
-        public Double[] Eigenvalues()
+        Kean.Core.Basis.Tuple<Double, double> House()
         {
-            if (!this.IsSquare)
-                new Exception.InvalidDimensions();
-            int order = this.Dimensions.Width;
-            double tolerance = 1e-5;
-            int iterations = 100;
-            Double u = this;
-            Double q = Double.Identity(order);
-            int i = 0;
-            double error = double.MaxValue;
-            while (error > tolerance && i < iterations)
+            Kean.Core.Basis.Tuple<Double, double> result;
+            int n = this.Dimensions.Height;
+            Double tail = this.Extract(0, 1, 1, n);
+            double sigma = (tail.Transpose() * tail)[0, 0];
+            Double nu = new Double(1, n);
+            nu[0, 0] = 1;
+            nu.Set(0, 1, tail);
+            double beta = 0;
+            if (sigma != 0)
             {
-                Double[] qr = u.QRFactorization();
-                u = qr[0].Transpose() * u * qr[0];
-                q *= qr[0];
-                error = 0;
-                for (int j = 0; j < order; j++)
-                    for (int k = 0; k < order; k++)
-                        error += j != k ? Kean.Math.Double.Absolute(u[j, k]) : 0;
-                i++;
+                double x00 = this[0, 0];
+                double mu = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(x00) + sigma);
+                if (x00 <= 0)
+                    nu[0, 0] = x00 - mu;
+                else
+                    nu[0, 0] = -sigma / (x00 + mu);
+                double nu00Squared = Kean.Math.Double.Squared(nu[0, 0]);
+                beta = 2 * nu00Squared / (sigma + nu00Squared);
+                nu /= nu[0, 0];
             }
-            return new Double[] { q, u };
+            result = Kean.Core.Basis.Tuple.Create<Double, double>(nu, beta);
+            return result;
+        }
+        #endregion
+        #region Svd Methods
+        public Double SolveSvd(Double b)
+        {
+            Double result;
+            Double[] usv = this.Svd();
+            Double u = usv[0];
+            Double s = usv[1];
+            Double v = usv[2];
+            Double sPlus = new Double(s.Dimensions.Width, s.Dimensions.Height);
+            int order = s.Order;
+            for (int i = 0; i < order; i++)
+            {
+                double value = s[i, i];
+                if (value != 0)
+                    sPlus[i, i] = 1 / value;
+            }
+            // Least square solution and minimum norm solution
+            if (this.Dimensions.Height >= this.Dimensions.Width)
+                result = v * sPlus * u.Transpose() * b;
+            else
+            {
+                Double d = new Double(1, this.Dimensions.Width).Paste(0, 0, u.Transpose() * b);
+
+                for (int i = 0; i < order; i++)
+                    d[0, i] *= sPlus[i, i];
+                result = v * d;
+            }
+            return result;
         }
         public Double[] Svd()
         {
@@ -381,62 +436,156 @@ namespace Kean.Math.Matrix
             result[1] = s;
             return result;
         }
-        public Double[] QRFactorization()
+        #endregion
+        #region Lup Methods
+        Double[] LupDecomposition()
         {
-            int order = this.Dimensions.Height;
-            int iterations = Kean.Math.Integer.Minimum(this.Dimensions.Height - 1, this.Dimensions.Width);
-            Double r = this;
-            Double q = Double.Identity(order);
-            for (int i = 0; i < iterations; i++)
-            {
-                Double x = r.Extract(i, i + 1, i, r.Dimensions.Height);
-                Double y = (Kean.Math.Double.Sign(x[0, 0]) * x.Norm) * Double.Basis(r.Dimensions.Height - i, 0);
-                Double qi = Double.Identity(order).Paste(i, i, Double.HouseHolder(x, y));
-                r = qi * r;
-                q *= qi.Transpose();
-            }
-            return new Double[] { q, r };
-        }
-        Kean.Core.Basis.Tuple<Double, double> House()
-        {
-            Kean.Core.Basis.Tuple<Double, double> result;
-            int n = this.Dimensions.Height;
-            Double tail = this.Extract(0, 1, 1, n);
-            double sigma = (tail.Transpose() * tail)[0, 0];
-            Double nu = new Double(1, n);
-            nu[0, 0] = 1;
-            nu.Set(0, 1, tail);
-            double beta = 0;
-            if (sigma != 0)
-            {
-                double x00 = this[0, 0];
-                double mu = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(x00) + sigma);
-                if (x00 <= 0)
-                    nu[0, 0] = x00 - mu;
-                else
-                    nu[0, 0] = -sigma / (x00 + mu);
-                double nu00Squared = Kean.Math.Double.Squared(nu[0, 0]);
-                beta = 2 * nu00Squared / (sigma + nu00Squared);
-                nu /= nu[0, 0];
-            }
-            result = Kean.Core.Basis.Tuple.Create<Double, double>(nu, beta);
-            return result;
-        }
-        // Contruct Householder transform from two  column vectors of same length and norm.
-        public static Double HouseHolder(Double x, Double y)
-        {
-            if (x.Dimensions.Width != y.Dimensions.Width && x.Dimensions.Width != 1 && x.Dimensions.Height != y.Dimensions.Height)
+            if (!this.IsSquare)
                 throw new Exception.InvalidDimensions();
-            int length = x.Dimensions.Height;
-            Double w = x - y;
-            double norm = w.Norm;
-            Double result = Double.Identity(length);
-            if (norm != 0)
+            int order = this.Order;
+            Double l = Double.Identity(order);
+            Double u = this.Copy();
+            Double p = Double.Identity(order);
+
+
+            int last = order - 1;
+            for (int position = 0; position < last; position++)
             {
-                w /= norm;
-                result -= 2 * w * w.Transpose();
+                int pivotRow = position;
+                for (int y = position + 1; y < u.Dimensions.Height; y++)
+                    if (Kean.Math.Double.Absolute(u[position, position]) < Kean.Math.Double.Absolute(u[position, y]))
+                        pivotRow = y;
+                p.SwapRows(position, pivotRow);
+                u.SwapRows(position, pivotRow);
+                if (u[position, position] != 0)
+                {
+                    for (int y = position + 1; y < order; y++)
+                    {
+                        double pivot = u[position, y] / u[position, position];
+                        for (int x = position; x < order; x++)
+                            u[x, y] -= pivot * u[x, position];
+                        u[position, y] = pivot;
+                    }
+                }
+            }
+            for (int y = 0; y < order; y++)
+                for (int x = 0; x < y; x++)
+                {
+                    l[x, y] = u[x, y];
+                    u[x, y] = 0;
+                }
+            return new Double[] { l, u, p };
+        }
+        void SwapRows(int row1, int row2)
+        {
+            int order = this.Order;
+            if (row1 != row2)
+            {
+                for (int x = 0; x < order; x++)
+                {
+                    double buffer = this[x, row1];
+                    this[x, row1] = this[x, row2];
+                    this[x, row2] = buffer;
+                }
+            }
+        }
+        /// <summary>
+        /// Forward solver lower * x = y. Current object is y. 
+        /// </summary>
+        /// <param name="lower">Lower triangual matrix.</param>
+        /// <returns>Solution x.</returns>
+        public Double ForwardSubstitution(Double lower)
+        {
+            Double result = new Double(this.Dimensions);
+            for (int x = 0; x < this.Dimensions.Width; x++)
+            {
+                for (int y = 0; y < this.Dimensions.Height; y++)
+                {
+                    double accumulator = this[x, y];
+                    for (int x2 = 0; x2 < y; x2++)
+                        accumulator -= lower[x2, y] * result[x, x2];
+                    if (lower[y, y] != 0)
+                        result[x, y] = accumulator / lower[y, y];
+                    else
+                        throw new Exception.DivisionByZero();
+                }
             }
             return result;
         }
+        /// <summary>
+        /// Backward solver upper * x = y. Current object is y. 
+        /// </summary>
+        /// <param name="lower">Upper triangual matrix.</param>
+        /// <returns>Solution x.</returns>
+        public Double BackwardSubstitution(Double upper)
+        {
+            Double result = new Double(this.Dimensions);
+            for (int x = 0; x < this.Dimensions.Width; x++)
+            {
+                for (int y = this.Dimensions.Height - 1; y >= 0; y--)
+                {
+                    double accumulator = this[x, y];
+                    for (int x2 = y + 1; x2 < upper.Dimensions.Width; x2++)
+                        accumulator -= upper[x2, y] * result[x, x2];
+                    if (upper[y, y] != 0)
+                        result[x, y] = accumulator / upper[y, y];
+                    else
+                        throw new Exception.DivisionByZero();
+                }
+            }
+            return result;
+        }
+        public Double SolveLup(Double b)
+        {
+            Double result;
+            if (this.IsSquare)
+            {
+                Double[] lup = this.LupDecomposition();
+                result = (lup[2] * b).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+            }
+            else if (this.Dimensions.Width < this.Dimensions.Height)
+            {
+                Double[] lup = (this.Transpose() * this).LupDecomposition();
+                result = (lup[2] * this.Transpose() * b).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+            }
+            else
+                throw new Exception.InvalidDimensions();
+            return result;
+        }
+        public Double Inverse()
+        {
+            if (!this.IsSquare)
+                throw new Exception.InvalidDimensions();
+            Double result;
+            Double[] lup = this.LupDecomposition();
+            result = (lup[2] * Double.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+            return result;
+        }
+        public double Determinant()
+        {
+            Double[] lup = this.LupDecomposition();
+            double result = 1;
+            for (int position = 0; position < lup[1].Dimensions.Height; position++)
+                result *= lup[1][position, position];
+            return result * lup[2].Sign();
+        }
+        double Sign()
+        {
+            int[] permutation = new int[this.Dimensions.Height];
+            for (int y = 0; y < this.Dimensions.Width; y++)
+            {
+                int x = 0;
+                while (this[x, y] == 0 && x < this.Dimensions.Width)
+                    x++;
+                permutation[y] = x;
+            }
+            double accumulated = 1;
+            for (int i = 0; i < permutation.Length; i++)
+                for (int j = i + 1; j < permutation.Length; j++)
+                    accumulated *= (double)(permutation[i] - permutation[j]) / (i - j);
+            return Kean.Math.Double.Sign(accumulated);
+        }
+ 
+        #endregion
     }
 }

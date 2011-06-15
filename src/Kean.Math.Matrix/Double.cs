@@ -30,41 +30,7 @@ namespace Kean.Math.Matrix
         public Geometry2D.Integer.SizeValue Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
         // Matrix elements are supposed to be in column major order 
         public bool IsSquare { get { return this.Dimensions.Width == this.Dimensions.Height; } }
-        #region Matrix Invariants
-        public double Trace
-        {
-            get
-            {
-                double result = 0;
-                int diagonal = Math.Integer.Minimum(this.Dimensions.Width, this.Dimensions.Height);
-                for (int i = 0; i < diagonal; i++)
-                    result += this[i, i];
-                return result;
-            }
-        }
-        public double Determinant
-        {
-            get
-            {
-                double result = 0;
-                if (!this.IsSquare)
-                    new Exception.InvalidDimensions();
-                else
-                {
-                    int order = this.Dimensions.Width;
-                    if (order > 0)
-                    {
-                        for (int x = 0; x < this.Dimensions.Width; x++)
-                            result += this[x, 0] *
-                                 Kean.Math.Double.Power(-1, x + 1 + 1) * this.Minor(x, 0).Determinant;
-                    }
-                    else
-                        result = 1;
-                }
-                return result;
-            }
-        }
-        #endregion
+        public int Order { get { return Kean.Math.Integer.Minimum(this.Dimensions.Width,this.Dimensions.Height); } }
         public double Norm
         {
             get
@@ -167,16 +133,9 @@ namespace Kean.Math.Matrix
             Double result = new Double(this.Dimensions.Width, this.Dimensions.Height);
             for (int x = 0; x < result.Dimensions.Width; x++)
                 for (int y = 0; y < result.Dimensions.Height; y++)
-                    result[x, y] = Kean.Math.Double.Power(-1, x + 1 + y + 1) * this.Minor(y, x).Determinant;
+                    result[x, y] = Kean.Math.Double.Power(-1, x + 1 + y + 1) * this.Minor(y, x).Determinant();
             return result;
 
-        }
-        public Double Inverse()
-        {
-            double determinant = this.Determinant;
-            if (determinant == 0)
-                new Exception.DivisionByZero();
-            return this.Adjoint() / determinant;
         }
         public Double Minor(int x, int y)
         {
