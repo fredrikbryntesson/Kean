@@ -19,18 +19,21 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.IO.Sms;
+using Target = Kean.IO.Serial;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Test.IO.Sms
+namespace Kean.Test.IO.Serial
 {
 	class MainClass
 	{
 		public static void Main(string[] arguments)
 		{
+			Target.Port.Available.Apply(p => Console.WriteLine(p.Device));
 			Console.WriteLine("Hello World!");
-			Target.Device device = new Target.Device();
-			device.Connect("/dev/ttyACM0");
-			device.Send(new Target.Message() { Receiver = "0731807491", Body = "Test" });
+			Target.Port device = new Target.Port("/dev/ttyACM0");
+			device.Open("57600 8n1");
+			device.WriteLine("AT");
+			Console.Write(device.Read());
 			device.Close();
 		}
 	}

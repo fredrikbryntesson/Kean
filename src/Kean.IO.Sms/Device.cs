@@ -21,12 +21,13 @@
 using System;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Communication.Sms
+namespace Kean.IO.Sms
 {
 	public class Device
 	{
 		System.IO.Ports.SerialPort port;
 
+		public bool IsOpen { get { return this.port.NotNull() && this.port.IsOpen; } }
 		public Device()
 		{
 		}
@@ -34,19 +35,27 @@ namespace Kean.Communication.Sms
 		public bool Connect(string resource)
 		{
 			this.port = new System.IO.Ports.SerialPort(resource, 57600, System.IO.Ports.Parity.None);
-			return true;
+			this.port.Open();
+			this.port.DataReceived += (sender, e) => Console.WriteLine(this.port.ReadExisting());
+			this.port.WriteLine("AT\r");
+			Console.WriteLine("AT");
+			Console.WriteLine(this.port.ReadExisting());
+			return this.IsOpen;
 
 		}
 		public void Close()
 		{
-			if (this.port.NotNull())
+			if (this.IsOpen)
 				this.port.Close();
 		}
 		public void Send(Message message)
 		{
+			Console.WriteLine(this.port.ReadExisting());
 			this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			this.port.Write(message.Body);
+			Console.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
+			this.port.WriteLine(message.Body);
 			this.port.Write(new byte[] { 0x1a }, 0, 1);
+			Console.WriteLine(this.port.ReadExisting());
 		}
 	}
 }

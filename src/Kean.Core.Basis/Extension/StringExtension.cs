@@ -39,6 +39,5 @@ namespace Kean.Core.Basis.Extension
 		{
 			return new RegularExpressions.Regex("^" + RegularExpressions.Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$", RegularExpressions.RegexOptions.IgnoreCase | RegularExpressions.RegexOptions.Singleline).IsMatch(me);
 		}
-
 	}
 }

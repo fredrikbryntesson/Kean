@@ -28,7 +28,6 @@ namespace Kean.Core.Basis.Extension
 		{
 			return (left, right) =>
 			{
-				Basis.Order order = me(left, right);
 				int result;
 				switch (me(left, right))
 				{
