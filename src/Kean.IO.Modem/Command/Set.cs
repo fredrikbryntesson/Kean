@@ -1,5 +1,5 @@
 // 
-//  Main.cs
+//  Value.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,19 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.IO.Sms;
 
-namespace Kean.Test.IO.Sms
+namespace Kean.IO.Modem.Command
 {
-	class MainClass
+	public class Set
 	{
-		public static void Main(string[] arguments)
+		internal Set()
 		{
-			Console.WriteLine("Hello World!");
-			Target.Device device = new Target.Device();
-			device.Open("/dev/ttyACM0");
-			device.Send(new Target.Message() { Receiver = "0731807491", Body = "Test" });
-			device.Close();
 		}
 	}
 }
+

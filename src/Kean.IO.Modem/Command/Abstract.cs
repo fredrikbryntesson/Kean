@@ -1,10 +1,10 @@
 // 
-//  Device.cs
+//  Abstract.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -19,42 +19,30 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.IO.Sms
+namespace Kean.IO.Modem.Command
 {
-	public class Device
+	public class Abstract
 	{
-		Serial.Port port;
+		public string Name { get; private set; }
+		public bool Succeded { get; private set; }
 
-		public bool IsOpen { get { return this.port.NotNull() && this.port.IsOpen; } }
-		public Device()
-		{
-		}
+		protected abstract string Command { get; }
 
-		public bool Open(string resource)
+		internal Abstract(string name)
 		{
-			this.port = Serial.Port.Open(resource, "57600 8n1");
-			this.port.WriteLine("AT");
-			Console.WriteLine("AT");
-			Console.WriteLine(this.port.Read());
-			return this.IsOpen;
-
+			this.Name = name;
 		}
-		public void Close()
+		internal void Run(Serial.IPort port)
 		{
-			if (this.IsOpen)
-				this.port.Close();
+			this.port.WriteLine("AT" + this.Command);
+			string response = this.port.Read();
+			this.Succeded = response.EndsWith("\r\nOK\r\n") && this.Parse(response.Remove(response.Length - 7, 6).Trim());
 		}
-		public void Send(Message message)
-		{
-			Console.WriteLine(this.port.Read());
-			this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			Console.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			this.port.WriteLine(message.Body);
-			this.port.Write(0x1a);
-			Console.WriteLine(this.port.Read());
-		}
+		protected abstract bool Parse(string response);
 	}
 }
 

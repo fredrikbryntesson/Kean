@@ -26,6 +26,7 @@ using Kean.Core.Collection.Extension;
 namespace Kean.IO.Serial
 {
 	public class Port :
+		IPort,
 		IDisposable
 	{
 		Ports.SerialPort backend;
@@ -83,6 +84,10 @@ namespace Kean.IO.Serial
 				this.backend = null;
 			}
 			return result;
+		}
+		public void Write(params byte[] value)
+		{
+			this.backend.Write(value, 0, value.Length);
 		}
 		public void Write(string value)
 		{

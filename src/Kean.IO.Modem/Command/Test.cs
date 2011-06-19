@@ -1,5 +1,5 @@
 // 
-//  Main.cs
+//  Test.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,19 +19,30 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.IO.Sms;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Basis.Extension;
 
-namespace Kean.Test.IO.Sms
+namespace Kean.IO.Modem.Command
 {
-	class MainClass
+	public class Test :
+		Abstract
 	{
-		public static void Main(string[] arguments)
+		public Collection.IImmutableVector<string> Arguments { get; private set; }
+		protected override string Command { get { return this.Name + "=?"; } }
+
+		internal Test(string name) :
+			base(name) { }
+
+		protected override bool Parse (string response)
 		{
-			Console.WriteLine("Hello World!");
-			Target.Device device = new Target.Device();
-			device.Open("/dev/ttyACM0");
-			device.Send(new Target.Message() { Receiver = "0731807491", Body = "Test" });
-			device.Close();
+			if (response.NotEmpty() && response.StartsWith(this.Name + ": (") && response.EndsWith(")"))
+			{
+				int start = this.Name.Length + 2;
+				this.Arguments = new Collection.Wrap.ImmutableVector<string>(response.Substring(start, response.Length - start - 2).Split(new string[] { "),(" }));
+			}
+			else
+				this.Arguments = new Collection.Vector<string>(0);
 		}
 	}
 }
+

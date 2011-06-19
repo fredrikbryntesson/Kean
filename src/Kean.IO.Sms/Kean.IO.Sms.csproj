@@ -60,5 +60,9 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.IO.Serial\Kean.IO.Serial.csproj">
+      <Project>{1137D63C-EBEA-4E27-8277-E5299A943059}</Project>
+      <Name>Kean.IO.Serial</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

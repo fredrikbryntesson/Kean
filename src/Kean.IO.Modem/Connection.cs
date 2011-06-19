@@ -1,10 +1,10 @@
 // 
-//  Device.cs
+//  MyClass.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,40 +20,35 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Core.Basis.Extension;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.IO.Sms
+namespace Kean.IO.Modem
 {
-	public class Device
+	public class Connection
 	{
-		Serial.Port port;
-
+		Serial.IPort port;
 		public bool IsOpen { get { return this.port.NotNull() && this.port.IsOpen; } }
-		public Device()
-		{
-		}
 
-		public bool Open(string resource)
+		public Connection()
 		{
-			this.port = Serial.Port.Open(resource, "57600 8n1");
-			this.port.WriteLine("AT");
-			Console.WriteLine("AT");
-			Console.WriteLine(this.port.Read());
-			return this.IsOpen;
-
 		}
-		public void Close()
+		public bool Open(Serial.IPort port)
 		{
-			if (this.IsOpen)
-				this.port.Close();
+			this.port = port;
+			return this.port.NotNull();
 		}
-		public void Send(Message message)
+		public bool Open(string resource, Serial.Settings settings)
 		{
-			Console.WriteLine(this.port.Read());
-			this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			Console.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			this.port.WriteLine(message.Body);
-			this.port.Write(0x1a);
-			Console.WriteLine(this.port.Read());
+			return this.Open(Serial.Port.Open(resource, settings));
+		}
+		public bool Close()
+		{
+			return this.IsOpen && this.Close();
+		}
+		public string[] Send(params string[] commands)
+		{
+			this.port.WriteLine(commands.Fold((command, accumulated) => accumulated + command + ";", "AT").TrimEnd(";"));
+			return this.port.Read().Split(new char[] { '\n', '\r' },StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 }

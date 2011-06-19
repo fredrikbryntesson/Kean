@@ -1,5 +1,5 @@
 // 
-//  Main.cs
+//  Execution.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,19 +19,24 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.IO.Sms;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Basis.Extension;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Test.IO.Sms
+namespace Kean.IO.Modem.Command
 {
-	class MainClass
+	public class Execute :
+		Abstract
 	{
-		public static void Main(string[] arguments)
+		string[] parameters
+		public Collection.IImmutableVector<string> Parameters { get; private set; }
+		protected override string Command { get { return this.Parameters.Count == 0 ? "" : "=" + this.Parameters
+		}
+		internal Execute(string name, params string[] parameters) :
+			base(name)
 		{
-			Console.WriteLine("Hello World!");
-			Target.Device device = new Target.Device();
-			device.Open("/dev/ttyACM0");
-			device.Send(new Target.Message() { Receiver = "0731807491", Body = "Test" });
-			device.Close();
+			this.Parameters = new Collection.Wrap.ImmutableVector<string>(parameters);
 		}
 	}
 }
+

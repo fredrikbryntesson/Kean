@@ -1,5 +1,5 @@
 // 
-//  Main.cs
+//  IPort.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,19 +19,20 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.IO.Sms;
 
-namespace Kean.Test.IO.Sms
+namespace Kean.IO.Serial
 {
-	class MainClass
+	public interface IPort :
+		IDisposable
 	{
-		public static void Main(string[] arguments)
-		{
-			Console.WriteLine("Hello World!");
-			Target.Device device = new Target.Device();
-			device.Open("/dev/ttyACM0");
-			device.Send(new Target.Message() { Receiver = "0731807491", Body = "Test" });
-			device.Close();
-		}
+		bool IsOpen { get; }
+		string Device { get; }
+		Settings Settings { get; }
+		bool Open(Settings settings);
+		bool Close();
+		void Write(params byte[] value);
+		void Write(string value);
+		void WriteLine(string value);
+		string Read();
 	}
 }
