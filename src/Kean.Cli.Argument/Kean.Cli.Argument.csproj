@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3B4397D6-2F39-44F6-A200-3AE6454E793C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Kean.Cli.Argument</RootNamespace>
+    <AssemblyName>Kean.Cli.Argument</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Argument.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core.Basis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
