@@ -26,7 +26,7 @@ namespace Kean.Core.Collection.Abstract
 	public abstract class CommonVector<T> :
         System.Collections.Generic.IEnumerable<T>,
         System.IEquatable<IVector<T>>,
-        System.IEquatable<IImmutableVector<T>>
+        System.IEquatable<IReadOnlyVector<T>>
 
 	{
 		public abstract int Count { get; }
@@ -41,14 +41,14 @@ namespace Kean.Core.Collection.Abstract
 		}
 		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
 		{
-			for (int i = 0; i < (this as IImmutableVector<T>).Count; i++)
-				yield return (this as IImmutableVector<T>)[i];
+			for (int i = 0; i < (this as IReadOnlyVector<T>).Count; i++)
+				yield return (this as IReadOnlyVector<T>)[i];
 		}
 		#endregion
 		#region Object override
 		public override bool Equals(object other)
 		{
-			return other is IVector<T> ? this.Equals(other as IVector<T>) :	other is IImmutableVector<T> && this.Equals(other as IImmutableVector<T>);
+			return other is IVector<T> ? this.Equals(other as IVector<T>) :	other is IReadOnlyVector<T> && this.Equals(other as IReadOnlyVector<T>);
 		}
 		public override int GetHashCode ()
 		{
@@ -61,18 +61,18 @@ namespace Kean.Core.Collection.Abstract
 		#region IEquatable<IVector<T>>
 		public bool Equals(IVector<T> other)
 		{
-			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
+			bool result = other.NotNull() && (this as IReadOnlyVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IVector<T>).Count; i++)
 				result = (this as IVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion
-		#region IEquatable<IImmutableVector<T>>
-		bool  IEquatable<IImmutableVector<T>>.Equals(IImmutableVector<T> other)
+		#region IEquatable<IReadOnlyVector<T>>
+		bool  IEquatable<IReadOnlyVector<T>>.Equals(IReadOnlyVector<T> other)
 		{
-			bool result = other.NotNull() && (this as IImmutableVector<T>).Count == other.Count;
-			for (int i = 0; result && i < (this as IImmutableVector<T>).Count; i++)
-				result = (this as IImmutableVector<T>)[i].Equals(other[i]);
+			bool result = other.NotNull() && (this as IReadOnlyVector<T>).Count == other.Count;
+			for (int i = 0; result && i < (this as IReadOnlyVector<T>).Count; i++)
+				result = (this as IReadOnlyVector<T>)[i].Equals(other[i]);
 			return result;
 		}
 		#endregion

@@ -52,14 +52,12 @@
     <Compile Include="Hooked\IStack.cs" />
     <Compile Include="Hooked\IVector.cs" />
     <Compile Include="Hooked\FilteredList.cs" />
-    <Compile Include="IImmutableVector.cs" />
     <Compile Include="ISet.cs" />
     <Compile Include="Linked\Set.cs" />
     <Compile Include="Queue.cs" />
     <Compile Include="Set.cs" />
     <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
-    <Compile Include="Wraped\ImmutableVector.cs" />
     <Compile Include="Wraped\ListQueue.cs" />
     <Compile Include="Wraped\ListStack.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -99,12 +97,19 @@
     <Compile Include="Hooked\List.cs" />
     <Compile Include="Abstract\List.cs" />
     <Compile Include="Array\Vector.cs" />
-    <Compile Include="Dictionary.cs" />
-    <Compile Include="Abstract\ImmutableVector.cs" />
     <Compile Include="Abstract\CommonVector.cs" />
+    <Compile Include="Wraped\ReadOnlyVector.cs" />
+    <Compile Include="Abstract\ReadOnlyVector.cs" />
+    <Compile Include="IReadOnlyVector.cs" />
+    <Compile Include="ReadOnlyVector.cs" />
+    <Compile Include="Array\ReadOnlyVector.cs" />
+    <Compile Include="Hash\Dictionary.cs" />
+    <Compile Include="Dictionary.cs" />
+    <Compile Include="Hash\Set.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cast\" />
+    <Folder Include="Hash\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
