@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2010-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -25,6 +25,7 @@ namespace Kean.Core.Basis.Extension
 {
 	public static class ActionExtension
 	{
+		#region Call
 		public static void Call (this Action me)
 		{
 			if (me.NotNull ())
@@ -129,6 +130,26 @@ namespace Kean.Core.Basis.Extension
 				me.Invoke (argument1, argument2, argument3, argument4, argument5, argument6, argument7, argument8, argument9, argument10,
 				argument11, argument12, argument13, argument14, argument15, argument16);
 		}
-
+		#endregion
+		#region For
+		public static void For(this Action<int> me, int count)
+		{
+			if (me.NotNull())
+			{
+				if (count > 1)
+				{
+					int countMinusOne = count - 1;
+					IAsyncResult[] tags = new IAsyncResult[countMinusOne];
+					for (int i = 0; i < countMinusOne; i++)
+						tags[i] = me.BeginInvoke(i, null, null);
+					me(countMinusOne);
+					for (int i = 0; i < countMinusOne; i++)
+						me.EndInvoke(tags[i]);
+				}
+				else if (count == 1)
+					me(0);
+			}
+		}
+		#endregion
 	}
 }
