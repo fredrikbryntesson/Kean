@@ -29,8 +29,17 @@ namespace Kean.Math.Matrix
         Geometry2D.Integer.SizeValue dimensions;
         public Geometry2D.Integer.SizeValue Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
         // Matrix elements are supposed to be in column major order 
+        /// <summary>
+        /// True if the matrix is a square matrix.
+        /// </summary>
         public bool IsSquare { get { return this.Dimensions.Width == this.Dimensions.Height; } }
-        public int Order { get { return Kean.Math.Integer.Minimum(this.Dimensions.Width,this.Dimensions.Height); } }
+        /// <summary>
+        /// Minimum of maxtrix dimensions.
+        /// </summary>
+        public int Order { get { return Kean.Math.Integer.Minimum(this.Dimensions.Width, this.Dimensions.Height); } }
+        /// <summary>
+        /// Frobenius norm of matrix
+        /// </summary>
         public double Norm
         {
             get
@@ -41,6 +50,11 @@ namespace Kean.Math.Matrix
                 return Kean.Math.Double.SquareRoot(result);
             }
         }
+        /// <summary>
+        /// Distance induced by the Frobenius norm.
+        /// </summary>
+        /// <param name="other">Other matrix.</param>
+        /// <returns>Distance between current and other matrix.</returns>
         public double Distance(Double other)
         {
             return (this - other).Norm;
@@ -58,6 +72,12 @@ namespace Kean.Math.Matrix
             this.elements = new double[this.Dimensions.Area];
             Array.Copy(elements, 0, this.elements, 0, minimum);
         }
+        /// <summary>
+        /// Get or set an element in a matrix at position(x,y).
+        /// </summary>
+        /// <param name="x">Column number of a matrix.</param>
+        /// <param name="y">Row number of a matrix.</param>
+        /// <returns></returns>
         public double this[int x, int y]
         {
             get { return this.elements[this.Index(x, y)]; }
@@ -69,6 +89,12 @@ namespace Kean.Math.Matrix
             // Use Y * this.Dimensions.Width + X for row major order
         }
         #region Arithmetic Matrix - Matrix Operators
+        /// <summary>
+        /// Addition of matrices.
+        /// </summary>
+        /// <param name="left">Left matrix in the addition.</param>
+        /// <param name="right">Right matrix in the addition.</param>
+        /// <returns>Sum of left and right matrices.</returns>
         public static Double operator +(Double left, Double right)
         {
             if (left.Dimensions != right.Dimensions)
@@ -78,6 +104,12 @@ namespace Kean.Math.Matrix
                 result.elements[i] = left.elements[i] + right.elements[i];
             return result;
         }
+        /// <summary>
+        /// Multiplication of matrices.
+        /// </summary>
+        /// <param name="left">Left matrix in the multiplication.</param>
+        /// <param name="right">Right matrix in the multiplication.</param>
+        /// <returns>Product of left and right matrices.</returns>
         public static Double operator *(Double left, Double right)
         {
             if (left.Dimensions.Width != right.Dimensions.Height)
@@ -89,6 +121,11 @@ namespace Kean.Math.Matrix
                         result[x, y] = result[x, y] + left[z, y] * right[x, z];
             return result;
         }
+        /// Difference between matrices.
+        /// </summary>
+        /// <param name="left">Left matrix in the differerence.</param>
+        /// <param name="right">Right matrix in the differerence.</param>
+        /// <returns>Difference of left and right matrices.</returns>
         public static Double operator -(Double left, Double right)
         {
             if (left.Dimensions != right.Dimensions)
@@ -99,6 +136,12 @@ namespace Kean.Math.Matrix
             return result;
 
         }
+        /// <summary>
+        /// Multiplication between scalar and matrix.
+        /// </summary>
+        /// <param name="left">Left scalar in the multiplication.</param>
+        /// <param name="right">Right matrix in the multiplication.</param>
+        /// <returns>Product of scalar and matrix.</returns>
         public static Double operator *(double left, Double right)
         {
             Double result = new Double(right.Dimensions);
@@ -106,20 +149,41 @@ namespace Kean.Math.Matrix
                 result.elements[i] = left * right.elements[i];
             return result;
         }
+        /// <summary>
+        /// Multiplication between scalar and matrix.
+        /// </summary>
+        /// <param name="left">Left matrix in the multiplication.</param>
+        /// <param name="right">Right scalar in the multiplication.</param>
+        /// <returns>Product of matrix and  scalar.</returns>
         public static Double operator *(Double left, double right)
         {
             return right * left;
         }
+        /// <summary>
+        /// Division between scalar and matrix.
+        /// </summary>
+        /// <param name="left">Left matrix in the multiplication.</param>
+        /// <param name="right">Right scalar in the multiplication.</param>
+        /// <returns>Quotient between matrix and scalar.</returns>
         public static Double operator /(Double left, double right)
         {
             return left * (1 / right);
         }
+        /// <summary>
+        /// Negation of a matrix.
+        /// </summary>
+        /// <param name="value">Matrix to be negated.</param>
+        /// <returns>Negated matrix.</returns>
         public static Double operator -(Double value)
         {
             return (-1) * value;
         }
         #endregion
         #region Matrix Operations
+        /// <summary>
+        /// Tranpose matrix. Creates a new matrix being the transpose of the current matrix.
+        /// </summary>
+        /// <returns>Return current matrix tranposed.</returns>
         public Double Transpose()
         {
             Double result = new Double(this.Dimensions.Height, this.Dimensions.Width);
@@ -128,6 +192,10 @@ namespace Kean.Math.Matrix
                     result[x, y] = this[y, x];
             return result;
         }
+        /// <summary>
+        /// Adjoint matrix. Creates a new matrix which is the adjoint of the current matrix.
+        /// </summary>
+        /// <returns>Adjoint of current matrix.</returns>
         public Double Adjoint()
         {
             Double result = new Double(this.Dimensions.Width, this.Dimensions.Height);
@@ -137,6 +205,12 @@ namespace Kean.Math.Matrix
             return result;
 
         }
+        /// <summary>
+        /// Minor of the current matrix.
+        /// </summary>
+        /// <param name="x">Column position in the matrix.</param>
+        /// <param name="y">Row position in the matrix.</param>
+        /// <returns>Return the minor of a matrix at position (x,y).</returns>
         public Double Minor(int x, int y)
         {
             if (this.Dimensions.Width < 1 || this.Dimensions.Height < 1)
@@ -158,22 +232,42 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        /// <summary>
+        /// Extract the submatrix being the rectangular part of current matrix with top left corner (x,y).
+        /// </summary>
+        /// <param name="left">Column position.</param>
+        /// <param name="top">Row position.</param>
+        /// <returns>Return the extract submatrix with top left corner (x,y).</returns>
         public Double Extract(int left, int top)
         {
             return this.Extract(left, this.Dimensions.Width, top, this.Dimensions.Height);
         }
         public Double Extract(int left, int right, int top, int bottom)
         {
-            Double result = new Double(right-left, bottom- top);
+            Double result = new Double(right - left, bottom - top);
             for (int x = left; x < right; x++)
                 for (int y = top; y < bottom; y++)
-                    result[x-left, y-top] = this[x, y];
+                    result[x - left, y - top] = this[x, y];
             return result;
         }
+        /// <summary>
+        /// Paste a submatrix into a copy of the current matrix. The submatrix is pasted a position top left corner
+        /// (x,y).
+        /// </summary>
+        /// <param name="x">Column position.</param>
+        /// <param name="y">Row position.</param>
+        /// <param name="submatrix">Matrix to be pasted into current matrix.</param>
+        /// <returns>Return new matrix with submatrix pasted.</returns>
         public Double Paste(int x, int y, Double submatrix)
         {
             return this.Paste(new Geometry2D.Integer.Point(x, y), submatrix);
         }
+        /// <summary>
+        /// Paste a submatrix into a copy of the current matrix. The submatrix is pasted a position top left corner leftTop.
+        /// </summary>
+        /// <param name="leftTop">Left top position in the current matrix to paste the submatrix.</param>
+        /// <param name="submatrix">Matrix to paste into current matrix.</param>
+        /// <returns>Return new matrix with submatrix pasted.</returns>
         public Double Paste(Geometry2D.Integer.Point leftTop, Double submatrix)
         {
             Double result = this.Copy();
@@ -182,21 +276,36 @@ namespace Kean.Math.Matrix
                     result[x + leftTop.X, y + leftTop.Y] = submatrix[x, y];
             return result;
         }
-        public void Set( int left, int top, Double submatrix)
+        /// <summary>
+        /// Paste a submatrix into a copy of the current matrix. The submatrix is pasted a position top left corner (x,y).
+        /// This method does not create a new matrix but instead keeps the current matrix.
+        /// </summary>
+        /// <param name="left">Column position.</param>
+        /// <param name="top">Row position.</param>
+        /// <param name="submatrix">Matrix to paste into the current matrix.</param>
+        public void Set(int left, int top, Double submatrix)
         {
             for (int x = 0; x < submatrix.Dimensions.Width; x++)
                 for (int y = 0; y < submatrix.Dimensions.Height; y++)
                     this[x + left, y + top] = submatrix[x, y];
         }
+        /// <summary>
+        /// Creates a copy of the current matrix.
+        /// </summary>
+        /// <returns>Return a copy of the current matrix.</returns>
         public Double Copy()
         {
             Double result = new Double(this.Dimensions);
             Array.Copy(this.elements, result.elements, this.elements.Length);
             return result;
         }
-        
         #endregion
         #region Static Constructors
+        /// <summary>
+        /// Creates an identity matrix of given order.
+        /// </summary>
+        /// <param name="order">Order of matrix to be created.</param>
+        /// <returns>Identity matrix of given order.</returns>
         public static Double Identity(int order)
         {
             Double result = new Double(order, order);
@@ -204,6 +313,11 @@ namespace Kean.Math.Matrix
                 result[i, i] = 1;
             return result;
         }
+        /// <summary>
+        /// Creates a diagonal block matrix with block given. Outside blocks the matrix has zero elements.
+        /// </summary>
+        /// <param name="matrices">Matrices to be on the diagonal of the created matrix.</param>
+        /// <returns>Block diagonal matrix.</returns>
         public static Double Diagonal(params Double[] matrices)
         {
             int width = 0;
@@ -224,10 +338,23 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        /// <summary>
+        /// Column basis vector of given length and with a one a given index.
+        /// </summary>
+        /// <param name="length">Length of column to be created.</param>
+        /// <param name="index">Index to set the one.</param>
+        /// <returns>Column vector matrix of given length and a one at given index.</returns>
         public static Double Basis(int length, int index)
         {
             return Double.Basis(length, index, true);
         }
+        /// <summary>
+        /// Column / Row basis vector of given length and with a one a given index.
+        /// </summary>
+        /// <param name="length">Length of column to be created.</param>
+        /// <param name="index">Index to set the one.</param>
+        /// <param name="column">Column vector if set to true, row vector if set to false.</param>
+        /// <returns>Column / Row vector matrix of given length and a one at given index.</returns>
         public static Double Basis(int length, int index, bool column)
         {
             Double result = new Double(1, length);

@@ -26,13 +26,18 @@ namespace Kean.Math.Matrix
 {
     public partial class Double
     {
-        public bool IsDiagonal(double epsilon)
+        /// <summary>
+        /// Return true if the current matrix is a diagonal matrix within the specified tolerance.
+        /// </summary>
+        /// <param name="tolerance">Tolerance used to check zero elements outside the diagonal.</param>
+        /// <returns>True is the matrix is a diagonal matrix within the given tolerance.</returns>
+        public bool IsDiagonal(double tolerance)
         {
             bool result = true;
             for (int x = 0; x < this.Dimensions.Width; x++)
                 for (int y = 0; y < this.Dimensions.Height; y++)
                 {
-                    if (x != y && Kean.Math.Double.Absolute(this[x, y]) > epsilon)
+                    if (x != y && Kean.Math.Double.Absolute(this[x, y]) > tolerance)
                     {
                         result = false;
                         x = this.Dimensions.Width;
@@ -41,6 +46,10 @@ namespace Kean.Math.Matrix
                 }
             return result;
         }
+        /// <summary>
+        /// Trace of the current matrix.
+        /// </summary>
+        /// <returns>Return the trace of the current matrix.</returns>
         public double Trace()
         {
             double result = 0;
@@ -71,6 +80,12 @@ namespace Kean.Math.Matrix
                     result[x, y] = 0;
             return result;
         }
+        /// <summary>
+        /// Cholesky least square solver A * x = y. See http://en.wikipedia.org/wiki/Cholesky_decomposition
+        /// The current matrix determines the matrix A above.
+        /// </summary>
+        /// <param name="y">The right hand column y vector of the equation system.</param>
+        /// <returns>Return the least square solution to the system,</returns>
         public Double SolveCholesky(Double y)
         {
             Double result;
@@ -95,6 +110,12 @@ namespace Kean.Math.Matrix
         }
         #endregion
         #region QR methods
+        /// <summary>
+        /// QR least square solver A * x = y. See http://en.wikipedia.org/wiki/QR_decomposition
+        /// The current matrix determines the matrix A above.
+        /// </summary>
+        /// <param name="y">The right hand column y vector of the equation system.</param>
+        /// <returns>Return the least square solution to the system,</returns>
         public Double SolveQr(Double y)
         {
             Double result;
@@ -118,6 +139,11 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        /// <summary>
+        /// QR factorizion of the current matrix. See http://en.wikipedia.org/wiki/QR_decomposition
+        /// Recall that A = QR.
+        /// </summary>
+        /// <returns>Return the QR-factorization array with Q = [0] and R = [1]. </returns>
         public Double[] QRFactorization()
         {
             int order = this.Dimensions.Height;
@@ -182,11 +208,12 @@ namespace Kean.Math.Matrix
         #endregion
         #region Diagonalization
         /// <summary>
+        /// See Algorithm 5.4.2 (Householder Bidiagonalization).
         /// Computation of the Householder bidiagonalization of current matrix. Note height >= width.
-        /// The method return {u, b, v}, where u,v are orthogonal matrices such that u' * current * v = b,
-        /// where b is a bidiagonal matrix with a posssibly nonzero superdiagonal.
+        /// The method return {u, y, v}, where u,v are orthogonal matrices such that u' * current * v = y,
+        /// where y is a bidiagonal matrix with a posssibly nonzero superdiagonal.
         /// </summary>
-        /// <returns>Array of matrices {u,b,v}.</returns>
+        /// <returns>Array of matrices {u,y,v}.</returns>
         public Double[] BiDiagonalization()
         {
             Double[] result;
@@ -222,6 +249,10 @@ namespace Kean.Math.Matrix
             return result;
 
         }
+        /// <summary>
+        /// See Algorithm 5.1.1 (Householder Vector).
+        /// </summary>
+        /// <returns></returns>
         Kean.Core.Basis.Tuple<Double, double> House()
         {
             Kean.Core.Basis.Tuple<Double, double> result;
@@ -249,6 +280,12 @@ namespace Kean.Math.Matrix
         }
         #endregion
         #region Svd Methods
+        /// <summary>
+        /// Svd least square solver A * x = y. See http://en.wikipedia.org/wiki/Linear_least_squares_(mathematics).
+        /// The current matrix determines the matrix A above.
+        /// </summary>
+        /// <param name="y">The right hand column y vector of the equation system.</param>
+        /// <returns>Return the least square solution to the system,</returns>
         public Double SolveSvd(Double b)
         {
             Double result;
@@ -277,10 +314,19 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        /// <summary>
+        /// Returns the Svd decomposition of the current matrix. Recall A = U * S * V'.
+        /// </summary>
+        /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
         public Double[] Svd()
         {
             return this.Svd(1e-10);
         }
+        /// <summary>
+        /// Returns the Svd decomposition of the current matrix. Recall A = U * S * V'.
+        /// </summary>
+        /// <param name="tolerance">Tolerance used for accuracy of algorithm.</param>
+        /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
         public Double[] Svd(double tolerance)
         {
             Double[] result;
@@ -293,6 +339,13 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
+        /// <summary>
+        /// See Algorithm 8.6.2 (The SVD Algorithm).
+        /// Returns the Svd decomposition of the current matrix. Recall A = U * S * V'.
+        /// Height of matrix must be greater or equal to width.
+        /// </summary>
+        /// <param name="tolerance">Tolerance used for accuracy of algorithm.</param>
+        /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
         Double[] SvdHelper(double tolerance)
         {
             Double[] result;
@@ -366,7 +419,11 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
-        public Double[] GolubKahanSvdStep()
+        /// <summary>
+        /// See Algorithm 8.6.1 (Golub-Kahan SVD Step.)
+        /// </summary>
+        /// <returns></returns>
+        Double[] GolubKahanSvdStep()
         {
             Double b = this.Copy();
             int m = b.Dimensions.Height;
@@ -399,6 +456,17 @@ namespace Kean.Math.Matrix
             }
             return new Double[] { u, b, v };
         }
+        /// <summary>
+        /// Givens rotation. Creates an identity matrix of given order m and
+        /// replace at positions (i,i) and (k,k) with c, 
+        /// replace at positions (i,k)  -s and (k,i) with s,
+        /// </summary>
+        /// <param name="m">Order of matrix to be created.</param>
+        /// <param name="i">First index.</param>
+        /// <param name="k">Second index.</param>
+        /// <param name="c">Value corresponding to a cosine value.</param>
+        /// <param name="s">Value corresponding to a sine value.</param>
+        /// <returns>Returns a Givens rotation.</returns>
         static Double GivensRotation(int m, int i, int k, double c, double s)
         {
             Double result = Double.Identity(m);
@@ -408,6 +476,12 @@ namespace Kean.Math.Matrix
             result[i, k] = -s;
             return result;
         }
+        /// <summary>
+        /// See Algorithm 5.1.3.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         static double[] Givens(double a, double b)
         {
             double[] result = new double[2];
@@ -438,6 +512,12 @@ namespace Kean.Math.Matrix
         }
         #endregion
         #region Lup Methods
+        /// <summary>
+        /// See http://en.wikipedia.org/wiki/LUP_decomposition.
+        /// Lup decomposition of the current matrix. Recall that Lup decomposition is A = LUP, 
+        /// where L is lower triangular, U is upper triangular, and P is a permutation matrix.
+        /// </summary>
+        /// <returns>Returns the Lup decomposition. L = [0], U = [1], P = [2].</returns>
         Double[] LupDecomposition()
         {
             if (!this.IsSquare)
@@ -535,23 +615,33 @@ namespace Kean.Math.Matrix
             }
             return result;
         }
-        public Double SolveLup(Double b)
+        /// <summary>
+        /// Lup least square solver A * x = y. See http://en.wikipedia.org/wiki/QR_decomposition
+        /// The current matrix determines the matrix A above.
+        /// </summary>
+        /// <param name="y">The right hand column y vector of the equation system.</param>
+        /// <returns>Return the least square solution to the system.</returns>
+        public Double SolveLup(Double y)
         {
             Double result;
             if (this.IsSquare)
             {
                 Double[] lup = this.LupDecomposition();
-                result = (lup[2] * b).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                result = (lup[2] * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             }
             else if (this.Dimensions.Width < this.Dimensions.Height)
             {
                 Double[] lup = (this.Transpose() * this).LupDecomposition();
-                result = (lup[2] * this.Transpose() * b).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                result = (lup[2] * this.Transpose() * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             }
             else
                 throw new Exception.InvalidDimensions();
             return result;
         }
+        /// <summary>
+        /// Computes the inverse of the current matrix using Lup-decomposition.
+        /// </summary>
+        /// <returns>Inverse of the current matrix.</returns>
         public Double Inverse()
         {
             if (!this.IsSquare)
@@ -561,6 +651,10 @@ namespace Kean.Math.Matrix
             result = (lup[2] * Double.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             return result;
         }
+        /// <summary>
+        /// Computes the determinant of the current matrix using the Lup-decomposition.
+        /// </summary>
+        /// <returns>Determinant of the current matrix.</returns>
         public double Determinant()
         {
             Double[] lup = this.LupDecomposition();
@@ -569,6 +663,10 @@ namespace Kean.Math.Matrix
                 result *= lup[1][position, position];
             return result * lup[2].Sign();
         }
+        /// <summary>
+        /// Sign of a permutation matrix.
+        /// </summary>
+        /// <returns>Returns the sign of the permutation matrix.</returns>
         double Sign()
         {
             int[] permutation = new int[this.Dimensions.Height];
@@ -585,7 +683,6 @@ namespace Kean.Math.Matrix
                     accumulated *= (double)(permutation[i] - permutation[j]) / (i - j);
             return Kean.Math.Double.Sign(accumulated);
         }
- 
         #endregion
     }
 }
