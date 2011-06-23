@@ -32,13 +32,13 @@ namespace Kean.Core.Reflect
 		public string Assembly { get; private set; }
 		public string Name { get; private set; }
 		Collection.IList<TypeName> arguments;
-		public Collection.IImmutableVector<TypeName> Arguments { get; private set; }
+		public Collection.IReadOnlyVector<TypeName> Arguments { get; private set; }
 
 		Type type;
 		TypeName()
 		{
 			this.arguments = new Collection.List<TypeName>();
-			this.Arguments = new Collection.Wrap.ImmutableVector<TypeName>(this.arguments);
+            this.Arguments = new Collection.Wrap.ReadOnlyVector<TypeName>(this.arguments);
 		}
 
 
