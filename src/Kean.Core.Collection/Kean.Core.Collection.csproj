@@ -106,6 +106,8 @@
     <Compile Include="Hash\Dictionary.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="Hash\Set.cs" />
+    <Compile Include="Extension\ArrayParallelExtension.cs" />
+    <Compile Include="Extension\VectorParallelExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cast\" />
