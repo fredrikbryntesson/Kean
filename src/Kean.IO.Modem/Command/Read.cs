@@ -1,5 +1,5 @@
 // 
-//  Get.cs
+//  Read.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,14 +19,29 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.IO.Modem.Command
 {
 	public class Read :
 		Abstract
 	{
-		internal Read()
+		public Collection.IReadOnlyVector<string> Arguments { get; private set; }
+		protected override string Command {	get { return "?"; } }
+		internal Read(string name) :
+			base(name)
 		{
+		}
+		protected override bool Parse (string response)
+		{
+			bool result;
+			if (result = response.NotEmpty() && response.StartsWith(this.Name + ": "))
+			{
+				int start = this.Name.Length + 2;
+				this.Arguments = new Collection.ReadOnlyVector<string>(response.Substring(start, response.Length - start - 1).Split(new char[] { ',' }, StringSplitOptions.None));
+			}
+			return result;
 		}
 	}
 }

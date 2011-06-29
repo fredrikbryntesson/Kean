@@ -27,8 +27,7 @@ namespace Kean.IO.Modem.Command
 	public class Test :
 		Abstract
 	{
-		public Collection.IImmutableVector<string> Arguments { get; private set; }
-		protected override string Command { get { return this.Name + "=?"; } }
+		protected override string Command { get { return "=?"; } }
 
 		internal Test(string name) :
 			base(name) { }
@@ -37,11 +36,12 @@ namespace Kean.IO.Modem.Command
 		{
 			if (response.NotEmpty() && response.StartsWith(this.Name + ": (") && response.EndsWith(")"))
 			{
-				int start = this.Name.Length + 2;
-				this.Arguments = new Collection.Wrap.ImmutableVector<string>(response.Substring(start, response.Length - start - 2).Split(new string[] { "),(" }));
+				int start = this.Name.Length + 3;
+				this.Parameters = new Collection.ReadOnlyVector<string>(response.Substring(start, response.Length - start - 2).Split(new string[] { "),(" }, StringSplitOptions.None));
 			}
 			else
-				this.Arguments = new Collection.Vector<string>(0);
+				this.Parameters = new Collection.Vector<string>(0);
+			return true;
 		}
 	}
 }

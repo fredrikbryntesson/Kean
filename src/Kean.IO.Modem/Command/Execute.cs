@@ -28,14 +28,15 @@ namespace Kean.IO.Modem.Command
 	public class Execute :
 		Abstract
 	{
-		string[] parameters
-		public Collection.IImmutableVector<string> Parameters { get; private set; }
-		protected override string Command { get { return this.Parameters.Count == 0 ? "" : "=" + this.Parameters
-		}
+		protected override string Command { get { return this.Parameters.Count == 0 ? "" : "=" + this.Parameters.Fold((parameter, accumulated) => accumulated + "," + parameter, "").Trim(','); } }
 		internal Execute(string name, params string[] parameters) :
 			base(name)
 		{
-			this.Parameters = new Collection.Wrap.ImmutableVector<string>(parameters);
+			this.Parameters = new Collection.ReadOnlyVector<string>(parameters);
+		}
+		protected override bool Parse (string response)
+		{
+			return true;
 		}
 	}
 }

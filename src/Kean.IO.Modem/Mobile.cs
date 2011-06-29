@@ -22,7 +22,8 @@ using System;
 
 namespace Kean.IO.Modem
 {
-	public class Mobile
+	public class Mobile :
+		Standard
 	{
 		public Mobile()
 		{

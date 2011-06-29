@@ -19,14 +19,24 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Basis.Extension;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.IO.Modem.Command
 {
-	public class Set
+	public class Set :
+		Abstract
 	{
-		internal Set()
+		protected override string Command { get { return this.Parameters.Count == 0 ? "" : "=" + this.Parameters.Fold((parameter, accumulated) => accumulated + "," + parameter, "").Trim(','); } }
+		internal Set(string name, params string[] parameters) :
+			base(name)
 		{
+			this.Parameters = new Collection.ReadOnlyVector<string>(parameters);
 		}
-	}
-}
+		protected override bool Parse (string response)
+		{
+			return true;
+		}
+	}}
 

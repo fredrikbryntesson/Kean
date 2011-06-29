@@ -25,8 +25,9 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.IO.Modem.Command
 {
-	public class Abstract
+	public abstract class Abstract
 	{
+		public Collection.IReadOnlyVector<string> Parameters { get; protected set; }
 		public string Name { get; private set; }
 		public bool Succeded { get; private set; }
 
@@ -38,8 +39,8 @@ namespace Kean.IO.Modem.Command
 		}
 		internal void Run(Serial.IPort port)
 		{
-			this.port.WriteLine("AT" + this.Command);
-			string response = this.port.Read();
+			port.WriteLine("AT" + this.Name + this.Command);
+			string response = port.Read();
 			this.Succeded = response.EndsWith("\r\nOK\r\n") && this.Parse(response.Remove(response.Length - 7, 6).Trim());
 		}
 		protected abstract bool Parse(string response);

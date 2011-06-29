@@ -30,8 +30,7 @@ namespace Kean.IO.Modem
 		}
 		public bool Attention()
 		{
-			string[] response = this.Send("");
-			return response[response - 1] == "OK";
+			return this.Execute("");
 		}
 	}
 }
