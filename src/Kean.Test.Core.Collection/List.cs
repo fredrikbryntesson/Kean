@@ -37,7 +37,7 @@ namespace Kean.Test.Core.Collection
 		}
 		public override Target.List<int> Create(int count)
 		{
-			return new Target.List<int>(new Target.Vector<int>(count).ToArray());
+			return new Target.List<int>((new Target.Vector<int>(count) as Target.IVector<int>).ToArray());
 		}
       	public static void Test()
 		{

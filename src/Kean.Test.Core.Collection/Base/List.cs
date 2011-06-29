@@ -40,7 +40,7 @@ namespace Kean.Test.Core.Collection.Base
             this.BoundaryCases();
 		}
         [Test]
-        public void Equality()
+        public void EqualityList()
         {
             L a = new L();
             L b = new L();

@@ -38,7 +38,7 @@ namespace Kean.Test.Core.Collection.Linked
 		public override Target.List<int> Create(int count)
 		{
 			Target.List<int> result = new Target.List<int>();
-			Kean.Core.Collection.Extension.ListExtension.Add(result, new Kean.Core.Collection.Vector<int>(count).ToArray());
+			Kean.Core.Collection.Extension.ListExtension.Add(result, (new Kean.Core.Collection.Vector<int>(count) as Kean.Core.Collection.IVector<int>).ToArray());
 			return result;
 		}
 		public static void Test()

@@ -114,7 +114,6 @@ namespace Kean.Test.Core.Collection.Base
             D b = this.Create(10);
             for (int i = 0; i < 100; i++)
             {
-                string index = "index" + i;
                 a["index" + i] = i;
                 b["index" + (99 - i)] = 99 - i;
             }
