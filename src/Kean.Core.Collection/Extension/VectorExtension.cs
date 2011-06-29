@@ -1,5 +1,5 @@
 ﻿// 
-//  VectorExtension.cs
+//  ReadOnlyVectorExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,42 +22,27 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Core.Collection.Extension
 {
-	public static class VectorExtension
+	public static class ReadOnlyVectorExtension
 	{
-		public static void Reverse<T>(this IVector<T> data)
-		{
-			int half = data.Count / 2;
-			for (int i = 0; i < half; i++)
-			{
-				T t = data[i];
-				data[i] = data[data.Count - i - 1];
-				data[data.Count - i - 1] = t;
-			}
-		}
-		public static void Apply<T>(this IVector<T> data, Action<T> function)
+		public static void Apply<T>(this IReadOnlyVector<T> data, Action<T> function)
 		{
 			foreach (T element in data)
 				function(element);
 		}
-		public static void Modify<T>(this IVector<T> data, Func<T, T> function)
-		{
-			for (int i = 0; i < data.Count; i++)
-				data[i] = function(data[i]);
-		}
-		public static void Map<T, S>(this IVector<T> input, IVector<S> output, Func<T, S> function)
+		public static void Map<T, S>(this IReadOnlyVector<T> input, IVector<S> output, Func<T, S> function)
 		{
 			int minimumLength = (input.Count > output.Count) ? output.Count : input.Count;
 			for (int i = 0; i < minimumLength; i++)
 				output[i] = function(input[i]);
 		}
-		public static IVector<S> Map<T, S>(this IVector<T> input, Func<T, S> function)
+		public static IReadOnlyVector<S> Map<T, S>(this IReadOnlyVector<T> input, Func<T, S> function)
 		{
 			IVector<S> result = new Vector<S>(input.Count);
 			for (int i = 0; i < input.Count; i++)
 				result[i] = function(input[i]);
-			return result;
+			return new Wrap.ReadOnlyVector<S>(result);
 		}
-		public static int Index<T>(this IVector<T> data, Func<T, bool> function)
+		public static int Index<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
 		{
 			int result = -1;
 			for (int i = 0; data.NotNull() && i < data.Count; i++)
@@ -68,7 +53,7 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static T Find<T>(this IVector<T> data, Func<T, bool> function)
+		public static T Find<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
 		{
 			T result = default(T);
 			foreach (T element in data)
@@ -79,7 +64,7 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static S Find<T, S>(this IVector<T> data, Func<T, S> function)
+		public static S Find<T, S>(this IReadOnlyVector<T> data, Func<T, S> function)
 		{
 			S result = default(S);
 			foreach (T element in data)
@@ -87,7 +72,7 @@ namespace Kean.Core.Collection.Extension
 					break;
 			return result;
 		}
-		public static bool Exists<T>(this IVector<T> data, Func<T, bool> function)
+		public static bool Exists<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
 		{
 			bool result = false;
 			foreach (T element in data)
@@ -98,7 +83,7 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static bool All<T>(this IVector<T> data, Func<T, bool> function)
+		public static bool All<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
 		{
 			bool result = true;
 			foreach (T element in data)
@@ -109,13 +94,13 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static S Fold<T, S>(this IVector<T> data, Func<T, S, S> function, S initial)
+		public static S Fold<T, S>(this IReadOnlyVector<T> data, Func<T, S, S> function, S initial)
 		{
 			foreach (T element in data)
 				initial = function(element, initial);
 			return initial;
 		}
-		public static T[] ToArray<T>(this IVector<T> data)
+		public static T[] ToArray<T>(this IReadOnlyVector<T> data)
 		{
 			T[] result = new T[data.Count];
 			for (int i = 0; i < result.Length; i++)

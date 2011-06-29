@@ -1,5 +1,5 @@
-﻿// 
-//  VectorParallellExtension.cs
+// 
+//  ReadOnlyVectorParallelExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -17,31 +17,28 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Core.Collection.Extension
 {
-	public static class VectorParallelExtension
+	public static class ReadOnlyVectorParallelExtension
 	{
-		public static void ParallelApply<T>(this IVector<T> data, Action<T> function)
+		public static void ParallelApply<T>(this IReadOnlyVector<T> data, Action<T> function)
 		{
 			new Action<int>(index => function(data[index])).For(data.Count);
 		}
-		public static void ParallelModify<T>(this IVector<T> data, Func<T, T> function)
-		{
-			new Action<int>(index => data[index] = function(data[index])).For(data.Count);
-		}
-		public static void ParallelMap<T, S>(this IVector<T> input, IVector<S> output, Func<T, S> function)
+		public static void ParallelMap<T, S>(this IReadOnlyVector<T> input, IVector<S> output, Func<T, S> function)
 		{
 			int minimumCount = (input.Count > output.Count) ? output.Count : input.Count;
 			new Action<int>(index => output[index] = function(input[index])).For(minimumCount);
 		}
-		public static IVector<S> ParallelMap<T, S>(this IVector<T> input, Func<T, S> function)
+		public static IReadOnlyVector<S> ParallelMap<T, S>(this IReadOnlyVector<T> input, Func<T, S> function)
 		{
 			IVector<S> result = new Vector<S>(input.Count);
 			new Action<int>(index => result[index] = function(input[index])).For(input.Count);
-			return result;
+			return new Wrap.ReadOnlyVector<S>(result);
 		}
 	}
 }

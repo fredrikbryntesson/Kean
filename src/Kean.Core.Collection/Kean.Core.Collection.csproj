@@ -108,6 +108,8 @@
     <Compile Include="Hash\Set.cs" />
     <Compile Include="Extension\ArrayParallelExtension.cs" />
     <Compile Include="Extension\VectorParallelExtension.cs" />
+    <Compile Include="Extension\ReadOnlyVectorExtension.cs" />
+    <Compile Include="Extension\ReadOnlyVectorParallelExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cast\" />
