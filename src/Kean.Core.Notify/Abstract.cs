@@ -1,4 +1,5 @@
 ﻿using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Core.Notify
 {
@@ -10,7 +11,7 @@ namespace Kean.Core.Notify
 		public abstract event OnChange<T> OnChange;
 		public void Update(Abstract<T> changes)
 		{
-			if (!object.ReferenceEquals(this, changes))
+			if (!this.Same(changes))
 				this.Value = changes.Value;
 		}
 		#region Object Overrides

@@ -37,7 +37,7 @@ namespace Kean.Core.Notify
 			get { return this.value; }
 			set
 			{
-				if (!value.Equals(this.value) && this.onChange.Call(value))
+				if (!value.SameOrEquals(this.value) && this.onChange.Call(value))
 				{
 					this.value = value;
 					this.changed.Call(this.value);
