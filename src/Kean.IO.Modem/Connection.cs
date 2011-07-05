@@ -36,7 +36,7 @@ namespace Kean.IO.Modem
 		public bool Open(Serial.IPort port)
 		{
 			this.port = port;
-			return this.port.NotNull();
+			return this.IsOpen;
 		}
 		public bool Open(string resource, Serial.Settings settings)
 		{
@@ -44,7 +44,7 @@ namespace Kean.IO.Modem
 		}
 		public bool Close()
 		{
-			return this.IsOpen && this.Close();
+			return this.IsOpen && this.port.Close();
 		}
 		public string[] Send(params string[] commands)
 		{
@@ -54,6 +54,12 @@ namespace Kean.IO.Modem
 		public bool Execute(string command, params string[] parameters)
 		{
 			Command.Execute result = new Command.Execute(command, parameters);
+			result.Run(this.port);
+			return result.Succeded;
+		}
+		public bool Message(string command, string message, params string[] parameters)
+		{
+			Command.Execute result = new Command.Message(command, message, parameters);
 			result.Run(this.port);
 			return result.Succeded;
 		}

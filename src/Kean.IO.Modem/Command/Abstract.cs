@@ -37,11 +37,20 @@ namespace Kean.IO.Modem.Command
 		{
 			this.Name = name;
 		}
-		internal void Run(Serial.IPort port)
+		protected virtual void Send(Serial.IPort port)
 		{
 			port.WriteLine("AT" + this.Name + this.Command);
+		}
+		protected virtual void Recieve(Serial.IPort port)
+		{
 			string response = port.Read();
-			this.Succeded = response.EndsWith("\r\nOK\r\n") && this.Parse(response.Remove(response.Length - 7, 6).Trim());
+			this.Succeded = response.EndsWith("\r\nOK\r\n") && this.Parse(response.Remove(response.Length - 6, 6).Trim());
+		}
+
+		internal void Run(Serial.IPort port)
+		{
+			this.Send(port);
+			this.Recieve(port);
 		}
 		protected abstract bool Parse(string response);
 	}

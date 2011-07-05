@@ -25,35 +25,32 @@ namespace Kean.IO.Sms
 {
 	public class Device
 	{
-		Serial.Port port;
+		Modem.Mobile modem;
 
-		public bool IsOpen { get { return this.port.NotNull() && this.port.IsOpen; } }
+		public bool IsOpen { get { return this.modem.NotNull() && this.modem.IsOpen; } }
 		public Device()
 		{
 		}
 
 		public bool Open(string resource)
 		{
-			this.port = Serial.Port.Open(resource, "57600 8n1");
-			this.port.WriteLine("AT");
-			Console.WriteLine("AT");
-			Console.WriteLine(this.port.Read());
-			return this.IsOpen;
-
+			this.modem = new Modem.Mobile();
+			Serial.IPort port = new Serial.Debug(new Serial.Port(resource));
+			return port.Open("57600 8n1") && this.modem.Open(port) && this.modem.Attention() && this.IsOpen;
 		}
-		public void Close()
+		public bool Close()
 		{
-			if (this.IsOpen)
-				this.port.Close();
+			return this.IsOpen && this.modem.Close();
 		}
 		public void Send(Message message)
 		{
-			Console.WriteLine(this.port.Read());
-			this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			Console.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			this.port.WriteLine(message.Body);
-			this.port.Write(0x1a);
-			Console.WriteLine(this.port.Read());
+			Console.WriteLine(this.modem.SmsMode);
+			this.modem.SmsMode = Modem.SmsMode.Text;
+			Console.WriteLine(this.modem.SmsMode);
+			this.modem.SendMessage(message.Receiver, message.Body);
+			//this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
+			//this.port.WriteLine(message.Body);
+			//this.port.Write(0x1a);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // 
-//  Mobile.cs
+//  Message.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,39 +19,24 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Collection = Kean.Core.Collection;
 
-namespace Kean.IO.Modem
+namespace Kean.IO.Modem.Command
 {
-	public class Mobile :
-		Standard
+	public class Message :
+		Execute
 	{
-		bool TextMode { get { return this.smsMode == SmsMode.Text; } }
-		SmsMode smsMode = SmsMode.Pdu;
-		public SmsMode SmsMode
+		string message;
+		protected override string Command { get { return base.Command; } }
+		public Message(string name, string message, params string[] parameters) :
+			base(name, parameters)
 		{
-			get
-			{
-				this.smsMode = (SmsMode) int.Parse(this.Read("+CMGF")[0]);
-				return this.smsMode;
-			}
-			set
-			{
-				this.smsMode = value;
-				this.Set("+CMGF", ((int)value).ToString());
-			}
+			this.message = message;
 		}
-
-		public Mobile()
+		protected override void Send(Serial.IPort port)
 		{
-		}
-
-		public bool SendMessage(string receiver, string message)
-		{
-			return this.TextMode ?
-				this.Message("+CMGS", message, "\"" + receiver + "\"") :
-				false;
+			base.Send (port);
+			port.Write(this.message);
+			port.Write(0x1a);
 		}
 	}
 }
-

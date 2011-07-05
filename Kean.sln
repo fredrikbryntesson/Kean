@@ -112,6 +112,7 @@ Global
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}.Release|x86.ActiveCfg = Release|Any CPU
+		{98F827EA-9073-43FD-9131-6B2448461519}.Release|x86.Build.0 = Release|Any CPU
 		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -486,7 +487,7 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		BaseDirectory = src
-		StartupItem = src\Kean.Test.Run\Kean.Test.Run.csproj
+		StartupItem = src\Kean.Test.IO.Sms\Kean.Test.IO.Sms.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 120
