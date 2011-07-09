@@ -54,6 +54,13 @@ namespace Kean.Math.Random.Generator
         {
             return lowerBound + this.NextInt(upperBound - lowerBound);
         }
+        public int[] NextIntArray(int length)
+        {
+            int[] result = new int[length];
+            for (int i = 0; i < length; i++)
+                result[i] = this.NextInt();
+            return result;
+        }
         public int[] NextIntArray(int upperBound, int length)
         {
             return this.NextIntArray(0, upperBound, length);
@@ -93,9 +100,21 @@ namespace Kean.Math.Random.Generator
         {
             return this.NextDouble(0, 1);
         }
+        public double NextDouble(double upperBound)
+        {
+            return this.NextDouble(0, upperBound);
+        }
         public double NextDouble(double lowerBound, double upperBound)
         {
             return lowerBound + (upperBound - lowerBound) * Uniform.uintFactor * this.NextUint();
+        }
+        public double[] NextDoubleArray(int length)
+        {
+            return this.NextDoubleArray(1, length);    
+        }
+        public double[] NextDoubleArray(double upperBound, int length)
+        {
+            return this.NextDoubleArray(0, upperBound, length);
         }
         public double[] NextDoubleArray(double lowerBound, double upperBound, int length)
         {
