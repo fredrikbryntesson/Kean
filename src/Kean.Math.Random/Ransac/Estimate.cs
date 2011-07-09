@@ -32,14 +32,14 @@ namespace Kean.Math.Random.Ransac
         int iterations;
         Estimation<Domain, Range, Transform>[] estimate;
         Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
-        Generator random;
+        Generator.Uniform random;
         public Estimate(Model<Domain, Range, Transform> model) : this(model, 200) { }
         public Estimate(Model<Domain, Range, Transform> model, int iterations)
         {
             this.model = model;
             this.iterations = iterations;
             this.estimate = new Estimation<Domain, Range, Transform>[this.iterations];
-            this.random = new Generator();
+            this.random = new Generator.Uniform();
         }
         public void Load(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data)
         {

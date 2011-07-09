@@ -48,7 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\NotUnique.cs" />
-    <Compile Include="Generator.cs" />
+    <Compile Include="Generator\Normal.cs" />
+    <Compile Include="Generator\Uniform.cs" />
     <Compile Include="Ransac\Estimate.cs" />
     <Compile Include="Ransac\Estimation.cs" />
     <Compile Include="Exception\InputData.cs" />

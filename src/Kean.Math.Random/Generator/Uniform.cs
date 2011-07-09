@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Kean.Math.Random
+namespace Kean.Math.Random.Generator
 {
-    public class Generator
+    public class Uniform
     {
         const double intFactor = 1.0 / ((double)int.MaxValue + 1);
         const double uintFactor = 1.0 / ((double)uint.MaxValue + 1);
@@ -13,9 +13,9 @@ namespace Kean.Math.Random
         uint y;
         uint z;
         uint w;
-        public Generator() : this((uint)Environment.TickCount) { }
-        public Generator(uint seed) : this(seed, 11, 8, 19, 36243606, 521288629, 88675123) { }
-        public Generator(uint seed, int a, int b, int c, uint y0, uint z0, uint w0)
+        public Uniform() : this((uint)Environment.TickCount) { }
+        public Uniform(uint seed) : this(seed, 11, 8, 19, 36243606, 521288629, 88675123) { }
+        public Uniform(uint seed, int a, int b, int c, uint y0, uint z0, uint w0)
         {
             this.x = seed;
             this.a = a;
@@ -48,7 +48,7 @@ namespace Kean.Math.Random
         }
         public int NextInt(int upperBound)
         {
-            return (int)(upperBound * Generator.intFactor * this.NextInt());
+            return (int)(upperBound * Uniform.intFactor * this.NextInt());
         }
         public int NextInt(int lowerBound, int upperBound)
         {
@@ -95,7 +95,7 @@ namespace Kean.Math.Random
         }
         public double NextDouble(double lowerBound, double upperBound)
         {
-            return lowerBound + (upperBound - lowerBound) * Generator.uintFactor * this.NextUint();
+            return lowerBound + (upperBound - lowerBound) * Uniform.uintFactor * this.NextUint();
         }
         public double[] NextDoubleArray(double lowerBound, double upperBound, int length)
         {
@@ -104,21 +104,5 @@ namespace Kean.Math.Random
                 result[i] = this.NextDouble(lowerBound, upperBound);
             return result;
         }
-        /*
-        public static double NextDoubleArrayNormal()
-        {
-            double result;
-            Generator g1 = new Generator();
-            Generator g2 = new Generator();
-            double x1 = g1.NextDouble();
-            while (x1 == 0)
-                x1 = g1.NextDouble();
-            double x2 = g2.NextDouble();
-            while (x2 == 0)
-                x2 = g2.NextDouble();
-            result = Kean.Math.Double.Logarithm(-2 * x1) * Kean.Math.Double.Cosinus(2 * Kean.Math.Double.Pi * x2);
-            return result;
-        }
-        */
     }
 }

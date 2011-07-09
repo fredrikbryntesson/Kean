@@ -14,7 +14,7 @@ namespace Kean.Test.Math.Random
         { 
             uint seed = (uint)DateTime.Now.Ticks;
             System.Random r = new System.Random((int)seed);
-            Target.Generator g = new Target.Generator(seed);
+            Target.Generator.Uniform g = new Target.Generator.Uniform(seed);
             int n = 10000000;
             int[] rArray = new int[n];
             int[] gArray = new int[n];
@@ -40,7 +40,7 @@ namespace Kean.Test.Math.Random
         [Test]
         public void ArraysInt()
         {
-            Target.Generator g = new Target.Generator();
+            Target.Generator.Uniform g = new Target.Generator.Uniform();
             int[] values = g.NextIntArray(20, 100);
             values = g.NextIntArray(10, 20, 100);
             values = g.NextDifferentIntArray(20, 5);
@@ -49,25 +49,67 @@ namespace Kean.Test.Math.Random
         [Test]
         public void ArraysDouble()
         {
-            Target.Generator g = new Target.Generator();
+            Target.Generator.Uniform g = new Target.Generator.Uniform();
             double[] values = g.NextDoubleArray(10, 20, 100);
         }
-        /*
+        
         [Test]
         public void NormalDouble()
         {
-            int n = 100;
+            Target.Generator.Normal g = new Target.Generator.Normal();
+            int n = 100000;
             double[] gArray = new double[n];
+            double mu0 = 10;
+            double sigma0 = 2;
             for (int i = 0; i < n; i++)
-                gArray[i] = Target.Generator.NextDoubleArrayNormal();
+                gArray[i] = g.NextDouble(10,2);
+            // estimate
+            double mu = 0;
+            for (int i = 0; i < gArray.Length; i++)
+                mu += gArray[i];
+            mu /= gArray.Length;
+            double sigma = 0;
+            for (int i = 0; i < gArray.Length; i++)
+                sigma += Kean.Math.Double.Squared(gArray[i] - mu);
+            sigma /= gArray.Length;
+            sigma = Kean.Math.Double.SquareRoot(sigma);
+            Expect(mu, Is.EqualTo(mu0).Within(0.01));
+            Expect(sigma, Is.EqualTo(sigma0).Within(0.01));
         }
-        */
+        [Test]
+        public void NormalDoublePoint()
+        {
+            Target.Generator.Normal g = new Target.Generator.Normal();
+            int n = 1000;
+            double[] x = new double[n];
+            double[] y = new double[n];
+            double mu0 = 10;
+            double sigma0 = 2;
+            for (int i = 0; i < n; i++)
+            {
+                double[] point = g.NextDoublePoint(10, 2);
+                x[i] = point[0];
+                y[i] = point[1];
+            }
+            string xs = "";
+            string ys = "";
+            for (int i = 0; i < n; i++)
+            {
+                xs += Kean.Math.Double.ToString(x[i]);
+                xs += i != n - 1 ? ", " : "";
+                ys += Kean.Math.Double.ToString(y[i]);
+                ys += i != n - 1 ? ", " : "";
+            }
+        }
+
         public void Run()
         {
             this.Run(
                 this.Compare,
                 this.ArraysInt,
-                this.ArraysDouble
+                this.ArraysDouble,
+                this.NormalDouble,
+                this.NormalDoublePoint
                 );
         }
         internal void Run(params System.Action[] tests)
