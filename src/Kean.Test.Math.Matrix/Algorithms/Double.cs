@@ -10,6 +10,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
         AssertionHelper
     {
         string prefix = "Kean.Test.Math.Matrix.Algorithms.Double";
+        #region Matrix invariants
         [Test]
         public void DeterminantAndTrace()
         {
@@ -28,22 +29,32 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Expect(a.Determinant(), Is.EqualTo(3250).Within(1e-7f), this.prefix + "DeterminantAndTrace.6");
             Expect(a.Trace(), Is.EqualTo(23).Within(1e-7f), this.prefix + "DeterminantAndTrace.7");
         }
+        #endregion
+        #region Matrix inverse
         [Test]
-        public void Inverse()
+        public void Inverse1()
+        {
+           Target a = new Target(5, 5);
+           Target b = a.Inverse();
+        }
+        [Test]
+        public void Inverse2()
         {
             Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             Target b = a.Inverse();
             Target correct = new Kean.Math.Matrix.Double(5, 5, new double[] {5, -10,10,-5,1,-10,30,-35,19,-4,10,-35,46,-27,6,-5,19,-27,17,-4,1,-4,6,-4,1 });
             Expect(b.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "HouseHolder.0");
         }
+        #endregion
+        #region QR Factorization
         [Test]
-        public void HouseHolder()
+        public void QRFactorization0()
         {
-            Target x = new Target(1, 3, new double[] { 12, 6, -4 });
-            Target h = Target.HouseHolder(x, Kean.Math.Double.Sign(x[0, 0]) * x.Norm * Target.Basis(3, 0));
-            Target correct = new Target(3, 3, new double[] { 6.0 / 7, 3.0 / 7, -2.0 / 7, 3.0 / 7, -2.0 / 7, 6.0 / 7, -2.0 / 7, 6.0 / 7, 3.0 / 7 });
-            Expect(h.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "HouseHolder.0");
-
+            Target a = new Target(3, 5);
+            Target[] qr = a.QRFactorization();
+            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+            Expect(qr[0], Is.EqualTo(Target.Identity(5)), this.prefix + "QRFactorization.0");
+            Expect(qr[1], Is.EqualTo(new Target(3, 5)), this.prefix + "QRFactorization.0");
         }
         [Test]
         public void QRFactorization1()
@@ -87,15 +98,31 @@ namespace Kean.Test.Math.Matrix.Algorithms
 
             }
         }
+        #endregion
+        #region Cholesky Factorization
         [Test]
-        public void Cholesky()
+        public void Cholesky1()
+        {
+            Target a = new Target(5, 5);
+            try
+            {
+                Target b = a.Cholesky();
+            }
+            catch (Kean.Core.Error.Exception e)
+            {
+            }
+        }
+        [Test]
+        public void Cholesky2()
         {
             Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             Target c = a.Cholesky();
-            Expect(c * c.Transpose(), Is.EqualTo(a), this.prefix + "Cholesky.0");
+            Expect(c * c.Transpose(), Is.EqualTo(a), this.prefix + "Cholesky2.0");
             Target d = c.Transpose();
-            Expect(d.Transpose() * d, Is.EqualTo(a), this.prefix + "Cholesky.1");
+            Expect(d.Transpose() * d, Is.EqualTo(a), this.prefix + "Cholesky2.1");
         }
+        #endregion
+        #region Least Square Solvers
         // Standard 
         // Square matrix( full rank)
         [Test]
@@ -135,11 +162,11 @@ namespace Kean.Test.Math.Matrix.Algorithms
             int n = 5;
             Target aa = new Target(5, n * 5);
             for(int i = 0; i < n; i++)
-                aa = aa.Paste(new Kean.Math.Geometry2D.Integer.Point(0, i), a);
+                aa = aa.Paste(0, i, a);
             Target y = new Target(1, 5, new double[] { -1, 2, -3, 4, 5 });
             Target yy = new Target(1, n * 5);
             for (int i = 0; i < n; i++)
-                yy = yy.Paste(new Kean.Math.Geometry2D.Integer.Point(0, i), y);
+                yy = yy.Paste(0, i, y);
             Target correct = new Target(1, 5, new double[] { -70, 231, -296, 172, -38 });
             System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             watch.Start();
@@ -165,7 +192,18 @@ namespace Kean.Test.Math.Matrix.Algorithms
             watch.Stop();
             long timeSvd = watch.ElapsedMilliseconds;
             Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.1");
-            //Console.WriteLine("Qr " + timeQr + " Cholesky " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
+            //Console.WriteLine("Qr " + timeQr + " Cholesky2 " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
+        }
+        #endregion
+        #region Auxilary Methods
+        [Test]
+        public void HouseHolder()
+        {
+            Target x = new Target(1, 3, new double[] { 12, 6, -4 });
+            Target h = Target.HouseHolder(x, Kean.Math.Double.Sign(x[0, 0]) * x.Norm * Target.Basis(3, 0));
+            Target correct = new Target(3, 3, new double[] { 6.0 / 7, 3.0 / 7, -2.0 / 7, 3.0 / 7, -2.0 / 7, 6.0 / 7, -2.0 / 7, 6.0 / 7, 3.0 / 7 });
+            Expect(h.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "HouseHolder.0");
+
         }
         // Bidiagonalization
         [Test]
@@ -221,6 +259,8 @@ namespace Kean.Test.Math.Matrix.Algorithms
                     if (y > x || x > y + 1)
                         Expect(b[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.5");
         }
+        #endregion
+        #region Singular Value Decomposition
         [Test]
         public void Svd()
         {
@@ -260,6 +300,8 @@ namespace Kean.Test.Math.Matrix.Algorithms
                     if (x != y)
                         Expect(s[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "SvdHelper.1");
         }
+        #endregion
+        #region Eigenvalue Decomposition
         [Test]
         public void Eigenvalues()
         {
@@ -267,41 +309,21 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target[] x = a.Eigenvalues();
             Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare3.1");
         }
-        /*
-        [Test]
-        public void GolubKahanStep()
-        {
-            Target a = new Target(4, 4, new double[] {1,0,0,0,1,2,0,0,0,1,3,0,0,0,1,4 });
-            Target y = a.Copy();
-            Target u = Target.Identity(4);
-            Target v = Target.Identity(4);
-            for (int i = 0; i < 4; i++)
-            {
-                Target[] ubv = y.GolubKahanSvdStep();
-                u = u * ubv[0];
-                y = ubv[1];
-                v = v * ubv[2];
-            }
-            Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.0");
-            Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.1");
-            Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.2");
-            Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.3");
-            Expect((u.Transpose() * a * v).Distance(y), Is.EqualTo(0).Within(1e-7f), this.prefix + "GolubKahanStep.4");
-        }
-        */
+        #endregion
         public void Run()
         {
             this.Run(
                 this.DeterminantAndTrace,
-                this.Inverse,
+                this.Inverse1,
+                this.Inverse2,
                 this.Svd,
-                //this.GolubKahanStep,
                 this.BiDiagonalization1,
                 this.BiDiagonalization2,
-                //this.BiDiagonalization3,
                 this.Eigenvalues,
-                this.Cholesky,
+                this.Cholesky1,
+                this.Cholesky2,
                 this.HouseHolder,
+                this.QRFactorization0,
                 this.QRFactorization1,
                 this.QRFactorization2,
                 this.QRFactorization3,
@@ -311,7 +333,6 @@ namespace Kean.Test.Math.Matrix.Algorithms
                 this.LeastSquare3
                 );
         }
-
         internal void Run(params System.Action[] tests)
         {
             foreach (System.Action test in tests)

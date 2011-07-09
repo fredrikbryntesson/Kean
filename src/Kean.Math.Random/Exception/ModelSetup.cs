@@ -1,5 +1,5 @@
 ﻿// 
-//  DivisionByZero.cs
+//  ModelSetup.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,14 +21,14 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Matrix.Exception
+namespace Kean.Math.Random.Exception
 {
 
-    public class DivisionByZero : 
-		Error.Exception
+    public class ModelSetup :
+        Error.Exception
     {
-        public DivisionByZero() : 
-			base(Error.Level.Critical, "Division By Zero", "A division by zero has occured.")
+        public ModelSetup() :
+            base(Error.Level.Critical, "Random Model Setup Failure", "Some Random model arguments are missing.")
         { }
     }
 }

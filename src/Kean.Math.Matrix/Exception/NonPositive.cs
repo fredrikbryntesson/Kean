@@ -24,11 +24,11 @@ using Error = Kean.Core.Error;
 namespace Kean.Math.Matrix.Exception
 {
 
-    public class DivisionByZero : 
-		Error.Exception
+    public class NonPositive :
+        Error.Exception
     {
-        public DivisionByZero() : 
-			base(Error.Level.Critical, "Division By Zero", "A division by zero has occured.")
+        public NonPositive() :
+            base(Error.Level.Critical, "Non positive value", "Non positive value has occured.")
         { }
     }
 }

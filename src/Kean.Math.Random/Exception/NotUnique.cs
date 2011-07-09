@@ -1,5 +1,5 @@
 ﻿// 
-//  DivisionByZero.cs
+//  NotUnique.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,14 +21,14 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Matrix.Exception
+namespace Kean.Math.Random.Exception
 {
 
-    public class DivisionByZero : 
-		Error.Exception
+    public class NotUnique :
+        Error.Exception
     {
-        public DivisionByZero() : 
-			base(Error.Level.Critical, "Division By Zero", "A division by zero has occured.")
+        public NotUnique() :
+            base(Error.Level.Critical, "Not Unique Output Error", "Input values make it impossible to create unique output values.")
         { }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// 
-//  DivisionByZero.cs
+//  InputData.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,14 +21,14 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Matrix.Exception
+namespace Kean.Math.Random.Exception
 {
 
-    public class DivisionByZero : 
-		Error.Exception
+    public class InputData :
+        Error.Exception
     {
-        public DivisionByZero() : 
-			base(Error.Level.Critical, "Division By Zero", "A division by zero has occured.")
+        public InputData() :
+            base(Error.Level.Critical, "Inputs Data Error", "Input data is either missing or has too few items.")
         { }
     }
 }

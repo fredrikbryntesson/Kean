@@ -27,8 +27,12 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
+            Kean.Test.Math.Random.Generator.Test();
+            Kean.Test.Math.Matrix.Double.Test();
             Kean.Test.Math.Matrix.Algorithms.Double.Test();
 
+            Kean.Test.Math.Random.Ransac.Double.Test();
+            
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
             Kean.Test.Math.Complex.Single.Test();

@@ -73,7 +73,10 @@ namespace Kean.Math.Matrix
             {
                 if (j > 0)
                     result.Set(j, j, result.Extract(j, j + 1, j, order) - result.Extract(0, j, j, order) * result.Extract(0, j, j, j + 1).Transpose());
-                result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Double.SquareRoot(result[j, j]));
+                double value = result[j, j];
+                if (value <= 0)
+                    throw new Exception.NonPositive();
+                result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Double.SquareRoot(value));
             }
             for (int y = 0; y < order; y++)
                 for (int x = y + 1; x < order; x++)
@@ -88,23 +91,29 @@ namespace Kean.Math.Matrix
         /// <returns>Return the least square solution to the system,</returns>
         public Double SolveCholesky(Double y)
         {
-            Double result;
-            if (this.Dimensions.Height < this.Dimensions.Width)
+            Double result = null;
+            try
             {
-                // Least norm
-                Double transpose = this.Transpose();
-                Double lower = (this * transpose).Cholesky();
-                Double z = y.ForwardSubstitution(lower);
-                z = z.BackwardSubstitution(lower.Transpose());
-                result = transpose * z;
+                if (this.Dimensions.Height < this.Dimensions.Width)
+                {
+                    // Least norm
+                    Double transpose = this.Transpose();
+                    Double lower = (this * transpose).Cholesky();
+                    Double z = y.ForwardSubstitution(lower);
+                    z = z.BackwardSubstitution(lower.Transpose());
+                    result = transpose * z;
+                }
+                else
+                {
+                    // Standard
+                    Double transpose = this.Transpose();
+                    Double lower = (transpose * this).Cholesky();
+                    Double z = (transpose * y).ForwardSubstitution(lower);
+                    result = z.BackwardSubstitution(lower.Transpose());
+                }
             }
-            else
+            catch (Kean.Core.Error.Exception e)
             {
-                // Standard
-                Double transpose = this.Transpose();
-                Double lower = (transpose * this).Cholesky();
-                Double z = (transpose * y).ForwardSubstitution(lower);
-                result = z.BackwardSubstitution(lower.Transpose());
             }
             return result;
         }
@@ -118,24 +127,30 @@ namespace Kean.Math.Matrix
         /// <returns>Return the least square solution to the system,</returns>
         public Double SolveQr(Double y)
         {
-            Double result;
-            if (this.Dimensions.Height < this.Dimensions.Width)
+            Double result = null;
+            try
             {
-                // Least norm
-                Double transpose = this.Transpose();
-                Double[] qr = transpose.QRFactorization();
-                Double q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
-                Double r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
-                Double z = y.ForwardSubstitution(r.Transpose());
-                result = q * z;
+                if (this.Dimensions.Height < this.Dimensions.Width)
+                {
+                    // Least norm
+                    Double transpose = this.Transpose();
+                    Double[] qr = transpose.QRFactorization();
+                    Double q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
+                    Double r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
+                    Double z = y.ForwardSubstitution(r.Transpose());
+                    result = q * z;
+                }
+                else
+                {
+                    // Standard
+                    Double[] qr = this.QRFactorization();
+                    Double q = qr[0].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Height);
+                    Double r = qr[1].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Width);
+                    result = (q.Transpose() * y).BackwardSubstitution(r);
+                }
             }
-            else
+            catch (Kean.Core.Error.Exception e)
             {
-                // Standard
-                Double[] qr = this.QRFactorization();
-                Double q = qr[0].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Height);
-                Double r = qr[1].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Width);
-                result = (q.Transpose() * y).BackwardSubstitution(r);
             }
             return result;
         }
@@ -584,8 +599,9 @@ namespace Kean.Math.Matrix
                     double accumulator = this[x, y];
                     for (int x2 = 0; x2 < y; x2++)
                         accumulator -= lower[x2, y] * result[x, x2];
-                    if (lower[y, y] != 0)
-                        result[x, y] = accumulator / lower[y, y];
+                    double value = lower[y, y];
+                    if (value != 0)
+                        result[x, y] = accumulator / value;
                     else
                         throw new Exception.DivisionByZero();
                 }
@@ -607,8 +623,9 @@ namespace Kean.Math.Matrix
                     double accumulator = this[x, y];
                     for (int x2 = y + 1; x2 < upper.Dimensions.Width; x2++)
                         accumulator -= upper[x2, y] * result[x, x2];
-                    if (upper[y, y] != 0)
-                        result[x, y] = accumulator / upper[y, y];
+                    double value = upper[y, y];
+                    if (value != 0)
+                        result[x, y] = accumulator / value;
                     else
                         throw new Exception.DivisionByZero();
                 }
@@ -623,19 +640,26 @@ namespace Kean.Math.Matrix
         /// <returns>Return the least square solution to the system.</returns>
         public Double SolveLup(Double y)
         {
-            Double result;
-            if (this.IsSquare)
-            {
-                Double[] lup = this.LupDecomposition();
-                result = (lup[2] * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
-            }
-            else if (this.Dimensions.Width < this.Dimensions.Height)
-            {
-                Double[] lup = (this.Transpose() * this).LupDecomposition();
-                result = (lup[2] * this.Transpose() * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
-            }
-            else
+            Double result = null;
+            if (this.Dimensions.Width > this.Dimensions.Height)
                 throw new Exception.InvalidDimensions();
+            else
+                try
+                {
+                    if (this.IsSquare)
+                    {
+                        Double[] lup = this.LupDecomposition();
+                        result = (lup[2] * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                    }
+                    else
+                    {
+                        Double[] lup = (this.Transpose() * this).LupDecomposition();
+                        result = (lup[2] * this.Transpose() * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                    }
+                }
+                catch (Kean.Core.Error.Exception e)
+                {
+                }
             return result;
         }
         /// <summary>
@@ -646,9 +670,15 @@ namespace Kean.Math.Matrix
         {
             if (!this.IsSquare)
                 throw new Exception.InvalidDimensions();
-            Double result;
+            Double result = null;
             Double[] lup = this.LupDecomposition();
-            result = (lup[2] * Double.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+            try
+            {
+                result = (lup[2] * Double.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+            }
+            catch (Kean.Core.Error.Exception e)
+            {
+            }
             return result;
         }
         /// <summary>

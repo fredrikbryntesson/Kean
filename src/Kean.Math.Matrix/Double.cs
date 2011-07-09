@@ -26,6 +26,7 @@ namespace Kean.Math.Matrix
     public partial class Double :
         System.IEquatable<Double>
     {
+        #region Properties
         Geometry2D.Integer.SizeValue dimensions;
         public Geometry2D.Integer.SizeValue Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
         // Matrix elements are supposed to be in column major order 
@@ -40,38 +41,7 @@ namespace Kean.Math.Matrix
         /// <summary>
         /// Frobenius norm of matrix
         /// </summary>
-        public double Norm
-        {
-            get
-            {
-                double result = 0;
-                for (int i = 0; i < this.elements.Length; i++)
-                    result += Kean.Math.Double.Squared(this.elements[i]);
-                return Kean.Math.Double.SquareRoot(result);
-            }
-        }
-        /// <summary>
-        /// Distance induced by the Frobenius norm.
-        /// </summary>
-        /// <param name="other">Other matrix.</param>
-        /// <returns>Distance between current and other matrix.</returns>
-        public double Distance(Double other)
-        {
-            return (this - other).Norm;
-        }
-        double[] elements;
-        public Double() : this(0) { }
-        public Double(int order) : this(order, order) { }
-        public Double(int width, int height) : this(new Geometry2D.Integer.SizeValue(width, height)) { }
-        public Double(Geometry2D.Integer.SizeValue dimensions) : this(dimensions, new double[dimensions.Area]) { }
-        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.SizeValue(width, height), elements) { }
-        public Double(Geometry2D.Integer.SizeValue dimensions, double[] elements)
-        {
-            this.Dimensions = dimensions;
-            int minimum = Kean.Math.Integer.Minimum(elements.Length, this.Dimensions.Area);
-            this.elements = new double[this.Dimensions.Area];
-            Array.Copy(elements, 0, this.elements, 0, minimum);
-        }
+        public double Norm { get { return Kean.Math.Double.SquareRoot(this.ScalarProduct(this)); } }
         /// <summary>
         /// Get or set an element in a matrix at position(x,y).
         /// </summary>
@@ -88,7 +58,46 @@ namespace Kean.Math.Matrix
             return x * this.Dimensions.Height + y; // Column major order 
             // Use Y * this.Dimensions.Width + X for row major order
         }
-        #region Arithmetic Matrix - Matrix Operators
+        #endregion
+        #region Private Fields
+        double[] elements;
+        #endregion
+        #region Constructors
+        public Double() : this(0) { }
+        public Double(int order) : this(order, order) { }
+        public Double(int width, int height) : this(new Geometry2D.Integer.SizeValue(width, height)) { }
+        public Double(Geometry2D.Integer.SizeValue dimensions) : this(dimensions, new double[dimensions.Area]) { }
+        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.SizeValue(width, height), elements) { }
+        public Double(Geometry2D.Integer.SizeValue dimensions, double[] elements)
+        {
+            this.Dimensions = dimensions;
+            int minimum = Kean.Math.Integer.Minimum(elements.Length, this.Dimensions.Area);
+            this.elements = new double[this.Dimensions.Area];
+            Array.Copy(elements, 0, this.elements, 0, minimum);
+        }
+        #endregion
+        #region Matrix Geometry
+        /// <summary>
+        /// Distance induced by the Frobenius norm.
+        /// </summary>
+        /// <param name="other">Other matrix.</param>
+        /// <returns>Distance between current and other matrix.</returns>
+        public double Distance(Double other)
+        {
+            return (this - other).Norm;
+        }
+        public double ScalarProduct(Double other)
+        {
+            if (this.Dimensions != other.Dimensions)
+                new Exception.InvalidDimensions();
+            double result = 0;
+            for (int x = 0; x < this.Dimensions.Width; x++)
+                for (int y = 0; y < this.Dimensions.Height; y++)
+                    result += this[x, y] * other[x, y];
+            return result;
+        }
+        #endregion
+        #region Static Arithmetic: Matrix and Scalar Operators
         /// <summary>
         /// Addition of matrices.
         /// </summary>
@@ -179,7 +188,7 @@ namespace Kean.Math.Matrix
             return (-1) * value;
         }
         #endregion
-        #region Matrix Operations
+        #region Matrix Methods
         /// <summary>
         /// Tranpose matrix. Creates a new matrix being the transpose of the current matrix.
         /// </summary>
@@ -215,7 +224,7 @@ namespace Kean.Math.Matrix
         {
             if (this.Dimensions.Width < 1 || this.Dimensions.Height < 1)
                 new Exception.InvalidDimensions();
-            Double result = new Double(this.Dimensions.Height - 1, this.Dimensions.Width - 1);
+            Double result = new Double(this.Dimensions.Width - 1, this.Dimensions.Height - 1);
             for (int xx = 0; xx < x; xx++)
             {
                 for (int yy = 0; yy < y; yy++)
@@ -244,6 +253,12 @@ namespace Kean.Math.Matrix
         }
         public Double Extract(int left, int right, int top, int bottom)
         {
+            if (
+                left < 0 || left > this.Dimensions.Width ||
+                right < 0 || right > this.Dimensions.Width ||
+                top < 0 || top > this.Dimensions.Height ||
+                bottom < 0 || bottom > this.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
             Double result = new Double(right - left, bottom - top);
             for (int x = left; x < right; x++)
                 for (int y = top; y < bottom; y++)
@@ -258,22 +273,16 @@ namespace Kean.Math.Matrix
         /// <param name="y">Row position.</param>
         /// <param name="submatrix">Matrix to be pasted into current matrix.</param>
         /// <returns>Return new matrix with submatrix pasted.</returns>
-        public Double Paste(int x, int y, Double submatrix)
+        public Double Paste(int left, int top, Double submatrix)
         {
-            return this.Paste(new Geometry2D.Integer.Point(x, y), submatrix);
-        }
-        /// <summary>
-        /// Paste a submatrix into a copy of the current matrix. The submatrix is pasted a position top left corner leftTop.
-        /// </summary>
-        /// <param name="leftTop">Left top position in the current matrix to paste the submatrix.</param>
-        /// <param name="submatrix">Matrix to paste into current matrix.</param>
-        /// <returns>Return new matrix with submatrix pasted.</returns>
-        public Double Paste(Geometry2D.Integer.Point leftTop, Double submatrix)
-        {
+            if (
+                left < 0 || left > this.Dimensions.Width ||
+                top < 0 || top > this.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
             Double result = this.Copy();
             for (int x = 0; x < submatrix.Dimensions.Width; x++)
                 for (int y = 0; y < submatrix.Dimensions.Height; y++)
-                    result[x + leftTop.X, y + leftTop.Y] = submatrix[x, y];
+                    result[x + left, y + top] = submatrix[x, y];
             return result;
         }
         /// <summary>
@@ -285,9 +294,32 @@ namespace Kean.Math.Matrix
         /// <param name="submatrix">Matrix to paste into the current matrix.</param>
         public void Set(int left, int top, Double submatrix)
         {
+            if (
+                left < 0 || left > this.Dimensions.Width ||
+                top < 0 || top > this.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
             for (int x = 0; x < submatrix.Dimensions.Width; x++)
                 for (int y = 0; y < submatrix.Dimensions.Height; y++)
                     this[x + left, y + top] = submatrix[x, y];
+        }
+        /// <summary>
+        /// Sets a region in a matrix to zero.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="top"></param>
+        /// <param name="bottom"></param>
+        public void Clear(int left, int right, int top, int bottom)
+        {
+            if (
+                left < 0 || left > this.Dimensions.Width ||
+                right < 0 || right > this.Dimensions.Width ||
+                top < 0 || top > this.Dimensions.Height ||
+                bottom < 0 || bottom > this.Dimensions.Height)
+                throw new Exception.InvalidDimensions();
+            for (int x = left; x < right; x++)
+                for (int y = top; y < bottom; y++)
+                    this[x, y] = 0;
         }
         /// <summary>
         /// Creates a copy of the current matrix.
@@ -298,6 +330,14 @@ namespace Kean.Math.Matrix
             Double result = new Double(this.Dimensions);
             Array.Copy(this.elements, result.elements, this.elements.Length);
             return result;
+        }
+        public Double Kronecker(Double other)
+        {
+            Double[,] blocks = new Double[this.Dimensions.Width, this.Dimensions.Height];
+            for (int x = 0; x < this.Dimensions.Width; x++)
+                for (int y = 0; y < this.Dimensions.Height; y++)
+                    blocks[x, y] = this[x, y] * other;
+            return Double.Block(blocks);
         }
         #endregion
         #region Static Constructors
@@ -335,6 +375,51 @@ namespace Kean.Math.Matrix
                 result.Set(k, l, matrices[i]);
                 k += matrices[i].Dimensions.Width;
                 l += matrices[i].Dimensions.Height;
+            }
+            return result;
+        }
+        /// <summary>
+        /// Create a matrix from a two-dimensional array of matrices 
+        /// such that the given matrices become sub-block-matrices in the 
+        /// construted matrix.
+        /// </summary>
+        /// <param name="matrices"></param>
+        /// <returns></returns>
+        public static Double Block(Double[,] matrices)
+        {
+            Double result;
+            int width = 0;
+            int height = 0;
+            int blockWidth = matrices.GetLength(0);
+            int blockHeight = matrices.GetLength(1);
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    if (matrices[x, 0].Dimensions.Width != matrices[x, y].Dimensions.Width ||
+                    matrices[0, y].Dimensions.Height != matrices[x, y].Dimensions.Height)
+                        throw new Exception.InvalidDimensions();
+                }
+            }
+            for (int x = 0; x < blockWidth; x++)
+                width += matrices[x, 0].Dimensions.Width;
+            for (int y = 0; y < blockHeight; y++)
+                height += matrices[0, y].Dimensions.Height;
+            result = new Double(width, height);
+            width = 0;
+            height = 0;
+            for (int x = 0; x < blockWidth; x++)
+            {
+                for (int y = 0; y < blockHeight; y++)
+                {
+                    Double block = matrices[x, y];
+                    for (int xx = 0; xx < block.Dimensions.Width; xx++)
+                        for (int yy = 0; yy < block.Dimensions.Height; yy++)
+                            result[width + xx, height + yy] = block[xx, yy];
+                    height += matrices[0, y].Dimensions.Height;
+                }
+                width += matrices[x, 0].Dimensions.Width;
+                height = 0;
             }
             return result;
         }
