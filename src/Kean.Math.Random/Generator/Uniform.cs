@@ -1,37 +1,80 @@
 ﻿using System;
+using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Random.Generator
 {
     public class Uniform
     {
+        struct Datum
+        {
+            public int a;
+            public int b;
+            public int c;
+            public uint x;
+            public uint y;
+            public uint z;
+            public uint w;
+            public Datum(int a, int b, int c, uint x, uint y, uint z, uint w)
+            {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.w = w;
+            }
+            public Datum(int a, int b, int c, uint y, uint z, uint w) : this(a,b,c,0,y,z,w) {} 
+            public void SetSeed(uint seed)
+            {
+                this.x = seed;
+            }
+            public static implicit operator Datum(string value)
+            {
+                Datum result = new Datum();
+                if (value.NotEmpty())
+                {
+
+                    try
+                    {
+                        string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (values.Length == 6)
+                            result = new Datum(Kean.Math.Integer.Parse(values[0]),Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.UnsignedInteger.Parse(values[3]), Kean.Math.UnsignedInteger.Parse(values[4]), Kean.Math.UnsignedInteger.Parse(values[5]));
+                    }
+                    catch
+                    {
+                    }
+                }
+                return result;
+            }
+        }
+        static Datum[] datums = new Datum[] 
+        {
+            "5, 14, 1, 36243606, 521288629, 88675123", 
+            "15, 4, 21, 3063318884, 5413248387, 9218160800", 
+            "23, 24, 3,  8149992844, 8536707798, 4050642383", 
+            "5, 12, 29, 0459450119, 1354370154, 0032162936" 
+        }; 
+        static int counter = 0;
+
         const double intFactor = 1.0 / ((double)int.MaxValue + 1);
         const double uintFactor = 1.0 / ((double)uint.MaxValue + 1);
-        int a;
-        int b;
-        int c;
-        uint x;
-        uint y;
-        uint z;
-        uint w;
-        public Uniform() : this((uint)Environment.TickCount) { }
-        public Uniform(uint seed) : this(seed, 11, 8, 19, 36243606, 521288629, 88675123) { }
-        public Uniform(uint seed, int a, int b, int c, uint y0, uint z0, uint w0)
+        Datum datum;
+        public Uniform() : this((uint)DateTime.Now.Ticks) { }
+        public Uniform(uint seed)
         {
-            this.x = seed;
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.y = y0;
-            this.z = z0;
-            this.w = w0;
+            this.datum = Uniform.datums[Uniform.counter];
+            Uniform.counter++;
+            if (Uniform.counter == Uniform.datums.Length)
+                Uniform.counter = 0;
         }
         public uint NextUint()
         {
-            uint t = (this.x ^ (this.x << this.a));
-            this.x = this.y;
-            this.y = this.z;
-            this.z = this.w;
-            return this.w = (this.w ^ (this.w >> this.c)) ^ (t ^ (t >> this.b));
+            uint t = (this.datum.x ^ (this.datum.x << this.datum.a));
+            this.datum.x = this.datum.y;
+            this.datum.y = this.datum.z;
+            this.datum.z = this.datum.w;
+            return this.datum.w = (this.datum.w ^ (this.datum.w >> this.datum.c)) ^ (t ^ (t >> this.datum.b));
         }
         public int NextInt()
         {

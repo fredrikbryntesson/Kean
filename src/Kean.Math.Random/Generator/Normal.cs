@@ -11,8 +11,8 @@ namespace Kean.Math.Random.Generator
         public Normal()
         {
             this.generator = new Uniform[2];
-            this.generator[0] = new Uniform((uint)Environment.TickCount, 15, 4, 21, 36243606, 521288629, 88675123);
-            this.generator[1] = new Uniform((uint)Environment.TickCount, 23, 24, 3, 842502087, 3579807591, 273326509);
+            this.generator[0] = new Uniform();
+            this.generator[1] = new Uniform();
         }
         public double[] NextDoublePoint()
         {
