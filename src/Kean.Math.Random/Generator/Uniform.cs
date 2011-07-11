@@ -5,7 +5,7 @@ namespace Kean.Math.Random.Generator
 {
     public class Uniform
     {
-        struct Datum
+        class Datum
         {
             public int a;
             public int b;
@@ -14,6 +14,7 @@ namespace Kean.Math.Random.Generator
             public uint y;
             public uint z;
             public uint w;
+            public Datum() { }
             public Datum(int a, int b, int c, uint x, uint y, uint z, uint w)
             {
                 this.a = a;
@@ -50,10 +51,10 @@ namespace Kean.Math.Random.Generator
         }
         static Datum[] datums = new Datum[] 
         {
-            "5, 14, 1, 36243606, 521288629, 88675123", 
-            "15, 4, 21, 3063318884, 5413248387, 9218160800", 
-            "23, 24, 3,  8149992844, 8536707798, 4050642383", 
-            "5, 12, 29, 0459450119, 1354370154, 0032162936" 
+            "5, 14, 1,  36243606, 521288629, 88675123", 
+            "15, 4, 21, 30633188, 541324838, 92181608", 
+            "23, 24, 3, 81499928, 853670779, 40506423", 
+            "5, 12, 29, 04594501, 135437015, 00321629" 
         }; 
         static int counter = 0;
 
@@ -64,6 +65,7 @@ namespace Kean.Math.Random.Generator
         public Uniform(uint seed)
         {
             this.datum = Uniform.datums[Uniform.counter];
+            this.datum.SetSeed(seed);
             Uniform.counter++;
             if (Uniform.counter == Uniform.datums.Length)
                 Uniform.counter = 0;

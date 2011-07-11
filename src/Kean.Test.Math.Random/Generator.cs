@@ -15,7 +15,7 @@ namespace Kean.Test.Math.Random
             uint seed = (uint)DateTime.Now.Ticks;
             System.Random r = new System.Random((int)seed);
             Target.Generator.Uniform g = new Target.Generator.Uniform(seed);
-            int n = 10000000;
+            int n = 10000;
             int[] rArray = new int[n];
             int[] gArray = new int[n];
             System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
@@ -57,7 +57,7 @@ namespace Kean.Test.Math.Random
         public void NormalDouble()
         {
             Target.Generator.Normal g = new Target.Generator.Normal();
-            int n = 100000;
+            int n = 1000000;
             double[] gArray = new double[n];
             double mu0 = 10;
             double sigma0 = 2;
@@ -105,7 +105,7 @@ namespace Kean.Test.Math.Random
         public void Run()
         {
             this.Run(
-                this.Compare,
+                //this.Compare,
                 this.ArraysInt,
                 this.ArraysDouble,
                 this.NormalDouble,
