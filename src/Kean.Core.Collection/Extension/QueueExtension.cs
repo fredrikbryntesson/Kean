@@ -34,5 +34,10 @@ namespace Kean.Core.Collection.Extension
 			while (!source.Empty)
 				me.Enqueue(source.Dequeue());
 		}
+        public static void Clear<T>(this IQueue<T> me)
+        {
+            while (!me.Empty)
+                me.Dequeue();
+        }
 	}
 }

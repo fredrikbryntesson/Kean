@@ -23,7 +23,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Core.Collection;
-
+using Kean.Core.Collection.Extension;
 namespace Kean.Test.Core.Collection.Base
 {
 	public abstract class Queue<Q> :
@@ -50,8 +50,20 @@ namespace Kean.Test.Core.Collection.Base
 			this.EnqueuePeekDequeue();
 			this.EnqueuePeekDequeueTen();
 			this.EnqueueDequeueEnqueue();
+            this.AddAfterEmptyQueue();
 		}
-		[Test]
+        [Test]
+        public void AddAfterEmptyQueue()
+        {
+            Q target = new Q();
+            for (int i = 0; i < 10; i++)
+                target.Enqueue(i);
+            target.Clear();
+            for (int i = 0; i < 10; i++)
+                target.Enqueue(i);
+            Expect(target.Count, EqualTo(10), this.Prefix + "AddAfterEmptyQueue.0");
+        }
+        [Test]
 		public void EmptyQueue()
 		{
 			Q target = new Q();

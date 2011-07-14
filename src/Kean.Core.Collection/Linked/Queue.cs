@@ -64,6 +64,8 @@ namespace Kean.Core.Collection.Linked
 				throw new Exception.Empty();
 			T result = this.first.Head;
 			this.first = this.first.Tail;
+            if (this.first == null)
+                this.last = null;
 			return result;
 		}
 	}

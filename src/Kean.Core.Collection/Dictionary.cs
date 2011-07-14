@@ -23,57 +23,87 @@ using Kean.Core.Basis;
 
 namespace Kean.Core.Collection
 {
-	public class Dictionary<TKey, TValue> :
-		IDictionary<TKey, TValue>
+    public class Dictionary<TKey, TValue> :
+        IDictionary<TKey, TValue>
         where TKey : IEquatable<TKey>
-	{
-		Hash.Dictionary<TKey, TValue> data;
-		public Dictionary()
-		{
-			this.data = new Hash.Dictionary<TKey, TValue>();
-		}
-		public Dictionary(int capacity)
-		{
-			this.data = new Hash.Dictionary<TKey, TValue>(capacity);
-		}
+    {
+        Hash.Dictionary<TKey, TValue> data;
+        public Dictionary()
+        {
+            this.data = new Hash.Dictionary<TKey, TValue>();
+        }
+        public Dictionary(int capacity)
+        {
+            this.data = new Hash.Dictionary<TKey, TValue>(capacity);
+        }
 
-	#region IDictionary[TKey,TValue] implementation
-	public bool Contains (TKey key)
-	{
-		return this.data.Contains(key);
-	}
+        #region IDictionary[TKey,TValue] implementation
+        public bool Contains(TKey key)
+        {
+            return this.data.Contains(key);
+        }
 
-	public bool Remove (TKey key)
-	{
-		return this.data.Remove(key);
-	}
+        public bool Remove(TKey key)
+        {
+            return this.data.Remove(key);
+        }
 
-	public TValue this[TKey key]
-		{
-		get { return this.data[key]; }
-		set { this.data[key] = value; }
-		}
-	#endregion
+        public TValue this[TKey key]
+        {
+            get { return this.data[key]; }
+            set { this.data[key] = value; }
+        }
+        #endregion
 
-	#region IEquatable[IDictionary[TKey,TValue]] implementation
-	public bool Equals (IDictionary<TKey, TValue> other)
-	{
-			return this.data.Equals(other);
-	}
-	#endregion
+        #region IEquatable[IDictionary[TKey,TValue]] implementation
+        public bool Equals(IDictionary<TKey, TValue> other)
+        {
+            return this.data.Equals(other);
+        }
+        #endregion
 
-	#region IEnumerable[Tuple[TKey,TValue]] implementation
-	System.Collections.Generic.IEnumerator<Kean.Core.Basis.Tuple<TKey, TValue>> System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>.GetEnumerator ()
-	{
-			return (this.data as System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>).GetEnumerator();
-	}
-	#endregion
+        #region IEnumerable[Tuple[TKey,TValue]] implementation
+        System.Collections.Generic.IEnumerator<Kean.Core.Basis.Tuple<TKey, TValue>> System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>.GetEnumerator()
+        {
+            return (this.data as System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>).GetEnumerator();
+        }
+        #endregion
 
-	#region IEnumerable implementation
-	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
-	{
-			return (this.data as System.Collections.IEnumerable).GetEnumerator();
-	}
-	#endregion
-	}
+        #region IEnumerable implementation
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return (this.data as System.Collections.IEnumerable).GetEnumerator();
+        }
+        #endregion
+        #region Object Overrides
+        public override bool Equals(object other)
+        {
+            return (other is Dictionary<TKey, TValue>) && this.Equals(other as Dictionary<TKey, TValue>);
+        }
+        public bool Equals(Dictionary<TKey, TValue> other)
+        {
+            return this == other;
+        }
+        public override string ToString()
+        {
+            return this.data.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.data.GetHashCode();
+        }
+        #endregion
+        #region Comparison Operators
+        public static bool operator ==(Dictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+        {
+            return object.ReferenceEquals(left, right) ||
+                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
+                left.data  == right.data;
+        }
+        public static bool operator !=(Dictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+        {
+            return !(left == right);
+        }
+        #endregion
+    }
 }

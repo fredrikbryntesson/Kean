@@ -121,6 +121,18 @@ namespace Kean.Core.Collection.Hash
 			return result && count == 0;
 		}
 		#endregion
+        #region Comparison Operators
+        public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+        {
+            return object.ReferenceEquals(left, right) ||
+                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
+                left.Equals(right);
+        }
+        public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+        {
+            return !(left == right);
+        }
+        #endregion
 	}
 }
 
