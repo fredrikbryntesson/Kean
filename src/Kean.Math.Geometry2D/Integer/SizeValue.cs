@@ -43,6 +43,42 @@ namespace Kean.Math.Geometry2D.Integer
             this.Width = width;
             this.Height = height;
         }
+        #region Methods
+        public SizeValue Maximum(SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Maximum(this.Width, other.Width), Kean.Math.Integer.Maximum(this.Height, other.Height));
+        }
+        public SizeValue Minimum(SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Minimum(this.Width, other.Width), Kean.Math.Integer.Minimum(this.Height, other.Height));
+        }
+        #endregion
+        #region Static Operators
+        public static SizeValue operator -(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(left.Width - right.Width, left.Height - right.Height);
+        }
+        public static SizeValue operator +(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(left.Width + right.Width, left.Height + right.Height);
+        }
+        public static SizeValue Floor(Geometry2D.Single.SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Floor(other.Width), Kean.Math.Integer.Floor(other.Height));
+        }
+        public static SizeValue Ceiling(Geometry2D.Single.SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+        public static SizeValue Floor(Geometry2D.Double.SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Floor(other.Width), Kean.Math.Integer.Floor(other.Height));
+        }
+        public static SizeValue Ceiling(Geometry2D.Double.SizeValue other)
+        {
+            return new SizeValue(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+        #endregion
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
