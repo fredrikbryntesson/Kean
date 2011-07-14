@@ -43,6 +43,34 @@ namespace Kean.Math.Geometry2D.Integer
             this.Top = top;
             this.Bottom = bottom;
         }
+        #region Methods
+        public ShellValue Maximum(ShellValue other)
+        {
+            return new ShellValue(Kean.Math.Integer.Maximum(this.Left, other.Left), Kean.Math.Integer.Maximum(this.Right, other.Right), Kean.Math.Integer.Maximum(this.Top, other.Top), Kean.Math.Integer.Maximum(this.Bottom, other.Bottom));
+        }
+        public ShellValue Minimum(ShellValue other)
+        {
+            return new ShellValue(Kean.Math.Integer.Minimum(this.Left, other.Left), Kean.Math.Integer.Minimum(this.Right, other.Right), Kean.Math.Integer.Minimum(this.Top, other.Top), Kean.Math.Integer.Minimum(this.Bottom, other.Bottom));
+        }
+        #endregion
+        #region Static Operators
+        public static SizeValue operator -(SizeValue left, ShellValue right)
+        {
+            return new SizeValue(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom);
+        }
+        public static SizeValue operator +(SizeValue left, ShellValue right)
+        {
+            return new SizeValue(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom);
+        }
+        public static ShellValue operator +(ShellValue left, ShellValue right)
+        {
+            return new ShellValue(left.Left + right.Left, left.Right + right.Right, left.Top + right.Top, left.Bottom + right.Bottom);
+        }
+        public static ShellValue operator -(ShellValue left, ShellValue right)
+        {
+            return new ShellValue(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom);
+        }
+        #endregion
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
