@@ -43,16 +43,6 @@ namespace Kean.Math.Geometry2D.Double
             this.Top = top;
             this.Bottom = bottom;
         }
-        #region Methods
-        public ShellValue Maximum(ShellValue other)
-        {
-            return new ShellValue(Kean.Math.Double.Maximum(this.Left, other.Left), Kean.Math.Double.Maximum(this.Right, other.Right), Kean.Math.Double.Maximum(this.Top, other.Top), Kean.Math.Double.Maximum(this.Bottom, other.Bottom));  
-        }
-        public ShellValue Minimum(ShellValue other)
-        {
-            return new ShellValue(Kean.Math.Double.Minimum(this.Left, other.Left), Kean.Math.Double.Minimum(this.Right, other.Right), Kean.Math.Double.Minimum(this.Top, other.Top), Kean.Math.Double.Minimum(this.Bottom, other.Bottom));
-        }
-        #endregion
         #region Static Operators
         public static SizeValue operator -(SizeValue left, ShellValue right)
         {
@@ -69,6 +59,14 @@ namespace Kean.Math.Geometry2D.Double
         public static ShellValue operator -(ShellValue left, ShellValue right)
         {
             return new ShellValue(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom);
+        }
+        public static ShellValue Maximum(ShellValue left, ShellValue right)
+        {
+            return new ShellValue(Kean.Math.Double.Maximum(left.Left, right.Left), Kean.Math.Double.Maximum(left.Right, right.Right), Kean.Math.Double.Maximum(left.Top, right.Top), Kean.Math.Double.Maximum(left.Bottom, right.Bottom));
+        }
+        public static ShellValue Minimum(ShellValue left, ShellValue right)
+        {
+            return new ShellValue(Kean.Math.Double.Minimum(left.Left, right.Left), Kean.Math.Double.Minimum(left.Right, right.Right), Kean.Math.Double.Minimum(left.Top, right.Top), Kean.Math.Double.Minimum(left.Bottom, right.Bottom));
         }
         #endregion
         #region Comparison Operators

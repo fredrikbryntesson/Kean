@@ -43,16 +43,6 @@ namespace Kean.Math.Geometry2D.Double
 			this.Width = width;
 			this.Height = height;
 		}
-        #region Methods
-        public SizeValue Maximum(SizeValue other)
-        {
-            return new SizeValue(Kean.Math.Double.Maximum(this.Width, other.Width), Kean.Math.Double.Maximum(this.Height, other.Height));
-        }
-        public SizeValue Minimum(SizeValue other)
-        {
-            return new SizeValue(Kean.Math.Double.Minimum(this.Width, other.Width), Kean.Math.Double.Minimum(this.Height, other.Height));
-        }
-        #endregion
         #region Static Operators
         public static SizeValue operator -(SizeValue left, SizeValue right)
         {
@@ -61,6 +51,14 @@ namespace Kean.Math.Geometry2D.Double
         public static SizeValue operator +(SizeValue left, SizeValue right)
         {
             return new SizeValue(left.Width + right.Width, left.Height + right.Height);
+        }
+        public static SizeValue Maximum(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(Kean.Math.Double.Maximum(left.Width, right.Width), Kean.Math.Double.Maximum(left.Height, right.Height));
+        }
+        public static SizeValue Minimum(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(Kean.Math.Double.Minimum(left.Width, right.Width), Kean.Math.Double.Minimum(left.Height, right.Height));
         }
         #endregion
         #region Comparison Operators

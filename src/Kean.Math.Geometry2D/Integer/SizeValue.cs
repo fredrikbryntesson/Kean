@@ -43,16 +43,6 @@ namespace Kean.Math.Geometry2D.Integer
             this.Width = width;
             this.Height = height;
         }
-        #region Methods
-        public SizeValue Maximum(SizeValue other)
-        {
-            return new SizeValue(Kean.Math.Integer.Maximum(this.Width, other.Width), Kean.Math.Integer.Maximum(this.Height, other.Height));
-        }
-        public SizeValue Minimum(SizeValue other)
-        {
-            return new SizeValue(Kean.Math.Integer.Minimum(this.Width, other.Width), Kean.Math.Integer.Minimum(this.Height, other.Height));
-        }
-        #endregion
         #region Static Operators
         public static SizeValue operator -(SizeValue left, SizeValue right)
         {
@@ -77,6 +67,14 @@ namespace Kean.Math.Geometry2D.Integer
         public static SizeValue Ceiling(Geometry2D.Double.SizeValue other)
         {
             return new SizeValue(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+        public static SizeValue Maximum(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(Kean.Math.Integer.Maximum(left.Width, right.Width), Kean.Math.Integer.Maximum(left.Height, right.Height));
+        }
+        public static SizeValue Minimum(SizeValue left, SizeValue right)
+        {
+            return new SizeValue(Kean.Math.Integer.Minimum(left.Width, right.Width), Kean.Math.Integer.Minimum(left.Height, right.Height));
         }
         #endregion
         #region Comparison Operators
