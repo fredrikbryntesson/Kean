@@ -132,6 +132,32 @@ namespace Kean.Math.Geometry2D.Single
             return right * left;
         }
         #endregion
+        #region Static Operators
+        public static PointValue Floor(Geometry2D.Single.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+        }
+        public static PointValue Ceiling(Geometry2D.Single.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+        }
+        public static PointValue Floor(Geometry2D.Double.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+        }
+        public static PointValue Ceiling(Geometry2D.Double.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+        }
+        public static PointValue Maximum(PointValue left, PointValue right)
+        {
+            return new PointValue(Kean.Math.Single.Maximum(left.X, right.X), Kean.Math.Single.Maximum(left.Y, right.Y));
+        }
+        public static PointValue Minimum(PointValue left, PointValue right)
+        {
+            return new PointValue(Kean.Math.Single.Minimum(left.X, right.X), Kean.Math.Single.Minimum(left.Y, right.Y));
+        }
+        #endregion
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
@@ -152,6 +178,22 @@ namespace Kean.Math.Geometry2D.Single
         public static bool operator !=(PointValue left, PointValue right)
         {
             return !(left == right);
+        }
+        public static bool operator <(PointValue left, PointValue right)
+        {
+            return left.X < right.X && left.Y < right.Y;
+        }
+        public static bool operator >(PointValue left, PointValue right)
+        {
+            return left.X > right.X && left.Y > right.Y;
+        }
+        public static bool operator <=(PointValue left, PointValue right)
+        {
+            return left.X <= right.X && left.Y <= right.Y;
+        }
+        public static bool operator >=(PointValue left, PointValue right)
+        {
+            return left.X >= right.X && left.Y >= right.Y;
         }
         #endregion
         #region Casts

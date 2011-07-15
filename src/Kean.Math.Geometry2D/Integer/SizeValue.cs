@@ -98,6 +98,22 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return !(left == right);
         }
+        public static bool operator <(SizeValue left, SizeValue right)
+        {
+            return left.Width < right.Width && left.Height < right.Height;
+        }
+        public static bool operator >(SizeValue left, SizeValue right)
+        {
+            return left.Width > right.Width && left.Height > right.Height;
+        }
+        public static bool operator <=(SizeValue left, SizeValue right)
+        {
+            return left.Width <= right.Width && left.Height <= right.Height;
+        }
+        public static bool operator >=(SizeValue left, SizeValue right)
+        {
+            return left.Width >= right.Width && left.Height >= right.Height;
+        }
         #endregion
         #region Casts
         public static implicit operator string(SizeValue value)
