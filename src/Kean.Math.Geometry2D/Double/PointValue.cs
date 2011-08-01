@@ -36,10 +36,7 @@ namespace Kean.Math.Geometry2D.Double
         double Kean.Math.Geometry2D.Abstract.IVector<double>.X { get { return this.X; } }
         double Kean.Math.Geometry2D.Abstract.IVector<double>.Y { get { return this.Y; } }
         #endregion
-        public double Length { get { return Kean.Math.Double.SquareRoot(this.X * this.X + this.Y * this.Y); } }
-        public double LengthSquared { get { return this.X * this.X + this.Y * this.Y; } }
-        public double NormAbsolute { get { return Kean.Math.Double.Maximum(Kean.Math.Double.Absolute(this.X), Kean.Math.Double.Absolute(this.Y)); } }
-        public double NormTaxicab { get { return Kean.Math.Double.Absolute(this.X) + Kean.Math.Double.Absolute(this.Y); } }
+        public double Length { get { return Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(this.X) + Kean.Math.Double.Squared(this.Y)); } }
         public PointValue(double x, double y)
         {
             this.X = x;
@@ -54,10 +51,16 @@ namespace Kean.Math.Geometry2D.Double
             this.X = x;
             this.Y = y;
         }
-        public void Set(ref double x, ref double y)
+        public double Norm(double p)
         {
-            this.X = x;
-            this.Y = y;
+            double result;
+            if (double.IsPositiveInfinity(p))
+                result = Kean.Math.Double.Maximum(Kean.Math.Double.Absolute(this.X), Kean.Math.Double.Absolute(this.Y));
+            else if (p == 1)
+                result = Kean.Math.Double.Absolute(this.X) + Kean.Math.Double.Absolute(this.Y);
+            else
+                result = Kean.Math.Double.Power(Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.X), p) + Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.Y), p), 1.0 / p);
+            return result;
         }
         #region Arithmetic Vector - Vector Operators
         public static PointValue operator +(PointValue left, PointValue right)
