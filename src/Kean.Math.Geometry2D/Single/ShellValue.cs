@@ -36,6 +36,7 @@ namespace Kean.Math.Geometry2D.Single
         float Kean.Math.Geometry2D.Abstract.IShell<float>.Top { get { return this.Top; } }
         float Kean.Math.Geometry2D.Abstract.IShell<float>.Bottom { get { return this.Bottom; } }
         #endregion
+        public PointValue Balance { get { return new PointValue(this.Right - this.Left, this.Bottom - this.Top); } }
         public ShellValue(float left, float right, float top, float bottom)
         {
             this.Left = left;
