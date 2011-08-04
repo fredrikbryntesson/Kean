@@ -17,7 +17,7 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Core.Basis.Extension;
 
@@ -26,34 +26,32 @@ namespace Kean.Math.Geometry2D.Single
     public struct BoxValue :
         Abstract.IBox<PointValue, SizeValue, float>
     {
-        PointValue leftTop;
-        SizeValue size;
-        public PointValue LeftTop
-        {
-            get { return this.leftTop; }
-            set { this.leftTop = value; }
-        }
-        public SizeValue Size
-        {
-            get { return this.size; }
-            set { this.size = value; }
-        }
-        public float Width { get { return this.size.Width; } }
+        public PointValue LeftTop;
+        public SizeValue Size;
+        #region IBox<PointValue,SizeValue,float> Members
+        PointValue Kean.Math.Geometry2D.Abstract.IBox<PointValue, SizeValue, float>.LeftTop {get { return this.LeftTop; }}
+        SizeValue Kean.Math.Geometry2D.Abstract.IBox<PointValue, SizeValue, float>.Size { get { return this.Size; } }
+        #endregion
+        public float Width { get { return this.Size.Width; } }
         public float Height { get { return this.Size.Height; } }
 
-        public float Left { get { return this.leftTop.X; } }
-        public float Top { get { return this.leftTop.Y; } }
-        public float Right { get { return this.leftTop.X + this.size.Width; } }
-        public float Bottom { get { return this.leftTop.Y + this.size.Height; } }
+        public float Left { get { return this.LeftTop.X; } }
+        public float Top { get { return this.LeftTop.Y; } }
+        public float Right { get { return this.LeftTop.X + this.Size.Width; } }
+        public float Bottom { get { return this.LeftTop.Y + this.Size.Height; } }
         public BoxValue(float left, float top, float width, float height)
         {
-            this.leftTop = new PointValue(left, top);
-            this.size = new SizeValue(width, height);
+            this.LeftTop = new PointValue(left, top);
+            this.Size = new SizeValue(width, height);
         }
         public BoxValue(PointValue leftTop, SizeValue size)
         {
-            this.leftTop = leftTop;
-            this.size = size;
+            this.LeftTop = leftTop;
+            this.Size = size;
+        }
+        public bool Contains(Double.PointValue point)
+        {
+            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
         }
         #region Comparison Operators
         /// <summary>
@@ -75,6 +73,16 @@ namespace Kean.Math.Geometry2D.Single
         public static bool operator !=(BoxValue left, BoxValue right)
         {
             return !(left == right);
+        }
+        #endregion
+        #region Static Operators
+        public static BoxValue operator -(BoxValue left, ShellValue right)
+        {
+            return new BoxValue(left.LeftTop + right.LeftTop, left.Size - right.Size);
+        }
+        public static BoxValue operator +(BoxValue left, ShellValue right)
+        {
+            return new BoxValue(left.LeftTop - right.LeftTop, left.Size + right.Size);
         }
         #endregion
         #region Casts
@@ -111,11 +119,11 @@ namespace Kean.Math.Geometry2D.Single
         #region Object Overrides
         public override string ToString()
         {
-            return this.leftTop.ToString() + " " + this.size.ToString();
+            return this.LeftTop.ToString() + " " + this.Size.ToString();
         }
         public override int GetHashCode()
         {
-            return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
+            return this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
         }
         #endregion
     }

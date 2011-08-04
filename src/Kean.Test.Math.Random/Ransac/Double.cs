@@ -8,7 +8,7 @@ using Collection = Kean.Core.Collection;
 
 namespace Kean.Test.Math.Random.Ransac
 {
-    public class Double : 
+    public class Double :
         AssertionHelper
     {
         [Test]
@@ -28,33 +28,54 @@ namespace Kean.Test.Math.Random.Ransac
                     result[1, 0] = m;
                     return result;
                 },
-                FitsWell = 10,
-                Threshold = .1,
-                Map = (x, t) => 
+                FitsWell = 5,
+                Threshold = 5,
+                Map = (x, t) =>
                 {
                     return t[0, 0] * x + t[1, 0];
                 },
-                Metric = (y1, y2) => Kean.Math.Double.Absolute(y1-y2)
+                Metric = (y1, y2) => Kean.Math.Double.Absolute(y1 - y2)
             };
-            Target.Estimate<double, double, Kean.Math.Matrix.Double> estimate = 
-                new Target.Estimate<double, double, Kean.Math.Matrix.Double>(model, 50);
-            Collection.IList<Kean.Core.Basis.Tuple<double, double>> points = 
+            Target.Estimate<double, double, Kean.Math.Matrix.Double> estimate =
+                new Target.Estimate<double, double, Kean.Math.Matrix.Double>(model, 20);
+            Collection.IList<Kean.Core.Basis.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
-            double kk = 5;
+            double kk = 20;
             double mm = 10;
             System.Random r = new System.Random((int)DateTime.Now.Ticks);
-            for(double x = 0; x < 30; x++)
+            for (double x = 0; x < 40; x++)
             {
-                double y = kk * x + mm;
-                points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));
-            }
-            for (double x = 30; x < 40; x++)
-            {
-                double y = kk * x + mm + r.NextDouble()-0.5;
+                double y = kk * x + mm + 40 * (r.NextDouble() - 0.5);
                 points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));
             }
             estimate.Load(points);
-            Target.Estimation<double, double, Kean.Math.Matrix.Double> est = estimate.Compute();
+            Target.Estimation<double, double, Kean.Math.Matrix.Double> best = estimate.Compute();
+            if (best.NotNull())
+            {
+                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+                file.WriteLine("clear all;");
+                file.WriteLine("close all;");
+                string pointsExport = "";
+                foreach (Kean.Core.Basis.Tuple<double, double> point in points)
+                    pointsExport += Kean.Math.Double.ToString(point.Item1) + " " + Kean.Math.Double.ToString(point.Item2) + ";";
+                pointsExport = pointsExport.TrimEnd(';');
+                file.WriteLine("points = ["+pointsExport+"];");
+                string consensusExport = "";
+                foreach (Kean.Core.Basis.Tuple<double, double> point in best.ConsensusSet)
+                    consensusExport += Kean.Math.Double.ToString(point.Item1) + " " + Kean.Math.Double.ToString(point.Item2) + ";";
+                consensusExport = consensusExport.TrimEnd(';');
+                file.WriteLine("consensus = [" + consensusExport + "];");
+                file.WriteLine("bestmodel = [" + Kean.Math.Double.ToString(best.Mapping[0, 0]) + " " + Kean.Math.Double.ToString(best.Mapping[1, 0]) + "];");
+                file.WriteLine("scatter(points(:,1), points(:,2),'b');");
+                file.WriteLine("hold on;");
+                file.WriteLine("scatter(consensus(:,1), consensus(:,2),'r');");
+                file.WriteLine("xmin = min(points(:,1)); xmax = max(points(:,1)); ymin = bestmodel(1) * xmin + bestmodel(2); ymax = bestmodel(1) * xmax + bestmodel(2);");
+                file.WriteLine("plot([xmin, xmax], [ymin, ymax], 'r');");
+                file.WriteLine("xlabel(strcat('inliers = ', num2str(length(consensus(:,1))),' k = ',num2str(bestmodel(1)), ' m = ', num2str(bestmodel(2))))");
+                file.Close();
+              }
+
+
         }
         [Test]
         public void Model2()
@@ -79,23 +100,23 @@ namespace Kean.Test.Math.Random.Ransac
                     result[3, 0] = translation.Y;
                     return result;
                 },
-                FitsWell = 10,
-                Threshold = 1,
+                FitsWell = 5,
+                Threshold = 12,
                 Map = (x, t) =>
                 {
                     double scale = t[0, 0];
                     double theta = t[1, 0];
                     double xt = t[2, 0];
-                    double yt = t[3,0];
+                    double yt = t[3, 0];
                     Geometry2D.Double.PointValue result = new Geometry2D.Double.PointValue(
                   scale * Kean.Math.Double.Cosinus(theta) * x.X - scale * Kean.Math.Double.Sinus(theta) * x.Y + xt,
                   scale * Kean.Math.Double.Sinus(theta) * x.X + scale * Kean.Math.Double.Cosinus(theta) * x.Y + yt);
                     return result;
                 },
-                Metric = (y1, y2) => (y1-y2).Length
+                Metric = (y1, y2) => (y1 - y2).Length
             };
             Target.Estimate<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimate<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>(model, 1250);
+                new Target.Estimate<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>(model, 50);
             Collection.IList<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>>();
             double s = 3;
@@ -103,26 +124,58 @@ namespace Kean.Test.Math.Random.Ransac
             double xTranslation = 20;
             double yTranslation = 30;
             Kean.Math.Random.Generator.Normal normal = new Kean.Math.Random.Generator.Normal();
-            for (double i = 0; i < 100; i++)
+            for (double i = 0; i < 30; i++)
             {
                 Geometry2D.Double.PointValue x = new Geometry2D.Double.PointValue(i, i);
                 Geometry2D.Double.PointValue y = new Geometry2D.Double.PointValue(
                     s * Kean.Math.Double.Cosinus(thetaAngle) * x.X - s * Kean.Math.Double.Sinus(thetaAngle) * x.Y + xTranslation,
                     s * Kean.Math.Double.Sinus(thetaAngle) * x.X + s * Kean.Math.Double.Cosinus(thetaAngle) * x.Y + yTranslation);
-                double[] xdd = normal.NextDoublePoint(0,0.1);
-                double[] ydd = normal.NextDoublePoint(0,0.1);
+                double[] xdd = normal.NextDoublePoint(0, 1);
+                double[] ydd = normal.NextDoublePoint(0, 1);
                 Geometry2D.Double.PointValue xd = new Kean.Math.Geometry2D.Double.PointValue(xdd[0], xdd[1]);
                 Geometry2D.Double.PointValue yd = new Kean.Math.Geometry2D.Double.PointValue(ydd[0], ydd[1]);
                 points.Add(Kean.Core.Basis.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(x + xd, y + yd));
             }
+            points.Add(Kean.Core.Basis.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(new Geometry2D.Double.PointValue(30,30), new Geometry2D.Double.PointValue(70,70)));
             estimate.Load(points);
-            Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> est = estimate.Compute();
+            Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> best = estimate.Compute();
+
+            if (best.NotNull())
+            {
+                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+                file.WriteLine("clear all;");
+                file.WriteLine("close all;");
+                string before = "";
+                string after = "";
+                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in points)
+                {
+                    before += point.Item1.ToString() + "; ";
+                    after += point.Item2.ToString() + "; ";
+                }
+                before = before.TrimEnd(';');
+                after = after.TrimEnd(';');
+                file.WriteLine("before = [" + before + "];");
+                file.WriteLine("after = [" + after + "];");
+                file.WriteLine("scatter(before(:,1),before(:,2),'b');");
+                file.WriteLine("hold on;");
+                file.WriteLine("scatter(after(:,1),after(:,2),'r');");
+                string consensus = "";
+                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.ConsensusSet)
+                    consensus += point.Item2.ToString() + "; ";
+                consensus = consensus.TrimEnd(';');
+                file.WriteLine("consensus = [" + consensus + "];");
+                file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
+                file.WriteLine("bestmodel = [" + best.Mapping + "];");
+                file.WriteLine("xlabel(strcat(' s= ',num2str(bestmodel(1)), ' angle= ', num2str(180 * bestmodel(2) / pi), ' x= ', num2str(bestmodel(3)), ' y= ', num2str(bestmodel(4))))");
+                file.Close();
+            }
+        
         }
         public void Run()
         {
             this.Run(
-                this.Model1,
-                this.Model2
+                this.Model2,
+                this.Model1
                 );
         }
         internal void Run(params System.Action[] tests)

@@ -30,7 +30,6 @@ namespace Kean.Math.Random.Ransac
     {
         Model<Domain, Range, Transform> model;
         int iterations;
-        Estimation<Domain, Range, Transform>[] estimate;
         Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
         Generator.Uniform random;
         public Estimate(Model<Domain, Range, Transform> model) : this(model, 200) { }
@@ -38,7 +37,6 @@ namespace Kean.Math.Random.Ransac
         {
             this.model = model;
             this.iterations = iterations;
-            this.estimate = new Estimation<Domain, Range, Transform>[this.iterations];
             this.random = new Generator.Uniform();
         }
         public void Load(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data)
@@ -52,6 +50,7 @@ namespace Kean.Math.Random.Ransac
                 throw new Exception.ModelSetup();
             if (this.data.IsNull() || this.model.IsNull() || this.data.Count < this.model.RequiredMeasures)
                 throw new Exception.InputData();
+            Estimation<Domain, Range, Transform>[] estimate = new Estimation<Domain, Range, Transform>[this.iterations];
             new Action<int>(d =>
             {
                 Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> maybeInliersOutliers = this.InliersOutliers();
@@ -66,15 +65,16 @@ namespace Kean.Math.Random.Ransac
                     double thisError = 0;
                     foreach (Kean.Core.Basis.Tuple<Domain, Range> datum in consensusSet)
                         thisError += this.model.Metric(this.model.Map(datum.Item1, thisModel), datum.Item2);
-                    this.estimate[d] = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel);
+                    thisError /= consensusSet.Count;
+                    estimate[d] = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel);
                 }
-            }).For(this.estimate.Length);
+            }).For(estimate.Length);
             double error = double.MaxValue;
-            for (int i = 0; i < this.estimate.Length; i++)
+            for (int i = 0; i < estimate.Length; i++)
             {
-                if (this.estimate[i].NotNull() && this.estimate[i].Error < error)
+                if (estimate[i].NotNull() && estimate[i].Error < error)
                 {
-                    result = this.estimate[i];
+                    result = estimate[i];
                     error = result.Error;
                 }
             }

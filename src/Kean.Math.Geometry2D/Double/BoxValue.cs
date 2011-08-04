@@ -26,34 +26,32 @@ namespace Kean.Math.Geometry2D.Double
     public struct BoxValue :
         Abstract.IBox<PointValue, SizeValue, double>
     {
-        PointValue leftTop;
-        SizeValue size;
-        public PointValue LeftTop
-        {
-            get { return this.leftTop; }
-            set { this.leftTop = value; }
-        }
-        public SizeValue Size
-        {
-            get { return this.size; }
-            set { this.size = value; }
-        }
-        public double Width { get { return this.size.Width; } }
+        public PointValue LeftTop;
+        public SizeValue Size;
+        #region IBox<PointValue,SizeValue,double> Members
+        PointValue Kean.Math.Geometry2D.Abstract.IBox<PointValue, SizeValue, double>.LeftTop {get { return this.LeftTop; }}
+        SizeValue Kean.Math.Geometry2D.Abstract.IBox<PointValue, SizeValue, double>.Size { get { return this.Size; } }
+        #endregion
+        public double Width { get { return this.Size.Width; } }
         public double Height { get { return this.Size.Height; } }
 
-        public double Left { get { return this.leftTop.X; } }
-        public double Top { get { return this.leftTop.Y; } }
-        public double Right { get { return this.leftTop.X + this.size.Width; } }
-        public double Bottom { get { return this.leftTop.Y + this.size.Height; } }
+        public double Left { get { return this.LeftTop.X; } }
+        public double Top { get { return this.LeftTop.Y; } }
+        public double Right { get { return this.LeftTop.X + this.Size.Width; } }
+        public double Bottom { get { return this.LeftTop.Y + this.Size.Height; } }
         public BoxValue(double left, double top, double width, double height)
         {
-            this.leftTop = new PointValue(left, top);
-            this.size = new SizeValue(width, height);
+            this.LeftTop = new PointValue(left, top);
+            this.Size = new SizeValue(width, height);
         }
         public BoxValue(PointValue leftTop, SizeValue size)
         {
-            this.leftTop = leftTop;
-            this.size = size;
+            this.LeftTop = leftTop;
+            this.Size = size;
+        }
+        public bool Contains(Double.PointValue point)
+        {
+            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
         }
         #region Comparison Operators
         /// <summary>
@@ -75,6 +73,16 @@ namespace Kean.Math.Geometry2D.Double
         public static bool operator !=(BoxValue left, BoxValue right)
         {
             return !(left == right);
+        }
+        #endregion
+        #region Static Operators
+        public static BoxValue operator -(BoxValue left, ShellValue right)
+        {
+            return new BoxValue(left.LeftTop + right.LeftTop, left.Size - right.Size);
+        }
+        public static BoxValue operator +(BoxValue left, ShellValue right)
+        {
+            return new BoxValue(left.LeftTop - right.LeftTop, left.Size + right.Size);
         }
         #endregion
         #region Casts
@@ -120,11 +128,11 @@ namespace Kean.Math.Geometry2D.Double
         #region Object Overrides
         public override string ToString()
         {
-            return this.leftTop.ToString() + " " + this.size.ToString();
+            return this.LeftTop.ToString() + " " + this.Size.ToString();
         }
         public override int GetHashCode()
         {
-            return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
+            return this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
         }
         #endregion
     }
