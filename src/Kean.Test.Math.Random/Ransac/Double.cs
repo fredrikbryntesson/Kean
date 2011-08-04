@@ -30,7 +30,7 @@ namespace Kean.Test.Math.Random.Ransac
                 },
                 FitsWell = 5,
                 Threshold = 5,
-                Map = (x, t) =>
+                Map = (t,x) =>
                 {
                     return t[0, 0] * x + t[1, 0];
                 },
@@ -102,7 +102,7 @@ namespace Kean.Test.Math.Random.Ransac
                 },
                 FitsWell = 5,
                 Threshold = 12,
-                Map = (x, t) =>
+                Map = (t,x) =>
                 {
                     double scale = t[0, 0];
                     double theta = t[1, 0];

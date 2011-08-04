@@ -27,7 +27,7 @@ namespace Kean.Math.Random.Ransac
     public class Model<Domain,Range, Transform>
     {
         public Func<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Transform> Estimate { get; set; }
-        public Func<Domain, Transform, Range> Map { get; set; }
+        public Func<Transform, Domain, Range> Map { get; set; }
         public Func<Range,Range, double> Metric { get; set; }
         public double Threshold { get; set; }
         public int FitsWell { get; set; }
@@ -35,7 +35,7 @@ namespace Kean.Math.Random.Ransac
         public Model() { }
         public Model(
             Func<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Transform> estimate,
-            Func<Domain, Transform, Range> map,
+            Func<Transform, Domain, Range> map,
             Func<Range, Range, double> metric,
             double threshold,
             int fitsWell,
