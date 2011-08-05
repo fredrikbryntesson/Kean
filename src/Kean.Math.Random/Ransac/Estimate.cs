@@ -28,16 +28,14 @@ namespace Kean.Math.Random.Ransac
 {
     public class Estimate<Domain, Range, Transform>
     {
-        public Model<Domain, Range, Transform> Model { get; set; }
-        public int Iterations { get; set; }
+        Model<Domain, Range, Transform> model;
+        int iterations;
         Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
         Generator.Uniform random;
-        public Estimate(int iterations) : this(null, iterations) { }
-        public Estimate(Model<Domain, Range, Transform> model) : this(model, 200) { }
         public Estimate(Model<Domain, Range, Transform> model, int iterations)
         {
-            this.Model = model;
-            this.Iterations = iterations;
+            this.model = model;
+            this.iterations = iterations;
             this.random = new Generator.Uniform();
         }
         public void Load(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data)
@@ -51,30 +49,31 @@ namespace Kean.Math.Random.Ransac
         public Estimation<Domain, Range, Transform> Compute()
         {
             Estimation<Domain, Range, Transform> result = null;
-            if (this.Model.IsNull() || this.Model.Estimate.IsNull() || this.Model.Map.IsNull() || this.Model.Metric.IsNull())
+            if (this.model.IsNull() || this.model.Estimate.IsNull() || this.model.Map.IsNull() || this.model.Metric.IsNull())
                 throw new Exception.ModelSetup();
-            if (this.data.IsNull() || this.Model.IsNull())
+            if (this.data.IsNull() || this.model.IsNull())
                 throw new Exception.InputData();
-            if (this.data.Count >= this.Model.RequiredMeasures)
+            if (this.data.Count >= this.model.RequiredMeasures)
             {
-                Estimation<Domain, Range, Transform>[] estimate = new Estimation<Domain, Range, Transform>[this.Iterations];
-                new Action<int>(d =>
+                Estimation<Domain, Range, Transform>[] estimate = new Estimation<Domain, Range, Transform>[this.iterations];
+                
+                for(int d = 0; d < this.iterations; d++)
                 {
                     Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> maybeInliersOutliers = this.InliersOutliers();
-                    Transform maybeModel = this.Model.Estimate(maybeInliersOutliers.Item1);
+                    Transform maybeModel = this.model.Estimate(maybeInliersOutliers.Item1);
                     Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> consensusSet = maybeInliersOutliers.Item1;
                     foreach (Kean.Core.Basis.Tuple<Domain, Range> outlier in maybeInliersOutliers.Item2)
-                        if (this.Model.Metric(this.Model.Map(maybeModel, outlier.Item1), outlier.Item2) < this.Model.Threshold)
+                        if (this.model.Metric(this.model.Map(maybeModel, outlier.Item1), outlier.Item2) < this.model.Threshold)
                             consensusSet.Add(outlier);
-                    if (consensusSet.Count > this.Model.FitsWell)
+                    if (consensusSet.Count > this.model.FitsWell)
                     {
-                        Transform thisModel = this.Model.Estimate(consensusSet);
+                        Transform thisModel = this.model.Estimate(consensusSet);
                         double thisError = 0;
                         foreach (Kean.Core.Basis.Tuple<Domain, Range> datum in consensusSet)
-                            thisError = Kean.Math.Double.Maximum(thisError, this.Model.Metric(this.Model.Map(thisModel, datum.Item1), datum.Item2));
+                            thisError = Kean.Math.Double.Maximum(thisError, this.model.Metric(this.model.Map(thisModel, datum.Item1), datum.Item2));
                         estimate[d] = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel);
                     }
-                }).For(estimate.Length);
+                }
                 double error = double.MaxValue;
                 for (int i = 0; i < estimate.Length; i++)
                 {
@@ -92,7 +91,7 @@ namespace Kean.Math.Random.Ransac
             Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> result;
             Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> inliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
             Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> outliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
-            int[] inlierIndexes = this.random.NextDifferentIntArray(this.data.Count, this.Model.RequiredMeasures);
+            int[] inlierIndexes = this.random.NextDifferentIntArray(this.data.Count, this.model.RequiredMeasures);
             Array.Sort(inlierIndexes);
             int[] outlierIndexes = new int[this.data.Count - inlierIndexes.Length];
             int k = 0;
