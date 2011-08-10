@@ -36,7 +36,7 @@ namespace Kean.Math.Geometry2D.Double
         double Kean.Math.Geometry2D.Abstract.IVector<double>.X { get { return this.X; } }
         double Kean.Math.Geometry2D.Abstract.IVector<double>.Y { get { return this.Y; } }
         #endregion
-        public double Length { get { return Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(this.X) + Kean.Math.Double.Squared(this.Y)); } }
+        public double Length { get { return Kean.Math.Double.SquareRoot(this.ScalarProduct(this)); } }
         public PointValue(double x, double y)
         {
             this.X = x;
@@ -60,6 +60,23 @@ namespace Kean.Math.Geometry2D.Double
                 result = Kean.Math.Double.Absolute(this.X) + Kean.Math.Double.Absolute(this.Y);
             else
                 result = Kean.Math.Double.Power(Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.X), p) + Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.Y), p), 1.0 / p);
+            return result;
+        }
+        public double ScalarProduct(PointValue other)
+        {
+            return this.X * other.X + this.Y * other.Y;
+        }
+        public double Distance(PointValue other)
+        {
+            return (this - other).Length;
+        }
+        public double Angle(PointValue other)
+        {
+            double result = 0;
+            result = this.ScalarProduct(other) / (this.Length * other.Length);
+            double sign = this.X * other.Y - this.Y * other.X;
+            result = Kean.Math.Double.ArcusCosinus(Kean.Math.Double.Clamp(result, -1, 1));
+            result *= sign < 0 ? -1 : 1;
             return result;
         }
         #region Arithmetic Vector - Vector Operators
