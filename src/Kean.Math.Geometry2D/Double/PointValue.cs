@@ -70,6 +70,11 @@ namespace Kean.Math.Geometry2D.Double
         {
             return (this - other).Length;
         }
+        /// <summary>
+        /// Angle from current to other point vector.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>Angle in radians.</returns>
         public double Angle(PointValue other)
         {
             double result = 0;
