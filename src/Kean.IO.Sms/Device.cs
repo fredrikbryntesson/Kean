@@ -48,9 +48,6 @@ namespace Kean.IO.Sms
 			this.modem.SmsMode = Modem.SmsMode.Text;
 			Console.WriteLine(this.modem.SmsMode);
 			this.modem.SendMessage(message.Receiver, message.Body);
-			//this.port.WriteLine("AT+CMGS=\"" +  message.Receiver + "\"");
-			//this.port.WriteLine(message.Body);
-			//this.port.Write(0x1a);
 		}
 	}
 }
