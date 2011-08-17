@@ -36,8 +36,8 @@ namespace Kean.Test.Math.Random.Ransac
                 },
                 Metric = (y1, y2) => Kean.Math.Double.Absolute(y1 - y2)
             };
-            Target.Estimate<double, double, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimate<double, double, Kean.Math.Matrix.Double>(model, 20);
+            Target.Estimator<double, double, Kean.Math.Matrix.Double> estimate =
+                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 20);
             Collection.IList<Kean.Core.Basis.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
             double kk = 20;
@@ -115,8 +115,8 @@ namespace Kean.Test.Math.Random.Ransac
                 },
                 Metric = (y1, y2) => (y1 - y2).Length
             };
-            Target.Estimate<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimate<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>(model, 50);
+            Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> estimate =
+                new Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>(model, 50);
             Collection.IList<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>>();
             double s = 3;

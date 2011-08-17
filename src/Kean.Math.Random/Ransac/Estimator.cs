@@ -26,13 +26,13 @@ using Kean.Core.Basis.Extension;
 using Kean.Core.Collection.Extension;
 namespace Kean.Math.Random.Ransac
 {
-    public class Estimate<Domain, Range, Transform>
+    public class Estimator<Domain, Range, Transform>
     {
         Model<Domain, Range, Transform> model;
         int iterations;
         Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
         Generator.Uniform random;
-        public Estimate(Model<Domain, Range, Transform> model, int iterations)
+        public Estimator(Model<Domain, Range, Transform> model, int iterations)
         {
             this.model = model;
             this.iterations = iterations;

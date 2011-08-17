@@ -25,9 +25,9 @@ namespace Kean.Math.Random.Exception
 {
 
     public class InputData :
-        Error.Exception
+        Exception
     {
-        public InputData() :
+        public InputData() : 
             base(Error.Level.Critical, "Inputs Data Error", "Input data is either missing or has too few items.")
         { }
     }

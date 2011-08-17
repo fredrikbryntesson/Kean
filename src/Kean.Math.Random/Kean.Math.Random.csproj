@@ -47,11 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exception\Exception.cs" />
     <Compile Include="Exception\NotUnique.cs" />
     <Compile Include="Generator\Exponential.cs" />
     <Compile Include="Generator\Normal.cs" />
     <Compile Include="Generator\Uniform.cs" />
-    <Compile Include="Ransac\Estimate.cs" />
+    <Compile Include="Ransac\Estimator.cs" />
     <Compile Include="Ransac\Estimation.cs" />
     <Compile Include="Exception\InputData.cs" />
     <Compile Include="Exception\ModelSetup.cs" />

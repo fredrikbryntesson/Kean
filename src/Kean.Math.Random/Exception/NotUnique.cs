@@ -25,7 +25,7 @@ namespace Kean.Math.Random.Exception
 {
 
     public class NotUnique :
-        Error.Exception
+        Exception
     {
         public NotUnique() :
             base(Error.Level.Critical, "Not Unique Output Error", "Input values make it impossible to create unique output values.")
