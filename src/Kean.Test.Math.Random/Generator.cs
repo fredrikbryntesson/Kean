@@ -16,7 +16,7 @@ namespace Kean.Test.Math.Random
             uint seed = (uint)DateTime.Now.Ticks;
             System.Random r = new System.Random((int)seed);
             Target.Integer.Positive positive = new Target.Integer.Positive();
-            int n = 10000;
+            int n = 100000;
             int[] rArray = new int[n];
             System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
             w.Reset();

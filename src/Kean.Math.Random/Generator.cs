@@ -127,8 +127,8 @@ namespace Kean.Math.Random
         { }
         protected Generator(ulong seed)
         {
-            Generator<T>.shiftCounter = new System.Random((int)DateTime.Now.Ticks).Next(Generator<T>.shifts.Length);
-            Generator<T>.seedCounter = new System.Random((int)DateTime.Now.Ticks).Next(Generator<T>.seeds.Length);
+            Generator<T>.shiftCounter =(int)((DateTime.Now.Ticks / 1000) % Generator<T>.shifts.Length);
+            Generator<T>.seedCounter = (int)((DateTime.Now.Ticks / 1000) % Generator<T>.seeds.Length); 
             this.a = Generator<T>.shifts[Generator<T>.shiftCounter++];
             this.b = Generator<T>.shifts[Generator<T>.shiftCounter++];
             this.c = Generator<T>.shifts[Generator<T>.shiftCounter++];
