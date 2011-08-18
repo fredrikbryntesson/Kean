@@ -3,6 +3,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Basis.Extension;
 using Target = Kean.Math.Random;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Test.Math.Random
 {
@@ -11,83 +12,117 @@ namespace Kean.Test.Math.Random
     {
         [Test]
         public void Compare()
-        { 
+        {
             uint seed = (uint)DateTime.Now.Ticks;
             System.Random r = new System.Random((int)seed);
-            Target.Generator.Uniform g = new Target.Generator.Uniform(seed);
+            Target.Integer.Positive positive = new Target.Integer.Positive();
             int n = 10000;
             int[] rArray = new int[n];
-            int[] gArray = new int[n];
             System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
             w.Reset();
             w.Start();
             for (int i = 0; i < n; i++)
                 rArray[i] = r.Next();
             w.Stop();
-            Console.WriteLine("Dotnet Time for loop: " +w.ElapsedMilliseconds);
+            Console.WriteLine("Dotnet Time for loop: " + w.ElapsedMilliseconds);
             w.Reset();
             w.Start();
-            for (int i = 0; i < n; i++)
-                gArray[i] = g.NextInt();
+            int[] gArray = positive.Generate(n);
             w.Stop();
-            Console.WriteLine("My Time for loop: " +w.ElapsedMilliseconds);
+            Console.WriteLine("My Time for loop: " + w.ElapsedMilliseconds);
             w.Reset();
+            Target.Integer.Interval interval = new Target.Integer.Interval();
+            interval.Ceiling = 100;
             w.Start();
-            gArray = g.NextIntArray(0, 100, n);
+            gArray = interval.Generate(n);
             w.Stop();
             Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
         }
         [Test]
-        public void ArraysInt()
+        public void ArraysIntegerUnique()
         {
-            Target.Generator.Uniform g = new Target.Generator.Uniform();
-            int[] values = g.NextIntArray(20, 100);
-            values = g.NextIntArray(10, 20, 100);
-            values = g.NextDifferentIntArray(20, 5);
-            //values = g.NextDifferentInt(20, 100);
+            Target.Integer.Interval interval = new Target.Integer.Interval();
+            interval.Floor = 10;
+            interval.Ceiling = 500;
+            int n = 20;
+            int[] values = interval.GenerateUnique(n);
+            bool different = true;
+            int i, j;
+            for (i = 0; i < n; i++)
+                for (j = i+1; j < n; j++)
+                {
+                    different &= values[i] != values[j];
+                    break;
+                }
+            Expect(different, Is.True, "Unique random numbers test failed");
         }
         [Test]
         public void ArraysDouble()
         {
-            Target.Generator.Uniform g = new Target.Generator.Uniform();
-            double[] values = g.NextDoubleArray(10, 20, 100);
+            Target.Double.Interval interval = new Kean.Math.Random.Double.Interval();
+            interval.Floor = 400;
+            interval.Ceiling = 500;
+            int n = 10000;
+            double[] values = interval.GenerateUnique(n);
+            string valuesString = "";
+            for (int i = 0; i < n; i++)
+            {
+                valuesString += Kean.Math.Double.ToString(values[i]);
+                valuesString += i != n - 1 ? ", " : "";
+            }
+            System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+            file.WriteLine("clear all;");
+            file.WriteLine("close all;");
+            file.WriteLine("x = [" + valuesString + "];");
+            file.WriteLine("plot(x,'b');");
+            file.Close();
         }
-        
         [Test]
         public void NormalDouble()
         {
-            Target.Generator.Normal g = new Target.Generator.Normal();
-            int n = 1000000;
-            double[] gArray = new double[n];
-            double mu0 = 10;
-            double sigma0 = 2;
+            Target.Double.Normal g = new Target.Double.Normal();
+            int n = 50000;
+            g.Mean = 10;
+            g.Deviation = 2;
+            double[] values = g.Generate(n);
+            string valuesString = "";
             for (int i = 0; i < n; i++)
-                gArray[i] = g.NextDouble(10,2);
+            {
+                valuesString += Kean.Math.Double.ToString(values[i]);
+                valuesString += i != n - 1 ? ", " : "";
+            }
+            System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+            file.WriteLine("clear all;");
+            file.WriteLine("close all;");
+            file.WriteLine("x = [" + valuesString + "];");
+            file.WriteLine("plot(x,'b');");
+            file.Close();
             // estimate
             double mu = 0;
-            for (int i = 0; i < gArray.Length; i++)
-                mu += gArray[i];
-            mu /= gArray.Length;
+            for (int i = 0; i < values.Length; i++)
+                mu += values[i];
+            mu /= values.Length;
             double sigma = 0;
-            for (int i = 0; i < gArray.Length; i++)
-                sigma += Kean.Math.Double.Squared(gArray[i] - mu);
-            sigma /= gArray.Length;
+            for (int i = 0; i < values.Length; i++)
+                sigma += Kean.Math.Double.Squared(values[i] - mu);
+            sigma /= values.Length;
             sigma = Kean.Math.Double.SquareRoot(sigma);
-            Expect(mu, Is.EqualTo(mu0).Within(0.01));
-            Expect(sigma, Is.EqualTo(sigma0).Within(0.01));
+            Expect(mu, Is.EqualTo(g.Mean).Within(0.01));
+            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.01));
         }
+        
         [Test]
         public void NormalDoublePoint()
         {
-            Target.Generator.Normal g = new Target.Generator.Normal();
+            Target.Double.Normal g = new Target.Double.Normal();
             int n = 1000;
             double[] x = new double[n];
             double[] y = new double[n];
-            double mu0 = 10;
-            double sigma0 = 2;
+            g.Mean = 10;
+            g.Deviation = 2;
             for (int i = 0; i < n; i++)
             {
-                double[] point = g.NextDoublePoint(10, 2);
+                double[] point = g.Generate(2);
                 x[i] = point[0];
                 y[i] = point[1];
             }
@@ -100,13 +135,20 @@ namespace Kean.Test.Math.Random
                 ys += Kean.Math.Double.ToString(y[i]);
                 ys += i != n - 1 ? ", " : "";
             }
+                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+                file.WriteLine("clear all;");
+                file.WriteLine("close all;");
+                file.WriteLine("x = [" + xs + "];");
+                file.WriteLine("y = [" + ys + "];");
+                file.WriteLine("scatter(x,y,'b');");
+                file.Close();
         }
-
+        
         public void Run()
         {
             this.Run(
-                //this.Compare,
-                this.ArraysInt,
+                this.Compare,
+                this.ArraysIntegerUnique,
                 this.ArraysDouble,
                 this.NormalDouble,
                 this.NormalDoublePoint

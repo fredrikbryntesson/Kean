@@ -31,7 +31,7 @@ namespace Kean.Test.Run
             Kean.Test.Math.Matrix.Double.Test();
             Kean.Test.Math.Matrix.Algorithms.Double.Test();
 
-            //Kean.Test.Math.Random.Ransac.Double.Test();
+            Kean.Test.Math.Ransac.Double.Test();
             
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();

@@ -31,7 +31,7 @@ namespace Kean.Math.Ransac
         Model<Domain, Range, Transform> model;
         int iterations;
         Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
-        Random.Integer.Interval random;
+        Random.IInterval<int> random;
         public Estimator(Model<Domain, Range, Transform> model, int iterations)
         {
             this.model = model;
@@ -91,7 +91,7 @@ namespace Kean.Math.Ransac
             Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> result;
             Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> inliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
             Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> outliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
-			this.random.Ceiling = this.data.Count;
+			this.random.Ceiling = this.data.Count - 1;
             int[] inlierIndexes = this.random.GenerateUnique(this.model.RequiredMeasures);
             Array.Sort(inlierIndexes);
             int[] outlierIndexes = new int[this.data.Count - inlierIndexes.Length];
