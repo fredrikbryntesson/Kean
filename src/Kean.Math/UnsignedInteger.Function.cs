@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  Integer.Function.cs
 //  
 //  Author:
@@ -22,7 +22,7 @@ using System;
 using Kean.Core.Basis.Extension;
 namespace Kean.Math
 {
-    public partial class UnsignedInteger
+    public partial class UnsignedLong
     {
         #region Constants
         public static uint NegativeInfinity { get { return uint.MinValue; } }
@@ -30,8 +30,8 @@ namespace Kean.Math
         public static uint Epsilon { get { return 1; } }
         public static uint MinimumValue { get { return uint.MinValue; } }
         public static uint MaximumValue { get { return uint.MaxValue; } }
-        public static uint Pi { get { return UnsignedInteger.Convert(System.Math.PI); } }
-        public static uint E { get { return UnsignedInteger.Convert(System.Math.E); } }
+        public static uint Pi { get { return UnsignedLong.Convert(System.Math.PI); } }
+        public static uint E { get { return UnsignedLong.Convert(System.Math.E); } }
         #endregion
         #region Convert Functions
         public static uint Convert(double value)
@@ -91,64 +91,64 @@ namespace Kean.Math
         public static uint Modulo(uint dividend, uint divisor)
         {
             if (dividend < 0)
-                dividend += UnsignedInteger.Ceiling(dividend / (float)divisor) * divisor;
+                dividend += UnsignedLong.Ceiling(dividend / (float)divisor) * divisor;
             return dividend % divisor;
         }
         #endregion
         #region Rounding Functions
         public static uint Floor(float value)
         {
-            return UnsignedInteger.Convert(System.Math.Floor(value));
+            return UnsignedLong.Convert(System.Math.Floor(value));
         }
         public static uint Floor(double value)
         {
-            return UnsignedInteger.Convert(System.Math.Floor(value));
+            return UnsignedLong.Convert(System.Math.Floor(value));
         }
         public static uint Ceiling(float value)
         {
-            return UnsignedInteger.Convert(System.Math.Ceiling(value));
+            return UnsignedLong.Convert(System.Math.Ceiling(value));
         }
         public static uint Ceiling(double value)
         {
-            return UnsignedInteger.Convert(System.Math.Ceiling(value));
+            return UnsignedLong.Convert(System.Math.Ceiling(value));
         }
         public static uint Truncate(float value)
         {
-            return UnsignedInteger.Convert(System.Math.Truncate(value));
+            return UnsignedLong.Convert(System.Math.Truncate(value));
         }
         public static uint Truncate(double value)
         {
-            return UnsignedInteger.Convert(System.Math.Truncate(value));
+            return UnsignedLong.Convert(System.Math.Truncate(value));
         }
         public static uint Round(float value)
         {
-            return UnsignedInteger.Convert(System.Math.Round(value));
+            return UnsignedLong.Convert(System.Math.Round(value));
         }
         public static uint Round(double value)
         {
-            return UnsignedInteger.Convert(System.Math.Round(value));
+            return UnsignedLong.Convert(System.Math.Round(value));
         }
         #endregion
         #region Transcendental and Power Functions
         public static uint Exponential(uint value)
         {
-            return UnsignedInteger.Convert(System.Math.Exp(value));
+            return UnsignedLong.Convert(System.Math.Exp(value));
         }
         public static uint Logarithm(uint value)
         {
-            return UnsignedInteger.Convert(System.Math.Log(value));
+            return UnsignedLong.Convert(System.Math.Log(value));
         }
         public static uint Logarithm(uint value, uint @base)
         {
-            return UnsignedInteger.Convert(System.Math.Log(value, @base));
+            return UnsignedLong.Convert(System.Math.Log(value, @base));
         }
         public static uint Power(uint @base, uint exponent)
         {
-            return UnsignedInteger.Convert(System.Math.Pow(@base, exponent));
+            return UnsignedLong.Convert(System.Math.Pow(@base, exponent));
         }
         public static uint SquareRoot(uint value)
         {
-            return UnsignedInteger.Convert(System.Math.Sqrt(value));
+            return UnsignedLong.Convert(System.Math.Sqrt(value));
         }
         public static uint Squared(uint value)
         {

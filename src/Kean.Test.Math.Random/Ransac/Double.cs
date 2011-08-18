@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Basis.Extension;
-using Target = Kean.Math.Random.Ransac;
+using Target = Kean.Math.Ransac;
 using Geometry2D = Kean.Math.Geometry2D;
 using Collection = Kean.Core.Collection;
 

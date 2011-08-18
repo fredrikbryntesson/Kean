@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,17 +47,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exception\Exception.cs" />
-    <Compile Include="Exception\NotUnique.cs" />
-    <Compile Include="Generator\Exponential.cs" />
-    <Compile Include="Generator\Normal.cs" />
-    <Compile Include="Generator\Uniform.cs" />
-    <Compile Include="Ransac\Estimator.cs" />
-    <Compile Include="Ransac\Estimation.cs" />
-    <Compile Include="Exception\InputData.cs" />
-    <Compile Include="Exception\ModelSetup.cs" />
-    <Compile Include="Ransac\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IGenerator.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="IInterval.cs" />
+    <Compile Include="Interval.cs" />
+    <Compile Include="UnsignedLong\Uniform.cs" />
+    <Compile Include="UnsignedLong\Interval.cs" />
+    <Compile Include="Long\Interval.cs" />
+    <Compile Include="Long\Uniform.cs" />
+    <Compile Include="Long\Positive.cs" />
+    <Compile Include="Integer\Interval.cs" />
+    <Compile Include="Integer\Positive.cs" />
+    <Compile Include="Integer\Uniform.cs" />
+    <Compile Include="UnsignedInteger\Interval.cs" />
+    <Compile Include="UnsignedInteger\Positive.cs" />
+    <Compile Include="UnsignedInteger\Uniform.cs" />
+    <Compile Include="Byte\Interval.cs" />
+    <Compile Include="Byte\Uniform.cs" />
+    <Compile Include="Boolean.cs" />
+    <Compile Include="Double\Interval.cs" />
+    <Compile Include="Double\Uniform.cs" />
+    <Compile Include="Double\Exponential.cs" />
+    <Compile Include="Double\Normal.cs" />
+    <Compile Include="INormal.cs" />
+    <Compile Include="IExponential.cs" />
+    <Compile Include="Exponential.cs" />
+    <Compile Include="Normal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Basis\Kean.Core.Basis.csproj">
@@ -85,4 +101,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Double\" />
+    <Folder Include="Integer\" />
+    <Folder Include="Long\" />
+    <Folder Include="UnsignedInteger\" />
+    <Folder Include="Byte\" />
+    <Folder Include="Ransac\" />
+    <Folder Include="Ransac\" />
+    <Folder Include="Ransac\" />
+  </ItemGroup>
 </Project>
