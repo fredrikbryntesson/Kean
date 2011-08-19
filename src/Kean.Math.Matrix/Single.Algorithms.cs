@@ -663,6 +663,15 @@ namespace Kean.Math.Matrix
             return result;
         }
         /// <summary>
+        /// Best optimized least square solver A * x = y. The current matrix determines the matrix A above.
+        /// </summary>
+        /// <param name="y">The right hand column y vector of the equation system.</param>
+        /// <returns>Return the least square solution to the system or null if no such is found.</returns>
+        public Single Solve(Single y)
+        {
+            return this.SolveLup(y);
+        }
+        /// <summary>
         /// Computes the inverse of the current matrix using Lup-decomposition.
         /// </summary>
         /// <returns>Inverse of the current matrix.</returns>
