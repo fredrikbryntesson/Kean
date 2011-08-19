@@ -12,76 +12,8 @@ namespace Kean.Test.Math.Ransac
         AssertionHelper
     {
         [Test]
-        public void Model1()
-        {
-            Target.Model<double, double, Kean.Math.Matrix.Double> model = new Target.Model<double, double, Kean.Math.Matrix.Double>()
-            {
-                RequiredMeasures = 2,
-                Estimate = data =>
-                {
-                    Kean.Math.Matrix.Double result = new Kean.Math.Matrix.Double(2, 1);
-                    double deltaX = data[0].Item1 - data[1].Item1;
-                    double deltaY = data[0].Item2 - data[1].Item2;
-                    double k = deltaX != 0 ? deltaY / deltaX : 0;
-                    double m = data[0].Item2 - k * data[0].Item1;
-                    result[0, 0] = k;
-                    result[1, 0] = m;
-                    return result;
-                },
-                FitsWell = 10,
-                Threshold = 10,
-                Map = (t, x) =>
-                {
-                    return t[0, 0] * x + t[1, 0];
-                },
-                Metric = (y1, y2) => Kean.Math.Double.Absolute(y1 - y2)
-            };
-            Target.Estimator<double, double, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 100);
-            Collection.IList<Kean.Core.Basis.Tuple<double, double>> points =
-                new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
-            double kk = 20;
-            double mm = 10;
-            System.Random r = new System.Random((int)DateTime.Now.Ticks);
-            for (double x = 0; x < 40; x++)
-            {
-                double y = kk * x + mm + 40 * (r.NextDouble() - 0.5);
-                points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));
-            }
-            estimate.Load(points);
-            Target.Estimation<double, double, Kean.Math.Matrix.Double> best = estimate.Compute();
-            if (best.NotNull())
-            {
-                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
-                file.WriteLine("clear all;");
-                file.WriteLine("close all;");
-                string pointsExport = "";
-                foreach (Kean.Core.Basis.Tuple<double, double> point in points)
-                    pointsExport += Kean.Math.Double.ToString(point.Item1) + " " + Kean.Math.Double.ToString(point.Item2) + ";";
-                pointsExport = pointsExport.TrimEnd(';');
-                file.WriteLine("points = [" + pointsExport + "];");
-                string consensusExport = "";
-                foreach (Kean.Core.Basis.Tuple<double, double> point in best.ConsensusSet)
-                    consensusExport += Kean.Math.Double.ToString(point.Item1) + " " + Kean.Math.Double.ToString(point.Item2) + ";";
-                consensusExport = consensusExport.TrimEnd(';');
-                file.WriteLine("consensus = [" + consensusExport + "];");
-                file.WriteLine("correct = [" + Kean.Math.Double.ToString(kk) + " " + Kean.Math.Double.ToString(mm) + "];");
-                file.WriteLine("bestmodel = [" + Kean.Math.Double.ToString(best.Mapping[0, 0]) + " " + Kean.Math.Double.ToString(best.Mapping[1, 0]) + "];");
-                file.WriteLine("scatter(points(:,1), points(:,2),'b');");
-                file.WriteLine("hold on;");
-                file.WriteLine("scatter(consensus(:,1), consensus(:,2),'r');");
-                file.WriteLine("xmin = min(points(:,1)); xmax = max(points(:,1)); ymin = bestmodel(1) * xmin + bestmodel(2); ymax = bestmodel(1) * xmax + bestmodel(2);");
-                file.WriteLine("plot([xmin, xmax], [ymin, ymax], 'r');");
-                file.WriteLine("xmin = min(points(:,1)); xmax = max(points(:,1)); ymin = bestmodel(1) * xmin + bestmodel(2); ymax = correct(1) * xmax + correct(2);");
-                file.WriteLine("plot([xmin, xmax], [ymin, ymax], 'g');");
-                file.WriteLine("xlabel(strcat('inliers = ', num2str(length(consensus(:,1))),' k = ',num2str(bestmodel(1)), ' m = ', num2str(bestmodel(2))))");
-                file.Close();
-            }
-        }
-        [Test]
         public void RobustPolynomialRegression()
         {
-            int n = 10;
             int degree = 3;
             System.Func<Kean.Math.Matrix.Double, double, double> map = (t, x) =>
             {
@@ -92,10 +24,11 @@ namespace Kean.Test.Math.Ransac
             };
             Target.Model<double, double, Kean.Math.Matrix.Double> model = new Target.Model<double, double, Kean.Math.Matrix.Double>()
             {
-                RequiredMeasures = n,
+                RequiredMeasures = 10,
                 Estimate = data =>
                 {
                     Kean.Math.Matrix.Double result = null;
+                    int n = data.Count;
                     Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(degree, n);
                     Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, n);
                     for (int i = 0; i < n; i++)
@@ -108,18 +41,18 @@ namespace Kean.Test.Math.Ransac
                     result = a.SolveLup(b) ?? new Kean.Math.Matrix.Double(1, degree);
                     return result;
                 },
-                FitsWell = 10,
+                FitsWell = 30,
                 Threshold = 100,
                 Map = map,
                 Metric = (y1, y2) => Kean.Math.Double.Squared(y1 - y2)
             };
             Target.Estimator<double, double, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 20);
+                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 120);
             Collection.IList<Kean.Core.Basis.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
             Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5});
-            Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 150);
-            for (double x = 0; x < 10; x++)
+            Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 4850);
+            for (double x = 0; x < 100; x++)
             {
                 double y = map(coefficients, x) + generator.Generate();
                 points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));
@@ -165,17 +98,17 @@ namespace Kean.Test.Math.Ransac
         [Test]
         public void RobustTwoDimensionalAffineRegression()
         {
-            int required = 5;
             Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> model = new Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>()
             {
-                RequiredMeasures = required,
+                RequiredMeasures = 5,
                 Estimate = data =>
                 {
                     Kean.Math.Matrix.Double result = null;
-                    Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * required);
-                    Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * required);
+                    int count = data.Count;
+                    Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * count);
+                    Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * count);
                     int j = 0;
-                    for(int i = 0; i < required; i++)
+                    for(int i = 0; i < count; i++)
                     {
                         Geometry2D.Double.PointValue previous = data[i].Item1;
                         Geometry2D.Double.PointValue y = data[i].Item2;
@@ -190,7 +123,7 @@ namespace Kean.Test.Math.Ransac
                         a[3, j] = 1;
                         b[0, j++] = y.Y;
                     }
-                    Kean.Math.Matrix.Double estimation  = a.SolveLup(b);
+                    Kean.Math.Matrix.Double estimation  = a.Solve(b);
                     if (estimation.NotNull())
                     {
                         double angle = Kean.Math.Double.ArcusTangensExtended(estimation[0, 1], estimation[0, 0]);
@@ -281,7 +214,6 @@ namespace Kean.Test.Math.Ransac
         {
             this.Run(
                 this.RobustPolynomialRegression,
-                this.Model1,
                 this.RobustTwoDimensionalAffineRegression
                 );
         }
