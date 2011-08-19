@@ -119,7 +119,7 @@ namespace Kean.Test.Math.Ransac
                 new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
             Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5});
             Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 150);
-            for (double x = 0; x < 40; x++)
+            for (double x = 0; x < 10; x++)
             {
                 double y = map(coefficients, x) + generator.Generate();
                 points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));

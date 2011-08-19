@@ -35,5 +35,18 @@ namespace Kean.Math.Random.Byte
 				return (byte)this.Next();
 			}
 		}
+        public override byte[] Generate(int count)
+        {
+            byte[] result = new byte[count];
+            int numberOfUlongs = Kean.Math.Integer.Ceiling(count / 8f);
+            byte[] buffer = new byte[numberOfUlongs * 8];
+            ulong[] source = new ulong[numberOfUlongs];
+            for (int i = 0; i < count; i++)
+                source[i] = this.Next();
+            for(int i = 0; i < source.Length; i++)
+                Array.Copy(BitConverter.GetBytes(source[i]),0, buffer, i, i * 8);
+            Array.Copy(buffer, result, count);
+            return result;
+        }
 	}
 }

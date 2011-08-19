@@ -149,7 +149,7 @@ namespace Kean.Math.Random
         }
         protected ulong Next(int bits)
         {
-            return this.Next() >> (64 - bits);
+            return bits == 0 ? 0 : this.Next() >> (64 - bits);
         }
         public abstract T Generate();
         public virtual T[] Generate(int count)

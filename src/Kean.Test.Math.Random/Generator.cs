@@ -16,7 +16,7 @@ namespace Kean.Test.Math.Random
             uint seed = (uint)DateTime.Now.Ticks;
             System.Random r = new System.Random((int)seed);
             Target.Integer.Positive positive = new Target.Integer.Positive();
-            int n = 100000;
+            int n = 100;
             int[] rArray = new int[n];
             System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
             w.Reset();
@@ -27,14 +27,20 @@ namespace Kean.Test.Math.Random
             Console.WriteLine("Dotnet Time for loop: " + w.ElapsedMilliseconds);
             w.Reset();
             w.Start();
-            int[] gArray = positive.Generate(n);
+            int[] array = positive.Generate(n);
             w.Stop();
             Console.WriteLine("My Time for loop: " + w.ElapsedMilliseconds);
             w.Reset();
-            Target.Integer.Interval interval = new Target.Integer.Interval();
-            interval.Ceiling = 100;
+            Target.Integer.Interval intervalInteger = new Target.Integer.Interval();
+            intervalInteger.Ceiling = 100;
             w.Start();
-            gArray = interval.Generate(n);
+            int[] integerArray = intervalInteger.Generate(n);
+            w.Stop();
+            Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
+            Target.Byte.Interval intervalByte = new Target.Byte.Interval();
+            intervalByte.Ceiling = 100;
+            w.Start();
+            byte[] byteArray = intervalByte.Generate(n);
             w.Stop();
             Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
         }
@@ -42,19 +48,22 @@ namespace Kean.Test.Math.Random
         public void ArraysIntegerUnique()
         {
             Target.Integer.Interval interval = new Target.Integer.Interval();
-            interval.Floor = 10;
-            interval.Ceiling = 500;
-            int n = 20;
-            int[] values = interval.GenerateUnique(n);
-            bool different = true;
-            int i, j;
-            for (i = 0; i < n; i++)
-                for (j = i+1; j < n; j++)
-                {
-                    different &= values[i] != values[j];
-                    break;
-                }
-            Expect(different, Is.True, "Unique random numbers test failed");
+            for (int k = 0; k < 50; k++)
+            {
+                interval.Floor = 0;
+                interval.Ceiling = k;
+                int n = k+1;
+                int[] values = interval.GenerateUnique(n);
+                bool different = true;
+                int i, j;
+                for (i = 0; i < n; i++)
+                    for (j = i + 1; j < n; j++)
+                    {
+                        different &= values[i] != values[j];
+                        break;
+                    }
+                Expect(different, Is.True, "Unique random numbers test failed");
+            }
         }
         [Test]
         public void ArraysDouble()

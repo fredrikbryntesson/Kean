@@ -36,7 +36,7 @@ namespace Kean.Math.Random.Integer
 				length = unchecked((uint)this.Ceiling + (uint)(-this.Floor));
 			else
 				length = (uint)(this.Ceiling - this.Floor);
-			int bits = Kean.Math.Integer.Ceiling(Kean.Math.Double.Logarithm(length, 2));
+            int bits = Kean.Math.Integer.Ceiling(Kean.Math.Double.Logarithm(length + 1, 2));
 			do
 				result = (uint)this.Next(bits);
 			while (result > length);

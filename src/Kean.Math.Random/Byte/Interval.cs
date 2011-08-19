@@ -22,22 +22,38 @@ using System;
 
 namespace Kean.Math.Random.Byte
 {
-	public class Interval :
-		Interval<byte>
-	{
-		public Interval()
-		{
-		}
-		public override byte Generate()
-		{
-			int result;
-			int length = this.Ceiling - this.Floor;
-			int bits = Kean.Math.Integer.Ceiling(Kean.Math.Double.Logarithm(length, 2));
-			do
-				result = (int)this.Next(bits);
-			while (result > length);
-			return (byte)(result + this.Floor);
-		}
-	}
+    public class Interval :
+        Interval<byte>
+    {
+        public Interval()
+        {
+        }
+        public override byte Generate()
+        {
+            int result;
+            int length = this.Ceiling - this.Floor;
+            int bits = Kean.Math.Integer.Ceiling(Kean.Math.Double.Logarithm(length + 1, 2));
+            do
+                result = (int)this.Next(bits);
+            while (result > length);
+            return (byte)(result + this.Floor);
+        }
+        public override byte[] Generate(int count)
+        {
+            byte[] result = new byte[count];
+            int numberOfUlongs = Kean.Math.Integer.Ceiling(count / 8f);
+            byte[] buffer = new byte[numberOfUlongs * 8];
+            ulong[] ulongbuffer = new ulong[numberOfUlongs];
+            for (int i = 0; i < numberOfUlongs; i++)
+                ulongbuffer[i] = this.Next();
+            for (int i = 0; i < numberOfUlongs; i++)
+                Array.Copy(BitConverter.GetBytes(ulongbuffer[i]), 0, buffer, i * 8, 8);
+            byte floor = this.Floor;
+            byte ceiling = this.Ceiling;
+            for (int i = 0; i < count; i++)
+                result[i] = (byte)(floor + (float)buffer[i] * (ceiling - floor) / 255f);
+            return result;
+        }
+    }
 }
 
