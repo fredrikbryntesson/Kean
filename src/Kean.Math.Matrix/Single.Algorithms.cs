@@ -1,5 +1,5 @@
-// 
-//  Double.cs
+﻿// 
+//  Single.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -24,20 +24,20 @@ using Kean.Core.Basis.Extension;
 
 namespace Kean.Math.Matrix
 {
-    public partial class Double
+    public partial class Single
     {
         /// <summary>
         /// Return true if the current matrix is a diagonal matrix within the specified tolerance.
         /// </summary>
         /// <param name="tolerance">Tolerance used to check zero elements outside the diagonal.</param>
         /// <returns>True is the matrix is a diagonal matrix within the given tolerance.</returns>
-        public bool IsDiagonal(double tolerance)
+        public bool IsDiagonal(float tolerance)
         {
             bool result = true;
             for (int x = 0; x < this.Dimensions.Width; x++)
                 for (int y = 0; y < this.Dimensions.Height; y++)
                 {
-                    if (x != y && Kean.Math.Double.Absolute(this[x, y]) > tolerance)
+                    if (x != y && Kean.Math.Single.Absolute(this[x, y]) > tolerance)
                     {
                         result = false;
                         x = this.Dimensions.Width;
@@ -50,9 +50,9 @@ namespace Kean.Math.Matrix
         /// Trace of the current matrix.
         /// </summary>
         /// <returns>Return the trace of the current matrix.</returns>
-        public double Trace()
+        public float Trace()
         {
-            double result = 0;
+            float result = 0;
             int order = this.Order;
             for (int i = 0; i < order; i++)
                 result += this[i, i];
@@ -63,20 +63,20 @@ namespace Kean.Math.Matrix
         /// Gaxby (Algorithm 4.2.1 p.144) Cholesky factorization of positive symmetric matrix. A = C * C'.  The matrix C is lower triangular.
         /// </summary>
         /// <returns> Cholesky factorization matix.</returns>
-        public Double Cholesky()
+        public Single Cholesky()
         {
             if (!this.IsSquare)
                 new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
-            Double result = this.Copy();
+            Single result = this.Copy();
             for (int j = 0; j < order; j++)
             {
                 if (j > 0)
                     result.Set(j, j, result.Extract(j, j + 1, j, order) - result.Extract(0, j, j, order) * result.Extract(0, j, j, j + 1).Transpose());
-                double value = result[j, j];
+                float value = result[j, j];
                 if (value <= 0)
                     throw new Exception.NonPositive();
-                result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Double.SquareRoot(value));
+                result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Single.SquareRoot(value));
             }
             for (int y = 0; y < order; y++)
                 for (int x = y + 1; x < order; x++)
@@ -89,26 +89,26 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="y">The right hand column y vector of the equation system.</param>
         /// <returns>Return the least square solution to the system,</returns>
-        public Double SolveCholesky(Double y)
+        public Single SolveCholesky(Single y)
         {
-            Double result = null;
+            Single result = null;
             try
             {
                 if (this.Dimensions.Height < this.Dimensions.Width)
                 {
                     // Least norm
-                    Double transpose = this.Transpose();
-                    Double lower = (this * transpose).Cholesky();
-                    Double z = y.ForwardSubstitution(lower);
+                    Single transpose = this.Transpose();
+                    Single lower = (this * transpose).Cholesky();
+                    Single z = y.ForwardSubstitution(lower);
                     z = z.BackwardSubstitution(lower.Transpose());
                     result = transpose * z;
                 }
                 else
                 {
                     // Standard
-                    Double transpose = this.Transpose();
-                    Double lower = (transpose * this).Cholesky();
-                    Double z = (transpose * y).ForwardSubstitution(lower);
+                    Single transpose = this.Transpose();
+                    Single lower = (transpose * this).Cholesky();
+                    Single z = (transpose * y).ForwardSubstitution(lower);
                     result = z.BackwardSubstitution(lower.Transpose());
                 }
             }
@@ -125,27 +125,27 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="y">The right hand column y vector of the equation system.</param>
         /// <returns>Return the least square solution to the system,</returns>
-        public Double SolveQr(Double y)
+        public Single SolveQr(Single y)
         {
-            Double result = null;
+            Single result = null;
             try
             {
                 if (this.Dimensions.Height < this.Dimensions.Width)
                 {
                     // Least norm
-                    Double transpose = this.Transpose();
-                    Double[] qr = transpose.QRFactorization();
-                    Double q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
-                    Double r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
-                    Double z = y.ForwardSubstitution(r.Transpose());
+                    Single transpose = this.Transpose();
+                    Single[] qr = transpose.QRFactorization();
+                    Single q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
+                    Single r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
+                    Single z = y.ForwardSubstitution(r.Transpose());
                     result = q * z;
                 }
                 else
                 {
                     // Standard
-                    Double[] qr = this.QRFactorization();
-                    Double q = qr[0].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Height);
-                    Double r = qr[1].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Width);
+                    Single[] qr = this.QRFactorization();
+                    Single q = qr[0].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Height);
+                    Single r = qr[1].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Width);
                     result = (q.Transpose() * y).BackwardSubstitution(r);
                 }
             }
@@ -159,31 +159,31 @@ namespace Kean.Math.Matrix
         /// Recall that A = QR.
         /// </summary>
         /// <returns>Return the QR-factorization array with Q = [0] and R = [1]. </returns>
-        public Double[] QRFactorization()
+        public Single[] QRFactorization()
         {
             int order = this.Dimensions.Height;
             int iterations = Kean.Math.Integer.Minimum(this.Dimensions.Height - 1, this.Dimensions.Width);
-            Double r = this;
-            Double q = Double.Identity(order);
+            Single r = this;
+            Single q = Single.Identity(order);
             for (int i = 0; i < iterations; i++)
             {
-                Double x = r.Extract(i, i + 1, i, r.Dimensions.Height);
-                Double y = (Kean.Math.Double.Sign(x[0, 0]) * x.Norm) * Double.Basis(r.Dimensions.Height - i, 0);
-                Double qi = Double.Identity(order).Paste(i, i, Double.HouseHolder(x, y));
+                Single x = r.Extract(i, i + 1, i, r.Dimensions.Height);
+                Single y = (Kean.Math.Single.Sign(x[0, 0]) * x.Norm) * Single.Basis(r.Dimensions.Height - i, 0);
+                Single qi = Single.Identity(order).Paste(i, i, Single.HouseHolder(x, y));
                 r = qi * r;
                 q *= qi.Transpose();
             }
-            return new Double[] { q, r };
+            return new Single[] { q, r };
         }
         // Contruct Householder transform from two  column vectors of same length and norm.
-        public static Double HouseHolder(Double x, Double y)
+        public static Single HouseHolder(Single x, Single y)
         {
             if (x.Dimensions.Width != y.Dimensions.Width && x.Dimensions.Width != 1 && x.Dimensions.Height != y.Dimensions.Height)
                 throw new Exception.InvalidDimensions();
             int length = x.Dimensions.Height;
-            Double w = x - y;
-            double norm = w.Norm;
-            Double result = Double.Identity(length);
+            Single w = x - y;
+            float norm = w.Norm;
+            Single result = Single.Identity(length);
             if (norm != 0)
             {
                 w /= norm;
@@ -196,29 +196,29 @@ namespace Kean.Math.Matrix
         /// a = u * d * u.Transpose();
         /// </summary>
         /// <returns>Array of matrices {u, d}.</returns>
-        public Double[] Eigenvalues()
+        public Single[] Eigenvalues()
         {
             if (!this.IsSquare)
                 new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
-            double tolerance = 1e-5;
+            float tolerance = 1e-5f;
             int iterations = 100;
-            Double u = this;
-            Double q = Double.Identity(order);
+            Single u = this;
+            Single q = Single.Identity(order);
             int i = 0;
-            double error = double.MaxValue;
+            float error = float.MaxValue;
             while (error > tolerance && i < iterations)
             {
-                Double[] qr = u.QRFactorization();
+                Single[] qr = u.QRFactorization();
                 u = qr[0].Transpose() * u * qr[0];
                 q *= qr[0];
                 error = 0;
                 for (int j = 0; j < order; j++)
                     for (int k = 0; k < order; k++)
-                        error += j != k ? Kean.Math.Double.Absolute(u[j, k]) : 0;
+                        error += j != k ? Kean.Math.Single.Absolute(u[j, k]) : 0;
                 i++;
             }
-            return new Double[] { q, u };
+            return new Single[] { q, u };
         }
         #endregion
         #region Diagonalization
@@ -229,38 +229,38 @@ namespace Kean.Math.Matrix
         /// where y is a bidiagonal matrix with a posssibly nonzero superdiagonal.
         /// </summary>
         /// <returns>Array of matrices {u,y,v}.</returns>
-        public Double[] BiDiagonalization()
+        public Single[] BiDiagonalization()
         {
-            Double[] result;
-            Double b = this.Copy();
+            Single[] result;
+            Single b = this.Copy();
             int n = b.Dimensions.Width;
             int m = b.Dimensions.Height;
-            Double[] leftHouseholder = new Double[n];
-            Double[] rightHouseholder = null;
+            Single[] leftHouseholder = new Single[n];
+            Single[] rightHouseholder = null;
             if (n - 2 >= 1)
-                rightHouseholder = new Double[n - 2];
+                rightHouseholder = new Single[n - 2];
 
             for (int j = 0; j < n; j++)
             {
-                Kean.Core.Basis.Tuple<Double, double> leftHousePair = b.Extract(j, j + 1, j, m).House();
-                Double leftHouseMultiplier = Double.Identity(m - j) - leftHousePair.Item2 * leftHousePair.Item1 * leftHousePair.Item1.Transpose();
+                Kean.Core.Basis.Tuple<Single, float> leftHousePair = b.Extract(j, j + 1, j, m).House();
+                Single leftHouseMultiplier = Single.Identity(m - j) - leftHousePair.Item2 * leftHousePair.Item1 * leftHousePair.Item1.Transpose();
                 leftHouseholder[j] = leftHouseMultiplier;
                 b.Set(j, j, leftHouseMultiplier * b.Extract(j, j));
                 if (j < n - 2)
                 {
-                    Kean.Core.Basis.Tuple<Double, double> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
-                    Double rightHouseMultiplier = Double.Identity(n - j - 1) - rightHousePair.Item2 * rightHousePair.Item1 * rightHousePair.Item1.Transpose();
+                    Kean.Core.Basis.Tuple<Single, float> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
+                    Single rightHouseMultiplier = Single.Identity(n - j - 1) - rightHousePair.Item2 * rightHousePair.Item1 * rightHousePair.Item1.Transpose();
                     rightHouseholder[j] = rightHouseMultiplier;
                     b.Set(j + 1, j, b.Extract(j + 1, j) * rightHouseMultiplier);
                 }
             }
-            Double u = Double.Identity(m);
+            Single u = Single.Identity(m);
             for (int j = n - 1; j >= 0; j--)
                 u.Set(j, j, leftHouseholder[j] * u.Extract(j, j));
-            Double v = Double.Identity(n);
+            Single v = Single.Identity(n);
             for (int j = n - 3; j >= 0; j--)
                 v.Set(j + 1, j + 1, rightHouseholder[j] * v.Extract(j + 1, j + 1));
-            result = new Double[] { u, b, v };
+            result = new Single[] { u, b, v };
             return result;
 
         }
@@ -268,29 +268,29 @@ namespace Kean.Math.Matrix
         /// See Algorithm 5.1.1 (Householder Vector).
         /// </summary>
         /// <returns></returns>
-        Kean.Core.Basis.Tuple<Double, double> House()
+        Kean.Core.Basis.Tuple<Single, float> House()
         {
-            Kean.Core.Basis.Tuple<Double, double> result;
+            Kean.Core.Basis.Tuple<Single, float> result;
             int n = this.Dimensions.Height;
-            Double tail = this.Extract(0, 1, 1, n);
-            double sigma = (tail.Transpose() * tail)[0, 0];
-            Double nu = new Double(1, n);
+            Single tail = this.Extract(0, 1, 1, n);
+            float sigma = (tail.Transpose() * tail)[0, 0];
+            Single nu = new Single(1, n);
             nu[0, 0] = 1;
             nu.Set(0, 1, tail);
-            double beta = 0;
+            float beta = 0;
             if (sigma != 0)
             {
-                double x00 = this[0, 0];
-                double mu = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(x00) + sigma);
+                float x00 = this[0, 0];
+                float mu = Kean.Math.Single.SquareRoot(Kean.Math.Single.Squared(x00) + sigma);
                 if (x00 <= 0)
                     nu[0, 0] = x00 - mu;
                 else
                     nu[0, 0] = -sigma / (x00 + mu);
-                double nu00Squared = Kean.Math.Double.Squared(nu[0, 0]);
+                float nu00Squared = Kean.Math.Single.Squared(nu[0, 0]);
                 beta = 2 * nu00Squared / (sigma + nu00Squared);
                 nu /= nu[0, 0];
             }
-            result = Kean.Core.Basis.Tuple.Create<Double, double>(nu, beta);
+            result = Kean.Core.Basis.Tuple.Create<Single, float>(nu, beta);
             return result;
         }
         #endregion
@@ -301,18 +301,18 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="y">The right hand column y vector of the equation system.</param>
         /// <returns>Return the least square solution to the system,</returns>
-        public Double SolveSvd(Double b)
+        public Single SolveSvd(Single b)
         {
-            Double result;
-            Double[] usv = this.Svd();
-            Double u = usv[0];
-            Double s = usv[1];
-            Double v = usv[2];
-            Double sPlus = new Double(s.Dimensions.Width, s.Dimensions.Height);
+            Single result;
+            Single[] usv = this.Svd();
+            Single u = usv[0];
+            Single s = usv[1];
+            Single v = usv[2];
+            Single sPlus = new Single(s.Dimensions.Width, s.Dimensions.Height);
             int order = s.Order;
             for (int i = 0; i < order; i++)
             {
-                double value = s[i, i];
+                float value = s[i, i];
                 if (value != 0)
                     sPlus[i, i] = 1 / value;
             }
@@ -321,7 +321,7 @@ namespace Kean.Math.Matrix
                 result = v * sPlus * u.Transpose() * b;
             else
             {
-                Double d = new Double(1, this.Dimensions.Width).Paste(0, 0, u.Transpose() * b);
+                Single d = new Single(1, this.Dimensions.Width).Paste(0, 0, u.Transpose() * b);
 
                 for (int i = 0; i < order; i++)
                     d[0, i] *= sPlus[i, i];
@@ -333,24 +333,24 @@ namespace Kean.Math.Matrix
         /// Returns the Svd decomposition of the current matrix. Recall A = U * S * V'.
         /// </summary>
         /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
-        public Double[] Svd()
+        public Single[] Svd()
         {
-            return this.Svd(1e-10);
+            return this.Svd(1e-10f);
         }
         /// <summary>
         /// Returns the Svd decomposition of the current matrix. Recall A = U * S * V'.
         /// </summary>
         /// <param name="tolerance">Tolerance used for accuracy of algorithm.</param>
         /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
-        public Double[] Svd(double tolerance)
+        public Single[] Svd(float tolerance)
         {
-            Double[] result;
+            Single[] result;
             if (this.Dimensions.Height >= this.Dimensions.Width)
                 result = this.SvdHelper(tolerance);
             else
             {
                 result = this.Transpose().SvdHelper(tolerance);
-                result = new Double[] { result[2], result[1].Transpose(), result[0] };
+                result = new Single[] { result[2], result[1].Transpose(), result[0] };
             }
             return result;
         }
@@ -361,33 +361,33 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="tolerance">Tolerance used for accuracy of algorithm.</param>
         /// <returns>Return Svd decomposition U = [0], S = [1], V = [2].</returns>
-        Double[] SvdHelper(double tolerance)
+        Single[] SvdHelper(float tolerance)
         {
-            Double[] result;
+            Single[] result;
             int m = this.Dimensions.Height;
             int n = this.Dimensions.Width;
             if (m == 1 && n == 1)
-                result = new Double[] { Double.Identity(1), this, Double.Identity(1) };
+                result = new Single[] { Single.Identity(1), this, Single.Identity(1) };
             else
             {
-                Double[] ubv = this.BiDiagonalization();
-                Double u = ubv[0];
-                Double b = ubv[1]; //.Extract(0, n, 0, n);
-                Double v = ubv[2];
+                Single[] ubv = this.BiDiagonalization();
+                Single u = ubv[0];
+                Single b = ubv[1]; //.Extract(0, n, 0, n);
+                Single v = ubv[2];
                 int q = 0;
                 while (q < n)
                 {
                     for (int i = 0; i < n - 1; i++)
-                        if (Kean.Math.Double.Absolute(b[i + 1, i]) < tolerance * (Kean.Math.Double.Absolute(b[i, i]) + Kean.Math.Double.Absolute(b[i + 1, i + 1])))
+                        if (Kean.Math.Single.Absolute(b[i + 1, i]) < tolerance * (Kean.Math.Single.Absolute(b[i, i]) + Kean.Math.Single.Absolute(b[i + 1, i + 1])))
                             b[i + 1, i] = 0;
-                    Double b22;
+                    
                     int p = 0;
                     q = 0;
                     int b22Order = 0;
                     int j = n - 1;
                     for (; j >= 1; j--)
                     {
-                        if (Kean.Math.Double.Absolute(b[j, j - 1]) < tolerance)
+                        if (Kean.Math.Single.Absolute(b[j, j - 1]) < tolerance)
                             q++;
                         else
                             break;
@@ -396,7 +396,7 @@ namespace Kean.Math.Matrix
                         q++;
                     for (; j >= 1; j--)
                     {
-                        if (Kean.Math.Double.Absolute(b[j, j - 1]) > tolerance)
+                        if (Kean.Math.Single.Absolute(b[j, j - 1]) > tolerance)
                             b22Order++;
                         else
                             break;
@@ -408,10 +408,10 @@ namespace Kean.Math.Matrix
                         break;
                     if (q < n)
                     {
-                        b22 = b.Extract(p, n - q, p, n - q);
+                        Single b22 = b.Extract(p, n - q, p, n - q);
                         bool zeros = false;
                         for (int i = 0; i < b22.Dimensions.Width; i++)
-                            if (Kean.Math.Double.Absolute(b22[i, i]) < tolerance && Kean.Math.Double.Absolute(b22[i + 1, i]) > tolerance)
+                            if (Kean.Math.Single.Absolute(b22[i, i]) < tolerance && Kean.Math.Single.Absolute(b22[i + 1, i]) > tolerance)
                             {
                                 b22[i, i] = 0;
                                 b22[i + 1, i] = 0;
@@ -419,9 +419,9 @@ namespace Kean.Math.Matrix
                             }
                         if (!zeros)
                         {
-                            Double[] gkubv = b22.GolubKahanSvdStep();
-                            Double uprime = Double.Diagonal(Double.Identity(p), gkubv[0], Double.Identity(q + m - n));
-                            Double vprime = Double.Diagonal(Double.Identity(p), gkubv[2], Double.Identity(q));
+                            Single[] gkubv = b22.GolubKahanSvdStep();
+                            Single uprime = Single.Diagonal(Single.Identity(p), gkubv[0], Single.Identity(q + m - n));
+                            Single vprime = Single.Diagonal(Single.Identity(p), gkubv[2], Single.Identity(q));
                             u = u * uprime;
                             v = v * vprime;
                             b = uprime.Transpose() * b * vprime;
@@ -430,7 +430,7 @@ namespace Kean.Math.Matrix
 
 
                 }
-                result = new Double[] { u, b, v };
+                result = new Single[] { u, b, v };
             }
             return result;
         }
@@ -438,29 +438,29 @@ namespace Kean.Math.Matrix
         /// See Algorithm 8.6.1 (Golub-Kahan SVD Step.)
         /// </summary>
         /// <returns></returns>
-        Double[] GolubKahanSvdStep()
+        Single[] GolubKahanSvdStep()
         {
-            Double b = this.Copy();
+            Single b = this.Copy();
             int m = b.Dimensions.Height;
             int n = b.Dimensions.Width;
-            Double t = b.Transpose() * b;
-            Double trail = t.Extract(n - 2, n, n - 2, n);
-            double d = (trail[0, 0] - trail[1, 1]) / 2;
-            double mu = trail[1, 1] + d - Kean.Math.Double.Sign(d) * Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(d) + Kean.Math.Double.Squared(trail[1, 0]));
-            double y = t[0, 0] - mu;
-            double z = t[1, 0];
-            Double u = Double.Identity(m);
-            Double v = Double.Identity(n);
+            Single t = b.Transpose() * b;
+            Single trail = t.Extract(n - 2, n, n - 2, n);
+            float d = (trail[0, 0] - trail[1, 1]) / 2;
+            float mu = trail[1, 1] + d - Kean.Math.Single.Sign(d) * Kean.Math.Single.SquareRoot(Kean.Math.Single.Squared(d) + Kean.Math.Single.Squared(trail[1, 0]));
+            float y = t[0, 0] - mu;
+            float z = t[1, 0];
+            Single u = Single.Identity(m);
+            Single v = Single.Identity(n);
             for (int k = 0; k < n - 1; k++)
             {
-                double[] cs = Double.Givens(y, z);
-                Double g = Double.GivensRotation(m, k, k + 1, cs[0], cs[1]);
+                float[] cs = Single.Givens(y, z);
+                Single g = Single.GivensRotation(m, k, k + 1, cs[0], cs[1]);
                 v = v * g;
                 b = b * g;
                 y = b[k, k];
                 z = b[k, k + 1];
-                cs = Double.Givens(y, z);
-                g = Double.GivensRotation(n, k, k + 1, cs[0], cs[1]);
+                cs = Single.Givens(y, z);
+                g = Single.GivensRotation(n, k, k + 1, cs[0], cs[1]);
                 b = g.Transpose() * b;
                 u = u * g;
                 if (k < n - 2)
@@ -469,7 +469,7 @@ namespace Kean.Math.Matrix
                     z = b[k + 2, k];
                 }
             }
-            return new Double[] { u, b, v };
+            return new Single[] { u, b, v };
         }
         /// <summary>
         /// Givens rotation. Creates an identity matrix of given order m and
@@ -482,9 +482,9 @@ namespace Kean.Math.Matrix
         /// <param name="c">Value corresponding to a cosine value.</param>
         /// <param name="s">Value corresponding to a sine value.</param>
         /// <returns>Returns a Givens rotation.</returns>
-        static Double GivensRotation(int m, int i, int k, double c, double s)
+        static Single GivensRotation(int m, int i, int k, float c, float s)
         {
-            Double result = Double.Identity(m);
+            Single result = Single.Identity(m);
             result[i, i] = c;
             result[k, k] = c;
             result[k, i] = s;
@@ -497,10 +497,10 @@ namespace Kean.Math.Matrix
         /// <param name="a"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        static double[] Givens(double a, double b)
+        static float[] Givens(float a, float b)
         {
-            double[] result = new double[2];
-            double c, s;
+            float[] result = new float[2];
+            float c, s;
             if (b == 0)
             {
                 c = 1;
@@ -508,16 +508,16 @@ namespace Kean.Math.Matrix
             }
             else
             {
-                if (Kean.Math.Double.Absolute(b) > Kean.Math.Double.Absolute(a))
+                if (Kean.Math.Single.Absolute(b) > Kean.Math.Single.Absolute(a))
                 {
-                    double tau = -a / b;
-                    s = 1 / Kean.Math.Double.SquareRoot(1 + Kean.Math.Double.Squared(tau));
+                    float tau = -a / b;
+                    s = 1 / Kean.Math.Single.SquareRoot(1 + Kean.Math.Single.Squared(tau));
                     c = s * tau;
                 }
                 else
                 {
-                    double tau = -b / a;
-                    c = 1 / Kean.Math.Double.SquareRoot(1 + Kean.Math.Double.Squared(tau));
+                    float tau = -b / a;
+                    c = 1 / Kean.Math.Single.SquareRoot(1 + Kean.Math.Single.Squared(tau));
                     s = c * tau;
                 }
             }
@@ -533,14 +533,14 @@ namespace Kean.Math.Matrix
         /// where L is lower triangular, U is upper triangular, and P is a permutation matrix.
         /// </summary>
         /// <returns>Returns the Lup decomposition. L = [0], U = [1], P = [2].</returns>
-        Double[] LupDecomposition()
+        Single[] LupDecomposition()
         {
             if (!this.IsSquare)
                 throw new Exception.InvalidDimensions();
             int order = this.Order;
-            Double l = Double.Identity(order);
-            Double u = this.Copy();
-            Double p = Double.Identity(order);
+            Single l = Single.Identity(order);
+            Single u = this.Copy();
+            Single p = Single.Identity(order);
 
 
             int last = order - 1;
@@ -548,7 +548,7 @@ namespace Kean.Math.Matrix
             {
                 int pivotRow = position;
                 for (int y = position + 1; y < u.Dimensions.Height; y++)
-                    if (Kean.Math.Double.Absolute(u[position, position]) < Kean.Math.Double.Absolute(u[position, y]))
+                    if (Kean.Math.Single.Absolute(u[position, position]) < Kean.Math.Single.Absolute(u[position, y]))
                         pivotRow = y;
                 p.SwapRows(position, pivotRow);
                 u.SwapRows(position, pivotRow);
@@ -556,7 +556,7 @@ namespace Kean.Math.Matrix
                 {
                     for (int y = position + 1; y < order; y++)
                     {
-                        double pivot = u[position, y] / u[position, position];
+                        float pivot = u[position, y] / u[position, position];
                         for (int x = position; x < order; x++)
                             u[x, y] -= pivot * u[x, position];
                         u[position, y] = pivot;
@@ -569,7 +569,7 @@ namespace Kean.Math.Matrix
                     l[x, y] = u[x, y];
                     u[x, y] = 0;
                 }
-            return new Double[] { l, u, p };
+            return new Single[] { l, u, p };
         }
         void SwapRows(int row1, int row2)
         {
@@ -578,7 +578,7 @@ namespace Kean.Math.Matrix
             {
                 for (int x = 0; x < order; x++)
                 {
-                    double buffer = this[x, row1];
+                    float buffer = this[x, row1];
                     this[x, row1] = this[x, row2];
                     this[x, row2] = buffer;
                 }
@@ -589,17 +589,17 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="lower">Lower triangual matrix.</param>
         /// <returns>Solution x.</returns>
-        public Double ForwardSubstitution(Double lower)
+        public Single ForwardSubstitution(Single lower)
         {
-            Double result = new Double(this.Dimensions);
+            Single result = new Single(this.Dimensions);
             for (int x = 0; x < this.Dimensions.Width; x++)
             {
                 for (int y = 0; y < this.Dimensions.Height; y++)
                 {
-                    double accumulator = this[x, y];
+                    float accumulator = this[x, y];
                     for (int x2 = 0; x2 < y; x2++)
                         accumulator -= lower[x2, y] * result[x, x2];
-                    double value = lower[y, y];
+                    float value = lower[y, y];
                     if (value != 0)
                         result[x, y] = accumulator / value;
                     else
@@ -613,17 +613,17 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="lower">Upper triangual matrix.</param>
         /// <returns>Solution x.</returns>
-        public Double BackwardSubstitution(Double upper)
+        public Single BackwardSubstitution(Single upper)
         {
-            Double result = new Double(this.Dimensions);
+            Single result = new Single(this.Dimensions);
             for (int x = 0; x < this.Dimensions.Width; x++)
             {
                 for (int y = this.Dimensions.Height - 1; y >= 0; y--)
                 {
-                    double accumulator = this[x, y];
+                    float accumulator = this[x, y];
                     for (int x2 = y + 1; x2 < upper.Dimensions.Width; x2++)
                         accumulator -= upper[x2, y] * result[x, x2];
-                    double value = upper[y, y];
+                    float value = upper[y, y];
                     if (value != 0)
                         result[x, y] = accumulator / value;
                     else
@@ -638,9 +638,9 @@ namespace Kean.Math.Matrix
         /// </summary>
         /// <param name="y">The right hand column y vector of the equation system.</param>
         /// <returns>Return the least square solution to the system.</returns>
-        public Double SolveLup(Double y)
+        public Single SolveLup(Single y)
         {
-            Double result = null;
+            Single result = null;
             if (this.Dimensions.Width > this.Dimensions.Height)
                 throw new Exception.InvalidDimensions();
             else
@@ -648,12 +648,12 @@ namespace Kean.Math.Matrix
                 {
                     if (this.IsSquare)
                     {
-                        Double[] lup = this.LupDecomposition();
+                        Single[] lup = this.LupDecomposition();
                         result = (lup[2] * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
                     }
                     else
                     {
-                        Double[] lup = (this.Transpose() * this).LupDecomposition();
+                        Single[] lup = (this.Transpose() * this).LupDecomposition();
                         result = (lup[2] * this.Transpose() * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
                     }
                 }
@@ -666,15 +666,15 @@ namespace Kean.Math.Matrix
         /// Computes the inverse of the current matrix using Lup-decomposition.
         /// </summary>
         /// <returns>Inverse of the current matrix.</returns>
-        public Double Inverse()
+        public Single Inverse()
         {
             if (!this.IsSquare)
                 throw new Exception.InvalidDimensions();
-            Double result = null;
-            Double[] lup = this.LupDecomposition();
+            Single result = null;
+            Single[] lup = this.LupDecomposition();
             try
             {
-                result = (lup[2] * Double.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                result = (lup[2] * Single.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             }
             catch (Kean.Core.Error.Exception e)
             {
@@ -685,10 +685,10 @@ namespace Kean.Math.Matrix
         /// Computes the determinant of the current matrix using the Lup-decomposition.
         /// </summary>
         /// <returns>Determinant of the current matrix.</returns>
-        public double Determinant()
+        public float Determinant()
         {
-            Double[] lup = this.LupDecomposition();
-            double result = 1;
+            Single[] lup = this.LupDecomposition();
+            float result = 1;
             for (int position = 0; position < lup[1].Dimensions.Height; position++)
                 result *= lup[1][position, position];
             return result * lup[2].Sign();
@@ -697,7 +697,7 @@ namespace Kean.Math.Matrix
         /// Sign of a permutation matrix.
         /// </summary>
         /// <returns>Returns the sign of the permutation matrix.</returns>
-        double Sign()
+        float Sign()
         {
             int[] permutation = new int[this.Dimensions.Height];
             for (int y = 0; y < this.Dimensions.Width; y++)
@@ -707,11 +707,11 @@ namespace Kean.Math.Matrix
                     x++;
                 permutation[y] = x;
             }
-            double accumulated = 1;
+            float accumulated = 1;
             for (int i = 0; i < permutation.Length; i++)
                 for (int j = i + 1; j < permutation.Length; j++)
-                    accumulated *= (double)(permutation[i] - permutation[j]) / (i - j);
-            return Kean.Math.Double.Sign(accumulated);
+                    accumulated *= (float)(permutation[i] - permutation[j]) / (i - j);
+            return Kean.Math.Single.Sign(accumulated);
         }
         #endregion
     }

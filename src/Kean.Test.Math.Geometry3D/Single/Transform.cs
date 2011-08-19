@@ -60,7 +60,7 @@ namespace Kean.Test.Math.Geometry3D.Single
             Kean.Math.Matrix.Single transformMatrix = (Kean.Math.Matrix.Single)(float[,])this.Transform0;
             Kean.Math.Matrix.Single transformInverseMatrix1 = transformMatrix.Inverse();
             Kean.Math.Matrix.Single transformInverseMatrix2 = (Kean.Math.Matrix.Single)(float[,])(this.Transform0.Inverse);
-            Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
+            Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(1e-6f));
         }
         internal void Run(params System.Action[] tests)
         {

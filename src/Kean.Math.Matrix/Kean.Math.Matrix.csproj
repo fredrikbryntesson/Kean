@@ -41,6 +41,7 @@
     <Compile Include="Exception\DivisionByZero.cs" />
     <Compile Include="Exception\InvalidDimensions.cs" />
     <Compile Include="Exception\NonPositive.cs" />
+    <Compile Include="Single.Algorithms.cs" />
     <Compile Include="Single.cs" />
   </ItemGroup>
   <ItemGroup>

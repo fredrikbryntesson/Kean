@@ -107,8 +107,8 @@ namespace Kean.Test.Math.Random
                 sigma += Kean.Math.Double.Squared(values[i] - mu);
             sigma /= values.Length;
             sigma = Kean.Math.Double.SquareRoot(sigma);
-            Expect(mu, Is.EqualTo(g.Mean).Within(0.01));
-            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.01));
+            Expect(mu, Is.EqualTo(g.Mean).Within(0.02));
+            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.02));
         }
         
         [Test]

@@ -52,6 +52,10 @@
     <Compile Include="Generator.cs" />
     <Compile Include="IInterval.cs" />
     <Compile Include="Interval.cs" />
+    <Compile Include="Single\Exponential.cs" />
+    <Compile Include="Single\Interval.cs" />
+    <Compile Include="Single\Normal.cs" />
+    <Compile Include="Single\Uniform.cs" />
     <Compile Include="UnsignedLong\Uniform.cs" />
     <Compile Include="UnsignedLong\Interval.cs" />
     <Compile Include="Long\Interval.cs" />

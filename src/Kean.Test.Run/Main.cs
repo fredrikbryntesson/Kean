@@ -27,11 +27,6 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
-            Kean.Test.Math.Random.Generator.Test();
-            Kean.Test.Math.Matrix.Double.Test();
-            Kean.Test.Math.Matrix.Algorithms.Double.Test();
-
-            Kean.Test.Math.Ransac.Double.Test();
             
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
@@ -68,14 +63,19 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Single.Box.Test();
             Kean.Test.Math.Geometry3D.Double.Box.Test();
 
+            Kean.Test.Math.Matrix.Single.Test();
+            //Kean.Test.Math.Matrix.Algorithms.Single.Test();
+            Kean.Test.Math.Matrix.Double.Test();
             Kean.Test.Math.Matrix.Algorithms.Double.Test();
 
-            
             Kean.Test.Math.Geometry3D.Single.Transform.Test();
             Kean.Test.Math.Geometry3D.Double.Transform.Test();
            
             Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
 
+            Kean.Test.Math.Random.Generator.Test();
+            Kean.Test.Math.Ransac.Double.Test();
+         
             Kean.Test.Core.Collection.Vector.Test();
 			Kean.Test.Core.Collection.List.Test();
 			Kean.Test.Core.Collection.Queue.Test();
