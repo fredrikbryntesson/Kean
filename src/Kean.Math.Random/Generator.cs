@@ -123,21 +123,17 @@ namespace Kean.Math.Random
             };
         }
         protected Generator()
-            : this((ulong)DateTime.Now.Ticks)
+            : this((ulong)DateTime.Now.Ticks, (int)((DateTime.Now.Ticks / 1000) % Generator<T>.shifts.Length) / 3, (int)((DateTime.Now.Ticks / 1000) % Generator<T>.seeds.Length) / 3)
         { }
-        protected Generator(ulong seed)
+        protected Generator(ulong seed, int shiftCounter, int seedCounter)
         {
-            Generator<T>.shiftCounter =(int)((DateTime.Now.Ticks / 1000) % Generator<T>.shifts.Length) / 3;
-            Generator<T>.seedCounter = (int)((DateTime.Now.Ticks / 1000) % Generator<T>.seeds.Length) / 3; 
-            this.a = Generator<T>.shifts[Generator<T>.shiftCounter++];
-            this.b = Generator<T>.shifts[Generator<T>.shiftCounter++];
-            this.c = Generator<T>.shifts[Generator<T>.shiftCounter++];
+            this.a = Generator<T>.shifts[3 * shiftCounter + 0];
+            this.b = Generator<T>.shifts[3 * shiftCounter + 1];
+            this.c = Generator<T>.shifts[3 * shiftCounter + 2];
             this.x = seed;
-            this.y = Generator<T>.seeds[Generator<T>.seedCounter++];
-            this.z = Generator<T>.seeds[Generator<T>.seedCounter++];
-            this.w = Generator<T>.seeds[Generator<T>.seedCounter++];
-            Generator<T>.shiftCounter = Generator<T>.shiftCounter % Generator<T>.shifts.Length;
-            Generator<T>.seedCounter = Generator<T>.seedCounter % Generator<T>.seeds.Length;
+            this.y = Generator<T>.seeds[3 * seedCounter + 0];
+            this.z = Generator<T>.seeds[3 * seedCounter + 1];
+            this.w = Generator<T>.seeds[3 * seedCounter + 2];
         }
         protected ulong Next()
         {
