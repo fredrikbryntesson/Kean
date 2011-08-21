@@ -162,11 +162,11 @@ namespace Kean.Test.Math.Matrix.Algorithms
             int n = 15;
             Target aa = new Target(5, n * 5);
             for(int i = 0; i < n; i++)
-                aa = aa.Paste(0, i, a);
+                aa = aa.Paste(0, 5 * i, a);
             Target y = new Target(1, 5, new double[] { -1, 2, -3, 4, 5 });
             Target yy = new Target(1, n * 5);
             for (int i = 0; i < n; i++)
-                yy = yy.Paste(0, i, y);
+                yy = yy.Paste(0, 5 * i, y);
             Target correct = new Target(1, 5, new double[] { -70, 231, -296, 172, -38 });
             System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             watch.Start();
@@ -192,7 +192,8 @@ namespace Kean.Test.Math.Matrix.Algorithms
             watch.Stop();
             long timeSvd = watch.ElapsedMilliseconds;
             Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.1");
-            Console.WriteLine("Qr " + timeQr + " Cholesky2 " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
+            Console.WriteLine("Time Qr " + timeQr + " Cholesky  " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
+            Console.WriteLine("Error Qr " + x.Distance(correct) + " Cholesky " + x2.Distance(correct) + " Lup " + x3.Distance(correct) + " Svd " + x4.Distance(correct));
         }
         #endregion
         #region Auxilary Methods

@@ -401,7 +401,7 @@ namespace Kean.Math.Matrix
                         else
                             break;
                     }
-                    if (j == 0 && b22Order > 0)
+                    if (b22Order > 0)
                         b22Order++;
                     p = n - b22Order - q;
                     if (b22Order == 0)
@@ -653,8 +653,9 @@ namespace Kean.Math.Matrix
                     }
                     else
                     {
-                        Double[] lup = (this.Transpose() * this).LupDecomposition();
-                        result = (lup[2] * this.Transpose() * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
+                        Double transpose = this.Transpose();
+                        Double[] lup = (transpose * this).LupDecomposition();
+                        result = (lup[2] * transpose * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
                     }
                 }
                 catch (Kean.Core.Error.Exception e)

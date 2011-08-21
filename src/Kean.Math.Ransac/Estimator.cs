@@ -70,17 +70,24 @@ namespace Kean.Math.Ransac
                         Transform thisModel = this.model.Estimate(consensusSet);
                         double thisError = 0;
                         foreach (Kean.Core.Basis.Tuple<Domain, Range> datum in consensusSet)
-                            thisError = Kean.Math.Double.Maximum(thisError, this.model.Metric(this.model.Map(thisModel, datum.Item1), datum.Item2));
+                            thisError += this.model.Metric(this.model.Map(thisModel, datum.Item1), datum.Item2);
                         estimate[d] = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel);
                     }
                 }
                 double error = double.MaxValue;
+                int inliers = -1;
                 for (int i = 0; i < estimate.Length; i++)
                 {
-                    if (estimate[i].NotNull() && estimate[i].Error < error)
+                    Estimation<Domain, Range, Transform> current = estimate[i];
+                    if (current.NotNull())
                     {
-                        result = estimate[i];
-                        error = result.Error;
+                        int count = current.Inliers.Count;
+                        if (inliers < count || inliers == count && current.Error < error)
+                        {
+                            error = current.Error;
+                            inliers = count;
+                            result = current;
+                        }
                     }
                 }
             }

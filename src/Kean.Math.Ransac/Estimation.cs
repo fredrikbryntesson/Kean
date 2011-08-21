@@ -26,23 +26,23 @@ namespace Kean.Math.Ransac
 {
     public class Estimation<Domain, Range, Transform>
     {
-        public Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> ConsensusSet { get; set; }
+        public Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> Inliers { get; set; }
         public double Error { get; set; }
         public Transform Mapping { get; set; }
-        public Estimation(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> consensusSet, double error, Transform mapping)
+        public Estimation(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> inliers, double error, Transform mapping)
         {
-            this.ConsensusSet = consensusSet;
+            this.Inliers = inliers;
             this.Error = error;
             this.Mapping = mapping;
         }
         #region Object overrides
         public override int GetHashCode()
         {
-            return this.ConsensusSet.GetHashCode()^this.Error.GetHashCode()^this.Mapping.GetHashCode();
+            return this.Inliers.GetHashCode()^this.Error.GetHashCode()^this.Mapping.GetHashCode();
         }
         public override string ToString()
         {
-            return "Transform: " + this.Mapping.ToString() + " Error:" + Kean.Math.Double.ToString(this.Error);
+            return "Transform: " + this.Mapping.ToString() + " Inliers " + + this.Inliers.Count +  " Error:" + Kean.Math.Double.ToString(this.Error);
         }
         #endregion
     }

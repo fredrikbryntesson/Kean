@@ -14,7 +14,7 @@ namespace Kean.Test.Math.Ransac
         [Test]
         public void RobustPolynomialRegression()
         {
-            int degree = 3;
+            int degree = 2 + 1;
             System.Func<Kean.Math.Matrix.Double, double, double> map = (t, x) =>
             {
                 double result = 0;
@@ -41,8 +41,8 @@ namespace Kean.Test.Math.Ransac
                     result = a.SolveLup(b) ?? new Kean.Math.Matrix.Double(1, degree);
                     return result;
                 },
-                FitsWell = 30,
-                Threshold = 100,
+                FitsWell = 45,
+                Threshold = 900,
                 Map = map,
                 Metric = (y1, y2) => Kean.Math.Double.Squared(y1 - y2)
             };
@@ -50,9 +50,9 @@ namespace Kean.Test.Math.Ransac
                 new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 120);
             Collection.IList<Kean.Core.Basis.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Basis.Tuple<double, double>>();
-            Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5});
-            Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 4850);
-            for (double x = 0; x < 100; x++)
+            Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5, 10});
+            Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 30);
+            for (double x = -10; x < 10; x+=0.1)
             {
                 double y = map(coefficients, x) + generator.Generate();
                 points.Add(Kean.Core.Basis.Tuple.Create<double, double>(x, y));
@@ -70,7 +70,7 @@ namespace Kean.Test.Math.Ransac
                 pointsExport = pointsExport.TrimEnd(';');
                 file.WriteLine("points = [" + pointsExport + "];");
                 string consensusExport = "";
-                foreach (Kean.Core.Basis.Tuple<double, double> point in best.ConsensusSet)
+                foreach (Kean.Core.Basis.Tuple<double, double> point in best.Inliers)
                     consensusExport += Kean.Math.Double.ToString(point.Item1) + " " + Kean.Math.Double.ToString(point.Item2) + ";";
                 consensusExport = consensusExport.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensusExport + "];");
@@ -96,7 +96,7 @@ namespace Kean.Test.Math.Ransac
             }
         }
         [Test]
-        public void RobustTwoDimensionalAffineRegression()
+        public void ScaleRotationTranslationRegression()
         {
             Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> model = new Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double>()
             {
@@ -136,7 +136,7 @@ namespace Kean.Test.Math.Ransac
                     return result;
                 },
                 FitsWell = 10,
-                Threshold = 1,
+                Threshold = 20,
                 Map = (t, x) =>
                 {
                     double scale = t[0, 0];
@@ -158,7 +158,7 @@ namespace Kean.Test.Math.Ransac
             double thetaAngle = Kean.Math.Double.ToRadians(5);
             double xTranslation = 7;
             double yTranslation = 10;
-            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0,0.2);
+            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0,1);
             Kean.Core.Collection.IList<Geometry2D.Double.PointValue> previousPoints = new Kean.Core.Collection.List<Geometry2D.Double.PointValue>();
             for (int x = -100; x < 100; x+=20)
                 for (int y = -100; y < 100; y+=20)
@@ -199,7 +199,7 @@ namespace Kean.Test.Math.Ransac
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
                 string consensus = "";
-                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.ConsensusSet)
+                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.Inliers)
                     consensus += point.Item2.ToString() + "; ";
                 consensus = consensus.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensus + "];");
@@ -208,13 +208,88 @@ namespace Kean.Test.Math.Ransac
                 file.WriteLine("xlabel(strcat(' s= ',num2str(bestmodel(1)), ' angle= ', num2str(180 * bestmodel(2) / pi), ' x= ', num2str(bestmodel(3)), ' y= ', num2str(bestmodel(4))))");
                 file.Close();
             }
+        }
+        [Test]
+        public void TranslationRegression()
+        {
+            Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> model = new Target.Model<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>()
+            {
+                RequiredMeasures = 5,
+                Estimate = data =>
+                {
+                    int count = data.Count;
+                    Geometry2D.Double.PointValue result = new Geometry2D.Double.PointValue();
+                    for(int i = 0; i < count; i++)
+                        result += data[i].Item2 - data[i].Item1;
+                    result.X /= (double)count;
+                    result.Y /= (double)count;
+                    return result;
+                },
+                FitsWell = 10,
+                Threshold = 8,
+                Map = (t, x) => t + x,
+                Metric = (y1, y2) => Kean.Math.Double.Squared((y1 - y2).Length)
+            };
+            Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> estimate =
+                new Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(model, 20);
+            Collection.IList<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>> previousCurrentPoints =
+                new Collection.List<Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>>();
+            Geometry2D.Double.PointValue translation = new Geometry2D.Double.PointValue(7, 10);
+            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0, 2);
+            Kean.Core.Collection.IList<Geometry2D.Double.PointValue> previousPoints = new Kean.Core.Collection.List<Geometry2D.Double.PointValue>();
+            for (int x = -100; x < 100; x += 20)
+                for (int y = -100; y < 100; y += 20)
+                    previousPoints.Add(new Geometry2D.Double.PointValue(x, y));
+            for (int i = 0; i < previousPoints.Count; i++)
+            {
+                Geometry2D.Double.PointValue x = previousPoints[i];
+                Geometry2D.Double.PointValue y = translation + x;
+                double[] xdd = normal.Generate(2);
+                double[] ydd = normal.Generate(2);
+                Geometry2D.Double.PointValue xd = new Kean.Math.Geometry2D.Double.PointValue(xdd[0], xdd[1]);
+                Geometry2D.Double.PointValue yd = new Kean.Math.Geometry2D.Double.PointValue(ydd[0], ydd[1]);
+                previousCurrentPoints.Add(Kean.Core.Basis.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(x + xd, y + yd));
+            }
+            previousCurrentPoints.Add(Kean.Core.Basis.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(new Geometry2D.Double.PointValue(107, 107), new Geometry2D.Double.PointValue(120, 130)));
+            estimate.Load(previousCurrentPoints);
+            Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> best = estimate.Compute();
 
+            if (best.NotNull())
+            {
+                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+                file.WriteLine("clear all;");
+                file.WriteLine("close all;");
+                string before = "";
+                string after = "";
+                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in previousCurrentPoints)
+                {
+                    before += point.Item1.ToString() + "; ";
+                    after += point.Item2.ToString() + "; ";
+                }
+                before = before.TrimEnd(';');
+                after = after.TrimEnd(';');
+                file.WriteLine("before = [" + before + "];");
+                file.WriteLine("after = [" + after + "];");
+                file.WriteLine("scatter(before(:,1),before(:,2),'b');");
+                file.WriteLine("hold on;");
+                file.WriteLine("scatter(after(:,1),after(:,2),'r');");
+                string consensus = "";
+                foreach (Kean.Core.Basis.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.Inliers)
+                    consensus += point.Item2.ToString() + "; ";
+                consensus = consensus.TrimEnd(';');
+                file.WriteLine("consensus = [" + consensus + "];");
+                file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
+                file.WriteLine("bestmodel = [" + Kean.Math.Double.ToString(best.Mapping.X) + " " + Kean.Math.Double.ToString(best.Mapping.Y) + "];");
+                file.WriteLine("xlabel(strcat(' x= ', num2str(bestmodel(1)), ' y= ', num2str(bestmodel(2))))");
+                file.Close();
+            }
         }
         public void Run()
         {
             this.Run(
                 this.RobustPolynomialRegression,
-                this.RobustTwoDimensionalAffineRegression
+                this.TranslationRegression,
+                this.ScaleRotationTranslationRegression
                 );
         }
         internal void Run(params System.Action[] tests)

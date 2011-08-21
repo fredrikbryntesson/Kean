@@ -27,7 +27,7 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
-            
+           
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
             Kean.Test.Math.Complex.Single.Test();
@@ -64,7 +64,7 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Double.Box.Test();
 
             Kean.Test.Math.Matrix.Single.Test();
-            //Kean.Test.Math.Matrix.Algorithms.Single.Test();
+            Kean.Test.Math.Matrix.Algorithms.Single.Test();
             Kean.Test.Math.Matrix.Double.Test();
             Kean.Test.Math.Matrix.Algorithms.Double.Test();
 
