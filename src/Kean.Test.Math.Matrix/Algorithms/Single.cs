@@ -98,7 +98,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
             watch.Stop();
             long timeLup = watch.ElapsedMilliseconds;
             Expect(x.Distance(correct), Is.EqualTo(0).Within(7e-4f), this.prefix + "LeastSquare3.1");
-            Console.WriteLine("Ransac sample. Error " + x.Distance(correct) + " Time Lup " + timeLup);
+            Console.WriteLine("Regression sample. Error " + x.Distance(correct) + " Time Lup " + timeLup);
 
         }
         #endregion

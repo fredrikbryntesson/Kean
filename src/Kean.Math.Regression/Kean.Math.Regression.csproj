@@ -34,16 +34,22 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Estimation.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Exception\Exception.cs" />
-    <Compile Include="Exception\NotUnique.cs" />
-    <Compile Include="Exception\InputData.cs" />
-    <Compile Include="Exception\ModelSetup.cs" />
-    <Compile Include="Estimator.cs" />
+    <Compile Include="Interpolation\Polynomial.cs" />
+    <Compile Include="Interpolation\Spline.cs" />
+    <Compile Include="Minimization\GaussNewton.cs" />
+    <Compile Include="Minimization\LevenbergMarquardt.cs" />
+    <Compile Include="Ransac\Estimation.cs" />
+    <Compile Include="Ransac\Model.cs" />
+    <Compile Include="Ransac\Exception\Exception.cs" />
+    <Compile Include="Ransac\Exception\NotUnique.cs" />
+    <Compile Include="Ransac\Exception\InputData.cs" />
+    <Compile Include="Ransac\Exception\ModelSetup.cs" />
+    <Compile Include="Ransac\Estimator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -58,6 +64,14 @@
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Matrix\Kean.Math.Matrix.csproj">
+      <Project>{5CC44E3B-2D32-4DA2-BE7C-34835F41E096}</Project>
+      <Name>Kean.Math.Matrix</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>

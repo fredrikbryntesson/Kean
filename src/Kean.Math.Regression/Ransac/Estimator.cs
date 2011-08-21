@@ -24,7 +24,7 @@ using System;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Basis.Extension;
 using Kean.Core.Collection.Extension;
-namespace Kean.Math.Ransac
+namespace Kean.Math.Regression.Ransac
 {
     public class Estimator<Domain, Range, Transform>
     {

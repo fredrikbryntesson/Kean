@@ -74,7 +74,7 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
 
             Kean.Test.Math.Random.Generator.Test();
-            Kean.Test.Math.Ransac.Double.Test();
+            Kean.Test.Math.Regression.Ransac.Double.Test();
          
             Kean.Test.Core.Collection.Vector.Test();
 			Kean.Test.Core.Collection.List.Test();

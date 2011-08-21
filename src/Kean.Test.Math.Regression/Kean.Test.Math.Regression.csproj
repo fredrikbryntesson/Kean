@@ -8,8 +8,8 @@
     <ProjectGuid>{D6CCD665-26E4-4122-A680-930327FF4B8F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.Test.Math.Ransac</RootNamespace>
-    <AssemblyName>Kean.Test.Math.Ransac</AssemblyName>
+    <RootNamespace>Kean.Test.Math.Regression</RootNamespace>
+    <AssemblyName>Kean.Test.Math.Regression</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Double.cs" />
+    <Compile Include="Ransac\Double.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +73,9 @@
       <Project>{AE692B68-D00E-4298-8CF5-861F537D93C0}</Project>
       <Name>Kean.Math.Random</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math.Ransac\Kean.Math.Ransac.csproj">
+    <ProjectReference Include="..\Kean.Math.Regression\Kean.Math.Regression.csproj">
       <Project>{13697ABD-61C5-4EB0-B205-D5192E248CF0}</Project>
-      <Name>Kean.Math.Ransac</Name>
+      <Name>Kean.Math.Regression</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>

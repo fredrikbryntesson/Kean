@@ -21,7 +21,7 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Ransac.Exception
+namespace Kean.Math.Regression.Ransac.Exception
 {
 
     public class NotUnique :

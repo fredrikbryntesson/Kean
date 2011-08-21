@@ -1,5 +1,5 @@
 ﻿// 
-//  Exception.cs
+//  InputData.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,11 +21,14 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Ransac.Exception
+namespace Kean.Math.Regression.Ransac.Exception
 {
-    public abstract class Exception :
-        Error.Exception
+
+    public class InputData :
+        Exception
     {
-        internal Exception(Error.Level level, string title, string message, params object[] arguments) : base(level, title, message, arguments) { }
+        public InputData() : 
+            base(Error.Level.Critical, "Inputs Data Error", "Input data is either missing or has too few items.")
+        { }
     }
 }

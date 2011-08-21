@@ -22,7 +22,7 @@ using System;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Basis.Extension;
 
-namespace Kean.Math.Ransac
+namespace Kean.Math.Regression.Ransac
 {
     public class Model<Domain,Range, Transform>
     {

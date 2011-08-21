@@ -1,5 +1,5 @@
 ﻿// 
-//  InputData.cs
+//  ModelSetup.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,14 +21,14 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Ransac.Exception
+namespace Kean.Math.Regression.Ransac.Exception
 {
 
-    public class InputData :
+    public class ModelSetup :
         Exception
     {
-        public InputData() : 
-            base(Error.Level.Critical, "Inputs Data Error", "Input data is either missing or has too few items.")
+        public ModelSetup() :
+            base(Error.Level.Critical, "Random Model Setup Failure", "Some Random model arguments are missing.")
         { }
     }
 }

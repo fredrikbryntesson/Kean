@@ -1,5 +1,5 @@
 ﻿// 
-//  ModelSetup.cs
+//  Exception.cs
 //  
 //  Author:
 //       Anders Frisk <@>
@@ -21,14 +21,11 @@
 using System;
 using Error = Kean.Core.Error;
 
-namespace Kean.Math.Ransac.Exception
+namespace Kean.Math.Regression.Ransac.Exception
 {
-
-    public class ModelSetup :
-        Exception
+    public abstract class Exception :
+        Error.Exception
     {
-        public ModelSetup() :
-            base(Error.Level.Critical, "Random Model Setup Failure", "Some Random model arguments are missing.")
-        { }
+        internal Exception(Error.Level level, string title, string message, params object[] arguments) : base(level, title, message, arguments) { }
     }
 }
