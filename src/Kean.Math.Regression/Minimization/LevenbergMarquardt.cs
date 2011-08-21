@@ -25,21 +25,24 @@ namespace Kean.Math.Ransac.Minimization
             double ny = 2;
             do
             {
-                Matrix.Double j = new Matrix.Double(this.jacobian.GetLength(1), this.jacobian.GetLength(0));
-                for (int x = 0; x < j.Dimensions.Width; x++)
-                    for (int y = 0; y < j.Dimensions.Height; y++)
-                        j[x, y] = this.jacobian[y, x](result);
-                Matrix.Double f = new Matrix.Double(1, this.function.Length);
-                    for (int y = 0; y < f.Dimensions.Height; y++)
-                        f[0, y] = this.function[y](result);
-                    Matrix.Double a = j.Transpose() * j;
-                    Matrix.Double g = j.Transpose() * f;
             }
             while (k < this.iterations);
 
             return result;
 
         }
-
+        Kean.Core.Basis.Tuple<Matrix.Double, Matrix.Double> Convert(double[] value)
+        {
+            Matrix.Double j = new Matrix.Double(this.jacobian.GetLength(1), this.jacobian.GetLength(0));
+            for (int x = 0; x < j.Dimensions.Width; x++)
+                for (int y = 0; y < j.Dimensions.Height; y++)
+                    j[x, y] = this.jacobian[y, x](value);
+            Matrix.Double f = new Matrix.Double(1, this.function.Length);
+            for (int y = 0; y < f.Dimensions.Height; y++)
+                f[0, y] = this.function[y](value);
+            Matrix.Double a = j.Transpose() * j;
+            Matrix.Double g = j.Transpose() * f;
+            return Kean.Core.Basis.Tuple.Create(a, g);
+        }
     }
 }
