@@ -42,6 +42,17 @@ namespace Kean.Math.Matrix
         /// Frobenius norm of matrix
         /// </summary>
         public float Norm { get { return Kean.Math.Single.SquareRoot(this.ScalarProduct(this)); } }
+        public float NormInfinity
+        {
+            get
+            {
+                float result = 0;
+                for (int x = 0; x < this.Dimensions.Width; x++)
+                    for (int y = 0; y < this.Dimensions.Height; y++)
+                        result = Kean.Math.Single.Maximum(result, Kean.Math.Single.Absolute(this[x, y]));
+                return result;
+            }
+        }
         /// <summary>
         /// Get or set an element in a matrix at position(x,y).
         /// </summary>
