@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{13697ABD-61C5-4EB0-B205-D5192E248CF0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Math.Ransac</RootNamespace>
-    <AssemblyName>Kean.Math.Ransac</AssemblyName>
+    <RootNamespace>Kean.Math.Regression</RootNamespace>
+    <AssemblyName>Kean.Math.Regression</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,7 +42,8 @@
     <Compile Include="Interpolation\Polynomial.cs" />
     <Compile Include="Interpolation\Spline.cs" />
     <Compile Include="Minimization\GaussNewton.cs" />
-    <Compile Include="Minimization\LevenbergMarquardt.cs" />
+    <Compile Include="Minimization\LevenbergMarquardt\Double.cs" />
+    <Compile Include="Minimization\LevenbergMarquardt\Single.cs" />
     <Compile Include="Ransac\Estimation.cs" />
     <Compile Include="Ransac\Model.cs" />
     <Compile Include="Ransac\Exception\Exception.cs" />

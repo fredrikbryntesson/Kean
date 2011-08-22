@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Minimization\Double.cs" />
+    <Compile Include="Minimization\Single.cs" />
     <Compile Include="Ransac\Double.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

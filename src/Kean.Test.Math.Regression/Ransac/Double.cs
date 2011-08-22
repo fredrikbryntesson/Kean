@@ -207,6 +207,42 @@ namespace Kean.Test.Math.Regression.Ransac
                 file.WriteLine("bestmodel = [" + best.Mapping + "];");
                 file.WriteLine("xlabel(strcat(' s= ',num2str(bestmodel(1)), ' angle= ', num2str(180 * bestmodel(2) / pi), ' x= ', num2str(bestmodel(3)), ' y= ', num2str(bestmodel(4))))");
                 file.Close();
+
+                
+                int count = best.Inliers.Count;
+                Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * count);
+                Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * count);
+                int j = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    Geometry2D.Double.PointValue previous = best.Inliers[i].Item1;
+                    Geometry2D.Double.PointValue y = best.Inliers[i].Item2;
+                    a[0, j] = previous.X;
+                    a[1, j] = -previous.Y;
+                    a[2, j] = 1;
+                    a[3, j] = 0;
+                    b[0, j++] = y.X;
+                    a[0, j] = previous.Y;
+                    a[1, j] = previous.X;
+                    a[2, j] = 0;
+                    a[3, j] = 1;
+                    b[0, j++] = y.Y;
+                }
+                Kean.Math.Regression.Minimization.LevenbergMarquardt.Double lm = 
+                    new Kean.Math.Regression.Minimization.LevenbergMarquardt.Double(x => b - a * x, x => -a, 
+                        200, 1e-28, 1e-28, 1e-1);
+                double scale = best.Mapping[0, 0];
+                double theta = best.Mapping[0, 1];
+                double xt = best.Mapping[0, 2];
+                double yt = best.Mapping[0, 3];
+                Kean.Math.Matrix.Double guess = new Kean.Math.Matrix.Double(1, 4, new double[] { scale * Kean.Math.Double.Cosinus(theta), scale * Kean.Math.Double.Sinus(theta), xt, yt });    
+                //Kean.Math.Matrix.Double guess = //new Kean.Math.Matrix.Double(1, 4, new double[] { 1, 1, 1, 1 });// new Kean.Math.Matrix.Double(1, 4, new double[] { scale * Kean.Math.Double.Cosinus(theta), scale * Kean.Math.Double.Sinus(theta), xt, yt });    
+                Kean.Math.Matrix.Double estimation = lm.Estimate(guess);
+                double angle2 = Kean.Math.Double.ArcusTangensExtended(estimation[0, 1], estimation[0, 0]);
+                double scale2 = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(estimation[0, 0]) + Kean.Math.Double.Squared(estimation[0, 1]));
+                Geometry2D.Double.PointValue translation2 = new Geometry2D.Double.PointValue(estimation[0, 2], estimation[0, 3]);
+                  
+                    
             }
         }
         [Test]
