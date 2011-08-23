@@ -136,9 +136,9 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target x2 = a.SolveCholesky(y);
             Expect(x2.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare1.1");
             Target x3 = a.SolveLup(y);
-            Expect(x3.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare1.1");
+            Expect(x3.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare1.2");
             Target x4 = a.SolveSvd(y);
-            Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare1.1");
+            Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare1.3");
         }
         // Underdetermined
         // Least norm solution
@@ -152,7 +152,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target x2 = a.SolveCholesky(y);
             Expect(x.Distance(x2), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare2.0");
             Target x3 = a.SolveSvd(y);
-            Expect(x.Distance(x3), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare2.0");
+            Expect(x.Distance(x3), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare2.1");
         }
         // Overdetermined. Least square solution
         [Test]
@@ -185,13 +185,13 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target x3 = aa.SolveLup(yy);
             watch.Stop();
             long timeLup = watch.ElapsedMilliseconds;
-            Expect(x3.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.1");
+            Expect(x3.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.2");
             watch.Reset();
             watch.Start();
             Target x4 = aa.SolveSvd(yy);
             watch.Stop();
             long timeSvd = watch.ElapsedMilliseconds;
-            Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.1");
+            Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.3");
             Console.WriteLine("Time Qr " + timeQr + " Cholesky  " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
             Console.WriteLine("Error Qr " + x.Distance(correct) + " Cholesky " + x2.Distance(correct) + " Lup " + x3.Distance(correct) + " Svd " + x4.Distance(correct));
         }
@@ -250,15 +250,15 @@ namespace Kean.Test.Math.Matrix.Algorithms
             Target u = ubv[0];
             Target b = ubv[1];
             Target v = ubv[2];
-            Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.0");
-            Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.1");
-            Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.2");
-            Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.3");
-            Expect((u.Transpose() * a * v).Distance(b), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.4");
+            Expect((u * u.Transpose()).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.0");
+            Expect((u.Transpose() * u).Distance(Target.Identity(u.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.1");
+            Expect((v * v.Transpose()).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.2");
+            Expect((v.Transpose() * v).Distance(Target.Identity(v.Dimensions.Width)), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.3");
+            Expect((u.Transpose() * a * v).Distance(b), Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.4");
             for (int x = 0; x < b.Dimensions.Width; x++)
                 for (int y = 0; y < b.Dimensions.Height; y++)
                     if (y > x || x > y + 1)
-                        Expect(b[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization1.5");
+                        Expect(b[x, y], Is.EqualTo(0).Within(1e-7f), this.prefix + "BiDiagonalization3.5");
         }
         #endregion
         #region Singular Value Decomposition
@@ -308,7 +308,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
         {
             Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             Target[] x = a.Eigenvalues();
-            Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "LeastSquare3.1");
+            Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "Eigenvalues.1");
         }
         #endregion
         public void Run()
