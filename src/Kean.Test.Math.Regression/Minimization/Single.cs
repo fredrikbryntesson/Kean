@@ -41,9 +41,17 @@ namespace Kean.Test.Math.Regression.Minimization
             for (int i = 0; i < n; i++)
                 yy = yy.Paste(0, 5 * i, y);
             Matrix.Single correct = new Matrix.Single(1, 5, new float[] { -70, 231, -296, 172, -38 });
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
             Matrix.Single x = aa.Solve(yy);
-            Matrix.Single x2 = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 })); 
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f));
+            watch.Stop();
+            Console.WriteLine("Lup solver " + watch.ElapsedMilliseconds + " error " + x.Distance(correct));
+            watch.Reset();
+            watch.Start();
+            Matrix.Single x2 = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
+            watch.Stop();
+            Console.WriteLine("Lm solver " + watch.ElapsedMilliseconds + " error " + x2.Distance(correct));
+            //Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f));
 
         }
         public void Run()

@@ -27,9 +27,8 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
-            Kean.Test.Math.Regression.Ransac.Double.Test();
-        
             Kean.Test.Math.Regression.Minimization.Single.Test();
+            
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
             Kean.Test.Math.Complex.Single.Test();
@@ -76,7 +75,10 @@ namespace Kean.Test.Run
             Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
 
             Kean.Test.Math.Random.Generator.Test();
-            Kean.Test.Math.Regression.Ransac.Double.Test();
+            //Kean.Test.Math.Regression.Ransac.Double.Test();
+            //Kean.Test.Math.Regression.Ransac.Single.Test();
+            //Kean.Test.Math.Regression.Minimization.Single.Test();
+            //Kean.Test.Math.Regression.Minimization.Double.Test();
          
             Kean.Test.Core.Collection.Vector.Test();
 			Kean.Test.Core.Collection.List.Test();

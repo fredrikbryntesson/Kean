@@ -38,7 +38,7 @@ namespace Kean.Test.Math.Regression.Ransac
                         for (int j = 0; j < degree; j++)
                             a[j, i] = Kean.Math.Double.Power(x, j);
                     }
-                    result = a.SolveLup(b) ?? new Kean.Math.Matrix.Double(1, degree);
+                    result = a.Solve(b) ?? new Kean.Math.Matrix.Double(1, degree);
                     return result;
                 },
                 FitsWell = 45,
@@ -89,7 +89,7 @@ namespace Kean.Test.Math.Regression.Ransac
                 file.WriteLine("correctModel = [" + correctModelExport + "];");
 
                 file.WriteLine("hold on;");
-                file.WriteLine("scatter(consensus(:,1), consensus(:,2),'r');");
+                file.WriteLine("scatter(consensus(:,1), consensus(:,2),'g');");
                 file.WriteLine("plot(points(:,1), polyval(fliplr(correctModel'),points(:,1)), 'r');");
                 file.WriteLine("plot(points(:,1), polyval(fliplr(bestModel'),points(:,1)), 'g');");
                 file.Close();
@@ -103,7 +103,6 @@ namespace Kean.Test.Math.Regression.Ransac
                 RequiredMeasures = 5,
                 Estimate = data =>
                 {
-                    Kean.Math.Matrix.Double result = null;
                     int count = data.Count;
                     Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * count);
                     Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * count);
@@ -123,31 +122,11 @@ namespace Kean.Test.Math.Regression.Ransac
                         a[3, j] = 1;
                         b[0, j++] = y.Y;
                     }
-                    Kean.Math.Matrix.Double estimation  = a.Solve(b);
-                    if (estimation.NotNull())
-                    {
-                        double angle = Kean.Math.Double.ArcusTangensExtended(estimation[0, 1], estimation[0, 0]);
-                        double scale = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(estimation[0, 0]) + Kean.Math.Double.Squared(estimation[0, 1]));
-                        Geometry2D.Double.PointValue translation = new Geometry2D.Double.PointValue(estimation[0, 2], estimation[0, 3]);
-                        result = new Kean.Math.Matrix.Double(1, 4, new double[] { scale, angle, translation.X, translation.Y });
-                    }
-                    else
-                        result = new Kean.Math.Matrix.Double(1, 4);
-                    return result;
+                    return a.Solve(b) ?? new Kean.Math.Matrix.Double(1, 4);
                 },
                 FitsWell = 10,
                 Threshold = 20,
-                Map = (t, x) =>
-                {
-                    double scale = t[0, 0];
-                    double theta = t[0, 1];
-                    double xt = t[0, 2];
-                    double yt = t[0, 3];
-                    Geometry2D.Double.PointValue result = new Geometry2D.Double.PointValue(
-                    scale * Kean.Math.Double.Cosinus(theta) * x.X - scale * Kean.Math.Double.Sinus(theta) * x.Y + xt,
-                    scale * Kean.Math.Double.Sinus(theta) * x.X + scale * Kean.Math.Double.Cosinus(theta) * x.Y + yt);
-                    return result;
-                },
+                Map = (t, x) => new Geometry2D.Double.PointValue(t[0, 0] * x.X - t[0, 1] * x.Y + t[0, 2], t[0, 1] * x.X + t[0, 0] * x.Y + t[0, 3]),
                 Metric = (y1, y2) => Kean.Math.Double.Squared((y1 - y2).Length)
             };
             Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> estimate =
@@ -171,7 +150,7 @@ namespace Kean.Test.Math.Regression.Ransac
                     s * Kean.Math.Double.Sinus(thetaAngle) * x.X + s * Kean.Math.Double.Cosinus(thetaAngle) * x.Y + yTranslation);
                 double[] xdd = normal.Generate(2);
                 double[] ydd = normal.Generate(2);
-                Geometry2D.Double.PointValue xd = new Kean.Math.Geometry2D.Double.PointValue(xdd[0], xdd[1]);
+                Geometry2D.Double.PointValue xd = new Kean.Math.Geometry2D.Double.PointValue(); //  new Kean.Math.Geometry2D.Double.PointValue(xdd[0], xdd[1]);
                 Geometry2D.Double.PointValue yd = new Kean.Math.Geometry2D.Double.PointValue(ydd[0], ydd[1]);
                 previousCurrentPoints.Add(Kean.Core.Basis.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(x + xd, y + yd));
             }
@@ -205,42 +184,57 @@ namespace Kean.Test.Math.Regression.Ransac
                 file.WriteLine("consensus = [" + consensus + "];");
                 file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
                 file.WriteLine("bestmodel = [" + best.Mapping + "];");
-                file.WriteLine("xlabel(strcat(' s= ',num2str(bestmodel(1)), ' angle= ', num2str(180 * bestmodel(2) / pi), ' x= ', num2str(bestmodel(3)), ' y= ', num2str(bestmodel(4))))");
                 file.Close();
 
                 
                 int count = best.Inliers.Count;
-                Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * count);
-                Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * count);
-                int j = 0;
-                for (int i = 0; i < count; i++)
+                Func<Kean.Math.Matrix.Double, Kean.Math.Matrix.Double> f = beta =>
                 {
-                    Geometry2D.Double.PointValue previous = best.Inliers[i].Item1;
-                    Geometry2D.Double.PointValue y = best.Inliers[i].Item2;
-                    a[0, j] = previous.X;
-                    a[1, j] = -previous.Y;
-                    a[2, j] = 1;
-                    a[3, j] = 0;
-                    b[0, j++] = y.X;
-                    a[0, j] = previous.Y;
-                    a[1, j] = previous.X;
-                    a[2, j] = 0;
-                    a[3, j] = 1;
-                    b[0, j++] = y.Y;
-                }
+                    double scale = beta[0, 0];
+                    double theta = beta[0, 1];
+                    double xt = beta[0, 2];
+                    double yt = beta[0, 3];
+                    Kean.Math.Matrix.Double result = new Kean.Math.Matrix.Double(1, 2 * count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        Geometry2D.Double.PointValue previous = best.Inliers[i].Item1;
+                        Geometry2D.Double.PointValue current = best.Inliers[i].Item2;
+                        result[0, 2 * i + 0] = scale * Kean.Math.Double.Cosinus(theta) * previous.X - scale * Kean.Math.Double.Sinus(theta) * previous.Y + xt - current.X;
+                        result[0, 2 * i + 1] = scale * Kean.Math.Double.Sinus(theta) * previous.X + scale * Kean.Math.Double.Cosinus(theta) * previous.Y + yt - current.Y;
+                    }
+                    return result;
+                };
+                Func<Kean.Math.Matrix.Double, Kean.Math.Matrix.Double> j = beta =>
+                {
+                    double scale = beta[0, 0];
+                    double theta = beta[0, 1];
+                    double xt = beta[0, 2];
+                    double yt = beta[0, 3];
+                    Kean.Math.Matrix.Double result = new Kean.Math.Matrix.Double(4, 2 * count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        Geometry2D.Double.PointValue previous = best.Inliers[i].Item1;
+                        result[0, 2 * i + 0] = Kean.Math.Double.Cosinus(theta) * previous.X - Kean.Math.Double.Sinus(theta) * previous.Y;
+                        result[1, 2 * i + 0] = -scale * Kean.Math.Double.Sinus(theta) * previous.X - scale * Kean.Math.Double.Cosinus(theta) * previous.Y;
+                        result[2, 2 * i + 0] = 1;
+                        result[3, 2 * i + 0] = 0;
+                        result[0, 2 * i + 1] = Kean.Math.Double.Sinus(theta) * previous.X + Kean.Math.Double.Cosinus(theta) * previous.Y;
+                        result[1, 2 * i + 1] = scale * Kean.Math.Double.Cosinus(theta) * previous.X - scale * Kean.Math.Double.Sinus(theta) * previous.Y;
+                        result[2, 2 * i + 1] = 0;
+                        result[3, 2 * i + 1] = 1;
+                    }
+                    return result;
+                };
+                
                 Kean.Math.Regression.Minimization.LevenbergMarquardt.Double lm = 
-                    new Kean.Math.Regression.Minimization.LevenbergMarquardt.Double(x => b - a * x, x => -a, 
-                        200, 1e-28, 1e-28, 1e-1);
-                double scale = best.Mapping[0, 0];
-                double theta = best.Mapping[0, 1];
-                double xt = best.Mapping[0, 2];
-                double yt = best.Mapping[0, 3];
-                Kean.Math.Matrix.Double guess = new Kean.Math.Matrix.Double(1, 4, new double[] { scale * Kean.Math.Double.Cosinus(theta), scale * Kean.Math.Double.Sinus(theta), xt, yt });    
-                //Kean.Math.Matrix.Double guess = //new Kean.Math.Matrix.Double(1, 4, new double[] { 1, 1, 1, 1 });// new Kean.Math.Matrix.Double(1, 4, new double[] { scale * Kean.Math.Double.Cosinus(theta), scale * Kean.Math.Double.Sinus(theta), xt, yt });    
+                    new Kean.Math.Regression.Minimization.LevenbergMarquardt.Double(f, j, 
+                        200, 1e-18, 1e-18, 1e-5);
+                double scaleGuess = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(best.Mapping[0,0]) + Kean.Math.Double.Squared(best.Mapping[0,1]));
+                double thetaGuess = Kean.Math.Double.ArcusTangensExtended(best.Mapping[0, 1], best.Mapping[0, 0]);
+                double xTranslationGuess = best.Mapping[0, 2];
+                double yTranslationGuess = best.Mapping[0, 3];
+                Kean.Math.Matrix.Double guess = new Kean.Math.Matrix.Double(1, 4, new double[] { 1, 1, 1, 1 }); // new Kean.Math.Matrix.Double(1, 4, new double[] { scaleGuess, thetaGuess, xTranslationGuess, yTranslationGuess }); 
                 Kean.Math.Matrix.Double estimation = lm.Estimate(guess);
-                double angle2 = Kean.Math.Double.ArcusTangensExtended(estimation[0, 1], estimation[0, 0]);
-                double scale2 = Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(estimation[0, 0]) + Kean.Math.Double.Squared(estimation[0, 1]));
-                Geometry2D.Double.PointValue translation2 = new Geometry2D.Double.PointValue(estimation[0, 2], estimation[0, 3]);
                   
                     
             }
