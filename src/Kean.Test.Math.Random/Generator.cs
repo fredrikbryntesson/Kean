@@ -10,6 +10,7 @@ namespace Kean.Test.Math.Random
     public class Generator :
         AssertionHelper
     {
+		string prefix = "Kean.Test.Math.Random.Generator.";
         [Test]
         public void Compare()
         {
@@ -62,7 +63,7 @@ namespace Kean.Test.Math.Random
                         different &= values[i] != values[j];
                         break;
                     }
-                Expect(different, Is.True, "Unique random numbers test failed");
+                Expect(different, Is.True, this.prefix + "ArraysIntegerUnique.0");
             }
         }
         [Test]
@@ -116,8 +117,8 @@ namespace Kean.Test.Math.Random
                 sigma += Kean.Math.Double.Squared(values[i] - mu);
             sigma /= values.Length;
             sigma = Kean.Math.Double.SquareRoot(sigma);
-            Expect(mu, Is.EqualTo(g.Mean).Within(0.02));
-            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.02));
+            Expect(mu, Is.EqualTo(g.Mean).Within(0.1), this.prefix + "NormalDouble.0");
+            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.1), this.prefix + "NormalDouble.0");
         }
         
         [Test]
