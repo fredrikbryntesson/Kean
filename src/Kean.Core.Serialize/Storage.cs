@@ -63,7 +63,5 @@ namespace Kean.Core.Serialize
 			}
 			return result;
 		}
-
 	}
 }
-
