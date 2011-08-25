@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 using Kean.Core.Basis.Extension;
-namespace Kean.Core.Collection.Extension
+namespace Kean.Core.Basis.Extension
 {
 	public static class ArrayExtension
 	{
@@ -57,21 +57,99 @@ namespace Kean.Core.Collection.Extension
 				result[i] = function(input[i]);
 			return result;
 		}
-		public static int Index<T>(this T[] data, Func<T, bool> function)
+		public static int Index<T>(this T[] me, Func<T, bool> function)
 		{
+			return me.Index(0, function);
+		}
+		public static int Index<T>(this T[] me, int start, Func<T, bool> function)
+		{
+			return me.Index(start, me.Length - 1, function);
+		}
+		public static int Index<T>(this T[] me, int start, int end, Func<T, bool> function)
+		{
+			int count = me.Length - 1;
+			if (start < 0)
+				start = count + start;
+			if (end < 0)
+				end = count + end;
 			int result = -1;
-			for (int i = 0; i < data.Length; i++)
-				if (function(data[i]))
+			for (int i = start; i <= end; i++)
+				if (function(me[i]))
 				{
 					result = i;
 					break;
 				}
 			return result;
 		}
-		public static T Find<T>(this T[] data, Func<T, bool> function)
+		public static int Index<T>(this T[] me, T needle)
+		{
+			return me.Index(0, needle);
+		}
+		public static int Index<T>(this T[] me, int start, T needle)
+		{
+			return me.Index(start, me.Length - 1, needle);
+		}
+		public static int Index<T>(this T[] me, int start, int end, T needle)
+		{
+			int count = me.Length - 1;
+			if (start < 0)
+				start = count + start;
+			if (end < 0)
+				end = count + end;
+			int result = -1;
+			for (int i = start; i <= end; i++)
+				if (me[i].SameOrEquals(needle))
+				{
+					result = i;
+					break;
+				}
+			return result;
+		}
+		public static int Index<T>(this T[] me, int start, int end, params T[] needles) 
+			where T : IEquatable<T>
+		{
+			int count = me.Length - 1;
+			if (start < 0)
+				start = count + start;
+			if (end < 0)
+				end = count + end;
+			int result = -1;
+			for (int i = start; i <= end; i++)
+				if (needles.Contains(me[i]))
+				{
+					result = i;
+					break;
+				}
+			return result;
+		}
+		public static bool Contains<T>(this T[] me, T needle) 
+			where T : IEquatable<T>
+		{
+			bool result = false;
+			foreach (T element in me)
+				if (needle.SameOrEquals(element))
+				{
+					result = true;
+					break;
+				}
+			return result;
+		}
+		public static bool Contains<T>(this T[] me, params T[] needles) 
+			where T : IEquatable<T>
+		{
+			bool result = false;
+			foreach (T element in me)
+				if (needles.Contains(element))
+				{
+					result = true;
+					break;
+				}
+			return result;
+		}
+		public static T Find<T>(this T[] me, Func<T, bool> function)
 		{
 			T result = default(T);
-			foreach (T element in data)
+			foreach (T element in me)
 				if (function(element))
 				{
 					result = element;

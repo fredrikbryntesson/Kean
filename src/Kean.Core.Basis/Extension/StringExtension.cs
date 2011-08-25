@@ -39,5 +39,77 @@ namespace Kean.Core.Basis.Extension
 		{
 			return new RegularExpressions.Regex("^" + RegularExpressions.Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$", RegularExpressions.RegexOptions.IgnoreCase | RegularExpressions.RegexOptions.Singleline).IsMatch(me);
 		}
+		public static int Index(this string me, string needle)
+		{
+			return me.Index(0, needle);
+		}
+		public static int Index(this string me, int start, string needle)
+		{
+			return me.Index(start, me.Length - 1, needle);
+		}
+		public static int Index(this string me, int start, int end, string needle)
+		{
+			int length = me.Length - 1;
+			if (start < 0)
+				start = length + start;
+			if (end < 0)
+				end = length + end;
+			int result = -1;
+			for (int i = start; i <= end; i++)
+				if (me[i] == needle[0] && me.Substring(i, needle.Length) == needle)
+				{
+					result = i;
+					break;
+				}
+			return result;
+		}
+		public static int Index(this string me, char needle)
+		{
+			return me.Index(0, needle);
+		}
+		public static int Index(this string me, int start, char needle)
+		{
+			return me.Index(start, me.Length - 1, needle);
+		}
+		public static int Index(this string me, int start, int end, char needle)
+		{
+			int length = me.Length;
+			if (start < 0)
+				start = length + start;
+			if (end < 0)
+				end = length + end;
+			int result = -1;
+			for (int i = start; i <= end; i++)
+				if (me[i] == needle)
+				{
+					result = i;
+					break;
+				}
+			return result;
+		}
+		public static int Index(this string me, params char[] needles)
+		{
+			return me.Index(0, needles);
+		}
+		public static int Index(this string me, int start, params char[] needles)
+		{
+			return me.Index(start, me.Length - 1, needles);
+		}
+		public static int Index(this string me, int start, int end, params char[] needles)
+		{
+			int length = me.Length;
+			if (start < 0)
+				start = length + start;
+			if (end < 0)
+				end = length + end;
+			int result = -1;
+			for (int i = start; i <= end; i++)
+				if (needles.Contains(me[i]))
+				{
+					result = i;
+					break;
+				}
+			return result;
+		}
 	}
 }
