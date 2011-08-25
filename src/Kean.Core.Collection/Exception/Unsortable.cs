@@ -29,7 +29,7 @@ namespace Kean.Core.Collection.Exception
 			this(null, type)
 		{ }
 		internal Unsortable(System.Exception exception, Type type) :
-			base(exception, Error.Level.Warning, "Unsortable Collection.", "It is not possible to sort a collection with items of type \"{0}\" since it does not implement one of \"Kean.Core.Basis.IComparable<{0}>\", \"System.IComparable<{0}>\" or \"System.IComparable\". Either extend the type so that it implements one of the interfaces or provide a custom ordering function.", type.Name)
+			base(exception, Error.Level.Warning, "Unsortable Collection.", "It is not possible to sort a collection with items of type \"{0}\" since it does not implement one of \"Kean.Core.IComparable<{0}>\", \"System.IComparable<{0}>\" or \"System.IComparable\". Either extend the type so that it implements one of the interfaces or provide a custom ordering function.", type.Name)
 		{ }
 	}
 }

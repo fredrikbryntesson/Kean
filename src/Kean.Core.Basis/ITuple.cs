@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Basis
+namespace Kean.Core
 {
 	public interface ITuple
 	{

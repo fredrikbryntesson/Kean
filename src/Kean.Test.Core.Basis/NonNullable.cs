@@ -22,9 +22,9 @@
 using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.Core.Basis;
+using Target = Kean.Core;
 
-namespace Kean.Test.Core.Basis
+namespace Kean.Test.Core
 {
 	[TestFixture]
 	public class NonNullable :

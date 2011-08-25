@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Basis;
+using Kean.Core;
 namespace Kean.Core.Collection
 {
 	public interface IDictionary<TKey, TValue> :

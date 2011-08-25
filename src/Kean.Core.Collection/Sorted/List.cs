@@ -18,7 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 using System;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Collection.Sorted
 {
@@ -26,18 +26,18 @@ namespace Kean.Core.Collection.Sorted
         IList<T>
     {
         IList<T> data;
-        Basis.Comparer<T> comparer;
+        Core.Comparer<T> comparer;
         #region Constructors
         public List() :
             this(new Collection.List<T>())
         { }
 		public List(IList<T> data) :
-			this((Basis.Comparer<T>) List<T>.Compare, data)
+			this((Core.Comparer<T>) List<T>.Compare, data)
 		{ }
-		public List(Basis.Comparer<T> comparer) :
+		public List(Core.Comparer<T> comparer) :
             this(comparer, new Collection.List<T>())
         { }
-        public List(Basis.Comparer<T> comparer, IList<T> data)
+        public List(Core.Comparer<T> comparer, IList<T> data)
         {
             this.comparer = comparer;
             this.data = data;
@@ -57,12 +57,12 @@ namespace Kean.Core.Collection.Sorted
                 for (int i = 0; i < this.data.Count; i++)
                     switch (this.comparer(this.data[i], item))
                     {
-                        case Basis.Order.LessThan:
+                        case Core.Order.LessThan:
                             break;
-                        case Basis.Order.Equal:
+                        case Core.Order.Equal:
                             this.data[i] = item;
                             goto Done;
-                        case Basis.Order.GreaterThan:
+                        case Core.Order.GreaterThan:
                             this.data.Insert(i, item);
                             goto Done;
                     }
@@ -97,7 +97,7 @@ namespace Kean.Core.Collection.Sorted
             get { return this.data[index]; }
             set
             {
-                if (this.comparer(this.data[index], value) == Basis.Order.Equal)
+                if (this.comparer(this.data[index], value) == Core.Order.Equal)
                     this.data[index] = value;
                 else
                 {
@@ -129,11 +129,11 @@ namespace Kean.Core.Collection.Sorted
         }
         #endregion
         #region Static
-        static Basis.Order Compare(T left, T right)
+        static Order Compare(T left, T right)
         {
-            Basis.Order result;
-            if (left is Basis.IComparable<T>)
-                result = List<T>.Compare(left as Basis.IComparable<T>, right);
+            Order result;
+            if (left is IComparable<T>)
+                result = List<T>.Compare(left as IComparable<T>, right);
             else if (left is IComparable<T>)
                 result = List<T>.Compare(left as IComparable<T>, right);
             else if (left is IComparable)
@@ -142,21 +142,17 @@ namespace Kean.Core.Collection.Sorted
                 throw new Exception.Unsortable(typeof(T));
             return result;
         }
-        static Basis.Order Compare(Basis.IComparable<T> left, T right)
+        static Order Compare(IComparable<T> left, T right)
         {
             return left.Compare(right);
         }
-        static Basis.Order Compare(IComparable<T> left, T right)
+        static Order Compare(IComparable left, T right)
         {
             return List<T>.Order(left.CompareTo(right));
         }
-        static Basis.Order Compare(IComparable left, T right)
-        {
-            return List<T>.Order(left.CompareTo(right));
-        }
-		static Basis.Order Order(int order)
+		static Order Order(int order)
 		{
-            return order > 0 ? Basis.Order.GreaterThan : order == 0 ? Basis.Order.Equal : Kean.Core.Basis.Order.LessThan;
+            return order > 0 ? Core.Order.GreaterThan : order == 0 ? Core.Order.Equal : Core.Order.LessThan;
 		}
         #endregion
     }

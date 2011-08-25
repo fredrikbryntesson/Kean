@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Extension
 {
 	public static class ActionExtension
 	{

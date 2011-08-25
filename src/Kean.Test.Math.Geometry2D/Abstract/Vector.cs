@@ -1,5 +1,5 @@
 ﻿using System;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

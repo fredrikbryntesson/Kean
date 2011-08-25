@@ -1,5 +1,5 @@
 ﻿using System;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Target = Kean.Math.Matrix.Double;
 
 namespace Kean.Test.Math.Matrix.Algorithms
@@ -201,7 +201,7 @@ namespace Kean.Test.Math.Matrix.Algorithms
         public void HouseHolder()
         {
             Target x = new Target(1, 3, new double[] { 12, 6, -4 });
-            Target h = Target.HouseHolder(x, Kean.Math.Double.Sign(x[0, 0]) * x.Norm * Target.Basis(3, 0));
+			Target h = Target.HouseHolder(x, Kean.Math.Double.Sign(x[0, 0]) * x.Norm * Target.Basis(3, 0));
             Target correct = new Target(3, 3, new double[] { 6.0 / 7, 3.0 / 7, -2.0 / 7, 3.0 / 7, -2.0 / 7, 6.0 / 7, -2.0 / 7, 6.0 / 7, 3.0 / 7 });
             Expect(h.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "HouseHolder.0");
 

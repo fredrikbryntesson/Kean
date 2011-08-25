@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Target = Kean.Math.Complex.Double;
 namespace Kean.Test.Math.Complex.Fourier
 {

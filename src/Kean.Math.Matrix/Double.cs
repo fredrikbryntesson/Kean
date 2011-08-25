@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 namespace Kean.Math.Matrix
 {
     public partial class Double :

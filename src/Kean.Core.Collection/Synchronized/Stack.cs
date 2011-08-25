@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Synchronized
 {
 	public class Stack<T> :
-		Basis.Synchronized,
+		Core.Synchronized,
 		IStack<T>
 	{
 		IStack<T> data;

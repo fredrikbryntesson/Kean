@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Double
 {
@@ -99,8 +99,8 @@ namespace Kean.Math.Geometry3D.Double
             #region Static Constants
             public static Quaternion BasisReal { get { return new Quaternion() { Real = 1, Imaginary = new Point() }; } }
             public static Quaternion BasisImaginaryX { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisX }; } }
-            public static Quaternion BasisImaginaryY { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisY }; } }
-            public static Quaternion BasisImaginaryZ { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisZ }; } }
+			public static Quaternion BasisImaginaryY { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisY }; } }
+			public static Quaternion BasisImaginaryZ { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisZ }; } }
             #endregion
             #region Constructors
             public Quaternion() 
@@ -226,7 +226,7 @@ namespace Kean.Math.Geometry3D.Double
             /// <returns></returns>
             public static Quaternion CreateRotationX(double angle)
             {
-                return Quaternion.CreateRotation(angle, Point.BasisX);
+				return Quaternion.CreateRotation(angle, Point.BasisX);
             }
             /// <summary>
             /// Rotation around the imaginary-axis
@@ -235,7 +235,7 @@ namespace Kean.Math.Geometry3D.Double
             /// <returns></returns>
             public static Quaternion CreateRotationY(double angle)
             {
-                return Quaternion.CreateRotation(angle, Point.BasisY);
+				return Quaternion.CreateRotation(angle, Point.BasisY);
             }
             /// <summary>
             /// Rotation around the z-axis
@@ -244,7 +244,7 @@ namespace Kean.Math.Geometry3D.Double
             /// <returns></returns>
             public static Quaternion CreateRotationZ(double angle)
             {
-                return Quaternion.CreateRotation(angle, Point.BasisZ);
+				return Quaternion.CreateRotation(angle, Point.BasisZ);
             }
             /// <summary>
             /// Rotation around the given axis vector 

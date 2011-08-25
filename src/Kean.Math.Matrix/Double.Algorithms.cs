@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Matrix
 {
@@ -242,13 +242,13 @@ namespace Kean.Math.Matrix
 
             for (int j = 0; j < n; j++)
             {
-                Kean.Core.Basis.Tuple<Double, double> leftHousePair = b.Extract(j, j + 1, j, m).House();
+                Kean.Core.Tuple<Double, double> leftHousePair = b.Extract(j, j + 1, j, m).House();
                 Double leftHouseMultiplier = Double.Identity(m - j) - leftHousePair.Item2 * leftHousePair.Item1 * leftHousePair.Item1.Transpose();
                 leftHouseholder[j] = leftHouseMultiplier;
                 b.Set(j, j, leftHouseMultiplier * b.Extract(j, j));
                 if (j < n - 2)
                 {
-                    Kean.Core.Basis.Tuple<Double, double> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
+                    Kean.Core.Tuple<Double, double> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
                     Double rightHouseMultiplier = Double.Identity(n - j - 1) - rightHousePair.Item2 * rightHousePair.Item1 * rightHousePair.Item1.Transpose();
                     rightHouseholder[j] = rightHouseMultiplier;
                     b.Set(j + 1, j, b.Extract(j + 1, j) * rightHouseMultiplier);
@@ -268,9 +268,9 @@ namespace Kean.Math.Matrix
         /// See Algorithm 5.1.1 (Householder Vector).
         /// </summary>
         /// <returns></returns>
-        Kean.Core.Basis.Tuple<Double, double> House()
+        Kean.Core.Tuple<Double, double> House()
         {
-            Kean.Core.Basis.Tuple<Double, double> result;
+            Kean.Core.Tuple<Double, double> result;
             int n = this.Dimensions.Height;
             Double tail = this.Extract(0, 1, 1, n);
             double sigma = (tail.Transpose() * tail)[0, 0];
@@ -290,7 +290,7 @@ namespace Kean.Math.Matrix
                 beta = 2 * nu00Squared / (sigma + nu00Squared);
                 nu /= nu[0, 0];
             }
-            result = Kean.Core.Basis.Tuple.Create<Double, double>(nu, beta);
+            result = Kean.Core.Tuple.Create<Double, double>(nu, beta);
             return result;
         }
         #endregion

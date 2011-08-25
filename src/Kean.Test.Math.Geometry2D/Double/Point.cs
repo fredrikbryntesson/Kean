@@ -78,10 +78,10 @@ namespace Kean.Test.Math.Geometry2D.Double
         [Test]
         public void Angles()
         {
-           Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX).Value, Is.EqualTo(0).Within(this.Precision));
-           Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY).Value, Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-           Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY).Value, Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-           Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX).Value, Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+			Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX).Value, Is.EqualTo(0).Within(this.Precision));
+			Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY).Value, Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY).Value, Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX).Value, Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()

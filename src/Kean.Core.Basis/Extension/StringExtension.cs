@@ -21,9 +21,9 @@
 
 using System;
 using RegularExpressions = System.Text.RegularExpressions;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Extension
 {
 	public static class StringExtension
 	{

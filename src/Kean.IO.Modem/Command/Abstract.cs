@@ -21,7 +21,7 @@
 using System;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.IO.Modem.Command
 {

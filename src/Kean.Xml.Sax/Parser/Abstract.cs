@@ -1,7 +1,7 @@
 ﻿using System;
 using Collection = Kean.Core.Collection;
-using Kean.Core.Basis;
-using Kean.Core.Basis.Extension;
+using Kean.Core;
+using Kean.Core.Extension;
 using Text = System.Text;
 
 namespace Kean.Xml.Sax.Parser

@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Kean.Core.Notify.Extension;
 
 namespace Kean.Core.Notify

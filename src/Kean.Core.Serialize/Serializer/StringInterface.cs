@@ -30,11 +30,11 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public override bool Accepts(Type type)
 		{
-			return type is Basis.IString;
+			return type is IString;
 		}
 		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
 		{
-			return new Data.Leaf<string>((data as Basis.IString).String);
+			return new Data.Leaf<string>((data as IString).String);
 		}
 		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
 		{
@@ -42,7 +42,7 @@ namespace Kean.Core.Serialize.Serializer
 			if (data is Data.Leaf<string>)
 			{
 				result = type.Create<T>();
-				(result as Basis.IString).String = (data as Data.Leaf<string>).Value;
+				(result as IString).String = (data as Data.Leaf<string>).Value;
 			}
 			else
 				result = default(T);

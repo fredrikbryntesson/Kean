@@ -22,7 +22,7 @@
 // RANSAC Method implemented according to described method given at http://en.wikipedia.org/wiki/RANSAC
 using System;
 using Collection = Kean.Core.Collection;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 namespace Kean.Math.Regression.Ransac
 {
@@ -30,7 +30,7 @@ namespace Kean.Math.Regression.Ransac
     {
         Model<Domain, Range, Transform> model;
         int iterations;
-        Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data;
+        Collection.IList<Kean.Core.Tuple<Domain, Range>> data;
         Random.IInterval<int> random;
         public Estimator(Model<Domain, Range, Transform> model, int iterations)
         {
@@ -38,7 +38,7 @@ namespace Kean.Math.Regression.Ransac
             this.iterations = iterations;
             this.random = new Random.Integer.Interval();
         }
-        public void Load(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> data)
+        public void Load(Collection.IList<Kean.Core.Tuple<Domain, Range>> data)
         {
             this.data = data;
         }
@@ -59,17 +59,17 @@ namespace Kean.Math.Regression.Ransac
                 
                 for(int d = 0; d < this.iterations; d++)
                 {
-                    Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> maybeInliersOutliers = this.InliersOutliers();
+                    Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> maybeInliersOutliers = this.InliersOutliers();
                     Transform maybeModel = this.model.Estimate(maybeInliersOutliers.Item1);
-                    Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> consensusSet = maybeInliersOutliers.Item1;
-                    foreach (Kean.Core.Basis.Tuple<Domain, Range> outlier in maybeInliersOutliers.Item2)
+                    Collection.IList<Kean.Core.Tuple<Domain, Range>> consensusSet = maybeInliersOutliers.Item1;
+                    foreach (Kean.Core.Tuple<Domain, Range> outlier in maybeInliersOutliers.Item2)
                         if (this.model.Metric(this.model.Map(maybeModel, outlier.Item1), outlier.Item2) < this.model.Threshold)
                             consensusSet.Add(outlier);
                     if (consensusSet.Count > this.model.FitsWell)
                     {
                         Transform thisModel = this.model.Estimate(consensusSet);
                         double thisError = 0;
-                        foreach (Kean.Core.Basis.Tuple<Domain, Range> datum in consensusSet)
+                        foreach (Kean.Core.Tuple<Domain, Range> datum in consensusSet)
                             thisError += this.model.Metric(this.model.Map(thisModel, datum.Item1), datum.Item2);
                         estimate[d] = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel);
                     }
@@ -93,11 +93,11 @@ namespace Kean.Math.Regression.Ransac
             }
             return result;
         }
-        Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> InliersOutliers()
+        Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> InliersOutliers()
         {
-            Kean.Core.Basis.Tuple<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>> result;
-            Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> inliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
-            Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> outliers = new Collection.List<Kean.Core.Basis.Tuple<Domain, Range>>(this.data.Count);
+            Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> result;
+            Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers = new Collection.List<Kean.Core.Tuple<Domain, Range>>(this.data.Count);
+            Collection.IList<Kean.Core.Tuple<Domain, Range>> outliers = new Collection.List<Kean.Core.Tuple<Domain, Range>>(this.data.Count);
 			this.random.Ceiling = this.data.Count - 1;
             int[] inlierIndexes = this.random.GenerateUnique(this.model.RequiredMeasures);
             Array.Sort(inlierIndexes);
@@ -114,7 +114,7 @@ namespace Kean.Math.Regression.Ransac
                 inliers.Add(this.data[inlierIndexes[i]]);
             for (int i = 0; i < outlierIndexes.Length; i++)
                 outliers.Add(this.data[outlierIndexes[i]]);
-            result = Kean.Core.Basis.Tuple.Create<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>>(inliers, outliers);
+            result = Kean.Core.Tuple.Create<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>>(inliers, outliers);
             return result;
         }
     }

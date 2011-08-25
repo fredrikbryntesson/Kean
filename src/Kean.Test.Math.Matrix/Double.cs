@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Target = Kean.Math.Matrix.Double;
 
 namespace Kean.Test.Math.Matrix
@@ -63,7 +63,7 @@ namespace Kean.Test.Math.Matrix
         [Test]
         public void Basis()
         {
-            Target a = Target.Basis(10, 2);
+			Target a = Target.Basis(10, 2);
             for (int y = 0; y < 10; y++)
                 Expect(a[0, y], Is.EqualTo(y == 2 ? 1 : 0));
         }
@@ -189,7 +189,7 @@ namespace Kean.Test.Math.Matrix
                 this.Equality,
                 this.Adjoint,
                 this.All,
-                this.Basis,
+				this.Basis,
                 this.Block,
                 this.Copy,
                 this.Diagonal,

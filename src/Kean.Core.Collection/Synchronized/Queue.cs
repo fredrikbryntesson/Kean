@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Collection.Synchronized
 {
 	public class Queue<T> :
-		Basis.Synchronized,
+		Core.Synchronized,
 		IQueue<T>
 	{
 		IQueue<T> data;

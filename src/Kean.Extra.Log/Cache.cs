@@ -21,8 +21,8 @@
 using System;
 using Error = Kean.Core.Error;
 using Collection = Kean.Core.Collection;
-using Basis = Kean.Core.Basis;
-using Kean.Core.Basis.Extension;
+using Basis = Kean.Core;
+using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 
 namespace Kean.Extra.Log

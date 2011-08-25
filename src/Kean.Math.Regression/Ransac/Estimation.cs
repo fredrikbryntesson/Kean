@@ -20,16 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Collection = Kean.Core.Collection;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Regression.Ransac
 {
     public class Estimation<Domain, Range, Transform>
     {
-        public Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> Inliers { get; set; }
+        public Collection.IList<Kean.Core.Tuple<Domain, Range>> Inliers { get; set; }
         public double Error { get; set; }
         public Transform Mapping { get; set; }
-        public Estimation(Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>> inliers, double error, Transform mapping)
+        public Estimation(Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers, double error, Transform mapping)
         {
             this.Inliers = inliers;
             this.Error = error;

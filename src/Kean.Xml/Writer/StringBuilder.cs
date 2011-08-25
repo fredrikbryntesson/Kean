@@ -2,8 +2,8 @@
 using Text = System.Text;
 using IO = System.IO;
 using Collection = Kean.Core.Collection;
-using Kean.Core.Basis;
-using Kean.Core.Basis.Extension;
+using Kean.Core;
+using Kean.Core.Extension;
 
 namespace Kean.Xml.Writer
 {

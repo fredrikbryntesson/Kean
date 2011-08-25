@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Target = Kean.Math.Geometry3D.Double;
 namespace Kean.Test.Math.Geometry3D.Double
 {
@@ -111,7 +111,7 @@ namespace Kean.Test.Math.Geometry3D.Double
         public void Casting()
         {
             string value = "1 2 3 4";
-            Target.Quaternion quaternion = (Target.Quaternion)(1.0) + Target.Quaternion.BasisImaginaryX * 2 + Target.Quaternion.BasisImaginaryY * 3 + Target.Quaternion.BasisImaginaryZ * 4;
+			Target.Quaternion quaternion = (Target.Quaternion)(1.0) + Target.Quaternion.BasisImaginaryX * 2 + Target.Quaternion.BasisImaginaryY * 3 + Target.Quaternion.BasisImaginaryZ * 4;
             Expect(this.CastToString(quaternion), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(quaternion));
         }

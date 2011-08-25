@@ -1,6 +1,6 @@
 ﻿using System;
 using Kean.Core.Notify.Extension;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Notify
 {

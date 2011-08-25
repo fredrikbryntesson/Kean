@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Collection = Kean.Core.Collection;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Regression.Ransac
 {
     public class Model<Domain,Range, Transform>
     {
-        public Func<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Transform> Estimate { get; set; }
+        public Func<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Transform> Estimate { get; set; }
         public Func<Transform, Domain, Range> Map { get; set; }
         public Func<Range,Range, double> Metric { get; set; }
         public double Threshold { get; set; }
@@ -34,7 +34,7 @@ namespace Kean.Math.Regression.Ransac
         public int RequiredMeasures { get; set; }
         public Model() { }
         public Model(
-            Func<Collection.IList<Kean.Core.Basis.Tuple<Domain, Range>>, Transform> estimate,
+            Func<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Transform> estimate,
             Func<Transform, Domain, Range> map,
             Func<Range, Range, double> metric,
             double threshold,

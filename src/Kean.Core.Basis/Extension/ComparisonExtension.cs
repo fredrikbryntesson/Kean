@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Basis.Extension
+namespace Kean.Core.Extension
 {
 	public static class ComparisonExtension
 	{
 		public static Comparer<T> AsComparer<T>(this Comparison<T> me)
 		{
-			return (left, right) => { int order = me(left, right); return order > 0 ? Basis.Order.GreaterThan : order == 0 ? Basis.Order.Equal : Kean.Core.Basis.Order.LessThan; };
+			return (left, right) => { int order = me(left, right); return order > 0 ? Order.GreaterThan : order == 0 ? Order.Equal : Order.LessThan; };
 		}
 	}
 }

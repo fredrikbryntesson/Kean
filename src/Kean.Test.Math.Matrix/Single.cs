@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Kean.Core.Basis.Extension;
+using Kean.Core.Extension;
 using Target = Kean.Math.Matrix.Single;
 
 namespace Kean.Test.Math.Matrix
@@ -189,7 +189,7 @@ namespace Kean.Test.Math.Matrix
                 this.Equality,
                 this.Adjoint,
                 this.All,
-                this.Basis,
+				this.Basis,
                 this.Block,
                 this.Copy,
                 this.Diagonal,

@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Basis;
+using Kean.Core;
 
 namespace Kean.Core.Collection
 {
@@ -63,7 +63,7 @@ namespace Kean.Core.Collection
         #endregion
 
         #region IEnumerable[Tuple[TKey,TValue]] implementation
-        System.Collections.Generic.IEnumerator<Kean.Core.Basis.Tuple<TKey, TValue>> System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>.GetEnumerator()
+        System.Collections.Generic.IEnumerator<Kean.Core.Tuple<TKey, TValue>> System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>.GetEnumerator()
         {
             return (this.data as System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>).GetEnumerator();
         }

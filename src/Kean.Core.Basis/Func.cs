@@ -18,7 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 using System;
-namespace Kean.Core.Basis
+namespace Kean.Core
 {
 	public delegate TResult Func<T1, T2, T3, T4, T5, TResult> (T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5);
 	public delegate TResult Func<T1, T2, T3, T4, T5, T6, TResult> (T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5, T6 argument6);
