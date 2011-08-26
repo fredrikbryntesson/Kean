@@ -17,19 +17,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect", "src\Ke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Serialize", "src\Kean.Core.Serialize\Kean.Core.Serialize.csproj", "{06324516-5008-4A34-9C54-041F30F5A229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Basis", "src\Kean.Test.Core.Basis\Kean.Test.Core.Basis.csproj", "{C7D3F01E-01B5-463E-A574-29B5F97E38BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Test", "src\Kean.Core.Basis.Test\Kean.Core.Test.csproj", "{C7D3F01E-01B5-463E-A574-29B5F97E38BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Error", "src\Kean.Test.Core.Error\Kean.Test.Core.Error.csproj", "{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error.Test", "src\Kean.Core.Error.Test\Kean.Core.Error.Test.csproj", "{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms", "src\Kean.IO.Sms\Kean.IO.Sms.csproj", "{65681DE0-A252-46AD-890B-948EFCC7FAE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Extra.Log", "src\Kean.Extra.Log\Kean.Extra.Log.csproj", "{14F02E00-9ED6-4730-BE4D-F0DF96853A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Extra.Log", "src\Kean.Test.Extra.Log\Kean.Test.Extra.Log.csproj", "{D2F9493F-95CB-4084-B734-64B2B30B78E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Extra.Log.Test", "src\Kean.Extra.Log.Test\Kean.Extra.Log.Test.csproj", "{D2F9493F-95CB-4084-B734-64B2B30B78E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Configure", "src\Kean.Test.Core.Configure\Kean.Test.Core.Configure.csproj", "{EB56B72C-87A6-4C97-9185-A554DB2F352F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure.Test", "src\Kean.Core.Configure.Test\Kean.Core.Configure.Test.csproj", "{EB56B72C-87A6-4C97-9185-A554DB2F352F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Core.Collection", "src\Kean.Test.Core.Collection\Kean.Test.Core.Collection.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection.Test", "src\Kean.Core.Collection.Test\Kean.Core.Collection.Test.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math", "src\Kean.Math\Kean.Math.csproj", "{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}"
 EndProject
@@ -37,21 +37,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix", "src\Kean.Math.Matrix\Kean.Math.Matrix.csproj", "{5CC44E3B-2D32-4DA2-BE7C-34835F41E096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Matrix", "src\Kean.Test.Math.Matrix\Kean.Test.Math.Matrix.csproj", "{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix.Test", "src\Kean.Math.Matrix.Test\Kean.Math.Matrix.Test.csproj", "{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math", "src\Kean.Test.Math\Kean.Test.Math.csproj", "{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Test", "src\Kean.Math.Test\Kean.Math.Test.csproj", "{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Geometry2D", "src\Kean.Test.Math.Geometry2D\Kean.Test.Math.Geometry2D.csproj", "{D0806771-B1E2-48E8-9AC0-8D841E0252A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D.Test", "src\Kean.Math.Geometry2D.Test\Kean.Math.Geometry2D.Test.csproj", "{D0806771-B1E2-48E8-9AC0-8D841E0252A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D", "src\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj", "{98F827EA-9073-43FD-9131-6B2448461519}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Geometry3D", "src\Kean.Test.Math.Geometry3D\Kean.Test.Math.Geometry3D.csproj", "{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D.Test", "src\Kean.Math.Geometry3D.Test\Kean.Math.Geometry3D.Test.csproj", "{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex", "src\Kean.Math.Complex\Kean.Math.Complex.csproj", "{164036F9-3982-4111-9283-5B323EF85579}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Complex", "src\Kean.Test.Math.Complex\Kean.Test.Math.Complex.csproj", "{A1C3ED29-A096-452D-BB4F-C4AA654C0584}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex.Test", "src\Kean.Math.Complex.Test\Kean.Math.Complex.Test.csproj", "{A1C3ED29-A096-452D-BB4F-C4AA654C0584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.IO.Sms", "src\Kean.Test.IO.Sms\Kean.Test.IO.Sms.csproj", "{74D8FF69-5DB2-4765-B506-B16C9CF379DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms.Test", "src\Kean.IO.Sms.Test\Kean.IO.Sms.Test.csproj", "{74D8FF69-5DB2-4765-B506-B16C9CF379DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Serial", "src\Kean.IO.Serial\Kean.IO.Serial.csproj", "{1137D63C-EBEA-4E27-8277-E5299A943059}"
 EndProject
@@ -59,11 +59,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Modem", "src\Kean.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random", "src\Kean.Math.Random\Kean.Math.Random.csproj", "{AE692B68-D00E-4298-8CF5-861F537D93C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Random", "src\Kean.Test.Math.Random\Kean.Test.Math.Random.csproj", "{B5AE13FE-2A69-488B-8B0E-54611C8D4DC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random.Test", "src\Kean.Math.Random.Test\Kean.Math.Random.Test.csproj", "{B5AE13FE-2A69-488B-8B0E-54611C8D4DC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression", "src\Kean.Math.Regression\Kean.Math.Regression.csproj", "{13697ABD-61C5-4EB0-B205-D5192E248CF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Math.Regression", "src\Kean.Test.Math.Regression\Kean.Test.Math.Regression.csproj", "{D6CCD665-26E4-4122-A680-930327FF4B8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression.Test", "src\Kean.Math.Regression.Test\Kean.Math.Regression.Test.csproj", "{D6CCD665-26E4-4122-A680-930327FF4B8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml", "src\Kean.Xml\Kean.Xml.csproj", "{6AEA339E-D930-4834-995D-301892768C10}"
 EndProject

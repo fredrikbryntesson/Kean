@@ -30,70 +30,70 @@ namespace Kean.Test.Run
             
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
-            Kean.Test.Math.Complex.Single.Test();
-            Kean.Test.Math.Complex.Double.Test();
-            Kean.Test.Math.Complex.Fourier.Single.Test();
-            Kean.Test.Math.Complex.Fourier.Double.Test();
+            Kean.Math.Complex.Test.Single.Test();
+            Kean.Math.Complex.Test.Double.Test();
+            Kean.Math.Complex.Test.Fourier.Single.Test();
+            Kean.Math.Complex.Test.Fourier.Double.Test();
 
-            Kean.Test.Math.Geometry2D.Integer.Point.Test();
-            Kean.Test.Math.Geometry2D.Single.Point.Test();
-            Kean.Test.Math.Geometry2D.Double.Point.Test();
+            Kean.Math.Geometry2D.Test.Integer.Point.Test();
+            Kean.Math.Geometry2D.Test.Single.Point.Test();
+            Kean.Math.Geometry2D.Test.Double.Point.Test();
 
-            Kean.Test.Math.Geometry2D.Integer.Size.Test();
-            Kean.Test.Math.Geometry2D.Single.Size.Test();
-            Kean.Test.Math.Geometry2D.Double.Size.Test();
+            Kean.Math.Geometry2D.Test.Integer.Size.Test();
+            Kean.Math.Geometry2D.Test.Single.Size.Test();
+            Kean.Math.Geometry2D.Test.Double.Size.Test();
             
-            Kean.Test.Math.Geometry2D.Integer.Box.Test();
-            Kean.Test.Math.Geometry2D.Single.Box.Test();
-            Kean.Test.Math.Geometry2D.Double.Box.Test();
+            Kean.Math.Geometry2D.Test.Integer.Box.Test();
+            Kean.Math.Geometry2D.Test.Single.Box.Test();
+            Kean.Math.Geometry2D.Test.Double.Box.Test();
             
-            Kean.Test.Math.Geometry2D.Integer.Transform.Test();
-            Kean.Test.Math.Geometry2D.Single.Transform.Test();
-            Kean.Test.Math.Geometry2D.Double.Transform.Test();
+            Kean.Math.Geometry2D.Test.Integer.Transform.Test();
+            Kean.Math.Geometry2D.Test.Single.Transform.Test();
+            Kean.Math.Geometry2D.Test.Double.Transform.Test();
 
-            Kean.Test.Math.Geometry3D.Integer.Point.Test();
-            Kean.Test.Math.Geometry3D.Single.Point.Test();
-            Kean.Test.Math.Geometry3D.Double.Point.Test();
+            Kean.Math.Geometry3D.Test.Integer.Point.Test();
+            Kean.Math.Geometry3D.Test.Single.Point.Test();
+            Kean.Math.Geometry3D.Test.Double.Point.Test();
 
-            Kean.Test.Math.Geometry3D.Integer.Size.Test();
-            Kean.Test.Math.Geometry3D.Single.Size.Test();
-            Kean.Test.Math.Geometry3D.Double.Size.Test();
+            Kean.Math.Geometry3D.Test.Integer.Size.Test();
+            Kean.Math.Geometry3D.Test.Single.Size.Test();
+            Kean.Math.Geometry3D.Test.Double.Size.Test();
           
-            Kean.Test.Math.Geometry3D.Integer.Box.Test();
-            Kean.Test.Math.Geometry3D.Single.Box.Test();
-            Kean.Test.Math.Geometry3D.Double.Box.Test();
+            Kean.Math.Geometry3D.Test.Integer.Box.Test();
+            Kean.Math.Geometry3D.Test.Single.Box.Test();
+            Kean.Math.Geometry3D.Test.Double.Box.Test();
 
-            Kean.Test.Math.Matrix.Single.Test();
-            Kean.Test.Math.Matrix.Algorithms.Single.Test();
-            Kean.Test.Math.Matrix.Double.Test();
-            Kean.Test.Math.Matrix.Algorithms.Double.Test();
+            Kean.Math.Matrix.Test.Single.Test();
+            Kean.Math.Matrix.Test.Algorithms.Single.Test();
+            Kean.Math.Matrix.Test.Double.Test();
+            Kean.Math.Matrix.Test.Algorithms.Double.Test();
 
-            Kean.Test.Math.Geometry3D.Single.Transform.Test();
-            Kean.Test.Math.Geometry3D.Double.Transform.Test();
+            Kean.Math.Geometry3D.Test.Single.Transform.Test();
+            Kean.Math.Geometry3D.Test.Double.Transform.Test();
            
-            Kean.Test.Math.Geometry3D.Double.Quaternion.Test();
+            Kean.Math.Geometry3D.Test.Double.Quaternion.Test();
 
-            Kean.Test.Math.Random.Generator.Test();
-            //Kean.Test.Math.Regression.Ransac.Double.Test();
-            //Kean.Test.Math.Regression.Ransac.Single.Test();
-            //Kean.Test.Math.Regression.Minimization.Single.Test();
-            //Kean.Test.Math.Regression.Minimization.Double.Test();
+            Kean.Math.Random.Test.Generator.Test();
+            //Kean.Math.Regression.Test.Ransac.Double.Test();
+            //Kean.Math.Regression.Test.Ransac.Single.Test();
+            //Kean.Math.Regression.Test.Minimization.Single.Test();
+            //Kean.Math.Regression.Test.Minimization.Double.Test();
          
-            Kean.Test.Core.Collection.Vector.Test();
-			Kean.Test.Core.Collection.List.Test();
-			Kean.Test.Core.Collection.Queue.Test();
-			Kean.Test.Core.Collection.Stack.Test();
-			Kean.Test.Core.Collection.Dictionary.Test();
-			Kean.Test.Core.Collection.Linked.List.Test();
-			Kean.Test.Core.Collection.Linked.Queue.Test();
-			Kean.Test.Core.Collection.Linked.Stack.Test();
-			Kean.Test.Core.Collection.Array.Vector.Test();
-			Kean.Test.Core.Collection.Array.List.Test();
-			Kean.Test.Core.Collection.Array.Queue.Test();
-			Kean.Test.Core.Collection.Array.Stack.Test();
-			Kean.Test.Core.Collection.Sorted.List.Test();
+            Kean.Core.Collection.Test.Vector.Test();
+			Kean.Core.Collection.Test.List.Test();
+			Kean.Core.Collection.Test.Queue.Test();
+			Kean.Core.Collection.Test.Stack.Test();
+			Kean.Core.Collection.Test.Dictionary.Test();
+			Kean.Core.Collection.Test.Linked.List.Test();
+			Kean.Core.Collection.Test.Linked.Queue.Test();
+			Kean.Core.Collection.Test.Linked.Stack.Test();
+			Kean.Core.Collection.Test.Array.Vector.Test();
+			Kean.Core.Collection.Test.Array.List.Test();
+			Kean.Core.Collection.Test.Array.Queue.Test();
+			Kean.Core.Collection.Test.Array.Stack.Test();
+			Kean.Core.Collection.Test.Sorted.List.Test();
 
-			//Kean.Test.Core.Error.Error.Test();
+			//Kean.Core.Error.Test.Error.Test();
 			Console.WriteLine("Done");
 		}
 	}
