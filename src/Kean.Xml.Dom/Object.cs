@@ -5,6 +5,8 @@ namespace Kean.Xml.Dom
 {
 	public abstract class Object
 	{
+		public Region Region { get; internal set; }
+
 		Document document;
 		public Document Document
 		{

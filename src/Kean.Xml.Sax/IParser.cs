@@ -1,16 +1,20 @@
 ﻿using System;
+using Kean.Core;
 using Collection = Kean.Core.Collection;
 
 namespace Kean.Xml.Sax
 {
-	interface IParser<T>
+	public interface IParser
 	{
-		event Action<string> OnComment;
-		event Action<string> OnData;
-		event Action<string> OnElementEnd;
-		event Action<string, Collection.IDictionary<string, string>> OnElementStart;
-		event Action<string, string> OnProccessingInstruction;
-		event Action<string> OnText;
-		bool Parse(T input);
+		event Action<float, string, bool?, Region> OnDeclaration;
+		event Action<string, Region> OnComment;
+		event Action<string, Region> OnData;
+		event Action<string, Region> OnElementEnd;
+		event Action<string, Collection.IDictionary<string, Tuple<string, Region>>, Region> OnElementStart;
+		event Action<string, string, Region> OnProccessingInstruction;
+		event Action<string, Region> OnText;
+		string Resource { get; }
+		Position Position { get; }
+		bool Parse();
 	}
 }

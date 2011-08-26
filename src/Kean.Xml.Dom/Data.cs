@@ -6,5 +6,10 @@ namespace Kean.Xml.Dom
 		Node
 	{
 		public string Value { get; set; }
+		public Data() { }
+		public Data(string value)
+		{
+			this.Value = value;
+		}
 	}
 }

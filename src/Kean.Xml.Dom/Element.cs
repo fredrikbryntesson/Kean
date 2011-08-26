@@ -1,4 +1,5 @@
 ﻿using System;
+using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
@@ -7,7 +8,8 @@ namespace Kean.Xml.Dom
 {
 	public class Element:
 		Node,
-		Collection.IList<Node>
+		Collection.IList<Node>,
+		IEquatable<Element>
 	{
 		Collection.IList<Node> childNodes = new Collection.Linked.List<Node>();
 
@@ -16,6 +18,22 @@ namespace Kean.Xml.Dom
 
 		public Element()
 		{
+			Collection.Hooked.List<Attribute> attributes = new Collection.Hooked.List<Attribute>();
+			attributes.Added += (index, attribute) => { attribute.Parent = this; };
+			attributes.Removed += (index, attribute) => { attribute.Parent = null; };
+			attributes.Replaced += (index, oldAttribute, newAttribute) => { oldAttribute.Parent = null; newAttribute.Parent = this; };
+			this.Attributes = new Collection.Wrap.List<Attribute>(attributes);
+		}
+		public Element(string name) :
+			this()
+		{
+			this.Name = name;
+		}
+		public Element(string name, System.Collections.Generic.IEnumerable<Tuple<string, Tuple<string, Region>>> attributes) :
+			this(name)
+		{
+			foreach (Tuple<string, Tuple<string, Region>> attribute in attributes)
+				this.Attributes.Add(new Attribute(attribute.Item1, attribute.Item2.Item1) { Region = attribute.Item2.Item2 });
 		}
 		protected override void ChangeDocument(Document document)
 		{
@@ -78,15 +96,66 @@ namespace Kean.Xml.Dom
 		#region Object Overrides
 		public override bool Equals(object other)
 		{
-			return base.Equals(other);
+			return this.Equals(other as Element);
 		}
 		public override int GetHashCode()
 		{
-			return base.GetHashCode();
+			return this.Name.Hash() ^
+				this.Attributes.GetHashCode() ^
+				this.childNodes.GetHashCode();
 		}
 		public override string ToString()
 		{
 			return base.ToString();
+		}
+		#endregion
+		#region IEquatable<Element> Members
+		public bool Equals(Element other)
+		{
+			return other.NotNull() &&
+				this.Name == other.Name &&
+				this.Attributes.Equals(other.Attributes) &&
+				this.childNodes.Equals(other.childNodes);
+		}
+		#endregion
+		#region Operators
+		public static bool operator ==(Element left, Element right)
+		{
+			return left.Same(right) || left.NotNull() && left.Equals(right);
+		}
+		public static bool operator !=(Element left, Element right)
+		{
+			return !(left == right);
+		}
+		#endregion
+		#region Static Methods
+		public static Element Open(Sax.IParser parser)
+		{
+			Element result = null;
+			Element current = null;
+			parser.OnElementStart += (name, attributes, region) => 
+			{ 
+				Element next = new Element(name, attributes) { Region = region };
+				if (result.IsNull())
+					result = next;
+				else
+					current.Add(next);
+				current = next;
+			};
+			parser.OnElementEnd += (name, region) => 
+			{
+				if (current.Name != name)
+					throw new Exception.EndTagUnmatched(current.Name, current.Region, name, region);
+				if (current.Region.NotNull() && region.NotNull())
+					current.Region = new Region(current.Region.Resource, current.Region.Start, region.End); 
+				current = current.Parent;
+			};
+			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };
+			parser.OnData += (value, region) => { current.Add(new Data(value) { Region = region }); };
+			parser.OnComment += (value, region) => { current.Add(new Comment(value) { Region = region }); };
+			parser.OnProccessingInstruction += (target, value, region) => { current.Add(new ProcessingInstruction(target, value) { Region = region }); };
+
+			return parser.Parse() ? result : null;
 		}
 		#endregion
 	}
