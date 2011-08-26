@@ -27,7 +27,6 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
-            Kean.Test.Math.Regression.Minimization.Single.Test();
             
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();

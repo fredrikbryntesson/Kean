@@ -41,13 +41,13 @@ namespace Kean.Test.Math.Regression.Ransac
                     result = a.Solve(b) ?? new Kean.Math.Matrix.Double(1, degree);
                     return result;
                 },
-                FitsWell = 45,
-                Threshold = 900,
+                FitsWell = 10,
+                Threshold = 1000,
                 Map = map,
                 Metric = (y1, y2) => Kean.Math.Double.Squared(y1 - y2)
             };
             Target.Estimator<double, double, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 120);
+                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 100,0.9999999);
             Collection.IList<Kean.Core.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Tuple<double, double>>();
             Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5, 10});
@@ -124,7 +124,6 @@ namespace Kean.Test.Math.Regression.Ransac
                     }
                     return a.Solve(b) ?? new Kean.Math.Matrix.Double(1, 4);
                 },
-                FitsWell = 10,
                 Threshold = 20,
                 Map = (t, x) => new Geometry2D.Double.PointValue(t[0, 0] * x.X - t[0, 1] * x.Y + t[0, 2], t[0, 1] * x.X + t[0, 0] * x.Y + t[0, 3]),
                 Metric = (y1, y2) => Kean.Math.Double.Squared((y1 - y2).Length)
@@ -255,17 +254,16 @@ namespace Kean.Test.Math.Regression.Ransac
                     result.Y /= (double)count;
                     return result;
                 },
-                FitsWell = 10,
-                Threshold = 8,
+                Threshold = 10,
                 Map = (t, x) => t + x,
                 Metric = (y1, y2) => Kean.Math.Double.Squared((y1 - y2).Length)
             };
             Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> estimate =
-                new Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(model, 20);
+                new Target.Estimator<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(model, 1000);
             Collection.IList<Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>> previousCurrentPoints =
                 new Collection.List<Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>>();
             Geometry2D.Double.PointValue translation = new Geometry2D.Double.PointValue(7, 10);
-            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0, 2);
+            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0, 1);
             Kean.Core.Collection.IList<Geometry2D.Double.PointValue> previousPoints = new Kean.Core.Collection.List<Geometry2D.Double.PointValue>();
             for (int x = -100; x < 100; x += 20)
                 for (int y = -100; y < 100; y += 20)

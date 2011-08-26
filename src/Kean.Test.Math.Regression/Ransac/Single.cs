@@ -14,7 +14,7 @@ namespace Kean.Test.Math.Regression.Ransac
         [Test]
         public void RobustPolynomialRegression()
         {
-            int degree = 2 + 1;
+            int degree = 4 + 1;
             System.Func<Kean.Math.Matrix.Single, float, float> map = (t, x) =>
             {
                 float result = 0;
@@ -24,7 +24,7 @@ namespace Kean.Test.Math.Regression.Ransac
             };
             Target.Model<float, float, Kean.Math.Matrix.Single> model = new Target.Model<float, float, Kean.Math.Matrix.Single>()
             {
-                RequiredMeasures = 10,
+                RequiredMeasures = degree + 30,
                 Estimate = data =>
                 {
                     Kean.Math.Matrix.Single result = null;
@@ -41,18 +41,17 @@ namespace Kean.Test.Math.Regression.Ransac
                     result = a.Solve(b) ?? new Kean.Math.Matrix.Single(1, degree);
                     return result;
                 },
-                FitsWell = 45,
                 Threshold = 900,
                 Map = map,
                 Metric = (y1, y2) => Kean.Math.Single.Squared(y1 - y2)
             };
             Target.Estimator<float, float, Kean.Math.Matrix.Single> estimate =
-                new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 120);
+                new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 520);
             Collection.IList<Kean.Core.Tuple<float, float>> points =
                 new Collection.List<Kean.Core.Tuple<float, float>>();
             Kean.Math.Matrix.Single coefficients = new Kean.Math.Matrix.Single(1, degree, new float[] { 20, 10, 5, 10 });
             Kean.Math.Random.Single.Normal generator = new Kean.Math.Random.Single.Normal(0, 30);
-            for (float x = -10; x < 10; x += 0.1f)
+            for (float x = -100; x < 10; x += 0.1f)
             {
                 float y = map(coefficients, x) + generator.Generate();
                 points.Add(Kean.Core.Tuple.Create<float, float>(x, y));
@@ -93,8 +92,32 @@ namespace Kean.Test.Math.Regression.Ransac
                 file.WriteLine("plot(points(:,1), polyval(fliplr(correctModel'),points(:,1)), 'r');");
                 file.WriteLine("plot(points(:,1), polyval(fliplr(bestModel'),points(:,1)), 'g');");
                 file.Close();
+
+                int n = best.Inliers.Count;
+                Kean.Math.Matrix.Single a = new Kean.Math.Matrix.Single(degree, n);
+                Kean.Math.Matrix.Single b = new Kean.Math.Matrix.Single(1, n);
+                for (int i = 0; i < n; i++)
+                {
+                    float x = best.Inliers[i].Item1;
+                    b[0, i] = best.Inliers[i].Item2;
+                    for (int j = 0; j < degree; j++)
+                        a[j, i] = Kean.Math.Single.Power(x, j);
+                }
+                Kean.Math.Matrix.Single guess = new Kean.Math.Matrix.Single(1, degree);
+                for (int i = 0; i < degree; i++)
+                    guess[0, i] = 1;
+                Kean.Math.Matrix.Single refine = this.Estimate(a, b, guess);   
+
             }
         }
+        Kean.Math.Matrix.Single Estimate(Kean.Math.Matrix.Single a, Kean.Math.Matrix.Single b, Kean.Math.Matrix.Single guess)
+        {
+            Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> function = x => b - a * x;
+            Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> jacobian = x => -a;
+            Kean.Math.Regression.Minimization.LevenbergMarquardt.Single lm = new Kean.Math.Regression.Minimization.LevenbergMarquardt.Single(function, jacobian, 200, 1e-18f, 1e-18f, 1e-3f);
+            return lm.Estimate(guess);
+        }
+        
         [Test]
         public void ScaleRotationTranslationRegression()
         {
@@ -124,7 +147,6 @@ namespace Kean.Test.Math.Regression.Ransac
                     }
                     return a.Solve(b) ?? new Kean.Math.Matrix.Single(1, 4);
                 },
-                FitsWell = 10,
                 Threshold = 20,
                 Map = (t, x) => new Geometry2D.Single.PointValue(t[0, 0] * x.X - t[0, 1] * x.Y + t[0, 2], t[0, 1] * x.X + t[0, 0] * x.Y + t[0, 3]),
                 Metric = (y1, y2) => Kean.Math.Single.Squared((y1 - y2).Length)
@@ -255,7 +277,6 @@ namespace Kean.Test.Math.Regression.Ransac
                     result.Y /= (float)count;
                     return result;
                 },
-                FitsWell = 10,
                 Threshold = 8,
                 Map = (t, x) => t + x,
                 Metric = (y1, y2) => Kean.Math.Single.Squared((y1 - y2).Length)

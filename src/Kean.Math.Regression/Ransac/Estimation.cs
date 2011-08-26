@@ -29,11 +29,13 @@ namespace Kean.Math.Regression.Ransac
         public Collection.IList<Kean.Core.Tuple<Domain, Range>> Inliers { get; set; }
         public double Error { get; set; }
         public Transform Mapping { get; set; }
-        public Estimation(Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers, double error, Transform mapping)
+        public double InlierRatio { get; set; }
+        public Estimation(Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers, double error, Transform mapping, double inlierRatio)
         {
             this.Inliers = inliers;
             this.Error = error;
             this.Mapping = mapping;
+            this.InlierRatio = inlierRatio;
         }
         #region Object overrides
         public override int GetHashCode()
