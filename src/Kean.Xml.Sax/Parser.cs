@@ -58,7 +58,7 @@ namespace Kean.Xml.Sax
 									if (attribute != "version")
 										return false;
 									this.AccumulateUntil('"');
-									float version = float.Parse(this.AccumulateUntil('"'));
+                                    float version = float.Parse(this.AccumulateUntil('"'), System.Globalization.CultureInfo.InvariantCulture);
 									this.AccumulateUntil("?>").Trim();
 									this.OnDeclaration.Call(version, null, null, null);
 								}
