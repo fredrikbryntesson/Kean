@@ -11,6 +11,7 @@ namespace Kean.Math.Regression.Test.Ransac
     public class Double :
         AssertionHelper
     {
+        string prefix = "Kean.Math.Regression.Test.Ransac.Double.";
         [Test]
         public void RobustPolynomialRegression()
         {
@@ -60,6 +61,9 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(points);
             Target.Estimation<double, double, Kean.Math.Matrix.Double> best = estimate.Compute();
             if (best.NotNull())
+                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(20), this.prefix + "RobustPolynomialRegression");
+            /*
+            if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
                 file.WriteLine("clear all;");
@@ -94,6 +98,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("plot(points(:,1), polyval(fliplr(bestModel'),points(:,1)), 'g');");
                 file.Close();
             }
+            */
         }
         [Test]
         public void ScaleRotationTranslationRegression()
@@ -156,7 +161,10 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(new Geometry2D.Double.PointValue(130, 130), new Geometry2D.Double.PointValue(720, 70)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> best = estimate.Compute();
-
+            Matrix.Double correct = new Matrix.Double(1,4, new double[] {s * Kean.Math.Double.Cosinus(thetaAngle),s * Kean.Math.Double.Sinus(thetaAngle), xTranslation, yTranslation});
+            if (best.NotNull())
+                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression");
+            /*
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -237,6 +245,7 @@ namespace Kean.Math.Regression.Test.Ransac
                   
                     
             }
+            */
         }
         [Test]
         public void TranslationRegression()
@@ -281,7 +290,9 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(new Geometry2D.Double.PointValue(107, 107), new Geometry2D.Double.PointValue(120, 130)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> best = estimate.Compute();
-
+            if (best.NotNull())
+                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(1), this.prefix + "TranslationRegression");
+           /*
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -311,6 +322,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("xlabel(strcat(' x= ', num2str(bestmodel(1)), ' y= ', num2str(bestmodel(2))))");
                 file.Close();
             }
+            */
         }
         public void Run()
         {

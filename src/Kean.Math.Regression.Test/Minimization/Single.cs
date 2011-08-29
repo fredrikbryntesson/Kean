@@ -12,6 +12,7 @@ namespace Kean.Math.Regression.Test.Minimization
     public class Single :
         AssertionHelper
     {
+        string prefix = "Kean.Math.Regression.Test.Minimization.Single.";
         [Test]
         public void LevenbergMarquardt()
         {
@@ -20,6 +21,7 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Single guess = new Matrix.Single(1, 3, new float[] { 1, 1, 1 });
             Matrix.Single result = this.Estimate(a, b, guess);
             Matrix.Single correct = new Matrix.Single(1, 3, new float[] { 1, -2, -2 });
+            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt");
         }
         Matrix.Single Estimate(Matrix.Single a, Matrix.Single b, Matrix.Single guess)
         {
@@ -45,13 +47,13 @@ namespace Kean.Math.Regression.Test.Minimization
             watch.Start();
             Matrix.Single x = aa.Solve(yy);
             watch.Stop();
-            Console.WriteLine("Lup solver " + watch.ElapsedMilliseconds + " error " + x.Distance(correct));
+            //Console.WriteLine("Lup solver " + watch.ElapsedMilliseconds + " error " + x.Distance(correct));
             watch.Reset();
             watch.Start();
             Matrix.Single x2 = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
             watch.Stop();
-            Console.WriteLine("Lm solver " + watch.ElapsedMilliseconds + " error " + x2.Distance(correct));
-            //Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f));
+            //Console.WriteLine("Lm solver " + watch.ElapsedMilliseconds + " error " + x2.Distance(correct));
+            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2");
 
         }
         public void Run()

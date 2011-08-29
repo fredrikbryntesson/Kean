@@ -12,14 +12,16 @@ namespace Kean.Math.Regression.Test.Minimization
     public class Double :
         AssertionHelper
     {
+        string prefix = "Kean.Math.Regression.Test.Minimization.Double.";
         [Test]
         public void LevenbergMarquardt()
         {
-            Matrix.Double a = new Matrix.Double(3, 3, new double[] {3, 2, -1, 2, -2, 0.5, -1,4,-1});
-            Matrix.Double b = new Matrix.Double(1, 3, new double[] {1 , -2, 0});
-            Matrix.Double guess = new Matrix.Double(1,3, new double[] {1,1,1});
+            Matrix.Double a = new Matrix.Double(3, 3, new double[] { 3, 2, -1, 2, -2, 0.5, -1, 4, -1 });
+            Matrix.Double b = new Matrix.Double(1, 3, new double[] { 1, -2, 0 });
+            Matrix.Double guess = new Matrix.Double(1, 3, new double[] { 1, 1, 1 });
             Matrix.Double result = this.Estimate(a, b, guess);
             Matrix.Double correct = new Matrix.Double(1, 3, new double[] { 1, -2, -2 });
+            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt");
         }
         Matrix.Double Estimate(Matrix.Double a, Matrix.Double b, Matrix.Double guess)
         {
@@ -42,8 +44,8 @@ namespace Kean.Math.Regression.Test.Minimization
                 yy = yy.Paste(0, 5 * i, y);
             Matrix.Single correct = new Matrix.Single(1, 5, new float[] { -70, 231, -296, 172, -38 });
             Matrix.Single x = aa.Solve(yy);
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f));
-      
+            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2");
+
         }
         public void Run()
         {

@@ -11,6 +11,7 @@ namespace Kean.Math.Regression.Test.Ransac
     public class Single :
         AssertionHelper
     {
+        string prefix = "Kean.Math.Regression.Test.Ransac.Single.";
         [Test]
         public void RobustPolynomialRegression()
         {
@@ -58,6 +59,9 @@ namespace Kean.Math.Regression.Test.Ransac
             }
             estimate.Load(points);
             Target.Estimation<float, float, Kean.Math.Matrix.Single> best = estimate.Compute();
+            if (best.NotNull())
+                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(500), this.prefix + "RobustPolynomialRegression");
+            /*
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -109,6 +113,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 Kean.Math.Matrix.Single refine = this.Estimate(a, b, guess);   
 
             }
+            */
         }
         Kean.Math.Matrix.Single Estimate(Kean.Math.Matrix.Single a, Kean.Math.Matrix.Single b, Kean.Math.Matrix.Single guess)
         {
@@ -117,7 +122,7 @@ namespace Kean.Math.Regression.Test.Ransac
             Kean.Math.Regression.Minimization.LevenbergMarquardt.Single lm = new Kean.Math.Regression.Minimization.LevenbergMarquardt.Single(function, jacobian, 200, 1e-18f, 1e-18f, 1e-3f);
             return lm.Estimate(guess);
         }
-        
+
         [Test]
         public void ScaleRotationTranslationRegression()
         {
@@ -179,7 +184,10 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(130, 130), new Geometry2D.Single.PointValue(720, 70)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> best = estimate.Compute();
-
+            Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosinus(thetaAngle), s * Kean.Math.Single.Sinus(thetaAngle), xTranslation, yTranslation });
+            if (best.NotNull())
+                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression");
+            /*
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -260,6 +268,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 Kean.Math.Matrix.Single guess = new Kean.Math.Matrix.Single(1, 4, new float[] { 1, 1, 1, 1 }); // new Kean.Math.Matrix.Single(1, 4, new float[] { scaleGuess, thetaGuess, xTranslationGuess, yTranslationGuess }); 
                 Kean.Math.Matrix.Single estimation = lm.Estimate(guess);
             }
+            */
         }
         [Test]
         public void TranslationRegression()
@@ -304,7 +313,9 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(107, 107), new Geometry2D.Single.PointValue(120, 130)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> best = estimate.Compute();
-
+            if(best.NotNull())
+                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression");
+            /*
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -334,6 +345,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("xlabel(strcat(' x= ', num2str(bestmodel(1)), ' y= ', num2str(bestmodel(2))))");
                 file.Close();
             }
+            */
         }
         public void Run()
         {
