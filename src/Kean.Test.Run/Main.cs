@@ -76,10 +76,10 @@ namespace Kean.Test.Run
             Kean.Math.Geometry3D.Test.Double.Quaternion.Test();
 
             Kean.Math.Random.Test.Generator.Test();
-            //Kean.Math.Regression.Test.Ransac.Double.Test();
-            //Kean.Math.Regression.Test.Ransac.Single.Test();
-            //Kean.Math.Regression.Test.Minimization.Single.Test();
-            //Kean.Math.Regression.Test.Minimization.Double.Test();
+            Kean.Math.Regression.Test.Ransac.Double.Test();
+            Kean.Math.Regression.Test.Ransac.Single.Test();
+            Kean.Math.Regression.Test.Minimization.Single.Test();
+            Kean.Math.Regression.Test.Minimization.Double.Test();
          
             Kean.Core.Collection.Test.Vector.Test();
 			Kean.Core.Collection.Test.List.Test();
