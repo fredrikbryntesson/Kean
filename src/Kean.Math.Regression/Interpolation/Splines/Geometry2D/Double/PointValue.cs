@@ -2,7 +2,7 @@
 using Kean.Core;
 using Kean.Core.Extension;
 
-namespace Kean.Math.Regression.Interpolation.Splines.Geometry2D
+namespace Kean.Math.Regression.Interpolation.Splines.Geometry2D.Double
 {
     public class PointValue
     {
@@ -22,8 +22,8 @@ namespace Kean.Math.Regression.Interpolation.Splines.Geometry2D
                 if (this.measures.NotNull())
                 {
                     Tuple<double, double>[][] values = new Tuple<double, double>[2][];
-                    values[0] = new Tuple<double, double>[this.measures.Length];
-                    values[1] = new Tuple<double, double>[this.measures.Length];
+                    for (int i = 0; i < values.Length; i++)
+                        values[i] = new Tuple<double, double>[this.measures.Length];
                     for (int i = 0; i < this.measures.Length; i++)
                     {
                         double time = this.measures[i].Item1;
@@ -31,7 +31,9 @@ namespace Kean.Math.Regression.Interpolation.Splines.Geometry2D
                         values[0][i] = Tuple.Create(time, point.X);
                         values[1][i] = Tuple.Create(time, point.Y);
                     }
-                    this.interpolators = new Double[] { new Double(this.method, values[0]), new Double(this.method, values[1]) };
+                    this.interpolators = new Splines.Double[values.Length];
+                    for (int i = 0; i < values.Length; i++)
+                        this.interpolators[i] = new Splines.Double(this.Method, values[i]);
                 }
             }
         }

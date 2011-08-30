@@ -27,8 +27,7 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Started");
-
-			Xml.Dom.Test.Open.Test();
+            Xml.Dom.Test.Open.Test();
 
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
@@ -80,7 +79,8 @@ namespace Kean.Test.Run
             Kean.Math.Regression.Test.Ransac.Single.Test();
             Kean.Math.Regression.Test.Minimization.Single.Test();
             Kean.Math.Regression.Test.Minimization.Double.Test();
-         
+            Kean.Math.Regression.Test.Interpolation.Splines.Geometry2D.Test();
+			
             Kean.Core.Collection.Test.Vector.Test();
 			Kean.Core.Collection.Test.List.Test();
 			Kean.Core.Collection.Test.Queue.Test();

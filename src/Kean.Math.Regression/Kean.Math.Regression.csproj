@@ -40,9 +40,14 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Interpolation\Splines\Double.cs" />
-    <Compile Include="Interpolation\Splines\Geometry2D\PointValue.cs" />
+    <Compile Include="Interpolation\Splines\Geometry2D\Double\PointValue.cs" />
+    <Compile Include="Interpolation\Splines\Geometry2D\Double\TransformValue.cs" />
+    <Compile Include="Interpolation\Splines\Geometry2D\Single\PointValue.cs" />
+    <Compile Include="Interpolation\Splines\Geometry2D\Single\TransformValue.cs" />
     <Compile Include="Interpolation\Splines\Method.cs" />
-    <Compile Include="Minimization\GaussNewton.cs" />
+    <Compile Include="Interpolation\Splines\Single.cs" />
+    <Compile Include="Minimization\GaussNewton\Double.cs" />
+    <Compile Include="Minimization\GaussNewton\Single.cs" />
     <Compile Include="Minimization\LevenbergMarquardt\Double.cs" />
     <Compile Include="Minimization\LevenbergMarquardt\Single.cs" />
     <Compile Include="Ransac\Estimation.cs" />
