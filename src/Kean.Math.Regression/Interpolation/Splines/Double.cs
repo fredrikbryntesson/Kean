@@ -41,16 +41,23 @@ namespace Kean.Math.Regression.Interpolation.Splines
                 this.measures = value;
                 if (this.measures.NotNull())
                 {
-                    switch (this.Method)
+                    if (this.measures.Length >= 2)
+                        switch (this.Method)
+                        {
+                            default:
+                            case Method.Natural:
+                                this.elements = this.Natural(this.measures);
+                                break;
+                            case Method.Periodic:
+                                this.elements = this.Periodic(this.measures);
+                                break;
+                        }
+                    else if (this.measures.Length == 1)
                     {
-                        default:
-                        case Method.Natural:
-                            this.elements = this.Natural(this.measures);
-                            break;
-                        case Method.Periodic:
-                            this.elements = this.Periodic(this.measures);
-                            break;
+                        this.elements = new Element[] { new Element(this.measures[0].Item2, 0, 0, 0, 0, 1)};
                     }
+                    else
+                        this.elements = new Element[] { new Element(0, 0, 0, 0, 0, 1) };
                 }
             }
         }

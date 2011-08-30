@@ -16,11 +16,11 @@ namespace Kean.Math.Regression.Test.Interpolation.Splines
             Kean.Math.Regression.Interpolation.Splines.Geometry2D.Double.PointValue interpolate = new Kean.Math.Regression.Interpolation.Splines.Geometry2D.Double.PointValue(Kean.Math.Regression.Interpolation.Splines.Method.Periodic);
             interpolate.Measures = new Tuple<double, Kean.Math.Geometry2D.Double.PointValue>[] 
                 { 
-                    Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(0,new Kean.Math.Geometry2D.Double.PointValue(10, 0)), 
-                    Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(1,new Kean.Math.Geometry2D.Double.PointValue(0, 10)), 
-                    Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(2, new Kean.Math.Geometry2D.Double.PointValue(-10, 0)), 
-                    Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(3, new Kean.Math.Geometry2D.Double.PointValue(0, -10)), 
-                    Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(4, new Kean.Math.Geometry2D.Double.PointValue(10, 0)) 
+                   Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(0,new Kean.Math.Geometry2D.Double.PointValue(10, 0)), 
+                   Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(1,new Kean.Math.Geometry2D.Double.PointValue(0, 10)), 
+                   Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(2, new Kean.Math.Geometry2D.Double.PointValue(-10, 0)), 
+                   Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(3, new Kean.Math.Geometry2D.Double.PointValue(0, -10)), 
+                   Tuple.Create<double, Kean.Math.Geometry2D.Double.PointValue>(4, new Kean.Math.Geometry2D.Double.PointValue(10, 0)) 
                 };
             Kean.Core.Collection.IList<Kean.Math.Geometry2D.Double.PointValue> points = new Kean.Core.Collection.List<Kean.Math.Geometry2D.Double.PointValue>();
             int count = 100;
