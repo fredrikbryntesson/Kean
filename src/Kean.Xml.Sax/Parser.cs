@@ -88,12 +88,12 @@ namespace Kean.Xml.Sax
 								if (this.reader.Current != '/' && this.reader.Current != '>')
 									while (this.reader.Next() && this.reader.Current != '/' && this.reader.Current != '>')
 									{
+										Position start = this.Position;
 										string key = this.AccumulateUntil('=').Trim();
 										this.AccumulateUntil('"');
-										Position start = this.Position;
 										attributes[key] = Tuple.Create(this.AccumulateUntil('"'), new Region(this.Resource, start, this.Position));
 									}
-								this.OnElementStart(name, attributes, null);
+								this.OnElementStart.Call(name, attributes, null);
 								if (this.reader.Current == '/' && this.Verify(">"))
 								{
 									this.OnElementEnd(name, null);
