@@ -27,7 +27,7 @@ namespace Kean.Xml.Dom.Test
 {
 	[TestFixture]
 	public class Open :
-		AssertionHelper
+		Kean.Test.Fixture<Open>
 	{
 		[Test]
 		public void Valid001()
@@ -51,24 +51,13 @@ namespace Kean.Xml.Dom.Test
 			created.Root.Add(new Text("Text"));
 			Expect(opened, Is.EqualTo(created));
 		}
-
-		public void Run()
+		protected override void Run()
 		{
 			this.Run(
-				this.Valid001,
-				this.Valid002
-			);
-		}
-		void Run(params System.Action[] tests)
-		{
-			foreach (System.Action test in tests)
-				if (test.NotNull())
-					test();
-		}
-		public static void Test()
-		{
-			Open fixture = new Open();
-			fixture.Run();
+				(Action)this.Valid001, 
+				(Action)this.Valid002, 
+				(Action)this.Valid003
+				);
 		}
 	}
 }

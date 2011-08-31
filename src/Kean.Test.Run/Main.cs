@@ -27,7 +27,7 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Console.WriteLine("Started");
-            Xml.Dom.Test.Open.Test();
+			Xml.Dom.Test.Open.Test();
 
             Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();

@@ -52,6 +52,10 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+      <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
+      <Name>Kean.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Xml\Kean.Xml.csproj">
       <Project>{6AEA339E-D930-4834-995D-301892768C10}</Project>
       <Name>Kean.Xml</Name>

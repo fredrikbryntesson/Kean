@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color", "src\Kean
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.OpenGL", "src\Kean.Draw.OpenGL\Kean.Draw.OpenGL.csproj", "{A519A94C-2837-4A3D-B90A-1535704DCC8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test", "src\Kean.Test\Kean.Test.csproj", "{B5E16CAE-808E-448A-8D6E-D770EB91868C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -739,6 +741,21 @@ Global
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Default|x86.ActiveCfg = Debug|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B5E16CAE-808E-448A-8D6E-D770EB91868C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -100,6 +100,10 @@
       <Project>{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}</Project>
       <Name>Kean.Math.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+      <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
+      <Name>Kean.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Xml.Dom.Test\Kean.Xml.Dom.Test.csproj">
       <Project>{124712B0-21A1-4AFC-AFAD-211662A8E6C3}</Project>
       <Name>Kean.Xml.Dom.Test</Name>
