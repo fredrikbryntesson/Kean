@@ -1,18 +1,19 @@
 ﻿using System;
 
 namespace Kean.Math.Geometry2D.Abstract
-{
-    public abstract class Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-        IShell<V>
-        where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
-        where ShellValue : struct, IShell<V>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+{  
+		public abstract class Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        IShell<V>,
+		IEquatable<ShellType>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where BoxType : Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
         where BoxValue : struct, IBox<PointValue, SizeValue, V>
-        where PointType : Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
         where PointValue : struct, IPoint<V>, IVector<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, ISize<V>, new()
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct

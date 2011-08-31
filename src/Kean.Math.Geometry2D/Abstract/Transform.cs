@@ -23,12 +23,18 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> :
+    public abstract class Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
         ITransform<V>,
-        IEquatable<TransformType>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+		IEquatable<TransformType>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+        where BoxValue : struct, IBox<PointValue, SizeValue, V>
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+        where PointValue : struct, IPoint<V>, IVector<V>
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
@@ -100,7 +106,7 @@ namespace Kean.Math.Geometry2D.Abstract
         public V ScalingY { get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); } }
         public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; } }
         public V Rotation { get { return ((R)this.B).ArcusTangensExtended((R)this.A); } }
-        public SizeType Translation { get { return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(this.E,this.F); } }
+		public SizeType Translation { get { return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.E, this.F); } }
         #endregion
 	
         #region Constructors
@@ -126,7 +132,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public TransformType Translate(V xDelta, V yDelta)
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta) * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta) * this;
         }
         public TransformType Scale(V factor)
         {
@@ -138,27 +144,27 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public TransformType Scale(V xFactor, V yFactor)
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(xFactor, yFactor) * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateScaling(xFactor, yFactor) * this;
         }
         public TransformType Rotate(V angle)
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle) * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle) * this;
         }
         public TransformType SkewX(V angle)
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateSkewingX(angle) * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateSkewingX(angle) * this;
         }
         public TransformType SkewY(V angle)
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateSkewingY(angle) * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateSkewingY(angle) * this;
         }
         public TransformType ReflectX()
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionX() * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateReflectionX() * this;
         }
         public TransformType ReflectY()
         {
-            return Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateReflectionY() * this;
+            return Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateReflectionY() * this;
         }
         #endregion
         #region Static Creators
@@ -173,7 +179,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public static TransformType CreateTranslation(IVector<V> delta)
         {
-            return Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(delta.X, delta.Y);
+            return Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(delta.X, delta.Y);
         }
         public static TransformType CreateTranslation(V xDelta, V yDelta)
         {
@@ -221,7 +227,7 @@ namespace Kean.Math.Geometry2D.Abstract
         } 
         #endregion
         #region Arithmetic Operators
-        public static TransformType operator *(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, ITransform<V> right)
+        public static TransformType operator *(Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, ITransform<V> right)
         {
             return new TransformType()
             {
@@ -243,13 +249,13 @@ namespace Kean.Math.Geometry2D.Abstract
         V ITransform<V>.F { get { return this.F; } }
         #endregion
         #region Comparison Operators
-        public static bool operator ==(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
+        public static bool operator ==(Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, TransformType right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
                 (R)left.A == (R)right.A && (R)left.B == (R)right.B && (R)left.C == (R)right.C && (R)left.D == (R)right.D && (R)left.E == (R)right.E && (R)left.F == (R)right.F;
         }
-        public static bool operator !=(Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> left, TransformType right)
+        public static bool operator !=(Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, TransformType right)
         {
             return !(left == right);
         }
@@ -289,7 +295,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Casts
-        public static explicit operator V[,](Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> value)
+        public static explicit operator V[,](Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {
             V[,] result = new V[3, 3];
             for (int x = 0; x < 3; x++)

@@ -120,7 +120,10 @@ namespace Kean.Math
                 result = (R)this;
             return result;
         }
-        #endregion
+		public abstract R Round();
+		public abstract R Ceiling();
+		public abstract R Floor();
+		#endregion
         #region Trigonometric Functions
         public abstract R Sinus();
         public abstract R Cosinus();

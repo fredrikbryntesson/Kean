@@ -23,7 +23,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Integer
 {
-    public class Shell : Abstract.Shell<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Integer, int>
+    public class Shell : 
+		Abstract.Shell<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Integer, int>
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
         public Shell() { }

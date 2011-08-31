@@ -22,16 +22,18 @@ using System;
 
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+    public abstract class Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
         IBox<PointValue, SizeValue, V>,
-        IEquatable<BoxType>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+		IEquatable<BoxType>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where BoxType : Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
         where BoxValue : struct, IBox<PointValue, SizeValue, V>
-        where PointType : Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
         where PointValue : struct, IPoint<V>, IVector<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, ISize<V>, new()
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
@@ -54,6 +56,12 @@ namespace Kean.Math.Geometry2D.Abstract
         public V Top { get { return (this.LeftTop as IPoint<V>).Y; } }
         public V Bottom { get { return (R)((this.LeftTop as IPoint<V>).Y) + this.Size.Height; } }
         #endregion
+
+		#region All corners
+		public PointType RightTop { get { return Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.Right, this.Top); } }
+		public PointType LeftBottom { get { return Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.Left, this.Bottom); } }
+		public PointType RightBottom { get { return this.LeftTop + this.Size; } }
+		#endregion
 
         #region IBox<PointValue, SizeValue, V>
         PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTop.Value; } }
@@ -96,44 +104,57 @@ namespace Kean.Math.Geometry2D.Abstract
             return this.Intersection(box) == box;
         }
         public abstract BoxType Intersection(BoxType other);
-        #endregion
+		public BoxType Round()
+		{
+			return new BoxType() { leftTop = this.LeftTop.Round(), size = this.Size.Round() };
+		}
+		public BoxType Ceiling()
+		{
+			PointType leftTop = this.LeftTop.Floor();
+			return new BoxType() { leftTop = leftTop, size = (SizeType)(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>)(this.RightBottom.Ceiling()) - leftTop, };
+		}
+		public BoxType Floor()
+		{
+			return new BoxType() { leftTop = this.LeftTop.Round(), size = this.Size.Round() };
+		}
+		#endregion
         #region Arithmetic operators
-        public static BoxType operator +(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
+        public static BoxType operator +(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
             return new BoxType() { leftTop = left.leftTop + right, size = left.size };
         }
-        public static BoxType operator -(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
+        public static BoxType operator -(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
             return new BoxType() { leftTop = left.leftTop - right, size = left.size };
         }
-        public static BoxType operator +(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
+        public static BoxType operator +(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
         {
             return new BoxType() { leftTop = left.leftTop, size = left.size + right };
         }
-        public static BoxType operator -(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
+        public static BoxType operator -(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, SizeType right)
         {
             return new BoxType() { leftTop = left.leftTop, size = left.size - right };
         }
-        public static BoxType operator *(TransformType left, Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        public static BoxType operator *(TransformType left, Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return new BoxType() { leftTop = left * right.leftTop, size = left * right.size };
         }
         #endregion
         #region Comparison Operators
-        public static bool operator ==(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
+        public static bool operator ==(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
                 left.leftTop == right.LeftTop &&
                 left.size == right.Size;
         }
-        public static bool operator !=(Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
+        public static bool operator !=(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IBox<PointValue, SizeValue, V> right)
         {
             return !(left == right);
         }
         #endregion
         #region Casts
-        public static explicit operator Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(BoxValue value)
+        public static explicit operator Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(BoxValue value)
         {
             return new BoxType() { leftTop = (PointType)value.LeftTop, size = (SizeType)value.Size };
         }
@@ -166,7 +187,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public static BoxType Bounds(V left, V right, V top, V bottom)
         {
-            return Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(left, top), Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create((R)right - left, (R)bottom - top));
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(left, top), Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)right - left, (R)bottom - top));
         }
         public static BoxType Bounds(params PointType[] points)
         {
@@ -203,7 +224,7 @@ namespace Kean.Math.Geometry2D.Abstract
                         }
                     }
                 }
-                result = Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(xMinimum, yMinimum), Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(xMaximum - xMinimum, yMaximum - yMinimum));
+				result = Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(xMinimum, yMinimum), Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(xMaximum - xMinimum, yMaximum - yMinimum));
             }
             return result;
         }

@@ -23,7 +23,7 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Double
 {
-    public class Size : Abstract.Size<Transform, TransformValue, Size, SizeValue, Kean.Math.Double, double>
+	public class Size : Abstract.Size<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Double, double>
     {
         public override SizeValue Value { get { return (SizeValue)this; } }
         public Size() { }

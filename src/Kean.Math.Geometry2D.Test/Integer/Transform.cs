@@ -7,8 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
 {
     [TestFixture]
     public class Transform :
-        Kean.Math.Geometry2D.Test.Abstract.Transform<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue,
-        Kean.Math.Integer, int>
+		Kean.Math.Geometry2D.Test.Abstract.Transform<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
         protected override Target.Integer.Transform CastFromString(string value)
         {

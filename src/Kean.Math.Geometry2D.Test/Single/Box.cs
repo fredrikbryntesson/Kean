@@ -7,8 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class Box :
-        Kean.Math.Geometry2D.Test.Abstract.Box<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue,
-        Kean.Math.Single, float>
+		Kean.Math.Geometry2D.Test.Abstract.Box<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
         [TestFixtureSetUp]
         public virtual void FixtureSetup()

@@ -78,7 +78,20 @@ namespace Kean.Math
             return 180 / Integer.Pi * this;
         }
         #endregion
-        
+		#region Utility Functions
+		public override Integer Round()
+		{
+			return Integer.Round(this);
+		}
+		public override Integer Ceiling()
+		{
+			return Integer.Ceiling(this);
+		}
+		public override Integer Floor()
+		{
+			return Integer.Floor(this);
+		}
+		#endregion
         #region Trigonometric Functions
         public override Integer Sinus()
         {

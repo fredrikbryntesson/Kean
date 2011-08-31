@@ -23,14 +23,20 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> :
-        IVector<V>,
-        IEquatable<Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>>
-        where VectorType : Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>, IVector<V>, new()
-        where VectorValue : struct, IVector<V>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+    public abstract class Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+		IEquatable<Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>>,
+        IVector<V>
+		where VectorType : Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+		where VectorValue : struct, IVector<V>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+        where BoxValue : struct, IBox<PointValue, SizeValue, V>
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+        where PointValue : struct, IPoint<V>, IVector<V>
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
@@ -90,9 +96,21 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return other.IsNull() ? null : (this - other).Norm;
         }
-        #endregion
+		public VectorType Round()
+		{
+			return new VectorType() { X = this.X.Round(), Y = this.Y.Round() };
+		}
+		public VectorType Ceiling()
+		{
+			return new VectorType() { X = this.X.Ceiling(), Y = this.Y.Ceiling() };
+		}
+		public VectorType Floor()
+		{
+			return new VectorType() { X = this.X.Floor(), Y = this.Y.Floor() };
+		}
+		#endregion
         #region Arithmetic Vector - Vector Operators
-        public static VectorType operator +(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+		public static VectorType operator +(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return (left.IsNull() || right.IsNull()) ? null : 
                 new VectorType()
@@ -101,7 +119,7 @@ namespace Kean.Math.Geometry2D.Abstract
                     Y = left.Y + right.Y,
                 };
         }
-        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> vector)
+		public static VectorType operator -(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> vector)
         {
             return vector.IsNull() ? null : new VectorType()
              {
@@ -109,7 +127,7 @@ namespace Kean.Math.Geometry2D.Abstract
                  Y = -vector.Y,
              };
         }
-        public static VectorType operator -(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        public static VectorType operator -(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return (left.IsNull() || right.IsNull()) ? null : new VectorType()
                 {
@@ -117,7 +135,7 @@ namespace Kean.Math.Geometry2D.Abstract
                     Y = left.Y - right.Y,
                 };
         }
-        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        public static VectorType operator *(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return (left.IsNull() || right.IsNull()) ? null : new VectorType()
                 {
@@ -127,7 +145,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Arithmetic Vector and Scalar
-        public static VectorType operator *(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, R right)
+        public static VectorType operator *(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, R right)
         {
             return (left.IsNull() || right.IsNull()) ? null : new VectorType()
                 {
@@ -135,7 +153,7 @@ namespace Kean.Math.Geometry2D.Abstract
                     Y = left.Y * right,
                 };
         }
-        public static VectorType operator /(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, R right)
+        public static VectorType operator /(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, R right)
         {
             return (left.IsNull() || right.IsNull()) ? null : new VectorType()
                 {
@@ -143,7 +161,7 @@ namespace Kean.Math.Geometry2D.Abstract
                     Y = left.Y / right,
                 };
         }
-        public static VectorType operator *(R left, Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> right)
+        public static VectorType operator *(R left, Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return right * left;
         }
@@ -155,7 +173,7 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <param name="Left">Point Left of operator.</param>
         /// <param name="Right">Point Right of operator.</param>
         /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
-        public static bool operator ==(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        public static bool operator ==(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) && left.X == right.X && left.Y == right.Y;
@@ -166,7 +184,7 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <param name="Left">Point Left of operator.</param>
         /// <param name="Right">Point Right of operator.</param>
         /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
-        public static bool operator !=(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        public static bool operator !=(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
             return !(left == right);
         }
@@ -174,10 +192,10 @@ namespace Kean.Math.Geometry2D.Abstract
         #region Object overides and IEquatable<VectorType>
         public override bool Equals(object other)
         {
-            return (other is Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>) && this.Equals(other as Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>);
+            return (other is Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>) && this.Equals(other as Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>);
         }
         // other is not null here.
-        public bool Equals(Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> other)
+        public bool Equals(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> other)
         {
             return this == other;
         }
@@ -191,19 +209,23 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         #endregion
         #region Casts
-        public static explicit operator V[](Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> value)
+        public static explicit operator V[](Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {
             return new V[] { value.X, value.Y };
         }
-        public static explicit operator Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>(V[] value)
+        public static explicit operator Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(V[] value)
         {
             return new VectorType() { X = (R)value[0], Y = (R)value[1] };
         }
-        public static explicit operator Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>(VectorValue value)
+        public static explicit operator Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>(VectorValue value)
         {
             return new VectorType() { X = (R)value.X, Y = (R)value.Y };
         }
-        #endregion
+		public static implicit operator VectorType(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)
+		{
+			return new VectorType() { X = (R)value.X, Y = (R)value.Y };
+		}
+		#endregion
         public static VectorType Create(V x, V y)
         {
             return new VectorType() { X = (R)x, Y = (R)y };

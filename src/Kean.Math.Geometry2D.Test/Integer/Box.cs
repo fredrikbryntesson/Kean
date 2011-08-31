@@ -7,8 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
 {
     [TestFixture]
     public class Box :
-        Kean.Math.Geometry2D.Test.Abstract.Box<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue,
-        Kean.Math.Integer, int>
+		Kean.Math.Geometry2D.Test.Abstract.Box<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
         [TestFixtureSetUp]
         public virtual void FixtureSetup()

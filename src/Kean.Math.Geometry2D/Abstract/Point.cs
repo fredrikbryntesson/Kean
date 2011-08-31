@@ -19,16 +19,22 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Extension;
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue,R, V> :
-		Vector<TransformType, TransformValue, PointType, PointValue,SizeType, SizeValue, R, V>,
-		IPoint<V>
-        where PointType : Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where PointValue : struct, IPoint<V>, IVector<V>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+    public abstract class Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+		Vector<PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>,
+        IPoint<V>,
+		IEquatable<PointType>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+        where BoxValue : struct, IBox<PointValue, SizeValue, V>
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+        where PointValue : struct, IPoint<V>, IVector<V>
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
@@ -45,8 +51,14 @@ namespace Kean.Math.Geometry2D.Abstract
 			base(x, y)
 		{ }
         #endregion
-        #region Arithmetic Operators
-        public static PointType operator *(TransformType left, Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+		#region IEquatable<PointType> Members
+		public bool Equals(PointType other)
+		{
+			return other.NotNull() && this.X.Equals(other.X) && this.Y.Equals(other.Y);
+		}
+		#endregion
+		#region Arithmetic Operators
+        public static PointType operator *(TransformType left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return new PointType().Create(left.A * (R)right.X + left.C * (R)right.Y + left.E, left.B * (R)right.X + left.D * (R)right.Y + left.F);
         }
@@ -54,7 +66,13 @@ namespace Kean.Math.Geometry2D.Abstract
         public static PointType Polar(R radius, R azimuth)
         {
             return new PointType().Create(radius * azimuth.Cosinus(), radius * azimuth.Sinus());
-        }
-    }
+		}
+		#region Casts
+		public static explicit operator SizeType(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> point)
+		{
+			return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(point.X, point.Y);
+		}
+		#endregion
+	}
 }
 

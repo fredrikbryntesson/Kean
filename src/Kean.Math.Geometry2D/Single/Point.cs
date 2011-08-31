@@ -24,7 +24,7 @@ using Kean.Core.Extension;
 namespace Kean.Math.Geometry2D.Single
 {
     public class Point :
-        Abstract.Point<Transform, TransformValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
+		Abstract.Point<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public override PointValue Value { get { return (PointValue)this; } }
         public Point() { }

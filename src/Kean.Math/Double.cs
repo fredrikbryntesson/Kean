@@ -79,7 +79,21 @@ namespace Kean.Math
             return 180 / Double.Pi * this;
         }
         #endregion
-        #region Trigonometric Functions
+		#region Utility Functions
+		public override Double Round()
+		{
+			return Double.Round(this);
+		}
+		public override Double Ceiling()
+		{
+			return Double.Ceiling(this);
+		}
+		public override Double Floor()
+		{
+			return Double.Floor(this);
+		}
+		#endregion
+		#region Trigonometric Functions
         public override Double Sinus()
         {
             return Double.Sinus(this.Value);

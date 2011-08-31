@@ -19,14 +19,22 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Extension;
 namespace Kean.Math.Geometry2D.Abstract
 {
-    public abstract class Size<TransformType, TransformValue, SizeType, SizeValue, R, V> :
-        Vector<TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>,
-		ISize<V>
-        where TransformType : Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
+    public abstract class Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+		Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>,
+        ISize<V>,
+		IEquatable<SizeType>
+		where TransformType : Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ITransform<V>, new()
         where TransformValue : struct, ITransform<V>
-        where SizeType : Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, IVector<V>, new()
+		where ShellType : Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IShell<V>, new()
+		where ShellValue : struct, IShell<V>
+		where BoxType : Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IBox<PointValue, SizeValue, V>, new()
+        where BoxValue : struct, IBox<PointValue, SizeValue, V>
+		where PointType : Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, IPoint<V>, new()
+        where PointValue : struct, IPoint<V>, IVector<V>
+		where SizeType : Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, ISize<V>, new()
         where SizeValue : struct, ISize<V>, IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
@@ -42,16 +50,28 @@ namespace Kean.Math.Geometry2D.Abstract
 	    protected Size(R width, R height) :
 			base(width, height)
 		{ }
-        #region Arithmetic Operators
-        public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, SizeType, SizeValue, R, V> right)
+		#region IEquatable<SizeType> Members
+		public bool Equals(SizeType other)
+		{
+			return other.NotNull() && this.Width.Equals(other.Width) && this.Height.Equals(other.Height);
+		}
+		#endregion
+		#region Arithmetic Operators
+		public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
-            return Size<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(left.A * (R)right.Width + left.C * (R)right.Height, left.B * (R)right.Width + left.D * (R)right.Height);
+			return Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(left.A * (R)right.Width + left.C * (R)right.Height, left.B * (R)right.Width + left.D * (R)right.Height);
         }
         #endregion
         public static SizeType Create(V width, V height)
         {
-            return Vector<TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>.Create(width, height);
+			return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(width, height);
         }
-    }
+		#region Casts
+		public static explicit operator PointType(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> size)
+		{
+			return Vector<PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(size.Width, size.Height);
+		}
+		#endregion
+	}
 }
 

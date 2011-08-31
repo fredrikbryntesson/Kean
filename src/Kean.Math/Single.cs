@@ -78,7 +78,21 @@ namespace Kean.Math
             return 180 / Single.Pi * this;
         }
         #endregion
-        #region Trigonometric Functions
+		#region Utility Functions
+		public override Single Round()
+		{
+			return Single.Round(this);
+		}
+		public override Single Ceiling()
+		{
+			return Single.Ceiling(this);
+		}
+		public override Single Floor()
+		{
+			return Single.Floor(this);
+		}
+		#endregion
+		#region Trigonometric Functions
         public override Single Sinus()
         {
             return Single.Sinus(this.Value);

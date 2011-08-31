@@ -5,17 +5,21 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Geometry2D.Test.Abstract
 {
-    public abstract class Transform<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-        AssertionHelper
-        where TransformType : Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where TransformValue : struct, Kean.Math.Geometry2D.Abstract.ITransform<V>
-        where PointType : Kean.Math.Geometry2D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where PointValue : struct, Kean.Math.Geometry2D.Abstract.IPoint<V>, Kean.Math.Geometry2D.Abstract.IVector<V>
-        where SizeType : Kean.Math.Geometry2D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where SizeValue : struct, Kean.Math.Geometry2D.Abstract.ISize<V>, Kean.Math.Geometry2D.Abstract.IVector<V>
-        where R : Kean.Math.Abstract<R, V>, new()
-        where V : struct
-    {
+	public abstract class Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+		AssertionHelper
+		where TransformType : Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ITransform<V>, new()
+		where TransformValue : struct, Geometry2D.Abstract.ITransform<V>
+		where ShellType : Geometry2D.Abstract.Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IShell<V>, new()
+		where ShellValue : struct, Geometry2D.Abstract.IShell<V>
+		where BoxType : Geometry2D.Abstract.Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IBox<PointValue, SizeValue, V>, new()
+		where BoxValue : struct, Geometry2D.Abstract.IBox<PointValue, SizeValue, V>
+		where PointType : Geometry2D.Abstract.Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IPoint<V>, new()
+		where PointValue : struct, Geometry2D.Abstract.IPoint<V>, Geometry2D.Abstract.IVector<V>
+		where SizeType : Geometry2D.Abstract.Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ISize<V>, new()
+		where SizeValue : struct, Geometry2D.Abstract.ISize<V>, Geometry2D.Abstract.IVector<V>
+		where R : Kean.Math.Abstract<R, V>, new()
+		where V : struct
+	{
         protected abstract string CastToString(TransformType value);
         protected abstract TransformType CastFromString(string value);
      
@@ -25,7 +29,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         protected TransformType Transform1 { get; set; }
         protected TransformType Transform2 { get; set; }
         protected TransformType Transform3 { get; set; }
-        protected TransformType Transform4 { get { return Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60)); } }
+		protected TransformType Transform4 { get { return Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60)); } }
         
         protected PointType Point0 { get; set; }
         protected PointType Point1 { get; set; }
@@ -76,7 +80,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void CreateIdentity()
         {
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Identity;
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision));
             Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -87,9 +91,9 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void Rotatate()
         {
-            TransformType identity = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType identity = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Identity;
             R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
             transform = transform.Rotate(-angle);
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -101,9 +105,9 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void Scale()
         {
-            TransformType identity = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType identity = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Identity;
             R scale = new R().CreateConstant(20);
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale);
             transform = transform.Scale(scale.Invert(), scale.Invert());
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -117,7 +121,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         {
             R xDelta = new R().CreateConstant(40);
             R yDelta = new R().CreateConstant(-40);
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta);
             transform = transform.Translate(xDelta.Negate(), yDelta.Negate());
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -130,7 +134,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         public void CreateRotation()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
             Expect(transform.A, Is.EqualTo(angle.Cosinus().Value).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(angle.Sinus().Value).Within(this.Precision));
             Expect(transform.C, Is.EqualTo((-angle.Sinus()).Value).Within(this.Precision));
@@ -142,7 +146,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         public void CreateScale()
         {
             V scale = (V)new R().CreateConstant(20);
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale);
             Expect(transform.A, Is.EqualTo(scale).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(0).Within(this.Precision));
             Expect(transform.C, Is.EqualTo(0).Within(this.Precision));
@@ -155,7 +159,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         {
             V xDelta = (V)new R().CreateConstant(40);
             V yDelta = (V)new R().CreateConstant(-40);
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta);
             Expect(transform.A, Is.EqualTo(1).Within(this.Precision));
             Expect(transform.B, Is.EqualTo(0).Within(this.Precision));
             Expect(transform.C, Is.EqualTo(0).Within(this.Precision));
@@ -196,7 +200,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         public void GetRotation()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
+            TransformType transform = Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateRotation(angle);
             R value = ((R)transform.Rotation).ToDegrees();
             Expect(value.Value, Is.EqualTo(this.Cast(20)).Within(this.Precision));
         }
@@ -210,7 +214,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void CastToArray()
         {
-            V[,] values = (V[,])((Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)Kean.Math.Geometry2D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity);
+            V[,] values = (V[,])((Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>)Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Identity);
             for(int x = 0; x < 3; x++)
                 for(int y = 0; y < 3; y++)
                     Expect(values[x,y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
