@@ -27,9 +27,24 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Console.WriteLine("Started");
+
+			Core.Collection.Test.Vector.Test();
+			Core.Collection.Test.List.Test();
+			Core.Collection.Test.Queue.Test();
+			Core.Collection.Test.Stack.Test();
+			Core.Collection.Test.Dictionary.Test();
+			Core.Collection.Test.Linked.List.Test();
+			Core.Collection.Test.Linked.Queue.Test();
+			Core.Collection.Test.Linked.Stack.Test();
+			Core.Collection.Test.Array.Vector.Test();
+			Core.Collection.Test.Array.List.Test();
+			Core.Collection.Test.Array.Queue.Test();
+			Core.Collection.Test.Array.Stack.Test();
+			Core.Collection.Test.Sorted.List.Test();
+
 			Xml.Dom.Test.Open.Test();
 
-            Kean.Test.Math.Single.Test();
+			Kean.Test.Math.Single.Test();
             Kean.Test.Math.Double.Test();
             Kean.Math.Complex.Test.Single.Test();
             Kean.Math.Complex.Test.Double.Test();
@@ -80,20 +95,6 @@ namespace Kean.Test.Run
             Kean.Math.Regression.Test.Minimization.Single.Test();
             Kean.Math.Regression.Test.Minimization.Double.Test();
             Kean.Math.Regression.Test.Interpolation.Splines.Geometry2D.Test();
-           
-            Kean.Core.Collection.Test.Vector.Test();
-			Kean.Core.Collection.Test.List.Test();
-			Kean.Core.Collection.Test.Queue.Test();
-			Kean.Core.Collection.Test.Stack.Test();
-			Kean.Core.Collection.Test.Dictionary.Test();
-			Kean.Core.Collection.Test.Linked.List.Test();
-			Kean.Core.Collection.Test.Linked.Queue.Test();
-			Kean.Core.Collection.Test.Linked.Stack.Test();
-			Kean.Core.Collection.Test.Array.Vector.Test();
-			Kean.Core.Collection.Test.Array.List.Test();
-			Kean.Core.Collection.Test.Array.Queue.Test();
-			Kean.Core.Collection.Test.Array.Stack.Test();
-			Kean.Core.Collection.Test.Sorted.List.Test();
 
 			//Kean.Core.Error.Test.Error.Test();
 			Console.WriteLine("Done");

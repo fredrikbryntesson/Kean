@@ -26,18 +26,21 @@ using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base
 {
-	public abstract class List<L> :
-		Vector<L>
+	public abstract class List<T, L> :
+		Vector<T, L>
+		where T : Kean.Test.Fixture<T>, new()
 		where L : Target.IList<int>, new()
 	{
-		public override void Run()
+		protected override void Run()
 		{
 			base.Run();
-            this.Equality();
-			this.AddReplaceRemove();
-			this.AddReplaceRemoveTen();
-			this.InsertReplaceRemove();
-            this.BoundaryCases();
+			this.Run(
+				this.Equality,
+				this.AddReplaceRemove,
+				this.AddReplaceRemoveTen,
+				this.InsertReplaceRemove,
+				this.BoundaryCases
+				);
 		}
         [Test]
         public void EqualityList()

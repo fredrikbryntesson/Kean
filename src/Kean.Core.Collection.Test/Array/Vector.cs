@@ -26,7 +26,7 @@ using Target = Kean.Core.Collection.Array;
 namespace Kean.Core.Collection.Test.Array
 {
 	public class Vector :
-		Base.Vector<Target.Vector<int>>
+		Base.Vector<Vector, Target.Vector<int>>
 	{
 		public Vector ()
 		{
@@ -36,11 +36,6 @@ namespace Kean.Core.Collection.Test.Array
 		public override Target.Vector<int> Create(int count)
 		{
 			return new Target.Vector<int>(count);
-		}
-		public static void Test()
-		{
-			Vector fixture = new Vector();
-			fixture.Run();
 		}
 	}
 }

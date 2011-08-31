@@ -28,7 +28,7 @@ namespace Kean.Core.Collection.Test
 {
 	[TestFixture]
 	public class List :
-		Base.List<Target.List<int>>
+		Base.List<List, Target.List<int>>
 	{
 		public List ()
 		{

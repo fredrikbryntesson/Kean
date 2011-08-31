@@ -18,13 +18,13 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 namespace Kean.Test
 {
-	[TestFixture]
 	public abstract class Fixture<T> :
 		AssertionHelper
 		where T : Fixture<T>, new()
@@ -55,12 +55,20 @@ namespace Kean.Test
 			foreach (Test test in tests)
 				this.Run(test);
 		}
+		protected void Run(params Action[] tests)
+		{
+			foreach (Action test in tests)
+				this.Run((Test)test);
+		}
 		public static void Test()
 		{
+			Type type = typeof(T);
+			Console.Write(type.Namespace + "." + type.Name + "...");
 			T fixture = new T();
 			fixture.Setup();
 			fixture.Run();
 			fixture.TearDown();
+			Console.WriteLine("done");
 		}
 	}
 }

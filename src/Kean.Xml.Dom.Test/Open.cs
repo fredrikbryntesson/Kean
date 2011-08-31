@@ -54,9 +54,9 @@ namespace Kean.Xml.Dom.Test
 		protected override void Run()
 		{
 			this.Run(
-				(Action)this.Valid001, 
-				(Action)this.Valid002, 
-				(Action)this.Valid003
+				this.Valid001, 
+				this.Valid002, 
+				this.Valid003
 				);
 		}
 	}

@@ -27,7 +27,7 @@ using Kean.Core.Collection.Extension;
 namespace Kean.Core.Collection.Test.Array
 {
 	public class List :
-		Base.List<Target.List<int>>
+		Base.List<List, Target.List<int>>
 	{
 		public List ()
 		{

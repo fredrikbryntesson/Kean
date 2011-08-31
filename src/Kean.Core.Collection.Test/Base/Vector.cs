@@ -26,8 +26,9 @@ using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base
 {
-	public abstract class Vector<A> :
-		AssertionHelper
+	public abstract class Vector<T, A> :
+		Kean.Test.Fixture<T>
+		where T : Kean.Test.Fixture<T>, new()
 		where A : Target.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
@@ -114,45 +115,19 @@ namespace Kean.Core.Collection.Test.Base
             Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
             Expect(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
             Expect(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
-        }   
-        public virtual void Run()
+        }
+		protected override void  Run()
 		{
-			this.Count();
-			this.Get();
-            this.Equality();
-            try
-			{
-				this.GetIndexToBig();
-				throw new AssertionException(this.Prefix + "this.GetIndexToBig.0");
-			}
-			catch (Target.Exception.InvalidIndex)
-			{
-			}
-			try
-			{
-				this.GetNegativeIndex();
-				throw new AssertionException(this.Prefix + "this.GetNegativeIndex.0");
-			}
-			catch (Target.Exception.InvalidIndex)
-			{
-			}
-			this.Set();
-			try
-			{
-				this.SetIndexToBig();
-				throw new AssertionException(this.Prefix + "this.SetIndexToBig.0");
-			}
-			catch (Target.Exception.InvalidIndex)
-			{
-			}
-			try
-			{
-				this.SetNegativeIndex();
-				throw new AssertionException(this.Prefix + "this.SetNegativeIndex.0");
-			}
-			catch (Target.Exception.InvalidIndex)
-			{
-			}
+			this.Run(
+			(Action)this.Count,
+			(Action)this.Get,
+			(Action)this.Equality,
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetIndexToBig, this.Prefix + "GetIndexToBig.0"),
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetNegativeIndex, this.Prefix + "GetNegativeIndex.0"),
+			(Action)this.Set,
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetIndexToBig, this.Prefix + "SetIndexToBig.0"),
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetNegativeIndex, this.Prefix + "SetNegativeIndex.0")
+			);
 		}
        
 	}

@@ -28,7 +28,7 @@ namespace Kean.Core.Collection.Test
 {
 	[TestFixture]
 	public class Vector :
-		Base.Vector<Target.Vector<int>>
+		Base.Vector<Vector, Target.Vector<int>>
 	{
 		public Vector()
 		{
@@ -40,12 +40,14 @@ namespace Kean.Core.Collection.Test
 			return new Target.Vector<int>(count);
 		}
 		
-		public override void Run()
+		protected override void Run()
 		{
 			base.Run();
-			this.ConstructorParameter();
-			this.ConstructorArray();
-			this.ConstructorCount();
+			this.Run(
+				this.ConstructorParameter,
+				this.ConstructorArray,
+				this.ConstructorCount
+				);
 		}
 
 		[Test]
