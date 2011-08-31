@@ -92,5 +92,25 @@ namespace Kean.Core.Buffer
 			System.Runtime.InteropServices.Marshal.Copy(this, result.Data, 0, this.Size);
 			return result;
 		}
+		public float Distance(Sized other)
+		{
+			float result;
+			if (other.NotNull())
+			{
+				result = this.Size != other.Size ? float.MaxValue : 0;
+				if (result == 0)
+					unsafe
+					{
+						byte* a = (byte*)this;
+						byte* b = (byte*)other;
+						int size = this.Size;
+						for (int i = 0; i < size; i++, a++, b++)
+							result = System.Math.Max(System.Math.Abs(*a - *b), result);
+					}
+			}
+			else
+				result = float.MaxValue;
+			return result;
+		}
 	}
 }
