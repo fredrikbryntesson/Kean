@@ -10,6 +10,11 @@ namespace Kean.Xml.Sax.Reader
 
 		public event Action Closing;
 
+		public Text(System.IO.TextReader reader, string resource) :
+			this(reader) 
+		{
+			this.Resource = resource;
+		}
 		public Text(System.IO.TextReader reader)
 		{
 			this.reader = reader;

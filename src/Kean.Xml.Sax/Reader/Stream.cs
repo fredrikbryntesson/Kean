@@ -7,6 +7,11 @@ namespace Kean.Xml.Sax.Reader
 	{
 		protected System.IO.Stream ActualStream { get; set; }
 
+		public Stream(System.IO.Stream stream, string resource) :
+			this(stream) 
+		{
+			this.Resource = resource;
+		}
 		public Stream(System.IO.Stream stream) :
 			base(new System.IO.StreamReader(stream))
 		{

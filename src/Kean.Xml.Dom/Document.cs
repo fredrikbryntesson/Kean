@@ -52,11 +52,7 @@ namespace Kean.Xml.Dom
 		}
 		public static Document OpenResource(System.Reflection.Assembly assembly, string resource)
 		{
-			resource = assembly.GetName().Name + "." + resource.Replace('\\', '.').Replace('/', '.');
-			Document result;
-			using (System.IO.Stream stream = assembly.GetManifestResourceStream(resource))
-				result = Document.Open(stream);
-			return result;
+			return Document.Open(new Sax.Parser(assembly, resource));
 		}
 		public static Document OpenResource(string name)
 		{
@@ -83,6 +79,10 @@ namespace Kean.Xml.Dom
 			return result;
 		}
 		public static Document Open(System.IO.Stream stream)
+		{
+			return Document.Open(new Sax.Parser(stream));
+		}
+		public static Document Open(System.IO.Stream stream, string resource)
 		{
 			return Document.Open(new Sax.Parser(stream));
 		}

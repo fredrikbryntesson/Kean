@@ -48,6 +48,7 @@
     <Compile Include="Reader\Stream.cs" />
     <Compile Include="Reader\String.cs" />
     <Compile Include="Reader\Text.cs" />
+    <Compile Include="Mark.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">

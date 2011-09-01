@@ -16,7 +16,7 @@ namespace Kean.Xml.Dom
 		#region Object Overrides
 		public override bool Equals(object other)
 		{
-			return this.Equals(other as Element);
+			return this.Equals(other as Text);
 		}
 		public override int GetHashCode()
 		{

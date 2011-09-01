@@ -13,8 +13,9 @@ namespace Kean.Xml.Sax.Reader
 		{
 		}
 		Resource(System.Reflection.Assembly assembly, string resource, string filename) :
-			base(assembly.GetManifestResourceStream(filename))
+			base(assembly.GetManifestResourceStream(resource))
 		{
+			this.Resource = resource;
 			this.Assembly = assembly;
 			this.Filename = filename;
 		}

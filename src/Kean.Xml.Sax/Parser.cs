@@ -34,12 +34,16 @@ namespace Kean.Xml.Sax
 		{
 			this.reader = reader;
 		}
-
+		Mark Mark()
+		{
+			return new Mark(this);
+		}
 		public bool Parse()
 		{
 			this.reader.Next();
 			while (!this.reader.EndOfFile)
 			{
+				Mark mark = this.Mark();
 				switch (this.reader.Current)
 				{
 					case '<':
@@ -48,7 +52,8 @@ namespace Kean.Xml.Sax
 						switch (this.reader.Current)
 						{
 							case '/': // end element
-								this.OnElementEnd(this.AccumulateUntil('>').Trim(), null);
+								this.OnElementEnd(this.AccumulateUntil('>').Trim(), mark);
+								this.reader.Next();
 								break;
 							case '?': // proccessing instruction
 								string target = this.AccumulateUntilWhiteSpace().Trim();
@@ -60,10 +65,11 @@ namespace Kean.Xml.Sax
 									this.AccumulateUntil('"');
                                     float version = float.Parse(this.AccumulateUntil('"'), System.Globalization.CultureInfo.InvariantCulture);
 									this.AccumulateUntil("?>").Trim();
-									this.OnDeclaration.Call(version, null, null, null);
+									this.OnDeclaration.Call(version, null, null, mark);
 								}
 								else
-									this.OnProccessingInstruction.Call(target, this.AccumulateUntil("?>").Trim(), null);
+									this.OnProccessingInstruction.Call(target, this.AccumulateUntil("?>").Trim(), mark);
+								this.reader.Next();
 								break;
 							case '!': // CDATA section or comment
 								if (!this.reader.Next())
@@ -73,12 +79,12 @@ namespace Kean.Xml.Sax
 									case '[': // CDATA section
 										if (!this.Verify("CDATA["))
 											return false;
-										this.OnData.Call(this.AccumulateUntil("]]>"), null);
+										this.OnData.Call(this.AccumulateUntil("]]>"), mark);
 										break;
 									case '-': // comment
 										if (!this.Verify("-"))
 											return false;
-										this.OnComment.Call(this.AccumulateUntil("-->"), null);
+										this.OnComment.Call(this.AccumulateUntil("-->"), mark);
 										break;
 								}
 								break;
@@ -88,15 +94,15 @@ namespace Kean.Xml.Sax
 								if (this.reader.Current != '/' && this.reader.Current != '>')
 									while (this.reader.Next() && this.reader.Current != '/' && this.reader.Current != '>')
 									{
-										Position start = this.Position;
+										Mark attributeMark = this.Mark();
 										string key = this.AccumulateUntil('=').Trim();
 										this.AccumulateUntil('"');
-										attributes[key] = Tuple.Create(this.AccumulateUntil('"'), new Region(this.Resource, start, this.Position));
+										attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Region)attributeMark);
 									}
-								this.OnElementStart.Call(name, attributes, null);
+								this.OnElementStart.Call(name, attributes, mark);
 								if (this.reader.Current == '/' && this.Verify(">"))
 								{
-									this.OnElementEnd(name, null);
+									this.OnElementEnd(name, mark);
 									this.reader.Next(); // Might have been the last element in fragment, eol acceptable.
 								}
 								else if (this.reader.Current != '>' || !this.reader.Next())
@@ -107,7 +113,7 @@ namespace Kean.Xml.Sax
 					default:
 						string text = (this.reader.Current + this.AccumulateUntil('<')).Trim();
 						if (text.NotEmpty())
-							this.OnText.Call(text, null);
+							this.OnText.Call(text, mark);
 						break;
 				}
 			}
