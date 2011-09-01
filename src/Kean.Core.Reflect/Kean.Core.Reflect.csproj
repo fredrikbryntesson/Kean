@@ -34,10 +34,19 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Extension\MemberFilterExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="Function.cs" />
+    <Compile Include="Member.cs" />
+    <Compile Include="MemberFilter.cs" />
+    <Compile Include="Method.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="TypeName.cs" />
   </ItemGroup>

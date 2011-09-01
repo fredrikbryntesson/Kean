@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2010-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,31 +21,48 @@
 using System;
 namespace Kean.Core.Reflect
 {
-	public class Property
+	public class Property : 
+		Member
 	{
-		object parent;
-		Type parentType;
-		System.Reflection.PropertyInfo information;
-		public string Name { get; private set; }
-		public object Value
+		protected System.Reflection.PropertyInfo PropertyInformation { get; private set; }
+		public object Data
 		{
-			get { return this.information.GetValue(this.parent, null); }
-			set { this.information.SetValue(this.parent, value, null); }
+			get { return this.PropertyInformation.GetValue(this.Parent, null); }
+			set { this.PropertyInformation.SetValue(this.Parent, value, null); }
 		}
-		internal Property(object parent, string name)
+		public bool Readable { get { return this.PropertyInformation.CanRead; } }
+		public bool Writable { get { return this.PropertyInformation.CanWrite; } }
+
+		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation) :
+			base(parent, parentType, propertyInformation)
 		{
-			this.parent = parent;
-			this.parentType = this.parent.GetType();
-			this.Name = name;
-			this.information = this.parentType.GetProperty(name);
+			this.PropertyInformation = propertyInformation;
 		}
-		internal Property(object parent, System.Reflection.PropertyInfo property)
+		public Property<T> Convert<T>()
 		{
-			this.parent = parent;
-			this.parentType = this.parent.GetType();
-			this.Name = property.Name;
-			this.information = property;
+			return new Property<T>(this.Parent, this.ParentType, this.PropertyInformation);
 		}
+		internal static Property Create(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation)
+		{
+			Property result;
+			if (propertyInformation.PropertyType == typeof(int))
+				result = new Property<int>(parent, parentType, propertyInformation);
+			else
+				result = new Property(parent, parentType, propertyInformation);
+			return result;
+		}
+	}
+	public class Property<T> :
+		Property
+	{
+		public T Value
+		{
+			get { return (T)this.PropertyInformation.GetValue(this.Parent, null); }
+			set { this.PropertyInformation.SetValue(this.Parent, value, null); }
+		}
+		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation) :
+			base(parent, parentType, propertyInformation)
+		{ }
 	}
 }
 
