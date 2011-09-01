@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Abstract\ListSet.cs" />
     <Compile Include="Array\Set.cs" />
+    <Compile Include="Cast\ReadOnlyVector.cs" />
+    <Compile Include="Cast\Vector.cs" />
     <Compile Include="Exception\Unsortable.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
@@ -109,9 +111,6 @@
     <Compile Include="Extension\VectorParallelExtension.cs" />
     <Compile Include="Extension\ReadOnlyVectorExtension.cs" />
     <Compile Include="Extension\ReadOnlyVectorParallelExtension.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cast\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
