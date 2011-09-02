@@ -187,6 +187,10 @@ namespace Kean.Math.Geometry2D.Abstract
             R one = Kean.Math.Abstract<R, V>.One;
             return new TransformType() { A = one, B = zero, C = zero, D = one, E = (R)xDelta, F = (R)yDelta };
         }
+        public static TransformType CreateScaling(V factor)
+        {
+            return Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateScaling(factor, factor);
+        }
         public static TransformType CreateScaling(V xFactor, V yFactor)
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;

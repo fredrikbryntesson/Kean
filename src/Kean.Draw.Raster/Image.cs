@@ -175,9 +175,10 @@ namespace Kean.Draw.Raster
 		}
 		public override float Distance(Draw.Image other)
 		{
-			return other is Image ? this.buffer.Distance((other as Image).buffer) : float.MaxValue;
-		}
-		public override bool Equals(object other)
+
+            return other is Image ? this.buffer.Distance((other as Image).buffer) : float.MaxValue;
+        }
+       	public override bool Equals(object other)
 		{
 			return other is Image && this.Equals(other as Image);
 		}

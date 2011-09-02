@@ -79,38 +79,72 @@ namespace Kean.Core.Buffer
         #endregion
         public unsafe static implicit operator void*(Sized pointer)
         {
-            return ((IntPtr) pointer).ToPointer();
+            return ((IntPtr)pointer).ToPointer();
         }
         public static implicit operator IntPtr(Sized pointer)
         {
-            return (IntPtr) (Pointer) pointer;
+            return (IntPtr)(Pointer)pointer;
         }
 
-		public Sized Copy()
-		{
-			Vector<byte> result = new Vector<byte>(this.Size);
-			System.Runtime.InteropServices.Marshal.Copy(this, result.Data, 0, this.Size);
-			return result;
-		}
-		public float Distance(Sized other)
-		{
-			float result;
-			if (other.NotNull())
-			{
-				result = this.Size != other.Size ? float.MaxValue : 0;
-				if (result == 0)
-					unsafe
-					{
-						byte* a = (byte*)this;
-						byte* b = (byte*)other;
-						int size = this.Size;
-						for (int i = 0; i < size; i++, a++, b++)
-							result = System.Math.Max(System.Math.Abs(*a - *b), result);
-					}
-			}
-			else
-				result = float.MaxValue;
-			return result;
-		}
-	}
+        public Sized Copy()
+        {
+            Vector<byte> result = new Vector<byte>(this.Size);
+            System.Runtime.InteropServices.Marshal.Copy(this, result.Data, 0, this.Size);
+            return result;
+        }
+        public float Distance(Sized other)
+        {
+            float result = 0;
+            if (other.NotNull())
+            {
+                result = this.Size != other.Size ? float.MaxValue : 0;
+                if (result == 0)
+                {
+                    unsafe
+                    {
+                        byte* a = (byte*)this;
+                        byte* b = (byte*)other;
+                        int size = this.Size;
+                        for (int i = 0; i < size; i++, a++, b++)
+                            result += (*a - *b) * (*a - *b);
+                    }
+                    result /= this.Size;
+                    result = (float)Math.Sqrt(result);
+                }
+            }
+            else
+                result = float.MaxValue;
+            return result;
+        }
+        public Core.Tuple<int, float> Discrepance(Sized other)
+        {
+            Core.Tuple<int, float> result;
+            float error = 0;
+            int position = -1;
+            if (other.NotNull())
+            {
+                error = this.Size != other.Size ? float.MaxValue : 0;
+                if (error == 0)
+                    unsafe
+                    {
+                        byte* a = (byte*)this;
+                        byte* b = (byte*)other;
+                        int size = this.Size;
+                        for (int i = 0; i < size; i++, a++, b++)
+                        {
+                            float localError = System.Math.Abs(*a - *b);
+                            if (localError > error)
+                            {
+                                error = localError;
+                                position = i;
+                            }
+                        }
+                    }
+            }
+            else
+                error = float.MaxValue;
+            result = Tuple.Create<int, float>(position, error);
+            return result;
+        }
+    }
 }

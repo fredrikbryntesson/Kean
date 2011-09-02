@@ -27,8 +27,9 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Console.WriteLine("Started");
-
-			Core.Collection.Test.Vector.Test();
+            Kean.Draw.Raster.Test.Transform.Test();
+            Kean.Draw.Raster.Test.Convert.Test();
+            Core.Collection.Test.Vector.Test();
 			Core.Collection.Test.List.Test();
 			Core.Collection.Test.Queue.Test();
 			Core.Collection.Test.Stack.Test();
