@@ -98,6 +98,8 @@ namespace Kean.Draw.Raster.Test
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.1");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.2");
             Expect(original.Convert<Target.Yvu420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.3");
+            Target.Monochrome monochrome = Target.Image.OpenResource("Bitmaps/Convert/monochrome.png").Convert<Target.Monochrome>();
+            Expect(original.Distance(monochrome), Is.LessThanOrEqualTo(2), this.prefix + "Monochrome.4");
         }
         [Test]
         public void Yuv420()
