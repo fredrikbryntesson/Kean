@@ -29,83 +29,46 @@ namespace Kean.Xml.Dom.Test
     public class Open :
         Kean.Test.Fixture<Open>
     {
+        Factory factory;
+        public override void Setup()
+        {
+            base.Setup();
+            this.factory = new Factory();
+        }
         [Test]
         public void Valid001()
         {
-            Document opened = Document.OpenResource("Data/valid001.xml");
-            Document created = new Document() { Root = new Element("empty") };
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid001"), Is.EqualTo(this.factory.Create("valid001")));
         }
         [Test]
         public void Valid002()
         {
-            Document opened = Document.OpenResource("Data/valid002.xml");
-            Document created = new Document() { Root = new Element("empty") };
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid002"), Is.EqualTo(this.factory.Create("valid002")));
         }
         [Test]
         public void Valid003()
         {
-            Document opened = Document.OpenResource("Data/valid003.xml");
-            Document created = new Document() { Root = new Element("text") };
-            created.Root.Add(new Text("Text"));
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid003"), Is.EqualTo(this.factory.Create("valid003")));
         }
         [Test]
         public void Valid004()
         {
-            Document opened = Document.OpenResource("Data/valid004.xml");
-            Document created = new Document() { Root = new Element("library") };
-            Element book = new Element("book");
-            Element title = new Element("title");
-            title.Add(new Text("Write with XML"));
-            book.Add(title);
-            created.Root.Add(book);
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid004"), Is.EqualTo(this.factory.Create("valid004")));
         }
         [Test]
         public void Valid005()
         {
-            Document opened = Document.OpenResource("Data/valid005.xml");
-            Document created = new Document() { Root = new Element("library") };
-            Element book = new Element("book");
-            book.Attributes.Add(new Attribute("language", "english"));
-            Element title = new Element("title");
-            title.Attributes.Add(new Attribute("location", "office"));
-            title.Add(new Text("Write with XML"));
-            book.Add(title);
-            created.Root.Add(book);
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid005"), Is.EqualTo(this.factory.Create("valid005")));
         }
         [Test]
         public void Valid006()
         {
-            Document opened = Document.OpenResource("Data/valid006.xml");
-            Document created = new Document() { Root = new Element("library") };
-            Comment comment = new Comment("New Book");
-            created.Root.Add(comment);
-            Element book = new Element("book");
-            book.Add(new Text("Write with XML"));
-            created.Root.Add(book);
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid006"), Is.EqualTo(this.factory.Create("valid006")));
         }
         [Test]
         public void Valid007()
         {
-            Document opened = Document.OpenResource("Data/valid007.xml");
-            Document created = new Document() { Root = new Element("data") };
-            Data data = new Data("Example");
-            created.Root.Add(data);
-            Expect(opened, Is.EqualTo(created));
-        }
-        [Test]
-        public void Valid008()
-        {
-            Document opened = Document.OpenResource("Data/valid008.xml");
-            Document created = new Document() { Root = new Element("instruction") };
-            ProcessingInstruction instruction = new ProcessingInstruction("target", "Try this!");
-            created.Root.Add(instruction);
-            Expect(opened, Is.EqualTo(created));
+            Expect(this.factory.Open("valid007"), Is.EqualTo(this.factory.Create("valid007")));
         }
         protected override void Run()
         {
@@ -116,8 +79,7 @@ namespace Kean.Xml.Dom.Test
                 this.Valid004,
                 this.Valid005,
                 this.Valid006,
-                this.Valid007,
-                this.Valid008
+                this.Valid007
                 );
         }
     }

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <library>
-  <book language="english">
-    <title location="office">Write with XML</title>
-  </book>
+  <!--New Book-->
+  <book>Write with XML</book>
 </library>

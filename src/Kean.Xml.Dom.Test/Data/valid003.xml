@@ -1,2 +1,6 @@
-<?xml version="1.0"?>
-<text>Text</text>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<library>
+  <book>
+    <title>Write with XML</title>
+  </book>
+</library>
