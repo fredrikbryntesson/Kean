@@ -14,14 +14,14 @@ namespace Kean.Math.Regression.Test.Minimization
     {
         string prefix = "Kean.Math.Regression.Test.Minimization.Single.";
         [Test]
-        public void LevenbergMarquardt()
+        public void LevenbergMarquardt1()
         {
             Matrix.Single a = new Matrix.Single(3, 3, new float[] { 3, 2, -1, 2, -2, 0.5f, -1, 4, -1 });
             Matrix.Single b = new Matrix.Single(1, 3, new float[] { 1, -2, 0 });
             Matrix.Single guess = new Matrix.Single(1, 3, new float[] { 1, 1, 1 });
             Matrix.Single result = this.Estimate(a, b, guess);
             Matrix.Single correct = new Matrix.Single(1, 3, new float[] { 1, -2, -2 });
-            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt");
+            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
         }
         Matrix.Single Estimate(Matrix.Single a, Matrix.Single b, Matrix.Single guess)
         {
@@ -43,23 +43,15 @@ namespace Kean.Math.Regression.Test.Minimization
             for (int i = 0; i < n; i++)
                 yy = yy.Paste(0, 5 * i, y);
             Matrix.Single correct = new Matrix.Single(1, 5, new float[] { -70, 231, -296, 172, -38 });
-            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
-            Matrix.Single x = aa.Solve(yy);
-            watch.Stop();
-            //Console.WriteLine("Lup solver " + watch.ElapsedMilliseconds + " error " + x.Distance(correct));
-            watch.Reset();
-            watch.Start();
-            Matrix.Single x2 = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
-            watch.Stop();
-            //Console.WriteLine("Lm solver " + watch.ElapsedMilliseconds + " error " + x2.Distance(correct));
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2");
-
+            Matrix.Single luApproximation = aa.Solve(yy);
+            Matrix.Single iterative = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
+            Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(7f), this.prefix + "LevenbergMarquardt2.0");
+            Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
         }
         public void Run()
         {
             this.Run(
-                this.LevenbergMarquardt,
+                this.LevenbergMarquardt1,
                 this.LevenbergMarquardt2
                 );
         }

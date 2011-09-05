@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Test.Math</RootNamespace>
-    <AssemblyName>Kean.Test.Math</AssemblyName>
+    <RootNamespace>Kean.Math.Test</RootNamespace>
+    <AssemblyName>Kean.Math.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

@@ -80,25 +80,27 @@ namespace Kean.Xml.Sax
 										if (!this.Verify("CDATA["))
 											return false;
 										this.OnData.Call(this.AccumulateUntil("]]>"), mark);
+                                        this.reader.Next();
 										break;
 									case '-': // comment
 										if (!this.Verify("-"))
 											return false;
 										this.OnComment.Call(this.AccumulateUntil("-->"), mark);
+                                        this.reader.Next();
 										break;
 								}
 								break;
 							default: // element name
 								string name = this.reader.Current + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
 								Collection.IDictionary<string, Tuple<string, Region>> attributes = new Collection.Dictionary<string, Tuple<string, Region>>();
-								if (this.reader.Current != '/' && this.reader.Current != '>')
-									while (this.reader.Next() && this.reader.Current != '/' && this.reader.Current != '>')
-									{
-										Mark attributeMark = this.Mark();
-										string key = this.AccumulateUntil('=').Trim();
-										this.AccumulateUntil('"');
-										attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Region)attributeMark);
-									}
+                                if (this.reader.Current != '/' && this.reader.Current != '>')
+                                    do
+                                    {
+                                        Mark attributeMark = this.Mark();
+                                        string key = this.AccumulateUntil('=').Trim();
+                                        this.AccumulateUntil('"');
+                                        attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Region)attributeMark);
+                                    } while (this.reader.Next() && this.reader.Current != '/' && this.reader.Current != '>');
 								this.OnElementStart.Call(name, attributes, mark);
 								if (this.reader.Current == '/' && this.Verify(">"))
 								{

@@ -27,8 +27,7 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
             Console.WriteLine("Started");
-            Kean.Draw.Raster.Test.Transform.Test();
-            Kean.Draw.Raster.Test.Convert.Test();
+            
             Core.Collection.Test.Vector.Test();
 			Core.Collection.Test.List.Test();
 			Core.Collection.Test.Queue.Test();
@@ -43,10 +42,13 @@ namespace Kean.Test.Run
 			Core.Collection.Test.Array.Stack.Test();
 			Core.Collection.Test.Sorted.List.Test();
 
+            Draw.Raster.Test.Transform.Test();
+            Draw.Raster.Test.Convert.Test();
+            
 			Xml.Dom.Test.Open.Test();
 
-			Kean.Test.Math.Single.Test();
-            Kean.Test.Math.Double.Test();
+            Kean.Math.Test.Single.Test();
+            Kean.Math.Test.Double.Test();
             Kean.Math.Complex.Test.Single.Test();
             Kean.Math.Complex.Test.Double.Test();
             Kean.Math.Complex.Test.Fourier.Single.Test();

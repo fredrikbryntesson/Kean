@@ -3,7 +3,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Extension;
 
-namespace Kean.Test.Math
+namespace Kean.Math.Test
 {
     public abstract class Abstract<R, V> :
         AssertionHelper

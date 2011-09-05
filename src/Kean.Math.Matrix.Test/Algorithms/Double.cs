@@ -192,8 +192,8 @@ namespace Kean.Math.Matrix.Test.Algorithms
             watch.Stop();
             long timeSvd = watch.ElapsedMilliseconds;
             Expect(x4.Distance(correct), Is.EqualTo(0).Within(1e-6f), this.prefix + "LeastSquare3.3");
-            Console.WriteLine("Time Qr " + timeQr + " Cholesky  " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
-            Console.WriteLine("Error Qr " + x.Distance(correct) + " Cholesky " + x2.Distance(correct) + " Lup " + x3.Distance(correct) + " Svd " + x4.Distance(correct));
+            //Console.WriteLine("Time Qr " + timeQr + " Cholesky  " + timeCholesky + " Lup " + timeLup + " Svd " + timeSvd);
+            //Console.WriteLine("Error Qr " + x.Distance(correct) + " Cholesky " + x2.Distance(correct) + " Lup " + x3.Distance(correct) + " Svd " + x4.Distance(correct));
         }
         #endregion
         #region Auxilary Methods

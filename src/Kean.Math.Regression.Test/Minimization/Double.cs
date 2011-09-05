@@ -14,14 +14,14 @@ namespace Kean.Math.Regression.Test.Minimization
     {
         string prefix = "Kean.Math.Regression.Test.Minimization.Double.";
         [Test]
-        public void LevenbergMarquardt()
+        public void LevenbergMarquardt1()
         {
             Matrix.Double a = new Matrix.Double(3, 3, new double[] { 3, 2, -1, 2, -2, 0.5, -1, 4, -1 });
             Matrix.Double b = new Matrix.Double(1, 3, new double[] { 1, -2, 0 });
             Matrix.Double guess = new Matrix.Double(1, 3, new double[] { 1, 1, 1 });
             Matrix.Double result = this.Estimate(a, b, guess);
             Matrix.Double correct = new Matrix.Double(1, 3, new double[] { 1, -2, -2 });
-            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt");
+            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
         }
         Matrix.Double Estimate(Matrix.Double a, Matrix.Double b, Matrix.Double guess)
         {
@@ -33,24 +33,26 @@ namespace Kean.Math.Regression.Test.Minimization
         [Test]
         public void LevenbergMarquardt2()
         {
-            Matrix.Single a = new Matrix.Single(5, 5, new float[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
+            Matrix.Double a = new Matrix.Double(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             int n = 15;
-            Matrix.Single aa = new Matrix.Single(5, n * 5);
+            Matrix.Double aa = new Matrix.Double(5, n * 5);
             for (int i = 0; i < n; i++)
                 aa = aa.Paste(0, 5 * i, a);
-            Matrix.Single y = new Matrix.Single(1, 5, new float[] { -1, 2, -3, 4, 5 });
-            Matrix.Single yy = new Matrix.Single(1, n * 5);
+            Matrix.Double y = new Matrix.Double(1, 5, new double[] { -1, 2, -3, 4, 5 });
+            Matrix.Double yy = new Matrix.Double(1, n * 5);
             for (int i = 0; i < n; i++)
                 yy = yy.Paste(0, 5 * i, y);
-            Matrix.Single correct = new Matrix.Single(1, 5, new float[] { -70, 231, -296, 172, -38 });
-            Matrix.Single x = aa.Solve(yy);
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2");
+            Matrix.Double correct = new Matrix.Double(1, 5, new double[] { -70, 231, -296, 172, -38 });
+            Matrix.Double luApproximation = aa.Solve(yy);
+            Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.0");
+            Matrix.Double iterative = this.Estimate(aa,yy, new Matrix.Double(1,5, new double[]{1,1,1,1,1}));
+            Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
 
         }
         public void Run()
         {
             this.Run(
-                this.LevenbergMarquardt,
+                this.LevenbergMarquardt1,
                 this.LevenbergMarquardt2
                 );
         }

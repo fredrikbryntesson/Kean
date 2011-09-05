@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Test.Math
+namespace Kean.Math.Test
 {
     public class Double : Abstract<Kean.Math.Double, double>
     {
