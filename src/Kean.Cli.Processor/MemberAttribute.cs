@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Cli.EditLine
+namespace Kean.Cli.Processor
 {
 	public abstract class MemberAttribute :
 		Attribute

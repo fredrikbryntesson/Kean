@@ -1,5 +1,5 @@
 ﻿// 
-//  Property.cs
+//  Member.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,25 +18,31 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
 using Reflect = Kean.Core.Reflect;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
 
-namespace Kean.Cli.EditLine
+namespace Kean.Cli.Processor
 {
-	class Property :
-		Member
+	abstract class Member :
+		Kean.Core.IComparable<Member>
 	{
-		Reflect.Property backend;
-		public Property(PropertyAttribute attribute, Reflect.Property backend, Object parent) :
-			base(attribute, backend, parent)
+		public string Name { get; private set; }
+		Reflect.Member backend;
+		protected Object Parent { get; set; }
+		protected Member(MemberAttribute attribute, Reflect.Member backend, Object parent)
 		{
+			this.Name = attribute.NotNull() ? attribute.Name : null;
 			this.backend = backend;
+			this.Parent = parent;
 		}
+
+		#region IComparable<Member> Members
+		public Order Compare(Member other)
+		{
+			return this.Name.CompareWith(other.Name);
+		}
+		#endregion
 	}
 }

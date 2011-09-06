@@ -1,5 +1,5 @@
 ﻿// 
-//  Configuration.cs
+//  MethodAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,9 +20,21 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Cli.EditLine.Test.Command
+namespace Kean.Cli.Processor
 {
-	public class Configuration
+	[AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+	public class MethodAttribute :
+		MemberAttribute
 	{
+		public MethodAttribute(string name) :
+			this(name, null)
+		{ }
+		public MethodAttribute(string name, string description) :
+			base(name, description, null)
+		{ }
+		public MethodAttribute(string name, string description, string usage) :
+			base(name, description, usage)
+		{ }
 	}
 }
+

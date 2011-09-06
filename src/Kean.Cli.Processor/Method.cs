@@ -1,5 +1,5 @@
 ﻿// 
-//  Application.cs
+//  Method.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,15 +18,25 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Cli.EditLine.Test.Command
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
+using Reflect = Kean.Core.Reflect;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Cli.Processor
 {
-	public class Application
+	class Method :
+		Member
 	{
-		[Object("Configuration")]
-		public Configuration Configuration { get; private set; }
-		[Object("Media", "Control the input media.")]
-		public Media Media { get; private set; }
+		Reflect.Method backend;
+		public Method(MethodAttribute attribute, Reflect.Method backend, Object parent) :
+			base(attribute, backend, parent)
+		{
+			this.backend = backend;
+		}
 	}
 }

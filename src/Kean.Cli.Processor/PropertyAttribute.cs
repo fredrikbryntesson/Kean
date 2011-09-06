@@ -1,5 +1,5 @@
 ﻿// 
-//  ObjectAttribute.cs
+//  PropertyAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,19 +20,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Cli.EditLine
+namespace Kean.Cli.Processor
 {
 	[AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-	public class ObjectAttribute :
+	public class PropertyAttribute :
 		MemberAttribute
 	{
-		public ObjectAttribute(string name) :
+		public PropertyAttribute(string name) :
 			this(name, null)
 		{ }
-		public ObjectAttribute(string name, string description) :
+		public PropertyAttribute(string name, string description) :
 			this(name, description, null)
 		{ }
-		public ObjectAttribute(string name, string description, string usage) :
+		public PropertyAttribute(string name, string description, string usage) :
 			base(name, description, usage)
 		{ }
 	}

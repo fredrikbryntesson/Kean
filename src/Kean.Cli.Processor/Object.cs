@@ -25,7 +25,7 @@ using Reflect = Kean.Core.Reflect;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 
-namespace Kean.Cli.EditLine
+namespace Kean.Cli.Processor
 {
 	class Object :
 		Member,

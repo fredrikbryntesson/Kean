@@ -1,5 +1,5 @@
 ﻿// 
-//  Member.cs
+//  ObjectAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,30 +19,22 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Cli.EditLine
+namespace Kean.Cli.Processor
 {
-	abstract class Member :
-		Kean.Core.IComparable<Member>
+	[AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+	public class ObjectAttribute :
+		MemberAttribute
 	{
-		public string Name { get; private set; }
-		Reflect.Member backend;
-		protected Object Parent { get; set; }
-		protected Member(MemberAttribute attribute, Reflect.Member backend, Object parent)
-		{
-			this.Name = attribute.NotNull() ? attribute.Name : null;
-			this.backend = backend;
-			this.Parent = parent;
-		}
-
-		#region IComparable<Member> Members
-		public Order Compare(Member other)
-		{
-			return this.Name.CompareWith(other.Name);
-		}
-		#endregion
+		public ObjectAttribute(string name) :
+			this(name, null)
+		{ }
+		public ObjectAttribute(string name, string description) :
+			this(name, description, null)
+		{ }
+		public ObjectAttribute(string name, string description, string usage) :
+			base(name, description, usage)
+		{ }
 	}
 }
+
