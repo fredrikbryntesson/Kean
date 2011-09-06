@@ -32,6 +32,7 @@ namespace Kean.Core.Reflect
 		}
 		public bool Readable { get { return this.PropertyInformation.CanRead; } }
 		public bool Writable { get { return this.PropertyInformation.CanWrite; } }
+		public Type Type { get { return this.PropertyInformation.PropertyType; } }
 
 		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation) :
 			base(parent, parentType, propertyInformation)

@@ -34,7 +34,7 @@ namespace Kean.Cli.LineBuffer
         int cursor;
         System.Text.StringBuilder line = new System.Text.StringBuilder();
 
-        public Action<string> Execute { get; set; }
+        public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
         public string Prompt { get; set; }
@@ -118,12 +118,14 @@ namespace Kean.Cli.LineBuffer
                         break;
                     case (char)10: // Newline
                         {
-                            this.writer.WriteLine();
-                            string line = this.line.ToString();
-                            this.writer.WriteLine(line);
-                            this.line = new System.Text.StringBuilder();
-                            this.cursor = 0;
-                            this.Execute.Call(line);
+							this.writer.WriteLine();
+							if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+							{
+								this.line = new System.Text.StringBuilder();
+								this.cursor = 0;
+							}
+							else
+								Console.Write(this.line.ToString());
                         }
                         break;
                     // 11

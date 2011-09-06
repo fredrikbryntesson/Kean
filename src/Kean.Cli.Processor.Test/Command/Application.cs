@@ -24,9 +24,14 @@ namespace Kean.Cli.Processor.Test.Command
 {
 	public class Application
 	{
-		[Object("Configuration")]
+		[Object("configuration")]
 		public Configuration Configuration { get; private set; }
-		[Object("Media", "Control the input media.")]
+		[Object("media", "Control the input media.")]
 		public Media Media { get; private set; }
+		public Application()
+		{
+			this.Configuration = new Configuration();
+			this.Media = new Media();
+		}
 	}
 }

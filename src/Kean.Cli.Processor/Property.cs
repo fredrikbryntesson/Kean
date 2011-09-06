@@ -32,11 +32,28 @@ namespace Kean.Cli.Processor
 	class Property :
 		Member
 	{
-		Reflect.Property backend;
+		Func<string> get;
+		Action<string> set; 
+		public string Value
+		{
+			get { return this.get(); }
+			set { this.set(value); }
+		}
 		public Property(PropertyAttribute attribute, Reflect.Property backend, Object parent) :
 			base(attribute, backend, parent)
 		{
-			this.backend = backend;
+			if (backend.Type == typeof(bool))
+			{
+				Reflect.Property<bool> b = backend.Convert<bool>();
+				this.get = () => b.Value ? "true" : "false";
+				this.set = value => b.Value = value.Trim().ToLower().Contains("true");
+			}
+			else if (backend.Type == typeof(string))
+			{
+				Reflect.Property<string> b = backend.Convert<string>();
+				this.get = () => b.Value;
+				this.set = value => b.Value = value;
+			}
 		}
 	}
 }

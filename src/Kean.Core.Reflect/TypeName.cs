@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -35,13 +36,12 @@ namespace Kean.Core.Reflect
 		public Collection.IReadOnlyVector<TypeName> Arguments { get; private set; }
 
 		Type type;
+		#region Constructors
 		TypeName()
 		{
 			this.arguments = new Collection.List<TypeName>();
             this.Arguments = new Collection.Wrap.ReadOnlyVector<TypeName>(this.arguments);
 		}
-
-
 		TypeName(Type type) :
 			this()
 		{
@@ -51,8 +51,6 @@ namespace Kean.Core.Reflect
 				foreach (Type t in type.GetGenericArguments())
 					this.arguments.Add(t);
 		}
-
-
 		TypeName(string name) :
 			this()
 		{
@@ -111,6 +109,7 @@ namespace Kean.Core.Reflect
 			this.Name = name;
 			this.arguments.Add(arguments);
 		}
+		#endregion
 
 		public T Create<T>()
 		{
@@ -119,6 +118,15 @@ namespace Kean.Core.Reflect
 		public object Create()
 		{
 			return System.Activator.CreateInstance(this);
+		}
+
+		public bool Implements<T>()
+		{
+			return this.GetImplementation<T>().NotNull();
+		}
+		public Type GetImplementation<T>()
+		{
+			return this.type.GetInterface(typeof(T).Name);
 		}
 
 		#region Object Overrides

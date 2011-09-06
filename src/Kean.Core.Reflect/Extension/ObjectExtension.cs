@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -70,7 +71,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
 			foreach (System.Reflection.MemberInfo member in type.GetMember(name, filter.AsBindingFlags()))
-				result.Add(Member.Create(me, type, member, filter));
+			{
+				Member m = Member.Create(me, type, member, filter);
+				if (m.NotNull())
+					result.Add(m);
+			}
 			return result.ToArray();
 		}
 		public static Member[] GetMembers(this object me)
@@ -78,7 +83,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
 			foreach (System.Reflection.MemberInfo member in type.GetMembers())
-				result.Add(Member.Create(me, type, member));
+			{
+				Member m = Member.Create(me, type, member);
+				if (m.NotNull())
+					result.Add(m);
+			}
 			return result.ToArray();
 		}
 		public static Member[] GetMembers(this object me, MemberFilter filter)
@@ -86,7 +95,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
 			foreach (System.Reflection.MemberInfo member in type.GetMembers(filter.AsBindingFlags()))
-				result.Add(Member.Create(me, type, member, filter));
+			{
+				Member m = Member.Create(me, type, member, filter);
+				if (m.NotNull())
+					result.Add(m);
+			}
 			return result.ToArray();
 		}
 		#endregion
@@ -106,7 +119,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Field> result = new Collection.Sorted.List<Field>();
 			foreach (System.Reflection.FieldInfo member in type.GetFields())
-				result.Add(Field.Create(me, type, member));
+			{
+				Field f = Field.Create(me, type, member);
+				if (f.NotNull())
+					result.Add(f);
+			}
 			return result.ToArray();
 		}
 		public static Field[] GetFields(this object me, MemberFilter filter)
@@ -114,7 +131,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Field> result = new Collection.Sorted.List<Field>();
 			foreach (System.Reflection.FieldInfo member in type.GetFields(filter.AsBindingFlags()))
-				result.Add(Field.Create(me, type, member));
+			{
+				Field f = Field.Create(me, type, member);
+				if (f.NotNull())
+					result.Add(f);
+			}
 			return result.ToArray();
 		}
 		#endregion
@@ -134,7 +155,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Property> result = new Collection.Sorted.List<Property>();
 			foreach (System.Reflection.PropertyInfo member in type.GetProperties())
-				result.Add(Property.Create(me, type, member));
+			{
+				Property p = Property.Create(me, type, member);
+				if (p.NotNull())
+					result.Add(p);
+			}
 			return result.ToArray();
 		}
 		public static Property[] GetProperties(this object me, MemberFilter filter)
@@ -142,7 +167,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Property> result = new Collection.Sorted.List<Property>();
 			foreach (System.Reflection.PropertyInfo member in type.GetProperties(filter.AsBindingFlags()))
-				result.Add(Property.Create(me, type, member));
+			{
+				Property p = Property.Create(me, type, member);
+				if (p.NotNull())
+					result.Add(p);
+			}
 			return result.ToArray();
 		}
 		#endregion
@@ -162,7 +191,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Method> result = new Collection.Sorted.List<Method>();
 			foreach (System.Reflection.MethodInfo member in type.GetMethods())
-				result.Add(Method.Create(me, type, member));
+			{
+				Method m = Method.Create(me, type, member);
+				if (m.NotNull())
+					result.Add(m);
+			}
 			return result.ToArray();
 		}
 		public static Method[] GetMethods(this object me, MemberFilter filter)
@@ -170,7 +203,11 @@ namespace Kean.Core.Reflect.Extension
 			Type type = me.GetType();
 			Collection.IList<Method> result = new Collection.Sorted.List<Method>();
 			foreach (System.Reflection.MethodInfo member in type.GetMethods(filter.AsBindingFlags()))
-				result.Add(Method.Create(me, type, member));
+			{
+				Method m = Method.Create(me, type, member);
+				if (m.NotNull())
+					result.Add(m);
+			}
 			return result.ToArray();
 		}
 		#endregion

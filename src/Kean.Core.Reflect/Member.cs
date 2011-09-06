@@ -58,7 +58,7 @@ namespace Kean.Core.Reflect
 		#region IComparable<Member> Members
 		public Order Compare(Member other)
 		{
-			return this.Name.CompareWith(other.Name);
+			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
 		}
 		#endregion
 		internal static Member Create(object parent, Type parentType, System.Reflection.MemberInfo memberInformation)

@@ -67,6 +67,10 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
+      <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
+      <Name>Kean.IO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

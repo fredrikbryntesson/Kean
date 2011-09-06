@@ -40,7 +40,7 @@ namespace Kean.Cli.Processor
 				if (this.members.IsNull())
 				{
 					this.members = new Collection.Sorted.List<Member>();
-					foreach (Reflect.Member member in this.backend.GetMembers(Reflect.MemberFilter.Public | Reflect.MemberFilter.Method | Reflect.MemberFilter.Property))
+					foreach (Reflect.Member member in this.backend.GetMembers(Reflect.MemberFilter.Instance | Reflect.MemberFilter.Public | Reflect.MemberFilter.Method | Reflect.MemberFilter.Property))
 					{
 						MemberAttribute[] attributes = member.GetAttributes<MemberAttribute>();
 						if (attributes.Length == 1)

@@ -70,6 +70,7 @@ namespace Kean.Cli.LineBuffer.Test
                 if (correct)
                     foreach (string part in parts)
                         commands[part]();
+				return correct;
             };
             editor.Help = text =>
             {

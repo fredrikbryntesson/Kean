@@ -29,11 +29,15 @@ namespace Kean.Cli.Processor
 		Kean.Core.IComparable<Member>
 	{
 		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public string Usage { get; private set; }
 		Reflect.Member backend;
 		protected Object Parent { get; set; }
 		protected Member(MemberAttribute attribute, Reflect.Member backend, Object parent)
 		{
 			this.Name = attribute.NotNull() ? attribute.Name : null;
+			this.Description = attribute.NotNull() ? attribute.Description : null;
+			this.Usage = attribute.NotNull() ? attribute.Description ?? attribute.Usage : null;
 			this.backend = backend;
 			this.Parent = parent;
 		}
@@ -44,5 +48,12 @@ namespace Kean.Cli.Processor
 			return this.Name.CompareWith(other.Name);
 		}
 		#endregion
+		public override string ToString()
+		{
+			string result = this.Name;
+			if (this.Parent.NotNull() && this.Parent.Name.NotEmpty())
+				result = this.Parent.ToString() + "." + result;
+			return result;
+		}
 	}
 }

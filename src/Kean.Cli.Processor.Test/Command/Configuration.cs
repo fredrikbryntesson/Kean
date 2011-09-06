@@ -24,5 +24,11 @@ namespace Kean.Cli.Processor.Test.Command
 {
 	public class Configuration
 	{
+		[Property("name", "Name of configuration.", "The name of the current configuration.")]
+		public string Name { get; set; }
+		[Property("type", "Type of configuration.", "The type of the current configuration.")]
+		public string Type { get; set; }
+		[Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
+		public string Comment { get; set; }
 	}
 }
