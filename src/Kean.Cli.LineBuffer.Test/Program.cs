@@ -28,7 +28,7 @@ namespace Kean.Cli.LineBuffer.Test
 	{
 		static void Main(string[] args)
 		{
-			Editor editor = new Editor(new IO.ConsoleStream() { LocalEcho = false }, Console.Out);
+            Editor editor = new Editor(new IO.ConsoleStream() { LocalEcho = false }, Console.Out) { Prompt = "::>" };
             Kean.Core.Tuple<string, string>[] completionDescription = new Kean.Core.Tuple<string, string>[] 
             {
                 Kean.Core.Tuple.Create<string, string>("fish", "Fishes are a paraphyletic group of organisms."),
@@ -38,20 +38,23 @@ namespace Kean.Cli.LineBuffer.Test
            
             editor.Complete = text =>
             {
-                string result = "";
+                string result = text;
                 string[] parts = text.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                string last = parts[parts.Length - 1];
                 int hits = 0;
-                foreach (Kean.Core.Tuple<string, string> word in completionDescription)
-                    if (word.Item1.StartsWith(last))
-                    {
-                        result = word.Item1;
-                        hits++;
-                    }
-                if (hits == 0 || hits > 1)
-                    result = text;
-                else
-                    result = text.Remove(text.Length - last.Length) + result;
+                
+                if (parts.Length > 0)
+                {
+                    string last = parts[parts.Length - 1];
+                    string found = null;
+                    foreach (Kean.Core.Tuple<string, string> word in completionDescription)
+                        if (word.Item1.StartsWith(last))
+                        {
+                            found = word.Item1;
+                            hits++;
+                        }
+                    if(hits == 1)
+                        result = text.Remove(text.Length - last.Length) + found;
+                }
                 return result;
             };
             Kean.Core.Collection.IDictionary<string, Action> commands = new Kean.Core.Collection.Dictionary<string, Action>();
@@ -72,10 +75,13 @@ namespace Kean.Cli.LineBuffer.Test
             {
                 System.Text.StringBuilder result = new System.Text.StringBuilder();
                 string[] parts = text.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                string last = parts[parts.Length - 1];
-                foreach (Kean.Core.Tuple<string, string> word in completionDescription)
-                    if (word.Item1.StartsWith(last))
-                        result.AppendLine(word.Item1 + " " + word.Item2);
+                if (parts.Length > 0)
+                {
+                    string last = parts[parts.Length - 1];
+                    foreach (Kean.Core.Tuple<string, string> word in completionDescription)
+                        if (word.Item1.StartsWith(last))
+                            result.AppendLine(word.Item1 + " " + word.Item2);
+                }
                 return result.ToString();   
             };
             editor.Read();

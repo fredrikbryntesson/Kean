@@ -37,7 +37,7 @@ namespace Kean.Cli.LineBuffer
         public Action<string> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
-
+        public string Prompt { get; set; }
         public Editor(IO.Stream reader, System.IO.TextWriter writer) :
             this(new IO.Reader(reader), writer)
         { }
