@@ -48,6 +48,10 @@
     <Compile Include="PropertyAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kean.Cli.LineBuffer\Kean.Cli.LineBuffer.csproj">
+      <Project>{D3B69E94-AB2C-4144-8DD2-9F6556331188}</Project>
+      <Name>Kean.Cli.LineBuffer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
