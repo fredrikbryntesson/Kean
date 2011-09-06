@@ -41,11 +41,6 @@ namespace Kean.Core.Collection.Test.Linked
 			Kean.Core.Collection.Extension.ListExtension.Add(result, (new Kean.Core.Collection.Vector<int>(count) as Kean.Core.Collection.IVector<int>).ToArray());
 			return result;
 		}
-		public static void Test()
-		{
-			List fixture = new List();
-			fixture.Run();
-		}
 	}
 }
 

@@ -25,9 +25,10 @@ using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base
 {
-	public abstract class Dictionary<D> :
-		AssertionHelper
-		where D : Target.IDictionary<string, int>
+	public abstract class Dictionary<T, D> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
+        where D : Target.IDictionary<string, int>
 	{
 		public string[] Correct { get; private set; }
 		public string Prefix { get; set; }
@@ -38,7 +39,17 @@ namespace Kean.Core.Collection.Test.Base
 
 		protected abstract D Create(int size);
 
-		[Test]
+        protected override void Run()
+        {
+            this.Run(
+                this.SingleElement,
+                this.TwoElements,
+                this.TwelveElements,
+                this.Equality
+            );
+        }
+        
+        [Test]
 		public void SingleElement()
 		{
 			D target = this.Create(10);
@@ -129,13 +140,6 @@ namespace Kean.Core.Collection.Test.Base
             Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 6);
             Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 7);
         }
-        public virtual void Run()
-		{
-			this.SingleElement();
-			this.TwoElements();
-			this.TwelveElements();
-            this.Equality();
-		}
 	}
 }
 

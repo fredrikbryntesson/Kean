@@ -27,16 +27,11 @@ namespace Kean.Core.Collection.Test.Array
 {
 	[TestFixture]
 	public class Stack :
-		Base.Stack<Target.Stack<int>>
+		Base.Stack<Stack, Target.Stack<int>>
 	{
 		public Stack()
 		{
 			this.Prefix = "Kean.Core.Collection.Test.Array.Stack.";
-		}
-		public static void Test()
-		{
-			Stack fixture = new Stack();
-			fixture.Run();
 		}
 	}
 }

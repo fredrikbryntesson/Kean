@@ -49,6 +49,7 @@ namespace Kean.Test
 		protected void Run(Test test)
 		{
 			test.Run(this.PreTest, this.PostTest);
+            Console.Write(".");
 		}
 		protected void Run(params Test[] tests)
 		{
@@ -63,7 +64,7 @@ namespace Kean.Test
 		public static void Test()
 		{
 			Type type = typeof(T);
-			Console.Write(type.Namespace + "." + type.Name + "...");
+			Console.Write(type.Namespace + "." + type.Name);
 			T fixture = new T();
 			fixture.Setup();
 			fixture.Run();

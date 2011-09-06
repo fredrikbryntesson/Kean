@@ -26,10 +26,17 @@ using Target = Kean.Core.Collection;
 namespace Kean.Core.Collection.Test.Sorted
 {
     public class List :
-        AssertionHelper
+        Kean.Test.Fixture<List>
     {
         public List()
         {
+        }
+        protected override void  Run()
+        {
+            this.Run(
+                this.Add,
+                this.Remove
+            );
         }
         [Test]
         public void Add()
@@ -58,16 +65,6 @@ namespace Kean.Core.Collection.Test.Sorted
             int index = list.Count / 2;
             list.Remove(index);
             list.Remove();
-        }
-        public virtual void Run()
-        {
-            this.Add();
-            this.Remove();
-        }
-        public static void Test()
-        {
-            List fixture = new List();
-            fixture.Run();
         }
     }
 }

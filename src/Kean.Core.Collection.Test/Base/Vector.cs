@@ -39,6 +39,19 @@ namespace Kean.Core.Collection.Test.Base
 
 		public abstract A Create(int count);
 
+        protected override void Run()
+        {
+            this.Run(
+            (Action)this.Count,
+            (Action)this.Get,
+            (Action)this.Equality,
+            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetIndexToBig, this.Prefix + "GetIndexToBig.0"),
+            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetNegativeIndex, this.Prefix + "GetNegativeIndex.0"),
+            (Action)this.Set,
+            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetIndexToBig, this.Prefix + "SetIndexToBig.0"),
+            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetNegativeIndex, this.Prefix + "SetNegativeIndex.0")
+            );
+        }
         
 		[Test]
 		public void Count()
@@ -115,20 +128,6 @@ namespace Kean.Core.Collection.Test.Base
             Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
             Expect(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
             Expect(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
-        }
-		protected override void  Run()
-		{
-			this.Run(
-			(Action)this.Count,
-			(Action)this.Get,
-			(Action)this.Equality,
-			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetIndexToBig, this.Prefix + "GetIndexToBig.0"),
-			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetNegativeIndex, this.Prefix + "GetNegativeIndex.0"),
-			(Action)this.Set,
-			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetIndexToBig, this.Prefix + "SetIndexToBig.0"),
-			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetNegativeIndex, this.Prefix + "SetNegativeIndex.0")
-			);
-		}
-       
+        }      
 	}
 }

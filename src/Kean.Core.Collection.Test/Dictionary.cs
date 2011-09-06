@@ -27,7 +27,7 @@ namespace Kean.Core.Collection.Test
 {
 	[TestFixture]
 	public class Dictionary :
-		Base.Dictionary<Target.Dictionary<string, int>>
+		Base.Dictionary<Dictionary, Target.Dictionary<string, int>>
 	{
 		public Dictionary()
 		{
@@ -37,12 +37,6 @@ namespace Kean.Core.Collection.Test
 		{
 			return new Target.Dictionary<string, int>(size);
 		}
-		public static void Test()
-		{
-			Dictionary fixture = new Dictionary();
-			fixture.Run();
-		}
-
 	}
 }
 

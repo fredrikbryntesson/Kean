@@ -75,10 +75,5 @@ namespace Kean.Core.Collection.Test
 			for (int i = 0; i < 10; i++)
 				Expect(data[i], EqualTo(0), this.Prefix + "ConstructorCount." + (i + 1).ToString());
 		}
-		public static void Test()
-		{
-			Vector fixture = new Vector();
-			fixture.Run();
-		}
 	}
 }

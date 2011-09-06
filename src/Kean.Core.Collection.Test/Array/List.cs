@@ -38,11 +38,6 @@ namespace Kean.Core.Collection.Test.Array
 		{
 			return new Target.List<int>((new Target.Vector<int>(count) as Kean.Core.Collection.IVector<int>).ToArray());
 		}
-		public static void Test()
-		{
-			List fixture = new List();
-			fixture.Run();
-		}
 	}
 }
 

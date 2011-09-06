@@ -4,20 +4,13 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Test
 {
-    public class Double : Abstract<Kean.Math.Double, double>
+    public class Double : Abstract<Double, Kean.Math.Double, double>
     {
         [TestFixtureSetUp]
-        public void SetupFixture()
+        public override void Setup()
         {
             this.A = new Kean.Math.Double(3.5);
             this.B = 6.6;
         }
-        public static void Test()
-        {
-            Double fixture = new Double();
-            fixture.SetupFixture();
-            fixture.Run();
-        }
-
     }
 }

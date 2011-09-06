@@ -1,9 +1,4 @@
-﻿// 
-//  Stack.cs
-//  
-//  Author:
-//       Simon Mika <smika@hx.se>
-//  
+﻿//  
 //  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
@@ -19,19 +14,26 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test
 {
-	[TestFixture]
-	public class Stack :
-		Base.Stack<Stack, Target.Stack<int>>
-	{
-		public Stack()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.Stack.";
-		}
-	}
+    public static class All
+    {
+        public static void Test()
+        {
+            Vector.Test();
+            List.Test();
+            Queue.Test();
+            Stack.Test();
+            Dictionary.Test();
+            Linked.List.Test();
+            Linked.Queue.Test();
+            Linked.Stack.Test();
+            Array.Vector.Test();
+            Array.List.Test();
+            Array.Queue.Test();
+            Array.Stack.Test();
+            Sorted.List.Test();
+        }
+    }
 }

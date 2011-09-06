@@ -26,30 +26,23 @@ using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base
 {
-	public abstract class Stack<S> :
-		AssertionHelper
+	public abstract class Stack<T, S> :
+		Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
 		where S : Target.IStack<int>, new()
 	{
 		public string Prefix { get; set; }
 
-		public virtual void Run()
+		protected override void Run()
 		{
-			this.EmptyStack();
-			try
-			{
-				this.PopEmpty();
-				throw new AssertionException(this.Prefix + "PopEmpty.0");
-			}
-			catch (Target.Exception.Empty) { }
-			try
-			{
-				this.PeekEmpty();
-				throw new AssertionException(this.Prefix + "PeekEmpty.0");
-			}
-			catch (Target.Exception.Empty) { }
-			this.PushPeekPop();
-			this.PushPeekPopTen();
-			this.PushPopPush();
+            this.Run(
+    			(Action)this.EmptyStack,
+                Kean.Test.Test<Target.Exception.Empty>.Create(this.PopEmpty, this.Prefix + "PopEmpty.0"),
+                Kean.Test.Test<Target.Exception.Empty>.Create(this.PeekEmpty, this.Prefix + "PeekEmpty.0"),
+                (Action)this.PushPeekPop,
+                (Action)this.PushPeekPopTen,
+                (Action)this.PushPopPush
+            );
 		}
 		[Test]
 		public void EmptyStack()

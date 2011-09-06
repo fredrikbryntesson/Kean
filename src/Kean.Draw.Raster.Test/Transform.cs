@@ -46,7 +46,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void CutRotate()
         {
-            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.jpg");
+            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Single.Size size = new Geometry2D.Single.Size(320, 100);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(75));
             Target.Image copy = image.Copy(size, transform) as Target.Image;
@@ -55,7 +55,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void CutScale()
         {
-            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.jpg");
+            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateScaling(1.5f);
             Target.Image copy = image.Copy(size, transform) as Target.Image;
@@ -64,7 +64,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void CutTranslate()
         {
-            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.jpg");
+            Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateTranslation(100, 100);
             Target.Image copy = image.Copy(size, transform) as Target.Image;
@@ -73,7 +73,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void CoordinateSystems()
         {
-            Target.Image source = Target.Image.OpenResource("Bitmaps/Transform/original.jpg");
+            Target.Image source = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Target.Image image = new Target.Bgr(new Kean.Core.Buffer.Sized(source.Pointer, source.Resolution.Area * 3), source.Resolution, CoordinateSystem.XLeftward | CoordinateSystem.YUpward);
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45));
@@ -83,7 +83,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Resize()
         {
-            Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.jpg");
+            Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Target.Image copy = first.Resize(size) as Target.Image;
             Assert.That(first.Resize(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(this.tolerance));

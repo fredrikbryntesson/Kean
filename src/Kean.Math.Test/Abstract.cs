@@ -5,14 +5,30 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Test
 {
-    public abstract class Abstract<R, V> :
-        AssertionHelper
+    public abstract class Abstract<T, R, V> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
         public R A { get; set; }
         public R B { get; set; }
-      
+        protected override void Run()
+        {
+            this.Run(
+                this.Constructors,
+                this.Equality,
+                this.Copy,
+                this.Arithmetics,
+                this.Absolute,
+                this.Minimum,
+                this.Maximum,
+                this.Compare,
+                this.Clamp,
+                this.Logarithm
+               );
+        }
+
         [Test]
         public void Constructors()
         {
@@ -103,27 +119,6 @@ namespace Kean.Math.Test
         {
             R two = Kean.Math.Abstract<R, V>.Two;
             Expect(two.Logarithm(two).Value, Is.EqualTo(1));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Constructors,
-                this.Equality,
-                this.Copy,
-                this.Arithmetics,
-                this.Absolute,
-                this.Minimum,
-                this.Maximum,
-                this.Compare,
-                this.Clamp,
-                this.Logarithm
-            );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
         }
     }
 }

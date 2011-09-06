@@ -27,16 +27,11 @@ namespace Kean.Core.Collection.Test.Array
 {
 	[TestFixture]
 	public class Queue :
-		Base.Queue<Target.Queue<int>>
+		Base.Queue<Queue, Target.Queue<int>>
 	{
 		public Queue ()
 		{
 			this.Prefix = "Kean.Core.Collection.Test.Array.Queue.";
-		}
-		public static void Test()
-		{
-			Queue fixture = new Queue();
-			fixture.Run();
 		}
 	}
 }

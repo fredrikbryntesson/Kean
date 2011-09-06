@@ -26,29 +26,14 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-            Console.WriteLine("Started");
-            
-            Core.Collection.Test.Vector.Test();
-			Core.Collection.Test.List.Test();
-			Core.Collection.Test.Queue.Test();
-			Core.Collection.Test.Stack.Test();
-			Core.Collection.Test.Dictionary.Test();
-			Core.Collection.Test.Linked.List.Test();
-			Core.Collection.Test.Linked.Queue.Test();
-			Core.Collection.Test.Linked.Stack.Test();
-			Core.Collection.Test.Array.Vector.Test();
-			Core.Collection.Test.Array.List.Test();
-			Core.Collection.Test.Array.Queue.Test();
-			Core.Collection.Test.Array.Stack.Test();
-			Core.Collection.Test.Sorted.List.Test();
-
             Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
+
+            Core.Collection.Test.All.Test();
             
 			Xml.Dom.Test.Open.Test();
 
-            Kean.Math.Test.Single.Test();
-            Kean.Math.Test.Double.Test();
+            Kean.Math.Test.All.Test();
             Kean.Math.Complex.Test.Single.Test();
             Kean.Math.Complex.Test.Double.Test();
             Kean.Math.Complex.Test.Fourier.Single.Test();

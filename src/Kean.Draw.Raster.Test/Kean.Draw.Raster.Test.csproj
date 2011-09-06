@@ -92,12 +92,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Bitmaps\Convert\original.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Bitmaps\Transform\original.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Bitmaps\Transform\rotated.png" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Bitmaps\Convert\monochrome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Bitmaps\Convert\original.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Bitmaps\Transform\original.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -26,31 +26,24 @@ using Target = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 namespace Kean.Core.Collection.Test.Base
 {
-	public abstract class Queue<Q> :
-		AssertionHelper
-		where Q : Target.IQueue<int>, new()
+	public abstract class Queue<T, Q> :
+		Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
+        where Q : Target.IQueue<int>, new()
 	{
 		public string Prefix { get; set; }
 
-		public virtual void Run()
+        protected override void Run()
 		{
-			this.EmptyQueue();
-			try
-			{
-				this.DequeueEmpty();
-				throw new AssertionException(this.Prefix + "DequeueEmpty.0");
-			}
-			catch (Target.Exception.Empty) { }
-			try
-			{
-				this.PeekEmpty();
-				throw new AssertionException(this.Prefix + "PeekEmpty.0");
-			}
-			catch (Target.Exception.Empty) { }
-			this.EnqueuePeekDequeue();
-			this.EnqueuePeekDequeueTen();
-			this.EnqueueDequeueEnqueue();
-            this.AddAfterEmptyQueue();
+            this.Run(
+            (Action)this.EmptyQueue,
+            Kean.Test.Test<Target.Exception.Empty>.Create(this.DequeueEmpty, this.Prefix + "DequeueEmpty.0"),
+            Kean.Test.Test<Target.Exception.Empty>.Create(this.PeekEmpty, this.Prefix + "PeekEmpty.0"),
+            (Action)this.EnqueuePeekDequeue,
+            (Action)this.EnqueuePeekDequeueTen,
+            (Action)this.EnqueueDequeueEnqueue,
+            (Action)this.AddAfterEmptyQueue
+            );
 		}
         [Test]
         public void AddAfterEmptyQueue()
