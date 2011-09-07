@@ -18,7 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
-using System;
+
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
@@ -32,13 +32,13 @@ namespace Kean.Core.Reflect
 		protected Type ParentType { get; private set; }
 		System.Reflection.MemberInfo information;
 		public string Name { get; private set; }
-		private Attribute[] attributes;
-		public Attribute[] Attributes
+		private System.Attribute[] attributes;
+		public System.Attribute[] Attributes
 		{
 			get
 			{
 				if (this.attributes.IsNull())
-					this.attributes = this.information.GetCustomAttributes(true).Map(attribute => attribute as Attribute);
+					this.attributes = this.information.GetCustomAttributes(true).Map(attribute => attribute as System.Attribute);
 				return this.attributes;
 			}
 		}
@@ -50,7 +50,7 @@ namespace Kean.Core.Reflect
 			this.Name = information.Name;
 		}
 		public T[] GetAttributes<T>()
-			where T : Attribute
+			where T : System.Attribute
 		{
 			return this.information.GetCustomAttributes(typeof(T), true).Map(attribute => attribute as T);
 		}

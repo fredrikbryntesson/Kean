@@ -18,12 +18,25 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
+
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Method :
 		Member
 	{
+		Parameter[] parameters;
+		public Parameter[] Parameters
+		{
+			get
+			{
+				//if (this.parameters.IsNull())
+				//    this.parameters = this.MethodInformation.GetParameters().Fold((parameter, a) => a.Add(new Parameter(this, parameter)), new Collection.List<Parameter>()).ToArray();
+				return this.parameters;
+			}
+		}
 		protected System.Reflection.MethodInfo MethodInformation { get; private set; }
 		public object Call(params object[] parameters)
 		{
@@ -39,7 +52,7 @@ namespace Kean.Core.Reflect
 		public Action<T1, T2, T3> AsAction<T1, T2, T3>() { return new Action<T1, T2, T3>(this.Parent, this.ParentType, this.MethodInformation); }
 		public Action<T1, T2, T3, T4> AsAction<T1, T2, T3, T4>() { return new Action<T1, T2, T3, T4>(this.Parent, this.ParentType, this.MethodInformation); }
 		public Action<T1, T2, T3, T4, T5> AsAction<T1, T2, T3, T4, T5>() { return new Action<T1, T2, T3, T4, T5>(this.Parent, this.ParentType, this.MethodInformation); }
-		
+
 		internal static Method Create(object parent, Type parentType, System.Reflection.MethodInfo methodInformation)
 		{
 			Method result;

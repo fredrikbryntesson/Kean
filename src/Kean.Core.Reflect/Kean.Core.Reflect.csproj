@@ -47,8 +47,9 @@
     <Compile Include="Member.cs" />
     <Compile Include="MemberFilter.cs" />
     <Compile Include="Method.cs" />
+    <Compile Include="Parameter.cs" />
     <Compile Include="Property.cs" />
-    <Compile Include="TypeName.cs" />
+    <Compile Include="Type.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

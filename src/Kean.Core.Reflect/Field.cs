@@ -18,7 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
+
 namespace Kean.Core.Reflect
 {
 	public class Field :
@@ -30,6 +30,7 @@ namespace Kean.Core.Reflect
 			get { return this.FieldInformation.GetValue(this.Parent); }
 			set { this.FieldInformation.SetValue(this.Parent, value); }
 		}
+		public Type Type { get { return this.FieldInformation.FieldType; } }
 		internal Field(object parent, Type parentType, System.Reflection.FieldInfo fieldInformation) :
 			base(parent, parentType, fieldInformation)
 		{

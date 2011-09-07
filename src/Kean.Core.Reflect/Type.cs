@@ -19,39 +19,38 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Reflect
 {
-	public class TypeName :
-		IEquatable<TypeName>,
-		IEquatable<string>,
-		IEquatable<Type>
+	public class Type :
+		System.IEquatable<Type>,
+		System.IEquatable<string>,
+		System.IEquatable<System.Type>
 	{
 		public string Assembly { get; private set; }
 		public string Name { get; private set; }
-		Collection.IList<TypeName> arguments;
-		public Collection.IReadOnlyVector<TypeName> Arguments { get; private set; }
+		Collection.IList<Type> arguments;
+		public Collection.IReadOnlyVector<Type> Arguments { get; private set; }
 
-		Type type;
+		System.Type type;
 		#region Constructors
-		TypeName()
+		Type()
 		{
-			this.arguments = new Collection.List<TypeName>();
-            this.Arguments = new Collection.Wrap.ReadOnlyVector<TypeName>(this.arguments);
+			this.arguments = new Collection.List<Type>();
+            this.Arguments = new Collection.Wrap.ReadOnlyVector<Type>(this.arguments);
 		}
-		TypeName(Type type) :
+		Type(System.Type type) :
 			this()
 		{
 			this.Name = type.Namespace + "." + type.Name.Split(new char[] { '`' }, 2) [0];
 			this.Assembly = type.Assembly.GetName().Name;
 			if (type.IsGenericType)
-				foreach (Type t in type.GetGenericArguments())
+				foreach (System.Type t in type.GetGenericArguments())
 					this.arguments.Add(t);
 		}
-		TypeName(string name) :
+		Type(string name) :
 			this()
 		{
 			int pointer = -1;
@@ -67,7 +66,7 @@ namespace Kean.Core.Reflect
 					while (name[--tail] != '>')
 						;
 					foreach (string argument in name.Substring(pointer, tail - pointer).Split(','))
-						this.arguments.Add(new TypeName(argument.Trim(' ')));
+						this.arguments.Add(new Type(argument.Trim(' ')));
 					pointer = tail;
 					break;
 				case ':':
@@ -102,7 +101,7 @@ namespace Kean.Core.Reflect
 			}
 			this.Assembly = assembly;
 		}
-		public TypeName(string assembly, string name, params TypeName[] arguments) :
+		public Type(string assembly, string name, params Type[] arguments) :
 			this()
 		{
 			this.Assembly = assembly;
@@ -124,7 +123,7 @@ namespace Kean.Core.Reflect
 		{
 			return this.GetImplementation<T>().NotNull();
 		}
-		public Type GetImplementation<T>()
+		public System.Type GetImplementation<T>()
 		{
 			return this.type.GetInterface(typeof(T).Name);
 		}
@@ -145,7 +144,7 @@ namespace Kean.Core.Reflect
 
 		#endregion
 		#region IEquatable<Typename>, IEquatable<string>, IEquatable<Type>
-		public bool Equals(TypeName other)
+		public bool Equals(Type other)
 		{
 			return other.NotNull() && (string)this == (string)other;
 		}
@@ -153,60 +152,60 @@ namespace Kean.Core.Reflect
 		{
 			return this == other;
 		}
-		public bool Equals(Type other)
+		public bool Equals(System.Type other)
 		{
-			return other.NotNull() && this == (TypeName)other;
+			return other.NotNull() && this == (Type)other;
 		}
 
 		#endregion
 		#region Binary Operators
-		public static bool operator ==(TypeName left, TypeName right)
+		public static bool operator ==(Type left, Type right)
 		{
 			return left.Same(right) || left.NotNull() && left.Equals(right);
 		}
-		public static bool operator !=(TypeName left, TypeName right)
+		public static bool operator !=(Type left, Type right)
 		{
 			return !(left == right);
 		}
-		public static bool operator ==(TypeName left, string right)
+		public static bool operator ==(Type left, string right)
 		{
 			return left.Same(right) || left.NotNull() && left.Equals(right);
 		}
-		public static bool operator !=(TypeName left, string right)
+		public static bool operator !=(Type left, string right)
 		{
 			return !(left == right);
 		}
-		public static bool operator ==(string left, TypeName right)
+		public static bool operator ==(string left, Type right)
 		{
 			return right == left;
 		}
-		public static bool operator !=(string left, TypeName right)
+		public static bool operator !=(string left, Type right)
 		{
 			return !(left == right);
 		}
-		public static bool operator ==(TypeName left, Type right)
+		public static bool operator ==(Type left, System.Type right)
 		{
 			return left.Same(right) || left.NotNull() && left.Equals(right);
 		}
-		public static bool operator !=(TypeName left, Type right)
+		public static bool operator !=(Type left, System.Type right)
 		{
 			return !(left == right);
 		}
-		public static bool operator ==(Type left, TypeName right)
+		public static bool operator ==(System.Type left, Type right)
 		{
 			return right == left;
 		}
-		public static bool operator !=(Type left, TypeName right)
+		public static bool operator !=(System.Type left, Type right)
 		{
 			return !(left == right);
 		}
 		#endregion
 		#region Casts
-		public static implicit operator TypeName(string value)
+		public static implicit operator Type(string value)
 		{
-			return new TypeName(value);
+			return new Type(value);
 		}
-		public static implicit operator string(TypeName value)
+		public static implicit operator string(Type value)
 		{
 			string result = "";
 			// http://msdn.microsoft.com/en-US/library/ya5y69ds%28v=VS.80%29.aspx
@@ -233,7 +232,7 @@ namespace Kean.Core.Reflect
 				{
 					resultBuilder = new System.Text.StringBuilder().Append("<");
 					bool first = true;
-					foreach (Type name in value.Arguments)
+					foreach (System.Type name in value.Arguments)
 					{
 						if (!first)
 							resultBuilder.Append(",");
@@ -257,11 +256,11 @@ namespace Kean.Core.Reflect
 			}
 			return result;
 		}
-		public static implicit operator TypeName(Type value)
+		public static implicit operator Type(System.Type value)
 		{
-			return new TypeName(value);
+			return new Type(value);
 		}
-		public static implicit operator Type(TypeName value)
+		public static implicit operator System.Type(Type value)
 		{
 			if (value.type.IsNull())
 			{
@@ -270,19 +269,19 @@ namespace Kean.Core.Reflect
 				{
 					name = name.AppendFormat("`{0}[", value.Arguments.Count);
 					bool first = true;
-					foreach (TypeName argument in value.Arguments)
+					foreach (Type argument in value.Arguments)
 					{
 						if (first)
 							first = false;
 						else
 							name.Append(",");
-						name.AppendFormat("[{0}]", ((Type)argument).AssemblyQualifiedName);
+						name.AppendFormat("[{0}]", ((System.Type)argument).AssemblyQualifiedName);
 					}
 					name.Append("]");
 				}
 				if (value.Assembly.NotEmpty() && value.Assembly != "mscorlib")
 					name.AppendFormat(", {0}", value.Assembly);
-				value.type = Type.GetType(name.ToString(), false);
+				value.type = System.Type.GetType(name.ToString(), false);
 			}
 			return value.type;
 		}
