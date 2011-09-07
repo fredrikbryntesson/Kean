@@ -29,11 +29,10 @@ namespace Kean.Cli.LineBuffer
 {
     public class Editor
     {
+        object @lock = new object();
         IO.Reader reader;
         System.IO.TextWriter writer;
-        int cursor;
-        System.Text.StringBuilder line = new System.Text.StringBuilder();
-
+        Line line;
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
@@ -45,6 +44,7 @@ namespace Kean.Cli.LineBuffer
         {
             this.reader = reader;
             this.writer = writer;
+            this.line = new Line(this.writer.Write);
         }
         public void Read()
         {
@@ -59,15 +59,10 @@ namespace Kean.Cli.LineBuffer
                     case (char)0:
                         break;
                     case (char)1: // Home
-                        this.MoveCursor(-this.cursor - 1);
-                        this.cursor = 0;
+                        this.line.MoveCursorHome();
                         break;
                     case (char)2: // Left Arrow
-                        if (this.cursor > 0)
-                        {
-                            this.MoveCursor(-1);
-                            this.cursor--;
-                        }
+                        this.line.MoveCursorLeft();
                         break;
                     case (char)3: // Copy to clipboard
                         break;
@@ -75,33 +70,22 @@ namespace Kean.Cli.LineBuffer
                         exit = true;
                         break;
                     case (char)5: // End
-                        this.MoveCursor(this.cursor - this.line.Length);
-                        this.cursor = this.line.Length - 1;
+                        this.line.MoveCursorEnd();
                         break;
                     case (char)6: // Right Arrow
-                        if (this.cursor < this.line.Length - 1)
-                        {
-                            this.MoveCursor(1);
-                            this.cursor++;
-                        }
+                        this.line.MoveCursorRight();
                         break;
                     // 7
                     case (char)8: // Backspace
-                        if (this.cursor > 0)
-                        {
-                            this.line.Remove(this.line.Length - 1, 1);
-                            this.cursor--;
-                            this.writer.Write((char)8 + " " + (char)8);
-                        }
+                        this.line.MoveCursorLeftAndDelete();
                         break;
                     case (char)9: // Tab
                         if ((help || this.Complete.IsNull()) && this.Help.NotNull())
                         {
-                            string line = this.line.ToString();
                             this.writer.WriteLine();
-                            this.writer.Write(this.Help(line));
+                            this.writer.Write(this.Help(this.line.ToString()));
                             this.writer.Write(this.Prompt);
-                            this.writer.Write(line);
+                            this.line.Write();
                         }
                         else if (this.Complete.NotNull())
                         {
@@ -111,24 +95,25 @@ namespace Kean.Cli.LineBuffer
                                 triggerHelp = true;
                             else
                             {
-                                this.MoveCursor(-old.Length);
-                                this.cursor = line.Length;
-                                this.line = new System.Text.StringBuilder(line);
-                                this.writer.Write(line.ToString());
+                                this.line.Renew(line);
+                                this.line.Write();
                             }
                         }
                         break;
                     case (char)10: // Newline
                         {
-							this.writer.WriteLine();
-                            this.writer.Write(this.Prompt);
+                            this.writer.WriteLine();
                             if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
-							{
-								this.line = new System.Text.StringBuilder();
-								this.cursor = 0;
-							}
-							else
-								this.writer.Write(this.line.ToString());
+                            {
+                                this.line.Clear();
+                                this.writer.Write(this.Prompt);
+                            }
+                            else
+                            {
+                                this.writer.Write(this.Prompt); 
+                                this.line.Write();
+                            }
+                           
                         }
                         break;
                     // 11
@@ -153,35 +138,22 @@ namespace Kean.Cli.LineBuffer
                     case (char)25: // Undo
                         break;
                     default:
-                        this.line.Insert(this.cursor, this.reader.Current);
-                        this.writer.Write(this.line.ToString().Substring(this.cursor++));
-                        this.MoveCursor(this.cursor - this.line.Length);
-                        //Console.Error.WriteLine(this.reader.Current + ": " + ((int)this.reader.Current));
+                        this.line.Insert(this.reader.Current);
                         break;
                 }
                 help = triggerHelp;
                 triggerHelp = false;
             }
         }
-        void MoveCursor(int steps)
+        public void Write(string value)
         {
-            if (steps < 0)
-            {
-                char[] buffer = new char[-steps];
-                while (steps < 0)
-                    buffer[-++steps] = (char)8;
-                this.writer.Write(buffer);
-            }
-            else if (steps > 0)
-                this.writer.Write(this.line.ToString().Substring(this.cursor, steps));
+            lock (this.@lock)
+                this.writer.Write(value);
         }
-		public void Write(string value)
-		{
-			writer.Write(value);
-		}
-		public void WriteLine(string value)
-		{
-			writer.WriteLine(value);
-		}
+        public void WriteLine(string value)
+        {
+            lock (this.@lock)
+                this.writer.WriteLine(value);
+        }
     }
 }

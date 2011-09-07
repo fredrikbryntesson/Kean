@@ -85,6 +85,14 @@ namespace Kean.Cli.LineBuffer.Test
                 }
                 return result.ToString();   
             };
+            /*
+            System.Timers.Timer timer = new System.Timers.Timer(1000);
+            timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs elapsedArguments) =>
+            {
+                editor.Write("Hello");
+            };
+            timer.Start();
+            */
             editor.Read();
 		}
 	}
