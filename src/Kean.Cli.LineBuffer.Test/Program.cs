@@ -58,7 +58,7 @@ namespace Kean.Cli.LineBuffer.Test
                 return result;
             };
             Kean.Core.Collection.IDictionary<string, Action> commands = new Kean.Core.Collection.Dictionary<string, Action>();
-            commands["play"] = () => Console.WriteLine("play");
+            commands["play"] = () => Console.WriteLine("play it again");
             commands["beep"] = () => Console.Beep();
             commands["now"] = () => Console.WriteLine("now");
             editor.Execute = text => 

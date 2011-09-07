@@ -51,6 +51,7 @@ namespace Kean.Cli.LineBuffer
             bool triggerHelp = false;
             bool help = false;
             bool exit = false;
+            this.writer.Write(this.Prompt);
             while (this.reader.Next() && !exit)
             {
                 switch (this.reader.Current)
@@ -99,6 +100,7 @@ namespace Kean.Cli.LineBuffer
                             string line = this.line.ToString();
                             this.writer.WriteLine();
                             this.writer.Write(this.Help(line));
+                            this.writer.Write(this.Prompt);
                             this.writer.Write(line);
                         }
                         else if (this.Complete.NotNull())
@@ -119,7 +121,8 @@ namespace Kean.Cli.LineBuffer
                     case (char)10: // Newline
                         {
 							this.writer.WriteLine();
-							if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+                            this.writer.Write(this.Prompt);
+                            if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
 							{
 								this.line = new System.Text.StringBuilder();
 								this.cursor = 0;
