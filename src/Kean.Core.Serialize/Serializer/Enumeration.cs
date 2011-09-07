@@ -32,11 +32,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type.IsEnum;
 		}
-		protected override Data.Node Serialize<T> (Kean.Core.Serialize.Storage storage, Reflect.TypeName type, T data)
+		protected override Data.Node Serialize<T> (Kean.Core.Serialize.Storage storage, Reflect.Type type, T data)
 		{
 			return new Data.Leaf<T>(data);
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
 		{
 			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
 		}

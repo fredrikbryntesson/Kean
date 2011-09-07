@@ -27,7 +27,7 @@ namespace Kean.Core.Serialize.Data
 	{
 		public string Name { get; set; }
 		public ParameterAttribute Attribute { get; set; }
-		public Reflect.TypeName Type { get; set; }
+		public Reflect.Type Type { get; set; }
 		protected Node()
 		{
 		}

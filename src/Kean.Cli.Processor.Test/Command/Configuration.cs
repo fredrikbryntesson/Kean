@@ -30,5 +30,23 @@ namespace Kean.Cli.Processor.Test.Command
 		public string Type { get; set; }
 		[Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
 		public string Comment { get; set; }
+		[Object("application", "Recursive path to application.")]
+		public Application Application { get; private set; }
+		public Configuration(Application parent)
+		{
+			this.Application = parent;
+		}
+		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
+		public void Save()
+		{
+		}
+		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
+		public void Save(bool overwrite)
+		{
+		}
+		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
+		public void Save([Parameter("Filename of file to save to.")] string filename)
+		{
+		}
 	}
 }

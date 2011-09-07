@@ -32,6 +32,7 @@ namespace Kean.Cli.Processor
 	class Property :
 		Member
 	{
+		protected override char Delimiter { get { return ' '; } }
 		Func<string> get;
 		Action<string> set; 
 		public string Value
@@ -54,6 +55,24 @@ namespace Kean.Cli.Processor
 				this.get = () => b.Value;
 				this.set = value => b.Value = value;
 			}
+		}
+		public override bool Execute(Editor editor, string[] parameters)
+		{
+			if (parameters.Length > 0)
+				this.Value = parameters.Fold((parameter, a) => a + " " + parameter, "");
+			editor.Answer(this, this.Value);
+			return true;
+		}
+		public override string Complete(string[] parameters)
+		{
+			string result = "";
+			if (parameters.Length > 0)
+				result = parameters.Fold((parameter, a) => a + " " + parameter, "");
+			return result;
+		}
+		public override string Help(string[] parameters)
+		{
+			return this.Usage + "\n";
 		}
 	}
 }

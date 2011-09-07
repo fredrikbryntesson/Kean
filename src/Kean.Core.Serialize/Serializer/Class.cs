@@ -32,11 +32,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return !type.IsValueType;
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
 		{
 			throw new NotImplementedException ();
 		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
+		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
 		{
 			throw new NotImplementedException ();
 		}

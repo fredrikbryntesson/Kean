@@ -30,7 +30,7 @@ namespace Kean.Cli.Processor.Test.Command
 		public Media Media { get; private set; }
 		public Application()
 		{
-			this.Configuration = new Configuration();
+			this.Configuration = new Configuration(this);
 			this.Media = new Media();
 		}
 	}

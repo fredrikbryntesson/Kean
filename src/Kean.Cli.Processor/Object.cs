@@ -31,6 +31,7 @@ namespace Kean.Cli.Processor
 		Member,
 		Collection.IReadOnlyVector<Member>
 	{
+		protected override char Delimiter { get { return '.'; } }
 		object backend;
 		Collection.IList<Member> members;
 		Collection.IList<Member> Members
@@ -67,6 +68,33 @@ namespace Kean.Cli.Processor
 			base(attribute, backend, parent)
 		{
 			this.backend = backend.Data;
+		}
+		public override bool Execute(Editor editor, string[] parameters)
+		{
+			editor.Current = this;
+			return true;
+		}
+		public override string Complete(string[] parameters)
+		{
+			string incomplete = parameters.Length > 0 ? parameters[0] ?? "" : "";
+			Collection.List<string> alternatives = new Collection.List<string>();
+			foreach (Member member in this)
+				if (member.Name.StartsWith(incomplete))
+					alternatives.Add(member.Name + (member is Object ? "." : " "));
+			string result = "";
+			if (alternatives.Count > 0)
+				for (int i = 0; i < alternatives[0].Length && alternatives.All(s => s[i] == alternatives[0][i]); i++)
+					result += alternatives[0][i];
+			return result;
+		}
+		public override string Help(string[] parameters)
+		{
+			string incomplete = parameters.Length > 0 ? parameters[0] ?? "" : "";
+			Collection.List<Tuple<string, string>> results = new Collection.List<Tuple<string, string>>();
+			foreach (Member member in this)
+				if (member.Name.StartsWith(incomplete))
+					results.Add(Tuple.Create(member.Name, member.Description));
+			return results.Fold((m, r) => r + m.Item1 + "\t" + m.Item2 + "\n", "");
 		}
 		#region IReadOnlyVector<Member> Members
 		public int Count

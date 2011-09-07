@@ -32,7 +32,8 @@ namespace Kean.Cli.Processor
 		public string Description { get; private set; }
 		public string Usage { get; private set; }
 		Reflect.Member backend;
-		protected Object Parent { get; set; }
+		public Object Parent { get; private set; }
+		protected abstract char Delimiter { get; }
 		protected Member(MemberAttribute attribute, Reflect.Member backend, Object parent)
 		{
 			this.Name = attribute.NotNull() ? attribute.Name : null;
@@ -41,6 +42,9 @@ namespace Kean.Cli.Processor
 			this.backend = backend;
 			this.Parent = parent;
 		}
+		public abstract bool Execute(Editor editor, string[] parameters);
+		public abstract string Complete(string[] parameters);
+		public abstract string Help(string[] parameters);
 
 		#region IComparable<Member> Members
 		public Order Compare(Member other)
@@ -48,12 +52,26 @@ namespace Kean.Cli.Processor
 			return this.Name.CompareWith(other.Name);
 		}
 		#endregion
+		public string NameRelative(Member current)
+		{
+			string result;
+			if (this == current || this.Name.IsEmpty())
+				result = "";
+			else
+			{
+				result = this.Name + this.Delimiter;
+				if (this.Parent.NotNull())
+				{
+					string parent = this.Parent.NameRelative(current);
+					if (parent.NotEmpty())
+						result = parent + result;
+				}
+			}
+			return result;
+		}
 		public override string ToString()
 		{
-			string result = this.Name;
-			if (this.Parent.NotNull() && this.Parent.Name.NotEmpty())
-				result = this.Parent.ToString() + "." + result;
-			return result;
+			return this.NameRelative(null).TrimEnd(this.Delimiter);
 		}
 	}
 }

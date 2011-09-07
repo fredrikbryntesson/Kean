@@ -96,5 +96,10 @@ namespace Kean.Cli.Processor.Test.Command
 				this.State = MediaState.Paused;
 			return result;
 		}
+		[Method("changeState")]
+		public void ChangeState(MediaState state)
+		{
+			this.State = state;
+		}
 	}
 }

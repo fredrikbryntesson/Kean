@@ -26,7 +26,7 @@ namespace Kean.Core.Serialize
 {
 	public abstract class Storage
 	{
-		Collection.Dictionary<Reflect.TypeName, ISerializer> cache = new Collection.Dictionary<Reflect.TypeName, ISerializer>();
+		Collection.Dictionary<Reflect.Type, ISerializer> cache = new Collection.Dictionary<Reflect.Type, ISerializer>();
 		public Collection.IList<ISerializer> Serializers { get; private set; }
 
 		protected Storage()
@@ -46,7 +46,7 @@ namespace Kean.Core.Serialize
 		{
 			return this.Store(this.GetSerializer(typeof(T)).Serialize(this, value), key);
 		}
-		ISerializer GetSerializer(Reflect.TypeName typeName)
+		ISerializer GetSerializer(Reflect.Type typeName)
 		{
 			ISerializer result = null;
 			object[] attributes;

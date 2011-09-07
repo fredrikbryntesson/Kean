@@ -32,8 +32,8 @@ namespace Kean.Core.Reflect
 		{
 			get
 			{
-				//if (this.parameters.IsNull())
-				//    this.parameters = this.MethodInformation.GetParameters().Fold((parameter, a) => a.Add(new Parameter(this, parameter)), new Collection.List<Parameter>()).ToArray();
+				if (this.parameters.IsNull())
+					this.parameters = this.MethodInformation.GetParameters().Map(parameter => new Parameter(this, parameter));
 				return this.parameters;
 			}
 		}

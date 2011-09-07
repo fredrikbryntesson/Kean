@@ -29,7 +29,17 @@ namespace Kean.Cli.Processor
 {
 	public class Editor
 	{
+		internal Object Root { get; private set; }
 		Object current;
+		internal Object Current 
+		{
+			get { return this.current; }
+			set
+			{
+				this.current = value;
+				this.lineBuffer.CommandPrompt = string.Format("# {0}> ", this.current);
+			}
+		}
 		LineBuffer.Editor lineBuffer;
 
 		public Editor(object root, IO.Stream reader, System.IO.TextWriter writer) :
@@ -37,17 +47,38 @@ namespace Kean.Cli.Processor
 		{ }
 		public Editor(object root, IO.Reader reader, System.IO.TextWriter writer)
 		{
-			this.current = new Object(root);
 			this.lineBuffer = new LineBuffer.Editor(reader, writer);
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;
+
+			this.Current = this.Root = new Object(root);
 		}
-		Tuple<Member, string, string> Parse(string line)
+		Tuple<string, Member, string[]> Parse(string line)
 		{
-			Member member = this.current;
+			string prefix = "";
+			Member member;
+			if (line.StartsWith(".."))
+			{
+				member = this.Current.Parent;
+				if (member.IsNull())
+					member = this.Current;
+				else
+					prefix = "..";
+				line = line.Substring(2);
+			}
+			else if (line.StartsWith("."))
+			{
+				member = this.Root;
+				if (this.current != member)
+					prefix = ".";
+				line = line.Substring(1);
+			}
+			else
+				member = this.current;
+
 			string[] splitted = line.Split(new char[] {' '}, 2, StringSplitOptions.RemoveEmptyEntries);
-			string incomplete = "";
+			Collection.List<string> parameters = new Collection.List<string>();
 			if (splitted.Length > 0)
 				foreach (string name in splitted[0].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries))
 					if (member is Object)
@@ -55,68 +86,42 @@ namespace Kean.Cli.Processor
 						Member next = (member as Object).Find(m => m.Name == name);
 						if (next.IsNull())
 						{
-							incomplete = name;
+							parameters.Add(name);
 							break;
 						}
 						else
 							member = next;
 					}
-			return Tuple.Create(member, incomplete, splitted.Length > 1 ? splitted[1].Trim() : null);
+			if (splitted.Length > 1)
+				parameters.Add(splitted[1].Split(new char[] { ' ' },  StringSplitOptions.RemoveEmptyEntries));
+			return Tuple.Create(prefix, member, parameters.ToArray());
 		}
 		bool Execute(string line)
 		{
-			bool result = false;
-			Tuple<Member, string, string> parsed = this.Parse(line);
-			if (result =(parsed.Item1 is Object && parsed.Item2.IsEmpty() && parsed.Item3.IsEmpty()))
-			{
-			}
-			else if (result = (parsed.Item1 is Method && parsed.Item2.IsEmpty()))
-			{
-			}
-			else if (result = (parsed.Item1 is Property && parsed.Item2.IsEmpty()))
-			{
-				if (parsed.Item3.NotEmpty())
-					(parsed.Item1 as Property).Value = parsed.Item3;
-				Console.WriteLine("# " + parsed.Item1.ToString() + " " + (parsed.Item1 as Property).Value);
-			}
-			return result;
+			Tuple<string, Member, string[]> parsed = this.Parse(line);
+			return parsed.Item2.Execute(this, parsed.Item3);
 		}
 		string Complete(string line)
 		{
-			Tuple<Member, string, string> parsed = this.Parse(line);
-			Collection.List<string> alternatives = new Collection.List<string>();
-			string result = line;
-			if (parsed.Item1 is Object && parsed.Item3.IsEmpty())
-			{
-				foreach (Member member in (parsed.Item1 as Object))
-					if (member.Name.StartsWith(parsed.Item2))
-						alternatives.Add(member.Name + (member is Object ? "." : member is Method ? "" : " "));
-				result = parsed.Item1.Name.NotEmpty() ? parsed.Item1.ToString() + "." : "";
-				if (alternatives.Count > 0)
-					for (int i = 0; i < alternatives[0].Length && alternatives.All(s => s[i] == alternatives[0][i]); i++)
-						result += alternatives[0][i];
-			}
-			return result;
+			Tuple<string, Member, string[]> parsed = this.Parse(line);
+			return parsed.Item1 + parsed.Item2.NameRelative(this.Current) + parsed.Item2.Complete(parsed.Item3);
 		}
 		string Help(string line)
 		{
-			string result = null;
-			Tuple<Member, string, string> parsed = this.Parse(line);
-			if (parsed.Item1 is Object)
-			{
-				Collection.List<Tuple<string, string>> results = new Collection.List<Tuple<string, string>>();
-				foreach (Member member in (parsed.Item1 as Object))
-					if (member.Name.StartsWith(parsed.Item2))
-						results.Add(Tuple.Create(member.Name, member.Description));
-				result = results.Fold((m, r) => r + m.Item1 + "\t" + m.Item2 + "\n", "");
-			}
-			else
-				result = parsed.Item1.Usage + "\n";
-			return result;
+			Tuple<string, Member, string[]> parsed = this.Parse(line);
+			return parsed.Item2.Help(parsed.Item3);
 		}
 		public void Read()
 		{
 			this.lineBuffer.Read();
+		}
+		internal void Answer(Member member, params string[] parameters)
+		{
+			this.lineBuffer.WriteLine("$ " + member + parameters.Fold((parameter, a) => a + " " + parameter, " "));
+		}
+		internal void Notify(Member member, params string[] parameters)
+		{
+			this.lineBuffer.WriteLine("% " + member + parameters.Fold((parameter, a) => a + " " + parameter, " "));
 		}
 	}
 }

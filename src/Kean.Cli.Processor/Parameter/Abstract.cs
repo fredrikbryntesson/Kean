@@ -1,4 +1,4 @@
-// 
+﻿// 
 //  Abstract.cs
 //  
 //  Author:
@@ -18,34 +18,34 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Cli.Processor.Parameter
 {
-	public abstract class Abstract :
-		ISerializer
+	abstract class Abstract
 	{
-		protected Abstract()
+		public Reflect.Type Type { get; private set; }
+		Reflect.Parameter parameter;
+		protected Abstract(Reflect.Type type, Reflect.Parameter parameter)
 		{
+			this.Type = type;
+			this.parameter = parameter;
 		}
-
-		protected abstract T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data);
-		protected abstract Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data);
-		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
+		public abstract string Complete(string incomplete);
+		public abstract string Help(string incomplete);
+		public static Abstract Create(Reflect.Parameter parameter)
 		{
-			Reflect.Type type = data.GetType();
-			Data.Node result = this.Serialize<T>(storage, type, data);
-			if (type != typeof(T))
-				result.Type = type;
-			return result;
+			Abstract result = null;
+			Reflect.Type type = parameter.Type;
+			if (type == typeof(Boolean))
+				result = new Boolean(type, parameter);
+			else if (type == typeof(string))
+				result = new String(type, parameter);
+			return null;
 		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
-		{
-			return this.Deserialize<T>(storage, data.Type ?? typeof(T), data);
-		}
-		#endregion
 	}
 }
-

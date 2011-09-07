@@ -1,5 +1,5 @@
-// 
-//  Abstract.cs
+﻿// 
+//  ParameterAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,32 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Cli.Processor
 {
-	public abstract class Abstract :
-		ISerializer
+	public class ParameterAttribute :
+		Attribute
 	{
-		protected Abstract()
+		public string[] Values { get; private set; }
+		public ParameterAttribute(params string[] values)
 		{
+			this.Values = values;
 		}
-
-		protected abstract T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data);
-		protected abstract Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data);
-		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
-		{
-			Reflect.Type type = data.GetType();
-			Data.Node result = this.Serialize<T>(storage, type, data);
-			if (type != typeof(T))
-				result.Type = type;
-			return result;
-		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
-		{
-			return this.Deserialize<T>(storage, data.Type ?? typeof(T), data);
-		}
-		#endregion
 	}
 }
 

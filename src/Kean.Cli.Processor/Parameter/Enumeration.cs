@@ -1,5 +1,5 @@
 ﻿// 
-//  Method.cs
+//  Enumeration.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,45 +22,44 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
 using Reflect = Kean.Core.Reflect;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 
-namespace Kean.Cli.Processor
+namespace Kean.Cli.Processor.Parameter
 {
-	class Method :
-		Member
+	class Enumeration :
+		Abstract
 	{
-		Parameter.Abstract[] parameters;
-		public Parameter.Abstract[] Parameters
+		string[] values;
+		public string[] Values
 		{
-			get 
+			get
 			{
-				if (this.parameters.IsNull())
-					this.parameters = this.backend.Parameters.Map(parameter => Parameter.Abstract.Create(parameter));
-				return this.parameters; 
+				if (this.values.IsNull())
+					this.values = Enum.GetNames(this.Type);
+				return this.values;
 			}
 		}
+		internal Enumeration(Reflect.Type type, Reflect.Parameter parameter) :
+			base(type, parameter)
+		{ }
+		public override string Complete(string incomplete)
+		{
 
-		protected override char Delimiter { get { return ' '; } }
-		Reflect.Method backend;
-		public Method(MethodAttribute attribute, Reflect.Method backend, Object parent) :
-			base(attribute, backend, parent)
-		{
-			this.backend = backend;
+			Collection.List<string> alternatives = new Collection.List<string>();
+			foreach (string value in this.Values)
+				if (value.StartsWith(incomplete))
+					alternatives.Add(value);
+			string result = "";
+			if (alternatives.Count > 0)
+				for (int i = 0; i < alternatives[0].Length && alternatives.All(s => s[i] == alternatives[0][i]); i++)
+					result += alternatives[0][i];
+			return result;
 		}
-		public override bool Execute(Editor editor, string[] parameters)
+		public override string Help(string incomplete)
 		{
-			return false;
-		}
-		public override string Complete(string[] parameters)
-		{
-			return "";
-		}
-		public override string Help(string[] parameters)
-		{
-			return this.Usage + "\n";
+			return this.Values.Fold((value, a) => a + value + "\n", "");
 		}
 	}
 }

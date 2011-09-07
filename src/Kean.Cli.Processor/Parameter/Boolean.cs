@@ -1,5 +1,5 @@
-// 
-//  Abstract.cs
+﻿// 
+//  Boolean.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,34 +18,35 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Core.Serialize.Serializer
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Reflect = Kean.Core.Reflect;
+
+namespace Kean.Cli.Processor.Parameter
 {
-	public abstract class Abstract :
-		ISerializer
+	class Boolean :
+		Abstract
 	{
-		protected Abstract()
+		internal Boolean(Reflect.Type type, Reflect.Parameter parameter) :
+			base(type, parameter)
 		{
 		}
-
-		protected abstract T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data);
-		protected abstract Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data);
-		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
+		public override string Complete(string incomplete)
 		{
-			Reflect.Type type = data.GetType();
-			Data.Node result = this.Serialize<T>(storage, type, data);
-			if (type != typeof(T))
-				result.Type = type;
+			string result = "";
+			if (incomplete.NotEmpty())
+				switch (char.ToLower(incomplete[0]))
+				{
+					case 't': result = "true"; break;
+					case 'f': result = "false"; break;
+				}
 			return result;
 		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
+		public override string Help(string incomplete)
 		{
-			return this.Deserialize<T>(storage, data.Type ?? typeof(T), data);
+			return "true\nfalse\n";
 		}
-		#endregion
 	}
 }
-

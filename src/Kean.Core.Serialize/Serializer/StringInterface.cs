@@ -32,11 +32,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type is IString;
 		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.TypeName type, T data)
+		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
 		{
 			return new Data.Leaf<string>((data as IString).String);
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.TypeName type, Data.Node data)
+		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
 		{
 			T result;
 			if (data is Data.Leaf<string>)
