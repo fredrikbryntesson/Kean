@@ -5,8 +5,20 @@ using Kean.Core.Extension;
 using Target = Kean.Math.Complex.Single;
 namespace Kean.Math.Complex.Test
 {
-    public class Single : AssertionHelper
+    public class Single :
+        Kean.Test.Fixture<Single>
     {
+        protected override void  Run()
+        {
+            this.Run(
+                this.Constructors,
+                this.Equality,
+                this.BasicFunctions,
+                this.Arithmetics,
+                this.Functions,
+                this.Casts
+            );
+        }
         class Comparer :
             System.Collections.IComparer
         {
@@ -95,28 +107,6 @@ namespace Kean.Math.Complex.Test
             a = "-22f*i+33f ";
             Expect(a.Real, Is.EqualTo(33), this.prefix + "Casts.8");
             Expect(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.9");
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Constructors,
-                this.Equality,
-                this.BasicFunctions,
-                this.Arithmetics,
-                this.Functions,
-                this.Casts
-            );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Single fixture = new Single();
-            fixture.Run();
         }
     }
 }

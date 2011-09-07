@@ -34,11 +34,8 @@ namespace Kean.Test.Run
 			Xml.Dom.Test.Open.Test();
 
             Kean.Math.Test.All.Test();
-            Kean.Math.Complex.Test.Single.Test();
-            Kean.Math.Complex.Test.Double.Test();
-            Kean.Math.Complex.Test.Fourier.Single.Test();
-            Kean.Math.Complex.Test.Fourier.Double.Test();
-
+            Kean.Math.Complex.Test.All.Test();
+           
             Kean.Math.Geometry2D.Test.Integer.Point.Test();
             Kean.Math.Geometry2D.Test.Single.Point.Test();
             Kean.Math.Geometry2D.Test.Double.Point.Test();

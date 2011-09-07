@@ -5,9 +5,20 @@ using Kean.Core.Extension;
 using Target = Kean.Math.Complex.Double;
 namespace Kean.Math.Complex.Test.Fourier
 {
-    public class Double : AssertionHelper
+    public class Double :
+         Kean.Test.Fixture<Double>
     {
-        class Comparer : 
+        protected override void  Run()
+        {
+            this.Run(
+                this.DiscreteTransform,
+                this.FastTransform,
+                this.InverseDiscreteTransform,
+                this.InverseFastTransform,
+                this.DiscreteFastCompare
+                     );
+        }
+         class Comparer : 
             System.Collections.IComparer
         {
             float tolerance;
@@ -108,27 +119,6 @@ namespace Kean.Math.Complex.Test.Fourier
             Console.WriteLine(watch.ElapsedMilliseconds);
             // Discrete 1121 millisecond
             // Fast 205 milliseconds
-        }
-        public void Run()
-        {
-            this.Run(
-                this.DiscreteTransform,
-                this.FastTransform,
-                this.InverseDiscreteTransform,
-                this.InverseFastTransform,
-                this.DiscreteFastCompare
-                     );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Double fixture = new Double();
-            fixture.Run();
         }
     }
 }

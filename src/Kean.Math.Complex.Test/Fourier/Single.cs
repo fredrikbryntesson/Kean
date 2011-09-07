@@ -5,8 +5,19 @@ using Kean.Core.Extension;
 using Target = Kean.Math.Complex.Single;
 namespace Kean.Math.Complex.Test.Fourier
 {
-    public class Single : AssertionHelper
+    public class Single : 
+        Kean.Test.Fixture<Single>
     {
+        protected override void  Run()
+        {
+            this.Run(
+              this.DiscreteTransform,
+                this.FastTransform,
+                this.InverseDiscreteTransform,
+                this.InverseFastTransform,
+                this.DiscreteFastCompare
+                       );
+        }
         class Comparer :
             System.Collections.IComparer
         {
@@ -107,27 +118,6 @@ namespace Kean.Math.Complex.Test.Fourier
             Console.WriteLine(watch.ElapsedMilliseconds);
             // Discrete 1121 millisecond
             // Fast 205 milliseconds
-        }
-        public void Run()
-        {
-            this.Run(
-                this.DiscreteTransform,
-                this.FastTransform,
-                this.InverseDiscreteTransform,
-                this.InverseFastTransform,
-                this.DiscreteFastCompare
-                     );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Single fixture = new Single();
-            fixture.Run();
         }
     }
 }
