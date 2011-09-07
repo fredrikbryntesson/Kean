@@ -40,7 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor.cs" />
-    <Compile Include="Line.cs" />
+    <Compile Include="Buffer.cs" />
+    <Compile Include="History.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

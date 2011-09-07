@@ -3,12 +3,12 @@ using System.Text;
 
 namespace Kean.Cli.LineBuffer
 {
-    class Line
+    class Buffer
     {
         public Action<string> Writer { get; set; }
         int cursor = 0;
         StringBuilder line = new StringBuilder();
-        public Line(Action<string> writer)
+        public Buffer(Action<string> writer)
         {
             this.Writer = writer;
         }
@@ -49,7 +49,14 @@ namespace Kean.Cli.LineBuffer
         public void Insert(char value)
         {
             this.line.Insert(this.cursor, value);
-            this.Writer(this.line.ToString().Substring(this.cursor++)); ;
+            this.Writer(this.line.ToString().Substring(this.cursor++)); 
+            this.MoveCursor(this.cursor - this.line.Length);
+        }
+        public void Insert(string value)
+        {
+            this.line.Insert(this.cursor, value);
+            this.Writer(this.line.ToString().Substring(this.cursor));
+            this.cursor += value.Length;
             this.MoveCursor(this.cursor - this.line.Length);
         }
         public void Renew(string line)
@@ -78,6 +85,12 @@ namespace Kean.Cli.LineBuffer
         {
             this.cursor = 0;
             this.line = new StringBuilder();
+        }
+        public void Remove()
+        {
+            while (this.line.Length > 0)
+                this.MoveCursorLeftAndDelete();
+            this.cursor = 0;
         }
         public override string ToString()
         {

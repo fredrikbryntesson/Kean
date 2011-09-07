@@ -32,11 +32,13 @@ namespace Kean.Cli.LineBuffer
         object @lock = new object();
         IO.Reader reader;
         System.IO.TextWriter writer;
-        Line line;
+        Buffer line;
+        int oldmessage = 0; 
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
-        public string Prompt { get; set; }
+        public string CommandPrompt { get; set; }
+        public string NotifyPrompt { get; set; }
         public Editor(IO.Stream reader, System.IO.TextWriter writer) :
             this(new IO.Reader(reader), writer)
         { }
@@ -44,14 +46,14 @@ namespace Kean.Cli.LineBuffer
         {
             this.reader = reader;
             this.writer = writer;
-            this.line = new Line(this.writer.Write);
+            this.line = new Buffer(this.writer.Write);
         }
         public void Read()
         {
             bool triggerHelp = false;
             bool help = false;
             bool exit = false;
-            this.writer.Write(this.Prompt);
+            this.writer.Write(this.CommandPrompt);
             while (this.reader.Next() && !exit)
             {
                 switch (this.reader.Current)
@@ -84,7 +86,7 @@ namespace Kean.Cli.LineBuffer
                         {
                             this.writer.WriteLine();
                             this.writer.Write(this.Help(this.line.ToString()));
-                            this.writer.Write(this.Prompt);
+                            this.writer.Write(this.CommandPrompt);
                             this.line.Write();
                         }
                         else if (this.Complete.NotNull())
@@ -106,11 +108,11 @@ namespace Kean.Cli.LineBuffer
                             if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
                             {
                                 this.line.Clear();
-                                this.writer.Write(this.Prompt);
+                                this.writer.Write(this.CommandPrompt);
                             }
                             else
                             {
-                                this.writer.Write(this.Prompt); 
+                                this.writer.Write(this.CommandPrompt); 
                                 this.line.Write();
                             }
                            
@@ -148,12 +150,35 @@ namespace Kean.Cli.LineBuffer
         public void Write(string value)
         {
             lock (this.@lock)
-                this.writer.Write(value);
+            {
+                this.Remove(-this.oldmessage - this.CommandPrompt.Length - this.line.ToString().Length);
+                string message = this.NotifyPrompt + value;
+                this.writer.Write(message);
+                this.oldmessage = message.Length;
+                this.writer.Write(this.CommandPrompt);
+                this.line.Write();
+            }
         }
         public void WriteLine(string value)
         {
             lock (this.@lock)
-                this.writer.WriteLine(value);
+            {
+                this.Remove(-this.oldmessage - this.CommandPrompt.Length - this.line.ToString().Length);
+                string message = this.NotifyPrompt + value;
+                this.writer.Write(message);
+                this.oldmessage = message.Length;
+                this.writer.Write(this.CommandPrompt);
+                this.line.Write();
+            }
+        }
+        void Remove(int steps)
+        {
+            if (steps < 0)
+                while (steps++ != 0)
+                    this.writer.Write((char)8 + " " + (char)8);
+            else
+                while (steps-- != 0)
+                    this.writer.Write(" ");
         }
     }
 }
