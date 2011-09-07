@@ -128,7 +128,7 @@ namespace Kean.Cli.LineBuffer
 								this.cursor = 0;
 							}
 							else
-								Console.Write(this.line.ToString());
+								this.writer.Write(this.line.ToString());
                         }
                         break;
                     // 11
@@ -175,5 +175,13 @@ namespace Kean.Cli.LineBuffer
             else if (steps > 0)
                 this.writer.Write(this.line.ToString().Substring(this.cursor, steps));
         }
+		public void Write(string value)
+		{
+			writer.Write(value);
+		}
+		public void WriteLine(string value)
+		{
+			writer.WriteLine(value);
+		}
     }
 }
