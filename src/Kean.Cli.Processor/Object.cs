@@ -69,9 +69,9 @@ namespace Kean.Cli.Processor
 		{
 			this.backend = backend.Data;
 		}
-		internal Reflect.Property GetProperty(string name)
+		internal Reflect.Event GetEvent(string name)
 		{
-			return this.backend.GetProperty(name);
+			return this.backend.GetEvent(name);
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{

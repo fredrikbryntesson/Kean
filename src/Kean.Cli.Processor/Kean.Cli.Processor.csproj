@@ -51,6 +51,7 @@
     <Compile Include="Parameter\Boolean.cs" />
     <Compile Include="Parameter\Enumeration.cs" />
     <Compile Include="Parameter\String.cs" />
+    <Compile Include="Parameter\TimeSpan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="PropertyAttribute.cs" />

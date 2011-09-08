@@ -26,24 +26,24 @@ using Reflect = Kean.Core.Reflect;
 
 namespace Kean.Cli.Processor.Parameter
 {
-	class String :
+	class TimeSpan :
 		Abstract
 	{
-		internal String(Reflect.Type type) :
+		internal TimeSpan(Reflect.Type type) :
 			base(type)
 		{
 		}
 		public override string AsString(object value)
 		{
-			return (string)value;
+			return ((System.TimeSpan)value).ToString();
 		}
 		public override object FromString(string value)
 		{
-			return value;
+			return System.TimeSpan.Parse(value);
 		}
 		public override Delegate Changed(Action<string> changed)
 		{
-			return new Action<string>(value => changed(value));
+			return new Action<System.TimeSpan>(value => changed(value.ToString()));
 		}
 		public override string Complete(string incomplete)
 		{
@@ -51,7 +51,7 @@ namespace Kean.Cli.Processor.Parameter
 		}
 		public override string Help(string incomplete)
 		{
-			return "";
+			return "[h:]mm:ss[.fff]";
 		}
 	}
 }

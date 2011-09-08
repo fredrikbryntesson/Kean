@@ -165,6 +165,42 @@ namespace Kean.Core.Reflect.Extension
 			return result.ToArray();
 		}
 		#endregion
+		#region Get Events
+		public static Event GetEvent(this object me, string name)
+		{
+			System.Type type = me.GetType();
+			return Event.Create(me, type, type.GetEvent(name));
+		}
+		public static Event GetEvent(this object me, string name, MemberFilter filter)
+		{
+			System.Type type = me.GetType();
+			return Event.Create(me, type, type.GetEvent(name, filter.AsBindingFlags()));
+		}
+		public static Event[] GetEvents(this object me)
+		{
+			System.Type type = me.GetType();
+			Collection.IList<Event> result = new Collection.Sorted.List<Event>();
+			foreach (System.Reflection.EventInfo member in type.GetEvents())
+			{
+				Event p = Event.Create(me, type, member);
+				if (p.NotNull())
+					result.Add(p);
+			}
+			return result.ToArray();
+		}
+		public static Event[] GetEvents(this object me, MemberFilter filter)
+		{
+			System.Type type = me.GetType();
+			Collection.IList<Event> result = new Collection.Sorted.List<Event>();
+			foreach (System.Reflection.EventInfo member in type.GetEvents(filter.AsBindingFlags()))
+			{
+				Event p = Event.Create(me, type, member);
+				if (p.NotNull())
+					result.Add(p);
+			}
+			return result.ToArray();
+		}
+		#endregion
 		#region Get Methods
 		public static Method GetMethod(this object me, string name)
 		{

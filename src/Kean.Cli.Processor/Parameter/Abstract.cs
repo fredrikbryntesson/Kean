@@ -35,6 +35,7 @@ namespace Kean.Cli.Processor.Parameter
 		}
 		public abstract object FromString(string value);
 		public abstract string AsString(object value);
+		public abstract Delegate Changed(Action<string> changed);
 		public abstract string Complete(string incomplete);
 		public abstract string Help(string incomplete);
 		public static Abstract Create(Reflect.Parameter parameter)
@@ -54,6 +55,8 @@ namespace Kean.Cli.Processor.Parameter
 				result = new String(type);
 			else if (type.Inherits<Enum>())
 				result = new Enumeration(type);
+			else if (type == typeof(System.TimeSpan))
+				result = new TimeSpan(type);
 			return result;
 		}
 	}

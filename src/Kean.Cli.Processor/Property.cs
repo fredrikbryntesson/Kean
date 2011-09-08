@@ -34,6 +34,7 @@ namespace Kean.Cli.Processor
 	{
 		protected override char Delimiter { get { return ' '; } }
 		Reflect.Property backend;
+		Reflect.Event changed;
 		Parameter.Abstract parameter;
 		public string Value
 		{
@@ -46,21 +47,33 @@ namespace Kean.Cli.Processor
 			this.backend = backend;
 			this.parameter = Parameter.Abstract.Create(backend);
 
-			NotifyAttribute[] attributes = this.backend.GetAttributes<NotifyAttribute>();
-			if (attributes.Length == 1)
-				this.Parent.GetProperty(attributes[0].Name);
+			if (this.backend.Readable)
+			{
+				NotifyAttribute[] attributes = this.backend.GetAttributes<NotifyAttribute>();
+				if (attributes.Length == 1)
+					this.changed = this.Parent.GetEvent(attributes[0].Name);
+			}
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
 			if (parameters.Length > 0)
-				this.Value = string.Join(" ", parameters).Trim();
+			{
+				string value = string.Join(" ", parameters).Trim();
+				if (value.ToLower() == "notify" && this.changed.NotNull() && this.backend.Readable)
+					this.changed.Add(this.parameter.Changed(v => editor.Notify(this, v)));
+				else
+					this.Value = value;
+			}
 			if (this.backend.Readable)
 				editor.Answer(this, this.Value);
 			return true;
 		}
 		public override string Complete(string[] parameters)
 		{
-			return this.backend.Writable && parameters.Length > 0 ? this.parameter.Complete(string.Join(" ", parameters)) : "" ;
+			string result = this.backend.Writable && parameters.Length > 0 ? this.parameter.Complete(string.Join(" ", parameters)) : "" ;
+			if (result.IsEmpty() && this.changed.NotNull() && parameters.Length > 0 && "notify".StartsWith(parameters[0]))
+				result = "notify ";
+			return result;
 		}
 		public override string Help(string[] parameters)
 		{

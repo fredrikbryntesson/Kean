@@ -19,6 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Kean.Core.Extension;
+
 namespace Kean.Core.Reflect
 {
 	public class Event : 
@@ -30,9 +32,17 @@ namespace Kean.Core.Reflect
 		{
 			this.Information = information;
 		}
+		public void Add(System.Delegate handler)
+		{
+			this.Information.AddEventHandler(this.Parent, handler);
+		}
+		public void Remove(System.Delegate handler)
+		{
+			this.Information.RemoveEventHandler(this.Parent, handler);
+		}
 		internal static Event Create(object parent, Type parentType, System.Reflection.EventInfo information)
 		{
-			return new Event(parent, parentType, information);
+			return information.NotNull() ? new Event(parent, parentType, information) : null;
 		}
 	}
 }

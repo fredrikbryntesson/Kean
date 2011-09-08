@@ -117,11 +117,11 @@ namespace Kean.Cli.Processor
 		}
 		internal void Answer(Member member, params string[] parameters)
 		{
-			this.lineBuffer.WriteLine("$ " + member + parameters.Fold((parameter, a) => a + " " + parameter, " "));
+			this.lineBuffer.WriteLine("$ " + member + " " + string.Join(" ", parameters));
 		}
 		internal void Notify(Member member, params string[] parameters)
 		{
-			this.lineBuffer.WriteLine("% " + member + parameters.Fold((parameter, a) => a + " " + parameter, " "));
+			this.lineBuffer.WriteLine("% " + member + " " + string.Join(" ", parameters));
 		}
 	}
 }

@@ -30,6 +30,7 @@ namespace Kean.Cli.LineBuffer
     public class Editor
     {
         object @lock = new object();
+		bool executing;
         IO.Reader reader;
         System.IO.TextWriter writer;
         History history;
@@ -109,7 +110,9 @@ namespace Kean.Cli.LineBuffer
                             this.writer.WriteLine();
                             if (this.line.ToString().NotEmpty())
                                 this.history.Add(this.line.ToString());
-                            if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+							lock (this.@lock)
+								this.executing = true;
+							if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
                             {
                                 this.line = new Buffer(this.writer.Write);
                                 this.writer.Write(this.Prompt);
@@ -119,6 +122,8 @@ namespace Kean.Cli.LineBuffer
                                 this.writer.Write(this.Prompt);
                                 this.line.Write();
                             }
+							lock (this.@lock)
+								this.executing = false;
 
                         }
                         break;
@@ -176,11 +181,16 @@ namespace Kean.Cli.LineBuffer
         {
             lock (this.@lock)
             {
-                this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
-                this.writer.WriteLine(value);
-                this.oldmessage = value.Length;
-                this.writer.Write(this.Prompt);
-                this.line.Write();
+				if (this.executing)
+					this.writer.WriteLine(value);
+				else
+				{
+					this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
+					this.writer.WriteLine(value);
+					this.oldmessage = value.Length;
+					this.writer.Write(this.Prompt);
+					this.line.Write();
+				}
             }
         }
         void Remove(int steps)

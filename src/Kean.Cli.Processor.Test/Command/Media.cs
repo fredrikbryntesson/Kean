@@ -26,6 +26,8 @@ namespace Kean.Cli.Processor.Test.Command
 {
 	public class Media
 	{
+		[Property("resource")]
+		public string Resource { get; private set; }
 		MediaState state;
 		[Property("state")]
 		[Notify("StateChanged")]
@@ -37,7 +39,14 @@ namespace Kean.Cli.Processor.Test.Command
 				this.state = value;
 				switch (this.state)
 				{
+					case MediaState.Paused:
+						this.timer.Stop();
+						break;
+					case MediaState.Playing:
+						this.timer.Start();
+						break;
 					case MediaState.Closed:
+						this.timer.Stop();
 						this.Position = TimeSpan.Zero;
 						break;
 				}
@@ -46,22 +55,28 @@ namespace Kean.Cli.Processor.Test.Command
 		}
 		public event Action<MediaState> StateChanged;
 
+		System.Timers.Timer timer = new System.Timers.Timer(40);
 		TimeSpan position;
 		[Property("position")]
-		[Notify("StateChanged")]
+		[Notify("PositionChanged")]
 		public TimeSpan Position 
 		{
 			get { return this.position; }
 			set
 			{
-				this.position = value;
-				this.PositionChanged.Call(this.position);
+				if (this.State != MediaState.Closed)
+				{
+					this.position = value;
+					this.PositionChanged.Call(this.position);
+				}
 			}
 		}
 		public event Action<TimeSpan> PositionChanged;
 
 		public Media()
 		{
+			this.timer.Elapsed += (sender, e) => this.Position += new TimeSpan(0, 0, 0, 0, 40);
+			this.timer.AutoReset = true;
 		}
 
 		[Method("play")]
@@ -93,7 +108,10 @@ namespace Kean.Cli.Processor.Test.Command
 		{
 			bool result;
 			if (result = this.State == MediaState.Closed)
+			{
 				this.State = MediaState.Paused;
+				this.Resource = resource;
+			}
 			return result;
 		}
 		[Method("changeState")]

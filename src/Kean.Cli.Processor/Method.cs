@@ -53,11 +53,11 @@ namespace Kean.Cli.Processor
 		public override bool Execute(Editor editor, string[] parameters)
 		{
 			bool result;
-			if (result = this.Parameters.Length == 0 && parameters.Length < 2)
+			if (result = this.Parameters.Length == 0 && parameters.All(parameter => parameter.IsEmpty()))
 				this.backend.Call();
-			else if (result = parameters.Length - 1 == this.Parameters.Length)
+			else if (result = parameters.Length == this.Parameters.Length && parameters.All(parameter => parameter.NotEmpty()) || parameters.Length - 1 == this.Parameters.Length && parameters[parameters.Length - 1].IsEmpty())
 			{
-				object[] p = new object[parameters.Length - 1];
+				object[] p = new object[this.Parameters.Length];
 				for (int i = 0; i < p.Length; i++)
 					p[i] = this.Parameters[i].FromString(parameters[i]); 
 				this.backend.Call(p);
