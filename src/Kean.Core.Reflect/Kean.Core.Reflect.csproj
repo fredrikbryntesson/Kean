@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Extension\MemberFilterExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Field.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Member.cs" />
     <Compile Include="MemberFilter.cs" />
     <Compile Include="Method.cs" />
+    <Compile Include="Object.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Type.cs" />

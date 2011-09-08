@@ -24,32 +24,32 @@ namespace Kean.Core.Reflect
 	public class Property : 
 		Member
 	{
-		protected System.Reflection.PropertyInfo PropertyInformation { get; private set; }
+		protected System.Reflection.PropertyInfo Information { get; private set; }
 		public object Data
 		{
-			get { return this.PropertyInformation.GetValue(this.Parent, null); }
-			set { this.PropertyInformation.SetValue(this.Parent, value, null); }
+			get { return this.Information.GetValue(this.Parent, null); }
+			set { this.Information.SetValue(this.Parent, value, null); }
 		}
-		public bool Readable { get { return this.PropertyInformation.CanRead; } }
-		public bool Writable { get { return this.PropertyInformation.CanWrite; } }
-		public Type Type { get { return this.PropertyInformation.PropertyType; } }
+		public bool Readable { get { return this.Information.CanRead; } }
+		public bool Writable { get { return this.Information.CanWrite; } }
+		public Type Type { get { return this.Information.PropertyType; } }
 
-		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation) :
-			base(parent, parentType, propertyInformation)
+		protected Property(object parent, Type parentType, System.Reflection.PropertyInfo information) :
+			base(parent, parentType, information)
 		{
-			this.PropertyInformation = propertyInformation;
+			this.Information = information;
 		}
 		public Property<T> Convert<T>()
 		{
-			return new Property<T>(this.Parent, this.ParentType, this.PropertyInformation);
+			return new Property<T>(this.Parent, this.ParentType, this.Information);
 		}
-		internal static Property Create(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation)
+		internal static Property Create(object parent, Type parentType, System.Reflection.PropertyInfo information)
 		{
 			Property result;
-			if (propertyInformation.PropertyType == typeof(int))
-				result = new Property<int>(parent, parentType, propertyInformation);
+			if (information.PropertyType == typeof(int))
+				result = new Property<int>(parent, parentType, information);
 			else
-				result = new Property(parent, parentType, propertyInformation);
+				result = new Property(parent, parentType, information);
 			return result;
 		}
 	}
@@ -58,11 +58,11 @@ namespace Kean.Core.Reflect
 	{
 		public T Value
 		{
-			get { return (T)this.PropertyInformation.GetValue(this.Parent, null); }
-			set { this.PropertyInformation.SetValue(this.Parent, value, null); }
+			get { return (T)this.Information.GetValue(this.Parent, null); }
+			set { this.Information.SetValue(this.Parent, value, null); }
 		}
-		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo propertyInformation) :
-			base(parent, parentType, propertyInformation)
+		internal Property(object parent, Type parentType, System.Reflection.PropertyInfo information) :
+			base(parent, parentType, information)
 		{ }
 	}
 }

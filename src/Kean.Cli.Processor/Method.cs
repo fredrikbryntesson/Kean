@@ -52,15 +52,44 @@ namespace Kean.Cli.Processor
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
-			return false;
+			bool result;
+			if (result = this.Parameters.Length == 0 && parameters.Length < 2)
+				this.backend.Call();
+			else if (result = parameters.Length - 1 == this.Parameters.Length)
+			{
+				object[] p = new object[parameters.Length - 1];
+				for (int i = 0; i < p.Length; i++)
+					p[i] = this.Parameters[i].FromString(parameters[i]); 
+				this.backend.Call(p);
+			}
+			return result;
 		}
 		public override string Complete(string[] parameters)
 		{
-			return "";
+			string result = "";
+			if (this.Parameters.Length > 0)
+			{
+				if (parameters.Length <= this.Parameters.Length)
+				{
+					if (parameters.Length > 0)
+					{
+						if (parameters.Length > 1)
+							result = string.Join(" ", parameters, 0, parameters.Length - 1) + " ";
+						result += this.Parameters[parameters.Length - 1].Complete(parameters[parameters.Length - 1]);
+					}
+					else
+						result = this.Parameters[0].Complete("");
+				}
+				else
+					result = string.Join(" ", parameters, 0, this.Parameters.Length).TrimStart();
+			}
+			return result;
 		}
 		public override string Help(string[] parameters)
 		{
-			return this.Usage + "\n";
+			return (this.Parameters.Length > 0 && parameters.Length > 0 && parameters.Length <= this.Parameters.Length) ?
+				this.Parameters[parameters.Length - 1].Help(parameters[parameters.Length - 1]) :
+				this.Usage.NotEmpty() ?	this.Usage + "\n" : "";
 		}
 	}
 }

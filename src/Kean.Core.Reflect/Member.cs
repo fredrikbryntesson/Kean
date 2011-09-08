@@ -22,6 +22,7 @@
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Reflect
 {
@@ -61,20 +62,38 @@ namespace Kean.Core.Reflect
 			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
 		}
 		#endregion
-		internal static Member Create(object parent, Type parentType, System.Reflection.MemberInfo memberInformation)
+		internal static Member Create(object parent, Type parentType, System.Reflection.MemberInfo information)
 		{
-			return Member.Create(parent, parentType, memberInformation, MemberFilter.Field | MemberFilter.Property | MemberFilter.Method);
+			return Member.Create(parent, parentType, information, MemberFilter.Field | MemberFilter.Property | MemberFilter.Method);
 		}
-		internal static Member Create(object parent, Type parentType, System.Reflection.MemberInfo memberInformation, MemberFilter filter)
+		internal static Member Create(object parent, Type parentType, System.Reflection.MemberInfo information, MemberFilter filter)
 		{
 			Member result = null;
-			if (memberInformation is System.Reflection.PropertyInfo && filter.Contains(MemberFilter.Property))
-				result = Property.Create(parent, parentType, memberInformation as System.Reflection.PropertyInfo);
-			else if (memberInformation is System.Reflection.FieldInfo && filter.Contains(MemberFilter.Property))
-				result = Field.Create(parent, parentType, memberInformation as System.Reflection.FieldInfo);
-			else if (memberInformation is System.Reflection.MethodInfo && filter.Contains(MemberFilter.Method))
-				result = Method.Create(parent, parentType, memberInformation as System.Reflection.MethodInfo);
+			if (information is System.Reflection.PropertyInfo && filter.Contains(MemberFilter.Property))
+				result = Property.Create(parent, parentType, information as System.Reflection.PropertyInfo);
+			else if (information is System.Reflection.FieldInfo && filter.Contains(MemberFilter.Property))
+				result = Field.Create(parent, parentType, information as System.Reflection.FieldInfo);
+			else if (information is System.Reflection.MethodInfo && filter.Contains(MemberFilter.Method))
+				result = Method.Create(parent, parentType, information as System.Reflection.MethodInfo);
 			return result;
+		}
+
+		internal static Member Create(object parent, Type parentType, string name)
+		{
+			System.Reflection.MemberInfo[] informations = ((System.Type)parentType).GetMember(name);
+			return informations.Length > 0 ? Member.Create(parent, parentType, name) : null;
+		}
+		internal static Member[] Create(object parent, Type parentType, string name, MemberFilter filter)
+		{
+			System.Type type = parentType;
+			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
+			foreach (System.Reflection.MemberInfo member in type.GetMember(name, filter.AsBindingFlags()))
+			{
+				Member m = Member.Create(parent, type, member, filter);
+				if (m.NotNull())
+					result.Add(m);
+			}
+			return result.ToArray();
 		}
 	}
 }

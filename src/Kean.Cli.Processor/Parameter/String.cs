@@ -29,9 +29,17 @@ namespace Kean.Cli.Processor.Parameter
 	class String :
 		Abstract
 	{
-		internal String(Reflect.Type type, Reflect.Parameter parameter) :
-			base(type, parameter)
+		internal String(Reflect.Type type) :
+			base(type)
 		{
+		}
+		public override string AsString(object value)
+		{
+			return (string)value;
+		}
+		public override object FromString(string value)
+		{
+			return value;
 		}
 		public override string Complete(string incomplete)
 		{

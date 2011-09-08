@@ -33,46 +33,38 @@ namespace Kean.Cli.Processor
 		Member
 	{
 		protected override char Delimiter { get { return ' '; } }
-		Func<string> get;
-		Action<string> set; 
+		Reflect.Property backend;
+		Parameter.Abstract parameter;
 		public string Value
 		{
-			get { return this.get(); }
-			set { this.set(value); }
+			get { return this.parameter.AsString(this.backend.Data); }
+			set { this.backend.Data = this.parameter.FromString(value); }
 		}
 		public Property(PropertyAttribute attribute, Reflect.Property backend, Object parent) :
 			base(attribute, backend, parent)
 		{
-			if (backend.Type == typeof(bool))
-			{
-				Reflect.Property<bool> b = backend.Convert<bool>();
-				this.get = () => b.Value ? "true" : "false";
-				this.set = value => b.Value = value.Trim().ToLower().Contains("true");
-			}
-			else if (backend.Type == typeof(string))
-			{
-				Reflect.Property<string> b = backend.Convert<string>();
-				this.get = () => b.Value;
-				this.set = value => b.Value = value;
-			}
+			this.backend = backend;
+			this.parameter = Parameter.Abstract.Create(backend);
+
+			NotifyAttribute[] attributes = this.backend.GetAttributes<NotifyAttribute>();
+			if (attributes.Length == 1)
+				this.Parent.GetProperty(attributes[0].Name);
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
 			if (parameters.Length > 0)
-				this.Value = parameters.Fold((parameter, a) => a + " " + parameter, "");
-			editor.Answer(this, this.Value);
+				this.Value = string.Join(" ", parameters).Trim();
+			if (this.backend.Readable)
+				editor.Answer(this, this.Value);
 			return true;
 		}
 		public override string Complete(string[] parameters)
 		{
-			string result = "";
-			if (parameters.Length > 0)
-				result = parameters.Fold((parameter, a) => a + " " + parameter, "");
-			return result;
+			return this.backend.Writable && parameters.Length > 0 ? this.parameter.Complete(string.Join(" ", parameters)) : "" ;
 		}
 		public override string Help(string[] parameters)
 		{
-			return this.Usage + "\n";
+			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n";
 		}
 	}
 }

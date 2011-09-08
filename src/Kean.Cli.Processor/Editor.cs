@@ -80,7 +80,7 @@ namespace Kean.Cli.Processor
 			string[] splitted = line.Split(new char[] {' '}, 2, StringSplitOptions.RemoveEmptyEntries);
 			Collection.List<string> parameters = new Collection.List<string>();
 			if (splitted.Length > 0)
-				foreach (string name in splitted[0].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string name in splitted[0].Split(new char[] { '.' }))
 					if (member is Object)
 					{
 						Member next = (member as Object).Find(m => m.Name == name);
@@ -93,7 +93,7 @@ namespace Kean.Cli.Processor
 							member = next;
 					}
 			if (splitted.Length > 1)
-				parameters.Add(splitted[1].Split(new char[] { ' ' },  StringSplitOptions.RemoveEmptyEntries));
+				parameters.Add(splitted[1].Split(new char[] { ' ' }));
 			return Tuple.Create(prefix, member, parameters.ToArray());
 		}
 		bool Execute(string line)

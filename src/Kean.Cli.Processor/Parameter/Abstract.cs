@@ -29,23 +29,32 @@ namespace Kean.Cli.Processor.Parameter
 	abstract class Abstract
 	{
 		public Reflect.Type Type { get; private set; }
-		Reflect.Parameter parameter;
-		protected Abstract(Reflect.Type type, Reflect.Parameter parameter)
+		protected Abstract(Reflect.Type type)
 		{
 			this.Type = type;
-			this.parameter = parameter;
 		}
+		public abstract object FromString(string value);
+		public abstract string AsString(object value);
 		public abstract string Complete(string incomplete);
 		public abstract string Help(string incomplete);
 		public static Abstract Create(Reflect.Parameter parameter)
 		{
+			return Abstract.Create(parameter.Type);
+		}
+		public static Abstract Create(Reflect.Property property)
+		{
+			return Abstract.Create(property.Type);
+		}
+		public static Abstract Create(Reflect.Type type)
+		{
 			Abstract result = null;
-			Reflect.Type type = parameter.Type;
-			if (type == typeof(Boolean))
-				result = new Boolean(type, parameter);
+			if (type == typeof(bool))
+				result = new Boolean(type);
 			else if (type == typeof(string))
-				result = new String(type, parameter);
-			return null;
+				result = new String(type);
+			else if (type.Inherits<Enum>())
+				result = new Enumeration(type);
+			return result;
 		}
 	}
 }

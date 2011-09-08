@@ -119,15 +119,34 @@ namespace Kean.Core.Reflect
 			return System.Activator.CreateInstance(this);
 		}
 
+		#region Implemented Interfaces
 		public bool Implements<T>()
 		{
 			return this.GetImplementation<T>().NotNull();
 		}
-		public System.Type GetImplementation<T>()
+		public Type GetImplementation<T>()
 		{
-			return this.type.GetInterface(typeof(T).Name);
+			return ((System.Type)this).GetInterface(typeof(T).Name);
 		}
-
+		#endregion
+		#region Inherited Classes
+		public Type Base { get { return ((System.Type)this).BaseType.NotNull() ? ((Type)((System.Type)this).BaseType) : null; } }
+		public bool Inherits<T>()
+		{
+			return this == typeof(T) || ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits<T>();
+		}
+		#endregion
+		#region Get Attributes
+		public System.Attribute[] GetAttributes()
+		{
+			return ((System.Type)this).GetCustomAttributes(true).Map(attribute => attribute as System.Attribute);
+		}
+		public T[] GetAttributes<T>()
+			where T : System.Attribute
+		{
+			return ((System.Type)this).GetCustomAttributes(typeof(T), true).Map(attribute => attribute as T);
+		}
+		#endregion
 		#region Object Overrides
 		public override string ToString()
 		{

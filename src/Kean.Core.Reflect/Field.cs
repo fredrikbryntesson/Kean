@@ -24,21 +24,21 @@ namespace Kean.Core.Reflect
 	public class Field :
 		Member
 	{
-		protected System.Reflection.FieldInfo FieldInformation { get; private set; }
+		protected System.Reflection.FieldInfo Information { get; private set; }
 		public object Data
 		{
-			get { return this.FieldInformation.GetValue(this.Parent); }
-			set { this.FieldInformation.SetValue(this.Parent, value); }
+			get { return this.Information.GetValue(this.Parent); }
+			set { this.Information.SetValue(this.Parent, value); }
 		}
-		public Type Type { get { return this.FieldInformation.FieldType; } }
-		internal Field(object parent, Type parentType, System.Reflection.FieldInfo fieldInformation) :
-			base(parent, parentType, fieldInformation)
+		public Type Type { get { return this.Information.FieldType; } }
+		internal Field(object parent, Type parentType, System.Reflection.FieldInfo information) :
+			base(parent, parentType, information)
 		{
-			this.FieldInformation = fieldInformation;
+			this.Information = information;
 		}
 		public Field<T> Convert<T>()
 		{
-			return new Field<T>(this.Parent, this.ParentType, this.FieldInformation);
+			return new Field<T>(this.Parent, this.ParentType, this.Information);
 		}
 		internal static Field Create(object parent, Type parentType, System.Reflection.FieldInfo fieldInformation)
 		{
@@ -55,8 +55,8 @@ namespace Kean.Core.Reflect
 	{
 		public T Value
 		{
-			get { return (T)this.FieldInformation.GetValue(this.Parent); }
-			set { this.FieldInformation.SetValue(this.Parent, value); }
+			get { return (T)this.Information.GetValue(this.Parent); }
+			set { this.Information.SetValue(this.Parent, value); }
 		}
 		internal Field(object parent, Type parentType, System.Reflection.FieldInfo fieldInformation) :
 			base(parent, parentType, fieldInformation)

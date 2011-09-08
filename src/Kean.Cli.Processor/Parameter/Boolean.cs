@@ -29,9 +29,17 @@ namespace Kean.Cli.Processor.Parameter
 	class Boolean :
 		Abstract
 	{
-		internal Boolean(Reflect.Type type, Reflect.Parameter parameter) :
-			base(type, parameter)
+		internal Boolean(Reflect.Type type) :
+			base(type)
 		{
+		}
+		public override string AsString(object value)
+		{
+			return (bool)value ? "true" : "false";
+		}
+		public override object FromString(string value)
+		{
+			return value.Trim().ToLower() == "true";
 		}
 		public override string Complete(string incomplete)
 		{
@@ -39,8 +47,8 @@ namespace Kean.Cli.Processor.Parameter
 			if (incomplete.NotEmpty())
 				switch (char.ToLower(incomplete[0]))
 				{
-					case 't': result = "true"; break;
-					case 'f': result = "false"; break;
+					case 't': result = "true "; break;
+					case 'f': result = "false "; break;
 				}
 			return result;
 		}

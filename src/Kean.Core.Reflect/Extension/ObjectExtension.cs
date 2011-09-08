@@ -26,6 +26,12 @@ namespace Kean.Core.Reflect.Extension
 {
 	public static class ObjectExtension
 	{
+		#region Get Type
+		public static Type Type(this object me)
+		{
+			return me.GetType();
+		}
+		#endregion
 		#region Get/Set Properties
 		public static void Set<T>(this object me, string property, T value)
 		{
@@ -42,12 +48,6 @@ namespace Kean.Core.Reflect.Extension
 			return me.GetType().GetMethod(method).Invoke(me, arguments);
 		}
 		#endregion
-		#region Get TypeName
-		public static Type GetTypeName(this object me)
-		{
-			return me.GetType();
-		}
-		#endregion
 		#region Get Attributes
 		public static System.Attribute[] GetAttributes(this object me)
 		{
@@ -62,20 +62,11 @@ namespace Kean.Core.Reflect.Extension
 		#region Get Members
 		public static Member GetMember(this object me, string name)
 		{
-			System.Type type = me.GetType();
-			return Member.Create(me, type, type.GetField(name));
+			return Member.Create(me, me.GetType(), name);
 		}
 		public static Member[] GetMember(this object me, string name, MemberFilter filter)
 		{
-			System.Type type = me.GetType();
-			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
-			foreach (System.Reflection.MemberInfo member in type.GetMember(name, filter.AsBindingFlags()))
-			{
-				Member m = Member.Create(me, type, member, filter);
-				if (m.NotNull())
-					result.Add(m);
-			}
-			return result.ToArray();
+			return Member.Create(me, me.GetType(), name, filter);
 		}
 		public static Member[] GetMembers(this object me)
 		{

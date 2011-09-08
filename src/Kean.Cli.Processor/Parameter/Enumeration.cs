@@ -41,9 +41,17 @@ namespace Kean.Cli.Processor.Parameter
 				return this.values;
 			}
 		}
-		internal Enumeration(Reflect.Type type, Reflect.Parameter parameter) :
-			base(type, parameter)
+		internal Enumeration(Reflect.Type type) :
+			base(type)
 		{ }
+		public override string AsString(object value)
+		{
+			return Enum.GetName(this.Type, value).ToLower();
+		}
+		public override object FromString(string value)
+		{
+			return Enum.Parse(this.Type, value, true);
+		}
 		public override string Complete(string incomplete)
 		{
 

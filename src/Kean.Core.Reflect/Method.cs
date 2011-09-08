@@ -33,39 +33,39 @@ namespace Kean.Core.Reflect
 			get
 			{
 				if (this.parameters.IsNull())
-					this.parameters = this.MethodInformation.GetParameters().Map(parameter => new Parameter(this, parameter));
+					this.parameters = this.Information.GetParameters().Map(parameter => new Parameter(this, parameter));
 				return this.parameters;
 			}
 		}
-		protected System.Reflection.MethodInfo MethodInformation { get; private set; }
+		protected System.Reflection.MethodInfo Information { get; private set; }
 		public object Call(params object[] parameters)
 		{
-			return this.MethodInformation.Invoke(this.Parent, parameters);
+			return this.Information.Invoke(this.Parent, parameters);
 		}
-		internal Method(object parent, Type parentType, System.Reflection.MethodInfo methodInformation) :
-			base(parent, parentType, methodInformation)
+		internal Method(object parent, Type parentType, System.Reflection.MethodInfo information) :
+			base(parent, parentType, information)
 		{
-			this.MethodInformation = methodInformation;
+			this.Information = information;
 		}
-		public Action<T> AsAction<T>() { return new Action<T>(this.Parent, this.ParentType, this.MethodInformation); }
-		public Action<T1, T2> AsAction<T1, T2>() { return new Action<T1, T2>(this.Parent, this.ParentType, this.MethodInformation); }
-		public Action<T1, T2, T3> AsAction<T1, T2, T3>() { return new Action<T1, T2, T3>(this.Parent, this.ParentType, this.MethodInformation); }
-		public Action<T1, T2, T3, T4> AsAction<T1, T2, T3, T4>() { return new Action<T1, T2, T3, T4>(this.Parent, this.ParentType, this.MethodInformation); }
-		public Action<T1, T2, T3, T4, T5> AsAction<T1, T2, T3, T4, T5>() { return new Action<T1, T2, T3, T4, T5>(this.Parent, this.ParentType, this.MethodInformation); }
+		public Action<T> AsAction<T>() { return new Action<T>(this.Parent, this.ParentType, this.Information); }
+		public Action<T1, T2> AsAction<T1, T2>() { return new Action<T1, T2>(this.Parent, this.ParentType, this.Information); }
+		public Action<T1, T2, T3> AsAction<T1, T2, T3>() { return new Action<T1, T2, T3>(this.Parent, this.ParentType, this.Information); }
+		public Action<T1, T2, T3, T4> AsAction<T1, T2, T3, T4>() { return new Action<T1, T2, T3, T4>(this.Parent, this.ParentType, this.Information); }
+		public Action<T1, T2, T3, T4, T5> AsAction<T1, T2, T3, T4, T5>() { return new Action<T1, T2, T3, T4, T5>(this.Parent, this.ParentType, this.Information); }
 
-		internal static Method Create(object parent, Type parentType, System.Reflection.MethodInfo methodInformation)
+		internal static Method Create(object parent, Type parentType, System.Reflection.MethodInfo information)
 		{
 			Method result;
-			if (methodInformation.ReturnType == typeof(bool))
+			if (information.ReturnType == typeof(bool))
 			{
-				System.Reflection.ParameterInfo[] parameters = methodInformation.GetParameters();
+				System.Reflection.ParameterInfo[] parameters = information.GetParameters();
 				if (parameters.Length == 0)
-					result = new Function<bool>(parent, parentType, methodInformation);
+					result = new Function<bool>(parent, parentType, information);
 				else
-					result = new Method(parent, parentType, methodInformation);
+					result = new Method(parent, parentType, information);
 			}
 			else
-				result = new Method(parent, parentType, methodInformation);
+				result = new Method(parent, parentType, information);
 			return result;
 		}
 	}

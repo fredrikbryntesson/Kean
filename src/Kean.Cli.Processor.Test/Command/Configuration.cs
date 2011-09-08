@@ -36,17 +36,17 @@ namespace Kean.Cli.Processor.Test.Command
 		{
 			this.Application = parent;
 		}
-		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
-		public void Save()
-		{
-		}
+		//[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
+		//public void Save()
+		//{
+		//}
 		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
 		public void Save(bool overwrite)
 		{
 		}
-		[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
-		public void Save([Parameter("Filename of file to save to.")] string filename)
-		{
-		}
+		//[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
+		//public void Save([Parameter("Filename of file to save to.")] string filename)
+		//{
+		//}
 	}
 }

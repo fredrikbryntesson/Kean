@@ -69,6 +69,10 @@ namespace Kean.Cli.Processor
 		{
 			this.backend = backend.Data;
 		}
+		internal Reflect.Property GetProperty(string name)
+		{
+			return this.backend.GetProperty(name);
+		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
 			editor.Current = this;
