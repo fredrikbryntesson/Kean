@@ -128,6 +128,7 @@ namespace Kean.Cli.LineBuffer
 
                         if (!this.history.Empty)
                         {
+                            this.history.Add(this.line.ToString()); 
                             this.line.Renew(this.history.Next().ToString());
                         }
                         break;
@@ -135,6 +136,7 @@ namespace Kean.Cli.LineBuffer
                     case (char)15: // Up Arrow
                         if (!this.history.Empty)
                         {
+                            this.history.Add(this.line.ToString());
                             this.line.Renew(this.history.Previous().ToString());
                         }
                         break;
@@ -175,7 +177,7 @@ namespace Kean.Cli.LineBuffer
             lock (this.@lock)
             {
                 this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
-                this.writer.Write(value);
+                this.writer.WriteLine(value);
                 this.oldmessage = value.Length;
                 this.writer.Write(this.Prompt);
                 this.line.Write();
