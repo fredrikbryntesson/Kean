@@ -40,6 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleStream.cs" />
+    <Compile Include="Device\Block.cs" />
+    <Compile Include="Device\Character.cs" />
+    <Compile Include="Device\Abstract.cs" />
+    <Compile Include="Device\Terminal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Stream.cs" />
