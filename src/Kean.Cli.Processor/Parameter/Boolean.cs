@@ -41,10 +41,6 @@ namespace Kean.Cli.Processor.Parameter
 		{
 			return value.Trim().ToLower() == "true";
 		}
-		public override Delegate Changed(Action<string> changed)
-		{
-			return new Action<bool>(value => changed((bool)value ? "true" : "false"));
-		}
 		public override string Complete(string incomplete)
 		{
 			string result = "";

@@ -32,6 +32,20 @@ namespace Kean.Cli.Processor
 	class Property :
 		Member
 	{
+		class Notifier
+		{
+			Property property;
+			Editor editor;
+			public Notifier(Property property, Editor editor)
+			{
+				this.property = property;
+				this.editor = editor;
+			}
+			public void Notify<T>(T value)
+			{
+				this.editor.Notify(this.property, this.property.parameter.AsString(value));
+			}
+		}
 		protected override char Delimiter { get { return ' '; } }
 		Reflect.Property backend;
 		Reflect.Event changed;
@@ -60,7 +74,7 @@ namespace Kean.Cli.Processor
 			{
 				string value = string.Join(" ", parameters).Trim();
 				if (value.ToLower() == "notify" && this.changed.NotNull() && this.backend.Readable)
-					this.changed.Add(this.parameter.Changed(v => editor.Notify(this, v)));
+					this.changed.Add(Delegate.CreateDelegate(new Kean.Core.Reflect.Type("mscorlib.dll", "System.Action", this.backend.Type), new Notifier(this, editor), typeof(Notifier).GetMethod("Notify").MakeGenericMethod(this.backend.Type)));
 				else
 					this.Value = value;
 			}

@@ -118,6 +118,11 @@ namespace Kean.Core.Reflect
 		{
 			return System.Activator.CreateInstance(this);
 		}
+		public object Create(params object[] parameters)
+		{
+			System.Reflection.ConstructorInfo constructor = ((System.Type)this).GetConstructor(parameters.Map(parameter => parameter.GetType()));
+			return constructor.NotNull() ? constructor.Invoke(parameters) : null;
+		}
 
 		#region Implemented Interfaces
 		public bool Implements<T>()

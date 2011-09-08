@@ -36,8 +36,7 @@ namespace Kean.Cli.Processor.Test.Command
 			get { return this.state; }
 			private set
 			{
-				this.state = value;
-				switch (this.state)
+				switch (value)
 				{
 					case MediaState.Paused:
 						this.timer.Stop();
@@ -50,6 +49,7 @@ namespace Kean.Cli.Processor.Test.Command
 						this.Position = TimeSpan.Zero;
 						break;
 				}
+				this.state = value;
 				this.StateChanged.Call(this.state);
 			}
 		}

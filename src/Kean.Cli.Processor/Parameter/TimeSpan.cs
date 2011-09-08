@@ -41,13 +41,9 @@ namespace Kean.Cli.Processor.Parameter
 		{
 			return System.TimeSpan.Parse(value);
 		}
-		public override Delegate Changed(Action<string> changed)
-		{
-			return new Action<System.TimeSpan>(value => changed(value.ToString()));
-		}
 		public override string Complete(string incomplete)
 		{
-			return incomplete;
+			return incomplete.NotEmpty() && char.IsDigit(incomplete[0]) ? incomplete : "";
 		}
 		public override string Help(string incomplete)
 		{

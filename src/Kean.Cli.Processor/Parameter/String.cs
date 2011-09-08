@@ -41,10 +41,6 @@ namespace Kean.Cli.Processor.Parameter
 		{
 			return value;
 		}
-		public override Delegate Changed(Action<string> changed)
-		{
-			return new Action<string>(value => changed(value));
-		}
 		public override string Complete(string incomplete)
 		{
 			return incomplete;

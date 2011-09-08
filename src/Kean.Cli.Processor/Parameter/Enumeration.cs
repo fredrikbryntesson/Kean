@@ -52,10 +52,6 @@ namespace Kean.Cli.Processor.Parameter
 		{
 			return Enum.Parse(this.Type, value, true);
 		}
-		public override Delegate Changed(Action<string> changed)
-		{
-			return new Action<Enum>(value => changed(Enum.GetName(this.Type, value).ToLower()));
-		}
 		public override string Complete(string incomplete)
 		{
 
