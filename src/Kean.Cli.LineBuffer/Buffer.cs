@@ -3,8 +3,7 @@ using System.Text;
 
 namespace Kean.Cli.LineBuffer
 {
-    class Buffer :
-        IEquatable<Buffer>
+    class Buffer
     {
         public Action<string> Writer { get; set; }
         int cursor = 0;
@@ -66,9 +65,10 @@ namespace Kean.Cli.LineBuffer
         }
         public void Renew(string line)
         {
-            this.MoveCursor(-this.line.Length);
-            this.cursor = line.Length;
+            this.RemoveAndDelete();
             this.line = new System.Text.StringBuilder(line);
+            this.Write();
+            this.cursor = line.Length;
         }
         public void MoveCursor(int steps)
         {
@@ -93,26 +93,7 @@ namespace Kean.Cli.LineBuffer
                 this.MoveCursorLeftAndDelete();
             this.cursor = 0;
         }
-        #region Comparison Functions and IComparable<Buffer>
-        public static bool operator ==(Buffer left, Buffer right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Buffer left, Buffer right)
-        {
-            return !(left == right);
-        }
-        #endregion
         #region Object overides and IEquatable<Buffer>
-        public override bool Equals(object other)
-        {
-            return (other is Buffer) && this.Equals((Buffer)other);
-        }
-        // Other is not null here.
-        public bool Equals(Buffer other)
-        {
-            return this.line.ToString() == other.line.ToString();
-        }
         public override int GetHashCode()
         {
             return this.line.ToString().GetHashCode();

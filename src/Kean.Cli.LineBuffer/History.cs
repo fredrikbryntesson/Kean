@@ -7,13 +7,13 @@ namespace Kean.Cli.LineBuffer
     class History
     {
         int position = 0;
-        Kean.Core.Collection.IList<Buffer> buffers = new Kean.Core.Collection.List<Buffer>();
-        public Buffer Current { get { return this.buffers[this.position]; } }
+        Kean.Core.Collection.IList<string> buffers = new Kean.Core.Collection.List<string>();
+        public string Current { get { return this.buffers[this.position]; } }
         public int Count { get { return this.buffers.Count; } }
         public bool Empty { get { return this.buffers.Count == 0; } }
         public History()
-        {}
-        public void Add(Buffer buffer)
+        { }
+        public void Add(string buffer)
         {
             if (!this.buffers.Exists(b => b == buffer))
             {
@@ -21,19 +21,23 @@ namespace Kean.Cli.LineBuffer
                 this.position = this.buffers.Index(b => b == buffer);
             }
         }
-        public Buffer Previous()
+        public string Previous()
         {
-            this.position = (this.buffers.Count + this.position - 1) % this.buffers.Count;
+            this.position--;
+            if (this.position < 0)
+                this.position = 0;
             return this.buffers[this.position];
         }
-        public Buffer Next()
+        public string Next()
         {
-            this.position = (this.position + 1) % this.buffers.Count;
+            this.position++;
+            if (this.position >= this.buffers.Count)
+                this.position = this.buffers.Count - 1;
             return this.buffers[this.position];
         }
         public void Clear()
         {
-            this.buffers = new Kean.Core.Collection.List<Buffer>();
+            this.buffers = new Kean.Core.Collection.List<string>();
         }
     }
 }

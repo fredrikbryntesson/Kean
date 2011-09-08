@@ -37,7 +37,7 @@ namespace Kean.Cli.Processor
 			set
 			{
 				this.current = value;
-				this.lineBuffer.CommandPrompt = string.Format("# {0}> ", this.current);
+				this.lineBuffer.Prompt = string.Format("# {0}> ", this.current);
 			}
 		}
 		LineBuffer.Editor lineBuffer;

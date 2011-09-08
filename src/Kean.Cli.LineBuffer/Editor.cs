@@ -32,9 +32,9 @@ namespace Kean.Cli.LineBuffer
         object @lock = new object();
         IO.Reader reader;
         System.IO.TextWriter writer;
-        //History history;
+        History history;
         Buffer line;
-        int oldmessage = 0; 
+        int oldmessage = 0;
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
@@ -47,7 +47,7 @@ namespace Kean.Cli.LineBuffer
             this.reader = reader;
             this.writer = writer;
             this.line = new Buffer(this.writer.Write);
-            //this.history = new History();
+            this.history = new History();
         }
         public void Read()
         {
@@ -100,18 +100,17 @@ namespace Kean.Cli.LineBuffer
                             else
                             {
                                 this.line.Renew(result);
-                                this.line.Write();
-                            }
+                             }
                         }
                         break;
                     case (char)10: // Newline
                         {
-                            
+
                             this.writer.WriteLine();
-                             if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+                            if (this.line.ToString().NotEmpty())
+                                this.history.Add(this.line.ToString());
+                            if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
                             {
-                               /* if (this.line.ToString().NotEmpty())
-                                    this.history.Add(this.line);*/
                                 this.line = new Buffer(this.writer.Write);
                                 this.writer.Write(this.Prompt);
                             }
@@ -120,28 +119,24 @@ namespace Kean.Cli.LineBuffer
                                 this.writer.Write(this.Prompt);
                                 this.line.Write();
                             }
-                           
+
                         }
                         break;
                     // 11
                     // 12
                     case (char)13: // Down Arrow
-                        /*
+
                         if (!this.history.Empty)
                         {
-                            this.line.RemoveAndDelete();
-                            this.line = this.history.Next();
-                            this.line.Write();
-                        }*
+                            this.line.Renew(this.history.Next().ToString());
+                        }
                         break;
                     // 14
                     case (char)15: // Up Arrow
-                        /*if (!this.history.Empty)
+                        if (!this.history.Empty)
                         {
-                            this.line.RemoveAndDelete(); 
-                            this.line = this.history.Previous();
-                            this.line.Write();
-                        }*/
+                            this.line.Renew(this.history.Previous().ToString());
+                        }
                         break;
                     // 16
                     // 17
@@ -173,7 +168,6 @@ namespace Kean.Cli.LineBuffer
                 this.writer.Write(value);
                 this.oldmessage = value.Length;
                 this.writer.Write(this.Prompt);
-                //this.history.Current.Write();
             }
         }
         public void WriteLine(string value)
