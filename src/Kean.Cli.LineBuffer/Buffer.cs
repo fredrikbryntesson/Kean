@@ -3,7 +3,8 @@ using System.Text;
 
 namespace Kean.Cli.LineBuffer
 {
-    class Buffer
+    class Buffer :
+        IEquatable<Buffer>
     {
         public Action<string> Writer { get; set; }
         int cursor = 0;
@@ -14,7 +15,8 @@ namespace Kean.Cli.LineBuffer
         }
         public void MoveCursorHome()
         {
-            this.MoveCursor(-this.cursor - 1);
+            this.MoveCursor(-this.cursor);
+            this.cursor = 0;
         }
         public void MoveCursorLeft()
         {
@@ -26,8 +28,8 @@ namespace Kean.Cli.LineBuffer
         }
         public void MoveCursorEnd()
         {
-            this.MoveCursor(this.cursor - this.line.Length);
-            this.cursor = this.line.Length - 1;
+            this.MoveCursor(this.line.Length - this.cursor);
+            this.cursor = this.line.Length;
         }
         public void MoveCursorRight()
         {
@@ -41,15 +43,18 @@ namespace Kean.Cli.LineBuffer
         {
             if (this.cursor > 0)
             {
-                this.line.Remove(this.line.Length - 1, 1);
+                this.line.Remove(this.cursor - 1, 1);
                 this.cursor--;
                 this.Writer((char)8 + " " + (char)8);
+                this.Writer(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
+                this.Writer(" " + (char)8);
+                this.MoveCursor(this.cursor - this.line.Length);
             }
         }
         public void Insert(char value)
         {
             this.line.Insert(this.cursor, value);
-            this.Writer(this.line.ToString().Substring(this.cursor++)); 
+            this.Writer(this.line.ToString().Substring(this.cursor++));
             this.MoveCursor(this.cursor - this.line.Length);
         }
         public void Insert(string value)
@@ -81,20 +86,41 @@ namespace Kean.Cli.LineBuffer
         {
             this.Writer(this.line.ToString());
         }
-        public void Clear()
+        public void RemoveAndDelete()
         {
-            this.cursor = 0;
-            this.line = new StringBuilder();
-        }
-        public void Remove()
-        {
+            this.MoveCursorEnd();
             while (this.line.Length > 0)
                 this.MoveCursorLeftAndDelete();
             this.cursor = 0;
+        }
+        #region Comparison Functions and IComparable<Buffer>
+        public static bool operator ==(Buffer left, Buffer right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Buffer left, Buffer right)
+        {
+            return !(left == right);
+        }
+        #endregion
+        #region Object overides and IEquatable<Buffer>
+        public override bool Equals(object other)
+        {
+            return (other is Buffer) && this.Equals((Buffer)other);
+        }
+        // Other is not null here.
+        public bool Equals(Buffer other)
+        {
+            return this.line.ToString() == other.line.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.line.ToString().GetHashCode();
         }
         public override string ToString()
         {
             return this.line.ToString();
         }
+        #endregion
     }
 }

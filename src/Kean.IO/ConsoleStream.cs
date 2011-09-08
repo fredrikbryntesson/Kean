@@ -29,7 +29,7 @@ namespace Kean.IO
 					// 7
 				//case ConsoleKey.Backspace: result = (char)8; break;
 				//case ConsoleKey.Tab: result = (char)9; break;
-				//case ConsoleKey.Enter: result = (char)10; break;
+                case ConsoleKey.Enter: result = (char)10; break;
 					// 11
 					// 12
 				case ConsoleKey.DownArrow: result = (char)13; break;

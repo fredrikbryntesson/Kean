@@ -30,10 +30,9 @@ namespace Kean.IO
 			int next = this.backend.Read();
 			if (this.Ended = next < 0)
 				this.Current = '\0';
-			else if (next == '\n' || next == '\r')
+			else if (next == '\r' && this.backend.Peek() == '\n')
 			{
-				if (this.backend.Peek() == '\n')
-					this.backend.Read();
+				this.backend.Read();
 				this.Current = '\n';
 			}
 			else

@@ -32,13 +32,13 @@ namespace Kean.Cli.LineBuffer
         object @lock = new object();
         IO.Reader reader;
         System.IO.TextWriter writer;
+        //History history;
         Buffer line;
         int oldmessage = 0; 
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
-        public string CommandPrompt { get; set; }
-        public string NotifyPrompt { get; set; }
+        public string Prompt { get; set; }
         public Editor(IO.Stream reader, System.IO.TextWriter writer) :
             this(new IO.Reader(reader), writer)
         { }
@@ -47,13 +47,15 @@ namespace Kean.Cli.LineBuffer
             this.reader = reader;
             this.writer = writer;
             this.line = new Buffer(this.writer.Write);
+            //this.history = new History();
         }
         public void Read()
         {
             bool triggerHelp = false;
             bool help = false;
             bool exit = false;
-            this.writer.Write(this.CommandPrompt);
+            Buffer line = new Buffer(this.writer.Write);
+            this.writer.Write(this.Prompt);
             while (this.reader.Next() && !exit)
             {
                 switch (this.reader.Current)
@@ -86,33 +88,36 @@ namespace Kean.Cli.LineBuffer
                         {
                             this.writer.WriteLine();
                             this.writer.Write(this.Help(this.line.ToString()));
-                            this.writer.Write(this.CommandPrompt);
+                            this.writer.Write(this.Prompt);
                             this.line.Write();
                         }
                         else if (this.Complete.NotNull())
                         {
                             string old = this.line.ToString();
-                            string line = this.Complete(old);
-                            if (line == old)
+                            string result = this.Complete(old);
+                            if (result == old)
                                 triggerHelp = true;
                             else
                             {
-                                this.line.Renew(line);
+                                this.line.Renew(result);
                                 this.line.Write();
                             }
                         }
                         break;
                     case (char)10: // Newline
                         {
+                            
                             this.writer.WriteLine();
-                            if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+                             if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
                             {
-                                this.line.Clear();
-                                this.writer.Write(this.CommandPrompt);
+                               /* if (this.line.ToString().NotEmpty())
+                                    this.history.Add(this.line);*/
+                                this.line = new Buffer(this.writer.Write);
+                                this.writer.Write(this.Prompt);
                             }
                             else
                             {
-                                this.writer.Write(this.CommandPrompt); 
+                                this.writer.Write(this.Prompt);
                                 this.line.Write();
                             }
                            
@@ -121,9 +126,22 @@ namespace Kean.Cli.LineBuffer
                     // 11
                     // 12
                     case (char)13: // Down Arrow
+                        /*
+                        if (!this.history.Empty)
+                        {
+                            this.line.RemoveAndDelete();
+                            this.line = this.history.Next();
+                            this.line.Write();
+                        }*
                         break;
                     // 14
                     case (char)15: // Up Arrow
+                        /*if (!this.history.Empty)
+                        {
+                            this.line.RemoveAndDelete(); 
+                            this.line = this.history.Previous();
+                            this.line.Write();
+                        }*/
                         break;
                     // 16
                     // 17
@@ -151,23 +169,21 @@ namespace Kean.Cli.LineBuffer
         {
             lock (this.@lock)
             {
-                this.Remove(-this.oldmessage - this.CommandPrompt.Length - this.line.ToString().Length);
-                string message = this.NotifyPrompt + value;
-                this.writer.Write(message);
-                this.oldmessage = message.Length;
-                this.writer.Write(this.CommandPrompt);
-                this.line.Write();
+                this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
+                this.writer.Write(value);
+                this.oldmessage = value.Length;
+                this.writer.Write(this.Prompt);
+                //this.history.Current.Write();
             }
         }
         public void WriteLine(string value)
         {
             lock (this.@lock)
             {
-                this.Remove(-this.oldmessage - this.CommandPrompt.Length - this.line.ToString().Length);
-                string message = this.NotifyPrompt + value;
-                this.writer.Write(message);
-                this.oldmessage = message.Length;
-                this.writer.Write(this.CommandPrompt);
+                this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
+                this.writer.Write(value);
+                this.oldmessage = value.Length;
+                this.writer.Write(this.Prompt);
                 this.line.Write();
             }
         }

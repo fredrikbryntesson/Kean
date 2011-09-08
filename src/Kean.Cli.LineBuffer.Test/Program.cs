@@ -28,7 +28,7 @@ namespace Kean.Cli.LineBuffer.Test
 	{
 		static void Main(string[] args)
 		{
-            Editor editor = new Editor(new IO.ConsoleStream() { LocalEcho = false }, Console.Out) { CommandPrompt = ":>", NotifyPrompt = "%>" };
+            Editor editor = new Editor(new IO.ConsoleStream() { LocalEcho = false }, Console.Out) { Prompt = ":>" };
             Kean.Core.Tuple<string, string>[] completionDescription = new Kean.Core.Tuple<string, string>[] 
             {
                 Kean.Core.Tuple.Create<string, string>("fish", "Fishes are a paraphyletic group of organisms."),
@@ -60,7 +60,7 @@ namespace Kean.Cli.LineBuffer.Test
             Kean.Core.Collection.IDictionary<string, Action> commands = new Kean.Core.Collection.Dictionary<string, Action>();
             commands["play"] = () => Console.WriteLine("play it again");
             commands["beep"] = () => Console.Beep();
-            commands["now"] = () => Console.WriteLine("now");
+            commands["now"] = () => Console.WriteLine("now again");
             editor.Execute = text => 
             {
                 string[] parts = text.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -85,14 +85,14 @@ namespace Kean.Cli.LineBuffer.Test
                 }
                 return result.ToString();   
             };
-            
+            /*
             System.Timers.Timer timer = new System.Timers.Timer(4000);
             timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs elapsedArguments) =>
             {
                 editor.WriteLine("Hello");
             };
             timer.Start();
-            
+            */
             editor.Read();
 		}
 	}
