@@ -1,5 +1,6 @@
 ﻿using System;
 using Kean.Core;
+using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 namespace Kean.Cli.LineBuffer
@@ -7,37 +8,45 @@ namespace Kean.Cli.LineBuffer
     class History
     {
         int position = 0;
-        Kean.Core.Collection.IList<string> buffers = new Kean.Core.Collection.List<string>();
-        public string Current { get { return this.buffers[this.position]; } }
+        Kean.Core.Collection.IList<Buffer> buffers = new Kean.Core.Collection.List<Buffer>();
+        public Buffer Current { get { return this.buffers[this.position]; } } 
         public int Count { get { return this.buffers.Count; } }
         public bool Empty { get { return this.buffers.Count == 0; } }
-        public History()
-        { }
-        public void Add(string buffer)
+        public Action<string> Writer { get; set; }
+        public History(Action<string> writer)
         {
-            if (!this.buffers.Exists(b => b == buffer))
-            {
-                this.buffers.Add(buffer);
-                this.position = this.buffers.Index(b => b == buffer);
-            }
+            this.Writer = writer;
+            this.buffers.Add(new Buffer(this.Writer));
         }
-        public string Previous()
+        public void Add()
         {
+            this.buffers.Add(new Buffer(this.Writer));
+            this.position = this.buffers.Count - 1;
+        }
+        public void Save()
+        {
+            this.Current.MoveCursorEnd();
+            this.position = this.buffers.Count - 1;
+        }
+        public void Previous()
+        {
+            this.Current.RemoveAndNotDelete();
             this.position--;
             if (this.position < 0)
                 this.position = 0;
-            return this.buffers[this.position];
+            this.Current.Write();
         }
-        public string Next()
+        public void Next()
         {
+            this.Current.RemoveAndNotDelete();
             this.position++;
             if (this.position >= this.buffers.Count)
                 this.position = this.buffers.Count - 1;
-            return this.buffers[this.position];
+            this.Current.Write();
         }
         public void Clear()
         {
-            this.buffers = new Kean.Core.Collection.List<string>();
+            this.buffers = new Kean.Core.Collection.List<Buffer>();
         }
     }
 }

@@ -50,6 +50,14 @@ namespace Kean.Cli.LineBuffer
                 this.MoveCursor(this.cursor - this.line.Length);
             }
         }
+        public void MoveCursorLeftAndNotDelete()
+        {
+            if (this.cursor > 0)
+            {
+                this.cursor--;
+                this.Writer((char)8 + " " + (char)8);
+            }
+        }
         public void Insert(char value)
         {
             this.line.Insert(this.cursor, value);
@@ -85,6 +93,7 @@ namespace Kean.Cli.LineBuffer
         public void Write()
         {
             this.Writer(this.line.ToString());
+            this.cursor = this.line.Length;
         }
         public void RemoveAndDelete()
         {
@@ -92,6 +101,21 @@ namespace Kean.Cli.LineBuffer
             while (this.line.Length > 0)
                 this.MoveCursorLeftAndDelete();
             this.cursor = 0;
+        }
+        public void RemoveAndNotDelete()
+        {
+            this.MoveCursorEnd();
+            int length = this.line.Length;
+            while (length-- > 0)
+                this.MoveCursorLeftAndNotDelete();
+            this.cursor = 0;
+        }
+        public Buffer Copy()
+        {
+            Buffer result = new Buffer(this.Writer);
+            result.cursor = this.cursor;
+            result.line = new StringBuilder(this.ToString());
+            return result;
         }
         #region Object overides and IEquatable<Buffer>
         public override int GetHashCode()
@@ -101,6 +125,27 @@ namespace Kean.Cli.LineBuffer
         public override string ToString()
         {
             return this.line.ToString();
+        }
+        #endregion
+        #region  IEquatable<Buffer>
+        public override bool Equals(object other)
+        {
+            return (other is Buffer) && this.Equals((Buffer)other);
+        }
+        // other is not null here.
+        public bool Equals(Buffer other)
+        {
+            return this.line.ToString() == other.line.ToString();
+        }
+        #endregion
+        #region Comparison Functions and IComparable<Buffer>
+        public static bool operator ==(Buffer left, Buffer right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Buffer left, Buffer right)
+        {
+            return !(left == right);
         }
         #endregion
     }

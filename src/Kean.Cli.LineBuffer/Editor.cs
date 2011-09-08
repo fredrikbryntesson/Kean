@@ -30,11 +30,10 @@ namespace Kean.Cli.LineBuffer
     public class Editor
     {
         object @lock = new object();
-		bool executing;
+        bool executing;
         IO.Reader reader;
         System.IO.TextWriter writer;
         History history;
-        Buffer line;
         int oldmessage = 0;
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
@@ -47,15 +46,13 @@ namespace Kean.Cli.LineBuffer
         {
             this.reader = reader;
             this.writer = writer;
-            this.line = new Buffer(this.writer.Write);
-            this.history = new History();
+            this.history = new History(this.writer.Write);
         }
         public void Read()
         {
             bool triggerHelp = false;
             bool help = false;
             bool exit = false;
-            Buffer line = new Buffer(this.writer.Write);
             this.writer.Write(this.Prompt);
             while (this.reader.Next() && !exit)
             {
@@ -64,10 +61,10 @@ namespace Kean.Cli.LineBuffer
                     case (char)0:
                         break;
                     case (char)1: // Home
-                        this.line.MoveCursorHome();
+                        this.history.Current.MoveCursorHome();
                         break;
                     case (char)2: // Left Arrow
-                        this.line.MoveCursorLeft();
+                        this.history.Current.MoveCursorLeft();
                         break;
                     case (char)3: // Copy to clipboard
                         break;
@@ -75,32 +72,32 @@ namespace Kean.Cli.LineBuffer
                         exit = true;
                         break;
                     case (char)5: // End
-                        this.line.MoveCursorEnd();
+                        this.history.Current.MoveCursorEnd();
                         break;
                     case (char)6: // Right Arrow
-                        this.line.MoveCursorRight();
+                        this.history.Current.MoveCursorRight();
                         break;
                     // 7
                     case (char)8: // Backspace
-                        this.line.MoveCursorLeftAndDelete();
+                        this.history.Current.MoveCursorLeftAndDelete();
                         break;
                     case (char)9: // Tab
                         if ((help || this.Complete.IsNull()) && this.Help.NotNull())
                         {
                             this.writer.WriteLine();
-                            this.writer.Write(this.Help(this.line.ToString()));
+                            this.writer.Write(this.Help(this.history.Current.ToString()));
                             this.writer.Write(this.Prompt);
-                            this.line.Write();
+                            this.history.Current.Write();
                         }
                         else if (this.Complete.NotNull())
                         {
-                            string old = this.line.ToString();
+                            string old = this.history.Current.ToString();
                             string result = this.Complete(old);
                             if (result == old)
                                 triggerHelp = true;
                             else
                             {
-                                this.line.Renew(result);
+                                this.history.Current.Renew(result);
                              }
                         }
                         break;
@@ -108,23 +105,21 @@ namespace Kean.Cli.LineBuffer
                         {
 
                             this.writer.WriteLine();
-                            if (this.line.ToString().NotEmpty())
-                                this.history.Add(this.line.ToString());
-							lock (this.@lock)
-								this.executing = true;
-							if (this.Execute.IsNull() || this.Execute(this.line.ToString()))
+                            this.history.Save();
+                            lock (this.@lock)
+                                this.executing = true;
+						    if (this.Execute.IsNull() || this.Execute(this.history.Current.ToString()))
                             {
-                                this.line = new Buffer(this.writer.Write);
+                                this.history.Add();
                                 this.writer.Write(this.Prompt);
                             }
                             else
                             {
                                 this.writer.Write(this.Prompt);
-                                this.line.Write();
+                                this.history.Add();
                             }
-							lock (this.@lock)
-								this.executing = false;
-
+                            lock (this.@lock)
+                                this.executing = false;
                         }
                         break;
                     // 11
@@ -132,18 +127,12 @@ namespace Kean.Cli.LineBuffer
                     case (char)13: // Down Arrow
 
                         if (!this.history.Empty)
-                        {
-                            this.history.Add(this.line.ToString()); 
-                            this.line.Renew(this.history.Next().ToString());
-                        }
-                        break;
+                            this.history.Next();
+                            break;
                     // 14
                     case (char)15: // Up Arrow
                         if (!this.history.Empty)
-                        {
-                            this.history.Add(this.line.ToString());
-                            this.line.Renew(this.history.Previous().ToString());
-                        }
+                            this.history.Previous();
                         break;
                     // 16
                     // 17
@@ -160,37 +149,27 @@ namespace Kean.Cli.LineBuffer
                     case (char)25: // Undo
                         break;
                     default:
-                        this.line.Insert(this.reader.Current);
+                        this.history.Current.Insert(this.reader.Current);
                         break;
                 }
                 help = triggerHelp;
                 triggerHelp = false;
             }
         }
-        public void Write(string value)
-        {
-            lock (this.@lock)
-            {
-                this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
-                this.writer.Write(value);
-                this.oldmessage = value.Length;
-                this.writer.Write(this.Prompt);
-            }
-        }
         public void WriteLine(string value)
         {
             lock (this.@lock)
             {
-				if (this.executing)
-					this.writer.WriteLine(value);
-				else
-				{
-					this.Remove(-this.oldmessage - this.Prompt.Length - this.line.ToString().Length);
-					this.writer.WriteLine(value);
-					this.oldmessage = value.Length;
-					this.writer.Write(this.Prompt);
-					this.line.Write();
-				}
+                if (this.executing)
+                    this.writer.WriteLine(value);
+                else
+                {
+                    this.Remove(-this.oldmessage - this.Prompt.Length - this.history.Current.ToString().Length);
+                    this.writer.WriteLine(value);
+                    this.oldmessage = value.Length;
+                    this.writer.Write(this.Prompt);
+                    this.history.Current.Write();
+                }
             }
         }
         void Remove(int steps)
