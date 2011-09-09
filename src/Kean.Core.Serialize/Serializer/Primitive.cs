@@ -33,12 +33,10 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type.Category == Reflect.TypeCategory.Primitive;
 		}
-
 		protected override Data.Node Serialize<T>(Storage storage, Reflect.Type type, T data)
 		{
 			return new Data.Leaf<T>(data);
 		}
-
 		protected override T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data)
 		{
 			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);

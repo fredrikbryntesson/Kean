@@ -35,9 +35,12 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type.Category == Reflect.TypeCategory.Class;
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
+		protected override T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			throw new NotImplementedException ();
+			T result = type.Create<T>();
+			foreach (Data.Node property in (data as Data.Branch).Nodes)
+				result.Set(property.Name, storage.Serializer.Deserialize<object>(storage, property));
+			return result;
 		}
 		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
 		{
@@ -46,9 +49,7 @@ namespace Kean.Core.Serialize.Serializer
 			{
 				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 				if (attributes.Length == 1)
-				{
-//					Data.Node data = storage
-				}
+					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Data));
 			}
 			return result;
 		}

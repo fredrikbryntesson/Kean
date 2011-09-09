@@ -65,7 +65,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public T Deserialize<T>(Storage storage, Data.Node data)
 		{
-			ISerializer serializer = this.Find(typeof(T));
+			ISerializer serializer = this.Find(data.Type ?? typeof(T));
 			T result = default(T);
 			if (serializer.NotNull())
 				result = serializer.Deserialize<T>(storage, data);

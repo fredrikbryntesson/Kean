@@ -35,17 +35,16 @@ namespace Kean.Core.Serialize
 		{
 			this.Serializer = serializer;
 		}
+		protected abstract bool Store(Data.Node value, params string[] key);
+		public bool Store<T>(T value, params string[] key)
+		{
+			return this.Store(this.Serializer.Serialize(this, value), key);
+		}
 		protected abstract Data.Node Load(params string[] key);
 		public T Load<T>(params string[] key)
 		{
 			Data.Node data = this.Load(key);
-			return this.Serializer.Find(data.Type ?? typeof(T)).Deserialize<T>(this, data);
-		}
-
-		protected abstract bool Store(Data.Node value, params string[] key);
-		public bool Store<T>(T value, params string[] key)
-		{
-			return this.Store(this.Serializer.Find(typeof(T)).Serialize(this, value), key);
+			return this.Serializer.Deserialize<T>(this, data);
 		}
 	}
 }

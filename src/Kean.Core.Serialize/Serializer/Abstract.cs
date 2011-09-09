@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -38,7 +39,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize<T>(Storage storage, T data)
 		{
-			Reflect.Type type = data.GetType();
+			Reflect.Type type = data.Type();
 			Data.Node result = this.Serialize<T>(storage, type, data);
 			if (type != typeof(T))
 				result.Type = type;
