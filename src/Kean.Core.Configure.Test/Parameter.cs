@@ -35,7 +35,7 @@ namespace Kean.Core.Configure.Test
 			Data.Class c = new Data.Class();
 			Expect(c.String, EqualTo(null), this.prefix + "0");
 			Target.Parameter p = new Target.Parameter(c, "String");
-			Expect (p.Value, EqualTo (null), this.prefix + "1");
+			Expect (p.Value, EqualTo ((object)null), this.prefix + "1");
 			p.Value = "test";
 			Expect (p.Value, EqualTo ("test"), this.prefix + "2");
 			Expect (c.String, EqualTo ("test"), this.prefix + "3");

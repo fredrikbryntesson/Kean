@@ -34,6 +34,39 @@ namespace Kean.Core.Reflect
 		Collection.IList<Type> arguments;
 		public Collection.IReadOnlyVector<Type> Arguments { get; private set; }
 
+		TypeCategory? category;
+		public TypeCategory Category
+		{
+			get
+			{
+				if (!this.category.HasValue)
+				{
+					System.Type t = ((System.Type)this);
+					if (t.IsValueType)
+					{
+						if (t.IsPrimitive)
+							this.category = TypeCategory.Primitive;
+						else if (t.IsEnum)
+							this.category = TypeCategory.Enumeration;
+						else
+							this.category = TypeCategory.Structure;
+					}
+					else
+					{
+						if (t.IsPointer)
+							this.category = TypeCategory.Pointer;
+						else if (t.IsInterface)
+							this.category = TypeCategory.Interface;
+						else if (t.IsArray)
+							this.category = TypeCategory.Array;
+						else if (t.IsClass)
+							this.category = TypeCategory.Class;
+					}
+				}
+				return this.category.Value;
+			}
+		}
+
 		System.Type type;
 		#region Constructors
 		Type()

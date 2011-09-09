@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2010-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,10 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Serialize.Data
 {
-	public class Branch
+	public class Branch :
+		Node
 	{
 		public Collection.IList<Node> Nodes { get; private set; }
 		public Branch()

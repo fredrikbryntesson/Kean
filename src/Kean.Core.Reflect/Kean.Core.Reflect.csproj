@@ -52,6 +52,7 @@
     <Compile Include="Parameter.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Type.cs" />
+    <Compile Include="TypeCategory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

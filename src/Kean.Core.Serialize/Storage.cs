@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -46,20 +47,20 @@ namespace Kean.Core.Serialize
 		{
 			return this.Store(this.GetSerializer(typeof(T)).Serialize(this, value), key);
 		}
-		ISerializer GetSerializer(Reflect.Type typeName)
+		ISerializer GetSerializer(Reflect.Type type)
 		{
 			ISerializer result = null;
-			object[] attributes;
-			if (cache.Contains(typeName))
-				result = cache[typeName];
+			if (cache.Contains(type))
+				result = cache[type];
 			else
 			{
-				Type type = (Type) typeName;
-				if (!type.IsPrimitive && (attributes = type.GetCustomAttributes(typeof(MethodAttribute), true)).Length == 1)
+				object[] attributes;
+				Type t = (Type)type; // TODO: Use Reflect.Type instead of System.Type
+				if (!t.IsPrimitive && (attributes = t.GetCustomAttributes(typeof(MethodAttribute), true)).Length == 1)
 					result = (attributes[0] as MethodAttribute).Serializer;
 				else
 					result = this.Serializers.Find(serializer => serializer.Accepts(type));
-				cache[typeName] = result;
+				cache[type] = result;
 			}
 			return result;
 		}

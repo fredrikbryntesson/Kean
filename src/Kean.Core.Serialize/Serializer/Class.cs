@@ -19,6 +19,9 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -38,7 +41,16 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
 		{
-			throw new NotImplementedException ();
+			Data.Branch result = new Data.Branch() { Type = type };
+			foreach (Reflect.Property property in data.GetProperties())
+			{
+				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
+				if (attributes.Length == 1)
+				{
+//					Data.Node data = storage
+				}
+			}
+			return result;
 		}
 	}
 }
