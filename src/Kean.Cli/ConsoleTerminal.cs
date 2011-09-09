@@ -1,5 +1,5 @@
 ﻿// 
-//  Character.cs
+//  ITerminal.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,14 +21,18 @@
 
 using System;
 
-namespace Kean.IO.Device
+namespace Kean.Cli
 {
-	public abstract class Character :
-		Abstract
+	public class ConsoleTerminal :
+		Terminal
 	{
-		protected Character()
-		{
-		}
-
+		#region Constructors
+		public ConsoleTerminal() :
+			this(new ConsoleDevice() { LocalEcho = false })
+		{ }
+		ConsoleTerminal(ConsoleDevice device) :
+			base(device, device)
+		{ }
+		#endregion
 	}
 }

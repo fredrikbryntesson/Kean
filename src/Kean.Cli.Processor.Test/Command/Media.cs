@@ -55,7 +55,7 @@ namespace Kean.Cli.Processor.Test.Command
 		}
 		public event Action<MediaState> StateChanged;
 
-		System.Timers.Timer timer = new System.Timers.Timer(40);
+		System.Timers.Timer timer;
 		TimeSpan position;
 		[Property("position")]
 		[Notify("PositionChanged")]
@@ -75,6 +75,7 @@ namespace Kean.Cli.Processor.Test.Command
 
 		public Media()
 		{
+			this.timer = new System.Timers.Timer(40);
 			this.timer.Elapsed += (sender, e) => this.Position += new TimeSpan(0, 0, 0, 0, 40);
 			this.timer.AutoReset = true;
 		}

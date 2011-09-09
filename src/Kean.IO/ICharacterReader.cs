@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  Reader.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,17 +18,19 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using IO = Kean.IO;
 
-namespace Kean.Cli.Processor.Test
+using System;
+namespace Kean.IO
 {
-	class Program
+	public interface ICharacterReader :
+		IInDevice
 	{
-		static void Main(string[] args)
-		{
-			Editor editor = new Editor(new Command.Application(), new ConsoleTerminal());
-			editor.Read();
-		}
+		string Resource { get; }
+		int Column { get; }
+		int Row { get; }
+
+		char Last { get; }
+
+		bool Next();
 	}
 }

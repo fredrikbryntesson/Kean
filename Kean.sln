@@ -101,6 +101,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Processor", "src\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Processor.Test", "src\Kean.Cli.Processor.Test\Kean.Cli.Processor.Test.csproj", "{473C25A4-F760-4CE7-8783-554471B6E986}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli", "src\Kean.Cli\Kean.Cli.csproj", "{67647070-B042-4905-8F92-FF59E094E048}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -858,6 +860,21 @@ Global
 		{473C25A4-F760-4CE7-8783-554471B6E986}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{473C25A4-F760-4CE7-8783-554471B6E986}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{473C25A4-F760-4CE7-8783-554471B6E986}.Release|x86.ActiveCfg = Release|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Default|x86.ActiveCfg = Debug|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{67647070-B042-4905-8F92-FF59E094E048}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿// 
-//  Abstract.cs
+//  IInDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,12 +21,11 @@
 
 using System;
 
-namespace Kean.IO.Device
+namespace Kean.IO
 {
-	public abstract class Abstract
+	public interface IInDevice :
+		IDevice
 	{
-		protected Abstract()
-		{
-		}
+		bool Empty { get; }
 	}
 }

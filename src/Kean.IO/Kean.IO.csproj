@@ -39,14 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleStream.cs" />
-    <Compile Include="Device\Block.cs" />
-    <Compile Include="Device\Character.cs" />
-    <Compile Include="Device\Abstract.cs" />
-    <Compile Include="Device\Terminal.cs" />
+    <Compile Include="CharacterWriter.cs" />
+    <Compile Include="ICharacterInDevice.cs" />
+    <Compile Include="ICharacterOutDevice.cs" />
+    <Compile Include="ICharacterWriter.cs" />
+    <Compile Include="IDevice.cs" />
+    <Compile Include="IInDevice.cs" />
+    <Compile Include="IOutDevice.cs" />
+    <Compile Include="ICharacterReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reader.cs" />
-    <Compile Include="Stream.cs" />
+    <Compile Include="CharacterReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

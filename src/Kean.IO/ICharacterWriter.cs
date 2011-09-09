@@ -1,5 +1,5 @@
 ﻿// 
-//  Stream.cs
+//  Reader.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,32 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-
 namespace Kean.IO
 {
-	public abstract class Stream :
-		IDisposable
+	public interface ICharacterWriter :
+		IOutDevice
 	{
-		public abstract bool Opened { get; }
-		public abstract bool Ended { get; }
-		protected Stream()
-		{ }
-		~Stream()
-		{
-			(this as IDisposable).Dispose();
-		}
-		public abstract int Read();
-		public abstract int Peek();
-		public abstract void Write(byte value);
-		public abstract void Close();
+		char[] NewLine { get; set; }
 
+		bool Write(char value);
+		bool Write(string value);
+		bool Write<T>(T value) where T : IConvertible;
+		bool Write(char[] buffer);
+		bool Write(char[] buffer, int index, int count);
+		bool Write(string format, params object[] arguments);
 
-		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			if (this.Opened)
-				this.Close();
-		}
-		#endregion
+		bool WriteLine();
+		bool WriteLine(string value);
+		bool WriteLine<T>(T value) where T : IConvertible;
+		bool WriteLine(char[] buffer);
+		bool WriteLine(char[] buffer, int index, int count);
+		bool WriteLine(string format, params object[] arguments);
 	}
 }

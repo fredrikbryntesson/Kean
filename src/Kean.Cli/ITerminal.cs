@@ -1,5 +1,5 @@
 ﻿// 
-//  Block.cs
+//  ITerminal.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,13 +21,13 @@
 
 using System;
 
-namespace Kean.IO.Device
+namespace Kean.Cli
 {
-	public abstract class Block :
-		Abstract
+	public interface ITerminal :
+		IO.ICharacterReader,
+		IO.ICharacterWriter
 	{
-		protected Block()
-		{
-		}
+		bool Readable { get; }
+		bool Writeable { get; }
 	}
 }

@@ -1,5 +1,5 @@
 ﻿// 
-//  Terminal.cs
+//  ICharacterInDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,10 +21,12 @@
 
 using System;
 
-namespace Kean.IO.Device
+namespace Kean.IO
 {
-	public abstract class Terminal :
-		Character
+	public interface ICharacterInDevice :
+		IInDevice
 	{
+		char? Peek();
+		char? Read();
 	}
 }

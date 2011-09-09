@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  IDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,17 +18,15 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using IO = Kean.IO;
 
-namespace Kean.Cli.Processor.Test
+using System;
+
+namespace Kean.IO
 {
-	class Program
+	public interface IDevice :
+		IDisposable
 	{
-		static void Main(string[] args)
-		{
-			Editor editor = new Editor(new Command.Application(), new ConsoleTerminal());
-			editor.Read();
-		}
+		bool Opened { get; }
+		bool Close();
 	}
 }

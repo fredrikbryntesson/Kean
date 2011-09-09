@@ -20,25 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 
-namespace Kean.IO
+namespace Kean.Cli
 {
-	public class ConsoleStream :
-		Stream
+	class ConsoleDevice :
+		IO.ICharacterInDevice,
+		IO.ICharacterOutDevice
 	{
-		System.IO.Stream output;
 		public bool LocalEcho { get; set; }
-		public override bool Opened { get { return true; } }
-		public override bool Ended { get { return false; } }
-		public ConsoleStream()
+		public bool Opened { get { return true; } }
+		public bool Empty { get { return !Console.KeyAvailable; } }
+		public ConsoleDevice()
 		{
 			this.LocalEcho = true;
-			this.output = Console.OpenStandardOutput();
 		}
-		public override int Read()
+		public char? Read()
 		{
 			ConsoleKeyInfo key = Console.ReadKey(!this.LocalEcho);
-			char result = (char)0;
+			char? result = null;
 			switch (key.Key)
 			{
 				case ConsoleKey.Home: result = (char)1; break;
@@ -70,17 +71,24 @@ namespace Kean.IO
 			}
 			return result;
 		}
-		public override int Peek()
+		public char? Peek()
 		{
-			return -1;
+			return null;
 		}
-		public override void Write(byte value)
+		public bool Write(char value)
 		{
-			this.output.WriteByte(value);
+			Console.Write(value);
+			return true;
 		}
-		public override void Close()
+		public bool Close()
 		{
-			this.output.Close();
+			return true;
 		}
+		#region IDisposable Members
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
+		#endregion
 	}
 }

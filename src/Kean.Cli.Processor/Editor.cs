@@ -42,12 +42,9 @@ namespace Kean.Cli.Processor
 		}
 		LineBuffer.Editor lineBuffer;
 
-		public Editor(object root, IO.Stream reader, System.IO.TextWriter writer) :
-			this(root, new IO.Reader(reader), writer)
-		{ }
-		public Editor(object root, IO.Reader reader, System.IO.TextWriter writer)
+		public Editor(object root, ITerminal terminal)
 		{
-			this.lineBuffer = new LineBuffer.Editor(reader, writer);
+			this.lineBuffer = new LineBuffer.Editor(terminal);
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;
