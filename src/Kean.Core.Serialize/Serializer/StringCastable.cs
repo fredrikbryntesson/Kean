@@ -29,9 +29,8 @@ namespace Kean.Core.Serialize.Serializer
 		public StringCastable()
 		{
 		}
-		public override bool Accepts(Type type)
+		protected override bool Accepts(Reflect.Type type)
 		{
-			System.Reflection.MethodInfo toString = this.GetToStringCast(type);
 			return this.GetFromStringCast(type).NotNull() &&
 					this.GetToStringCast(type).NotNull();
 		}

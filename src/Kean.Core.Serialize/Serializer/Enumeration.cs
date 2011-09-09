@@ -28,9 +28,9 @@ namespace Kean.Core.Serialize.Serializer
 		public Enumeration()
 		{
 		}
-		public override bool Accepts(Type type)
+		protected override bool Accepts(Reflect.Type type)
 		{
-			return type.IsEnum;
+			return type.Category == Reflect.TypeCategory.Enumeration;
 		}
 		protected override Data.Node Serialize<T> (Kean.Core.Serialize.Storage storage, Reflect.Type type, T data)
 		{

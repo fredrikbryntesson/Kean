@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -27,42 +26,26 @@ namespace Kean.Core.Serialize
 {
 	public abstract class Storage
 	{
-		Collection.Dictionary<Reflect.Type, ISerializer> cache = new Collection.Dictionary<Reflect.Type, ISerializer>();
-		public Collection.IList<ISerializer> Serializers { get; private set; }
+		public ISerializer Serializer { get; private set; }
 
-		protected Storage()
+		protected Storage(params ISerializer[] serializers) :
+			this(new Serializer.Group(serializers))
+		{ }
+		protected Storage(ISerializer serializer)
 		{
-			this.Serializers = new Collection.List<ISerializer>();
+			this.Serializer = serializer;
 		}
-
-		protected abstract Data.Node Load(string[] key);
+		protected abstract Data.Node Load(params string[] key);
 		public T Load<T>(params string[] key)
 		{
 			Data.Node data = this.Load(key);
-			return this.GetSerializer(data.Type ?? typeof(T)).Deserialize<T>(this, data);
+			return this.Serializer.Find(data.Type ?? typeof(T)).Deserialize<T>(this, data);
 		}
 
-		protected abstract bool Store(Data.Node value, string key);
+		protected abstract bool Store(Data.Node value, params string[] key);
 		public bool Store<T>(T value, params string[] key)
 		{
-			return this.Store(this.GetSerializer(typeof(T)).Serialize(this, value), key);
-		}
-		ISerializer GetSerializer(Reflect.Type type)
-		{
-			ISerializer result = null;
-			if (cache.Contains(type))
-				result = cache[type];
-			else
-			{
-				object[] attributes;
-				Type t = (Type)type; // TODO: Use Reflect.Type instead of System.Type
-				if (!t.IsPrimitive && (attributes = t.GetCustomAttributes(typeof(MethodAttribute), true)).Length == 1)
-					result = (attributes[0] as MethodAttribute).Serializer;
-				else
-					result = this.Serializers.Find(serializer => serializer.Accepts(type));
-				cache[type] = result;
-			}
-			return result;
+			return this.Store(this.Serializer.Find(typeof(T)).Serialize(this, value), key);
 		}
 	}
 }

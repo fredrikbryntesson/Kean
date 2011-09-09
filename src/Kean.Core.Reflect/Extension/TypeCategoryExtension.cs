@@ -1,5 +1,5 @@
 // 
-//  Primitive.cs
+//  TypeCategoryExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Reflect.Extension
 {
-	public class Primitive :
-		Abstract
+	public static class TypeCategoryExtension
 	{
-		public Primitive()
+		public static bool IsValue(this TypeCategory me)
 		{
+			return me == TypeCategory.Primitive || me == TypeCategory.Enumeration || me == TypeCategory.Structure;
 		}
 
-		protected override bool Accepts(Reflect.Type type)
+		public static bool IsReference(this TypeCategory me)
 		{
-			return type.Category == Reflect.TypeCategory.Primitive;
-		}
-
-		protected override Data.Node Serialize<T>(Storage storage, Reflect.Type type, T data)
-		{
-			return new Data.Leaf<T>(data);
-		}
-
-		protected override T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+			return me != TypeCategory.Primitive && me != TypeCategory.Enumeration && me != TypeCategory.Structure;
 		}
 	}
 }

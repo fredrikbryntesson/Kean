@@ -31,9 +31,9 @@ namespace Kean.Core.Serialize.Serializer
 		public Class()
 		{
 		}
-		public override bool Accepts (Type type)
+		protected override bool Accepts (Reflect.Type type)
 		{
-			return !type.IsValueType;
+			return type.Category == Reflect.TypeCategory.Class;
 		}
 		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
 		{

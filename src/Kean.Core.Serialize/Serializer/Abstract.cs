@@ -28,12 +28,15 @@ namespace Kean.Core.Serialize.Serializer
 		protected Abstract()
 		{
 		}
-
+		protected abstract bool Accepts(Reflect.Type type);
 		protected abstract T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data);
-		protected abstract Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data);
+		protected abstract Data.Node Serialize<T>(Storage storage, Reflect.Type type, T data);
 		#region ISerializer implementation
-		public abstract bool Accepts(Type type);
-		public Data.Node Serialize<T> (Storage storage, T data)
+		public ISerializer Find(Reflect.Type type)
+		{
+			return this.Accepts(type) ? this : null;
+		}
+		public Data.Node Serialize<T>(Storage storage, T data)
 		{
 			Reflect.Type type = data.GetType();
 			Data.Node result = this.Serialize<T>(storage, type, data);

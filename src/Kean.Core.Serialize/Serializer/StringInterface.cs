@@ -28,7 +28,7 @@ namespace Kean.Core.Serialize.Serializer
 		public StringInterface()
 		{
 		}
-		public override bool Accepts(Type type)
+		protected override bool Accepts(Reflect.Type type)
 		{
 			return type is IString;
 		}
