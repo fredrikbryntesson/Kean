@@ -7,14 +7,24 @@ namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class Box :
-		Kean.Math.Geometry2D.Test.Abstract.Box<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
+		Kean.Math.Geometry2D.Test.Abstract.Box<Box, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void  Setup()
         {
+            base.Setup(); 
             this.Box0 = new Target.Single.Box(1, 2, 3, 4);
             this.Box1 = new Target.Single.Box(4, 3, 2, 1);
             this.Box2 = new Target.Single.Box(2, 1, 4, 3);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
         }
         protected override float Cast(double value)
         {
@@ -54,21 +64,6 @@ namespace Kean.Math.Geometry2D.Test.Single
             Expect(@integerFromText.Top, Is.EqualTo(20));
             Expect(@integerFromText.Width, Is.EqualTo(30));
             Expect(@integerFromText.Height, Is.EqualTo(40));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Box fixture = new Box();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

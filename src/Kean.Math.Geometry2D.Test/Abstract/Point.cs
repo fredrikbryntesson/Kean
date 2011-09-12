@@ -5,9 +5,10 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Test.Abstract
 {
-	public abstract class Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-		Vector<PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>
-		where TransformType : Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ITransform<V>, new()
+	public abstract class Point<T, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+		Vector<T, PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>
+        where T : Kean.Test.Fixture<T>, new()
+        where TransformType : Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ITransform<V>, new()
 		where TransformValue : struct, Geometry2D.Abstract.ITransform<V>
 		where ShellType : Geometry2D.Abstract.Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IShell<V>, new()
 		where ShellValue : struct, Geometry2D.Abstract.IShell<V>
@@ -20,35 +21,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
 		where R : Kean.Math.Abstract<R, V>, new()
 		where V : struct
 	{
-        [Test]
-        public void GetValues()
-        {
-            Expect(this.Vector0.X, Is.EqualTo(this.Cast(22.221)).Within(this.Precision));
-            Expect(this.Vector0.Y, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision));
-        }
-        [Test]
-        public void Swap()
-        {
-            PointType result = this.Vector0.Swap();
-            Expect(result.X, Is.EqualTo(this.Vector0.Y));
-            Expect(result.Y, Is.EqualTo(this.Vector0.X));
-        }
-        [Test]
-        public void Casting()
-        {
-            string value = "10 20";
-            Expect(this.CastToString(this.Vector3), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(this.Vector3));
-        }
-        [Test]
-        public void CastingNull()
-        {
-            string value = null;
-            PointType point = null;
-            Expect(this.CastToString(point), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(point));
-        }
-        public void Run()
+        protected override void Run()
         {
             this.Run(
                 this.Equality,
@@ -60,6 +33,35 @@ namespace Kean.Math.Geometry2D.Test.Abstract
                 this.Casting,
                 this.CastingNull
                 );
+        }
+        string prefix = "Kean.Math.Geometry2D.Test.Abstract.Point.";
+        [Test]
+        public void GetValues()
+        {
+            Expect(this.Vector0.X, Is.EqualTo(this.Cast(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+            Expect(this.Vector0.Y, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+        }
+        [Test]
+        public void Swap()
+        {
+            PointType result = this.Vector0.Swap();
+            Expect(result.X, Is.EqualTo(this.Vector0.Y), this.prefix + "Swap.0");
+            Expect(result.Y, Is.EqualTo(this.Vector0.X), this.prefix + "Swap.1");
+        }
+        [Test]
+        public void Casting()
+        {
+            string value = "10 20";
+            Expect(this.CastToString(this.Vector3), Is.EqualTo(value), this.prefix + "Casting.0");
+            Expect(this.CastFromString(value), Is.EqualTo(this.Vector3), this.prefix + "Casting.1");
+        }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            PointType point = null;
+            Expect(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
+            Expect(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
     }
 }

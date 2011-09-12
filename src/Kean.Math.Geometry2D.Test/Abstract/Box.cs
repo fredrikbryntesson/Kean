@@ -5,8 +5,9 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Geometry2D.Test.Abstract
 {
-    public abstract class Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-        AssertionHelper
+    public abstract class Box<T, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
 		where TransformType : Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ITransform<V>, new()
 		where TransformValue : struct, Geometry2D.Abstract.ITransform<V>
 		where ShellType : Geometry2D.Abstract.Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IShell<V>, new()
@@ -21,8 +22,15 @@ namespace Kean.Math.Geometry2D.Test.Abstract
 		where V : struct
 	{
         protected float Precision { get { return 1e-4f; } }
+        protected override void  Run()
+        {
+            this.Run(
+                this.LeftTop,
+                this.Size);
+        }
+        string prefix = "Kean.Math.Geometry2D.Test.Abstract.Box.";
         protected abstract V Cast(double value);
-
+    
         protected BoxType Box0 { get; set; }
         protected BoxType Box1 { get; set; }
         protected BoxType Box2 { get; set; }
@@ -44,15 +52,15 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         public void LeftTop()
         {
             PointType leftTop = this.Box0.LeftTop;
-            Expect(leftTop.X, Is.EqualTo(1));
-            Expect(leftTop.Y, Is.EqualTo(2));
+            Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+            Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
         }
         [Test]
         public void Size()
         {
             SizeType size = this.Box0.Size;
-            Expect(size.Width, Is.EqualTo(3));
-            Expect(size.Height, Is.EqualTo(4));
+            Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+            Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
         }
         #region Arithmetic
         [Test]
@@ -68,16 +76,5 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         {
         }
         #endregion
-        public void Run()
-        {
-            this.Run(this.LeftTop, this.Size);
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-
     }
 }

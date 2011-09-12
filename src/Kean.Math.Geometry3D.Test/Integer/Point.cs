@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
 {
     [TestFixture]
     public class Point :
-        Kean.Math.Geometry3D.Test.Abstract.Point<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
+        Kean.Math.Geometry3D.Test.Abstract.Point<Point, Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
         protected override Target.Integer.Point CastFromString(string value)
         {
@@ -18,12 +18,20 @@ namespace Kean.Math.Geometry3D.Test.Integer
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Vector0 = new Target.Integer.Point(22, -3, 10);
             this.Vector1 = new Target.Integer.Point(12, 13, 20);
             this.Vector2 = new Target.Integer.Point(34, 10, 30);
         }
+        public void Run()
+        {
+            base.Run();
+            this.Run(
+                this.ValueStringCasts
+                );
+        }
+
         protected override int Cast(double value)
         {
             return (int)value;
@@ -37,19 +45,6 @@ namespace Kean.Math.Geometry3D.Test.Integer
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
             Expect(@integerFromText.Z, Is.EqualTo(30));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Point fixture = new Point();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

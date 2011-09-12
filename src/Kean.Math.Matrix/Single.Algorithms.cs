@@ -69,18 +69,25 @@ namespace Kean.Math.Matrix
                 new Exception.InvalidDimensions();
             int order = this.Dimensions.Width;
             Single result = this.Copy();
-            for (int j = 0; j < order; j++)
+            try
             {
-                if (j > 0)
-                    result.Set(j, j, result.Extract(j, j + 1, j, order) - result.Extract(0, j, j, order) * result.Extract(0, j, j, j + 1).Transpose());
-                float value = result[j, j];
-                if (value <= 0)
-                    throw new Exception.NonPositive();
-                result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Single.SquareRoot(value));
+                for (int j = 0; j < order; j++)
+                {
+                    if (j > 0)
+                        result.Set(j, j, result.Extract(j, j + 1, j, order) - result.Extract(0, j, j, order) * result.Extract(0, j, j, j + 1).Transpose());
+                    float value = result[j, j];
+                    if (value <= 0)
+                        throw new Exception.NonPositive();
+                    result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Single.SquareRoot(value));
+                }
+                for (int y = 0; y < order; y++)
+                    for (int x = y + 1; x < order; x++)
+                        result[x, y] = 0;
             }
-            for (int y = 0; y < order; y++)
-                for (int x = y + 1; x < order; x++)
-                    result[x, y] = 0;
+            catch (Kean.Core.Error.Exception e)
+            {
+                result = null; 
+            }
             return result;
         }
         /// <summary>

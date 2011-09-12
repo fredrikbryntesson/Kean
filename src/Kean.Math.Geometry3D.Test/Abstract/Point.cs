@@ -5,8 +5,9 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-        Vector<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>
+    public abstract class Point<T, TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Vector<T, TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>
+        where T : Kean.Test.Fixture<T>, new()
         where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
         where PointValue : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
@@ -16,6 +17,20 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.GetValues,
+                this.ScalarProduct,
+                this.CrossProduct,
+                this.Casting,
+                this.CastingNull
+                );
+        }
         [Test]
         public void GetValues()
         {
@@ -51,20 +66,6 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             PointType point = null;
             Expect(this.CastToString(point), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(point));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.GetValues,
-                this.ScalarProduct,
-                this.CrossProduct,
-                this.Casting,
-                this.CastingNull
-                );
         }
     }
 }

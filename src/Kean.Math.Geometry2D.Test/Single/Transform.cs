@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class Transform :
-		Kean.Math.Geometry2D.Test.Abstract.Transform<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
+        Kean.Math.Geometry2D.Test.Abstract.Transform<Transform, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
         protected override Target.Single.Transform CastFromString(string value)
         {
@@ -18,7 +18,7 @@ namespace Kean.Math.Geometry2D.Test.Single
             return (string)value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Transform0 = new Target.Single.Transform(1, 4, 2, 5, 3, 6);
             this.Transform1 = new Target.Single.Transform(7, 4, 2, 5, 7, 6);
@@ -28,8 +28,17 @@ namespace Kean.Math.Geometry2D.Test.Single
             this.Point0 = new Target.Single.Point(-7, 3);
             this.Point1 = new Target.Single.Point(2, -7);
             this.Size0 = new Target.Single.Size(10, 10);
-
         }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
+        }
+
         protected override float Cast(double value)
         {
             return (float)value;
@@ -74,21 +83,6 @@ namespace Kean.Math.Geometry2D.Test.Single
             Expect(@integerFromText.D, Is.EqualTo(40));
             Expect(@integerFromText.E, Is.EqualTo(50));
             Expect(@integerFromText.F, Is.EqualTo(60));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Transform fixture = new Transform();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

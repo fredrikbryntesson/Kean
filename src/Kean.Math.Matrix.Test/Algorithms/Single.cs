@@ -7,9 +7,22 @@ using Target = Kean.Math.Matrix.Single;
 namespace Kean.Math.Matrix.Test.Algorithms
 {
     public class Single :
-        AssertionHelper
+        Kean.Test.Fixture<Single>
     {
-        string prefix = "Kean.Math.Matrix.Test.Algorithms.Single";
+        protected override void Run()
+        {
+            this.Run(
+                this.Cholesky1,
+                this.Cholesky2,
+                this.DeterminantAndTrace,
+                this.Inverse1,
+                this.Inverse2,
+                this.LeastSquare1,
+                this.LeastSquare2,
+                this.LeastSquare3
+                );
+        }
+        string prefix = "Kean.Math.Matrix.Test.Algorithms.Single.";
         #region Matrix invariants
         [Test]
         public void DeterminantAndTrace()
@@ -36,6 +49,7 @@ namespace Kean.Math.Matrix.Test.Algorithms
         {
             Target a = new Target(5, 5);
             Target b = a.Inverse();
+            Expect(b.IsNull(), Is.True, this.prefix + "Inverse1.0");
         }
         [Test]
         public void Inverse2()
@@ -77,7 +91,7 @@ namespace Kean.Math.Matrix.Test.Algorithms
             Target x = aa.Solve(yy);
             watch.Stop();
             long timeLup = watch.ElapsedMilliseconds;
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(6.5f), this.prefix + "LeastSquare2.1");
+            Expect(x.Distance(correct), Is.EqualTo(0).Within(6.5f), this.prefix + "LeastSquare2.0");
           //  Console.WriteLine("Time Lup " + timeLup);
             
         }
@@ -97,7 +111,7 @@ namespace Kean.Math.Matrix.Test.Algorithms
             Target x = aa.Solve(yy);
             watch.Stop();
             long timeLup = watch.ElapsedMilliseconds;
-            Expect(x.Distance(correct), Is.EqualTo(0).Within(7e-4f), this.prefix + "LeastSquare3.1");
+            Expect(x.Distance(correct), Is.EqualTo(0).Within(7e-4f), this.prefix + "LeastSquare3.0");
          //   Console.WriteLine("Regression sample. Error " + x.Distance(correct) + " Time Lup " + timeLup);
 
         }
@@ -107,13 +121,8 @@ namespace Kean.Math.Matrix.Test.Algorithms
         public void Cholesky1()
         {
             Target a = new Target(5, 5);
-            try
-            {
-                Target b = a.Cholesky();
-            }
-            catch (Kean.Core.Error.Exception e)
-            {
-            }
+            Target b = a.Cholesky();
+            Expect(b.IsNull(), Is.True, this.prefix + "Cholesky1.0");
         }
         [Test]
         public void Cholesky2()
@@ -125,30 +134,5 @@ namespace Kean.Math.Matrix.Test.Algorithms
             Expect(d.Transpose() * d, Is.EqualTo(a), this.prefix + "Cholesky2.1");
         }
         #endregion
-    
-        public void Run()
-        {
-            this.Run(
-                this.Cholesky1,
-                this.Cholesky2,
-                this.DeterminantAndTrace,
-                this.Inverse1,
-                this.Inverse2,
-                this.LeastSquare1,
-                this.LeastSquare2,
-                this.LeastSquare3
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Single fixture = new Single();
-            fixture.Run();
-        }
     }
 }

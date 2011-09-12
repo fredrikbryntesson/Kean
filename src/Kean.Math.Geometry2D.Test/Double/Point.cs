@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Double
 {
     [TestFixture]
     public class Point :
-		Kean.Math.Geometry2D.Test.Abstract.Point<Target.Double.Transform, Target.Double.TransformValue, Target.Double.Shell, Target.Double.ShellValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
+        Kean.Math.Geometry2D.Test.Abstract.Point<Point, Target.Double.Transform, Target.Double.TransformValue, Target.Double.Shell, Target.Double.ShellValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
     {
         protected override Target.Double.Point CastFromString(string value)
         {
@@ -18,11 +18,28 @@ namespace Kean.Math.Geometry2D.Test.Double
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup();
             this.Vector0 = new Target.Double.Point(22.221f, -3.1f);
             this.Vector1 = new Target.Double.Point(12.221f, 13.1f);
             this.Vector2 = new Target.Double.Point(34.442f, 10.0f);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Polar0,
+                this.Polar1,
+                this.Polar2,
+                this.Polar3,
+                this.Polar4,
+                this.Polar5,
+                this.Angles,
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
         }
         protected override double Cast(double value)
         {
@@ -39,7 +56,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Polar1()
         {
-            Target.Double.Point point = new Target.Double.Point(1,0);
+            Target.Double.Point point = new Target.Double.Point(1, 0);
             Expect(point.Norm.Value, Is.EqualTo(1));
             Expect(point.Azimuth.Value, Is.EqualTo(0));
         }
@@ -77,10 +94,10 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Angles()
         {
-			Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX).Value, Is.EqualTo(0).Within(this.Precision));
-			Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY).Value, Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-			Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY).Value, Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-			Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX).Value, Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX).Value, Is.EqualTo(0).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY).Value, Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY).Value, Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX).Value, Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()
@@ -128,28 +145,6 @@ namespace Kean.Math.Geometry2D.Test.Double
             Target.Single.PointValue @integerFromText = "10 20";
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
-        }
-        public void Run()
-        {
-            this.Run(
-                base.Run,
-                this.Polar0,
-                this.Polar1,
-                this.Polar2,
-                this.Polar3,
-                this.Polar4,
-                this.Polar5,
-                this.Angles,
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts
-                );
-        }
-        public static void Test()
-        {
-            Point fixture = new Point();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

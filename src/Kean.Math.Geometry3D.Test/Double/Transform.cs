@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 {
     [TestFixture]
     public class Transform :
-        Kean.Math.Geometry3D.Test.Abstract.Transform<Kean.Math.Geometry3D.Double.Transform, Kean.Math.Geometry3D.Double.TransformValue, Kean.Math.Geometry3D.Double.Point, Kean.Math.Geometry3D.Double.PointValue, Kean.Math.Geometry3D.Double.Size, Kean.Math.Geometry3D.Double.SizeValue, Kean.Math.Double, double>
+        Kean.Math.Geometry3D.Test.Abstract.Transform<Transform, Kean.Math.Geometry3D.Double.Transform, Kean.Math.Geometry3D.Double.TransformValue, Kean.Math.Geometry3D.Double.Point, Kean.Math.Geometry3D.Double.PointValue, Kean.Math.Geometry3D.Double.Size, Kean.Math.Geometry3D.Double.SizeValue, Kean.Math.Double, double>
     {
         protected override Kean.Math.Geometry3D.Double.Transform CastFromString(string value)
         {
@@ -18,7 +18,7 @@ namespace Kean.Math.Geometry3D.Test.Double
             return (string)value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Transform0 = new Kean.Math.Geometry3D.Double.Transform(-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
             this.Transform1 = new Kean.Math.Geometry3D.Double.Transform(-1, 2, 3, 4, 5, 6, 7, 8, -5, 10, 11, 12);
@@ -26,6 +26,15 @@ namespace Kean.Math.Geometry3D.Test.Double
             this.Transform3 = new Kean.Math.Geometry3D.Double.Transform(-0.5f, 1, -0.5f, 1, -5, 3, -0.5f, 3.66666666666666f, -2.16666666666667f, 0, 1, -2);
             this.Point0 = new Kean.Math.Geometry3D.Double.Point(34, 10, 30);
             this.Point1 = new Kean.Math.Geometry3D.Double.Point(226, 369, 444);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.InverseTransform1,
+                this.InverseTransform2,
+                this.InverseTransform3
+                );
         }
         protected override double Cast(double value)
         {
@@ -61,27 +70,6 @@ namespace Kean.Math.Geometry3D.Test.Double
             Kean.Math.Matrix.Double transformInverseMatrix1 = transformMatrix.Inverse();
             Kean.Math.Matrix.Double transformInverseMatrix2 = (Kean.Math.Matrix.Double)(double[,])(this.Transform0.Inverse);
             Expect(transformInverseMatrix1.Distance(transformInverseMatrix2), Is.LessThan(0.0000001));
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public void Run()
-        {
-            this.Run(
-                base.Run,
-                this.InverseTransform1,
-                this.InverseTransform2,
-                this.InverseTransform3
-                );
-        }
-        public static void Test()
-        {
-            Transform fixture = new Transform();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

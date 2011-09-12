@@ -9,8 +9,16 @@ using Collection = Kean.Core.Collection;
 namespace Kean.Math.Regression.Test.Ransac
 {
     public class Double :
-        AssertionHelper
+        Kean.Test.Fixture<Double>
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.RobustPolynomialRegression,
+                this.TranslationRegression,
+                this.ScaleRotationTranslationRegression
+                );
+        }
         string prefix = "Kean.Math.Regression.Test.Ransac.Double.";
         [Test]
         public void RobustPolynomialRegression()
@@ -48,12 +56,12 @@ namespace Kean.Math.Regression.Test.Ransac
                 Metric = (y1, y2) => Kean.Math.Double.Squared(y1 - y2)
             };
             Target.Estimator<double, double, Kean.Math.Matrix.Double> estimate =
-                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 100,0.9999999);
+                new Target.Estimator<double, double, Kean.Math.Matrix.Double>(model, 100, 0.9999999);
             Collection.IList<Kean.Core.Tuple<double, double>> points =
                 new Collection.List<Kean.Core.Tuple<double, double>>();
-            Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5, 10});
+            Kean.Math.Matrix.Double coefficients = new Kean.Math.Matrix.Double(1, degree, new double[] { 20, 10, 5, 10 });
             Kean.Math.Random.Double.Normal generator = new Kean.Math.Random.Double.Normal(0, 30);
-            for (double x = -10; x < 10; x+=0.1)
+            for (double x = -10; x < 10; x += 0.1)
             {
                 double y = map(coefficients, x) + generator.Generate();
                 points.Add(Kean.Core.Tuple.Create<double, double>(x, y));
@@ -61,7 +69,7 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(points);
             Target.Estimation<double, double, Kean.Math.Matrix.Double> best = estimate.Compute();
             if (best.NotNull())
-                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(20), this.prefix + "RobustPolynomialRegression");
+                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(20), this.prefix + "RobustPolynomialRegression.0");
             /*
             if (best.NotNull())
             {
@@ -112,7 +120,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     Kean.Math.Matrix.Double a = new Kean.Math.Matrix.Double(4, 2 * count);
                     Kean.Math.Matrix.Double b = new Kean.Math.Matrix.Double(1, 2 * count);
                     int j = 0;
-                    for(int i = 0; i < count; i++)
+                    for (int i = 0; i < count; i++)
                     {
                         Geometry2D.Double.PointValue previous = data[i].Item1;
                         Geometry2D.Double.PointValue y = data[i].Item2;
@@ -141,10 +149,10 @@ namespace Kean.Math.Regression.Test.Ransac
             double thetaAngle = Kean.Math.Double.ToRadians(5);
             double xTranslation = 7;
             double yTranslation = 10;
-            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0,1);
+            Kean.Math.Random.Double.Normal normal = new Kean.Math.Random.Double.Normal(0, 1);
             Kean.Core.Collection.IList<Geometry2D.Double.PointValue> previousPoints = new Kean.Core.Collection.List<Geometry2D.Double.PointValue>();
-            for (int x = -100; x < 100; x+=20)
-                for (int y = -100; y < 100; y+=20)
+            for (int x = -100; x < 100; x += 20)
+                for (int y = -100; y < 100; y += 20)
                     previousPoints.Add(new Geometry2D.Double.PointValue(x, y));
             for (int i = 0; i < previousPoints.Count; i++)
             {
@@ -161,9 +169,9 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue>(new Geometry2D.Double.PointValue(130, 130), new Geometry2D.Double.PointValue(720, 70)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Kean.Math.Matrix.Double> best = estimate.Compute();
-            Matrix.Double correct = new Matrix.Double(1,4, new double[] {s * Kean.Math.Double.Cosinus(thetaAngle),s * Kean.Math.Double.Sinus(thetaAngle), xTranslation, yTranslation});
+            Matrix.Double correct = new Matrix.Double(1, 4, new double[] { s * Kean.Math.Double.Cosinus(thetaAngle), s * Kean.Math.Double.Sinus(thetaAngle), xTranslation, yTranslation });
             if (best.NotNull())
-                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression");
+                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression.0");
             /*
             if (best.NotNull())
             {
@@ -257,7 +265,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 {
                     int count = data.Count;
                     Geometry2D.Double.PointValue result = new Geometry2D.Double.PointValue();
-                    for(int i = 0; i < count; i++)
+                    for (int i = 0; i < count; i++)
                         result += data[i].Item2 - data[i].Item1;
                     result.X /= (double)count;
                     result.Y /= (double)count;
@@ -291,58 +299,38 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> best = estimate.Compute();
             if (best.NotNull())
-                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(1), this.prefix + "TranslationRegression");
-           /*
-            if (best.NotNull())
-            {
-                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
-                file.WriteLine("clear all;");
-                file.WriteLine("close all;");
-                string before = "";
-                string after = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in previousCurrentPoints)
-                {
-                    before += point.Item1.ToString() + "; ";
-                    after += point.Item2.ToString() + "; ";
-                }
-                before = before.TrimEnd(';');
-                after = after.TrimEnd(';');
-                file.WriteLine("before = [" + before + "];");
-                file.WriteLine("after = [" + after + "];");
-                file.WriteLine("scatter(before(:,1),before(:,2),'b');");
-                file.WriteLine("hold on;");
-                file.WriteLine("scatter(after(:,1),after(:,2),'r');");
-                string consensus = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.Inliers)
-                    consensus += point.Item2.ToString() + "; ";
-                consensus = consensus.TrimEnd(';');
-                file.WriteLine("consensus = [" + consensus + "];");
-                file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
-                file.WriteLine("bestmodel = [" + Kean.Math.Double.ToString(best.Mapping.X) + " " + Kean.Math.Double.ToString(best.Mapping.Y) + "];");
-                file.WriteLine("xlabel(strcat(' x= ', num2str(bestmodel(1)), ' y= ', num2str(bestmodel(2))))");
-                file.Close();
-            }
-            */
+                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(1), this.prefix + "TranslationRegression.0");
+            /*
+             if (best.NotNull())
+             {
+                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+                 file.WriteLine("clear all;");
+                 file.WriteLine("close all;");
+                 string before = "";
+                 string after = "";
+                 foreach (Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in previousCurrentPoints)
+                 {
+                     before += point.Item1.ToString() + "; ";
+                     after += point.Item2.ToString() + "; ";
+                 }
+                 before = before.TrimEnd(';');
+                 after = after.TrimEnd(';');
+                 file.WriteLine("before = [" + before + "];");
+                 file.WriteLine("after = [" + after + "];");
+                 file.WriteLine("scatter(before(:,1),before(:,2),'b');");
+                 file.WriteLine("hold on;");
+                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
+                 string consensus = "";
+                 foreach (Kean.Core.Tuple<Geometry2D.Double.PointValue, Geometry2D.Double.PointValue> point in best.Inliers)
+                     consensus += point.Item2.ToString() + "; ";
+                 consensus = consensus.TrimEnd(';');
+                 file.WriteLine("consensus = [" + consensus + "];");
+                 file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
+                 file.WriteLine("bestmodel = [" + Kean.Math.Double.ToString(best.Mapping.X) + " " + Kean.Math.Double.ToString(best.Mapping.Y) + "];");
+                 file.WriteLine("xlabel(strcat(' x= ', num2str(bestmodel(1)), ' y= ', num2str(bestmodel(2))))");
+                 file.Close();
+             }
+             */
         }
-        public void Run()
-        {
-            this.Run(
-                this.RobustPolynomialRegression,
-                this.TranslationRegression,
-                this.ScaleRotationTranslationRegression
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Double fixture = new Double();
-            fixture.Run();
-        }
-
     }
 }

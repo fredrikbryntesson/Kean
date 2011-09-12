@@ -7,16 +7,27 @@ namespace Kean.Math.Geometry3D.Test.Double
 {
     [TestFixture]
     public class Box :
-        Kean.Math.Geometry3D.Test.Abstract.Box<Target.Double.Transform, Target.Double.TransformValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue,
+        Kean.Math.Geometry3D.Test.Abstract.Box<Box, Target.Double.Transform, Target.Double.TransformValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue,
         Kean.Math.Double, double>
     {
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup();
             this.Box0 = new Target.Double.Box(1, 2, 3, 4, 5, 6);
             this.Box1 = new Target.Double.Box(4, 3, 2, 1, 5, 6);
             this.Box2 = new Target.Double.Box(2, 1, 4, 3, 5, 6);
         }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
+        }
+  
         protected override double Cast(double value)
         {
             return (double)value;
@@ -88,21 +99,6 @@ namespace Kean.Math.Geometry3D.Test.Double
             Expect(@doubleFromText.Height, Is.EqualTo(50));
             Expect(@doubleFromText.Depth, Is.EqualTo(60));
      
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Box fixture = new Box();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

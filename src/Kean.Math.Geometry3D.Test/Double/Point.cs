@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 {
     [TestFixture]
     public class Point :
-        Kean.Math.Geometry3D.Test.Abstract.Point<Target.Double.Transform, Target.Double.TransformValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
+        Kean.Math.Geometry3D.Test.Abstract.Point<Point, Target.Double.Transform, Target.Double.TransformValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
     {
         protected override Target.Double.Point CastFromString(string value)
         {
@@ -18,11 +18,28 @@ namespace Kean.Math.Geometry3D.Test.Double
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Vector0 = new Target.Double.Point(22, -3, 10);
             this.Vector1 = new Target.Double.Point(12, 13, 20);
             this.Vector2 = new Target.Double.Point(34, 10, 30);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Sphere0,
+                this.Sphere1,
+                this.Sphere2,
+                this.Sphere3,
+                this.Sphere4,
+                this.Sphere5,
+                this.Sphere6,
+                this.Norm,
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
         }
         [Test]
         public void Norm()
@@ -145,28 +162,6 @@ namespace Kean.Math.Geometry3D.Test.Double
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
             Expect(@integerFromText.Z, Is.EqualTo(30));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Sphere0,
-                this.Sphere1,
-                this.Sphere2,
-                this.Sphere3,
-                this.Sphere4,
-                this.Sphere5,
-                this.Sphere6,
-                this.Norm,
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts
-                );
-        }
-        public static void Test()
-        {
-            Point fixture = new Point();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

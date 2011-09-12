@@ -10,8 +10,15 @@ using Matrix = Kean.Math.Matrix;
 namespace Kean.Math.Regression.Test.Minimization
 {
     public class Single :
-        AssertionHelper
+        Kean.Test.Fixture<Single>
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.LevenbergMarquardt1,
+                this.LevenbergMarquardt2
+                );
+        }
         string prefix = "Kean.Math.Regression.Test.Minimization.Single.";
         [Test]
         public void LevenbergMarquardt1()
@@ -47,24 +54,6 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Single iterative = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
             Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(7f), this.prefix + "LevenbergMarquardt2.0");
             Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
-        }
-        public void Run()
-        {
-            this.Run(
-                this.LevenbergMarquardt1,
-                this.LevenbergMarquardt2
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Single fixture = new Single();
-            fixture.Run();
         }
 
     }

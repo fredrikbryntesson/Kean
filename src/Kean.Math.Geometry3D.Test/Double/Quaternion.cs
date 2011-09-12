@@ -9,7 +9,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 
     [TestFixture]
     public class Quaternion :
-        AssertionHelper
+        Kean.Test.Fixture<Quaternion>
     {
         Target.Quaternion q0;
         Target.Quaternion q1;
@@ -17,8 +17,45 @@ namespace Kean.Math.Geometry3D.Test.Double
         Target.Quaternion q3;
         Target.Point p0;
         Target.Point p1;
-
         public double Precision { get { return 1e-5; } }
+        [TestFixtureSetUp]
+        public override void Setup()
+        {
+            this.q0 = new Target.Quaternion(33, 10, -12, 54.5f);
+            this.q1 = new Target.Quaternion(10, 17, -10, 14.5f);
+            this.q2 = new Target.Quaternion(43, 27, -22, 69);
+            this.q3 = new Target.Quaternion(-750.25f, 1032, 331.5f, 1127.5f);
+            this.p0 = new Target.Point(22.221f, -3.1f, 10);
+            this.p1 = new Target.Point(12.221f, 13.1f, 20);
+        }
+        protected override void Run()
+        {
+            this.Run(
+                this.RollPitchYaw,
+                this.Action,
+                this.Action2,
+                this.ActionOnVector,
+                this.Addition,
+                this.Casting,
+                this.CastingNull,
+                this.CastToTransform,
+                this.CastToTransformMultiplication,
+                this.Equality,
+                this.GetValues,
+                this.InverseMatrix,
+                this.LogarithmExponential,
+                this.Multitplication,
+                this.Norm,
+                this.Pitch,
+                this.Roll,
+                this.RotationDirectionRepresentation1,
+                this.RotationDirectionRepresentation2,
+                this.RotationDirectionRepresentation3,
+                this.RotationDirectionRepresentation4,
+                this.Yaw,
+                this.SplitOutRotation
+                );
+        }
 
         double Cast(double value)
         {
@@ -122,17 +159,6 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Quaternion quaternion = null;
             Expect(this.CastToString(quaternion), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(quaternion));
-        }
-
-        [TestFixtureSetUp]
-        public virtual void FixtureSetup()
-        {
-            this.q0 = new Target.Quaternion(33, 10, -12, 54.5f);
-            this.q1 = new Target.Quaternion(10, 17, -10, 14.5f);
-            this.q2 = new Target.Quaternion(43, 27, -22, 69);
-            this.q3 = new Target.Quaternion(-750.25f, 1032, 331.5f, 1127.5f);
-            this.p0 = new Target.Point(22.221f, -3.1f, 10);
-            this.p1 = new Target.Point(12.221f, 13.1f, 20);
         }
         [Test]
         public void InverseMatrix()
@@ -276,9 +302,9 @@ namespace Kean.Math.Geometry3D.Test.Double
         [Test]
         public void RollPitchYaw()
         {
-            for (double r = -180; r < 180; r += 10)
-                for (double p = -90; p <= 90; p += 10)
-                    for (double y = -180; y < 180; y += 10)
+            for (double r = -180; r < 180; r += 30)
+                for (double p = -90; p <= 90; p += 30)
+                    for (double y = -180; y < 180; y += 30)
                     {
                         if (p != 90 && p != -90)
                         {
@@ -299,12 +325,12 @@ namespace Kean.Math.Geometry3D.Test.Double
         [Test]
         public void SplitOutRotation()
         {
-            for (double r = -180; r < 180; r += 30)
-                for (double p = -90; p <= 90; p += 30)
-                    for (double y = -180; y < 180; y += 30)
-                        for (double pp = -90; pp <= 90; pp += 30)
-                            for (double yy = -180; yy < 180; yy += 30)
-                                if (p != 90 && p != -90 && pp != 90 && pp != -90)
+            for (double r = -180; r < 180; r += 45)
+                for (double p = -90; p <= 90; p += 45)
+                    for (double y = -180; y < 180; y += 45)
+                        for (double pp = -90; pp <= 90; pp += 45)
+                            for (double yy = -180; yy < 180; yy += 45)
+                                if (p != 90 && p != -90 && pp != 90 && pp != -45)
                                 {
                                     Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(Kean.Math.Double.ToRadians(y)) * Target.Quaternion.CreateRotationY(Kean.Math.Double.ToRadians(p)) * Target.Quaternion.CreateRotationX(Kean.Math.Double.ToRadians(r));
                                     Target.Quaternion noRotation = Target.Quaternion.CreateRotationZ(Kean.Math.Double.ToRadians(yy)) * Target.Quaternion.CreateRotationY(Kean.Math.Double.ToRadians(pp)) * Target.Quaternion.CreateRotationX(0);
@@ -323,47 +349,6 @@ namespace Kean.Math.Geometry3D.Test.Double
         double AngleDistance(double a, double b)
         {
             return (Kean.Math.Geometry2D.Double.Point.Polar(1, a) - Kean.Math.Geometry2D.Double.Point.Polar(1, b)).Norm;
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-
-        public void Run()
-        {
-            this.Run(
-                this.SplitOutRotation,
-                this.RollPitchYaw,
-                this.Action,
-                this.Action2,
-                this.ActionOnVector,
-                this.Addition,
-                this.Casting,
-                this.CastingNull,
-                this.CastToTransform,
-                this.CastToTransformMultiplication,
-                this.Equality,
-                this.GetValues,
-                this.InverseMatrix,
-                this.LogarithmExponential,
-                this.Multitplication,
-                this.Norm,
-                this.Pitch,
-                this.Roll,
-                this.RotationDirectionRepresentation1,
-                this.RotationDirectionRepresentation2,
-                this.RotationDirectionRepresentation3,
-                this.RotationDirectionRepresentation4,
-                this.Yaw
-                );
-        }
-        public static void Test()
-        {
-            Quaternion fixture = new Quaternion();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

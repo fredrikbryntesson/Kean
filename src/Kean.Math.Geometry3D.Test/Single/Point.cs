@@ -6,7 +6,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 {
     [TestFixture]
     public class Point :
-        Kean.Math.Geometry3D.Test.Abstract.Point<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
+        Kean.Math.Geometry3D.Test.Abstract.Point<Point, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
         protected override Target.Single.Point CastFromString(string value)
         {
@@ -17,11 +17,21 @@ namespace Kean.Math.Geometry3D.Test.Single
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Vector0 = new Target.Single.Point(22, -3, 10);
             this.Vector1 = new Target.Single.Point(12, 13, 20);
             this.Vector2 = new Target.Single.Point(34, 10, 30);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts,
+                this.Norm
+                );
         }
         [Test]
         public void Norm()
@@ -64,21 +74,6 @@ namespace Kean.Math.Geometry3D.Test.Single
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
             Expect(@integerFromText.Z, Is.EqualTo(30));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                this.Norm
-                );
-        }
-        public static void Test()
-        {
-            Point fixture = new Point();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

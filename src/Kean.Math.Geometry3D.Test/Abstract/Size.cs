@@ -5,8 +5,9 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Size<TransformType, TransformValue, SizeType, SizeValue, R, V> :
-        Vector<TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>
+    public abstract class Size<T, TransformType, TransformValue, SizeType, SizeValue, R, V> :
+        Vector<T, TransformType, TransformValue, SizeType, SizeValue, SizeType, SizeValue, R, V>
+        where T : Kean.Test.Fixture<T>, new()
         where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
         where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
         where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.IVector<V>, new()
@@ -14,6 +15,18 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.GetValues,
+                this.Casting,
+                this.CastingNull
+                );
+        }
         [Test]
         public void GetValues()
         {
@@ -35,18 +48,6 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             SizeType size = null;
             Expect(this.CastToString(size), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(size));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.GetValues,
-                this.Casting,
-                this.CastingNull
-                );
         }
     }
 }

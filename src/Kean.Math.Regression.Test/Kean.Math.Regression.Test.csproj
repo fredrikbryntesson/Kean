@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="All.cs" />
     <Compile Include="Interpolation\Splines\PointValue.cs" />
     <Compile Include="Minimization\Double.cs" />
     <Compile Include="Minimization\Single.cs" />
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+      <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
+      <Name>Kean.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

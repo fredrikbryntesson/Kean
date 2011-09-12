@@ -9,8 +9,16 @@ using Collection = Kean.Core.Collection;
 namespace Kean.Math.Regression.Test.Ransac
 {
     public class Single :
-        AssertionHelper
+        Kean.Test.Fixture<Single>
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.RobustPolynomialRegression,
+                this.TranslationRegression,
+                this.ScaleRotationTranslationRegression
+                );
+        }
         string prefix = "Kean.Math.Regression.Test.Ransac.Single.";
         [Test]
         public void RobustPolynomialRegression()
@@ -60,7 +68,7 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(points);
             Target.Estimation<float, float, Kean.Math.Matrix.Single> best = estimate.Compute();
             if (best.NotNull())
-                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(500), this.prefix + "RobustPolynomialRegression");
+                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(500), this.prefix + "RobustPolynomialRegression.0");
             /*
             if (best.NotNull())
             {
@@ -186,7 +194,7 @@ namespace Kean.Math.Regression.Test.Ransac
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> best = estimate.Compute();
             Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosinus(thetaAngle), s * Kean.Math.Single.Sinus(thetaAngle), xTranslation, yTranslation });
             if (best.NotNull())
-                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression");
+                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression.0");
             /*
             if (best.NotNull())
             {
@@ -215,10 +223,6 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
                 file.WriteLine("bestmodel = [" + best.Mapping + "];");
                 file.Close();
-
-
-
-
                 int count = best.Inliers.Count;
                 Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> f = beta =>
                 {
@@ -314,7 +318,7 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> best = estimate.Compute();
             if(best.NotNull())
-                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression");
+                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression.0");
             /*
             if (best.NotNull())
             {
@@ -347,25 +351,5 @@ namespace Kean.Math.Regression.Test.Ransac
             }
             */
         }
-        public void Run()
-        {
-            this.Run(
-                this.RobustPolynomialRegression,
-                this.TranslationRegression,
-                this.ScaleRotationTranslationRegression
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Single fixture = new Single();
-            fixture.Run();
-        }
-
-    }
+     }
 }

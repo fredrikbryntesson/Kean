@@ -6,7 +6,7 @@ namespace Kean.Math.Geometry2D.Test.Double
 {
     [TestFixture]
     public class Transform :
-        Abstract.Transform<Target.Double.Transform, Target.Double.TransformValue, Target.Double.Shell, Target.Double.ShellValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
+        Abstract.Transform<Transform, Target.Double.Transform, Target.Double.TransformValue, Target.Double.Shell, Target.Double.ShellValue, Target.Double.Box, Target.Double.BoxValue, Target.Double.Point, Target.Double.PointValue, Target.Double.Size, Target.Double.SizeValue, Kean.Math.Double, double>
     {
         protected override Target.Double.Transform CastFromString(string value)
         {
@@ -17,17 +17,25 @@ namespace Kean.Math.Geometry2D.Test.Double
             return (string)value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup();
             this.Transform0 = new Target.Double.Transform(1, 4, 2, 5, 3, 6);
             this.Transform1 = new Target.Double.Transform(7, 4, 2, 5, 7, 6);
             this.Transform2 = new Target.Double.Transform(15, 48, 12, 33, 22, 64);
             this.Transform3 = new Target.Double.Transform(-5 / 3.0f, 4 / 3.0f, 2 / 3.0f, -1 / 3.0f, 3 / 3.0f, -6 / 3.0f);
-         
             this.Point0 = new Target.Double.Point(-7, 3);
             this.Point1 = new Target.Double.Point(2, -7);
             this.Size0 = new Target.Double.Size(10, 10);
-
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
         }
         protected override double Cast(double value)
         {
@@ -38,7 +46,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         {
             // integer - double
             {
-                Target.Integer.Transform integer = new Target.Integer.Transform(10, 20, 30, 40,50, 60);
+                Target.Integer.Transform integer = new Target.Integer.Transform(10, 20, 30, 40, 50, 60);
                 Target.Double.Transform @double = integer;
                 Expect(@double.A, Is.EqualTo(10));
                 Expect(@double.B, Is.EqualTo(20));
@@ -99,21 +107,6 @@ namespace Kean.Math.Geometry2D.Test.Double
             Expect(@integerFromText.D, Is.EqualTo(40));
             Expect(@integerFromText.E, Is.EqualTo(50));
             Expect(@integerFromText.F, Is.EqualTo(60));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Transform fixture = new Transform();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class Size :
-		Kean.Math.Geometry2D.Test.Abstract.Size<Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
+        Kean.Math.Geometry2D.Test.Abstract.Size<Size, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
         protected override Target.Single.Size CastFromString(string value)
         {
@@ -18,12 +18,23 @@ namespace Kean.Math.Geometry2D.Test.Single
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup();
             this.Vector0 = new Target.Single.Size(22.221f, -3.1f);
             this.Vector1 = new Target.Single.Size(12.221f, 13.1f);
             this.Vector2 = new Target.Single.Size(34.442f, 10.0f);
         }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
+        }
+
         protected override float Cast(double value)
         {
             return (float)value;
@@ -56,21 +67,6 @@ namespace Kean.Math.Geometry2D.Test.Single
             Target.Single.SizeValue @integerFromText = "10 20";
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                base.Run
-                );
-        }
-        public static void Test()
-        {
-            Size fixture = new Size();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

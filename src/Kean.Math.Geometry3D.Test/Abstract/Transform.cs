@@ -5,8 +5,9 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Transform<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> : 
-        AssertionHelper
+    public abstract class Transform<T, TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
         where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
         where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
         where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
@@ -18,7 +19,6 @@ namespace Kean.Math.Geometry3D.Test.Abstract
     {
         protected abstract string CastToString(TransformType value);
         protected abstract TransformType CastFromString(string value);
-     
         protected float Precision { get { return 1e-5f; } }
         protected abstract V Cast(double value);
         protected TransformType Transform0 { get; set; }
@@ -26,11 +26,39 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected TransformType Transform2 { get; set; }
         protected TransformType Transform3 { get; set; }
         protected TransformType Transform4 { get { return Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60), new R().CreateConstant(70), new R().CreateConstant(80), new R().CreateConstant(90), new R().CreateConstant(100), new R().CreateConstant(110), new R().CreateConstant(120)); } }
-        
         protected PointType Point0 { get; set; }
         protected PointType Point1 { get; set; }
         protected SizeType Size0 { get; set; }
-
+        protected override void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.CreateZeroTransform,
+                this.CreateIdentity,
+                this.CreateRotation,
+                this.CreateScale,
+                this.CreateTranslation,
+                this.Rotatate,
+                this.Scale,
+                this.Translatate,
+                this.InverseTransform,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.GetValueValues,
+                this.CastToArray,
+                this.GetTranslation,
+                this.GetScalingX,
+                this.GetScalingY,
+                this.GetScalingZ,
+                this.GetScaling,
+                this.CastToArray,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.Casting,
+                this.CastingNull
+                );
+        }
+ 
         #region Equality
         [Test]
         public void Equality()
@@ -298,41 +326,5 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             Expect(this.CastToString(tranform), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(tranform));
         }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public void Run()
-        {
-            this.Run(
-                this.Equality,
-                this.CreateZeroTransform,
-                this.CreateIdentity,
-                this.CreateRotation,
-                this.CreateScale,
-                this.CreateTranslation,
-                this.Rotatate,
-                this.Scale,
-                this.Translatate,
-                this.InverseTransform,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
-                this.GetValueValues,
-                this.CastToArray,
-                this.GetTranslation,
-                this.GetScalingX,
-                this.GetScalingY,
-                this.GetScalingZ,
-                this.GetScaling,
-                this.CastToArray,
-                this.MultiplicationTransformTransform,
-                this.MultiplicationTransformPoint,
-                this.Casting,
-                this.CastingNull
-                );
-        }
-       
     }
 }

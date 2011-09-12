@@ -7,14 +7,22 @@ namespace Kean.Math.Geometry2D.Test.Integer
 {
     [TestFixture]
     public class Box :
-		Kean.Math.Geometry2D.Test.Abstract.Box<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
+		Kean.Math.Geometry2D.Test.Abstract.Box<Box, Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup(); 
             this.Box0 = new Target.Integer.Box(1, 2, 3, 4);
             this.Box1 = new Target.Integer.Box(4, 3, 2, 1);
             this.Box2 = new Target.Integer.Box(2, 1, 4, 3);
+        }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.ValueStringCasts
+                );
         }
         protected override int Cast(double value)
         {
@@ -30,19 +38,6 @@ namespace Kean.Math.Geometry2D.Test.Integer
             Expect(@integerFromText.Top, Is.EqualTo(20));
             Expect(@integerFromText.Width, Is.EqualTo(30));
             Expect(@integerFromText.Height, Is.EqualTo(40));
-        }
-        public void Run()
-        {
-            this.Run(
-                this.ValueStringCasts,
-                 base.Run
-                );
-        }
-        public static void Test()
-        {
-            Box fixture = new Box();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }

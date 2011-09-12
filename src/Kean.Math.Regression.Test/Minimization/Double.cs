@@ -10,8 +10,15 @@ using Matrix = Kean.Math.Matrix;
 namespace Kean.Math.Regression.Test.Minimization
 {
     public class Double :
-        AssertionHelper
+        Kean.Test.Fixture<Double>
     {
+        protected override void Run()
+        {
+            this.Run(
+                this.LevenbergMarquardt1,
+                this.LevenbergMarquardt2
+                );
+        }
         string prefix = "Kean.Math.Regression.Test.Minimization.Double.";
         [Test]
         public void LevenbergMarquardt1()
@@ -45,28 +52,9 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Double correct = new Matrix.Double(1, 5, new double[] { -70, 231, -296, 172, -38 });
             Matrix.Double luApproximation = aa.Solve(yy);
             Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.0");
-            Matrix.Double iterative = this.Estimate(aa,yy, new Matrix.Double(1,5, new double[]{1,1,1,1,1}));
+            Matrix.Double iterative = this.Estimate(aa, yy, new Matrix.Double(1, 5, new double[] { 1, 1, 1, 1, 1 }));
             Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
 
         }
-        public void Run()
-        {
-            this.Run(
-                this.LevenbergMarquardt1,
-                this.LevenbergMarquardt2
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Double fixture = new Double();
-            fixture.Run();
-        }
-
     }
 }

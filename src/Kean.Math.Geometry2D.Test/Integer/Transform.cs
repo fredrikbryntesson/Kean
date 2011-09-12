@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
 {
     [TestFixture]
     public class Transform :
-		Kean.Math.Geometry2D.Test.Abstract.Transform<Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
+        Kean.Math.Geometry2D.Test.Abstract.Transform<Transform, Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
     {
         protected override Target.Integer.Transform CastFromString(string value)
         {
@@ -18,8 +18,9 @@ namespace Kean.Math.Geometry2D.Test.Integer
             return (string)value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
+            base.Setup();
             this.Transform0 = new Target.Integer.Transform(1, 4, 2, 5, 3, 6);
             this.Transform1 = new Target.Integer.Transform(7, 4, 2, 5, 7, 6);
             this.Transform2 = new Target.Integer.Transform(15, 48, 12, 33, 22, 64);
@@ -28,8 +29,25 @@ namespace Kean.Math.Geometry2D.Test.Integer
             this.Point0 = new Target.Integer.Point(-7, 3);
             this.Point1 = new Target.Integer.Point(2, -7);
             this.Size0 = new Target.Integer.Size(10, 10);
-
         }
+        protected override void Run()
+        {
+            this.Run(
+                this.Casting,
+                this.CastingNull,
+                this.CastToArray,
+                this.CreateIdentity,
+                this.CreateTranslation,
+                this.CreateZeroTransform,
+                this.Equality,
+                this.GetTranslation,
+                this.GetValueValues,
+                this.MultiplicationTransformPoint,
+                this.MultiplicationTransformTransform,
+                this.ValueStringCasts
+                );
+        }
+
         protected override int Cast(double value)
         {
             return (int)value;
@@ -47,28 +65,5 @@ namespace Kean.Math.Geometry2D.Test.Integer
             Expect(@integerFromText.E, Is.EqualTo(50));
             Expect(@integerFromText.F, Is.EqualTo(60));
         }
-        public void Run()
-        {
-            this.Run(
-                this.Casting,
-                this.CastingNull,
-                this.CastToArray,
-                this.CreateIdentity,
-                this.CreateTranslation,
-                this.CreateZeroTransform,
-                this.Equality,
-                this.GetTranslation,
-                this.GetValueValues,
-                this.MultiplicationTransformPoint,
-                this.MultiplicationTransformTransform,
-                this.ValueStringCasts
-                );
-        }
-        public static void Test()
-        {
-            Transform fixture = new Transform();
-            fixture.FixtureSetup();
-            fixture.Run();
-        }
-    }
+       }
 }

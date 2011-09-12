@@ -5,8 +5,9 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Geometry2D.Test.Abstract
 {
-	public abstract class Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
-		AssertionHelper
+	public abstract class Vector<T, VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
 		where VectorType : Geometry2D.Abstract.Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.IVector<V>, new()
 		where VectorValue : struct, Geometry2D.Abstract.IVector<V>
 		where TransformType : Geometry2D.Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, Geometry2D.Abstract.ITransform<V>, new()
@@ -63,13 +64,5 @@ namespace Kean.Math.Geometry2D.Test.Abstract
             Expect((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
         }
         #endregion
-
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-
     }
 }

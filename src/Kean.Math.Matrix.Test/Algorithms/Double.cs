@@ -7,9 +7,32 @@ using Target = Kean.Math.Matrix.Double;
 namespace Kean.Math.Matrix.Test.Algorithms
 {
     public class Double :
-        AssertionHelper
+        Kean.Test.Fixture<Double>
     {
-        string prefix = "Kean.Math.Matrix.Test.Algorithms.Double";
+        protected override void Run()
+        {
+            this.Run(
+                this.DeterminantAndTrace,
+                this.Inverse1,
+                this.Inverse2,
+                this.Svd,
+                this.BiDiagonalization1,
+                this.BiDiagonalization2,
+                this.Eigenvalues,
+                this.Cholesky1,
+                this.Cholesky2,
+                this.HouseHolder,
+                this.QRFactorization0,
+                this.QRFactorization1,
+                this.QRFactorization2,
+                this.QRFactorization3,
+                this.QRFactorization4,
+                this.LeastSquare1,
+                this.LeastSquare2,
+                this.LeastSquare3
+                );
+        }
+        string prefix = "Kean.Math.Matrix.Test.Algorithms.Double.";
         #region Matrix invariants
         [Test]
         public void DeterminantAndTrace()
@@ -36,6 +59,7 @@ namespace Kean.Math.Matrix.Test.Algorithms
         {
            Target a = new Target(5, 5);
            Target b = a.Inverse();
+           Expect(b.IsNull(), Is.True, this.prefix + "Inverse1.0");
         }
         [Test]
         public void Inverse2()
@@ -43,7 +67,7 @@ namespace Kean.Math.Matrix.Test.Algorithms
             Target a = new Target(5, 5, new double[] { 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 1, 3, 6, 10, 15, 1, 4, 10, 20, 35, 1, 5, 15, 35, 70 });
             Target b = a.Inverse();
             Target correct = new Kean.Math.Matrix.Double(5, 5, new double[] {5, -10,10,-5,1,-10,30,-35,19,-4,10,-35,46,-27,6,-5,19,-27,17,-4,1,-4,6,-4,1 });
-            Expect(b.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "HouseHolder.0");
+            Expect(b.Distance(correct), Is.EqualTo(0).Within(1e-7f), this.prefix + "Inverse2.0");
         }
         #endregion
         #region QR Factorization
@@ -52,31 +76,31 @@ namespace Kean.Math.Matrix.Test.Algorithms
         {
             Target a = new Target(3, 5);
             Target[] qr = a.QRFactorization();
-            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
-            Expect(qr[0], Is.EqualTo(Target.Identity(5)), this.prefix + "QRFactorization.0");
-            Expect(qr[1], Is.EqualTo(new Target(3, 5)), this.prefix + "QRFactorization.0");
+            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization0.0");
+            Expect(qr[0], Is.EqualTo(Target.Identity(5)), this.prefix + "QRFactorization0.1");
+            Expect(qr[1], Is.EqualTo(new Target(3, 5)), this.prefix + "QRFactorization0.2");
         }
         [Test]
         public void QRFactorization1()
         {
             Target a = new Target(1, 1, new double[] { 12 });
             Target[] qr = a.QRFactorization();
-            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization1.0");
         }
         [Test]
         public void QRFactorization2()
         {
             Target a = new Target(2, 2, new double[] { 12, 6, -4, -51 });
             Target[] qr = a.QRFactorization();
-            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization2.0");
         }
         [Test]
         public void QRFactorization3()
         {
             Target a = new Target(3, 3, new double[] { 12, 6, -4, -51, 167, 24, 4, -68, -41 });
             Target[] qr = a.QRFactorization();
-            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
-            Expect((qr[0] * qr[0].Transpose()).Distance(Target.Identity(3)), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+            Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization3.0");
+            Expect((qr[0] * qr[0].Transpose()).Distance(Target.Identity(3)), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization3.1");
 
         }
         [Test]
@@ -90,11 +114,11 @@ namespace Kean.Math.Matrix.Test.Algorithms
                     for (int y = 0; y < i; y++)
                         a[x, y] = generator.Generate();
                 Target[] qr = a.QRFactorization();
-                Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
-                Expect((qr[0] * qr[0].Transpose()).Distance(Target.Identity(i)), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+                Expect((qr[0] * qr[1]).Distance(a), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization4.0");
+                Expect((qr[0] * qr[0].Transpose()).Distance(Target.Identity(i)), Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization4.1");
                 for (int x = 0; x < i; x++)
                     for (int y = x + 1; y < i; y++)
-                        Expect(qr[1][x, y], Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization.0");
+                        Expect(qr[1][x, y], Is.EqualTo(0).Within(1e-9f), this.prefix + "QRFactorization4.2");
 
             }
         }
@@ -104,13 +128,9 @@ namespace Kean.Math.Matrix.Test.Algorithms
         public void Cholesky1()
         {
             Target a = new Target(5, 5);
-            try
-            {
-                Target b = a.Cholesky();
-            }
-            catch (Kean.Core.Error.Exception e)
-            {
-            }
+            Target b = a.Cholesky();
+            Expect(b.IsNull(), Is.True, this.prefix + "Cholesky1.0");
+            
         }
         [Test]
         public void Cholesky2()
@@ -311,39 +331,5 @@ namespace Kean.Math.Matrix.Test.Algorithms
             Expect(a.Distance(x[0] * x[1] * x[0].Transpose()), Is.EqualTo(0).Within(1e-7f), this.prefix + "Eigenvalues.1");
         }
         #endregion
-        public void Run()
-        {
-            this.Run(
-                this.DeterminantAndTrace,
-                this.Inverse1,
-                this.Inverse2,
-                this.Svd,
-                this.BiDiagonalization1,
-                this.BiDiagonalization2,
-                this.Eigenvalues,
-                this.Cholesky1,
-                this.Cholesky2,
-                this.HouseHolder,
-                this.QRFactorization0,
-                this.QRFactorization1,
-                this.QRFactorization2,
-                this.QRFactorization3,
-                this.QRFactorization4,
-                this.LeastSquare1,
-                this.LeastSquare2,
-                this.LeastSquare3
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Double fixture = new Double();
-            fixture.Run();
-        }
     }
 }

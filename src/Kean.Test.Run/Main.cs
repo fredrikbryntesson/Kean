@@ -26,62 +26,18 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            Core.Collection.Test.All.Test();
             Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
-
-            Core.Collection.Test.All.Test();
-            
-			Xml.Dom.Test.Open.Test();
-
-            Kean.Math.Test.All.Test();
-            Kean.Math.Complex.Test.All.Test();
-           
-            Kean.Math.Geometry2D.Test.Integer.Point.Test();
-            Kean.Math.Geometry2D.Test.Single.Point.Test();
-            Kean.Math.Geometry2D.Test.Double.Point.Test();
-
-            Kean.Math.Geometry2D.Test.Integer.Size.Test();
-            Kean.Math.Geometry2D.Test.Single.Size.Test();
-            Kean.Math.Geometry2D.Test.Double.Size.Test();
-            
-            Kean.Math.Geometry2D.Test.Integer.Box.Test();
-            Kean.Math.Geometry2D.Test.Single.Box.Test();
-            Kean.Math.Geometry2D.Test.Double.Box.Test();
-            
-            Kean.Math.Geometry2D.Test.Integer.Transform.Test();
-            Kean.Math.Geometry2D.Test.Single.Transform.Test();
-            Kean.Math.Geometry2D.Test.Double.Transform.Test();
-
-            Kean.Math.Geometry3D.Test.Integer.Point.Test();
-            Kean.Math.Geometry3D.Test.Single.Point.Test();
-            Kean.Math.Geometry3D.Test.Double.Point.Test();
-
-            Kean.Math.Geometry3D.Test.Integer.Size.Test();
-            Kean.Math.Geometry3D.Test.Single.Size.Test();
-            Kean.Math.Geometry3D.Test.Double.Size.Test();
-          
-            Kean.Math.Geometry3D.Test.Integer.Box.Test();
-            Kean.Math.Geometry3D.Test.Single.Box.Test();
-            Kean.Math.Geometry3D.Test.Double.Box.Test();
-
-            Kean.Math.Matrix.Test.Single.Test();
-            Kean.Math.Matrix.Test.Algorithms.Single.Test();
-            Kean.Math.Matrix.Test.Double.Test();
-            Kean.Math.Matrix.Test.Algorithms.Double.Test();
-
-            Kean.Math.Geometry3D.Test.Single.Transform.Test();
-            Kean.Math.Geometry3D.Test.Double.Transform.Test();
-           
-            Kean.Math.Geometry3D.Test.Double.Quaternion.Test();
-
-            Kean.Math.Random.Test.Generator.Test();
-            Kean.Math.Regression.Test.Ransac.Double.Test();
-            Kean.Math.Regression.Test.Ransac.Single.Test();
-            Kean.Math.Regression.Test.Minimization.Single.Test();
-            Kean.Math.Regression.Test.Minimization.Double.Test();
-            Kean.Math.Regression.Test.Interpolation.Splines.Geometry2D.Test();
-
-			//Kean.Core.Error.Test.Error.Test();
+            Math.Test.All.Test();
+            Math.Complex.Test.All.Test();
+            Math.Geometry2D.Test.All.Test();
+            Math.Geometry3D.Test.All.Test();
+            Math.Matrix.Test.All.Test();
+            Math.Random.Test.All.Test();
+            Math.Regression.Test.All.Test();
+            Xml.Dom.Test.Open.Test();
+            //Kean.Core.Error.Test.Error.Test();
 			Console.WriteLine("Done");
 		}
 	}

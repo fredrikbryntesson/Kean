@@ -5,8 +5,9 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> : 
-        AssertionHelper
+    public abstract class Box<T, TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+        Kean.Test.Fixture<T>
+        where T : Kean.Test.Fixture<T>, new()
         where BoxType : Kean.Math.Geometry3D.Abstract.Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
         where BoxValue : struct, Kean.Math.Geometry3D.Abstract.IBox<PointValue, SizeValue, V>
         where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
@@ -20,10 +21,15 @@ namespace Kean.Math.Geometry3D.Test.Abstract
     {
         protected float Precision { get { return 1e-4f; } }
         protected abstract V Cast(double value);
-
         protected BoxType Box0 { get; set; }
         protected BoxType Box1 { get; set; }
         protected BoxType Box2 { get; set; }
+        protected override void  Run()
+        {
+            this.Run(
+                this.LeftTop, 
+                this.Size);
+        }
         #region Equality
         [Test]
         public void Equality()
@@ -68,16 +74,5 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         {
         }
         #endregion
-        public void Run()
-        {
-            this.Run(this.LeftTop, this.Size);
         }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-
-    }
 }

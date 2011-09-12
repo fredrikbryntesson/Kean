@@ -8,43 +8,16 @@ using Collection = Kean.Core.Collection;
 namespace Kean.Math.Random.Test
 {
     public class Generator :
-        AssertionHelper
+        Kean.Test.Fixture<Generator>
     {
-		string prefix = "Kean.Math.Random.Test.Generator.";
-        [Test]
-        public void Compare()
+        protected override void Run()
         {
-            uint seed = (uint)DateTime.Now.Ticks;
-            System.Random r = new System.Random((int)seed);
-            Target.Integer.Positive positive = new Target.Integer.Positive();
-            int n = 100;
-            int[] rArray = new int[n];
-            System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
-            w.Reset();
-            w.Start();
-            for (int i = 0; i < n; i++)
-                rArray[i] = r.Next();
-            w.Stop();
-            Console.WriteLine("Dotnet Time for loop: " + w.ElapsedMilliseconds);
-            w.Reset();
-            w.Start();
-            int[] array = positive.Generate(n);
-            w.Stop();
-            Console.WriteLine("My Time for loop: " + w.ElapsedMilliseconds);
-            w.Reset();
-            Target.Integer.Interval intervalInteger = new Target.Integer.Interval();
-            intervalInteger.Ceiling = 100;
-            w.Start();
-            int[] integerArray = intervalInteger.Generate(n);
-            w.Stop();
-            Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
-            Target.Byte.Interval intervalByte = new Target.Byte.Interval();
-            intervalByte.Ceiling = 100;
-            w.Start();
-            byte[] byteArray = intervalByte.Generate(n);
-            w.Stop();
-            Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
+            this.Run(
+                this.ArraysIntegerUnique,
+                this.NormalDouble
+                );
         }
+        string prefix = "Kean.Math.Random.Test.Generator.";
         [Test]
         public void ArraysIntegerUnique()
         {
@@ -53,7 +26,7 @@ namespace Kean.Math.Random.Test
             {
                 interval.Floor = 0;
                 interval.Ceiling = k;
-                int n = k+1;
+                int n = k + 1;
                 int[] values = interval.GenerateUnique(n);
                 bool different = true;
                 int i, j;
@@ -87,40 +60,41 @@ namespace Kean.Math.Random.Test
             file.WriteLine("plot(x,'b');");
             file.Close();
         }
+        #region Performance and Matlab tests
         [Test]
-        public void NormalDouble()
+        public void Performance()
         {
-            Target.Double.Normal g = new Target.Double.Normal();
-            int n = 50000;
-            g.Mean = 10;
-            g.Deviation = 2;
-            double[] values = g.Generate(n);
-            string valuesString = "";
+            uint seed = (uint)DateTime.Now.Ticks;
+            System.Random r = new System.Random((int)seed);
+            Target.Integer.Positive positive = new Target.Integer.Positive();
+            int n = 100;
+            int[] rArray = new int[n];
+            System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch();
+            w.Reset();
+            w.Start();
             for (int i = 0; i < n; i++)
-            {
-                valuesString += Kean.Math.Double.ToString(values[i]);
-                valuesString += i != n - 1 ? ", " : "";
-            }
-            System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
-            file.WriteLine("clear all;");
-            file.WriteLine("close all;");
-            file.WriteLine("x = [" + valuesString + "];");
-            file.WriteLine("plot(x,'b');");
-            file.Close();
-            // estimate
-            double mu = 0;
-            for (int i = 0; i < values.Length; i++)
-                mu += values[i];
-            mu /= values.Length;
-            double sigma = 0;
-            for (int i = 0; i < values.Length; i++)
-                sigma += Kean.Math.Double.Squared(values[i] - mu);
-            sigma /= values.Length;
-            sigma = Kean.Math.Double.SquareRoot(sigma);
-            Expect(mu, Is.EqualTo(g.Mean).Within(0.1), this.prefix + "NormalDouble.0");
-            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.1), this.prefix + "NormalDouble.0");
+                rArray[i] = r.Next();
+            w.Stop();
+            Console.WriteLine("Dotnet Time for loop: " + w.ElapsedMilliseconds);
+            w.Reset();
+            w.Start();
+            int[] array = positive.Generate(n);
+            w.Stop();
+            Console.WriteLine("My Time for loop: " + w.ElapsedMilliseconds);
+            w.Reset();
+            Target.Integer.Interval intervalInteger = new Target.Integer.Interval();
+            intervalInteger.Ceiling = 100;
+            w.Start();
+            int[] integerArray = intervalInteger.Generate(n);
+            w.Stop();
+            Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
+            Target.Byte.Interval intervalByte = new Target.Byte.Interval();
+            intervalByte.Ceiling = 100;
+            w.Start();
+            byte[] byteArray = intervalByte.Generate(n);
+            w.Stop();
+            Console.WriteLine("My Time array s: " + w.ElapsedMilliseconds);
         }
-        
         [Test]
         public void NormalDoublePoint()
         {
@@ -145,36 +119,50 @@ namespace Kean.Math.Random.Test
                 ys += Kean.Math.Double.ToString(y[i]);
                 ys += i != n - 1 ? ", " : "";
             }
-                System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
-                file.WriteLine("clear all;");
-                file.WriteLine("close all;");
-                file.WriteLine("x = [" + xs + "];");
-                file.WriteLine("y = [" + ys + "];");
-                file.WriteLine("scatter(x,y,'b');");
-                file.Close();
+            System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+            file.WriteLine("clear all;");
+            file.WriteLine("close all;");
+            file.WriteLine("x = [" + xs + "];");
+            file.WriteLine("y = [" + ys + "];");
+            file.WriteLine("scatter(x,y,'b');");
+            file.Close();
         }
-        
-        public void Run()
+        #endregion
+        [Test]
+        public void NormalDouble()
         {
-            this.Run(
-                this.Compare,
-                this.ArraysIntegerUnique,
-                this.ArraysDouble,
-                this.NormalDouble,
-                this.NormalDoublePoint
-                );
-        }
-        internal void Run(params System.Action[] tests)
-        {
-            foreach (System.Action test in tests)
-                if (test.NotNull())
-                    test();
-        }
-        public static void Test()
-        {
-            Generator fixture = new Generator();
-            fixture.Run();
-        }
+            Target.Double.Normal g = new Target.Double.Normal();
+            int n = 50000;
+            g.Mean = 10;
+            g.Deviation = 2;
+            double[] values = g.Generate(n);
+            // estimate
+            double mu = 0;
+            for (int i = 0; i < values.Length; i++)
+                mu += values[i];
+            mu /= values.Length;
+            double sigma = 0;
+            for (int i = 0; i < values.Length; i++)
+                sigma += Kean.Math.Double.Squared(values[i] - mu);
+            sigma /= values.Length;
+            sigma = Kean.Math.Double.SquareRoot(sigma);
+            Expect(mu, Is.EqualTo(g.Mean).Within(0.1), this.prefix + "NormalDouble.0");
+            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.1), this.prefix + "NormalDouble.1");
+            /* // Matlab test
+               string valuesString = "";
+               for (int i = 0; i < n; i++)
+               {
+                   valuesString += Kean.Math.Double.ToString(values[i]);
+                   valuesString += i != n - 1 ? ", " : "";
+               }
+               System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
+               file.WriteLine("clear all;");
+               file.WriteLine("close all;");
+               file.WriteLine("x = [" + valuesString + "];");
+               file.WriteLine("plot(x,'b');");
+               file.Close();
+               */
 
+        }
     }
 }

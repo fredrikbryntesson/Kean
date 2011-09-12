@@ -7,7 +7,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 {
     [TestFixture]
     public class Size :
-        Kean.Math.Geometry3D.Test.Abstract.Size<Target.Double.Transform, Target.Double.TransformValue, Target.Double.Size, Target.Double.SizeValue,
+        Kean.Math.Geometry3D.Test.Abstract.Size<Size, Target.Double.Transform, Target.Double.TransformValue, Target.Double.Size, Target.Double.SizeValue,
         Kean.Math.Double, double>
     {
         protected override Target.Double.Size CastFromString(string value)
@@ -19,12 +19,22 @@ namespace Kean.Math.Geometry3D.Test.Double
             return value;
         }
         [TestFixtureSetUp]
-        public virtual void FixtureSetup()
+        public override void Setup()
         {
             this.Vector0 = new Target.Double.Size(22, -3, 10);
             this.Vector1 = new Target.Double.Size(12, 13, 20);
             this.Vector2 = new Target.Double.Size(34, 10, 30);
         }
+        protected override void Run()
+        {
+            base.Run();
+            this.Run(
+                this.Casts,
+                this.ValueCasts,
+                this.ValueStringCasts
+                );
+        }
+   
         protected override double Cast(double value)
         {
             return (double)value;
@@ -80,21 +90,6 @@ namespace Kean.Math.Geometry3D.Test.Double
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));
             Expect(@integerFromText.Depth, Is.EqualTo(30));
-        }
-        public void Run()
-        {
-            this.Run(
-                base.Run,
-                this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts
-                );
-        }
-        public static void Test()
-        {
-            Size fixture = new Size();
-            fixture.FixtureSetup();
-            fixture.Run();
         }
     }
 }
