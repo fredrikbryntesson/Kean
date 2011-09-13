@@ -73,7 +73,7 @@ namespace Kean.Core.Collection.Hash
 		public bool Contains(TKey key)
 		{
 			IList<KeyValue<TKey, TValue>> list = this.data[this.Index(key)];
-			return list.NotNull() && list.Count > 0 && list.Find(entry => entry.Key.Equals(key)).NotNull();
+			return list.NotNull() && list.Count > 0 && list.Find(entry => entry.Key.Equals(key)).Key.NotNull();
 		}
 		public bool Remove(TKey key)
 		{
