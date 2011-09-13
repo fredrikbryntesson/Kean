@@ -27,18 +27,17 @@ namespace Kean.IO
 	{
 		char[] NewLine { get; set; }
 
-		bool Write(char value);
+		bool Write(params char[] buffer);
 		bool Write(string value);
 		bool Write<T>(T value) where T : IConvertible;
-		bool Write(char[] buffer);
-		bool Write(char[] buffer, int index, int count);
 		bool Write(string format, params object[] arguments);
+		bool Write(System.Collections.Generic.IEnumerable<char> buffer);
 
 		bool WriteLine();
+		bool WriteLine(params char[] buffer);
 		bool WriteLine(string value);
 		bool WriteLine<T>(T value) where T : IConvertible;
-		bool WriteLine(char[] buffer);
-		bool WriteLine(char[] buffer, int index, int count);
 		bool WriteLine(string format, params object[] arguments);
+		bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer);
 	}
 }

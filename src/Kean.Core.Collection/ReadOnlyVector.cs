@@ -29,14 +29,27 @@ namespace Kean.Core.Collection
     {
 		T[] data;
         #region Constructor
-        public ReadOnlyVector(params T[] data)
+		public ReadOnlyVector(params T[] data)
         {
             this.data = data;
         }
         #endregion
         #region IReadOnlyVector<T>
         public override int Count { get { return this.data.Length; } }
-        public override T this[int index] { get { return this.data[index]; } }
+        public override T this[int index] 
+		{
+			get
+			{
+				try
+				{
+					return this.data[index];
+				}
+				catch (IndexOutOfRangeException e)
+				{
+					throw new Exception.InvalidIndex(e);
+				}
+			}
+		}
         #endregion
 		#region Operators
 		public static implicit operator ReadOnlyVector<T>(T[] data)

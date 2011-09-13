@@ -44,10 +44,11 @@
     <Compile Include="Cast\ReadOnlyVector.cs" />
     <Compile Include="Cast\Vector.cs" />
     <Compile Include="Exception\Unsortable.cs" />
+    <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
     <Compile Include="Extension\SetExtension.cs" />
-    <Compile Include="Extension\VectorExtension.cs" />
+    <Compile Include="Extension\ReadOnlyVectorExtension.cs" />
     <Compile Include="Hooked\IList.cs" />
     <Compile Include="Hooked\IQueue.cs" />
     <Compile Include="Hooked\IStack.cs" />
@@ -55,8 +56,12 @@
     <Compile Include="Hooked\FilteredList.cs" />
     <Compile Include="ISet.cs" />
     <Compile Include="Linked\Set.cs" />
+    <Compile Include="Merge.cs" />
     <Compile Include="Queue.cs" />
+    <Compile Include="ReadOnlyMerge.cs" />
+    <Compile Include="ReadOnlySlice.cs" />
     <Compile Include="Set.cs" />
+    <Compile Include="Slice.cs" />
     <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="Wraped\ListQueue.cs" />
@@ -109,7 +114,7 @@
     <Compile Include="Hash\Set.cs" />
     <Compile Include="Extension\ArrayParallelExtension.cs" />
     <Compile Include="Extension\VectorParallelExtension.cs" />
-    <Compile Include="Extension\ReadOnlyVectorExtension.cs" />
+    <Compile Include="Extension\VectorExtension.cs" />
     <Compile Include="Extension\ReadOnlyVectorParallelExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

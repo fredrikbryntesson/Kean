@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using InteropServices = System.Runtime.InteropServices;
 
@@ -44,7 +45,7 @@ namespace Kean.Core.Buffer
         {
             this.Data = data;
         }
-        private Vector(InteropServices.GCHandle handle, IntPtr data, int size, Action<IntPtr> free) :
+        Vector(InteropServices.GCHandle handle, IntPtr data, int size, Action<IntPtr> free) :
             base(data, size, free)
         {
             this.handle = handle;

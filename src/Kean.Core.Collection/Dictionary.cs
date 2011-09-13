@@ -62,10 +62,10 @@ namespace Kean.Core.Collection
         }
         #endregion
 
-        #region IEnumerable[Tuple[TKey,TValue]] implementation
-        System.Collections.Generic.IEnumerator<Kean.Core.Tuple<TKey, TValue>> System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>.GetEnumerator()
+        #region IEnumerable[KeyValue[TKey,TValue]] implementation
+        System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>.GetEnumerator()
         {
-            return (this.data as System.Collections.Generic.IEnumerable<Tuple<TKey, TValue>>).GetEnumerator();
+            return (this.data as System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>).GetEnumerator();
         }
         #endregion
 

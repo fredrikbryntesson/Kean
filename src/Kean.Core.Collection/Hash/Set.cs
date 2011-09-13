@@ -85,7 +85,7 @@ namespace Kean.Core.Collection.Hash
 			return this.GetEnumerator();
 		}
 		#endregion
-		#region IEnumerable<Tuple<TKey,TValue>> Members
+		#region IEnumerable<KeyValue<TKey,TValue>> Members
 		public System.Collections.Generic.IEnumerator<T> GetEnumerator()
 		{
 			foreach (IList<T> list in this.data)

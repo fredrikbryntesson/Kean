@@ -29,11 +29,11 @@ namespace Kean.Xml.Dom
 		{
 			this.Name = name;
 		}
-		public Element(string name, System.Collections.Generic.IEnumerable<Tuple<string, Tuple<string, Region>>> attributes) :
+		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Region>>> attributes) :
 			this(name)
 		{
-			foreach (Tuple<string, Tuple<string, Region>> attribute in attributes)
-				this.Attributes.Add(new Attribute(attribute.Item1, attribute.Item2.Item1) { Region = attribute.Item2.Item2 });
+			foreach (KeyValue<string, Tuple<string, Region>> attribute in attributes)
+				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
 		}
 		protected override void ChangeDocument(Document document)
 		{

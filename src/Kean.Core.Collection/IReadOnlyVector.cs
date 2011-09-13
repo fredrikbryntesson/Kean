@@ -1,5 +1,5 @@
 ﻿// 
-//  IImmutableVector.cs
+//  IReadOnlyVector.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

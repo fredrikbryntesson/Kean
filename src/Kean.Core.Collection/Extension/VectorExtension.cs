@@ -1,5 +1,5 @@
 ﻿// 
-//  ReadOnlyVectorExtension.cs
+//  VectorExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,41 +22,56 @@ using System;
 using Kean.Core.Extension;
 namespace Kean.Core.Collection.Extension
 {
-	public static class ReadOnlyVectorExtension
+	public static class VectorExtension
 	{
-		public static void Apply<T>(this IReadOnlyVector<T> data, Action<T> function)
+		public static void Reverse<T>(this IVector<T> me)
 		{
-			foreach (T element in data)
+			int half = me.Count / 2;
+			for (int i = 0; i < half; i++)
+			{
+				T t = me[i];
+				me[i] = me[me.Count - i - 1];
+				me[me.Count - i - 1] = t;
+			}
+		}
+		public static void Apply<T>(this IVector<T> me, Action<T> function)
+		{
+			foreach (T element in me)
 				function(element);
 		}
-		public static void Map<T, S>(this IReadOnlyVector<T> input, IVector<S> output, Func<T, S> function)
+		public static void Modify<T>(this IVector<T> me, Func<T, T> function)
 		{
-			int minimumLength = (input.Count > output.Count) ? output.Count : input.Count;
+			for (int i = 0; i < me.Count; i++)
+				me[i] = function(me[i]);
+		}
+		public static void Map<T, S>(this IVector<T> me, IVector<S> output, Func<T, S> function)
+		{
+			int minimumLength = (me.Count > output.Count) ? output.Count : me.Count;
 			for (int i = 0; i < minimumLength; i++)
-				output[i] = function(input[i]);
+				output[i] = function(me[i]);
 		}
-		public static IReadOnlyVector<S> Map<T, S>(this IReadOnlyVector<T> input, Func<T, S> function)
+		public static IVector<S> Map<T, S>(this IVector<T> me, Func<T, S> function)
 		{
-			IVector<S> result = new Vector<S>(input.Count);
-			for (int i = 0; i < input.Count; i++)
-				result[i] = function(input[i]);
-			return new Wrap.ReadOnlyVector<S>(result);
+			IVector<S> result = new Vector<S>(me.Count);
+			for (int i = 0; i < me.Count; i++)
+				result[i] = function(me[i]);
+			return result;
 		}
-		public static int Index<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
+		public static int Index<T>(this IVector<T> me, Func<T, bool> function)
 		{
 			int result = -1;
-			for (int i = 0; data.NotNull() && i < data.Count; i++)
-				if (function(data[i]))
+			for (int i = 0; me.NotNull() && i < me.Count; i++)
+				if (function(me[i]))
 				{
 					result = i;
 					break;
 				}
 			return result;
 		}
-		public static T Find<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
+		public static T Find<T>(this IVector<T> me, Func<T, bool> function)
 		{
 			T result = default(T);
-			foreach (T element in data)
+			foreach (T element in me)
 				if (function(element))
 				{
 					result = element;
@@ -64,18 +79,18 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static S Find<T, S>(this IReadOnlyVector<T> data, Func<T, S> function)
+		public static S Find<T, S>(this IVector<T> me, Func<T, S> function)
 		{
 			S result = default(S);
-			foreach (T element in data)
+			foreach (T element in me)
 				if ((result = function(element)) != null)
 					break;
 			return result;
 		}
-		public static bool Exists<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
+		public static bool Exists<T>(this IVector<T> me, Func<T, bool> function)
 		{
 			bool result = false;
-			foreach (T element in data)
+			foreach (T element in me)
 				if (function(element))
 				{
 					result = true;
@@ -83,10 +98,10 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static bool All<T>(this IReadOnlyVector<T> data, Func<T, bool> function)
+		public static bool All<T>(this IVector<T> me, Func<T, bool> function)
 		{
 			bool result = true;
-			foreach (T element in data)
+			foreach (T element in me)
 				if (!function(element))
 				{
 					result = false;
@@ -94,18 +109,26 @@ namespace Kean.Core.Collection.Extension
 				}
 			return result;
 		}
-		public static S Fold<T, S>(this IReadOnlyVector<T> data, Func<T, S, S> function, S initial)
+		public static S Fold<T, S>(this IVector<T> me, Func<T, S, S> function, S initial)
 		{
-			foreach (T element in data)
+			foreach (T element in me)
 				initial = function(element, initial);
 			return initial;
 		}
-		public static T[] ToArray<T>(this IReadOnlyVector<T> data)
+		public static T[] ToArray<T>(this IVector<T> me)
 		{
-			T[] result = new T[data.Count];
+			T[] result = new T[me.Count];
 			for (int i = 0; i < result.Length; i++)
-				result[i] = data[i];
+				result[i] = me[i];
 			return result;
+		}
+		public static Slice<T> Slice<T>(this IVector<T> me, int offset, int count)
+		{
+			return new Slice<T>(me, offset, count);
+		}
+		public static Merge<T> Merge<T>(this IVector<T> me, IVector<T> other)
+		{
+			return new Merge<T>(me, other);
 		}
 	}
 }

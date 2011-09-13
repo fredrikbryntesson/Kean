@@ -75,9 +75,10 @@ namespace Kean.Cli
 		{
 			return null;
 		}
-		public bool Write(char value)
+		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			Console.Write(value);
+			foreach (char c in buffer)
+				Console.Write(c);
 			return true;
 		}
 		public bool Close()

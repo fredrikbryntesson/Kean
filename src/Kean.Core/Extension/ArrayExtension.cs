@@ -1,5 +1,5 @@
 ﻿// 
-//  VectorExtension.cs
+//  ArrayExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

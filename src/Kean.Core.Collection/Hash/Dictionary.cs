@@ -29,31 +29,31 @@ namespace Kean.Core.Collection.Hash
 		IDictionary<TKey, TValue>
 		where TKey : System.IEquatable<TKey>
 	{
-		IList<Tuple<TKey, TValue>>[] data;
+		IList<KeyValue<TKey, TValue>>[] data;
 		public TValue this[TKey key]
 		{
 			get
 			{
 				TValue result = default(TValue);
-				IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
+				IList<KeyValue<TKey, TValue>> list = this.data[this.Index(key)];
 				if (list.NotNull() && list.Count > 0)
 				{
-					Tuple<TKey, TValue> entry = list.Find(e => e.Item1.Equals(key));
+					KeyValue<TKey, TValue> entry = list.Find(e => e.Key.Equals(key));
 					if (entry.NotNull())
-						result = entry.Item2;
+						result = entry.Value;
 				}
 				return result;
 			}
 			set
 			{
-				IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
+				IList<KeyValue<TKey, TValue>> list = this.data[this.Index(key)];
 				if (list.IsNull())
-					this.data[this.Index(key)] = list = new Linked.List<Tuple<TKey, TValue>>();
-				int index = list.Index(entry => entry.Item1.Equals(key));
+					this.data[this.Index(key)] = list = new Linked.List<KeyValue<TKey, TValue>>();
+				int index = list.Index(entry => entry.Key.Equals(key));
 				if (index >= 0)
-					list[index] = Tuple.Create(key, value);
+					list[index] = KeyValue.Create(key, value);
 				else
-					list.Add(Tuple.Create(key, value));
+					list.Add(KeyValue.Create(key, value));
 			}
 		}
 		public Dictionary() :
@@ -61,7 +61,7 @@ namespace Kean.Core.Collection.Hash
 		{ }
 		public Dictionary(int capacity)
 		{
-			this.data = new IList<Tuple<TKey, TValue>>[capacity];
+			this.data = new IList<KeyValue<TKey, TValue>>[capacity];
 		}
 		int Index(TKey key)
 		{
@@ -72,13 +72,13 @@ namespace Kean.Core.Collection.Hash
 		}
 		public bool Contains(TKey key)
 		{
-			IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
-			return list.NotNull() && list.Count > 0 && list.Find(entry => entry.Item1.Equals(key)).NotNull();
+			IList<KeyValue<TKey, TValue>> list = this.data[this.Index(key)];
+			return list.NotNull() && list.Count > 0 && list.Find(entry => entry.Key.Equals(key)).NotNull();
 		}
 		public bool Remove(TKey key)
 		{
-			IList<Tuple<TKey, TValue>> list = this.data[this.Index(key)];
-			return list.NotNull() && list.Remove(entry => entry.Item1.Equals(key));
+			IList<KeyValue<TKey, TValue>> list = this.data[this.Index(key)];
+			return list.NotNull() && list.Remove(entry => entry.Key.Equals(key));
 		}
 		#region Object Overrides
 		public override bool Equals(object other)
@@ -88,7 +88,7 @@ namespace Kean.Core.Collection.Hash
 		public override int GetHashCode()
 		{
 			int result = 0;
-			foreach (Tuple<TKey, TValue> pair in this)
+			foreach (KeyValue<TKey, TValue> pair in this)
 				result ^= pair.Hash();
 			return result;
 		}
@@ -99,12 +99,12 @@ namespace Kean.Core.Collection.Hash
 			return this.GetEnumerator();
 		}
 		#endregion
-		#region IEnumerable<Tuple<TKey,TValue>> Members
-		public System.Collections.Generic.IEnumerator<Tuple<TKey, TValue>> GetEnumerator()
+		#region IEnumerable<KeyValue<TKey,TValue>> Members
+		public System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> GetEnumerator()
 		{
-			foreach (IList<Tuple<TKey, TValue>> list in this.data)
+			foreach (IList<KeyValue<TKey, TValue>> list in this.data)
 				if (list.NotNull())
-					foreach (Tuple<TKey, TValue> pair in list)
+					foreach (KeyValue<TKey, TValue> pair in list)
 						yield return pair;
 		}
 		#endregion
@@ -114,8 +114,8 @@ namespace Kean.Core.Collection.Hash
 			bool result = other.NotNull();
             int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
 			if (result)
-				foreach (Tuple<TKey, TValue> pair in other)
-                    if (!(result = count-- == 0 || this[pair.Item1].Equals(pair.Item2)))
+				foreach (KeyValue<TKey, TValue> pair in other)
+                    if (!(result = count-- == 0 || this[pair.Key].Equals(pair.Value)))
 						break;
 
 			return result && count == 0;

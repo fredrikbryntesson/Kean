@@ -25,7 +25,7 @@ namespace Kean.Core.Collection
 	public class Vector<T> :
 		Abstract.Vector<T>
 	{
-		private T[] data;
+		T[] data;
 		public override int Count { get { return this.data.Length; } }
 		public override T this[int index]
 		{
@@ -63,7 +63,7 @@ namespace Kean.Core.Collection
 		{
 			return new Vector<T>(array);
 		}
-		public static implicit operator T[](Vector<T> vector)
+		public static explicit operator T[](Vector<T> vector)
 		{
 			return vector.data;
 		}

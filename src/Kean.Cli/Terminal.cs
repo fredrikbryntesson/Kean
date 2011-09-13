@@ -29,6 +29,9 @@ namespace Kean.Cli
 		IO.ICharacterReader reader;
 		IO.ICharacterWriter writer;
 		#region Constructors
+		public Terminal(IO.ICharacterDevice device) :
+			this(device, device)
+		{ }
 		public Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
 			this(new IO.CharacterReader(inDevice), new IO.CharacterWriter(outDevice))
 		{ }
@@ -65,17 +68,16 @@ namespace Kean.Cli
 			get { return this.writer.NewLine; }
 			set { this.writer.NewLine = value; }
 		}
-		public bool Write(char value) { return this.writer.Write(value); }
+		public bool Write(params char[] buffer) { return this.writer.Write(buffer); }
 		public bool Write(string value) { return this.writer.Write(value); }
 		public bool Write<T>(T value) where T : IConvertible { return this.writer.Write(value); }
-		public bool Write(char[] buffer) { return this.writer.Write(buffer); }
-		public bool Write(char[] buffer, int index, int count) { return this.writer.Write(buffer, index, count); }
+		public bool Write(System.Collections.Generic.IEnumerable<char> buffer) { return this.writer.Write(buffer); }
 		public bool Write(string format, params object[] arguments) { return this.writer.Write(format, arguments); }
 		public bool WriteLine() { return this.writer.WriteLine(); }
+		public bool WriteLine(params char[] buffer) { return this.writer.WriteLine(buffer); }
 		public bool WriteLine(string value) { return this.writer.WriteLine(value); }
 		public bool WriteLine<T>(T value) where T : IConvertible { return this.writer.WriteLine(value); }
-		public bool WriteLine(char[] buffer) { return this.writer.WriteLine(buffer); }
-		public bool WriteLine(char[] buffer, int index, int count) { return this.writer.WriteLine(buffer, index, count); }
+		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer) { return this.writer.WriteLine(buffer); }
 		public bool WriteLine(string format, params object[] arguments) { return this.writer.WriteLine(format, arguments); }
 		#endregion
 	}

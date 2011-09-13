@@ -21,6 +21,8 @@
 
 using System;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.IO
 {
@@ -57,9 +59,9 @@ namespace Kean.IO
 		#endregion
 
 		#region ICharacterWriter Members
-		public bool Write(char value)
+		public bool Write(params char[] buffer)
 		{
-			return this.backend.Write(value);
+			return this.backend.Write(buffer);
 		}
 		public bool Write(string value)
 		{
@@ -69,25 +71,21 @@ namespace Kean.IO
 		{
 			return this.Write(value.ToString((IFormatProvider)System.Globalization.CultureInfo.InvariantCulture.GetFormat(typeof(T))));
 		}
-		public bool Write(char[] buffer)
-		{
-			return this.Write(buffer, 0, buffer.Length);
-		}
-		public bool Write(char[] buffer, int index, int count)
-		{
-			int end = index + count;
-			bool result = buffer.Length >= end;
-			while (result && index < count)
-				result &= this.Write(buffer[index++]);
-			return result;
-		}
 		public bool Write(string format, params object[] arguments)
 		{
 			return this.Write(string.Format(format, arguments));
 		}
+		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
+		{
+			return this.backend.Write(buffer);
+		}
 		public bool WriteLine()
 		{
 			return this.Write(this.NewLine);
+		}
+		public bool WriteLine(params char[] buffer)
+		{
+			return this.backend.Write(buffer.Merge(this.NewLine));
 		}
 		public bool WriteLine(string value)
 		{
@@ -97,17 +95,13 @@ namespace Kean.IO
 		{
 			return this.WriteLine(value.ToString((IFormatProvider)System.Globalization.CultureInfo.InvariantCulture.GetFormat(typeof(T))));
 		}
-		public bool WriteLine(char[] buffer)
-		{
-			return this.WriteLine(buffer, 0, buffer.Length);
-		}
-		public bool WriteLine(char[] buffer, int index, int count)
-		{
-			return this.Write(buffer, index, 0) && this.WriteLine();
-		}
 		public bool WriteLine(string format, params object[] arguments)
 		{
 			return this.WriteLine(string.Format(format, arguments));
+		}
+		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer)
+		{
+			return this.backend.Write(buffer) && this.WriteLine();
 		}
 		#endregion
 

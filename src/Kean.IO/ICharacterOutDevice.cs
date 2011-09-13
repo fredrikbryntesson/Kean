@@ -26,6 +26,6 @@ namespace Kean.IO
 	public interface ICharacterOutDevice :
 		IOutDevice
 	{
-		bool Write(char value);
+		bool Write(System.Collections.Generic.IEnumerable<char> buffer);
 	}
 }
