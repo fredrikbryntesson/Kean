@@ -132,9 +132,9 @@ namespace Kean.Draw.Raster
 						result = new Yvu420(this) as T;
 				}
 			return result;
-		}
-
-		public void Save(string filename)
+        }
+        #region Save
+        public void Save(string filename)
 		{
 			Compression compression;
 			if (filename.EndsWith(".jpg") || filename.EndsWith(".jpeg"))
@@ -172,13 +172,17 @@ namespace Kean.Draw.Raster
 						{ }
 					}
 			}
-		}
-		public override float Distance(Draw.Image other)
+        }
+        #endregion
+        #region Metric
+        public override float Distance(Draw.Image other)
 		{
 
             return other is Image ? this.buffer.Distance((other as Image).buffer) : float.MaxValue;
         }
-       	public override bool Equals(object other)
+        #endregion
+        #region Object Overrides
+        public override bool Equals(object other)
 		{
 			return other is Image && this.Equals(other as Image);
 		}
@@ -195,10 +199,10 @@ namespace Kean.Draw.Raster
 		public override string ToString()
 		{
 			return "<" + this.Size + ">";
-		}
-
-		#region Static Open
-		public static Image OpenResource(System.Reflection.Assembly assembly, string name)
+        }
+        #endregion
+        #region Static Open
+        public static Image OpenResource(System.Reflection.Assembly assembly, string name)
 		{
 			name = assembly.GetName().Name + "." + name.Replace('\\', '.').Replace('/', '.');
 			Image result;
@@ -244,6 +248,5 @@ namespace Kean.Draw.Raster
 			return result;
 		}
 		#endregion
-
-	}
+    }
 }
