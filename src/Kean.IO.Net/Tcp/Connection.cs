@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Extension;
+using Text = System.Text;
 
 namespace Kean.IO.Net.Tcp
 {
@@ -37,10 +38,8 @@ namespace Kean.IO.Net.Tcp
 			this.client.NoDelay = true;
 		}
 		Connection(System.Net.Sockets.NetworkStream stream) :
-			base(stream)
-		{
-			stream.WriteByte(0);
-			stream.Flush();
+			base(stream, Text.Encoding.ASCII)
+		{ 
 		}
 		#endregion
 		public override bool Close()

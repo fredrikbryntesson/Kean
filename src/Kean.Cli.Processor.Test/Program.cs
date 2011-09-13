@@ -27,7 +27,13 @@ namespace Kean.Cli.Processor.Test
 	{
 		static void Main(string[] args)
 		{
-			Editor editor = new Editor(new Command.Application(), new ConsoleTerminal());
+			Command.Application application = new Command.Application();
+			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
+			{
+				new Editor(application, new VT100(connection)).Read();
+			}
+			, 7);
+			Editor editor = new Editor(application, new ConsoleTerminal());
 			editor.Read();
 		}
 	}

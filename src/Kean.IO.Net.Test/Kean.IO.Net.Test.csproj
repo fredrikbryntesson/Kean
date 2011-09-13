@@ -41,6 +41,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
+      <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
+      <Name>Kean.Core.Parallel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>

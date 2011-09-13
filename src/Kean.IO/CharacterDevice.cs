@@ -23,6 +23,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Text = System.Text;
 
 namespace Kean.IO
 {
@@ -33,6 +34,9 @@ namespace Kean.IO
 		System.IO.TextWriter writer;
 
 		#region Constructors
+		public CharacterDevice(System.IO.Stream stream, Text.Encoding encoding) :
+			this(new System.IO.StreamReader(stream, encoding), new System.IO.StreamWriter(stream, encoding))
+		{ }
 		public CharacterDevice(System.IO.Stream stream) :
 			this(new System.IO.StreamReader(stream), new System.IO.StreamWriter(stream))
 		{ }
@@ -42,7 +46,6 @@ namespace Kean.IO
 			this.writer = writer;
 		}
 		#endregion
-
 		#region ICharacterDevice Members
 		public bool Readable { get { return this.reader.NotNull(); } }
 		public bool Writeable { get { return this.writer.NotNull(); } }
