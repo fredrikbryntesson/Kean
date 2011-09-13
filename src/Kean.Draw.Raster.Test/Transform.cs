@@ -35,6 +35,7 @@ namespace Kean.Draw.Raster.Test
         protected override void Run()
         {
             this.Run(
+				this.Different,
                 this.CutRotate,
                 this.CutScale,
                 this.CutTranslate,
@@ -42,6 +43,14 @@ namespace Kean.Draw.Raster.Test
                 this.Resize
                 );
         }
+		[Test]
+		public void Different()
+		{
+			 Target.Image a = Target.Image.OpenResource("Bitmaps/Transform/scaled.png");
+			 Target.Image b = Target.Image.OpenResource("Bitmaps/Transform/translated.png");
+			 float distance = a.Distance(b);
+			 Expect(distance, Is.GreaterThan(50), this.prefix + "Different.0");
+		}
         #region  Cut, resize and copy
         [Test]
         public void CutRotate()
@@ -59,7 +68,10 @@ namespace Kean.Draw.Raster.Test
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateScaling(1.5f);
             Target.Image copy = image.Copy(size, transform) as Target.Image;
-            Expect(copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/scaled.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "CutScale.0");
+			copy.Save("copy.png");
+			image.Save("image.png");
+			float distance = copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/scaled.png").Convert<Target.Bgra>());
+            Expect(distance, Is.LessThanOrEqualTo(20), this.prefix + "CutScale.0");
         }
         [Test]
         public void CutTranslate()
@@ -78,7 +90,7 @@ namespace Kean.Draw.Raster.Test
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45));
             Target.Image copy = image.Copy(size, transform) as Target.Image;
-            Expect(copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/coordinateSystem.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "CoordinateSystems.0");
+            Expect(copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/coordinateSystem.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(2), this.prefix + "CoordinateSystems.0");
         }
         [Test]
         public void Resize()
@@ -86,7 +98,7 @@ namespace Kean.Draw.Raster.Test
             Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Target.Image copy = first.Resize(size) as Target.Image;
-            Expect(first.Resize(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Resize.0");
+            Expect(first.Resize(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize.0");
         }
         #endregion
     }
