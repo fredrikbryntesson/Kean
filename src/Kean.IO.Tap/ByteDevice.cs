@@ -25,7 +25,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 
-namespace Kean.IO
+namespace Kean.IO.Tap
 {
 	public class ByteDevice :
 		IByteDevice
