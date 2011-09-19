@@ -30,8 +30,10 @@ namespace Kean.Math.Geometry2D.Test.Single
             base.Run();
             this.Run(
                 this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts
+                this.ValueCastsSizeValue,
+                this.ValueStringCastsSizeValue,
+                this.ValueCastsSize,
+                this.ValueStringCastsSize
                 );
         }
 
@@ -50,7 +52,7 @@ namespace Kean.Math.Geometry2D.Test.Single
             Expect((Target.Integer.Size)single, Is.EqualTo(integer));
         }
         [Test]
-        public void ValueCasts()
+        public void ValueCastsSizeValue()
         {
             // integer - single
             Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20);
@@ -60,11 +62,30 @@ namespace Kean.Math.Geometry2D.Test.Single
             Expect((Target.Integer.SizeValue)single, Is.EqualTo(integer));
         }
         [Test]
-        public void ValueStringCasts()
+        public void ValueStringCastsSizeValue()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20);
-            Expect(textFromValue, Is.EqualTo("10 20"));
-            Target.Single.SizeValue @integerFromText = "10 20";
+            Expect(textFromValue, Is.EqualTo("10,20"));
+            Target.Single.SizeValue @integerFromText = "10, 20";
+            Expect(@integerFromText.Width, Is.EqualTo(10));
+            Expect(@integerFromText.Height, Is.EqualTo(20));
+        }
+        [Test]
+        public void ValueCastsSize()
+        {
+            // integer - single
+            Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20);
+            Target.Single.SizeValue single = integer;
+            Expect(single.Width, Is.EqualTo(10));
+            Expect(single.Height, Is.EqualTo(20));
+            Expect((Target.Integer.SizeValue)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ValueStringCastsSize()
+        {
+            string textFromValue = new Target.Single.SizeValue(10, 20);
+            Expect(textFromValue, Is.EqualTo("10,20"));
+            Target.Single.SizeValue @integerFromText = "10, 20";
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));
         }

@@ -259,7 +259,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return Kean.Math.Single.ToString(this.X) + " " + Kean.Math.Single.ToString(this.Y);
+            return Kean.Math.Single.ToString(this.X) + "," + Kean.Math.Single.ToString(this.Y);
         }
         #endregion
     }

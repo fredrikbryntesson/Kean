@@ -199,7 +199,7 @@ namespace Kean.Math.Geometry2D.Integer
         }
         public override string ToString()
         {
-            return Kean.Math.Integer.ToString(this.X) + " " + Kean.Math.Integer.ToString(this.Y);
+            return Kean.Math.Integer.ToString(this.X) + "," + Kean.Math.Integer.ToString(this.Y);
         }
         #endregion
     }

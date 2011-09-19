@@ -112,7 +112,7 @@ namespace Kean.Math.Geometry2D.Integer
         #region Object Overrides
         public override string ToString()
         {
-            return this.LeftTop.ToString() + " " + this.Size.ToString();
+            return this.LeftTop.ToString() + "," + this.Size.ToString();
         }
         public override int GetHashCode()
         {

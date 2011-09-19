@@ -210,7 +210,7 @@ namespace Kean.Math.Geometry3D.Abstract
         }
         public override string ToString()
         {
-            return this.X.ToString() + " " + this.Y.ToString() + " " + this.Z.ToString();
+            return this.X.ToString() + "," + this.Y.ToString() + "," + this.Z.ToString();
         }
         #endregion
         #region Casts

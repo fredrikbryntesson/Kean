@@ -80,7 +80,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20);
-            Expect(textFromValue, Is.EqualTo("10 20"));
+            Expect(textFromValue, Is.EqualTo("10,20"));
             Target.Single.SizeValue @integerFromText = "10 20";
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));

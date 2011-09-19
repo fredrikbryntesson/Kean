@@ -58,6 +58,54 @@ namespace Kean.Math.Geometry2D.Abstract
 		}
 		#endregion
 		#region Arithmetic Operators
+        public static PointType operator +(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X + (R)right.X, left.Y + (R)right.Y);
+        }
+        public static PointType operator +(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        {
+            return new PointType().Create(left.X + (R)right.X, left.Y + (R)right.Y);
+        }
+        public static PointType operator +(IVector<V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X + (R)right.X, left.Y + (R)right.Y);
+        }
+        public static PointType operator -(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X - (R)right.X, left.Y - (R)right.Y);
+        }
+        public static PointType operator -(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        {
+            return new PointType().Create(left.X - (R)right.X, left.Y - (R)right.Y);
+        }
+        public static PointType operator -(IVector<V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X - (R)right.X, left.Y - (R)right.Y);
+        }
+        public static PointType operator *(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X * (R)right.X, left.Y * (R)right.Y);
+        }
+        public static PointType operator *(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        {
+            return new PointType().Create(left.X * (R)right.X, left.Y * (R)right.Y);
+        }
+        public static PointType operator *(IVector<V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X * (R)right.X, left.Y * (R)right.Y);
+        }
+        public static PointType operator /(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X / (R)right.X, left.Y / (R)right.Y);
+        }
+        public static PointType operator /(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
+        {
+            return new PointType().Create(left.X / (R)right.X, left.Y / (R)right.Y);
+        }
+        public static PointType operator /(IVector<V> left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new PointType().Create(left.X / (R)right.X, left.Y / (R)right.Y);
+        }
         public static PointType operator *(TransformType left, Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
             return new PointType().Create(left.A * (R)right.X + left.C * (R)right.Y + left.E, left.B * (R)right.X + left.D * (R)right.Y + left.F);

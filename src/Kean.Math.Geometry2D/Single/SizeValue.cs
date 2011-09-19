@@ -137,7 +137,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return Kean.Math.Single.ToString(this.Width) + " " + Kean.Math.Single.ToString(this.Height);
+            return Kean.Math.Single.ToString(this.Width) + "," + Kean.Math.Single.ToString(this.Height);
         }
         #endregion
     }

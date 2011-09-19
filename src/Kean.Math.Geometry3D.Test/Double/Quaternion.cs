@@ -147,7 +147,7 @@ namespace Kean.Math.Geometry3D.Test.Double
         [Test]
         public void Casting()
         {
-            string value = "1 2 3 4";
+            string value = "1,2,3,4";
 			Target.Quaternion quaternion = (Target.Quaternion)(1.0) + Target.Quaternion.BasisImaginaryX * 2 + Target.Quaternion.BasisImaginaryY * 3 + Target.Quaternion.BasisImaginaryZ * 4;
             Expect(this.CastToString(quaternion), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(quaternion));

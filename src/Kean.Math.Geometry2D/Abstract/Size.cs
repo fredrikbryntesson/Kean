@@ -46,6 +46,8 @@ namespace Kean.Math.Geometry2D.Abstract
 		V ISize<V>.Height { get { return this.Height; } }
 		#endregion
 		public V Area { get { return base.X.Multiply(base.Y); } }
+        public V Length { get { return (((R)base.X).Squared() + ((R)base.Y).Squared()).SquareRoot(); } }
+        public bool Empty { get { return ((R)this.Width) == Kean.Math.Abstract<R, V>.Zero || ((R)this.Height) == Kean.Math.Abstract<R, V>.Zero; } }
         protected Size() { }
 	    protected Size(R width, R height) :
 			base(width, height)
@@ -57,15 +59,64 @@ namespace Kean.Math.Geometry2D.Abstract
 		}
 		#endregion
 		#region Arithmetic Operators
-		public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        public static SizeType operator +(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
         {
-			return Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(left.A * (R)right.Width + left.C * (R)right.Height, left.B * (R)right.Width + left.D * (R)right.Height);
+            return new SizeType().Create(left.Width + (R)right.Width, left.Height + (R)right.Height);
+        }
+        public static SizeType operator +(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, ISize<V> right)
+        {
+            return new SizeType().Create(left.Width + (R)right.Width, left.Height + (R)right.Height);
+        }
+        public static SizeType operator +(ISize<V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width + (R)right.Width, left.Height + (R)right.Height);
+        }
+        public static SizeType operator -(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width - (R)right.Width, left.Height - (R)right.Height);
+        }
+        public static SizeType operator -(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, ISize<V> right)
+        {
+            return new SizeType().Create(left.Width - (R)right.Width, left.Height - (R)right.Height);
+        }
+        public static SizeType operator -(ISize<V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width - (R)right.Width, left.Height - (R)right.Height);
+        }
+        public static SizeType operator *(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width * (R)right.Width, left.Height * (R)right.Height);
+        }
+        public static SizeType operator *(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, ISize<V> right)
+        {
+            return new SizeType().Create(left.Width * (R)right.Width, left.Height * (R)right.Height);
+        }
+        public static SizeType operator *(ISize<V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width * (R)right.Width, left.Height * (R)right.Height);
+        }
+        public static SizeType operator /(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width / (R)right.Width, left.Height / (R)right.Height);
+        }
+        public static SizeType operator /(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, ISize<V> right)
+        {
+            return new SizeType().Create(left.Width / (R)right.Width, left.Height / (R)right.Height);
+        }
+        public static SizeType operator /(ISize<V> left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            return new SizeType().Create(left.Width / (R)right.Width, left.Height / (R)right.Height);
+        }
+        public static SizeType operator *(TransformType left, Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+			return new SizeType().Create(left.A * (R)right.Width + left.C * (R)right.Height, left.B * (R)right.Width + left.D * (R)right.Height);
         }
         #endregion
+        /*
         public static SizeType Create(V width, V height)
         {
 			return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(width, height);
-        }
+        }*/
 		#region Casts
 		public static explicit operator PointType(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> size)
 		{

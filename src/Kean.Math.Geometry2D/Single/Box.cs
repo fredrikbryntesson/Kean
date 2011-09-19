@@ -43,6 +43,14 @@ namespace Kean.Math.Geometry2D.Single
             float height = Kean.Math.Single.Maximum((this.Bottom < other.Bottom ? this.Bottom : other.Bottom) - top, 0);
             return new Box(left, top, width, height);
         }
+        public override Box Union(Box other)
+        {
+            float left = Kean.Math.Single.Minimum(this.Left, other.Left);
+            float top = Kean.Math.Single.Minimum(this.Top, other.Top);
+            float width = Kean.Math.Single.Maximum(this.Right, other.Right) - Kean.Math.Single.Minimum(this.Left, other.Left);
+            float height = Kean.Math.Single.Maximum(this.Bottom, other.Bottom) - Kean.Math.Single.Minimum(this.Top, other.Top);
+            return new Box(left, top, width, height);
+        }
         #region Casts
         public static implicit operator Box(Integer.Box value)
         {

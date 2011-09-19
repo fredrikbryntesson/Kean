@@ -177,6 +177,10 @@ namespace Kean.Math.Geometry2D.Abstract
                 return new TransformType() { A = one, B = zero, C = zero, D = one, E = zero, F = zero, };
             }
         }
+        public static TransformType CreateTranslation(V delta)
+        {
+            return Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(delta, delta);
+        }
         public static TransformType CreateTranslation(IVector<V> delta)
         {
             return Abstract.Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.CreateTranslation(delta.X, delta.Y);
@@ -200,6 +204,13 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             R zero = Kean.Math.Abstract<R, V>.Zero;
             return new TransformType() { A = ((R)angle).Cosinus(), B = ((R)angle).Sinus(), C = -((R)angle).Sinus(), D = ((R)angle).Cosinus(), E = zero, F = zero };
+        }
+        public static TransformType CreateRotation(V angle, IPoint<V> pivot)
+        {
+            V one = Kean.Math.Abstract<R, V>.One;
+            R sine = ((R)angle).Sinus();
+            R cosine = ((R)angle).Cosinus();
+            return new TransformType() { A = cosine, B = sine, C = -sine, D = cosine, E = (one - cosine) * pivot.X + sine * pivot.Y, F = -sine * pivot.X + (one - cosine) * pivot.Y };
         }
         public static TransformType CreateSkewingX(V angle)
         {
@@ -295,7 +306,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.A.ToString() + ", " + this.C.ToString() + ", " + this.E.ToString() + "; " + this.B.ToString() + ", " + this.D.ToString() + ", " + this.F.ToString() + "; " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R,V>.One.ToString();
+            return this.A.ToString() + "," + this.C.ToString() + "," + this.E.ToString() + ";" + this.B.ToString() + "," + this.D.ToString() + "," + this.F.ToString() + ";" + new R().ToString() + "," + new R().ToString() + "," + Kean.Math.Abstract<R,V>.One.ToString();
         }
         #endregion
         #region Casts

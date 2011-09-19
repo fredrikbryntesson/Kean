@@ -42,7 +42,15 @@ namespace Kean.Math.Geometry2D.Double
             double height = Kean.Math.Double.Maximum((this.Bottom < other.Bottom ? this.Bottom : other.Bottom) - top, 0);
             return new Box(left, top, width, height);
         }
-        #region Casts
+        public override Box Union(Box other)
+        {
+            double left = Kean.Math.Double.Minimum(this.Left, other.Left);
+            double top = Kean.Math.Double.Minimum(this.Top, other.Top);
+            double width = Kean.Math.Double.Maximum(this.Right, other.Right) - Kean.Math.Double.Minimum(this.Left, other.Left);
+            double height = Kean.Math.Double.Maximum(this.Bottom, other.Bottom) - Kean.Math.Double.Minimum(this.Top, other.Top);
+            return new Box(left, top, width, height);
+        }
+	    #region Casts
         public static implicit operator Box(Single.Box value)
         {
             return new Box(value.LeftTop, value.Size);

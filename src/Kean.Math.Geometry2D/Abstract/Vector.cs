@@ -108,7 +108,19 @@ namespace Kean.Math.Geometry2D.Abstract
 		{
 			return new VectorType() { X = this.X.Floor(), Y = this.Y.Floor() };
 		}
-		#endregion
+        public VectorType Minimum(IVector<V> floor)
+        {
+            return new VectorType() { X = Kean.Math.Abstract<R,V>.Minimum((R)this.X, (R)floor.X), Y = Kean.Math.Abstract<R,V>.Minimum((R)this.Y, (R)floor.Y) };
+        }
+        public VectorType Maximum(IVector<V> ceiling)
+        {
+            return new VectorType() { X = Kean.Math.Abstract<R, V>.Maximum((R)this.X, (R)ceiling.X), Y = Kean.Math.Abstract<R, V>.Maximum((R)this.Y, (R)ceiling.Y) };
+        }
+	    public VectorType Clamp(IVector<V> floor, IVector<V> ceiling)
+        {
+            return new VectorType().Create(((R)this.X).Clamp((R)floor.X, (R)ceiling.X), ((R)this.Y).Clamp((R)floor.Y, (R)ceiling.Y));
+        }
+       	#endregion
         #region Arithmetic Vector - Vector Operators
 		public static VectorType operator +(Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IVector<V> right)
         {
@@ -205,7 +217,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.X.ToString() + " " + this.Y.ToString();
+            return this.X.ToString() + "," + this.Y.ToString();
         }
         #endregion
         #region Casts

@@ -109,6 +109,10 @@ namespace Kean.Math
         {
             return Single.Convert(System.Math.Floor(value));
         }
+        public static float Floor(double value)
+        {
+            return Single.Convert(System.Math.Floor(value));
+        }
         public static float Ceiling(float value)
         {
             return Single.Convert(System.Math.Ceiling(value));

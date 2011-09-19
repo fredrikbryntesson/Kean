@@ -140,7 +140,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return Kean.Math.Single.ToString(this.A) + ", " + Kean.Math.Single.ToString(this.C) + ", " + Kean.Math.Single.ToString(this.E) + "; " + Kean.Math.Single.ToString(this.B) + ", " + Kean.Math.Single.ToString(this.D) + ", " + Kean.Math.Single.ToString(this.F) + "; " + 0 + ", " + 0 + ", " + 1;
+            return Kean.Math.Single.ToString(this.A) + "," + Kean.Math.Single.ToString(this.C) + "," + Kean.Math.Single.ToString(this.E) + ";" + Kean.Math.Single.ToString(this.B) + "," + Kean.Math.Single.ToString(this.D) + "," + Kean.Math.Single.ToString(this.F) + ";" + 0 + "," + 0 + "," + 1;
         }
         #endregion
    }

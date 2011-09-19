@@ -57,16 +57,17 @@ namespace Kean.Math.Geometry2D.Abstract
         public V Bottom { get { return (R)((this.LeftTop as IPoint<V>).Y) + this.Size.Height; } }
         #endregion
 
-		#region All corners
+		#region All other corners
 		public PointType RightTop { get { return Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.Right, this.Top); } }
 		public PointType LeftBottom { get { return Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.Left, this.Bottom); } }
 		public PointType RightBottom { get { return this.LeftTop + this.Size; } }
 		#endregion
-
+        public PointType Center { get { return this.LeftTop + this.Size / Kean.Math.Abstract<R, V>.Two; } }
         #region IBox<PointValue, SizeValue, V>
         PointValue IBox<PointValue, SizeValue, V>.LeftTop { get { return this.LeftTop.Value; } }
         SizeValue IBox<PointValue, SizeValue, V>.Size { get { return this.Size.Value; } }
         #endregion
+        public bool Empty { get { return this.Size.Empty; } }
         public abstract BoxValue Value { get; }
 
         #region Constructors
@@ -104,14 +105,15 @@ namespace Kean.Math.Geometry2D.Abstract
             return this.Intersection(box) == box;
         }
         public abstract BoxType Intersection(BoxType other);
-		public BoxType Round()
+        public abstract BoxType Union(BoxType other);
+       	public BoxType Round()
 		{
 			return new BoxType() { leftTop = this.LeftTop.Round(), size = this.Size.Round() };
 		}
 		public BoxType Ceiling()
 		{
 			PointType leftTop = this.LeftTop.Floor();
-			return new BoxType() { leftTop = leftTop, size = (SizeType)(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>)(this.RightBottom.Ceiling()) - leftTop, };
+			return new BoxType() { leftTop = leftTop, size = (SizeType)(Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>)(this.RightBottom.Ceiling()) - (IVector<V>)leftTop, };
 		}
 		public BoxType Floor()
 		{
@@ -119,9 +121,48 @@ namespace Kean.Math.Geometry2D.Abstract
 		}
 		#endregion
         #region Arithmetic operators
+        public static BoxType operator +(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, BoxType right)
+        {
+            BoxType result;
+            if (left.Empty)
+                result = right;
+            else if (right.Empty)
+                result = (BoxType)left;
+            else
+                result = new BoxType()
+                {
+                    leftTop = Kean.Math.Geometry2D.Abstract.Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Kean.Math.Abstract<R, V>.Minimum((R)left.Left, (R)right.Left), Kean.Math.Abstract<R, V>.Minimum((R)left.Top, (R)right.Top)),
+                    size = Kean.Math.Geometry2D.Abstract.Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Kean.Math.Abstract<R, V>.Maximum((R)left.Right, (R)right.Right) - Kean.Math.Abstract<R, V>.Minimum((R)left.Left, (R)right.Left), Kean.Math.Abstract<R, V>.Maximum((R)left.Bottom, (R)right.Bottom) - Kean.Math.Abstract<R, V>.Minimum((R)left.Top, (R)right.Top))
+                };
+            return result;
+        }
+        public static BoxType operator -(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> right)
+        {
+            BoxType result;
+            if (!left.Empty && !right.Empty)
+            {
+                R l = Kean.Math.Abstract<R, V>.Maximum((R)left.Left, (R)right.Left);
+                R r = Kean.Math.Abstract<R, V>.Minimum((R)left.Right, (R)right.Right);
+                R t = Kean.Math.Abstract<R, V>.Maximum((R)left.Top, (R)right.Top);
+                R b = Kean.Math.Abstract<R, V>.Minimum((R)left.Bottom, (R)right.Bottom);
+                if (l.LessThan(r) && t.LessThan(b))
+                {
+                    result = new BoxType()
+                    {
+                        leftTop = Kean.Math.Geometry2D.Abstract.Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(l, t),
+                        size = Kean.Math.Geometry2D.Abstract.Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(r - l, b - t)
+                    };
+                }
+                else
+                    result = new BoxType();
+            }
+            else
+                result = new BoxType();
+            return result;
+        }
         public static BoxType operator +(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {
-            return new BoxType() { leftTop = left.leftTop + right, size = left.size };
+            return new BoxType() { leftTop = left.leftTop + (IVector<V>)right, size = left.size };
         }
         public static BoxType operator -(Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, PointType right)
         {

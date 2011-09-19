@@ -55,7 +55,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void Casting()
         {
-            string value = "10 20 30";
+            string value = "10,20,30";
             Expect(this.CastToString(this.Vector3), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(this.Vector3));
         }

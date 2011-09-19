@@ -145,7 +145,7 @@ namespace Kean.Math.Geometry2D.Double
         }
         public override string ToString()
         {
-            return Kean.Math.Double.ToString(this.Width) + " " + Kean.Math.Double.ToString(this.Height);
+            return Kean.Math.Double.ToString(this.Width) + "," + Kean.Math.Double.ToString(this.Height);
         }
         #endregion
     }

@@ -237,7 +237,7 @@ namespace Kean.Math.Geometry2D.Double
         }
         public override string ToString()
         {
-            return Kean.Math.Double.ToString(this.X) + " " + Kean.Math.Double.ToString(this.Y);
+            return Kean.Math.Double.ToString(this.X) + "," + Kean.Math.Double.ToString(this.Y);
         }
         #endregion
     }

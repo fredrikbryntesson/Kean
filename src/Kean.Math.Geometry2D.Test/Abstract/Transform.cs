@@ -247,7 +247,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void Casting()
         {
-            string value = "10, 30, 50; 20, 40, 60; 0, 0, 1";
+            string value = "10,30,50;20,40,60;0,0,1";
             Expect(this.CastToString(this.Transform4), Is.EqualTo(value), this.prefix + "Casting.0");
             Expect(this.CastFromString(value), Is.EqualTo(this.Transform4), this.prefix + "Casting.1");
         }

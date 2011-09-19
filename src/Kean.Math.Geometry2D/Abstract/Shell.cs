@@ -83,6 +83,10 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
         }
+        public override string ToString()
+        {
+            return this.Left.ToString() + "," + this.Right.ToString() + "," + this.Top.ToString() + "," + this.Bottom.ToString();
+        }
         #endregion
         public static ShellType Create(V left, V right, V top, V bottom)
         {

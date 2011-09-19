@@ -59,9 +59,14 @@ namespace Kean.Math.Geometry2D.Test.Abstract
             Expect(this.Vector0 - this.Vector0, Is.EqualTo(new VectorType()));
         }
         [Test]
-        public void ScalarMultitplication()
+        public void ScalarMultiplication()
         {
             Expect((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
+        }
+        [Test]
+        public void ScalarDivision()
+        {
+            Expect(this.Vector0 / (-Kean.Math.Abstract<R, V>.One), Is.EqualTo(-this.Vector0));
         }
         #endregion
     }
