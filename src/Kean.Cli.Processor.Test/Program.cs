@@ -30,11 +30,15 @@ namespace Kean.Cli.Processor.Test
 			Command.Application application = new Command.Application();
 			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
 			{
-				new Editor(application, new VT100(new IO.CharacterDevice(new IO.Net.Telnet.Server(connection)))).Read();
+				new Editor(application, 
+					new VT100(
+						new IO.CharacterDevice(
+							new IO.Net.Telnet.Server(
+								new IO.Tap.ByteDevice(connection, b => Console.WriteLine("r " + (int) b), b => Console.WriteLine("w " + (int) b)))))).Read();
 			}
-			, 7);
-			Editor editor = new Editor(application, new ConsoleTerminal());
-			editor.Read();
+			, 23);
+			//Editor editor = new Editor(application, new ConsoleTerminal());
+			//editor.Read();
 		}
 	}
 }

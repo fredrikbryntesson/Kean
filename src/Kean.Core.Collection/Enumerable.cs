@@ -1,5 +1,5 @@
 ﻿// 
-//  VT100.cs
+//  Enumerable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,26 +18,30 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
-namespace Kean.Cli
+namespace Kean.Core.Collection
 {
-	public class VT100 :
-		Terminal
+	public class Enumerable<T> :
+		System.Collections.Generic.IEnumerable<T>
 	{
+		Func<System.Collections.Generic.IEnumerator<T>> getEnumerator;
 		#region Constructors
-		public VT100(IO.ICharacterDevice device) :
-			this(device, device)
-		{ }
-		public VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
-			base(inDevice, outDevice)
+		public Enumerable(Func<System.Collections.Generic.IEnumerator<T>> getEnumerator)
 		{
-			this.NewLine = new char[] { '\r', '\n' };
-			// Reset to inital state RIS   ESC c
-			//this.Write((char)0x1b, 'c');
-			// Keyboard auto repeat mode off (local echo off)  ESC [ ? 8 h 
-			//this.Write((char)0x1b, '[', '1', '2', 'h');
+			this.getEnumerator = getEnumerator;
+		}
+		#endregion
+		#region IEnumerable<T> Members
+		public System.Collections.Generic.IEnumerator<T> GetEnumerator()
+		{
+			return this.getEnumerator();
+		}
+		#endregion
+		#region IEnumerable Members
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.GetEnumerator();
 		}
 		#endregion
 	}

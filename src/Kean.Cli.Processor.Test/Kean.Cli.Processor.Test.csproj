@@ -69,6 +69,10 @@
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
       <Name>Kean.IO.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.IO.Tap\Kean.IO.Tap.csproj">
+      <Project>{86AD745F-7603-4777-9088-BD418818B833}</Project>
+      <Name>Kean.IO.Tap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.IO.Uri\Kean.IO.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.IO.Uri</Name>

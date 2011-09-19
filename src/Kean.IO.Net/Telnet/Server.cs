@@ -34,6 +34,8 @@ namespace Kean.IO.Net.Telnet
 		public Server(IByteDevice backend)
 		{
 			this.backend = backend;
+			this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, (byte)Option.Echo });
+			this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, (byte)Option.SuppressGoAhead });
 		}
 		~Server()
 		{
@@ -75,13 +77,44 @@ namespace Kean.IO.Net.Telnet
 						this.backend.Read(); // SE
 						break;
 					case Command.WILL: // Will
-						this.backend.Read(); // option
+						{
+							byte? option = this.backend.Read();  // option
+							if (option.HasValue)
+								switch ((Option) option.Value)
+								{
+									case Option.WindowSize:
+									case Option.TerminalSpeed:
+									case Option.TerminalType:
+									default:
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
+										break;
+									case Option.SuppressGoAhead:
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value });
+										break;
+								}
+						}
 						break; 
 					case Command.WONT: // Wont
 						this.backend.Read(); // option
 						break;
 					case Command.DO: // Do
-						this.backend.Read(); // option
+						{
+							byte? option = this.backend.Read();  // option
+							if (option.HasValue)
+								switch ((Option)option.Value)
+								{
+									case Option.WindowSize:
+									case Option.TerminalSpeed:
+									case Option.TerminalType:
+									default:
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
+										break;
+									case Option.Echo:
+									case Option.SuppressGoAhead:
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, option.Value });
+										break;
+								}
+						}
 						break;
 					case Command.DONT: // Dont
 						this.backend.Read(); // option
@@ -95,7 +128,7 @@ namespace Kean.IO.Net.Telnet
 		public byte? Peek()
 		{
 			byte? result = this.backend.Peek();
-			if (result.HasValue && result.Value == 255)
+			while (result == 255)
 			{
 				this.Filter();
 				result = this.backend.Peek();
@@ -105,7 +138,7 @@ namespace Kean.IO.Net.Telnet
 		public byte? Read()
 		{
 			byte? result = this.backend.Read();
-			if (result.HasValue && result.Value == 255)
+			while (result == 255)
 			{
 				this.Filter();
 				result = this.backend.Read();

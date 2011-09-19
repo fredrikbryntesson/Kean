@@ -71,8 +71,11 @@ namespace Kean.IO
 			bool result = true;
 			try
 			{
+				Collection.IList<byte> list = new Collection.List<byte>();
 				foreach (byte b in buffer)
-					this.stream.WriteByte(b);
+					list.Add(b);
+				byte[] array = list.ToArray();
+				this.stream.Write(array, 0, array.Length);
 				this.stream.Flush();
 			}
 			catch (System.Exception) { result = false; }

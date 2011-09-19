@@ -61,7 +61,7 @@ namespace Kean.IO
 		#region ICharacterWriter Members
 		public bool Write(params char[] buffer)
 		{
-			return this.backend.Write(buffer);
+			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer);
 		}
 		public bool Write(string value)
 		{
@@ -77,7 +77,7 @@ namespace Kean.IO
 		}
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			return this.backend.Write(buffer);
+			return this.backend.Write(new Collection.Enumerable<char>(() => new NewLineConverter(buffer.GetEnumerator(), this.NewLine)));
 		}
 		public bool WriteLine()
 		{
@@ -85,7 +85,7 @@ namespace Kean.IO
 		}
 		public bool WriteLine(params char[] buffer)
 		{
-			return this.backend.Write(buffer.Merge(this.NewLine));
+			return this.Write((System.Collections.Generic.IEnumerable<char>) buffer.Merge(this.NewLine));
 		}
 		public bool WriteLine(string value)
 		{
@@ -101,9 +101,65 @@ namespace Kean.IO
 		}
 		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			return this.backend.Write(buffer) && this.WriteLine();
+			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer) && this.WriteLine();
 		}
 		#endregion
-
+		#region NewLineConverter Class
+		class NewLineConverter :
+			System.Collections.Generic.IEnumerator<char>
+		{
+			System.Collections.Generic.IEnumerator<char> backend;
+			char[] newLine;
+			int index;
+			#region Constructors
+			public NewLineConverter(System.Collections.Generic.IEnumerator<char> backend, params char[] newLine)
+			{
+				this.backend = backend;
+				this.newLine = newLine;
+			}
+			#endregion
+			#region IEnumerator<char> Members
+			public char Current { get; private set; }
+			#endregion
+			#region IDisposable Members
+			public void Dispose()
+			{
+				this.backend.Dispose();
+			}
+			#endregion
+			#region IEnumerator Members
+			object System.Collections.IEnumerator.Current { get { return this.Current; } }
+			public bool MoveNext()
+			{
+				bool result = true;
+				if (this.index > 0)
+				{
+					this.Current = this.newLine[this.index++];
+					if (this.index >= this.newLine.Length)
+						this.index = 0;
+				}
+				else if (this.backend.MoveNext())
+				{
+					if (this.backend.Current == '\n')
+					{
+						this.Current = this.newLine[0];
+						if (this.newLine.Length > 1)
+							this.index = 1;
+					}
+					else
+						this.Current = this.backend.Current;
+				}
+				else
+					result = false;
+				return result;
+			}
+			public void Reset()
+			{
+				this.backend.Reset();
+				this.index = 0;
+			}
+			#endregion
+		}
+		#endregion
 	}
 }
