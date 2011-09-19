@@ -30,73 +30,58 @@ namespace Kean.IO
 	public class CharacterDevice :
 		ICharacterDevice
 	{
-		System.IO.TextReader reader;
-		System.IO.TextWriter writer;
+		IByteDevice backend;
+		Text.Encoding encoding;
 
 		#region Constructors
-		public CharacterDevice(System.IO.Stream stream, Text.Encoding encoding) :
-			this(new System.IO.StreamReader(stream, encoding), new System.IO.StreamWriter(stream, encoding))
-		{ }
 		public CharacterDevice(System.IO.Stream stream) :
-			this(new System.IO.StreamReader(stream), new System.IO.StreamWriter(stream))
+			this(new ByteDevice(stream))
 		{ }
-		public CharacterDevice(System.IO.TextReader reader, System.IO.TextWriter writer)
+		public CharacterDevice(IByteDevice backend) :
+			this(backend, Text.Encoding.ASCII)
+		{ }
+		public CharacterDevice(IByteDevice backend, Text.Encoding encoding)
 		{
-			this.reader = reader;
-			this.writer = writer;
+			this.backend = backend;
+			this.encoding = encoding;
+		}
+		~CharacterDevice()
+		{
+			this.Close();
 		}
 		#endregion
 		#region ICharacterDevice Members
-		public bool Readable { get { return this.reader.NotNull(); } }
-		public bool Writeable { get { return this.writer.NotNull(); } }
+		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
+		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
 		#endregion
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			bool result;
-			if (result = this.writer.NotNull())
-			{
-				foreach (char c in buffer)
-					this.writer.Write(c);
-				this.writer.Flush();
-			}
-			return result;
+			return this.backend.Write(buffer.Cast(c => this.encoding.GetBytes(new char[] { c })[0]));
 		}
 		#endregion
 		#region ICharacterInDevice Members
 		public char? Peek()
 		{
-			int result = -1;
-			if (this.reader.NotNull())
-				result = this.reader.Peek();
-			return result < 0 ? null : (char?)result;
+			byte? result = this.backend.Peek();
+			return result.HasValue ? (char?)(this.encoding.GetChars(new byte[] { result.Value } )[0]) : null;
 		}
 		public char? Read()
 		{
-			int result = -1;
-			if (this.reader.NotNull())
-				result = this.reader.Read();
-			return result < 0 ? null : (char?)result;
+			byte? result = this.backend.Read();
+			return result.HasValue ? (char?)(this.encoding.GetChars(new byte[] { result.Value })[0]) : null;
 		}
 		#endregion
 		#region IInDevice Members
-		public bool Empty { get { return this.reader.IsNull() || this.reader.Peek() < 0; } }
+		public bool Empty { get { return this.backend.NotNull() && this.backend.Empty; } }
 		#endregion
 		#region IDevice Members
-		public virtual bool Opened { get { return this.reader.NotNull() && this.writer.NotNull(); } }
+		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.reader.NotNull())
-			{
-				this.reader.Dispose();
-				this.reader = null;
-			}
-			if (result |= this.writer.NotNull())
-			{
-				this.writer.Dispose();
-				this.writer = null;
-			}
+			if (result = this.backend.NotNull() && this.backend.Close())
+				this.backend = null;
 			return result;
 		}
 		#endregion

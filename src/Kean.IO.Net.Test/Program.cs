@@ -28,7 +28,7 @@ namespace Kean.IO.Net.Test
 	{
 		static void Main(string[] args)
 		{
-			Program.Proxy(23, "192.168.1.101:23");
+			Program.Proxy(23, "192.168.1.102:23");
 			//Program.Proxy();
 		}
 		static void Proxy()
@@ -78,21 +78,21 @@ namespace Kean.IO.Net.Test
 				{
 					while (server.Opened && client.Opened)
 					{
-						char? value = client.Read();
+						byte? value = client.Read();
 						if (value.HasValue)
 						{
-							Console.WriteLine("< " + System.Text.Encoding.ASCII.GetBytes(new char[] { value.Value })[0] + "\t" + value.Value);
-							server.Write(new char[] { value.Value });
+							Console.WriteLine("< " + value.Value + "\t" + System.Text.Encoding.ASCII.GetChars(new byte[] { value.Value })[0]);
+							server.Write(new byte[] { value.Value });
 						}
 					}
 				});
 				while (server.Opened && client.Opened)
 				{
-					char? value = server.Read();
+					byte? value = server.Read();
 					if (value.HasValue)
 					{
-						Console.WriteLine("> " + System.Text.Encoding.ASCII.GetBytes(new char[] { value.Value })[0] + "\t" + value.Value);
-						client.Write(new char[] { value.Value });
+						Console.WriteLine("> " + value.Value + "\t" + System.Text.Encoding.ASCII.GetChars(new byte[] { value.Value })[0]);
+						client.Write(new byte[] { value.Value });
 					}
 				}
 				send.Abort();
@@ -101,15 +101,16 @@ namespace Kean.IO.Net.Test
 		}
 		static void Terminal()
 		{
-			Tcp.Connection connection = Tcp.Connection.Connect("192.168.1.101:23");
+			ICharacterDevice connection = new CharacterDevice(Tcp.Connection.Connect("192.168.1.101:23"));
 			char? incomming;
 			while ((incomming = connection.Read()).HasValue)
 				Console.Write(incomming.Value);
 		}
 		static void Echo()
 		{
-			new Kean.IO.Net.Tcp.Server(connection =>
+			new Kean.IO.Net.Tcp.Server(c =>
 			{
+				ICharacterDevice connection = new CharacterDevice(c);
 				while (connection.Opened)
 				{
 					char? value = connection.Read();

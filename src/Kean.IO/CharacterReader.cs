@@ -64,6 +64,10 @@ namespace Kean.IO
 				this.backend.Read();
 				this.Last = '\n';
 			}
+			else if (next == '\r')
+			{
+				this.Last = '\n';
+			}
 			else
 				this.Last = (char)next;
 			return next.HasValue;

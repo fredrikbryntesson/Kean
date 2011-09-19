@@ -1,5 +1,5 @@
 ﻿// 
-//  VT100.cs
+//  Server.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,26 +19,20 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace Kean.Cli
+namespace Kean.IO.Net.Telnet
 {
-	public class VT100 :
-		Terminal
+	enum Option :
+		byte
 	{
-		#region Constructors
-		public VT100(IO.ICharacterDevice device) :
-			this(device, device)
-		{ }
-		public VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
-			base(inDevice, outDevice)
-		{
-			this.NewLine = new char[] { '\r', '\n' };
-			// Reset to inital state RIS   ESC c
-			this.Write((char)0x1b, 'c');
-			// Keyboard auto repeat mode off (local echo off)  ESC [ ? 8 h 
-			this.Write((char)0x1b, '[', '1', '2', 'h');
-		}
-		#endregion
+		SuppressGoAhead = 3,
+		Status = 5,
+		Echo = 1,
+		TimingMark = 6,
+		TerminalType = 24,
+		WindowSize = 31,
+		TerminalSpeed = 32,
+		RemoteFlowControl = 33,
+		LineMode = 34,
+		EnvironmentVariables = 36,
 	}
 }

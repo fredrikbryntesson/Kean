@@ -1,5 +1,5 @@
 ﻿// 
-//  VT100.cs
+//  IByteDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,24 +21,13 @@
 
 using System;
 
-namespace Kean.Cli
+namespace Kean.IO
 {
-	public class VT100 :
-		Terminal
+	public interface IByteDevice :
+		IByteInDevice,
+		IByteOutDevice
 	{
-		#region Constructors
-		public VT100(IO.ICharacterDevice device) :
-			this(device, device)
-		{ }
-		public VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
-			base(inDevice, outDevice)
-		{
-			this.NewLine = new char[] { '\r', '\n' };
-			// Reset to inital state RIS   ESC c
-			this.Write((char)0x1b, 'c');
-			// Keyboard auto repeat mode off (local echo off)  ESC [ ? 8 h 
-			this.Write((char)0x1b, '[', '1', '2', 'h');
-		}
-		#endregion
+		bool Readable { get; }
+		bool Writeable { get; }
 	}
 }

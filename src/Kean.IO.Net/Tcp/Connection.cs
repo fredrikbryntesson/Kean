@@ -26,7 +26,7 @@ using Text = System.Text;
 namespace Kean.IO.Net.Tcp
 {
 	public class Connection :
-		CharacterDevice
+		ByteDevice
 	{
 		System.Net.Sockets.TcpClient client;
 		public override bool Opened { get { return this.client.NotNull() && base.Opened; } }
@@ -38,7 +38,7 @@ namespace Kean.IO.Net.Tcp
 			this.client.NoDelay = true;
 		}
 		Connection(System.Net.Sockets.NetworkStream stream) :
-			base(stream, Text.Encoding.ASCII)
+			base(stream)
 		{ 
 		}
 		#endregion

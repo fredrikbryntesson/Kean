@@ -41,10 +41,14 @@
   <ItemGroup>
     <Compile Include="Abstract\ListSet.cs" />
     <Compile Include="Array\Set.cs" />
+    <Compile Include="Cast\Enumerable.cs" />
+    <Compile Include="Cast\Enumerator.cs" />
     <Compile Include="Cast\ReadOnlyVector.cs" />
     <Compile Include="Cast\Vector.cs" />
     <Compile Include="Exception\Unsortable.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\EnumeratorExtension.cs" />
+    <Compile Include="Extension\EnumerableExtension.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
     <Compile Include="Extension\SetExtension.cs" />

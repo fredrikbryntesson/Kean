@@ -30,7 +30,7 @@ namespace Kean.IO.Net.Tcp
 		Synchronized,
 		IDisposable
 	{
-		public Action<ICharacterDevice> Connected { get; set; }
+		public Action<IByteDevice> Connected { get; set; }
 		public Uri.Endpoint Endpoint { get; private set; }
 		public bool Running
 		{
@@ -43,7 +43,7 @@ namespace Kean.IO.Net.Tcp
 		public Server() :
 			this(new Kean.Core.Parallel.ThreadPool("TcpServer", 3))
 		{ }
-		public Server(Action<ICharacterDevice> connected) :
+		public Server(Action<IByteDevice> connected) :
 			this()
 		{
 			this.Connected = connected;
@@ -52,12 +52,12 @@ namespace Kean.IO.Net.Tcp
 		{
 			this.ThreadPool = threadPool;
 		}
-		public Server(Action<ICharacterDevice> connected, Uri.Endpoint endPoint) :
+		public Server(Action<IByteDevice> connected, Uri.Endpoint endPoint) :
 			this(connected)
 		{
 			this.Start(endPoint);
 		}
-		public Server(Action<ICharacterDevice> connected, uint port) :
+		public Server(Action<IByteDevice> connected, uint port) :
 			this(connected)
 		{
 			this.Start(port);
