@@ -75,6 +75,7 @@ namespace Kean.IO.Net.Telnet
 						while ((v = this.backend.Read()).HasValue && (Command)v.Value != Command.IAC)
 							value.Add(v.Value);
 						this.backend.Read(); // SE
+
 						break;
 					case Command.WILL: // Will
 						{
@@ -83,10 +84,13 @@ namespace Kean.IO.Net.Telnet
 								switch ((Option) option.Value)
 								{
 									case Option.WindowSize:
-									case Option.TerminalSpeed:
 									case Option.TerminalType:
 									default:
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
+										break;
+									case Option.TerminalSpeed:
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value, 1, (byte)Command.IAC, (byte)Command.SE });
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.SB, option.Value });
 										break;
 									case Option.SuppressGoAhead:
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value });

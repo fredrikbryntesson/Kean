@@ -33,12 +33,11 @@ namespace Kean.Cli.Processor.Test
 				new Editor(application, 
 					new VT100(
 						new IO.CharacterDevice(
-							new IO.Net.Telnet.Server(
-								new IO.Tap.ByteDevice(connection, b => Console.WriteLine("r " + (int) b), b => Console.WriteLine("w " + (int) b)))))).Read();
+							new IO.Net.Telnet.Server(connection)))).Read();
 			}
 			, 23);
-			//Editor editor = new Editor(application, new ConsoleTerminal());
-			//editor.Read();
+			Editor editor = new Editor(application, new ConsoleTerminal());
+			editor.Read();
 		}
 	}
 }
