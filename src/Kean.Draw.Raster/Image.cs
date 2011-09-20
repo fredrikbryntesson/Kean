@@ -55,16 +55,20 @@ namespace Kean.Draw.Raster
 
 		public override Draw.Image Resize(Geometry2D.Single.Size restriction)
 		{
-			Geometry2D.Integer.Size newResolution = (Geometry2D.Integer.Size)((Geometry2D.Single.Size)this.Size * Function.Single.Minimum((float)restriction.Width / (float)this.Resolution.Width, (float)restriction.Height / (float)this.Size.Height));
-			Bgra result = new Bgra(newResolution) { CoordinateSystem = this.CoordinateSystem };
-			using (System.Drawing.Bitmap bitmap = this.GdiBitmap())
-			{
-				using (System.Drawing.Bitmap b = result.GdiBitmap())
-				using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
-					g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, newResolution.Width, newResolution.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
-			}
-			return result;
-		}
+            return this.Resize(restriction, true);	
+        }
+        public Draw.Image Resize(Geometry2D.Single.Size restriction, bool preserveAspectRatio)
+        {
+            Geometry2D.Integer.Size newResolution = preserveAspectRatio ? (Geometry2D.Integer.Size)((Geometry2D.Single.Size)this.Size * Function.Single.Minimum((float)restriction.Width / (float)this.Resolution.Width, (float)restriction.Height / (float)this.Size.Height)) : (Geometry2D.Integer.Size)restriction;
+            Bgra result = new Bgra(newResolution) { CoordinateSystem = this.CoordinateSystem };
+            using (System.Drawing.Bitmap bitmap = this.GdiBitmap())
+            {
+                using (System.Drawing.Bitmap b = result.GdiBitmap())
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
+                    g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, newResolution.Width, newResolution.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+            }
+            return result;
+        }
 		/// <summary>
 		/// Copy a specified region of the current image. The transform specifies the part of current image to be copied.
 		/// The transform is map which sends a rectangle of size Resolution centered at origo to a transformed (scaled, rotated, translated) one 
