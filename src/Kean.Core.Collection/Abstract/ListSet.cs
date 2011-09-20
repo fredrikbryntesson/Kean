@@ -35,6 +35,7 @@ namespace Kean.Core.Collection.Abstract
         protected abstract IList<T> CreateList();
 
         #region ISet<T> Members
+        public int Count { get { return this.data.Count; } }
         public bool Add(T item)
         {
             bool result = -1 == this.data.Index(t => t.SameOrEquals(item));

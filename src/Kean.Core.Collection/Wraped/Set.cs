@@ -32,6 +32,7 @@ namespace Kean.Core.Collection.Wrap
         }
 
         #region ISet<T> Members
+        public int Count { get { return this.data.Count; } }
         public bool Add(T item)
         {
             return this.data.Add(item);

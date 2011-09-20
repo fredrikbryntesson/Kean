@@ -44,6 +44,17 @@ namespace Kean.Core.Collection.Hash
 				divided *= -1;
 			return divided % this.data.Length;
 		}
+        public int Count
+        {
+            get
+            {
+                int result = 0;
+                foreach (IList<T> list in this.data)
+                    if (list.NotNull())
+                        result += list.Count;
+                return result;
+            }
+        }
 		public bool Add(T value)
 		{
 			IList<T> list = this.data[this.Index(value)];
