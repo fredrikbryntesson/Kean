@@ -38,13 +38,13 @@ namespace Kean.Core.Serialize
 		protected abstract bool Store(Data.Node value, params string[] key);
 		public bool Store<T>(T value, params string[] key)
 		{
-			return this.Store(this.Serializer.Serialize(this, value), key);
+			return this.Store(this.Serializer.Serialize(this, typeof(T), value), key);
 		}
 		protected abstract Data.Node Load(params string[] key);
 		public T Load<T>(params string[] key)
 		{
 			Data.Node data = this.Load(key);
-			return this.Serializer.Deserialize<T>(this, data);
+			return (T)this.Serializer.Deserialize(this, typeof(T), data);
 		}
 	}
 }

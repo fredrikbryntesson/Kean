@@ -23,31 +23,32 @@ using System;
 namespace Kean.Core.Serialize.Serializer
 {
 	public class StringInterface :
-		Abstract
+		ISerializer
 	{
 		public StringInterface()
+		{ }
+		#region ISerializer Members
+		public ISerializer Find(Reflect.Type type)
 		{
+			return type.Implements<IString>() ? this : null;
 		}
-		protected override bool Accepts(Reflect.Type type)
-		{
-			return type is IString;
-		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
 			return new Data.Leaf<string>((data as IString).String);
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			T result;
+			object result;
 			if (data is Data.Leaf<string>)
 			{
-				result = type.Create<T>();
+				result = type.Create();
 				(result as IString).String = (data as Data.Leaf<string>).Value;
 			}
 			else
-				result = default(T);
+				result = null;
 			return result;
 		}
+		#endregion
 	}
 }
 

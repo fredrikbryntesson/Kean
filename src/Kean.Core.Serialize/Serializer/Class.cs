@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -26,33 +27,34 @@ using Kean.Core.Reflect.Extension;
 namespace Kean.Core.Serialize.Serializer
 {
 	public class Class :
-		Abstract
+		ISerializer
 	{
 		public Class()
+		{ }
+		#region ISerializer Members
+		public ISerializer Find(Reflect.Type type)
 		{
+			return type.Category == Reflect.TypeCategory.Class ? this : null;
 		}
-		protected override bool Accepts (Reflect.Type type)
-		{
-			return type.Category == Reflect.TypeCategory.Class;
-		}
-		protected override T Deserialize<T>(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			T result = type.Create<T>();
-			foreach (Data.Node property in (data as Data.Branch).Nodes)
-				result.Set(property.Name, storage.Serializer.Deserialize<object>(storage, property));
-			return result;
-		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
 			Data.Branch result = new Data.Branch() { Type = type };
 			foreach (Reflect.Property property in data.GetProperties())
 			{
 				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 				if (attributes.Length == 1)
-					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Data));
+					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Type, property.Data));
 			}
 			return result;
 		}
+		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		{
+			object result = type.Create();
+			foreach (Data.Node property in (data as Data.Branch).Nodes)
+				result.Set(property.Name, storage.Serializer.Deserialize(storage, property.Type, property));
+			return result;
+		}
+		#endregion
 	}
 }
 

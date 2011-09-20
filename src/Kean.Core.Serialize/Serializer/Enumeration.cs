@@ -23,23 +23,25 @@ using System;
 namespace Kean.Core.Serialize.Serializer
 {
 	public class Enumeration :
-		Abstract
+		ISerializer
 	{
 		public Enumeration()
 		{
 		}
-		protected override bool Accepts(Reflect.Type type)
+		#region ISerializer Members
+		public ISerializer Find(Reflect.Type type)
 		{
-			return type.Category == Reflect.TypeCategory.Enumeration;
+			return type.Category == Reflect.TypeCategory.Enumeration ? this : null;
 		}
-		protected override Data.Node Serialize<T> (Kean.Core.Serialize.Storage storage, Reflect.Type type, T data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<T>(data);
+			return new Data.Leaf<string>(Enum.GetName(type, data));
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Kean.Core.Reflect.Type type, Kean.Core.Serialize.Data.Node data)
 		{
-			return data is Data.Leaf<T> ? (data as Data.Leaf<T>).Value : default(T);
+			return data is Data.Leaf<string> ? Enum.Parse(data.Type ?? type, (data as Data.Leaf<string>).Value) : Enum.ToObject(type, 0);
 		}
+		#endregion
 	}
 }
 

@@ -24,24 +24,25 @@ using Kean.Core.Extension;
 namespace Kean.Core.Serialize.Serializer
 {
 	public class StringCastable :
-		Abstract
+		ISerializer
 	{
 		public StringCastable()
+		{ }
+
+		#region ISerializer Members
+		public ISerializer Find(Reflect.Type type)
 		{
+			return this.GetFromStringCast(type).NotNull() && this.GetToStringCast(type).NotNull() ? this : null;
 		}
-		protected override bool Accepts(Reflect.Type type)
-		{
-			return this.GetFromStringCast(type).NotNull() &&
-					this.GetToStringCast(type).NotNull();
-		}
-		protected override Data.Node Serialize<T> (Storage storage, Reflect.Type type, T data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
 			return new Data.Leaf<string>((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
 		}
-		protected override T Deserialize<T> (Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Reflect.Type type, Serialize.Data.Node data)
 		{
-			return (T)this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.Leaf<string> ? (data as Data.Leaf<string>).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
+			return this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.Leaf<string> ? (data as Data.Leaf<string>).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
 		}
+		#endregion
 		System.Reflection.MethodInfo GetFromStringCast(Type type)
 		{
 			return type.GetMethod("op_Implicit", new Type[] { typeof(string) }) ?? type.GetMethod("op_Explicit", new Type[] { typeof(string) });

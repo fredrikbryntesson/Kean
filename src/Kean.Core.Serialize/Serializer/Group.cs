@@ -34,7 +34,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			this.serializers = serializers;
 		}
-
+		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
 			ISerializer result = null;
@@ -55,22 +55,23 @@ namespace Kean.Core.Serialize.Serializer
 			}
 			return result;
 		}
-		public Data.Node Serialize<T>(Storage storage, T data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			ISerializer serializer = this.Find(typeof(T));
+			ISerializer serializer = this.Find(type);
 			Data.Node result = null;
 			if (serializer.NotNull())
-				result = serializer.Serialize<T>(storage, data);
+				result = serializer.Serialize(storage, type, data);
 			return result;
 		}
-		public T Deserialize<T>(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			ISerializer serializer = this.Find(data.Type ?? typeof(T));
-			T result = default(T);
+			ISerializer serializer = this.Find(data.Type ?? type);
+			object result = null;
 			if (serializer.NotNull())
-				result = serializer.Deserialize<T>(storage, data);
+				result = serializer.Deserialize(storage, type, data);
 			return result;
 		}
+		#endregion
 	}
 }
 

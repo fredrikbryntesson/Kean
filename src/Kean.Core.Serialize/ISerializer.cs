@@ -24,11 +24,9 @@ namespace Kean.Core.Serialize
 {
 	public interface ISerializer
 	{
-		ISerializer Find(Reflect.Type type)
-;
-		Data.Node Serialize<T>(Storage storage, T data)
-;
-		T Deserialize<T>(Storage storage, Data.Node data);
+		ISerializer Find(Reflect.Type type);
+		Data.Node Serialize(Storage storage, Reflect.Type type, object data);
+		object Deserialize(Storage storage, Reflect.Type type, Data.Node data);
 	}
 }
 
