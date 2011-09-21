@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Extension;
+using Kean.Core.Collection.Linked.Extension;
 
 namespace Kean.Core.Collection.Linked.Extension
 {
@@ -134,5 +135,34 @@ namespace Kean.Core.Collection.Linked.Extension
 				Tail = me.Tail.Map<L, T, R, S>(function),
 			};
         }
-	}
+
+        public static int Index<L, T>(this L me, Func<T, bool> function)
+            where L : class, ILink<L, T>, new()
+        {
+            return function(me.Head) ? 0 : (me.Tail.IsNull() ? -1 : 1 + me.Tail.Index(function));
+        }
+        public static T Find<L, T>(this L me, Func<T, bool> function)
+            where L : class, ILink<L, T>, new()
+        {
+            return function(me.Head) ? me.Head : (me.Tail.IsNull() ? default(T) : me.Tail.Find(function));
+        }
+        public static S Find<L, T, S>(this L me, Func<T, S> function)
+            where L : class, ILink<L, T>, new()
+            where S : class
+        {
+            S result = function(me.Head);
+            return result ?? (me.Tail.IsNull() ? default(S) : me.Tail.Find(function));
+        }
+        public static bool Exists<L, T>(this L me, Func<T, bool> function)
+            where L : class, ILink<L, T>, new()
+        {
+            return function(me.Head) || me.Tail.NotNull() && me.Tail.Exists(function);
+        }
+        public static bool All<L, T>(this L me, Func<T, bool> function)
+            where L : class, ILink<L, T>, new()
+        {
+            return function(me.Head) && (me.Tail.IsNull() || me.Tail.Exists(function));
+        }
+
+    }
 }

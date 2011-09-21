@@ -111,7 +111,7 @@ namespace Kean.IO.Uri
         }
         public static implicit operator string(Domain domain)
         {
-            return domain.IsNull() ? null : domain.String;
+            return domain.IsNull() ? "" : domain.String;
         }
         public static implicit operator Domain(string domain)
         {

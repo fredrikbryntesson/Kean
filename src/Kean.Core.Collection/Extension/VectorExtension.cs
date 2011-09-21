@@ -80,6 +80,7 @@ namespace Kean.Core.Collection.Extension
 			return result;
 		}
 		public static S Find<T, S>(this IVector<T> me, Func<T, S> function)
+            where S : class
 		{
 			S result = default(S);
 			foreach (T element in me)

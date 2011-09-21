@@ -56,6 +56,10 @@
       <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
       <Name>Kean.Draw.Raster.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.IO.Uri.Test\Kean.IO.Uri.Test.csproj">
+      <Project>{6D086688-CDFE-4F96-B0FA-13B22F7B0808}</Project>
+      <Name>Kean.IO.Uri.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>

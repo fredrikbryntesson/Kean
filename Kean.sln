@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net.Test", "src\Kea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Tap", "src\Kean.IO.Tap\Kean.IO.Tap.csproj", "{86AD745F-7603-4777-9088-BD418818B833}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Uri.Test", "src\Kean.IO.Uri.Test\Kean.IO.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1119,6 +1121,21 @@ Global
 		{86AD745F-7603-4777-9088-BD418818B833}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{86AD745F-7603-4777-9088-BD418818B833}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{86AD745F-7603-4777-9088-BD418818B833}.Release|x86.ActiveCfg = Release|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Default|x86.ActiveCfg = Debug|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

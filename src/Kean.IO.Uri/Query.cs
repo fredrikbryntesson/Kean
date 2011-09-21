@@ -28,7 +28,6 @@ using Kean.Core.Collection.Linked.Extension;
 namespace Kean.IO.Uri
 {
     public class Query :
-        Collection.Linked.List<Query, KeyValue<string, string>>,
 		Collection.ILink<Query, KeyValue<string, string>>,
         IString,
         IEquatable<Query>
@@ -52,7 +51,7 @@ namespace Kean.IO.Uri
 		public Query(KeyValue<string, string> head) :
 			this()
 		{
-			this.Head = head;
+            this.Head = head;
 		}
 		public Query(string key, string value) :
 			this(KeyValue.Create(key, value))

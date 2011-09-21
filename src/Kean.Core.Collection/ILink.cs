@@ -23,13 +23,7 @@ using System;
 
 namespace Kean.Core.Collection
 {
-	public interface ILink<L>
-		where L : class, ILink<L>, new()
-	{
-		L Tail { get; set; }
-	}
-	public interface ILink<L, T> :
-		ILink<L>
+	public interface ILink<L, T>
 		where L : class, ILink<L, T>, new()
 	{
 		T Head { get; set; }
