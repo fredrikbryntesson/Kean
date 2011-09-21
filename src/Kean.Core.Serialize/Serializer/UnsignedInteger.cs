@@ -34,11 +34,11 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<uint>((uint)data);
+			return new Data.UnsignedInteger((uint)data);
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Leaf<uint> ? (data as Data.Leaf<uint>).Value : 0;
+			return data is Data.UnsignedInteger ? (data as Data.UnsignedInteger).Value : 0;
 		}
 		#endregion
 	}

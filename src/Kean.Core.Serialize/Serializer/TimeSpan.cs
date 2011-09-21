@@ -34,11 +34,11 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<System.TimeSpan>((System.TimeSpan)data);
+			return new Data.TimeSpan((System.TimeSpan)data);
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Leaf<System.TimeSpan> ? (data as Data.Leaf<System.TimeSpan>).Value : new System.TimeSpan();
+			return data is Data.TimeSpan ? (data as Data.Leaf<System.TimeSpan>).Value : new System.TimeSpan();
 		}
 		#endregion
 	}

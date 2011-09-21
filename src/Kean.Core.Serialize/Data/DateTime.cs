@@ -1,5 +1,5 @@
 // 
-//  Enumeration.cs
+//  TimeSpan.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,30 +18,31 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Core.Serialize.Serializer
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Core.Serialize.Data
 {
-	public class Enumeration :
-		ISerializer
+	public class TimeSpan :
+		Leaf<System.TimeSpan>
 	{
-		public Enumeration()
+		public override string Text { get { return this.Value.ToString(); } }
+		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value.Ticks); } }
+		public TimeSpan(System.TimeSpan value) :
+			base(value)
+		{ }
+		public static TimeSpan Create(string value)
 		{
+			System.TimeSpan result;
+			return System.TimeSpan.TryParse(value, out result) ? new TimeSpan(result) : null;
 		}
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public static TimeSpan Create(byte[] value)
 		{
-			return type.Category == Reflect.TypeCategory.Enumeration ? this : null;
+			return value.Length == 4 ? new TimeSpan(new System.TimeSpan(BitConverter.ToInt64(value, 0))) : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
-		{
-			return new Data.Enumeration(data, type);
-		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			return data is Data.Enumeration ? (data as Data.Enumeration).Value : Enum.ToObject(type, 0);
-		}
-		#endregion
 	}
 }
-

@@ -34,11 +34,11 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<string>((string)data);
+			return new Data.String((string)data);
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Leaf<string> ? (data as Data.Leaf<string>).Value : null;
+			return data is Data.String ? (data as Data.String).Value : null;
 		}
 		#endregion
 	}

@@ -36,11 +36,11 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<string>((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
+			return new Data.String((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Serialize.Data.Node data)
 		{
-			return this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.Leaf<string> ? (data as Data.Leaf<string>).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
+			return this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
 		}
 		#endregion
 		System.Reflection.MethodInfo GetFromStringCast(Type type)

@@ -1,5 +1,5 @@
 // 
-//  Enumeration.cs
+//  Long.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,30 +18,31 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Core.Serialize.Serializer
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Core.Serialize.Data
 {
-	public class Enumeration :
-		ISerializer
+	public class Long :
+		Leaf<long>
 	{
-		public Enumeration()
+		public override string Text { get { return this.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo); } }
+		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value); } }
+		public Long(long value) :
+			base(value)
+		{ }
+		public static Long Create(string value)
 		{
+			long result;
+			return long.TryParse(value, out result) ? new Long(result) : null;
 		}
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public static Long Create(byte[] value)
 		{
-			return type.Category == Reflect.TypeCategory.Enumeration ? this : null;
+			return value.Length == 8 ? new Long(BitConverter.ToInt64(value, 0)) : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
-		{
-			return new Data.Enumeration(data, type);
-		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			return data is Data.Enumeration ? (data as Data.Enumeration).Value : Enum.ToObject(type, 0);
-		}
-		#endregion
 	}
 }
-

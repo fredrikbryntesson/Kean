@@ -34,15 +34,15 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.Leaf<string>((data as IString).String);
+			return new Data.String((data as IString).String);
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
 			object result;
-			if (data is Data.Leaf<string>)
+			if (data is Data.String)
 			{
 				result = type.Create();
-				(result as IString).String = (data as Data.Leaf<string>).Value;
+				(result as IString).String = (data as Data.String).Value;
 			}
 			else
 				result = null;

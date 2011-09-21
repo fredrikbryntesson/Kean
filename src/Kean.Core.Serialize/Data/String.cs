@@ -1,5 +1,5 @@
-﻿// 
-//  UnsignedLong.cs
+// 
+//  String.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -17,30 +17,31 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  aulong with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Kean.Core.Serialize.Serializer
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Core.Serialize.Data
 {
-	public class UnsignedLong :
-		ISerializer
+	public class String :
+		Leaf<string>
 	{
-		public UnsignedLong()
+		public override string Text { get { return this.Value; } }
+		public override byte[] Binary { get { return System.Text.Encoding.UTF8.GetBytes(this.Value); } }
+		public String(string value) :
+			base(value)
 		{ }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public static String Create(string value)
 		{
-			return type == "ulong" ? this : null;
+			return new String(value);
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public static String Create(byte[] value)
 		{
-			return new Data.UnsignedLong((ulong)data);
+			return new String(System.Text.Encoding.UTF8.GetString(value));
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			return data is Data.UnsignedLong ? (data as Data.UnsignedLong).Value : 0;
-		}
-		#endregion
 	}
 }
-
