@@ -23,6 +23,7 @@ using System;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO
 {
@@ -159,6 +160,12 @@ namespace Kean.IO
 				this.index = 0;
 			}
 			#endregion
+		}
+		#endregion
+		#region Static Open
+		public static ICharacterWriter Open(Uri.Locator resource)
+		{
+			return new CharacterWriter(CharacterDevice.Open(resource));
 		}
 		#endregion
 	}

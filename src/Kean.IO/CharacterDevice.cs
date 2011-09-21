@@ -24,6 +24,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Text = System.Text;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO
 {
@@ -89,6 +90,12 @@ namespace Kean.IO
 		void IDisposable.Dispose()
 		{
 			this.Close();
+		}
+		#endregion
+		#region Static Open
+		public static ICharacterDevice Open(Uri.Locator resource)
+		{
+			return new CharacterDevice(ByteDevice.Open(resource));
 		}
 		#endregion
 
