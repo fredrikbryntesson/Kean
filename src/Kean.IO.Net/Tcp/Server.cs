@@ -23,6 +23,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Parallel = Kean.Core.Parallel;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO.Net.Tcp
 {

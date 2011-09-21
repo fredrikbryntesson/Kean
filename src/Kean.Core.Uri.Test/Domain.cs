@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.IO.Uri;
+using Target = Kean.Core.Uri;
 
-namespace Kean.IO.Uri.Test
+namespace Kean.Core.Uri.Test
 {
     [TestFixture]
     public class Domain :
         Kean.Test.Fixture<Domain>
     {
-        string prefix = "Kean.IO.Uri.Test.Domain.";
+        string prefix = "Kean.Core.Uri.Test.Domain.";
         protected override void Run()
         {
             this.Run(this.EqualityNull, this.Equality);

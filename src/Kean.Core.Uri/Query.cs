@@ -25,7 +25,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Linked.Extension;
 
-namespace Kean.IO.Uri
+namespace Kean.Core.Uri
 {
     public class Query :
 		Collection.ILink<Query, KeyValue<string, string>>,

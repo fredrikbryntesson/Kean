@@ -105,7 +105,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli", "src\Kean.Cli\Ke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net", "src\Kean.IO.Net\Kean.IO.Net.csproj", "{485C7018-3CB3-4BEB-A101-91EEE4557AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Uri", "src\Kean.IO.Uri\Kean.IO.Uri.csproj", "{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri", "src\Kean.Core.Uri\Kean.Core.Uri.csproj", "{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Parallel", "src\Kean.Core.Parallel\Kean.Core.Parallel.csproj", "{8B708CFE-DABA-40D5-8830-4C0D67DAE732}"
 EndProject
@@ -113,7 +113,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net.Test", "src\Kea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Tap", "src\Kean.IO.Tap\Kean.IO.Tap.csproj", "{86AD745F-7603-4777-9088-BD418818B833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Uri.Test", "src\Kean.IO.Uri.Test\Kean.IO.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri.Test", "src\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

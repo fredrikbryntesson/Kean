@@ -53,9 +53,9 @@
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
       <Name>Kean.IO.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.IO.Uri\Kean.IO.Uri.csproj">
+    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
-      <Name>Kean.IO.Uri</Name>
+      <Name>Kean.Core.Uri</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>

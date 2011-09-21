@@ -29,7 +29,7 @@ namespace Kean.Test.Run
             Core.Collection.Test.All.Test();
             Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
-            IO.Uri.Test.All.Test();
+            Core.Uri.Test.All.Test();
             Math.Test.All.Test();
             Math.Complex.Test.All.Test();
             Math.Geometry2D.Test.All.Test();

@@ -23,7 +23,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 
-namespace Kean.IO.Uri
+namespace Kean.Core.Uri
 {
     public class Authority :
         IString,

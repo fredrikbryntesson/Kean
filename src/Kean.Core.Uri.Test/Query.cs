@@ -1,17 +1,17 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.IO.Uri;
+using Target = Kean.Core.Uri;
 using Kean.Core.Collection.Linked.Extension;
 using Kean.Core;
 
-namespace Kean.IO.Uri.Test
+namespace Kean.Core.Uri.Test
 {
     [TestFixture]
     public class Query :
         Kean.Test.Fixture<Query>
     {
-        string prefix = "Kean.IO.Uri.Test.Query.";
+        string prefix = "Kean.Core.Uri.Test.Query.";
         protected override void Run()
         {
             this.Run(this.EqualityNull, this.Equality, this.Find);

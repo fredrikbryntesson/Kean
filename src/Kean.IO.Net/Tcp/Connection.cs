@@ -22,6 +22,7 @@
 using System;
 using Kean.Core.Extension;
 using Text = System.Text;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO.Net.Tcp
 {

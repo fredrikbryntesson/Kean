@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.IO.Uri;
+using Target = Kean.Core.Uri;
 
-namespace Kean.IO.Uri.Test
+namespace Kean.Core.Uri.Test
 {
     [TestFixture]
     public class User :
         Kean.Test.Fixture<User>
     {
-        string prefix = "Kean.IO.Uri.Test.";
+        string prefix = "Kean.Core.Uri.Test.";
         protected override void Run()
         {
             this.Run(this.EqualityNull, this.Equality, this.EqualityNameOnly, this.EqualityPasswordOnly);

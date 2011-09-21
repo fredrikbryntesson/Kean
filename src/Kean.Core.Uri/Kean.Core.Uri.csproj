@@ -8,8 +8,8 @@
     <ProjectGuid>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.IO.Uri</RootNamespace>
-    <AssemblyName>Kean.IO.Uri</AssemblyName>
+    <RootNamespace>Kean.Core.Uri</RootNamespace>
+    <AssemblyName>Kean.Core.Uri</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

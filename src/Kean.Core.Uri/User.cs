@@ -1,5 +1,5 @@
 ﻿// 
-//  Endpoint.cs
+//  User.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,24 +23,25 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 
-namespace Kean.IO.Uri
+namespace Kean.Core.Uri
 {
-    public class Endpoint :
+    public class User :
         IString,
-        IEquatable<Endpoint>
+        IEquatable<User>
     {
-        public Domain Host { get; set; }
-        public uint? Port { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+
         #region IString Members
         public string String
         {
             get
             {
-                System.Text.StringBuilder result = new System.Text.StringBuilder(this.Host);
-                if (this.Port.HasValue)
+                System.Text.StringBuilder result = new System.Text.StringBuilder(this.Name);
+                if (this.Password != null)
                 {
                     result.Append(":");
-                    result.Append(this.Port.Value.ToString());
+                    result.Append(this.Password);
                 }
                 return result.ToString();
             }
@@ -48,49 +49,45 @@ namespace Kean.IO.Uri
             {
                 if (value == null || value == "")
                 {
-                    this.Host = null;
-                    this.Port = null;
+                    this.Name = null;
+                    this.Password = null;
                 }
                 else
                 {
                     string[] splitted = value.Split(new char[] { ':' }, 2);
-                    this.Host = splitted[0];
-                    uint port;
-                    if (splitted.Length > 1 && uint.TryParse(splitted[1], out port))
-                        this.Port = port;
-                    else
-                        this.Port = null;
+                    this.Name = splitted[0];
+                    this.Password = splitted.Length > 1 ? splitted[1] : null;
                 }
             }
         }
+
         #endregion
-				public Endpoint()
+    	public User()
 		{ }
-		public Endpoint(Domain host, uint? port) :
+		public User(string name, string password) :
 			this()
 		{
-			this.Host = host;
-			this.Port = port;
+			this.Name = name;
+			this.Password = password;
 		}
-		public Endpoint Copy()
+		public User Copy()
 		{
-			return new Endpoint(this.Host.IsNull() ? null : this.Host.Copy(), this.Port);
+			return new User(this.Name, this.Password);
 		}
-
-        #region IEquatable<Endpoint> Members
-        public bool Equals(Endpoint other)
+        #region IEquatable<User> Members
+        public bool Equals(User other)
         {
-            return !object.ReferenceEquals(other, null) && this.Host == other.Host && this.Port == other.Port;
+            return !object.ReferenceEquals(other, null) && this.Name == other.Name && this.Password == other.Password;
         }
         #endregion
         #region Object Overrides
         public override bool Equals(object other)
         {
-            return other is Endpoint && base.Equals(other as Endpoint);
+            return other is User && base.Equals(other as User);
         }
         public override int GetHashCode()
         {
-            return this.Host.GetHashCode() ^ this.Port.GetHashCode();
+            return this.Name.GetHashCode() ^ this.Password.GetHashCode();
         }
         public override string ToString()
         {
@@ -98,22 +95,22 @@ namespace Kean.IO.Uri
         }
         #endregion
         #region Operators
-        public static bool operator ==(Endpoint left, Endpoint right)
+        public static bool operator ==(User left, User right)
         {
             return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
         }
-        public static bool operator !=(Endpoint left, Endpoint right)
+        public static bool operator !=(User left, User right)
         {
             return !(left == right);
         }
-        public static implicit operator string(Endpoint endpoint)
-        {
-            return endpoint.IsNull() ? null : endpoint.String;
-        }
-        public static implicit operator Endpoint(string endpoint)
-        {
-            return endpoint.IsEmpty() ? null : new Endpoint() { String = endpoint };
-        }
-        #endregion
+		public static implicit operator string(User user)
+		{
+			return user.IsNull() ? null : user.String;
+		}
+		public static implicit operator User(string user)
+		{
+			return user.IsEmpty() ? null : new User() { String = user };
+		}
+		#endregion
     }
 }

@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6D086688-CDFE-4F96-B0FA-13B22F7B0808}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.IO.Uri.Test</RootNamespace>
-    <AssemblyName>Kean.IO.Uri.Test</AssemblyName>
+    <RootNamespace>Kean.Core.Uri.Test</RootNamespace>
+    <AssemblyName>Kean.Core.Uri.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,9 +63,9 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.IO.Uri\Kean.IO.Uri.csproj">
+    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
-      <Name>Kean.IO.Uri</Name>
+      <Name>Kean.Core.Uri</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>

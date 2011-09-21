@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.IO.Uri;
+using Target = Kean.Core.Uri;
 
-namespace Kean.IO.Uri.Test
+namespace Kean.Core.Uri.Test
 {
     [TestFixture]
     public class Authority : 
         Kean.Test.Fixture<Authority>
     {
-        string prefix = "Kean.IO.Uri.Test.Authority.0";
+        string prefix = "Kean.Core.Uri.Test.Authority.0";
         protected override void Run()
         {
             this.Run(

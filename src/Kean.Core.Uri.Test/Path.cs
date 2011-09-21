@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.IO.Uri;
+using Target = Kean.Core.Uri;
 
-namespace Kean.IO.Uri.Test
+namespace Kean.Core.Uri.Test
 {
     [TestFixture]
     public class Path :
         Kean.Test.Fixture<Path>
     {
-        string prefix = "Kean.IO.Uri.Test.Path.";
+        string prefix = "Kean.Core.Uri.Test.Path.";
         protected override void Run()
         {
             this.Run(
