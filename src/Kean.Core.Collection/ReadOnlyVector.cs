@@ -31,7 +31,7 @@ namespace Kean.Core.Collection
         #region Constructor
 		public ReadOnlyVector(params T[] data)
         {
-            this.data = data;
+            this.data = data ?? new T[0];
         }
         #endregion
         #region IReadOnlyVector<T>
