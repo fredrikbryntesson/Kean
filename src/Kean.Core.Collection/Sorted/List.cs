@@ -60,8 +60,6 @@ namespace Kean.Core.Collection.Sorted
                         case Core.Order.LessThan:
                             break;
                         case Core.Order.Equal:
-                            this.data[i] = item;
-                            goto Done;
                         case Core.Order.GreaterThan:
                             this.data.Insert(i, item);
                             goto Done;
