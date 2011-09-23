@@ -3,11 +3,11 @@ using Collection = Kean.Core.Collection;
 using Kean.Core;
 using Kean.Core.Extension;
 using Text = System.Text;
+using IO = Kean.IO;
 
 namespace Kean.Xml.Sax
 {
-	public class Parser :
-		IParser
+	public class Parser
 	{
 		public event Action<float, string, bool?, Region> OnDeclaration;
 		public event Action<string, Collection.IDictionary<string, Tuple<string, Region>>, Region> OnElementStart;
@@ -17,20 +17,22 @@ namespace Kean.Xml.Sax
 		public event Action<string, string, Region> OnProccessingInstruction;
 		public event Action<string, Region> OnComment;
 
-		Reader.Abstract reader;
+		IO.CharacterReader reader;
 
 		public string Resource { get { return this.reader.Resource; } }
-		public Position Position { get { return this.reader.Position; } }
+		public Position Position { get { return new Position(this.reader.Row, this.reader.Column); } }
 
+		public Parser(string data) :
+			this(new Reader.String(data)) { }
 		public Parser(System.Reflection.Assembly assembly, string filename) :
 			this(new Reader.Resource(assembly, filename)) { }
 		public Parser(System.IO.Stream stream) :
-			this(new Reader.Stream(stream)) { }
-		public Parser(System.IO.TextReader reader) :
-			this(new Reader.Text(reader)) { }
-		public Parser(string data) :
-			this(new Reader.String(data)) { }
-		internal Parser(Reader.Abstract reader)
+			this(new IO.ByteDevice(stream)) { }
+		public Parser(IO.IByteDevice inDevice) :
+			this(new IO.CharacterDevice(inDevice)) { }
+		public Parser(IO.ICharacterInDevice inDevice) :
+			this(new IO.CharacterReader(inDevice)) { }
+		public Parser(IO.CharacterReader reader)
 		{
 			this.reader = reader;
 		}
@@ -41,15 +43,15 @@ namespace Kean.Xml.Sax
 		public bool Parse()
 		{
 			this.reader.Next();
-			while (!this.reader.EndOfFile)
+			while (!this.reader.Empty)
 			{
 				Mark mark = this.Mark();
-				switch (this.reader.Current)
+				switch (this.reader.Last)
 				{
 					case '<':
 						if (!this.reader.Next())
 							return false;
-						switch (this.reader.Current)
+						switch (this.reader.Last)
 						{
 							case '/': // end element
 								this.OnElementEnd(this.AccumulateUntil('>').Trim(), mark);
@@ -74,7 +76,7 @@ namespace Kean.Xml.Sax
 							case '!': // CDATA section or comment
 								if (!this.reader.Next())
 									return false;
-								switch (this.reader.Current)
+								switch (this.reader.Last)
 								{
 									case '[': // CDATA section
 										if (!this.Verify("CDATA["))
@@ -91,29 +93,29 @@ namespace Kean.Xml.Sax
 								}
 								break;
 							default: // element name
-								string name = this.reader.Current + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
+								string name = this.reader.Last + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
 								Collection.IDictionary<string, Tuple<string, Region>> attributes = new Collection.Dictionary<string, Tuple<string, Region>>();
-                                if (this.reader.Current != '/' && this.reader.Current != '>')
+                                if (this.reader.Last != '/' && this.reader.Last != '>')
                                     do
                                     {
                                         Mark attributeMark = this.Mark();
                                         string key = this.AccumulateUntil('=').Trim();
                                         this.AccumulateUntil('"');
                                         attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Region)attributeMark);
-                                    } while (this.reader.Next() && this.reader.Current != '/' && this.reader.Current != '>');
+                                    } while (this.reader.Next() && this.reader.Last != '/' && this.reader.Last != '>');
 								this.OnElementStart.Call(name, attributes, mark);
-								if (this.reader.Current == '/' && this.Verify(">"))
+								if (this.reader.Last == '/' && this.Verify(">"))
 								{
 									this.OnElementEnd(name, mark);
 									this.reader.Next(); // Might have been the last element in fragment, eol acceptable.
 								}
-								else if (this.reader.Current != '>' || !this.reader.Next())
+								else if (this.reader.Last != '>' || !this.reader.Next())
 									return false;
 								break;
 						}
 						break;
 					default:
-						string text = (this.reader.Current + this.AccumulateUntil('<')).Trim();
+						string text = (this.reader.Last + this.AccumulateUntil('<')).Trim();
 						if (text.NotEmpty())
 							this.OnText.Call(text, mark);
 						break;
@@ -125,29 +127,29 @@ namespace Kean.Xml.Sax
 		{
 			bool result = true;
 			for (int i = 0; i < value.Length; i++)
-				if (!(result = this.reader.Next() && this.reader.Current == value[i]))
+				if (!(result = this.reader.Next() && this.reader.Last == value[i]))
 					break;
 			return result;
 		}
 		string AccumulateUntil(params char[] needles)
 		{
 			Text.StringBuilder result = new Text.StringBuilder();
-			while (this.reader.Next() && !needles.Contains(this.reader.Current))
-				result.Append(this.reader.Current);
+			while (this.reader.Next() && !needles.Contains(this.reader.Last))
+				result.Append(this.reader.Last);
 			return result.ToString();
 		}
 		string AccumulateUntilWhiteSpace()
 		{
 			Text.StringBuilder result = new Text.StringBuilder();
-			while (this.reader.Next() && !char.IsWhiteSpace(this.reader.Current))
-				result.Append(this.reader.Current);
+			while (this.reader.Next() && !char.IsWhiteSpace(this.reader.Last))
+				result.Append(this.reader.Last);
 			return result.ToString();
 		}
 		string AccumulateUntilWhiteSpaceOr(params char[] needles)
 		{
 			Text.StringBuilder result = new Text.StringBuilder();
-			while (this.reader.Next() && !char.IsWhiteSpace(this.reader.Current) && !needles.Contains(this.reader.Current))
-				result.Append(this.reader.Current);
+			while (this.reader.Next() && !char.IsWhiteSpace(this.reader.Last) && !needles.Contains(this.reader.Last))
+				result.Append(this.reader.Last);
 			return result.ToString();
 		}
 		string AccumulateUntil(string needle)
@@ -155,7 +157,7 @@ namespace Kean.Xml.Sax
 			Text.StringBuilder result = new Text.StringBuilder();
 			int position = 0;
 			while (this.reader.Next())
-				if (this.reader.Current == needle[position])
+				if (this.reader.Last == needle[position])
 				{
 					if (++position == needle.Length)
 						break;
@@ -166,7 +168,7 @@ namespace Kean.Xml.Sax
 					position = 0;
 				}
 				else
-					result.Append(this.reader.Current);
+					result.Append(this.reader.Last);
 			return result.ToString();
 		}
 	}

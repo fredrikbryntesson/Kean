@@ -24,7 +24,6 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
 
 namespace Kean.IO
 {
@@ -105,24 +104,10 @@ namespace Kean.IO
 			this.Close();
 		}
 		#endregion
-		#region Static Open
+		#region static Open
 		public static IByteDevice Open(Uri.Locator resource)
 		{
-			IByteDevice result = null;
-			switch (resource.Scheme)
-			{
-				case "assembly":
-					result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
-					break;
-				case "file":
-					result = new ByteDevice(System.IO.File.Open(resource.Path, System.IO.FileMode.OpenOrCreate));
-					break;
-			}
-			return result;
-		}
-		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
-		{
-			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.')));
+			switch (resource.
 		}
 		#endregion
 	}

@@ -4,11 +4,11 @@ namespace Kean.Xml.Sax
 {
 	class Mark
 	{
-		IParser parser;
+		Parser parser;
 		string resource;
 		Position start;
 		Position end;
-		public Mark(IParser parser)
+		public Mark(Parser parser)
 		{
 			this.parser = parser;
 			this.resource = parser.Resource;
