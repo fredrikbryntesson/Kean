@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Extension\ComparableExtension.cs" />
+    <Compile Include="IEqualsWithin.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="NotifyAttribute.cs" />
     <Compile Include="Comparer.cs" />
