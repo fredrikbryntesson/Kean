@@ -26,10 +26,11 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-            Core.Collection.Test.All.Test();
-            Draw.Raster.Test.Transform.Test();
+			Core.Collection.Test.All.Test();
+			Core.Uri.Test.All.Test();
+			Xml.Dom.Test.Open.Test();
+			Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
-            Core.Uri.Test.All.Test();
             Math.Test.All.Test();
             Math.Complex.Test.All.Test();
             Math.Geometry2D.Test.All.Test();
@@ -37,9 +38,7 @@ namespace Kean.Test.Run
             Math.Matrix.Test.All.Test();
             Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
-            Xml.Dom.Test.Open.Test();
-            //Kean.Core.Error.Test.Error.Test();
-			Console.WriteLine("Done");
+            //Core.Error.Test.Error.Test();
 		}
 	}
 }

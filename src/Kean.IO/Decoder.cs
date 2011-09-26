@@ -1,5 +1,5 @@
 ﻿// 
-//  CharacterDevice.cs
+//  Decoder.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -25,61 +26,77 @@ using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
 
-namespace Kean.IO.Tap
+namespace Kean.IO
 {
-	public class CharacterDevice :
-		ICharacterDevice
+	class Decoder :
+		ICharacterInDevice
 	{
-		ICharacterDevice backend;
-		public event Action<char> OnRead;
-		public event Action<char> OnWrite;
+		IByteInDevice backend;
+		System.Text.Encoding encoding;
+		Collection.IQueue<char> queue;
 
 		#region Constructors
-		public CharacterDevice(ICharacterDevice backend, Action<char> onRead, Action<char> onWrite) :
-			this(backend)
-		{
-			this.OnRead = onRead;
-			this.OnWrite = onWrite;
-		}
-		public CharacterDevice(ICharacterDevice backend)
+		public Decoder(IByteInDevice backend, System.Text.Encoding encoding)
 		{
 			this.backend = backend;
+			this.encoding = encoding;
+			this.queue = new Collection.Queue<char>();
 		}
-		~CharacterDevice()
+		~Decoder() { this.Close(); }
+		#endregion
+		void FillQueue()
 		{
-			this.Close();
+			Collection.IList<byte> buffer = new Collection.List<byte>();
+			byte? next;
+			while (this.queue.Empty && (next = this.backend.Read()).HasValue)
+			{
+				buffer.Add(next.Value);
+				if (next == 0xef && (next = this.backend.Read()).HasValue)
+				{
+					buffer.Add(next.Value);
+					if (next == 0xbb && (next = this.backend.Read()).HasValue)
+					{
+						buffer.Add(next.Value);
+						if (next == 0xbf)
+						{
+							buffer.Remove();
+							buffer.Remove();
+							buffer.Remove();
+						}
+					}
+				}
+				this.queue.Enqueue(this.encoding.GetChars(buffer.ToArray()));
+			}
 		}
-		#endregion
-		#region ICharacterDevice Members
-		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
-		#endregion
-		#region ICharacterOutDevice Members
-		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
-		{
-			return this.backend.Write(buffer.Cast(c => { this.OnWrite.Call(c); return c; }));
-		}
-		#endregion
 		#region ICharacterInDevice Members
 		public char? Peek()
 		{
-			return this.backend.Peek();
+			if (this.queue.Empty)
+				this.FillQueue();
+			return this.queue.Empty ? (char?)null : this.queue.Peek();
 		}
 		public char? Read()
 		{
-			char? result = this.backend.Read();
-			if (result.HasValue)
-				this.OnRead.Call(result.Value);
+			if (this.queue.Empty)
+				this.FillQueue();
+			char? result = this.queue.Empty ? (char?)null : this.queue.Dequeue();
 			return result;
 		}
 		#endregion
+
 		#region IInDevice Members
-		public bool Empty { get { return this.backend.NotNull() && this.backend.Empty; } }
+		public bool Empty
+		{
+			get { return this.queue.Empty && (this.backend.IsNull() || this.backend.Empty); }
+		}
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
-		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
-		public virtual bool Close()
+		public bool Opened
+		{
+			get { return !this.queue.Empty || this.backend.NotNull() && this.backend.Opened; }
+		}
+		public bool Close()
 		{
 			bool result;
 			if (result = this.backend.NotNull() && this.backend.Close())
@@ -88,11 +105,7 @@ namespace Kean.IO.Tap
 		}
 		#endregion
 		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			this.Close();
-		}
+		void IDisposable.Dispose() { this.Close(); }
 		#endregion
-
 	}
 }

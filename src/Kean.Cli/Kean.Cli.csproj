@@ -47,6 +47,10 @@
     <Compile Include="VT100.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>

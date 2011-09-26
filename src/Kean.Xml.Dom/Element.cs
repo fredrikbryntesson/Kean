@@ -150,10 +150,10 @@ namespace Kean.Xml.Dom
 					current.Region = new Region(current.Region.Resource, current.Region.Start, region.End); 
 				current = current.Parent;
 			};
-			parser.OnText += (value, region) => { if (current.NotNull()) current.Add(new Text(value) { Region = region }); };
-			parser.OnData += (value, region) => { if (current.NotNull()) current.Add(new Data(value) { Region = region }); };
-			parser.OnComment += (value, region) => { if (current.NotNull()) current.Add(new Comment(value) { Region = region }); };
-			parser.OnProccessingInstruction += (target, value, region) => { if (current.NotNull()) current.Add(new ProcessingInstruction(target, value) { Region = region }); };
+			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };
+			parser.OnData += (value, region) => { current.Add(new Data(value) { Region = region }); };
+			parser.OnComment += (value, region) => { current.Add(new Comment(value) { Region = region }); };
+			parser.OnProccessingInstruction += (target, value, region) => { current.Add(new ProcessingInstruction(target, value) { Region = region }); };
 
 			return parser.Parse() ? result : null;
 		}

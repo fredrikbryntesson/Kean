@@ -55,15 +55,9 @@ namespace Kean.Xml.Dom
 		{
 			return Document.Open(new Sax.Parser(assembly, resource));
 		}
-		public static Document OpenResource(string name)
+		public static Document OpenResource(Uri.Path resource)
 		{
-			string[] splitted = name.Split(new char[] { ':' }, 2);
-			Document result;
-			if (splitted.Length > 1)
-				result = Document.OpenResource(System.Reflection.Assembly.Load(splitted[0]), splitted[1]);
-			else
-				result = Document.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
-			return result;
+			return Document.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource);
 		}
 		public static Document Open(string filename)
 		{

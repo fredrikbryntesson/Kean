@@ -26,7 +26,6 @@ namespace Kean.IO
 	public interface ICharacterReader :
 		IInDevice
 	{
-		Uri.Locator Resource { get; }
 		int Column { get; }
 		int Row { get; }
 

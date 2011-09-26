@@ -22,6 +22,7 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Cli
 {
@@ -32,6 +33,7 @@ namespace Kean.Cli
 		public bool LocalEcho { get; set; }
 		public bool Opened { get { return true; } }
 		public bool Empty { get { return !Console.KeyAvailable; } }
+		public Uri.Locator Resource { get { return new Uri.Locator("console://", "/"); } }
 		public ConsoleDevice()
 		{
 			this.LocalEcho = true;

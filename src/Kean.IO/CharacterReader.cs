@@ -30,7 +30,7 @@ namespace Kean.IO
 	{
 		ICharacterInDevice backend;
 
-		public Uri.Locator Resource { get; private set; }
+		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public int Row { get; private set; }
 		public int Column { get; private set; }
 
@@ -89,7 +89,7 @@ namespace Kean.IO
 		#region Static Open
 		public static ICharacterReader Open(Uri.Locator resource)
 		{
-			return new CharacterReader(CharacterDevice.Open(resource)) { Resource = resource };
+			return new CharacterReader(CharacterDevice.Open(resource));
 		}
 		#endregion
 	}

@@ -23,6 +23,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO.Net.Telnet
 {
@@ -164,6 +165,7 @@ namespace Kean.IO.Net.Telnet
 		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
 		#endregion
 		#region IDevice Members
+		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public bool Close()
 		{

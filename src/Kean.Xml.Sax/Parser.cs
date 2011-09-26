@@ -27,6 +27,7 @@ namespace Kean.Xml.Sax
 			this(IO.ByteDevice.Open(assembly, path)) { }
 		public Parser(System.IO.Stream stream) :
 			this(new IO.ByteDevice(stream)) { }
+
 		public Parser(Uri.Locator resource) :
 			this(IO.ByteDevice.Open(resource)) { }
 		public Parser(IO.IByteDevice device) :

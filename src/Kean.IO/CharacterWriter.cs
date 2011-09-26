@@ -34,6 +34,7 @@ namespace Kean.IO
 
 		public char[] NewLine { get; set; }
 
+		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 
 		public CharacterWriter(ICharacterOutDevice backend)

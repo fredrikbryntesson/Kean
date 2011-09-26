@@ -23,7 +23,6 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
-using Text = System.Text;
 using Uri = Kean.Core.Uri;
 
 namespace Kean.IO
@@ -32,18 +31,20 @@ namespace Kean.IO
 		ICharacterDevice
 	{
 		IByteDevice backend;
-		Text.Encoding encoding;
+		Decoder decoder;
+		System.Text.Encoding encoding;
 
 		#region Constructors
 		public CharacterDevice(System.IO.Stream stream) :
 			this(new ByteDevice(stream))
 		{ }
 		public CharacterDevice(IByteDevice backend) :
-			this(backend, Text.Encoding.ASCII)
+			this(backend, System.Text.Encoding.UTF8)
 		{ }
-		public CharacterDevice(IByteDevice backend, Text.Encoding encoding)
+		public CharacterDevice(IByteDevice backend, System.Text.Encoding encoding)
 		{
 			this.backend = backend;
+			this.decoder = new Decoder(this.backend, encoding);
 			this.encoding = encoding;
 		}
 		~CharacterDevice()
@@ -58,31 +59,33 @@ namespace Kean.IO
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			return this.backend.Write(buffer.Cast(c => this.encoding.GetBytes(new char[] { c })[0]));
+			return this.backend.Write(new Collection.Enumerable<byte>(() => new Encoder(buffer.GetEnumerator(), this.encoding)));
 		}
 		#endregion
 		#region ICharacterInDevice Members
 		public char? Peek()
 		{
-			byte? result = this.backend.Peek();
-			return result.HasValue ? (char?)(this.encoding.GetChars(new byte[] { result.Value } )[0]) : null;
+			return this.decoder.Peek();
 		}
 		public char? Read()
 		{
-			byte? result = this.backend.Read();
-			return result.HasValue ? (char?)(this.encoding.GetChars(new byte[] { result.Value })[0]) : null;
+			return this.decoder.Read();
 		}
 		#endregion
 		#region IInDevice Members
-		public bool Empty { get { return this.backend.NotNull() && this.backend.Empty; } }
+		public bool Empty { get { return this.decoder.NotNull() && this.decoder.Empty; } }
 		#endregion
 		#region IDevice Members
+		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.backend.NotNull() && this.backend.Close())
+			if (result = this.backend.NotNull() && this.backend.Close() && this.decoder.Close())
+			{
 				this.backend = null;
+				this.decoder = null;
+			}
 			return result;
 		}
 		#endregion

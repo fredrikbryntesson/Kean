@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO.Tap
 {
@@ -77,6 +78,7 @@ namespace Kean.IO.Tap
 		public bool Empty { get { return this.backend.Empty; } }
 		#endregion
 		#region IDevice Members
+		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public virtual bool Close()
 		{

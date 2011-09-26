@@ -87,6 +87,7 @@ namespace Kean.IO
 		public bool Empty { get { return !this.Peek().HasValue; } }
 		#endregion
 		#region IDevice Members
+		public Uri.Locator Resource { get; private set; }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
 		public virtual bool Close()
 		{
@@ -115,14 +116,14 @@ namespace Kean.IO
 					result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
 					break;
 				case "file":
-					result = new ByteDevice(System.IO.File.Open(resource.Path, System.IO.FileMode.OpenOrCreate));
+					result = new ByteDevice(System.IO.File.Open(resource.Path, System.IO.FileMode.OpenOrCreate)) { Resource = resource };
 					break;
 			}
 			return result;
 		}
 		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.')));
+			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name,  resource) };
 		}
 		#endregion
 	}

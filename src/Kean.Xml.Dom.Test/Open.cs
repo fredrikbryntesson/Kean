@@ -73,8 +73,8 @@ namespace Kean.Xml.Dom.Test
         protected override void Run()
         {
             this.Run(
-                this.Valid001,
-                this.Valid002,
+                //this.Valid001,
+                //this.Valid002,
                 this.Valid003,
                 this.Valid004,
                 this.Valid005,
