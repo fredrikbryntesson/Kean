@@ -20,7 +20,7 @@
 
 using System;
 
-namespace Attraction.Core.Interface
+namespace Kean.Core.Interface
 {
 	public interface IEqualsWithin<T, S>
 	{
