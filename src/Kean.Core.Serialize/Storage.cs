@@ -21,6 +21,7 @@
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Core.Serialize
 {
@@ -35,15 +36,15 @@ namespace Kean.Core.Serialize
 		{
 			this.Serializer = serializer;
 		}
-		protected abstract bool Store(Data.Node value, params string[] key);
-		public bool Store<T>(T value, params string[] key)
+		protected abstract bool Store(Data.Node value, Uri.Locator locator);
+		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.Serializer.Serialize(this, typeof(T), value), key);
+			return this.Store(this.Serializer.Serialize(this, typeof(T), value), locator);
 		}
-		protected abstract Data.Node Load(params string[] key);
-		public T Load<T>(params string[] key)
+		protected abstract Data.Node Load(Uri.Locator locator);
+		public T Load<T>(Uri.Locator locator)
 		{
-			Data.Node data = this.Load(key);
+			Data.Node data = this.Load(locator);
 			return (T)this.Serializer.Deserialize(this, typeof(T), data);
 		}
 	}
