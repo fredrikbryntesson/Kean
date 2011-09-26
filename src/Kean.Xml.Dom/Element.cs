@@ -129,7 +129,7 @@ namespace Kean.Xml.Dom
 		}
 		#endregion
 		#region Static Methods
-		public static Element Open(Sax.IParser parser)
+		public static Element Open(Sax.Parser parser)
 		{
 			Element result = null;
 			Element current = null;

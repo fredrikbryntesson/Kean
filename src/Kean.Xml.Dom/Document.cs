@@ -3,6 +3,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom
 {
@@ -38,7 +39,7 @@ namespace Kean.Xml.Dom
 			return Document.Open(new Sax.Parser(data));
 		}
 		#region Static Open
-		public static Document Open(Sax.IParser parser)
+		public static Document Open(Sax.Parser parser)
 		{
 			Document result = new Document();
 			parser.OnDeclaration += (version, encoding, standalone, region) =>
@@ -50,7 +51,7 @@ namespace Kean.Xml.Dom
 			result.Root = Element.Open(parser);
 			return result;
 		}
-		public static Document OpenResource(System.Reflection.Assembly assembly, string resource)
+		public static Document OpenResource(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
 			return Document.Open(new Sax.Parser(assembly, resource));
 		}
@@ -59,7 +60,7 @@ namespace Kean.Xml.Dom
 			string[] splitted = name.Split(new char[] { ':' }, 2);
 			Document result;
 			if (splitted.Length > 1)
-				result = Document.OpenResource(System.Reflection.Assembly.LoadWithPartialName(splitted[0]), splitted[1]);
+				result = Document.OpenResource(System.Reflection.Assembly.Load(splitted[0]), splitted[1]);
 			else
 				result = Document.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
 			return result;

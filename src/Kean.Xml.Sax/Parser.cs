@@ -3,6 +3,7 @@ using Collection = Kean.Core.Collection;
 using Kean.Core;
 using Kean.Core.Extension;
 using Text = System.Text;
+using Uri = Kean.Core.Uri;
 using IO = Kean.IO;
 
 namespace Kean.Xml.Sax
@@ -19,19 +20,19 @@ namespace Kean.Xml.Sax
 
 		IO.CharacterReader reader;
 
-		public string Resource { get { return this.reader.Resource; } }
+		public Uri.Locator Resource { get { return this.reader.Resource; } }
 		public Position Position { get { return new Position(this.reader.Row, this.reader.Column); } }
 
-		public Parser(string data) :
-			this(new Reader.String(data)) { }
-		public Parser(System.Reflection.Assembly assembly, string filename) :
-			this(new Reader.Resource(assembly, filename)) { }
+		public Parser(System.Reflection.Assembly assembly, Uri.Path path) :
+			this(IO.ByteDevice.Open(assembly, path)) { }
 		public Parser(System.IO.Stream stream) :
 			this(new IO.ByteDevice(stream)) { }
-		public Parser(IO.IByteDevice inDevice) :
-			this(new IO.CharacterDevice(inDevice)) { }
-		public Parser(IO.ICharacterInDevice inDevice) :
-			this(new IO.CharacterReader(inDevice)) { }
+		public Parser(Uri.Locator resource) :
+			this(IO.ByteDevice.Open(resource)) { }
+		public Parser(IO.IByteDevice device) :
+			this(new IO.CharacterDevice(device)) { }
+		public Parser(IO.ICharacterDevice device) :
+			this(new IO.CharacterReader(device)) { }
 		public Parser(IO.CharacterReader reader)
 		{
 			this.reader = reader;

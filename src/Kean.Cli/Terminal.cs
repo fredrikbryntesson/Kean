@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Cli
 {
@@ -46,7 +47,7 @@ namespace Kean.Cli
 		public bool Writeable { get { return true; } }
 		#endregion
 		#region ICharacterReader Members
-		public string Resource { get { return this.reader.Resource; } }
+		public Uri.Locator Resource { get { return this.reader.Resource; } }
 		public int Row { get { return this.reader.Row; } }
 		public int Column { get { return this.reader.Column; } }
 		public char Last { get { return this.reader.Last; } }

@@ -115,8 +115,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Tap", "src\Kean.IO.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri.Test", "src\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.FS", "src\Kean.IO.FS\Kean.IO.FS.csproj", "{34E6467A-74D4-4C5B-A2E5-F74B434873A9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1138,21 +1136,6 @@ Global
 		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6D086688-CDFE-4F96-B0FA-13B22F7B0808}.Release|x86.ActiveCfg = Release|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Default|Any CPU.Build.0 = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Default|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Default|Mixed Platforms.Build.0 = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Default|x86.ActiveCfg = Debug|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{34E6467A-74D4-4C5B-A2E5-F74B434873A9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

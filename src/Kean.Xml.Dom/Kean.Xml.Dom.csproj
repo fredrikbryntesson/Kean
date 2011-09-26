@@ -56,6 +56,10 @@
       <Project>{3B4397D6-2F39-44F6-A200-3AE6454E793C}</Project>
       <Name>Kean.Cli.Argument</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
+      <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
+      <Name>Kean.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Xml.Sax\Kean.Xml.Sax.csproj">
       <Project>{125A7070-AA9F-4A6A-A328-6B744D578885}</Project>
