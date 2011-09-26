@@ -31,6 +31,14 @@ namespace Kean.Math.Geometry2D.Integer
         public Size(int x, int y) : 
 			base(x, y) { }
         #region Casts
+        public static explicit operator Size(Point value)
+        {
+            return new Size(value.X, value.Y);
+        }
+        public static explicit operator Point(Size value)
+        {
+            return new Point(value.Width, value.Height);
+        }
         public static implicit operator Size(SizeValue value)
         {
             return new Size(value.Width, value.Height);

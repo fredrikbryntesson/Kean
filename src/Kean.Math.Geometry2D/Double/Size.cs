@@ -29,6 +29,14 @@ namespace Kean.Math.Geometry2D.Double
         public Size() { }
         public Size(double x, double y) : base(x, y) { }
         #region Casts
+        public static explicit operator Size(Point value)
+        {
+            return new Size(value.X, value.Y);
+        }
+        public static explicit operator Point(Size value)
+        {
+            return new Point(value.Width, value.Height);
+        }
         public static implicit operator Size(Single.Size value)
         {
             return new Size(value.Width, value.Height);
