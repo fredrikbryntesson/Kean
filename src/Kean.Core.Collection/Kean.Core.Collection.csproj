@@ -69,8 +69,8 @@
     <Compile Include="Slice.cs" />
     <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
-    <Compile Include="Wraped\ListQueue.cs" />
-    <Compile Include="Wraped\ListStack.cs" />
+    <Compile Include="Wrap\ListQueue.cs" />
+    <Compile Include="Wrap\ListStack.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Linked\Extension\LinkExtension.cs" />
     <Compile Include="Exception\Exception.cs" />
@@ -96,11 +96,11 @@
     <Compile Include="Array\List.cs" />
     <Compile Include="Array\Queue.cs" />
     <Compile Include="Array\Stack.cs" />
-    <Compile Include="Wraped\List.cs" />
-    <Compile Include="Wraped\Queue.cs" />
-    <Compile Include="Wraped\Set.cs" />
-    <Compile Include="Wraped\Stack.cs" />
-    <Compile Include="Wraped\Vector.cs" />
+    <Compile Include="Wrap\List.cs" />
+    <Compile Include="Wrap\Queue.cs" />
+    <Compile Include="Wrap\Set.cs" />
+    <Compile Include="Wrap\Stack.cs" />
+    <Compile Include="Wrap\Vector.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Synchronized\Vector.cs" />
     <Compile Include="Hooked\Vector.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="Abstract\List.cs" />
     <Compile Include="Array\Vector.cs" />
     <Compile Include="Abstract\CommonVector.cs" />
-    <Compile Include="Wraped\ReadOnlyVector.cs" />
+    <Compile Include="Wrap\ReadOnlyVector.cs" />
     <Compile Include="Abstract\ReadOnlyVector.cs" />
     <Compile Include="IReadOnlyVector.cs" />
     <Compile Include="ReadOnlyVector.cs" />
