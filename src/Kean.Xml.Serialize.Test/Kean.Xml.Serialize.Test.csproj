@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kean.Xml.Serialize.Test</RootNamespace>
+    <AssemblyName>Kean.Xml.Serialize.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\Enumerator.cs" />
+    <Compile Include="Data\IData.cs" />
+    <Compile Include="Factory.cs" />
+    <Compile Include="IFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
+      <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
+      <Name>Kean.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+      <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
+      <Name>Kean.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Xml.Dom\Kean.Xml.Dom.csproj">
+      <Project>{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}</Project>
+      <Name>Kean.Xml.Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Xml.Serialize\Kean.Xml.Serialize.csproj">
+      <Project>{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8}</Project>
+      <Name>Kean.Xml.Serialize</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Xml\Kean.Xml.csproj">
+      <Project>{6AEA339E-D930-4834-995D-301892768C10}</Project>
+      <Name>Kean.Xml</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xml\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

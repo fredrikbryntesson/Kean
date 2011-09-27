@@ -1,5 +1,5 @@
 ﻿// 
-//  Mark.cs
+//  Storage.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,37 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+using IO = Kean.IO;
+using Uri = Kean.Core.Uri;
 
-namespace Kean.Xml.Sax
+namespace Kean.Xml.Serialize
 {
-	class Mark
+	public class Storage : 
+		Core.Serialize.Storage
 	{
-		Parser parser;
-		string resource;
-		Position start;
-		Position end;
-		public Mark(Parser parser)
+		public Storage(params Core.Serialize.ISerializer[] serializers) :
+			base(serializers)
+		{ }
+		protected override Core.Serialize.Data.Node Load(Uri.Locator locator)
 		{
-			this.parser = parser;
-			this.resource = parser.Resource;
-			this.start = this.parser.Position;
+			Dom.Document document = Dom.Document.Open(locator);
+			return this.Convert(document.Root);
 		}
-		public void End()
+		Core.Serialize.Data.Node Convert(Dom.Element element)
 		{
-			this.end = this.parser.Position;
+			return null;
 		}
-		public static implicit operator Region(Mark mark)
+		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator locator)
 		{
-			return new Region(mark.resource, mark.start, mark.end ?? mark.parser.Position);
+			throw new NotImplementedException();
+		}
+		Dom.Element Convert(Core.Serialize.Data.Node element)
+		{
+			return null;
 		}
 	}
 }
