@@ -9,14 +9,16 @@ namespace Kean.Core.Uri.Test
     public class Locator :
         Kean.Test.Fixture<Locator>
     {
-        string prefix = "Kean.Core.Uri.Test.Locator.0";
+        string prefix = "Kean.Core.Uri.Test.Locator.";
         protected override void Run()
         {
             this.Run(
                 this.EqualityNull,
                 this.Equality,
                 this.PathAbsolute,
-                this.NoPath,
+				this.PathAbsoluteWithoutResource,
+				this.PathRelative,
+				this.NoPath,
                 this.NoPathWithQuery,
                 this.RootPathWithQuery,
                 this.NoPathWithQueryAndFragment,
@@ -56,7 +58,31 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "PathAbsolute.5");
             Expect(locator == "/folderA/folderB/file.extension", "locator == \"/folderA/folderB/file.extension\"", this.prefix + "PathAbsolute.6");
         }
-        [Test]
+		[Test]
+		public void PathAbsoluteWithoutResource()
+		{
+			Target.Locator locator = "/folderA/folderB/";
+			Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.0");
+			Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.1");
+			Expect((string)locator.Path, Is.EqualTo("folderA/folderB/"), this.prefix + "PathAbsoluteWithoutResource.2");
+			Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.3");
+			Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.4");
+			Expect((string)locator, Is.EqualTo("/folderA/folderB/"), this.prefix + "PathAbsoluteWithoutResource.5");
+			Expect(locator == "/folderA/folderB/", "locator == \"/folderA/folderB/\"", this.prefix + "PathAbsoluteWithoutResource.6");
+		}
+		[Test]
+		public void PathRelative()
+		{
+			Target.Locator locator = "./folderA/folderB/file.extension";
+			Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathRelative.0");
+			Expect((string)locator.Authority, Is.EqualTo("."), this.prefix + "PathRelative.1");
+			Expect((string)locator.Path, Is.EqualTo("folderA/folderB/file.extension"), this.prefix + "PathRelative.2");
+			Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "PathRelative.3");
+			Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathRelative.4");
+			Expect((string)locator, Is.EqualTo("./folderA/folderB/file.extension"), this.prefix + "PathRelative.5");
+			Expect(locator == "./folderA/folderB/file.extension", "locator == \"./folderA/folderB/file.extension\"", this.prefix + "PathRelative.6");
+		}
+		[Test]
         public void NoPath()
         {
             Target.Locator locator = "schemeA+schemeB://name:password@example.com:80";
@@ -128,5 +154,11 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
             Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");
         }
+		[Test]
+		public void Relative()
+		{
+			Target.Locator absolute = "";
+			//Target.Locator relative = 
+		}
     }
 }

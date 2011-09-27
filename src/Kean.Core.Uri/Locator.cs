@@ -137,6 +137,28 @@ namespace Kean.Core.Uri
 		{
 			return new Locator(this.Scheme.IsNull() ? null : this.Scheme.Copy(), this.Authority.IsNull() ? null : this.Authority.Copy(), this.Path.IsNull() ? null : this.Path.Copy(), this.Query.IsNull() ? null : this.Query.Copy(), this.Fragment);
 		}
+		public Locator Resolve(Locator absolute)
+		{
+			Locator result;
+			if (this.Scheme.NotNull())
+				result = this;
+			else if (this.Authority.NotNull())
+			{
+				if (this.Authority == ".")
+					result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path.Folder + this.Path, this.Query, this.Fragment);
+				else
+					result = new Locator(absolute.Scheme, this.Authority, this.Path, this.Query, this.Fragment);
+			}
+			else if (this.Path.NotNull())
+				result = new Locator(absolute.Scheme, absolute.Authority, this.Path, this.Query, this.Fragment);
+			else if (this.Query.NotNull())
+				result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path, this.Query, this.Fragment);
+			else if (this.Fragment.NotNull())
+				result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path, absolute.Query, this.Fragment);
+			else 
+				result = absolute;
+			return result;
+		}
 		#region IEquatable<Locator> Members
 		public bool Equals(Locator other)
 		{

@@ -89,6 +89,8 @@ namespace Kean.Core.Uri
 				}
 			}
 		}
+		public bool IsFolder { get { return this.Tail.IsNull() ? this.Head.IsEmpty() : this.Tail.IsFolder; } }
+		public Path Folder { get { return this.Tail.IsNull() ? new Path() : new Path(this.Head, this.Tail.Folder); } }
 		public Path() { }
 		public Path(params string[] path) :
 			this(0, path) { }
@@ -159,6 +161,7 @@ namespace Kean.Core.Uri
 			}
 			return result;
 		}
+		#region Casts with System.IO.FileSystemInfo
 		public static implicit operator Path(System.IO.FileSystemInfo item)
 		{
 			return item is System.IO.DirectoryInfo ? Path.Create(item as System.IO.DirectoryInfo, null) : item is System.IO.FileInfo ? Path.Create(item as System.IO.FileInfo, null) : null;
@@ -167,6 +170,8 @@ namespace Kean.Core.Uri
 		{
 			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlattformPath) : null;
 		}
+		#endregion
+		#region Casts with string
 		public static implicit operator string(Path path)
 		{
 			return path.IsNull() ? null : path.String;
@@ -175,6 +180,8 @@ namespace Kean.Core.Uri
 		{
 			return path.IsEmpty() ? null : new Path() { String = path };
 		}
+		#endregion
+		#region Equality Operators
 		public static bool operator ==(Path left, Path right)
         {
             return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
@@ -182,7 +189,18 @@ namespace Kean.Core.Uri
         public static bool operator !=(Path left, Path right)
         {
             return !(left == right);
-        }
-        #endregion
-    }
+		}
+		#endregion
+		#region Add Operator
+		public static Path operator +(Path left, Path right)
+		{
+			if (left.IsNull() || left.Tail.IsNull() && left.Head.IsEmpty())
+				left = right;
+			else
+				left.Tail = left.Tail + right;
+			return left;
+		}
+		#endregion
+		#endregion
+	}
 }

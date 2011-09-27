@@ -39,5 +39,5 @@ namespace Kean.Core.Uri.Test
             Expect((string)path.Tail.Tail, Is.EqualTo("file.extension"), this.prefix + "Equality.8");
             Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Equality.9");
         }
-    }
+	}
 }
