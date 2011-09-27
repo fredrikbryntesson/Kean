@@ -9,6 +9,7 @@ namespace Kean.Math.Geometry2D.Test.Single
     public class Box :
 		Kean.Math.Geometry2D.Test.Abstract.Box<Box, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
     {
+        string prefix = "Kean.Math.Geometry2D.Test.Single.";
         [TestFixtureSetUp]
         public override void  Setup()
         {
@@ -23,7 +24,8 @@ namespace Kean.Math.Geometry2D.Test.Single
             this.Run(
                 this.Casts,
                 this.ValueCasts,
-                this.ValueStringCasts
+                this.ValueStringCasts,
+                this.StringCast
                 );
         }
         protected override float Cast(double value)
@@ -36,11 +38,11 @@ namespace Kean.Math.Geometry2D.Test.Single
             // integer - single
             Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
             Target.Single.Box single = integer;
-            Expect(single.Left, Is.EqualTo(10));
-            Expect(single.Top, Is.EqualTo(20));
-            Expect(single.Width, Is.EqualTo(30));
-            Expect(single.Height, Is.EqualTo(40));
-            Expect((Target.Integer.Box)single, Is.EqualTo(integer));
+            Expect(single.Left, Is.EqualTo(10), this.prefix + "Casts.0");
+            Expect(single.Top, Is.EqualTo(20), this.prefix + "Casts.1");
+            Expect(single.Width, Is.EqualTo(30), this.prefix + "Casts.2");
+            Expect(single.Height, Is.EqualTo(40), this.prefix + "Casts.3");
+            Expect((Target.Integer.Box)single, Is.EqualTo(integer), this.prefix + "Casts.4");
         }
         [Test]
         public void ValueCasts()
@@ -48,22 +50,29 @@ namespace Kean.Math.Geometry2D.Test.Single
             // integer - float
             Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40);
             Target.Single.BoxValue single = integer;
-            Expect(single.Left, Is.EqualTo(10));
-            Expect(single.Top, Is.EqualTo(20));
-            Expect(single.Width, Is.EqualTo(30));
-            Expect(single.Height, Is.EqualTo(40));
-            Expect((Target.Integer.BoxValue)single, Is.EqualTo(integer));
+            Expect(single.Left, Is.EqualTo(10), this.prefix + "ValueCasts.0");
+            Expect(single.Top, Is.EqualTo(20), this.prefix + "ValueCasts.1");
+            Expect(single.Width, Is.EqualTo(30), this.prefix + "ValueCasts.2");
+            Expect(single.Height, Is.EqualTo(40), this.prefix + "ValueCasts.3");
+            Expect((Target.Integer.BoxValue)single, Is.EqualTo(integer), this.prefix + "ValueCasts.4");
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40);
-            Expect(textFromValue, Is.EqualTo("10,20,30,40"));
+            Expect(textFromValue, Is.EqualTo("10,20,30,40"), this.prefix + "ValueStringCasts.0");
             Target.Single.BoxValue @integerFromText = "10 20 30 40";
-            Expect(@integerFromText.Left, Is.EqualTo(10));
-            Expect(@integerFromText.Top, Is.EqualTo(20));
-            Expect(@integerFromText.Width, Is.EqualTo(30));
-            Expect(@integerFromText.Height, Is.EqualTo(40));
+            Expect(@integerFromText.Left, Is.EqualTo(10), this.prefix + "ValueStringCasts.1");
+            Expect(@integerFromText.Top, Is.EqualTo(20), this.prefix + "ValueStringCasts.2");
+            Expect(@integerFromText.Width, Is.EqualTo(30), this.prefix + "ValueStringCasts.3");
+            Expect(@integerFromText.Height, Is.EqualTo(40), this.prefix + "ValueStringCasts.4");
+        }
+        [Test]
+        public void StringCast()
+        {
+            string values = "0.05, 0.05 0.90, 0.90";
+            Target.Single.Box box = values;
+            Expect(box, Is.EqualTo(new Target.Single.Box(0.05f, 0.05f, 0.90f, 0.90f)), this.prefix + "StringCast.0"); 
         }
     }
 }

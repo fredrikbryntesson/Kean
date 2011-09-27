@@ -73,7 +73,7 @@ namespace Kean.Math.Geometry2D.Integer
                 {
                     string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (values.Length == 4)
-                        result = new Box((Point)(values[0] + " " + value[1]), (Size)(values[2] + " " + value[3]));
+                        result = new Box((Point)(values[0] + " " + values[1]), (Size)(values[2] + " " + values[3]));
                 }
                 catch
                 {
