@@ -68,7 +68,7 @@ namespace Kean.Core.Collection.Abstract
 		}
 		#endregion
 		#region IEquatable<IReadOnlyVector<T>>
-		bool  IEquatable<IReadOnlyVector<T>>.Equals(IReadOnlyVector<T> other)
+        public bool Equals(IReadOnlyVector<T> other)
 		{
 			bool result = other.NotNull() && (this as IReadOnlyVector<T>).Count == other.Count;
 			for (int i = 0; result && i < (this as IReadOnlyVector<T>).Count; i++)

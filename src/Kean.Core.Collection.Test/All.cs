@@ -21,6 +21,7 @@ namespace Kean.Core.Collection.Test
     {
         public static void Test()
         {
+            ReadOnly.Test();
             Vector.Test();
             List.Test();
             Queue.Test();

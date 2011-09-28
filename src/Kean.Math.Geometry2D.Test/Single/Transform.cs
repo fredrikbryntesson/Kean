@@ -35,7 +35,9 @@ namespace Kean.Math.Geometry2D.Test.Single
             this.Run(
                 this.Casts,
                 this.ValueCasts,
-                this.ValueStringCasts
+                this.ValueStringCasts,
+                this.ClassCasts,
+                this.ClassStringCasts
                 );
         }
 
@@ -77,6 +79,33 @@ namespace Kean.Math.Geometry2D.Test.Single
             string textFromValue = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
             Expect(textFromValue, Is.EqualTo("10,30,50;20,40,60;0,0,1"));
             Target.Single.TransformValue @integerFromText = "10, 30, 50; 20, 40, 60; 0, 0, 1";
+            Expect(@integerFromText.A, Is.EqualTo(10));
+            Expect(@integerFromText.B, Is.EqualTo(20));
+            Expect(@integerFromText.C, Is.EqualTo(30));
+            Expect(@integerFromText.D, Is.EqualTo(40));
+            Expect(@integerFromText.E, Is.EqualTo(50));
+            Expect(@integerFromText.F, Is.EqualTo(60));
+        }
+        [Test]
+        public void ClassCasts()
+        {
+            // integer - single
+            Target.Integer.Transform integer = new Target.Integer.Transform(10, 20, 30, 40, 50, 60);
+            Target.Single.Transform single = integer;
+            Expect(single.A, Is.EqualTo(10));
+            Expect(single.B, Is.EqualTo(20));
+            Expect(single.C, Is.EqualTo(30));
+            Expect(single.D, Is.EqualTo(40));
+            Expect(single.E, Is.EqualTo(50));
+            Expect(single.F, Is.EqualTo(60));
+            Expect((Target.Integer.Transform)single, Is.EqualTo(integer));
+        }
+        [Test]
+        public void ClassStringCasts()
+        {
+            string textFromValue = new Target.Single.Transform(10, 20, 30, 40, 50, 60);
+            Expect(textFromValue, Is.EqualTo("10,30,50;20,40,60;0,0,1"));
+            Target.Single.Transform @integerFromText = "10, 30, 50; 20, 40, 60; 0, 0, 1";
             Expect(@integerFromText.A, Is.EqualTo(10));
             Expect(@integerFromText.B, Is.EqualTo(20));
             Expect(@integerFromText.C, Is.EqualTo(30));
