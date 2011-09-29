@@ -18,8 +18,10 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
 
@@ -28,12 +30,17 @@ namespace Kean.Core.Serialize
 	public abstract class Storage
 	{
 		public ISerializer Serializer { get; private set; }
+		public Resolver Resolver { get; private set; }
 
 		protected Storage(params ISerializer[] serializers) :
-			this(new Serializer.Group(serializers))
+			this(null, serializers)
 		{ }
-		protected Storage(ISerializer serializer)
+		protected Storage(Resolver resolver, params ISerializer[] serializers) :
+			this(resolver, new Serializer.Group(serializers))
+		{ }
+		protected Storage(Resolver resolver, ISerializer serializer)
 		{
+			this.Resolver = resolver;
 			this.Serializer = serializer;
 		}
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
@@ -45,7 +52,10 @@ namespace Kean.Core.Serialize
 		public T Load<T>(Uri.Locator locator)
 		{
 			Data.Node data = this.Load(locator);
-			return (T)this.Serializer.Deserialize(this, typeof(T), data);
+			T result = (T)this.Serializer.Deserialize(this, typeof(T), data);
+			if (data.Locator.NotNull())
+				this.Resolver[data.Locator] = result;
+			return result;
 		}
 	}
 }

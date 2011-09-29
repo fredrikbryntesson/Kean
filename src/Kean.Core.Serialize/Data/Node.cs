@@ -25,6 +25,7 @@ namespace Kean.Core.Serialize.Data
 {
 	public abstract class Node
 	{
+		public Uri.Locator Locator { get; set; }
 		public string Name { get; set; }
 		public ParameterAttribute Attribute { get; set; }
 		public Reflect.Type Type { get; set; }

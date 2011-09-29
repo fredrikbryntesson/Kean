@@ -36,6 +36,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="Data\Single.cs" />
     <Compile Include="Data\Integer.cs" />
     <Compile Include="Data\String.cs" />
+    <Compile Include="Exception\DuplicateIdentifier.cs" />
+    <Compile Include="Exception\Exception.cs" />
     <Compile Include="ISerializing.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\Branch.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="IDeserialized.cs" />
     <Compile Include="ISerializable.cs" />
     <Compile Include="ISerializer.cs" />
+    <Compile Include="Resolver.cs" />
     <Compile Include="Serializer\Byte.cs" />
     <Compile Include="Serializer\Boolean.cs" />
     <Compile Include="Serializer\Character.cs" />

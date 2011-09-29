@@ -1,10 +1,10 @@
 ﻿// 
-//  Program.cs
+//  Exception.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2009-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,26 +18,15 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using IO = Kean.IO;
 
-namespace Kean.Cli.Processor.Test
+using Error = Kean.Core.Error;
+
+namespace Kean.Core.Serialize.Exception
 {
-	class Program
+	public class Exception :
+		Error.Exception
 	{
-		static void Main(string[] args)
-		{
-			Command.Application application = new Command.Application();
-			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
-			{
-				new Editor(application, 
-					new VT100(
-						new IO.CharacterDevice(
-							new IO.Net.Telnet.Server(connection)))).Read();
-			}
-			, 22);
-			Editor editor = new Editor(application, new ConsoleTerminal());
-			editor.Read();
-		}
+		internal Exception(Error.Level level, string title, string message, params string[] arguments) : this(null, level, title, message, arguments) { }
+		internal Exception(System.Exception innerException, Error.Level level, string title, string message, params string[] arguments) : base(innerException, level, title, message, arguments) { }
 	}
 }
