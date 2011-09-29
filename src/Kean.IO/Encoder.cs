@@ -40,15 +40,17 @@ namespace Kean.IO
 			this.backend = backend;
 			this.encoding = encoding;
 			this.queue = new Collection.Queue<byte>();
-			this.MoveNext(new Collection.List<char>(this.backend.Current));
 		}
 		~Encoder() { this.Dispose(); }
 		#endregion
 		bool MoveNext(Collection.IList<char> buffer)
 		{
-			buffer.Add(this.backend.Current);
-			this.queue.Enqueue(this.encoding.GetBytes(buffer.ToArray()));
-			return !this.queue.Empty || this.backend.MoveNext() && this.MoveNext(buffer);
+			while (this.queue.Empty && this.backend.MoveNext())
+			{
+				buffer.Add(this.backend.Current);
+				this.queue.Enqueue(this.encoding.GetBytes(buffer.ToArray()));
+			}
+			return !this.queue.Empty;
 		}
 		#region IEnumerator<byte> and IEnumerator Members
 		public byte Current { get { return this.queue.Peek(); } }
