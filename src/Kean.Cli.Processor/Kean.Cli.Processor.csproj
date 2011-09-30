@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{881FABE6-BA89-4242-9686-864E75EC541C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,7 +49,11 @@
     <Compile Include="ParameterAttribute.cs" />
     <Compile Include="Parameter\Abstract.cs" />
     <Compile Include="Parameter\Boolean.cs" />
+    <Compile Include="Parameter\DateTime.cs" />
+    <Compile Include="Parameter\Double.cs" />
     <Compile Include="Parameter\Enumeration.cs" />
+    <Compile Include="Parameter\Integer.cs" />
+    <Compile Include="Parameter\Single.cs" />
     <Compile Include="Parameter\String.cs" />
     <Compile Include="Parameter\TimeSpan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
