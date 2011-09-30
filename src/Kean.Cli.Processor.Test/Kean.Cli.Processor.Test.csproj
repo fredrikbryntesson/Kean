@@ -44,6 +44,9 @@
     <Compile Include="Command\Geometry2D\Double.cs" />
     <Compile Include="Command\Geometry2D\Integer.cs" />
     <Compile Include="Command\Geometry2D\Single.cs" />
+    <Compile Include="Command\Geometry3D\Double.cs" />
+    <Compile Include="Command\Geometry3D\Integer.cs" />
+    <Compile Include="Command\Geometry3D\Single.cs" />
     <Compile Include="Command\Media.cs" />
     <Compile Include="Command\MediaState.cs" />
     <Compile Include="Program.cs" />
@@ -89,6 +92,10 @@
     <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj">
+      <Project>{98F827EA-9073-43FD-9131-6B2448461519}</Project>
+      <Name>Kean.Math.Geometry3D</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
