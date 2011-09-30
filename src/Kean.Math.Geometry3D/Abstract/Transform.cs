@@ -349,13 +349,23 @@ namespace Kean.Math.Geometry3D.Abstract
                 this.G.GetHashCode() ^ this.H.GetHashCode() ^ this.I.GetHashCode() ^
                 this.J.GetHashCode() ^ this.K.GetHashCode() ^ this.L.GetHashCode();
         }
+		public string ToString(bool matlab)
+		{
+			string result;
+			if (matlab)
+				result = ((R)this.A).ToString() + ", " + ((R)this.D).ToString() + ", " + ((R)this.G).ToString() + ", " + ((R)this.J).ToString() + "; " +
+				((R)this.B).ToString() + ", " + ((R)this.E).ToString() + ", " + ((R)this.H).ToString() + ", " + ((R)this.K).ToString() + "; " +
+				((R)this.C).ToString() + ", " + ((R)this.F).ToString() + ", " + ((R)this.I).ToString() + ", " + ((R)this.L).ToString() + "; " +
+				new R().ToString() + ", " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R, V>.One.ToString();
+			else
+				result = ((R)this.A).ToString() + " " + ((R)this.B).ToString() + " " + ((R)this.C).ToString() + " " + ((R)this.D).ToString() + " " +
+				((R)this.E).ToString() + " " + ((R)this.F).ToString() + " " + ((R)this.G).ToString() + " " + ((R)this.H).ToString() + " " +
+				((R)this.I).ToString() + " " + ((R)this.J).ToString() + " " + ((R)this.K).ToString() + ", " + ((R)this.L).ToString();
+			return result;
+		}
         public override string ToString()
         {
-            return
-                this.A.ToString() + ", " + this.D.ToString() + ", " + this.G.ToString() + ", " + this.J.ToString() + "; " +
-                this.B.ToString() + ", " + this.E.ToString() + ", " + this.H.ToString() + ", " + this.K.ToString() + "; " +
-                this.C.ToString() + ", " + this.F.ToString() + ", " + this.I.ToString() + ", " + this.L.ToString() + "; " +
-                new R().ToString() + ", " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R,V>.One.ToString(); 
+			return this.ToString(false);
         }
         #endregion
         #region Casts

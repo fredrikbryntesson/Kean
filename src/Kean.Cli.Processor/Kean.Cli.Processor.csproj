@@ -55,6 +55,8 @@
     <Compile Include="Parameter\Integer.cs" />
     <Compile Include="Parameter\Single.cs" />
     <Compile Include="Parameter\String.cs" />
+    <Compile Include="Parameter\StringCastable.cs" />
+    <Compile Include="Parameter\StringInterface.cs" />
     <Compile Include="Parameter\TimeSpan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />

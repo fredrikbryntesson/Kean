@@ -57,7 +57,7 @@ namespace Kean.Math.Geometry2D.Single
                 try
                 {
                     string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 9)
+                    if (values.Length == 6)
                         result = new Transform(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[3]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[4]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[5]));
                 }
                 catch

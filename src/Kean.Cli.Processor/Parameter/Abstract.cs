@@ -56,6 +56,16 @@ namespace Kean.Cli.Processor.Parameter
 				result = new Enumeration(type);
 			else if (type == typeof(System.TimeSpan))
 				result = new TimeSpan(type);
+			else if (StringCastable.IsStringCastable(type))
+				result = new StringCastable(type);
+			else if (type == typeof(int))
+				result = new Integer(type);
+			else if (type == typeof(float))
+				result = new Single(type);
+			else if (type == typeof(double))
+				result = new Double(type);
+			else if (type.Implements<IString>())
+				result = new StringInterface(type);
 			return result;
 		}
 	}

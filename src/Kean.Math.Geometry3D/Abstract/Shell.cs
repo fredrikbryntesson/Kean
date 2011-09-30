@@ -91,7 +91,11 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode() ^ this.Front.GetHashCode() ^ this.Back.GetHashCode();
         }
-        #endregion
+		public override string ToString()
+		{
+			return ((R)this.Left).ToString() + " " + ((R)this.Right).ToString() + " " + ((R)this.Top).ToString() + " " + ((R)this.Bottom).ToString() + " " + ((R)this.Front).ToString() + " " + ((R)this.Back).ToString();
+		}
+		#endregion
         protected static ShellType Create(V left, V right, V top, V bottom, V front, V back)
         {
             ShellType result = new ShellType();

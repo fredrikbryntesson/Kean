@@ -1,8 +1,8 @@
 ﻿// 
-//  Integer.cs
+//  Double.cs
 //  
 //  Author:
-//       Anders Frisk <anderfrisk77@gmail.com
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
 //  Copyright (c) 2011 Anders Frisk
 // 
@@ -18,38 +18,28 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Cli.Processor.Parameter
+namespace Kean.Cli.Processor.Test.Command.Geometry2D
 {
-	class Integer :
-		Abstract
+	public class Double
 	{
-		internal Integer(Reflect.Type type) :
-			base(type)
+		[Property("p")]
+		public double Parameter1 { get; private set; }
+		[Property("point")]
+		public Kean.Math.Geometry2D.Double.Point Point { get; private set; }
+		[Property("size")]
+		public Kean.Math.Geometry2D.Double.Size Size { get; private set; }
+		[Property("shell")]
+		public Kean.Math.Geometry2D.Double.Shell Shell { get; private set; }
+		[Property("box")]
+		public Kean.Math.Geometry2D.Double.Box Box { get; private set; }
+		[Property("transform")]
+		public Kean.Math.Geometry2D.Double.Transform Transform { get; private set; }
+		public Double()
 		{
-		}
-		public override string AsString(object value)
-		{
-			return ((int)value).ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-		}
-		public override object FromString(string value)
-		{
-			int result = 0;
-			int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out result);
-			return result;
-		}
-		public override string Complete(string incomplete)
-		{
-			return incomplete;
-		}
-		public override string Help(string incomplete)
-		{
-			return "";
 		}
 	}
 }

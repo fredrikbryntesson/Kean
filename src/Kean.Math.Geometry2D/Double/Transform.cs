@@ -66,7 +66,7 @@ namespace Kean.Math.Geometry2D.Double
                 try
                 {
                     string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 9)
+                    if (values.Length == 6)
                         result = new Transform(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]));
                 }
                 catch

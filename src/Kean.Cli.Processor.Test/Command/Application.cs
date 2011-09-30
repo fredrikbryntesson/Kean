@@ -19,7 +19,6 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-
 namespace Kean.Cli.Processor.Test.Command
 {
 	public class Application
@@ -28,10 +27,20 @@ namespace Kean.Cli.Processor.Test.Command
 		public Configuration Configuration { get; private set; }
 		[Object("media", "Control the input media.")]
 		public Media Media { get; private set; }
+		[Object("geometryInteger", "2D Geometry types.")]
+		public Geometry2D.Integer Integer { get; private set; }
+		[Object("geometrySingle", "2D Geometry types.")]
+		public Geometry2D.Single Single { get; private set; }
+		[Object("geometryDouble", "2D Geometry types.")]
+		public Geometry2D.Double Double { get; private set; }
+		
 		public Application()
 		{
 			this.Configuration = new Configuration(this);
 			this.Media = new Media();
+			this.Integer = new Geometry2D.Integer();
+			this.Single = new Geometry2D.Single();
+			this.Double = new Geometry2D.Double();
 		}
 	}
 }

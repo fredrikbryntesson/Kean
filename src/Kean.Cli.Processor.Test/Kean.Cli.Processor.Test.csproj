@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{473C25A4-F760-4CE7-8783-554471B6E986}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -35,10 +35,15 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\Application.cs" />
     <Compile Include="Command\Configuration.cs" />
+    <Compile Include="Command\Geometry2D\Double.cs" />
+    <Compile Include="Command\Geometry2D\Integer.cs" />
+    <Compile Include="Command\Geometry2D\Single.cs" />
     <Compile Include="Command\Media.cs" />
     <Compile Include="Command\MediaState.cs" />
     <Compile Include="Program.cs" />
@@ -80,6 +85,14 @@
     <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
+      <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
+      <Name>Kean.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

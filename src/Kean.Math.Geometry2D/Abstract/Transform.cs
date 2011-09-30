@@ -304,9 +304,18 @@ namespace Kean.Math.Geometry2D.Abstract
                 ^ this.E.GetHashCode()
                 ^ this.F.GetHashCode();
         }
+		public string ToString(bool matlab)
+		{
+			string result;
+			if(matlab)
+				result = ((R)this.A).ToString() + "," + ((R)this.C).ToString() + "," + ((R)this.E).ToString() + ";" + ((R)this.B).ToString() + "," + ((R)this.D).ToString() + "," + ((R)this.F).ToString() + ";" + new R().ToString() + "," + new R().ToString() + "," + Kean.Math.Abstract<R, V>.One.ToString();
+			else
+				result = ((R)this.A).ToString() + " " + ((R)this.B).ToString() + " " + ((R)this.C).ToString() + " " + ((R)this.D).ToString() + " " + ((R)this.E).ToString() + " " + ((R)this.F).ToString();
+			return result;
+		}
         public override string ToString()
         {
-            return this.A.ToString() + "," + this.C.ToString() + "," + this.E.ToString() + ";" + this.B.ToString() + "," + this.D.ToString() + "," + this.F.ToString() + ";" + new R().ToString() + "," + new R().ToString() + "," + Kean.Math.Abstract<R,V>.One.ToString();
+			return this.ToString(false);
         }
         #endregion
         #region Casts

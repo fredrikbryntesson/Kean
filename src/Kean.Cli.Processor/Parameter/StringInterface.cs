@@ -1,8 +1,8 @@
 ﻿// 
-//  Integer.cs
+//  StringInterface.cs
 //  
 //  Author:
-//       Anders Frisk <anderfrisk77@gmail.com
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
 //  Copyright (c) 2011 Anders Frisk
 // 
@@ -18,29 +18,28 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Reflect = Kean.Core.Reflect;
 
+
 namespace Kean.Cli.Processor.Parameter
 {
-	class Integer :
+	class StringInterface : 
 		Abstract
 	{
-		internal Integer(Reflect.Type type) :
+		public StringInterface(Reflect.Type type) : 
 			base(type)
-		{
-		}
+		{ }
 		public override string AsString(object value)
 		{
-			return ((int)value).ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+			return (value as IString).String;
 		}
 		public override object FromString(string value)
 		{
-			int result = 0;
-			int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out result);
+			object result = this.Type.Create();
+			(result as IString).String = value;
 			return result;
 		}
 		public override string Complete(string incomplete)

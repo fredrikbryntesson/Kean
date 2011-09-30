@@ -85,7 +85,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.Left.ToString() + "," + this.Right.ToString() + "," + this.Top.ToString() + "," + this.Bottom.ToString();
+            return ((R)this.Left).ToString() + " " + ((R)this.Right).ToString() + " " + ((R)this.Top).ToString() + " " + ((R)this.Bottom).ToString();
         }
         #endregion
         public static ShellType Create(V left, V right, V top, V bottom)
