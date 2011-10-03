@@ -56,6 +56,8 @@ namespace Kean.Cli.Processor.Parameter
 				result = new Enumeration(type);
 			else if (type == typeof(System.TimeSpan))
 				result = new TimeSpan(type);
+			else if (type == typeof(System.DateTime))
+				result = new DateTime(type);
 			else if (StringCastable.IsStringCastable(type))
 				result = new StringCastable(type);
 			else if (type == typeof(int))
