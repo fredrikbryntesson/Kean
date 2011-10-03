@@ -1,5 +1,5 @@
 ﻿// 
-//  IImage.cs
+//  Image.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,17 +21,25 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+using GL = OpenTK.Graphics.OpenGL.GL;
+using Error = Kean.Core.Error;
+using Log = Kean.Extra.Log;
+using Draw = Kean.Draw;
+using Gpu = Kean.Draw.Gpu;
+using Raster = Kean.Draw.Raster;
+using Kean.Gui.OpenGL.Extension;
+
+namespace Kean.Gui.OpenGL.OpenGL21
 {
-	public interface IImage :
-		IDisposable
+	public class Image :
+		OpenGL.Image
 	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+
+		public Image(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
+			base(type, size, coordinateSystem)
+		{ }
+		public Image(Raster.Image image) :
+			base(image.GetImageType(), image.Size, image.CoordinateSystem, image.Pointer)
+		{ }
 	}
 }

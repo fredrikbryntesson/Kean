@@ -1,10 +1,10 @@
 ﻿// 
-//  IImage.cs
+//  Key.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2009-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,18 +20,21 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+
+namespace Kean.Gui.Input
 {
-	public interface IImage :
-		IDisposable
+	public class Key
 	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+		public bool Shift { get; private set; }
+		public bool Control { get; private set; }
+		public bool Alt { get; private set; }
+		public Keys MainKey { get; private set; }
+		public Key(Keys mainKey, bool shiftKey, bool controlKey, bool altKey)
+		{
+			this.MainKey = mainKey;
+			this.Shift = shiftKey;
+			this.Control = controlKey;
+			this.Alt = altKey;
+		}
 	}
 }

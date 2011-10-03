@@ -1,10 +1,10 @@
 ﻿// 
-//  IImage.cs
+//  ResizeDirection.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2009-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,18 +20,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+
+namespace Kean.Gui.Backend
 {
-	public interface IImage :
-		IDisposable
-	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
-	}
+    [Flags]
+    public enum ResizeDirection
+    {
+        None = 0x0,
+        Left = 0x2,
+        Right = 0x3,
+        Top = 0x4,
+        Bottom = 0xc,
+        LeftTop = Left | Top,
+        LeftBottom = Left | Bottom,
+        RightTop = Right | Top,
+        RightBottom = Right | Bottom,
+    }
 }

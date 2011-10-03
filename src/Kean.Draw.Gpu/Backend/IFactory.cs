@@ -1,5 +1,5 @@
 ﻿// 
-//  IImage.cs
+//  IFactory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,17 +21,12 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
+
 namespace Kean.Draw.Gpu.Backend
 {
-	public interface IImage :
-		IDisposable
+	public interface IFactory
 	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+		IImage CreateImage(ImageType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem);
+		IImage CreateImage(Draw.Raster.Image image);
 	}
 }

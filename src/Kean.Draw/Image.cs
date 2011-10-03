@@ -16,7 +16,10 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -27,7 +30,9 @@ namespace Kean.Draw
 	public abstract class Image :
 		IEquatable<Image>
 	{
-		public Geometry2D.Single.Size Size { get; private set; }
+		public abstract Canvas Canvas { get; }
+
+		public Geometry2D.Integer.Size Size { get; private set; }
 		protected Geometry2D.Integer.Transform Transform { get; private set; }
 
 		CoordinateSystem coordinateSystem;
@@ -48,7 +53,7 @@ namespace Kean.Draw
 		{ }
 		protected Image(Image original) :
 			this(original.Size, original.CoordinateSystem) { }
-		protected Image(Geometry2D.Single.Size size, CoordinateSystem coordinateSystem)
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
 		{
 			this.Size = size;
 			this.CoordinateSystem = coordinateSystem;

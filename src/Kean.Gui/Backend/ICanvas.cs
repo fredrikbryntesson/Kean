@@ -1,10 +1,10 @@
 ﻿// 
-//  IImage.cs
+//  ICanvas.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2009-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,18 +20,30 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+using Kean.Core.Extension;
+
+namespace Kean.Gui.Backend
 {
-	public interface IImage :
+    public interface ICanvas :
+		IDrawable,
 		IDisposable
-	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+    {
+		bool TextAntiAlias { get; set; }
+		//Svg.Svg.Renderer Measure { get; }
+		Geometry2D.Single.Box Clip { get; }
+        void Push(Geometry2D.Single.Box clip, Geometry2D.Single.Transform transform);
+        void Pop();
+        
+        void Clear(Geometry2D.Single.Box area);
+
+		ICanvas Create(Geometry2D.Single.Box bounds);
+		void Draw(IDrawable viewable);
+
+		//Svg.Svg.Renderer CreateRenderer(Geometry2D.Single.Size size);
+		//ICache GetCache(Svg.Svg.Renderer renderer);
+		void Draw(ICache cache, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 	}
 }

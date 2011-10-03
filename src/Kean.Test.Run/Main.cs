@@ -26,11 +26,14 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			Draw.Gpu.Test.All.Test();
+
 			Core.Collection.Test.All.Test();
 			Core.Uri.Test.All.Test();
 			Xml.Dom.Test.Open.Test();
 			Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
+			Draw.Gpu.Test.All.Test();
             Math.Test.All.Test();
             Math.Complex.Test.All.Test();
             Math.Geometry2D.Test.All.Test();

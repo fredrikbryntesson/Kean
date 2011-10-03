@@ -30,6 +30,7 @@ namespace Kean.Draw.Raster
 	public abstract class Image :
 		Draw.Image
 	{
+		public override Canvas Canvas { get { return null; } }
 		Buffer.Sized buffer;
 		public IntPtr Pointer { get { return this.buffer; } }
 		public int Length { get { return this.buffer.Size; } }

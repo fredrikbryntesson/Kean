@@ -1,5 +1,5 @@
 ﻿// 
-//  IImage.cs
+//  All.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,18 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+
+namespace Kean.Draw.Gpu.Test
 {
-	public interface IImage :
-		IDisposable
+	public static class All
 	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+		public static void Test()
+		{
+			Bgra.Test();
+		}
 	}
 }

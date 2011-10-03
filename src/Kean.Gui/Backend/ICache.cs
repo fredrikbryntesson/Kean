@@ -1,10 +1,10 @@
 ﻿// 
-//  IImage.cs
+//  ICache.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2009-2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,17 +21,12 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-namespace Kean.Draw.Gpu.Backend
+
+namespace Kean.Gui.Backend
 {
-	public interface IImage :
+	public interface ICache :
 		IDisposable
 	{
-		IFactory Factory { get; }
-		ICanvas Canvas { get; }
-		CoordinateSystem CoordinateSystem { get; set; }
-		Geometry2D.Integer.Size Size { get; }
-		ImageType Type { get; }
-		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
-		Raster.Image Read();
+		Geometry2D.Single.Size Resolution { get; }
 	}
 }

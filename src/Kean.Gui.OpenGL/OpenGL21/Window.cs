@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kean.Draw.Gpu.Backend.OpenGL
+namespace Kean.Gui.OpenGL.OpenGL21
 {
 	class Window
 	{
