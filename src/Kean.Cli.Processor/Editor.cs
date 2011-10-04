@@ -90,7 +90,7 @@ namespace Kean.Cli.Processor
 							member = next;
 					}
 			if (splitted.Length > 1)
-				parameters.Add(splitted[1].Split(new char[] { ' ' }));
+				parameters.Add(splitted[1].Splitter());
 			return Tuple.Create(prefix, member, parameters.ToArray());
 		}
 		bool Execute(string line)

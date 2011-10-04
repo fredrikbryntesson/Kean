@@ -28,9 +28,12 @@ namespace Kean.Core.Test
 {
 	[TestFixture]
 	public class NonNullable :
-		NUnit.Framework.AssertionHelper
+		Kean.Test.Fixture<NonNullable>
 	{
-
+		protected override void Run()
+		{
+			this.Run(this.TestCase);
+		}
 		[Test]
 		public void TestCase()
 		{
