@@ -360,7 +360,7 @@ namespace Kean.Math.Geometry3D.Abstract
 			else
 				result = ((R)this.A).ToString() + " " + ((R)this.B).ToString() + " " + ((R)this.C).ToString() + " " + ((R)this.D).ToString() + " " +
 				((R)this.E).ToString() + " " + ((R)this.F).ToString() + " " + ((R)this.G).ToString() + " " + ((R)this.H).ToString() + " " +
-				((R)this.I).ToString() + " " + ((R)this.J).ToString() + " " + ((R)this.K).ToString() + ", " + ((R)this.L).ToString();
+				((R)this.I).ToString() + " " + ((R)this.J).ToString() + " " + ((R)this.K).ToString() + " " + ((R)this.L).ToString();
 			return result;
 		}
         public override string ToString()

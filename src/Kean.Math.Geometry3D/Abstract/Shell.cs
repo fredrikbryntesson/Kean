@@ -93,7 +93,11 @@ namespace Kean.Math.Geometry3D.Abstract
         }
 		public override string ToString()
 		{
-			return ((R)this.Left).ToString() + " " + ((R)this.Right).ToString() + " " + ((R)this.Top).ToString() + " " + ((R)this.Bottom).ToString() + " " + ((R)this.Front).ToString() + " " + ((R)this.Back).ToString();
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((R)this.Left).ToString() + (commaSeparated ? "," : " ") + ((R)this.Right).ToString() + (commaSeparated ? "," : " ") + ((R)this.Top).ToString() + (commaSeparated ? "," : " ") + ((R)this.Bottom).ToString() + (commaSeparated ? "," : " ") + ((R)this.Front).ToString() + (commaSeparated ? "," : " ") + ((R)this.Back).ToString();
 		}
 		#endregion
         protected static ShellType Create(V left, V right, V top, V bottom, V front, V back)

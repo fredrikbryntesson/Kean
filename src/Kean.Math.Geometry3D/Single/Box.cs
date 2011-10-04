@@ -76,7 +76,7 @@ namespace Kean.Math.Geometry3D.Single
                 {
                     string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (values.Length == 6)
-                        result = new Box((Point)(values[0] + " " + value[1] + " " + value[2]), (Size)(values[3] + " " + value[4] + " " + value[5]));
+                        result = new Box((Point)(values[0] + " " + values[1] + " " + values[2]), (Size)(values[3] + " " + values[4] + " " + values[5]));
                 }
                 catch
                 {

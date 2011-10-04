@@ -71,10 +71,8 @@ namespace Kean.Math.Geometry3D.Single
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 3)
-                        result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]));
-                }
+					result = (PointValue)(Point)value;
+				}
                 catch
                 {
                 }
@@ -87,10 +85,14 @@ namespace Kean.Math.Geometry3D.Single
         {
             return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Single.ToString(this.X) + " " + Kean.Math.Single.ToString(this.Y) + " " + Kean.Math.Single.ToString(this.Z);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Point)this).ToString(commaSeparated);
+		}
         #endregion
 	}
 }

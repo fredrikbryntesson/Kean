@@ -208,9 +208,13 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
         }
-        public override string ToString()
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
         {
-            return ((R)this.X).ToString() + " " + ((R)this.Y).ToString() + " " + ((R)this.Z).ToString();
+			return ((R)this.X).ToString() + (commaSeparated ? "," : " ") + ((R)this.Y).ToString() + (commaSeparated ? "," : " ") + ((R)this.Z).ToString();
         }
         #endregion
         #region Casts

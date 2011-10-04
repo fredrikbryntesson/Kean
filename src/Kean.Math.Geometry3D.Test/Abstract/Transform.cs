@@ -314,7 +314,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void Casting()
         {
-            string value = "10, 40, 70, 100; 20, 50, 80, 110; 30, 60, 90, 120; 0, 0, 0, 1";
+            string value = "10 20 30 40 50 60 70 80 90 100 110 120";
             Expect(this.CastToString(this.Transform4), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(this.Transform4));
         }

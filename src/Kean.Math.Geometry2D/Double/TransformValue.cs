@@ -121,9 +121,7 @@ namespace Kean.Math.Geometry2D.Double
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 9)
-                        result = new TransformValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[5]));
+					result = (TransformValue)(Transform)(value);
                 }
                 catch
                 {
@@ -146,10 +144,14 @@ namespace Kean.Math.Geometry2D.Double
                 ^ this.E.GetHashCode()
                 ^ this.F.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Double.ToString(this.A) + "," + Kean.Math.Double.ToString(this.C) + "," + Kean.Math.Double.ToString(this.E) + ";" + Kean.Math.Double.ToString(this.B) + "," + Kean.Math.Double.ToString(this.D) + "," + Kean.Math.Double.ToString(this.F) + ";" + 0 + "," + 0 + "," + 1;
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool matlab)
+		{
+			return ((Transform)this).ToString(matlab);
+		}
         #endregion
     }
 }

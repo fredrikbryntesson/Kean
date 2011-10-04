@@ -23,7 +23,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Single
 {
-	public class Transform : Abstract.Transform<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
+	public class Transform : 
+		Abstract.Transform<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public Transform() { }
         public Transform(float a, float b, float c, float d, float e, float f) : base(a, b, c, d, e, f) { }

@@ -219,9 +219,7 @@ namespace Kean.Math.Geometry2D.Double
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 2)
-                        result = new PointValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+					result = (PointValue)(Point)value;
                 }
                 catch
                 {
@@ -235,10 +233,14 @@ namespace Kean.Math.Geometry2D.Double
         {
             return this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Double.ToString(this.X) + "," + Kean.Math.Double.ToString(this.Y);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Point)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

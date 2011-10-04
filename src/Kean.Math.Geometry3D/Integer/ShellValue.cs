@@ -61,10 +61,8 @@ namespace Kean.Math.Geometry3D.Integer
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 6)
-                        result = new ShellValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
-                }
+					result = (ShellValue)(Shell)value;
+				}
                 catch
                 {
                 }
@@ -77,10 +75,14 @@ namespace Kean.Math.Geometry3D.Integer
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode() ^ this.Front.GetHashCode() ^ this.Back.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Integer.ToString(this.Left) + " " + Kean.Math.Integer.ToString(this.Right) + " " + Kean.Math.Integer.ToString(this.Top) + " " + Kean.Math.Integer.ToString(this.Bottom) + " " + Kean.Math.Integer.ToString(this.Front) + " " + Kean.Math.Integer.ToString(this.Back);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Shell)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

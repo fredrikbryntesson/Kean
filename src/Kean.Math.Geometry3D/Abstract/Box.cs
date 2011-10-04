@@ -149,9 +149,13 @@ namespace Kean.Math.Geometry3D.Abstract
         {
             return this == other;
         }
-        public override string ToString()
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+        public string ToString(bool commaSeparated)
         {
-            return this.leftTopFront.ToString() + " " + this.size.ToString();
+			return this.leftTopFront.ToString(commaSeparated) + (commaSeparated ? "," : " ") + this.size.ToString(commaSeparated);
         }
         public override int GetHashCode()
         {

@@ -211,8 +211,12 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.leftTop.ToString() + " " + this.size.ToString();
+            return this.ToString(false);
         }
+		public string ToString(bool commaSeparated)
+		{
+			return this.leftTop.ToString(commaSeparated) + (commaSeparated ? "," : " ") + this.size.ToString(commaSeparated);
+		}
         public override int GetHashCode()
         {
             return this.leftTop.GetHashCode() ^ this.size.GetHashCode();

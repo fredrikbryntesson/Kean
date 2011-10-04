@@ -241,10 +241,8 @@ namespace Kean.Math.Geometry2D.Single
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 2)
-                        result = new PointValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
-                }
+					result = (PointValue)(Point)value;
+				}
                 catch
                 {
                 }
@@ -257,10 +255,14 @@ namespace Kean.Math.Geometry2D.Single
         {
             return this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Single.ToString(this.X) + "," + Kean.Math.Single.ToString(this.Y);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Point)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

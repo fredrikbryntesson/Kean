@@ -127,14 +127,8 @@ namespace Kean.Math.Geometry3D.Integer
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 16)
-                        result = new TransformValue(
-                       Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[8]),
-                       Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[5]), Kean.Math.Integer.Parse(values[9]),
-                       Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[6]), Kean.Math.Integer.Parse(values[10]),
-                       Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[7]), Kean.Math.Integer.Parse(values[11]));
-                }
+					result = (TransformValue)(Transform)(value);
+				}
                 catch
                 {
                 }
@@ -162,14 +156,14 @@ namespace Kean.Math.Geometry3D.Integer
                 ^ this.K.GetHashCode()
                 ^ this.L.GetHashCode();
         }
-        public override string ToString()
-        {
-            return
-                    Kean.Math.Integer.ToString(this.A) + ", " + Kean.Math.Integer.ToString(this.D) + ", " + Kean.Math.Integer.ToString(this.G) + ", " + Kean.Math.Integer.ToString(this.J) + "; "
-                + Kean.Math.Integer.ToString(this.B) + ", " + Kean.Math.Integer.ToString(this.E) + ", " + Kean.Math.Integer.ToString(this.H) + ", " + Kean.Math.Integer.ToString(this.K) + "; "
-                + Kean.Math.Integer.ToString(this.C) + ", " + Kean.Math.Integer.ToString(this.F) + ", " + Kean.Math.Integer.ToString(this.I) + ", " + Kean.Math.Integer.ToString(this.L) + "; "
-                + 0 + ", " + 0 + ", " + 0 + ", " + 1;
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool matlab)
+		{
+			return ((Transform)this).ToString(matlab);
+		}
         #endregion
     }
 }

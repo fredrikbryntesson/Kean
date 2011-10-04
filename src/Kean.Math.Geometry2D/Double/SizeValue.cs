@@ -127,10 +127,8 @@ namespace Kean.Math.Geometry2D.Double
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 2)
-                        result = new SizeValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
-                }
+					result = (SizeValue)(Size)value;
+				}
                 catch
                 {
                 }
@@ -143,10 +141,14 @@ namespace Kean.Math.Geometry2D.Double
         {
             return this.Width.GetHashCode() ^ this.Height.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Double.ToString(this.Width) + "," + Kean.Math.Double.ToString(this.Height);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Size)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

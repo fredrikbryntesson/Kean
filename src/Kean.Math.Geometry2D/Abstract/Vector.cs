@@ -217,8 +217,12 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return ((R)this.X).ToString() + " " + ((R)this.Y).ToString();
+            return this.ToString(false);
         }
+		public string ToString(bool commaSeparated)
+		{
+			return ((R)this.X).ToString() + (commaSeparated ? "," : " ") + ((R)this.Y).ToString();
+		}
         #endregion
         #region Casts
         public static explicit operator V[](Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)

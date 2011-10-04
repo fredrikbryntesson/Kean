@@ -114,10 +114,8 @@ namespace Kean.Math.Geometry2D.Single
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 2)
-                        result = new ShellValue(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]));
-                }
+					result = (ShellValue)(Shell)value;
+				}
                 catch
                 {
                 }
@@ -130,10 +128,14 @@ namespace Kean.Math.Geometry2D.Single
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Single.ToString(this.Left) + "," + Kean.Math.Single.ToString(this.Right) + "," + Kean.Math.Single.ToString(this.Top) + "," + Kean.Math.Single.ToString(this.Bottom);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Shell)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

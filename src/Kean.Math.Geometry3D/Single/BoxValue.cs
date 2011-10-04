@@ -75,10 +75,8 @@ namespace Kean.Math.Geometry3D.Single
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 6)
-                        result = new BoxValue((PointValue)(values[0] + " " + values[1] + " " + values[2]), (SizeValue)(values[3] + " " + values[4] + " " + values[5]));
-                }
+					result = (BoxValue)(Box)value;
+				}
                 catch
                 {
                 }
@@ -87,10 +85,14 @@ namespace Kean.Math.Geometry3D.Single
         }
         #endregion
         #region Object Overrides
-        public override string ToString()
-        {
-            return this.leftTopFront.ToString() + " " + this.size.ToString();
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Box)this).ToString(commaSeparated);
+		}
         public override int GetHashCode()
         {
             return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();

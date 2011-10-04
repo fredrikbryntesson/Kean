@@ -83,9 +83,13 @@ namespace Kean.Math.Geometry2D.Abstract
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
         }
-        public override string ToString()
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+        public string ToString(bool commaSeparated)
         {
-            return ((R)this.Left).ToString() + " " + ((R)this.Right).ToString() + " " + ((R)this.Top).ToString() + " " + ((R)this.Bottom).ToString();
+			return ((R)this.Left).ToString() + (commaSeparated ? "," : " ") + ((R)this.Right).ToString() + (commaSeparated ? "," : " ") + ((R)this.Top).ToString() + (commaSeparated ? "," : " ") + ((R)this.Bottom).ToString();
         }
         #endregion
         public static ShellType Create(V left, V right, V top, V bottom)

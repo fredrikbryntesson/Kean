@@ -70,10 +70,8 @@ namespace Kean.Math.Geometry3D.Integer
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 3)
-                        result = new SizeValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]));
-                }
+					result = (SizeValue)(Size)value;
+				}
                 catch
                 {
                 }
@@ -86,10 +84,14 @@ namespace Kean.Math.Geometry3D.Integer
         {
             return this.Width.GetHashCode() ^ this.Height.GetHashCode() ^ this.Depth.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Integer.ToString(this.Width) + " " + Kean.Math.Integer.ToString(this.Height) + " " + Kean.Math.Integer.ToString(this.Depth);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Size)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

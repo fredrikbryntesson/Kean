@@ -68,12 +68,12 @@ namespace Kean.Math.Geometry3D.Double
                 try
                 {
                     string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 16)
+					if (values.Length == 12)
                         result = new Transform(
-                              Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[8]),
-                              Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[5]), Kean.Math.Double.Parse(values[9]),
-                              Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[10]),
-                              Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[11]));
+                              Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]),
+                              Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]),
+                              Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]),
+                              Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
                 }
                 catch
                 {

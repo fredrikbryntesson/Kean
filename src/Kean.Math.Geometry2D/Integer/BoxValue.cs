@@ -98,10 +98,8 @@ namespace Kean.Math.Geometry2D.Integer
 
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 4)
-                        result = new BoxValue((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
-                }
+					result = (BoxValue)(Box)value;
+				}
                 catch
                 {
                 }
@@ -110,10 +108,14 @@ namespace Kean.Math.Geometry2D.Integer
         }
         #endregion
         #region Object Overrides
-        public override string ToString()
-        {
-            return this.LeftTop.ToString() + "," + this.Size.ToString();
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Box)this).ToString(commaSeparated);
+		}
         public override int GetHashCode()
         {
             return this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();

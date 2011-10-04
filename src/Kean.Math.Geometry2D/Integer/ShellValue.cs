@@ -106,10 +106,8 @@ namespace Kean.Math.Geometry2D.Integer
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 2)
-                        result = new ShellValue(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
-                }
+					result = (ShellValue)(Shell)value;
+				}
                 catch
                 {
                 }
@@ -122,10 +120,14 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Integer.ToString(this.Left) + "," + Kean.Math.Integer.ToString(this.Right) + "," + Kean.Math.Integer.ToString(this.Top) + "," + Kean.Math.Integer.ToString(this.Bottom);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Shell)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }

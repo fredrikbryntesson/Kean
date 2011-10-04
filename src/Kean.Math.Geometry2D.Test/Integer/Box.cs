@@ -32,7 +32,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Integer.BoxValue(10, 20, 30, 40);
-            Expect(textFromValue, Is.EqualTo("10,20,30,40"));
+            Expect(textFromValue, Is.EqualTo("10 20 30 40"));
             Target.Integer.BoxValue @integerFromText = "10 20 30 40";
             Expect(@integerFromText.Left, Is.EqualTo(10));
             Expect(@integerFromText.Top, Is.EqualTo(20));

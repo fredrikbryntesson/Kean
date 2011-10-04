@@ -85,10 +85,8 @@ namespace Kean.Math.Geometry3D.Double
             {
                 try
                 {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 3)
-                        result = new SizeValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]));
-                }
+					result = (SizeValue)(Size)value;
+				}
                 catch
                 {
                 }
@@ -101,10 +99,14 @@ namespace Kean.Math.Geometry3D.Double
         {
             return this.Width.GetHashCode() ^ this.Height.GetHashCode() ^ this.Depth.GetHashCode();
         }
-        public override string ToString()
-        {
-            return Kean.Math.Double.ToString(this.Width) + " " + Kean.Math.Double.ToString(this.Height) + " " + Kean.Math.Double.ToString(this.Depth);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
+		public string ToString(bool commaSeparated)
+		{
+			return ((Size)this).ToString(commaSeparated);
+		}
         #endregion
     }
 }
