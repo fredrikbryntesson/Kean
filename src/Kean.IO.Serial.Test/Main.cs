@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Target = Kean.IO.Serial;
-using Kean.Core.Collection.Extension;
+using Kean.Core.Extension;
 
 namespace Kean.Test.IO.Serial
 {
