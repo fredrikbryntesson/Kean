@@ -87,6 +87,14 @@ namespace Kean.Gui.OpenGL
 		#endregion
 
 		#region IImage Members
+		public Kean.Draw.Gpu.Backend.IFactory Factory
+		{
+			get { throw new NotImplementedException(); }
+		}
+		public Kean.Draw.Gpu.Backend.ICanvas Canvas
+		{
+			get { throw new NotImplementedException(); }
+		}
 		public Draw.CoordinateSystem CoordinateSystem { get; set; }
 		public Geometry2D.Integer.Size Size { get; private set; }
 		public Gpu.Backend.ImageType Type { get; private set; }
