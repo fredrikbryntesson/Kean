@@ -56,7 +56,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Integer.TransformValue(10, 20, 30, 40, 50, 60);
-			Expect(textFromValue, Is.EqualTo("10 20 30 40 50 60"));
+			Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
 			Target.Integer.TransformValue @integerFromText = "10 20 30 40 50 60";
             Expect(@integerFromText.A, Is.EqualTo(10));
             Expect(@integerFromText.B, Is.EqualTo(20));

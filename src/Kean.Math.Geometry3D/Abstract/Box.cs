@@ -151,11 +151,11 @@ namespace Kean.Math.Geometry3D.Abstract
         }
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return this.ToString(true);
 		}
         public string ToString(bool commaSeparated)
         {
-			return this.leftTopFront.ToString(commaSeparated) + (commaSeparated ? "," : " ") + this.size.ToString(commaSeparated);
+			return this.leftTopFront.ToString(commaSeparated) + (commaSeparated ? ", " : " ") + this.size.ToString(commaSeparated);
         }
         public override int GetHashCode()
         {

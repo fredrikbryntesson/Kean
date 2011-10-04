@@ -358,9 +358,9 @@ namespace Kean.Math.Geometry3D.Abstract
 				((R)this.C).ToString() + ", " + ((R)this.F).ToString() + ", " + ((R)this.I).ToString() + ", " + ((R)this.L).ToString() + "; " +
 				new R().ToString() + ", " + new R().ToString() + ", " + new R().ToString() + ", " + Kean.Math.Abstract<R, V>.One.ToString();
 			else
-				result = ((R)this.A).ToString() + " " + ((R)this.B).ToString() + " " + ((R)this.C).ToString() + " " + ((R)this.D).ToString() + " " +
-				((R)this.E).ToString() + " " + ((R)this.F).ToString() + " " + ((R)this.G).ToString() + " " + ((R)this.H).ToString() + " " +
-				((R)this.I).ToString() + " " + ((R)this.J).ToString() + " " + ((R)this.K).ToString() + " " + ((R)this.L).ToString();
+				result = ((R)this.A).ToString() + ", " + ((R)this.B).ToString() + ", " + ((R)this.C).ToString() + ", " + ((R)this.D).ToString() + ", " +
+				((R)this.E).ToString() + ", " + ((R)this.F).ToString() + ", " + ((R)this.G).ToString() + ", " + ((R)this.H).ToString() + ", " +
+				((R)this.I).ToString() + ", " + ((R)this.J).ToString() + ", " + ((R)this.K).ToString() + ", " + ((R)this.L).ToString();
 			return result;
 		}
         public override string ToString()

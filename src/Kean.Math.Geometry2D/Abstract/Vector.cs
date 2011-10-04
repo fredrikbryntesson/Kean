@@ -217,11 +217,11 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.ToString(false);
+            return this.ToString(true);
         }
 		public string ToString(bool commaSeparated)
 		{
-			return ((R)this.X).ToString() + (commaSeparated ? "," : " ") + ((R)this.Y).ToString();
+			return ((R)this.X).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Y).ToString();
 		}
         #endregion
         #region Casts

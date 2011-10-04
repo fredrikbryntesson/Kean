@@ -299,7 +299,7 @@ namespace Kean.Math.Geometry3D.Double
             }
             public override string ToString()
             {
-                return this.Real.ToString() + " " + this.Imaginary.ToString();
+                return this.Real.ToString() + ", " + this.Imaginary.ToString();
             }
             #endregion
             #region Casts.

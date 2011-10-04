@@ -51,7 +51,7 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void Casting()
         {
-            string value = "10 20";
+            string value = "10, 20";
             Expect(this.CastToString(this.Vector3), Is.EqualTo(value), this.prefix + "Casting.0");
             Expect(this.CastFromString(value), Is.EqualTo(this.Vector3), this.prefix + "Casting.1");
         }

@@ -85,11 +85,11 @@ namespace Kean.Math.Geometry2D.Abstract
         }
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return this.ToString(true);
 		}
         public string ToString(bool commaSeparated)
         {
-			return ((R)this.Left).ToString() + (commaSeparated ? "," : " ") + ((R)this.Right).ToString() + (commaSeparated ? "," : " ") + ((R)this.Top).ToString() + (commaSeparated ? "," : " ") + ((R)this.Bottom).ToString();
+			return ((R)this.Left).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Right).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Top).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Bottom).ToString();
         }
         #endregion
         public static ShellType Create(V left, V right, V top, V bottom)
