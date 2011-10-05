@@ -1,5 +1,5 @@
 ﻿// 
-//  ICache.cs
+//  KeyboardButtons.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,13 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Gui.Backend
+namespace Kean.Gui.OpenGL.Backend.Input
 {
-	public interface ICache :
-		IDisposable
-	{
-		Geometry2D.Single.Size Resolution { get; }
-	}
+    class KeyboardButtons :
+		Gui.Backend.KeyboardButtons
+    {
+        OpenTK.Input.KeyboardDevice targetPointer;
+
+        public override int Count
+        {
+            get { return this.targetPointer.NumberOfKeys; }
+        }
+        public override bool this[int index]
+        {
+            get { return this.targetPointer[(OpenTK.Input.Key)index]; }
+        }
+        internal KeyboardButtons(OpenTK.Input.KeyboardDevice targetPointer)
+        {
+            this.targetPointer = targetPointer;
+        }
+    }
 }

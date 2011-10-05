@@ -1,5 +1,5 @@
 ﻿// 
-//  Abstract.cs
+//  WindowBorder.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,24 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Gpu.Test
+namespace Kean.Gui
 {
-	public abstract class Abstract<T> :
-		Kean.Test.Fixture<T>
-		where T : Abstract<T>, new()
+	public enum WindowBorder
 	{
-		Gui.Backend.IWindow window;
-		public override void Setup()
-		{
-			base.Setup();
-			this.window = new Gui.OpenGL.Window(new Geometry2D.Integer.Size(100, 100), "");
-		}
-		public override void TearDown()
-		{
-			this.window.Dispose();
-			base.TearDown();
-		}
+		Resizable,
+		Fixed,
+		Hidden,
 	}
 }

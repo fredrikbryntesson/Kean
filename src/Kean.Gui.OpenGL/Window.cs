@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using Parallel = Kean.Core.Parallel;
+using Kean.Gui.OpenGL.Backend.Extension;
 
 namespace Kean.Gui.OpenGL
 {
@@ -39,8 +40,15 @@ namespace Kean.Gui.OpenGL
 				this.target = value;
 				if (this.target.NotNull())
 				{
+					this.target.IconChanged += (sender, e) => this.IconChanged.Call(this.Icon);
+					this.target.TitleChanged += (sender, e) => this.TitleChanged.Call(this.Title);
 					this.target.Move += (sender, e) => this.PositionChanged.Call(this.Position);
 					this.target.Resize += (sender, e) => this.SizeChanged.Call(this.Size);
+					this.target.WindowStateChanged += (sender, e) => this.StateChanged.Call(this.State);
+					this.target.WindowBorderChanged += (sender, e) => this.BorderChanged.Call(this.State);
+					this.target.InputDriver.Keyboard[0].KeyRepeat = true;
+					this.Keyboard = new Backend.Input.Keyboard(this.target);
+					this.Pointer = new Backend.Input.Pointer(this.target);
 				}
 			}
 		}
@@ -48,7 +56,7 @@ namespace Kean.Gui.OpenGL
 		bool invalidated;
 		bool validClose;
 
-		public Window(Geometry2D.Single.Size size, string title)
+		public Window(Geometry2D.Integer.Size size, string title)
 		{
 			this.Target = new Backend.OpenGL21.Window(size, title);
 			Draw.Gpu.Backend.Factory.Implemetation = new Backend.OpenGL21.Factory();
@@ -63,17 +71,26 @@ namespace Kean.Gui.OpenGL
 		public Gui.Backend.Keyboard Keyboard { get; private set; }
 		public Gui.Backend.IClipboard Clipboard { get; private set; }
 		public Parallel.ThreadPool ThreadPool { get; private set; }
-
+		#region Icon
+		[Notify("IconChanged")]
 		public System.Drawing.Icon Icon
 		{
 			get { return this.Target.Icon; }
 			set { this.Target.Icon = value; }
 		}
+		public event Action<System.Drawing.Icon> IconChanged;
+		#endregion
+		#region Title
+		[Notify("TitleChanged")]
 		public string Title
 		{
 			get { return this.Target.Title; }
 			set { this.Target.Title = value; }
 		}
+		public event Action<string> TitleChanged;
+		#endregion
+		#region Position
+		[Notify("PositionChanged")]
 		public Geometry2D.Single.Point Position
 		{
 			get { return new Geometry2D.Single.Point(this.Target.Location.X, this.Target.Location.Y); }
@@ -84,6 +101,9 @@ namespace Kean.Gui.OpenGL
 		{
 			this.target.StartMove();
 		}
+		#endregion
+		#region Size
+		[Notify("SizeChanged")]
 		public Geometry2D.Single.Size Size
 		{
 			get { return new Geometry2D.Single.Size(this.Target.Size.Width, this.Target.Size.Height); }
@@ -92,84 +112,26 @@ namespace Kean.Gui.OpenGL
 		public event Action<Geometry2D.Single.Size> SizeChanged;
 		public void StartResize(Gui.Backend.ResizeDirection direction)
 		{
-			switch (direction)
-			{
-				case Gui.Backend.ResizeDirection.Left:
-					this.target.StartResize(OpenTK.ResizeDirection.Left);
-					break;
-				case Gui.Backend.ResizeDirection.Right:
-					this.target.StartResize(OpenTK.ResizeDirection.Right);
-					break;
-				case Gui.Backend.ResizeDirection.Top:
-					this.target.StartResize(OpenTK.ResizeDirection.Top);
-					break;
-				case Gui.Backend.ResizeDirection.Bottom:
-					this.target.StartResize(OpenTK.ResizeDirection.Bottom);
-					break;
-				case Gui.Backend.ResizeDirection.LeftTop:
-					this.target.StartResize(OpenTK.ResizeDirection.LeftTop);
-					break;
-				case Gui.Backend.ResizeDirection.LeftBottom:
-					this.target.StartResize(OpenTK.ResizeDirection.LeftBottom);
-					break;
-				case Gui.Backend.ResizeDirection.RightTop:
-					this.target.StartResize(OpenTK.ResizeDirection.RightTop);
-					break;
-				case Gui.Backend.ResizeDirection.RightBottom:
-					this.target.StartResize(OpenTK.ResizeDirection.RightBottom);
-					break;
-			}
+			this.target.StartResize(direction.AsOpenTK());
 		}
-
+		#endregion
+		#region State
 		public WindowState State
 		{
-			get
-			{
-				Gui.WindowState result;
-				switch (this.target.WindowState)
-				{
-					default:
-					case OpenTK.WindowState.Normal:
-						result = Gui.WindowState.Normal;
-						break;
-					case OpenTK.WindowState.Minimized:
-						result = Gui.WindowState.Minimized;
-						break;
-					case OpenTK.WindowState.Maximized:
-						result = Gui.WindowState.Maximized;
-						break;
-					case OpenTK.WindowState.Fullscreen:
-						result = Gui.WindowState.Fullscreen;
-						break;
-				}
-				return result;
-			}
-			set
-			{
-				if (value != this.State)
-				{
-					switch (value)
-					{
-						case Gui.WindowState.Normal:
-							this.target.WindowState = OpenTK.WindowState.Normal;
-							break;
-						case Gui.WindowState.Minimized:
-							this.target.WindowState = OpenTK.WindowState.Minimized;
-							break;
-						case Gui.WindowState.Maximized:
-							this.target.WindowState = OpenTK.WindowState.Maximized;
-							break;
-						case Gui.WindowState.Fullscreen:
-							this.target.WindowState = OpenTK.WindowState.Fullscreen;
-							break;
-					}
-					this.StateChanged.Call(value);
-				}
-			}
+			get { return this.target.WindowState.AsKean(); }
+			set { this.target.WindowState = value.AsOpenTK(); }
 		}
 		public event Action<WindowState> StateChanged;
-
-		public event Action<Gui.Backend.ICanvas> Render;
+		#endregion
+		#region Border
+		public WindowBorder Border
+		{
+			get { return this.target.WindowBorder.AsKean(); }
+			set { this.target.WindowBorder = value.AsOpenTK(); }
+		}
+		public event Action<WindowState> BorderChanged;
+		#endregion
+		public event Action<Draw.Canvas> Render;
 		public void Invalidate()
 		{
 			this.invalidated = true;

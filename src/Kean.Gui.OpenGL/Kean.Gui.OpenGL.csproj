@@ -46,6 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Canvas.cs" />
+    <Compile Include="Backend\Extension\WindowBorderExtension.cs" />
+    <Compile Include="Backend\Extension\ResizeDirectionExtension.cs" />
+    <Compile Include="Backend\Extension\WindowStateExtension.cs" />
+    <Compile Include="Backend\Input\Keyboard.cs" />
+    <Compile Include="Backend\Input\KeyboardButtons.cs" />
+    <Compile Include="Backend\Input\Pointer.cs" />
+    <Compile Include="Backend\Input\PointerButtons.cs" />
+    <Compile Include="Backend\Input\PointerWheels.cs" />
     <Compile Include="Backend\OpenGL21\Depth.cs" />
     <Compile Include="Exception\Framebuffer.cs" />
     <Compile Include="Backend\Extension\ImageTypeExtension.cs" />

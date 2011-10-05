@@ -24,11 +24,11 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Gui.Backend
 {
-	public interface IDrawable
+	public interface IRenderer
 	{
 		bool Visible { get; }
 		bool Transparent { get; }
 		Geometry2D.Single.Box Bounds { get; }
-		void Draw(Geometry2D.Single.Box part, Geometry2D.Single.Box destination);
+		void Render(Draw.Canvas canvas);
 	}
 }

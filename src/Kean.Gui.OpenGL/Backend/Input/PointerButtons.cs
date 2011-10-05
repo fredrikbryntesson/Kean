@@ -1,5 +1,5 @@
 ﻿// 
-//  ICanvas.cs
+//  PoinerButtons.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,30 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Extension;
 
-namespace Kean.Gui.Backend
+namespace Kean.Gui.OpenGL.Backend.Input
 {
-    public interface ICanvas :
-		IDrawable,
-		IDisposable
+    class PointerButtons :
+        Gui.Backend.PointerButtons
     {
-		bool TextAntiAlias { get; set; }
-		//Svg.Svg.Renderer Measure { get; }
-		Geometry2D.Single.Box Clip { get; }
-        void Push(Geometry2D.Single.Box clip, Geometry2D.Single.Transform transform);
-        void Pop();
-        
-        void Clear(Geometry2D.Single.Box area);
+        OpenTK.Input.MouseDevice targetPointer;
 
-		ICanvas Create(Geometry2D.Single.Box bounds);
-		void Draw(IDrawable viewable);
-
-		//Svg.Svg.Renderer CreateRenderer(Geometry2D.Single.Size size);
-		//ICache GetCache(Svg.Svg.Renderer renderer);
-		void Draw(ICache cache, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
-	}
+        public override int Count
+        {
+            get { return this.targetPointer.NumberOfButtons; }
+        }
+        public override bool this[int index]
+        {
+            get { return this.targetPointer[(OpenTK.Input.MouseButton)index]; }
+        }
+        internal PointerButtons(OpenTK.Input.MouseDevice targetPointer)
+        {
+            this.targetPointer = targetPointer;
+        }
+    }
 }

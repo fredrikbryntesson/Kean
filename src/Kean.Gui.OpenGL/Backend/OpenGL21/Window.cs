@@ -6,7 +6,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 	class Window :
 		Backend.Window
 	{
-		public Window(Geometry2D.Single.Size size, string title) :
+		public Window(Geometry2D.Integer.Size size, string title) :
 			base(size, title, OpenTK.GameWindowFlags.Default, OpenTK.Graphics.GraphicsMode.Default, OpenTK.DisplayDevice.Default)
 		{ }
 		protected override OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation)

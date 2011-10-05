@@ -41,16 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\ClipType.cs" />
-    <Compile Include="Backend\ICache.cs" />
-    <Compile Include="Backend\ICanvas.cs" />
     <Compile Include="Backend\IClipboard.cs" />
-    <Compile Include="Backend\IDrawable.cs" />
+    <Compile Include="Backend\IRenderer.cs" />
     <Compile Include="Backend\IWindow.cs" />
     <Compile Include="Backend\Keyboard.cs" />
     <Compile Include="Backend\KeyboardButtons.cs" />
     <Compile Include="Backend\Pointer.cs" />
     <Compile Include="Backend\PointerButtons.cs" />
     <Compile Include="Backend\PointerWheels.cs" />
+    <Compile Include="WindowBorder.cs" />
     <Compile Include="Input\Cursor.cs" />
     <Compile Include="Input\Key.cs" />
     <Compile Include="Input\Keys.cs" />

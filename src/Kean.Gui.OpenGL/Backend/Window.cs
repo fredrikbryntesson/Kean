@@ -17,12 +17,6 @@ namespace Kean.Gui.OpenGL.Backend
 		public Parallel.ThreadPool ThreadPool { get; private set; }
 		OpenTK.Graphics.IGraphicsContext mainContext;
 
-
-		public new Geometry2D.Integer.Size Resolution
-		{
-			get { return new Geometry2D.Integer.Size(this.Width, this.Height); }
-			set { base.ClientSize = new System.Drawing.Size(value.Width, value.Height); }
-		}
 		public string Clipboard
 		{
 			get { return System.Windows.Forms.Clipboard.GetText(); }
@@ -38,8 +32,8 @@ namespace Kean.Gui.OpenGL.Backend
 			get { lock (this.@lock) return this.exit; }
 			set { lock (this.@lock) this.exit = true; this.Redraw(); }
 		}
-		protected Window(Geometry2D.Single.Size size, string title, OpenTK.GameWindowFlags options, OpenTK.Graphics.GraphicsMode mode, OpenTK.DisplayDevice device) :
-			base((int)size.Width, (int)size.Height, title, options, mode, device)
+		protected Window(Geometry2D.Integer.Size size, string title, OpenTK.GameWindowFlags options, OpenTK.Graphics.GraphicsMode mode, OpenTK.DisplayDevice device) :
+			base(size.Width, size.Height, title, options, mode, device)
 		{
 			this.redrawSignal = new System.Threading.EventWaitHandle(true, System.Threading.EventResetMode.AutoReset);
 			this.ThreadPool = new ThreadPool(this.WindowInfo, this.CreateContext, "OpenGL", 8);

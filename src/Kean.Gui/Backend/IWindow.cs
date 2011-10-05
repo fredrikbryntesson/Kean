@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
@@ -31,21 +32,27 @@ namespace Kean.Gui.Backend
 	public interface IWindow :
 		IDisposable
 	{
+		[Notify("IconChanged")]
 		System.Drawing.Icon Icon { get; set; }
+		event Action<System.Drawing.Icon> IconChanged;
+		[Notify("TitleChanged")]
 		string Title { get; set; }
+		event Action<string> TitleChanged;
+		[Notify("PositionChanged")]
 		Geometry2D.Single.Point Position { get; set; }
 		event Action<Geometry2D.Single.Point> PositionChanged;
+		[Notify("SizeChanged")]
 		Geometry2D.Single.Size Size { get; set; }
 		event Action<Geometry2D.Single.Size> SizeChanged;
+		[Notify("StateChanged")]
 		WindowState State { get; set; }
 		event Action<WindowState> StateChanged;
 
 		Pointer Pointer { get; }
 		Keyboard Keyboard { get; }
 		IClipboard Clipboard { get; }
-
 		Parallel.ThreadPool ThreadPool { get; }
-		event Action<ICanvas> Render;
+		event Action<Draw.Canvas> Render;
 		void Invalidate();
 		void Run();
 		bool Close();
