@@ -28,11 +28,17 @@ namespace Kean.Draw.Gpu
 		Image
 	{
 		#region Constructors
+		public Monochrome(Raster.Monochrome image) :
+			base(Gpu.Backend.Factory.CreateImage(image))
+		{ }
 		public Monochrome(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem))
+		{ }
+		public Monochrome(Draw.Gpu.Backend.IImage image) : 
+			base(image)
 		{ }
 		#endregion
 		#region Image Overrides
@@ -43,6 +49,15 @@ namespace Kean.Draw.Gpu
 				result = (this.Canvas as Canvas).Read() as T;
 			return result;
 		}
+		// TODO:  Resize Monochrome using GPU
+		public override Kean.Draw.Image ResizeTo(Kean.Math.Geometry2D.Integer.Size size)
+		{
+			return new Monochrome(this.Backend.Read().ResizeTo(size) as Raster.Monochrome);
+		}
+		public override Draw.Image Copy()
+		{
+			return new Monochrome(this.Backend.Copy());
+		}		
 		#endregion
 	}
 }

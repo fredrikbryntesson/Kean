@@ -37,24 +37,26 @@ namespace Kean.Gui.OpenGL.Backend
 		Gpu.Backend.ICanvas
 	{
 		Image depth;
-		uint framebuffer;
+		public uint Framebuffer { get; private set; }
 
 		protected Canvas(Image image)
 		{
 			this.Image = image;
 			this.depth = this.CreateDepth();
-			this.framebuffer = this.CreateFramebuffer(image, this.depth);
+			this.Framebuffer = this.CreateFramebuffer(image, this.depth);
 		}
 
 		#region Inheritors Interface
 		protected abstract Image CreateDepth();
 		protected abstract uint CreateFramebuffer(Image color, Image depth);
+		protected abstract void Bind();
+		protected abstract void Unbind();
 		#endregion
 
 		#region ICanvas Members
 		public Gpu.Backend.IImage Image { get; private set; }
 		public Gpu.Backend.IFactory Factory { get { return this.Image.Factory; } }
-
+		
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
 			Raster.Image result;
@@ -71,6 +73,13 @@ namespace Kean.Gui.OpenGL.Backend
 				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Image.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
 			return result;
 		}
+		public void Draw(Kean.Draw.IColor color)
+		{
+			this.Bind();
+			//GL.ClearColor();
+			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
+		}
+
 		#endregion
 	}
 }

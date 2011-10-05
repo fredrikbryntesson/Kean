@@ -37,6 +37,9 @@ namespace Kean.Draw.Gpu
 		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Bgra, size, coordinateSystem))
 		{ }
+		public Bgra(Draw.Gpu.Backend.IImage image) : 
+			base(image)
+		{ }
 		#endregion
 		#region Image Overrides
 		public override T Convert<T>()
@@ -45,6 +48,15 @@ namespace Kean.Draw.Gpu
 			if (typeof(T) == typeof(Raster.Bgra))
 				result = this.Backend.Read() as T;
 			return result;
+		}
+		// TODO:  Resize Bgra using GPU
+		public override Kean.Draw.Image ResizeTo(Kean.Math.Geometry2D.Integer.Size size)
+		{
+			return new Bgra(this.Backend.Read().ResizeTo(size) as Raster.Bgra);
+		}
+		public override Draw.Image Copy()
+		{
+			return new Bgra(this.Backend.Copy());
 		}
 		#endregion
 	}

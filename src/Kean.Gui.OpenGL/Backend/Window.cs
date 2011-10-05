@@ -37,8 +37,15 @@ namespace Kean.Gui.OpenGL.Backend
 		{
 			this.redrawSignal = new System.Threading.EventWaitHandle(true, System.Threading.EventResetMode.AutoReset);
 			this.ThreadPool = new ThreadPool(this.WindowInfo, this.CreateContext, "OpenGL", 8);
+			this.InitializeGpu();
 		}
 		protected abstract OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation);
+		protected virtual void InitializeGpu()
+		{
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+		}
 		public override void Dispose()
 		{
 			if (this.ThreadPool != null)

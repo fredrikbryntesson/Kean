@@ -49,6 +49,7 @@ namespace Kean.Draw.Gpu
 		#region Draw Rectangle
 		public override void Draw(IColor color)
 		{
+			this.Backend.Draw(color);
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{

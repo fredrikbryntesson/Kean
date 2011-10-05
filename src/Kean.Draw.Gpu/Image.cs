@@ -49,15 +49,8 @@ namespace Kean.Draw.Gpu
 		{
 			return null;
 		}
-		public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
-		{
-			return null;
-		}
+		
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
-		{
-			return null;
-		}
-		public override Draw.Image Copy()
 		{
 			return null;
 		}
@@ -70,7 +63,12 @@ namespace Kean.Draw.Gpu
 		}
 		public override float Distance(Draw.Image other)
 		{
-			return float.NaN;
+			float result;
+			if (other.NotNull() && this.Size == other.Size)
+				result = this.Convert<Raster.Bgra>().Distance(other.Convert<Raster.Bgra>());
+			else
+				result = float.MaxValue;
+			return result;
 		}
 		#endregion
 

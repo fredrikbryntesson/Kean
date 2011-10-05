@@ -26,6 +26,7 @@ namespace Kean.Draw.Gpu.Backend
 	public interface IImage :
 		IDisposable
 	{
+		bool Wrap { get; set; }
 		IFactory Factory { get; }
 		ICanvas Canvas { get; }
 		CoordinateSystem CoordinateSystem { get; set; }
@@ -33,5 +34,6 @@ namespace Kean.Draw.Gpu.Backend
 		ImageType Type { get; }
 		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
 		Raster.Image Read();
+		IImage Copy();
 	}
 }

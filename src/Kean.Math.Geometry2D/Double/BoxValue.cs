@@ -126,7 +126,7 @@ namespace Kean.Math.Geometry2D.Double
         #region Object Overrides
         public override string ToString()
         {
-            return this.ToString(false);
+            return this.ToString(true);
         }
 		public string ToString(bool commaSeparated)
 		{

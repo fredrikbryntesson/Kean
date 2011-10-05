@@ -75,10 +75,14 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.GenTextures(1, out result);
 			return result;
 		}
+		protected abstract Canvas CreateCanvas();
 		protected virtual void Bind()
 		{
-			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, this.Identifier);
+		}
+		protected virtual void Unbind()
+		{
+			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 		}
 		protected virtual void Load(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, IntPtr data)
 		{
@@ -88,13 +92,22 @@ namespace Kean.Gui.OpenGL.Backend
 		{
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
-			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
-			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+			if (this.Wrap)
+			{
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
+			}
+			else
+			{
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+			}
 		}
 		protected virtual void Read(IntPtr pointer)
 		{
 			GL.GetTexImage(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, this.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer); 
 		}
+		protected abstract Image Create();
 		#endregion
 
 		#region IDisposable Members
@@ -104,8 +117,8 @@ namespace Kean.Gui.OpenGL.Backend
 		#endregion
 
 		#region IImage Members
+		public bool Wrap { get; set; }
 		public Kean.Draw.Gpu.Backend.IFactory Factory { get; private set; }
-		protected abstract Canvas CreateCanvas();
 		Kean.Draw.Gpu.Backend.ICanvas canvas;
 		public Kean.Draw.Gpu.Backend.ICanvas Canvas
 		{
@@ -124,6 +137,7 @@ namespace Kean.Gui.OpenGL.Backend
 		}
 		public Raster.Image Read()
 		{
+			this.Bind();
 			Raster.Image result;
 			switch (this.Type)
 			{
@@ -138,6 +152,12 @@ namespace Kean.Gui.OpenGL.Backend
 				this.Read(result.Pointer);
 			return result;
 		}
+		// TODO Use GPU to copy instead.
+		public Gpu.Backend.IImage Copy()
+		{
+			return Gpu.Backend.Factory.CreateImage(this.Read());
+		}
 		#endregion
+
 	}
 }

@@ -46,5 +46,9 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			return new Canvas(this);
 		}
+		protected override Backend.Image Create()
+		{
+			return new Image(this.Factory as Factory, this.Type, this.Size, this.CoordinateSystem);
+		}
 	}
 }

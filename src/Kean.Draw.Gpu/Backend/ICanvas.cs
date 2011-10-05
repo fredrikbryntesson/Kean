@@ -8,5 +8,6 @@ namespace Kean.Draw.Gpu.Backend
 		IImage Image { get; }
 		IFactory Factory { get; }
 		Raster.Image Read(Geometry2D.Integer.Box region);
+		void Draw(Draw.IColor color);
 	}
 }

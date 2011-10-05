@@ -39,11 +39,51 @@ namespace Kean.Draw.Gpu.Test
 				Expect(canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
 			}
 		}
-
+		[Test]
+		public void CreateFromRaster()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			{
+				Kean.Draw.Canvas canvas = image.Canvas;
+				Expect(canvas.Image, Is.EqualTo(image));
+			}
+		}
+		[Test]
+		public void DrawColor()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			{
+				Kean.Draw.Canvas canvas = image.Canvas;
+				canvas.Draw(new Kean.Draw.Color.Bgra(new Kean.Draw.Color.Bgr(100, 100, 100), 255));
+			}
+		}
+		[Test]
+		public void DrawImage()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
+		}
+		[Test]
+		public void Clear()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
+		}
+		[Test]
+		public void Blend()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
+		}
 		protected override void Run()
 		{
 			this.Run(
-				this.Create
+				this.Create,
+				this.CreateFromRaster,
+				this.DrawColor,
+				this.DrawImage,
+				this.Clear,
+				this.Blend
 				);
 		}
 	}
