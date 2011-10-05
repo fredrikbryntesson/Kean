@@ -35,14 +35,28 @@ namespace Kean.Draw.Gpu.Test
 			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			{
 				Expect(image, Is.Not.Null);
-				Expect(image.Size, Is.EqualTo(new Geometry2D.Single.Size(128, 256)));
+				Expect(image.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
 			}
-
 		}
+		[Test]
+		public void ConvertToRaster()
+		{
+			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
+				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ConvertToRaster.png")));
+		}
+		[Test]
+		public void CreateFromRaster()
+		{
+			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.CreateFromRaster.png")));
+		}
+
 		protected override void Run()
 		{
 			this.Run(
-				this.Create
+				this.Create,
+				this.ConvertToRaster,
+				this.CreateFromRaster
 				);
 		}
 	}

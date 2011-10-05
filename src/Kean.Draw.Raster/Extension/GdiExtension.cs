@@ -29,9 +29,9 @@ namespace Kean.Draw.Raster.Extension
 		{
 			System.Drawing.Bitmap result = null;
 			if (me is Bgr)
-				result = new System.Drawing.Bitmap(me.Resolution.Width, me.Resolution.Height, me.Resolution.Width * 3 + ((me.Resolution.Width * 3) % 4 > 0 ? 4 - (me.Resolution.Width * 3) % 4 : 0), System.Drawing.Imaging.PixelFormat.Format24bppRgb, (me as Bgr).Pointer);
+				result = new System.Drawing.Bitmap(me.Size.Width, me.Size.Height, me.Size.Width * 3 + ((me.Size.Width * 3) % 4 > 0 ? 4 - (me.Size.Width * 3) % 4 : 0), System.Drawing.Imaging.PixelFormat.Format24bppRgb, (me as Bgr).Pointer);
 			else if (me is Bgra)
-				result = new System.Drawing.Bitmap(me.Resolution.Width, me.Resolution.Height, me.Resolution.Width * 4, System.Drawing.Imaging.PixelFormat.Format32bppArgb, (me as Bgra).Pointer);
+				result = new System.Drawing.Bitmap(me.Size.Width, me.Size.Height, me.Size.Width * 4, System.Drawing.Imaging.PixelFormat.Format32bppArgb, (me as Bgra).Pointer);
 			return result;
 		}
 		public static System.Drawing.Imaging.ImageFormat ImageFormat(this Compression me)

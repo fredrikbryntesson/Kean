@@ -27,28 +27,32 @@ namespace Kean.Draw.Raster
 		Packed
 	{
 		protected override int BytesPerPixel { get { return 4; } }
-		public Bgra(Geometry2D.Integer.Size resolution) :
-			base(new byte[Packed.CalculateLength(resolution, 4)], resolution) { }
-		public Bgra(Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(new Buffer.Vector<byte>(Packed.CalculateLength(resolution, 4)), resolution, coordinateSystem) { }
-		public Bgra(byte[] data, Geometry2D.Integer.Size resolution) :
-			base(data, resolution) { }
-		public Bgra(IntPtr pointer, Geometry2D.Integer.Size resolution) :
-			this(new Buffer.Sized(pointer, resolution.Area * 4), resolution) { }
-		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size resolution) :
-			base(buffer, resolution, CoordinateSystem.Default) { }
-		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem) { }
+		public Bgra(Geometry2D.Integer.Size size) :
+			base(new byte[Packed.CalculateLength(size, 4)], size) { }
+		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 4)), size, coordinateSystem) { }
+		public Bgra(byte[] data, Geometry2D.Integer.Size size) :
+			base(data, size) { }
+		public Bgra(IntPtr pointer, Geometry2D.Integer.Size size) :
+			this(new Buffer.Sized(pointer, size.Area * 4), size) { }
+		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
+			base(buffer, size, CoordinateSystem.Default) { }
+		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem) { }
 		protected Bgra(Bgra original) :
 			base(original) { }
 		internal Bgra(Image original) :
-			this(original.Resolution, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem)
 		{
 			unsafe
 			{
 				int* destination = (int*)this.Pointer;
 				original.Apply(color => *((Color.Bgra*)destination++) = new Color.Bgra(color, 255));
 			}
+		}
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return new Bgra(size) { Crop = this.Crop, Wrap = this.Wrap };
 		}
 		public override Draw.Image Copy()
 		{
@@ -58,7 +62,7 @@ namespace Kean.Draw.Raster
 		{
 			unsafe
 			{
-				int* end = (int*)this.Pointer + this.Resolution.Area;
+				int* end = (int*)this.Pointer + this.Size.Area;
 				for (int* source = (int*)this.Pointer; source < end; source++)
 					action(*((Color.Bgr*)source));
 			}

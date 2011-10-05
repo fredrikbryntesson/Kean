@@ -20,6 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Error = Kean.Core.Error;
@@ -27,28 +29,30 @@ using Log = Kean.Extra.Log;
 using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Extension;
+using Kean.Gui.OpenGL.Backend.Extension;
 
-namespace Kean.Gui.OpenGL
+namespace Kean.Gui.OpenGL.Backend
 {
 	public abstract class Image :
 		Gpu.Backend.IImage
 	{
 
-		protected Image(Gpu.Backend.ImageType type, Geometry2D.Integer.Size resolution, Draw.CoordinateSystem coordinateSystem) :
-			this(type, resolution, coordinateSystem, IntPtr.Zero)
+		protected Image(Factory factory, Gpu.Backend.ImageType type, Geometry2D.Integer.Size resolution, Draw.CoordinateSystem coordinateSystem) :
+			this(factory, type, resolution, coordinateSystem, IntPtr.Zero)
 		{ }
-		protected Image(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem, IntPtr data)
+		protected Image(Factory factory, Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem, IntPtr data)
 		{
+			this.Factory = factory;
 			this.Type = type;
 			this.Size = size;
 			this.Identifier = this.CreateIdentifier();
 			this.Bind();
 			this.Load(this.Type, this.Size, data);
+			this.SetParameters();
 		}
 
 		#region Implementors interface
-		protected int Identifier { get; private set; }
+		public uint Identifier { get; private set; }
 		protected virtual Geometry2D.Integer.Size AdaptResolution(Geometry2D.Integer.Size resolution)
 		{
 			int maximumTextureSize;
@@ -65,9 +69,11 @@ namespace Kean.Gui.OpenGL
 			}
 			return resolution;
 		}
-		protected virtual int CreateIdentifier()
+		protected virtual uint CreateIdentifier()
 		{
-			return GL.GenTexture();
+			uint result;
+			GL.GenTextures(1, out result);
+			return result;
 		}
 		protected virtual void Bind()
 		{
@@ -78,6 +84,17 @@ namespace Kean.Gui.OpenGL
 		{
 			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, type.PixelInternalFormat(), this.Size.Width, this.Size.Height, 0, type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
 		}
+		protected virtual void SetParameters()
+		{
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+		}
+		protected virtual void Read(IntPtr pointer)
+		{
+			GL.GetTexImage(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, this.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer); 
+		}
 		#endregion
 
 		#region IDisposable Members
@@ -87,13 +104,17 @@ namespace Kean.Gui.OpenGL
 		#endregion
 
 		#region IImage Members
-		public Kean.Draw.Gpu.Backend.IFactory Factory
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public Kean.Draw.Gpu.Backend.IFactory Factory { get; private set; }
+		protected abstract Canvas CreateCanvas();
+		Kean.Draw.Gpu.Backend.ICanvas canvas;
 		public Kean.Draw.Gpu.Backend.ICanvas Canvas
 		{
-			get { throw new NotImplementedException(); }
+			get 
+			{
+				if (this.canvas.IsNull())
+					this.canvas = this.CreateCanvas();
+				return this.canvas;
+			}
 		}
 		public Draw.CoordinateSystem CoordinateSystem { get; set; }
 		public Geometry2D.Integer.Size Size { get; private set; }
@@ -103,9 +124,20 @@ namespace Kean.Gui.OpenGL
 		}
 		public Raster.Image Read()
 		{
-			throw new NotImplementedException();
+			Raster.Image result;
+			switch (this.Type)
+			{
+				case Gpu.Backend.ImageType.Bgra:
+					result = new Raster.Bgra(this.Size);
+					break;
+				default:
+					result = null;
+					break;
+			}
+			if (result.NotNull())
+				this.Read(result.Pointer);
+			return result;
 		}
-
 		#endregion
 	}
 }

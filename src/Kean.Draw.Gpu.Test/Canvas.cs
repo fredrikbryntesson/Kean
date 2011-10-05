@@ -1,5 +1,5 @@
 ﻿// 
-//  Canvas.cs
+//  Bgra.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,10 +20,31 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Geometry2D = Kean.Math.Geometry2D;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Gui.OpenGL
+namespace Kean.Draw.Gpu.Test
 {
-	class Canvas
+	public class Canvas :
+		Abstract<Canvas>
 	{
+		[Test]
+		public void Create()
+		{
+			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
+			{
+				Draw.Canvas canvas = image.Canvas;
+				Expect(canvas, Is.Not.Null);
+				Expect(canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
+			}
+		}
+
+		protected override void Run()
+		{
+			this.Run(
+				this.Create
+				);
+		}
 	}
 }

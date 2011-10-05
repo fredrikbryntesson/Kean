@@ -1,5 +1,5 @@
 ﻿// 
-//  Image.cs
+//  Factory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -27,19 +27,27 @@ using Log = Kean.Extra.Log;
 using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Extension;
+using Kean.Gui.OpenGL.Backend.Extension;
 
-namespace Kean.Gui.OpenGL.OpenGL21
+namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
-	public class Image :
-		OpenGL.Image
+	public class Factory :
+		OpenGL.Backend.Factory
 	{
+		#region Constructors
+		public Factory()
+		{}
+		#endregion
 
-		public Image(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
-			base(type, size, coordinateSystem)
-		{ }
-		public Image(Raster.Image image) :
-			base(image.GetImageType(), image.Size, image.CoordinateSystem, image.Pointer)
-		{ }
+		#region IFactory Members
+		public override Gpu.Backend.IImage CreateImage(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
+		{
+			return new Image(this, type, size, coordinateSystem); 
+		}
+		public override Gpu.Backend.IImage CreateImage(Raster.Image image)
+		{
+			return new Image(this, image);
+		}
+		#endregion
 	}
 }

@@ -20,7 +20,6 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Collection = Kean.Core.Collection;
-using Function = Kean.Math;
 using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 using Kean.Draw.Raster.Extension;
@@ -35,8 +34,6 @@ namespace Kean.Draw.Raster
 		public IntPtr Pointer { get { return this.buffer; } }
 		public int Length { get { return this.buffer.Size; } }
 
-		public Geometry2D.Integer.Size Resolution { get; private set; }
-
 		public abstract void Apply(Action<Color.Bgr> action);
 		public abstract void Apply(Action<Color.Yuv> action);
 		public abstract void Apply(Action<Color.Y> action);
@@ -44,44 +41,41 @@ namespace Kean.Draw.Raster
 		protected Image(Image original) :
 			base(original)
 		{
-			this.Resolution = original.Resolution;
 			this.buffer = original.buffer;
 		}
-		protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(resolution, coordinateSystem)
+		protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(size, coordinateSystem)
 		{
-			this.Resolution = resolution;
 			this.buffer = buffer;
 		}
-
-		public override Draw.Image Resize(Geometry2D.Single.Size restriction)
-		{
-            return this.Resize(restriction, true);	
-        }
-        public Draw.Image Resize(Geometry2D.Single.Size restriction, bool preserveAspectRatio)
+        public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
         {
-            Geometry2D.Integer.Size newResolution = preserveAspectRatio ? (Geometry2D.Integer.Size)((Geometry2D.Single.Size)this.Size * Function.Single.Minimum((float)restriction.Width / (float)this.Resolution.Width, (float)restriction.Height / (float)this.Size.Height)) : (Geometry2D.Integer.Size)restriction;
-            Bgra result = new Bgra(newResolution) { CoordinateSystem = this.CoordinateSystem };
+            Bgra result = new Bgra((Geometry2D.Integer.Size)size) { CoordinateSystem = this.CoordinateSystem };
             using (System.Drawing.Bitmap bitmap = this.GdiBitmap())
             {
                 using (System.Drawing.Bitmap b = result.GdiBitmap())
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
-                    g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, newResolution.Width, newResolution.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+                    g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
             }
             return result;
         }
+		public override void Shift(Geometry2D.Integer.Size offset)
+		{
+			// TODO: implement with memcopy
+			throw new NotImplementedException();
+		}
 		/// <summary>
 		/// Copy a specified region of the current image. The transform specifies the part of current image to be copied.
 		/// The transform is map which sends a rectangle of size Resolution centered at origo to a transformed (scaled, rotated, translated) one 
 		/// in the current image. 
 		/// </summary>
-		/// <param name="resolution">Result bitmap resolution</param>
+		/// <param name="size">Result bitmap size</param>
 		/// <param name="transform">Transform</param>
 		/// <returns></returns>
-		public override Draw.Image Copy(Geometry2D.Single.Size size, Geometry2D.Single.Transform transform)
+		public override Draw.Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
 		{
 			transform = (Geometry2D.Single.Transform)this.Transform * transform * (Geometry2D.Single.Transform)this.Transform.Inverse;
-			Geometry2D.Single.Transform mappingTransform = Geometry2D.Single.Transform.CreateTranslation(this.Resolution.Width / 2, this.Resolution.Height / 2) * transform;
+			Geometry2D.Single.Transform mappingTransform = Geometry2D.Single.Transform.CreateTranslation(this.Size.Width / 2, this.Size.Height / 2) * transform;
 			Geometry2D.Single.Point upperLeft = mappingTransform * new Geometry2D.Single.Point(-size.Width / 2, -size.Height / 2);
 			Geometry2D.Single.Point upperRight = mappingTransform * new Geometry2D.Single.Point(size.Width / 2, -size.Height / 2);
 			Geometry2D.Single.Point downLeft = mappingTransform * new Geometry2D.Single.Point(-size.Width / 2, size.Height / 2);
@@ -162,7 +156,7 @@ namespace Kean.Draw.Raster
 				if (converted.CoordinateSystem == CoordinateSystem.Default)
 					bitmap.Save(filename, compression.ImageFormat());
 				else
-					using (System.Drawing.Bitmap result = new System.Drawing.Bitmap(converted.Resolution.Width, converted.Resolution.Height))
+					using (System.Drawing.Bitmap result = new System.Drawing.Bitmap(converted.Size.Width, converted.Size.Height))
 					{
 						bitmap.RotateFlip(converted.CoordinateSystem.FlipType());
 						using (System.Drawing.Graphics canvas = System.Drawing.Graphics.FromImage(result))

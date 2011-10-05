@@ -27,16 +27,16 @@ namespace Kean.Draw.Raster
 	{
 		protected Yvu420(Yvu420 original) :
 			base(original) { }
-		public Yvu420(Geometry2D.Integer.Size resolution) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(resolution, 1) + 2 * Packed.CalculateLength(resolution / 2, 1)), resolution) { }
-		public Yvu420(Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(resolution, 1) + 2 * Packed.CalculateLength(resolution / 2, 1)), resolution, coordinateSystem) { }
-		public Yvu420(byte[] data, Geometry2D.Integer.Size resolution) :
-			this(new Buffer.Vector<byte>(data), resolution) { }
-		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size resolution) :
-			this(buffer, resolution, CoordinateSystem.Default) { }
-		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem) { }
+		public Yvu420(Geometry2D.Integer.Size size) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size) { }
+		public Yvu420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size, coordinateSystem) { }
+		public Yvu420(byte[] data, Geometry2D.Integer.Size size) :
+			this(new Buffer.Vector<byte>(data), size) { }
+		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
+			this(buffer, size, CoordinateSystem.Default) { }
+		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem) { }
 		internal Yvu420(Image original) :
 			base(original) { }
 		protected override Monochrome CreateU()
@@ -46,6 +46,10 @@ namespace Kean.Draw.Raster
 		protected override Monochrome CreateV()
 		{
 			return base.CreateU();
+		}
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return new Yvu420(size) { Crop = this.Crop, Wrap = this.Wrap };
 		}
 		public override Draw.Image Copy()
 		{

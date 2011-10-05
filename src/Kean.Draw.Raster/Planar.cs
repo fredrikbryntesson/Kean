@@ -27,8 +27,8 @@ namespace Kean.Draw.Raster
 	{
 		protected Planar(Planar original) :
 			base(original) { }
-		protected Planar(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem) { }
+		protected Planar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem) { }
 
 	}
 }

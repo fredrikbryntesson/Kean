@@ -27,7 +27,8 @@ namespace Kean.Draw
 		//void Set<T>(T color) where T : IColor;
 		//T Convert<T>() where T : IColor, new();
 		//IColor Copy();
-		//IColor Add(float factor, IColor color);
-		//IColor Substract(float factor, IColor color);
+		//IColor Add(float factor, IColor other);
+		//IColor Substract(float factor, IColor other);
+		//float Distance(IColor other);
 	}
 }

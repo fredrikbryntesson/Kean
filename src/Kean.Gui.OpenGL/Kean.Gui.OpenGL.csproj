@@ -39,16 +39,26 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Canvas.cs" />
-    <Compile Include="Extension\ImageTypeExtension.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="OpenGL21\Canvas.cs" />
-    <Compile Include="OpenGL21\Factory.cs" />
-    <Compile Include="OpenGL21\Image.cs" />
-    <Compile Include="OpenGL21\Window.cs" />
+    <Compile Include="Backend\Canvas.cs" />
+    <Compile Include="Backend\OpenGL21\Depth.cs" />
+    <Compile Include="Exception\Framebuffer.cs" />
+    <Compile Include="Backend\Extension\ImageTypeExtension.cs" />
+    <Compile Include="Backend\Factory.cs" />
+    <Compile Include="Backend\Image.cs" />
+    <Compile Include="Backend\OpenGL21\Canvas.cs" />
+    <Compile Include="Backend\OpenGL21\Factory.cs" />
+    <Compile Include="Backend\OpenGL21\Image.cs" />
+    <Compile Include="Backend\OpenGL21\Window.cs" />
+    <Compile Include="Backend\ThreadPool.cs" />
+    <Compile Include="Backend\Window.cs" />
+    <Compile Include="Exception\ContextNotCreateable.cs" />
+    <Compile Include="Exception\Exception.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>
@@ -111,7 +121,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="OpenGL30\" />
+    <Folder Include="Backend\OpenGL30\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

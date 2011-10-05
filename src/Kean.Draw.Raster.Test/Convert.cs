@@ -51,10 +51,10 @@ namespace Kean.Draw.Raster.Test
         public void Open()
         {
             Target.Image bitmap = Target.Image.OpenResource("Bitmaps/Convert/original.png");
-            Expect(bitmap.Resolution, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.0");
+            Expect(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.0");
             Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 3), this.prefix + "Open.1");
             bitmap = Target.Image.OpenResource("Bitmaps/Convert/monochrome.png");
-            Expect(bitmap.Resolution, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.2");
+            Expect(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.2");
             Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area), this.prefix + "Open.3");
        
         }

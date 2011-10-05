@@ -29,14 +29,6 @@ namespace Kean.Math.Geometry2D.Single
         public override ShellValue Value { get { return (ShellValue)this; } }
         public Shell() { }
         public Shell(float left, float right, float top, float bottom) : base(left, right, top, bottom) { }
-        public Box Decrease(Size size)
-        {
-            return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
-        }
-        public Box Increase(Size size)
-        {
-            return new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
-        }
         #region Casts
         public static implicit operator Shell(Integer.Shell value)
         {

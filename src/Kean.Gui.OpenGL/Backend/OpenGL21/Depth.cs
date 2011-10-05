@@ -1,5 +1,5 @@
 ﻿// 
-//  Monochrome.cs
+//  Depth.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,28 +21,26 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using Error = Kean.Core.Error;
+using Log = Kean.Extra.Log;
+using Draw = Kean.Draw;
+using Gpu = Kean.Draw.Gpu;
+using Raster = Kean.Draw.Raster;
+using Kean.Gui.OpenGL.Backend.Extension;
 
-namespace Kean.Draw.Gpu
+namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
-	public class Monochrome :
+	internal class Depth :
 		Image
 	{
-		#region Constructors
-		public Monochrome(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default)
+
+		internal Depth(Factory factory, Geometry2D.Integer.Size size) :
+			base(factory, Gpu.Backend.ImageType.Bgra, size, Draw.CoordinateSystem.Default)
 		{ }
-		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem))
-		{ }
-		#endregion
-		#region Image Overrides
-		public override T Convert<T>()
+		protected override void Load(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, IntPtr data)
 		{
-			T result = null;
-			if (typeof(T) == typeof(Raster.Monochrome))
-				result = (this.Canvas as Canvas).Read() as T;
-			return result;
+			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, (OpenTK.Graphics.OpenGL.PixelInternalFormat)OpenTK.Graphics.OpenGL.All.DepthComponent32, size.Width, size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.DepthComponent, OpenTK.Graphics.OpenGL.PixelType.UnsignedInt, IntPtr.Zero);
 		}
-		#endregion
 	}
 }

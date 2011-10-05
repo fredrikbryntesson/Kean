@@ -30,14 +30,30 @@ namespace Kean.Draw
 	{
 
 		public Image Image { get; private set; }
-
-		public abstract bool TextAntiAlias { get; set; }
+		public Geometry2D.Integer.Size Size { get { return this.Image.Size; } }
 
 		protected Canvas(Image image)
 		{
 			this.Image = image;
 			this.clipStack = new ClipStack(this.Image.Size, (transform, clip) => { this.Transform = this.OnTransformChange(transform); this.Clip = this.OnClipChange(clip); });
 		}
+		#region Text Antialias
+		bool textAntialias;
+		[Notify("TextAntialiasChanged")]
+		public bool TextAntialias 
+		{
+			get { return this.textAntialias; }
+			set
+			{
+				if (this.textAntialias != value)
+				{
+					this.textAntialias = value;
+					this.TextAntialiasChanged(value);
+				}
+			}
+		}
+		public event Action<bool> TextAntialiasChanged; 
+		#endregion
 
 		#region Clip, Transform, Push & Pop
 		ClipStack clipStack;
@@ -68,12 +84,39 @@ namespace Kean.Draw
 			this.clipStack.Pop();
 		}
 		#endregion
-
-		public abstract Canvas Create(Geometry2D.Single.Size size);
-		public abstract Canvas Subcanvas(Geometry2D.Single.Box bounds);
-		public abstract void Draw(Draw.Image image);
+		#region Create
+		public abstract Canvas CreateSubcanvas(Geometry2D.Single.Box bounds);
+		#endregion
+		#region Draw, Blend, Clear
+		#region Draw Image
+		public virtual void Draw(Draw.Image image)
+		{
+			this.Draw(image, new Geometry2D.Single.Point());
+		}
+		public virtual void Draw(Draw.Image image, Geometry2D.Single.Point position)
+		{
+			Geometry2D.Single.Box region = image.Crop.Decrease((Geometry2D.Single.Size)image.Size);
+			this.Draw(image, region, new Geometry2D.Single.Box(position, region.Size));
+		}
 		public abstract void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
-
+		#endregion
+		#region Draw Rectangle
+		public virtual void Draw(IColor color)
+		{
+			this.Draw(color, (Geometry2D.Single.Size)this.Size);
+		}
+		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
+		#endregion
+		#region Blend
+		public abstract void Blend(float factor);
+		#endregion
+		#region Clear
+		public virtual void Clear()
+		{
+			this.Clear((Geometry2D.Single.Size)this.Size);
+		}
 		public abstract void Clear(Geometry2D.Single.Box area);
+		#endregion
+		#endregion
 	}
 }

@@ -31,26 +31,26 @@ namespace Kean.Draw.Raster
 	{
 		protected override int BytesPerPixel { get { return 2; } }
 
-		public Yuv422(Geometry2D.Integer.Size resolution) :
-			this(resolution, CoordinateSystem.Default) { }
-		public Yuv422(Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(resolution, 2)), resolution, coordinateSystem) { }
-		public Yuv422(byte[] data, Geometry2D.Integer.Size resolution) :
-			base(data, resolution) { }
-		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size resolution) :
-			base(buffer, resolution, CoordinateSystem.Default) { }
-		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem) { }
+		public Yuv422(Geometry2D.Integer.Size size) :
+			this(size, CoordinateSystem.Default) { }
+		public Yuv422(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem) { }
+		public Yuv422(byte[] data, Geometry2D.Integer.Size size) :
+			base(data, size) { }
+		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
+			base(buffer, size, CoordinateSystem.Default) { }
+		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem) { }
 		protected Yuv422(Yuv422 original) :
 			base(original) { }
 		internal Yuv422(Image original) :
-			this(original.Resolution, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem)
 		{
 			unsafe
 			{
 				int y = 0;
 				int x = 0;
-				int width = this.Resolution.Width;
+				int width = this.Size.Width;
 
 				byte* row = (byte*)this.Pointer;
 				byte* yDestination = row;
@@ -87,6 +87,10 @@ namespace Kean.Draw.Raster
 		{
 			return new Yuv422(this);
 		}
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return new Yuv422(size) { Crop = this.Crop, Wrap = this.Wrap };
+		}
 		public override void Apply(Action<Color.Bgr> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
@@ -100,8 +104,8 @@ namespace Kean.Draw.Raster
 				byte* uSource = row + 1;
 				byte* vSource = row + 3;
 
-				int width = this.Resolution.Width;
-				int height = this.Resolution.Height;
+				int width = this.Size.Width;
+				int height = this.Size.Height;
 
 				for (int y = 0; y < height; y++)
 				{

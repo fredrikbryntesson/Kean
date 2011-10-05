@@ -30,16 +30,16 @@ namespace Kean.Draw.Raster
 		Monochrome uBuffer;
 		Monochrome vBuffer;
 
-		public Yuv420(Geometry2D.Integer.Size resolution) :
-			this(resolution, CoordinateSystem.Default) { }
-		public Yuv420(Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(resolution, 1) + 2 * Packed.CalculateLength(resolution / 2, 1)), resolution, coordinateSystem) { }
-		public Yuv420(byte[] data, Geometry2D.Integer.Size resolution) :
-			this(new Buffer.Vector<byte>(data), resolution) { }
-		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size resolution) :
-			this(buffer, resolution, CoordinateSystem.Default) { }
-		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem)
+		public Yuv420(Geometry2D.Integer.Size size) :
+			this(size, CoordinateSystem.Default) { }
+		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size, coordinateSystem) { }
+		public Yuv420(byte[] data, Geometry2D.Integer.Size size) :
+			this(new Buffer.Vector<byte>(data), size) { }
+		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
+			this(buffer, size, CoordinateSystem.Default) { }
+		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem)
 		{
 			this.yBuffer = this.CreateY();
 			this.uBuffer = this.CreateU();
@@ -53,13 +53,13 @@ namespace Kean.Draw.Raster
 			this.vBuffer = this.CreateV();
 		}
 		internal Yuv420(Image original) :
-			this(original.Resolution, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem)
 		{
 			unsafe
 			{
 				int y = 0;
 				int x = 0;
-				int width = this.Resolution.Width;
+				int width = this.Size.Width;
 
 				byte* yRow = (byte*)this.yBuffer.Pointer;
 				byte* yDestination = yRow;
@@ -100,15 +100,19 @@ namespace Kean.Draw.Raster
 		}
 		protected virtual Monochrome CreateY()
 		{
-			return new Monochrome(this.Pointer, this.Resolution);
+			return new Monochrome(this.Pointer, this.Size);
 		}
 		protected virtual Monochrome CreateU()
 		{
-			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Resolution, 1)), this.Resolution / 2);
+			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Size, 1)), this.Size / 2);
 		}
 		protected virtual Monochrome CreateV()
 		{
-			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Resolution, 1) + Packed.CalculateLength(this.Resolution / 2, 1)), this.Resolution / 2);
+			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Size, 1) + Packed.CalculateLength(this.Size / 2, 1)), this.Size / 2);
+		}
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return new Yuv420(size) { Crop = this.Crop, Wrap = this.Wrap };
 		}
 		public override Draw.Image Copy()
 		{
@@ -131,8 +135,8 @@ namespace Kean.Draw.Raster
 				byte* vRow = (byte*)this.vBuffer.Pointer;
 				byte* vSource = vRow;
 
-				int width = this.Resolution.Width;
-				int height = this.Resolution.Height;
+				int width = this.Size.Width;
+				int height = this.Size.Height;
 
 				for (int y = 0; y < height; y++)
 				{

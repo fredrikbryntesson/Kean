@@ -28,12 +28,24 @@ namespace Kean.Draw.Gpu
 		Image
 	{
 		#region Constructors
+		public Bgra(Raster.Bgra image) :
+			base(Gpu.Backend.Factory.CreateImage(image))
+		{ }
 		public Bgra(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Argb, size, coordinateSystem))
+			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Bgra, size, coordinateSystem))
 		{ }
+		#endregion
+		#region Image Overrides
+		public override T Convert<T>()
+		{
+			T result = null;
+			if (typeof(T) == typeof(Raster.Bgra))
+				result = this.Backend.Read() as T;
+			return result;
+		}
 		#endregion
 	}
 }

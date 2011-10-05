@@ -40,8 +40,22 @@ namespace Kean.Math.Geometry2D.Abstract
             this.bottom = (R)bottom;
         }
         #endregion
-        #region Comparison Operators
-        public static bool operator ==(Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IShell<V> right)
+		#region Increase, Decrease
+		public BoxType Decrease(ISize<V> size)
+		{
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
+				Point < TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V > .Create(this.Left, this.Top),
+				Size < TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V > .Create(((R)size.Width) - this.Left - this.Right, ((R)size.Height) - this.Top - this.Bottom));
+		}
+		public BoxType Increase(ISize<V> size)
+		{
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
+				Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(((R)this.Left).Negate(), ((R)this.Right).Negate()),
+				Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(((R)size.Width) + this.Left + this.Right, ((R)size.Height) + this.Top + this.Bottom));
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Shell<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> left, IShell<V> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&

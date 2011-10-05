@@ -122,6 +122,10 @@ namespace Kean.Math.Geometry2D.Abstract
 		{
 			return Vector<PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(size.Width, size.Height);
 		}
+		public static implicit operator BoxType(Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> size)
+		{
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(Vector<PointType, PointValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((V)Kean.Math.Abstract<R, V>.Zero, Kean.Math.Abstract<R, V>.Zero), size);
+		}
 		#endregion
 	}
 }

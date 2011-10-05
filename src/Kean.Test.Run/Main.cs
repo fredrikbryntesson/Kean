@@ -26,7 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			//Draw.Gpu.Test.All.Test();
+			Draw.Gpu.Test.All.Test();
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
 			Core.Uri.Test.All.Test();

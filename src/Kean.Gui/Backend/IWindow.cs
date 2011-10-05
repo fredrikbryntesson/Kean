@@ -28,12 +28,13 @@ using Kean.Core.Extension;
 
 namespace Kean.Gui.Backend
 {
-	public interface IWindow
+	public interface IWindow :
+		IDisposable
 	{
 		System.Drawing.Icon Icon { get; set; }
 		string Title { get; set; }
-		Geometry2D.Single.Size Position { get; set; }
-		event Action<Geometry2D.Single.Size> PositionChanged;
+		Geometry2D.Single.Point Position { get; set; }
+		event Action<Geometry2D.Single.Point> PositionChanged;
 		Geometry2D.Single.Size Size { get; set; }
 		event Action<Geometry2D.Single.Size> SizeChanged;
 		WindowState State { get; set; }
@@ -52,7 +53,7 @@ namespace Kean.Gui.Backend
 		void StartMove();
 		void StartResize(ResizeDirection direction);
 
-		event Action OnClose;
+		event Action OnClosed;
 		event Func<bool> Closing;
 		event Action OnNextIdle;
 		event Action OnIdle;

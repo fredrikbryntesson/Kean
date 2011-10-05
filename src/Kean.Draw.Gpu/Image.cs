@@ -43,29 +43,38 @@ namespace Kean.Draw.Gpu
 			this.Backend = backend;
 		}
 		#endregion
+
+		#region Draw.Image Overrides
 		public override T Convert<T>()
 		{
-			throw new NotImplementedException();
+			return null;
+		}
+		public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
+		{
+			return null;
+		}
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return null;
 		}
 		public override Draw.Image Copy()
 		{
-			throw new NotImplementedException();
+			return null;
 		}
-		public override Draw.Image Copy(Geometry2D.Single.Size size, Geometry2D.Single.Transform transform)
+		public override Draw.Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
 		{
-			throw new NotImplementedException();
+			return null;
 		}
-		public override Draw.Image Resize(Geometry2D.Single.Size restriction)
+		public override void Shift(Geometry2D.Integer.Size offset)
 		{
-			throw new NotImplementedException();
 		}
 		public override float Distance(Draw.Image other)
 		{
-			throw new NotImplementedException();
+			return float.NaN;
 		}
+		#endregion
 
 		#region IDisposable Members
-
 		public void Dispose()
 		{
 			if (this.Backend.NotNull())
@@ -74,7 +83,15 @@ namespace Kean.Draw.Gpu
 				this.Backend = null;
 			}
 		}
-
+		#endregion
+		#region Static Creators
+		public static Image Create(Raster.Image image)
+		{
+			Image result = null;
+			if (image is Raster.Bgra)
+				result = new Bgra(image as Raster.Bgra);
+			return result;
+		}
 		#endregion
 	}
 }

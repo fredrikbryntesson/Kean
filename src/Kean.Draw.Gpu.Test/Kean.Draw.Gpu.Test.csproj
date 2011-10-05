@@ -46,6 +46,7 @@
     <Compile Include="Abstract.cs" />
     <Compile Include="All.cs" />
     <Compile Include="Bgra.cs" />
+    <Compile Include="Canvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +78,10 @@
       <Project>{6E879B34-5D82-4715-9874-F2483F99AB6D}</Project>
       <Name>Kean.Gui.OpenGL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Gui\Kean.Gui.csproj">
+      <Project>{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}</Project>
+      <Name>Kean.Gui</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
@@ -89,6 +94,20 @@
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\ConvertToRaster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Input\ElephantSeal.jpg" />
+    <EmbeddedResource Include="Input\Flower.jpg" />
+    <EmbeddedResource Include="Input\Hercules.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\CreateFromRaster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Correct\Bgr\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

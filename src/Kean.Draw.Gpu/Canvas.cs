@@ -1,4 +1,5 @@
 ﻿using System;
+using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Gpu
 {
@@ -12,36 +13,61 @@ namespace Kean.Draw.Gpu
 		{
 			this.Backend = image.Backend.Canvas;
 		}
-		public override void Clear(Kean.Math.Geometry2D.Single.Box area)
+
+		public Raster.Image Read()
 		{
-			throw new NotImplementedException();
+			return this.Read(new Geometry2D.Integer.Box(new Geometry2D.Integer.Point(), this.Size));
 		}
-		public override Kean.Draw.Canvas Create(Kean.Math.Geometry2D.Single.Size size)
+		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
-			throw new NotImplementedException();
+			return this.Backend.Read(region);
 		}
-		public override void Draw(Kean.Draw.Image image)
+
+		#region Draw.Canvas Overrides
+		#region Clip, Transform, Push & Pop
+		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
-			throw new NotImplementedException();
+			return clip;
 		}
-		public override void Draw(Kean.Draw.Image image, Kean.Math.Geometry2D.Single.Box source, Kean.Math.Geometry2D.Single.Box destination)
+		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
 		{
-			throw new NotImplementedException();
+			return transform;
 		}
-		public override Kean.Draw.Canvas Subcanvas(Kean.Math.Geometry2D.Single.Box bounds)
+		#endregion
+		#region Create
+		public override Draw.Canvas CreateSubcanvas(Geometry2D.Single.Box bounds)
 		{
-			throw new NotImplementedException();
+			return null;
 		}
-		public override bool TextAntiAlias
+		#endregion
+		#region Draw, Blend, Clear
+		#region Draw Image
+		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
 		}
+		#endregion
+		#region Draw Rectangle
+		public override void Draw(IColor color)
+		{
+		}
+		public override void Draw(IColor color, Geometry2D.Single.Box region)
+		{
+		}
+		#endregion
+		#region Blend
+		public override void Blend(float factor)
+		{
+		}
+		#endregion
+		#region Clear
+		public override void Clear()
+		{
+		}
+		public override void Clear(Geometry2D.Single.Box area)
+		{
+		}
+		#endregion
+		#endregion
+		#endregion
 	}
 }

@@ -28,6 +28,7 @@ namespace Kean.Draw.Gpu.Test
 		public static void Test()
 		{
 			Bgra.Test();
+			Canvas.Test();
 		}
 	}
 }

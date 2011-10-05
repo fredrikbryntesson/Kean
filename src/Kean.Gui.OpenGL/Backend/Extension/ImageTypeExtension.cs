@@ -27,9 +27,9 @@ using Log = Kean.Extra.Log;
 using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Extension;
+using Kean.Gui.OpenGL.Backend.Extension;
 
-namespace Kean.Gui.OpenGL.Extension
+namespace Kean.Gui.OpenGL.Backend.Extension
 {
 	public static class ImageTypeExtension
 	{
@@ -39,11 +39,11 @@ namespace Kean.Gui.OpenGL.Extension
 			switch (me)
 			{
 				default:
-				case Gpu.Backend.ImageType.Argb:
-					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba;
+				case Gpu.Backend.ImageType.Bgra:
+					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba8;
 					break;
-				case Gpu.Backend.ImageType.Rgb:
-					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgb;
+				case Gpu.Backend.ImageType.Bgr:
+					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgb8;
 					break;
 				case Gpu.Backend.ImageType.Monochrome:
 					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance8;
@@ -57,11 +57,11 @@ namespace Kean.Gui.OpenGL.Extension
 			switch (me)
 			{
 				default:
-				case Gpu.Backend.ImageType.Argb:
-					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
+				case Gpu.Backend.ImageType.Bgra:
+					result = OpenTK.Graphics.OpenGL.PixelFormat.Rgba;
 					break;
-				case Gpu.Backend.ImageType.Rgb:
-					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgr;
+				case Gpu.Backend.ImageType.Bgr:
+					result = OpenTK.Graphics.OpenGL.PixelFormat.Rgb;
 					break;
 				case Gpu.Backend.ImageType.Monochrome:
 					result = OpenTK.Graphics.OpenGL.PixelFormat.Luminance;
@@ -73,9 +73,9 @@ namespace Kean.Gui.OpenGL.Extension
 		{
 			Gpu.Backend.ImageType result;
 			if (me is Raster.Bgra)
-				result = Gpu.Backend.ImageType.Argb;
+				result = Gpu.Backend.ImageType.Bgra;
 			else if (me is Raster.Bgr)
-				result = Gpu.Backend.ImageType.Rgb;
+				result = Gpu.Backend.ImageType.Bgr;
 			else if (me is Raster.Monochrome)
 				result = Gpu.Backend.ImageType.Monochrome;
 			else

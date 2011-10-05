@@ -40,8 +40,8 @@ namespace Kean.Draw.Raster.Test
                 this.CutScale,
                 this.CutTranslate,
                 this.CoordinateSystems,
-                this.Resize1,
-                this.Resize2
+				this.ResizeWithin,
+                this.ResizeTo
                 );
         }
 		[Test]
@@ -57,7 +57,7 @@ namespace Kean.Draw.Raster.Test
         public void CutRotate()
         {
             Target.Image image = Target.Image.OpenResource("Bitmaps/Transform/original.png");
-            Geometry2D.Single.Size size = new Geometry2D.Single.Size(320, 100);
+            Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(75));
             Target.Image copy = image.Copy(size, transform) as Target.Image;
             Expect(copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/rotated.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(1.5f), this.prefix + "CutRotate.0");
@@ -87,25 +87,25 @@ namespace Kean.Draw.Raster.Test
         public void CoordinateSystems()
         {
             Target.Image source = Target.Image.OpenResource("Bitmaps/Transform/original.png");
-            Target.Image image = new Target.Bgr(new Kean.Core.Buffer.Sized(source.Pointer, source.Resolution.Area * 3), source.Resolution, CoordinateSystem.XLeftward | CoordinateSystem.YUpward);
+            Target.Image image = new Target.Bgr(new Kean.Core.Buffer.Sized(source.Pointer, source.Size.Area * 3), source.Size, CoordinateSystem.XLeftward | CoordinateSystem.YUpward);
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
             Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45));
             Target.Image copy = image.Copy(size, transform) as Target.Image;
             Expect(copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/coordinateSystem.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(2), this.prefix + "CoordinateSystems.0");
         }
         [Test]
-        public void Resize1()
+        public void ResizeWithin()
         {
             Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
-            Expect(first.Resize(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized1.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize1.0");
+            Expect(first.ResizeWithin(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized1.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize1.0");
         }
         [Test]
-        public void Resize2()
+        public void ResizeTo()
         {
             Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.png");
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(100, 100);
-            Expect(first.Resize(size, false).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized2.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize2.0");
+            Expect(first.ResizeTo(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized2.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize2.0");
         }
         #endregion
     }

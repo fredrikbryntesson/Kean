@@ -29,12 +29,12 @@ namespace Kean.Draw.Raster
 
 		public int Stride { get; private set; }
 
-		protected Packed(byte[] data, Geometry2D.Integer.Size resolution) :
-			this(new Buffer.Vector<byte>(data), resolution, CoordinateSystem.Default) { }
-		protected Packed(Buffer.Sized buffer, Geometry2D.Integer.Size resolution, CoordinateSystem coordinateSystem) :
-			base(buffer, resolution, coordinateSystem)
+		protected Packed(byte[] data, Geometry2D.Integer.Size size) :
+			this(new Buffer.Vector<byte>(data), size, CoordinateSystem.Default) { }
+		protected Packed(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(buffer, size, coordinateSystem)
 		{
-			this.Stride = Packed.CalculateStride(resolution, this.BytesPerPixel);
+			this.Stride = Packed.CalculateStride(size, this.BytesPerPixel);
 		}
 		protected Packed(Packed original) :
 			base(original)
@@ -57,13 +57,13 @@ namespace Kean.Draw.Raster
 			return other is Packed && this.BytesPerPixel == (other as Packed).BytesPerPixel ? base.Distance(other) : float.MaxValue;
 		}
 
-		internal static int CalculateStride(Geometry2D.Integer.Size resolution, int bytesPerPixel)
+		internal static int CalculateStride(Geometry2D.Integer.Size size, int bytesPerPixel)
 		{
-			return resolution.Width * bytesPerPixel + (4 - (resolution.Width * bytesPerPixel) % 4) % 4;
+			return size.Width * bytesPerPixel + (4 - (size.Width * bytesPerPixel) % 4) % 4;
 		}
-		internal static int CalculateLength(Geometry2D.Integer.Size resolution, int bytesPerPixel)
+		internal static int CalculateLength(Geometry2D.Integer.Size size, int bytesPerPixel)
 		{
-			return Packed.CalculateStride(resolution, bytesPerPixel) * resolution.Height;
+			return Packed.CalculateStride(size, bytesPerPixel) * size.Height;
 		}
 	}
 }

@@ -27,9 +27,9 @@ using Log = Kean.Extra.Log;
 using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Extension;
+using Kean.Gui.OpenGL.Backend.Extension;
 
-namespace Kean.Gui.OpenGL
+namespace Kean.Gui.OpenGL.Backend
 {
 	public abstract class Factory :
 		Gpu.Backend.IFactory
