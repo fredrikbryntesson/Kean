@@ -47,6 +47,10 @@ namespace Kean.Draw.Gpu
 			T result = null;
 			if (typeof(T) == typeof(Raster.Monochrome))
 				result = (this.Canvas as Canvas).Read() as T;
+			else if (typeof(T) == typeof(Raster.Bgra))
+				result = (this.Canvas as Canvas).Read(Kean.Draw.Gpu.Backend.ImageType.Bgra) as T;
+			else if (typeof(T) == typeof(Raster.Bgr))
+				result = (this.Canvas as Canvas).Read(Kean.Draw.Gpu.Backend.ImageType.Bgr) as T;
 			return result;
 		}
 		// TODO:  Resize Monochrome using GPU

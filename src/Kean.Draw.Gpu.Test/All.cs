@@ -27,6 +27,7 @@ namespace Kean.Draw.Gpu.Test
 	{
 		public static void Test()
 		{
+			Monochrome.Test();
 			Bgra.Test();
 			Canvas.Test();
 		}

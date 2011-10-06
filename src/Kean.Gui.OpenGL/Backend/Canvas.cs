@@ -137,11 +137,21 @@ namespace Kean.Gui.OpenGL.Backend
 		
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
+			return this.Read(region, this.Image.Type);
+		}
+		public Raster.Image Read(Geometry2D.Integer.Box region, Kean.Draw.Gpu.Backend.ImageType type)
+		{
 			Raster.Image result;
-			switch (this.Image.Type)
+			switch (type)
 			{
 				case Gpu.Backend.ImageType.Bgra:
 					result = new Raster.Bgra(region.Size);
+					break;
+				case Gpu.Backend.ImageType.Bgr:
+					result = new Raster.Bgr(region.Size);
+					break;
+				case Gpu.Backend.ImageType.Monochrome:
+					result = new Raster.Monochrome(region.Size);
 					break;
 				default:
 					result = null;
@@ -150,7 +160,7 @@ namespace Kean.Gui.OpenGL.Backend
 			if (result.NotNull())
 			{
 				this.Setup();
-				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Image.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
+				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
 				this.Teardown();
 			}
 			return result;
