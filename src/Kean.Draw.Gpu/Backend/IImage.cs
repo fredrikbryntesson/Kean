@@ -35,5 +35,7 @@ namespace Kean.Draw.Gpu.Backend
 		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
 		Raster.Image Read();
 		IImage Copy();
+		void Render();
+		void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 	}
 }

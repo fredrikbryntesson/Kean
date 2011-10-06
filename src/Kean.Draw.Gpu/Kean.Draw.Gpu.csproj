@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A519A94C-2837-4A3D-B90A-1535704DCC8E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -35,8 +35,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Factory.cs" />
@@ -66,6 +64,10 @@
     <ProjectReference Include="..\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
       <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
       <Name>Kean.Core.Parallel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
+      <Name>Kean.Core.Reflect</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>

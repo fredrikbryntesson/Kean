@@ -57,29 +57,13 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		}
 		protected override void Bind()
 		{
-			GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Framebuffer);
 			Exception.Framebuffer.Check();
-			GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
-			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-			GL.PushMatrix();
-			(new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f)).Load();
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-			GL.PushMatrix();
-			GL.LoadIdentity();
-			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 		}
 		protected override void Unbind()
 		{
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 			Exception.Framebuffer.Check();
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-			GL.PopMatrix();
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-			GL.PopMatrix();
-			GL.PopAttrib();
 		}
 	}
 }

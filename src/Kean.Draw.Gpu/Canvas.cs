@@ -1,4 +1,5 @@
 ﻿using System;
+using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Gpu
@@ -44,8 +45,11 @@ namespace Kean.Draw.Gpu
 		#region Draw Image
 		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-            Gpu.Image intermediate = new Gpu.Bgra(image.Convert<Raster.Bgra>());
-            this.Backend.Draw(intermediate, source, destination);
+			if (!(image is Gpu.Image))
+				using (image = Gpu.Image.Create(image))
+					this.Backend.Draw((image as Gpu.Image).Backend, source, destination);
+			else
+				this.Backend.Draw((image as Gpu.Image).Backend, source, destination);
 		}
 		#endregion
 		#region Draw Rectangle

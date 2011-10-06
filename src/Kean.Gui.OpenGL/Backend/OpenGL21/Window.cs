@@ -52,14 +52,6 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 				{
 					GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 					Exception.Framebuffer.Check();
-
-					GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
-					GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
-					GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-					(new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, -2.0f / this.Image.Size.Height, -1.0f, 1.0f)).Load();
-					GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-					Geometry2D.Single.Transform.Identity.Load();
-
 				}
 				protected override void Unbind()
 				{
@@ -90,6 +82,12 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 			public Gpu.Backend.IImage Copy()
 			{
 				return null;
+			}
+			public void Render()
+			{
+			}
+			public void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+			{
 			}
 			#endregion
 			#region IDisposable Members

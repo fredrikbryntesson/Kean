@@ -27,7 +27,8 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw
 {
 	public abstract class Image :
-		IEquatable<Image>
+		IEquatable<Image>,
+		IDisposable
 	{
 		public abstract Canvas Canvas { get; }
 
@@ -126,5 +127,13 @@ namespace Kean.Draw
 		{
 			return other.NotNull() && this.Size == other.Size && this.Distance(other) < 10 * float.Epsilon;
 		}
+		~Image()
+		{
+			this.Dispose();
+		}
+		#region IDisposable Members
+		public virtual void Dispose()
+		{ }
+		#endregion
 	}
 }

@@ -26,10 +26,10 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			Gui.OpenGL.Test.Window.Test();
-
+			Draw.Gpu.Test.Canvas.Test();
 			Draw.Color.Test.All.Test();
 			Draw.Gpu.Test.All.Test();
+			Gui.OpenGL.Test.Window.Test();
 			
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();

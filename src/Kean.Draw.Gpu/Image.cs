@@ -83,11 +83,20 @@ namespace Kean.Draw.Gpu
 		}
 		#endregion
 		#region Static Creators
-		public static Image Create(Raster.Image image)
+		public static Image Create(Draw.Image image)
 		{
 			Image result = null;
-			if (image is Raster.Bgra)
-				result = new Bgra(image as Raster.Bgra);
+			if (image is Raster.Image)
+			{
+				if (image is Raster.Bgra)
+					result = new Bgra(image as Raster.Bgra);
+				else
+					result = new Bgra(image.Convert<Raster.Bgra>());
+			}
+			else if (image is Gpu.Image)
+				result = image.Copy() as Gpu.Image;
+			else
+				result = new Bgra(image.Convert<Raster.Bgra>());
 			return result;
 		}
 		#endregion

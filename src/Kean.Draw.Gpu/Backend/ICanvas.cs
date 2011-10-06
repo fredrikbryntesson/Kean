@@ -10,6 +10,6 @@ namespace Kean.Draw.Gpu.Backend
 		Raster.Image Read(Geometry2D.Integer.Box region);
 		void Draw(Draw.IColor color);
         void Draw(Draw.IColor color, Geometry2D.Single.Box region);
-        void Draw(Draw.Gpu.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
+        void Draw(IImage image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
     }
 }

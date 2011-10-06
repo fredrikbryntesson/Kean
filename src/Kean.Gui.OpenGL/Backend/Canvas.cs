@@ -52,23 +52,44 @@ namespace Kean.Gui.OpenGL.Backend
 		protected abstract void Bind();
 		protected virtual void SetupViewport()
 		{
+			GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
 			GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
 			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
 			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
 			GL.PushMatrix();
-			new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f).Load();
+			(new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f)).Load();
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+			GL.PushMatrix();
+			GL.LoadIdentity();
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+		}
+		protected virtual void TeardownViewport()
+		{
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+			GL.PopMatrix();
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+			GL.PopMatrix();
+			GL.PopAttrib();
 		}
 		protected abstract void Unbind();
 		#endregion
-
+		void Setup()
+		{
+			this.Bind();
+			this.SetupViewport();
+		}
+		void Teardown()
+		{
+			this.Unbind();
+			this.TeardownViewport();
+		}
 		#region ICanvas Members
 		public Gpu.Backend.IImage Image { get; private set; }
 		public Gpu.Backend.IFactory Factory { get { return this.Image.Factory; } }
 		
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
-			this.Bind();
-			this.SetupViewport();
 			Raster.Image result;
 			switch (this.Image.Type)
 			{
@@ -80,20 +101,25 @@ namespace Kean.Gui.OpenGL.Backend
 					break;
 			}
 			if (result.NotNull())
+			{
+				this.Setup();
 				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Image.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
+				this.Teardown();
+			}
 			return result;
 		}
 		public void Draw(Kean.Draw.IColor color)
 		{
-			this.Bind();
+			this.Setup();
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
 			GL.ClearColor(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
+			this.Teardown();
 		}
-        public void Draw(Kean.Draw.IColor color, Geometry2D.Single.Box region)
+        public void Draw(Draw.IColor color, Geometry2D.Single.Box region)
         {
-            this.Bind();
-            GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			this.Setup();
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
 			GL.Color4(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
@@ -105,24 +131,14 @@ namespace Kean.Gui.OpenGL.Backend
             GL.End();
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D); 
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
-            this.Unbind();
-        }
-        public void Draw(Kean.Draw.Gpu.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+			this.Teardown();
+		}
+        public void Draw(Gpu.Backend.IImage image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
         {
-            this.Bind();
-
-            /*
-            image.
-            GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-            GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
-            GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
-            GL.TexCoord2(leftTop.X, leftTop.Y); GL.Vertex2(rectangle.Left, rectangle.Top);
-            GL.TexCoord2(rightTop.X, rightTop.Y); GL.Vertex2(rectangle.Right, rectangle.Top);
-            GL.TexCoord2(rightBottom.X, rightBottom.Y); GL.Vertex2(rectangle.Right, rectangle.Bottom);
-            GL.TexCoord2(leftBottom.X, leftBottom.Y); GL.Vertex2(rectangle.Left, rectangle.Bottom);
-            GL.End();*/
-            this.Unbind();
-        }
+			this.Setup();
+			image.Render(source, destination);
+			this.Teardown();
+		}
 		#endregion
 	}
 }
