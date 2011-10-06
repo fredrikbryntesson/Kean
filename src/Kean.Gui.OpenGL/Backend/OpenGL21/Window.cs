@@ -24,6 +24,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 using Gpu = Kean.Draw.Gpu;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Raster = Kean.Draw.Raster;
+using Kean.Gui.OpenGL.Backend.Extension;
 
 namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
@@ -51,6 +52,14 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 				{
 					GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 					Exception.Framebuffer.Check();
+
+					GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
+					GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
+					GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+					(new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, -2.0f / this.Image.Size.Height, -1.0f, 1.0f)).Load();
+					GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+					Geometry2D.Single.Transform.Identity.Load();
+
 				}
 				protected override void Unbind()
 				{
@@ -93,7 +102,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{ }
 		protected override OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation)
 		{
-			return new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 1, 0, OpenTK.Graphics.GraphicsContextFlags.Default);
+			return new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
 		}
 		public override Gpu.Backend.IImage CreateImage()
 		{

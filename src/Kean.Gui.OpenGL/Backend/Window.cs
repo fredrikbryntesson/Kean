@@ -59,7 +59,13 @@ namespace Kean.Gui.OpenGL.Backend
 			base(size.Width, size.Height, title, options, mode, device)
 		{
 			this.redrawSignal = new System.Threading.EventWaitHandle(true, System.Threading.EventResetMode.AutoReset);
-			this.ThreadPool = new ThreadPool(this.WindowInfo, this.CreateContext, "OpenGL", 8);
+			this.ThreadPool = new ThreadPool(this.WindowInfo, w =>
+			{
+				OpenTK.Graphics.GraphicsContext result = this.CreateContext(w);
+				if (this.mainContext.IsNull())
+					this.mainContext = result;
+				return result;
+			} , "OpenGL", 8);
 			this.InitializeGpu();
 		}
 		protected abstract OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation);
@@ -72,7 +78,7 @@ namespace Kean.Gui.OpenGL.Backend
 		}
 		public override void Dispose()
 		{
-			if (this.ThreadPool != null)
+			if (this.ThreadPool.NotNull())
 			{
 				this.ThreadPool.Dispose();
 				this.ThreadPool = null;
@@ -94,7 +100,7 @@ namespace Kean.Gui.OpenGL.Backend
 		{
 			this.Visible = true;
 			this.OnResize(System.EventArgs.Empty);
-			bool redraw = false;
+			bool redraw = true;
 			while (this.Exists && !this.Exit)
 			{
 				if (redraw)
@@ -120,8 +126,11 @@ namespace Kean.Gui.OpenGL.Backend
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			this.mainContext.Update(this.WindowInfo);
-			this.redrawSignal.Set();
+			if (this.mainContext.NotNull())
+			{
+				this.mainContext.Update(this.WindowInfo);
+				this.redrawSignal.Set();
+			}
 		}
 		protected override void OnFocusedChanged(EventArgs e)
 		{

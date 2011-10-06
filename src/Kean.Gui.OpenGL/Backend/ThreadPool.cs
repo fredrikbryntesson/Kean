@@ -42,13 +42,13 @@ namespace Kean.Gui.OpenGL
 			this.contexts = new OpenTK.Graphics.GraphicsContext[workers + 1];
 			try
 			{
-				this.contexts[0] = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 0, OpenTK.Graphics.GraphicsContextFlags.Default);
+				this.contexts[0] = createContext(windowInformation);
 				this.contexts[0].MakeCurrent(windowInformation);
 				this.contexts[0].VSync = false;
 				(this.contexts[0] as OpenTK.Graphics.IGraphicsContextInternal).LoadAll();
 
 				for (int i = 1; i < this.contexts.Length; i++)
-					this.contexts[i] = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 0, OpenTK.Graphics.GraphicsContextFlags.Default);
+					this.contexts[i] = createContext(windowInformation);;
 				int j = 1;
 				this.ForEachWorker(() =>
 				{

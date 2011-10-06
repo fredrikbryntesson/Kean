@@ -73,6 +73,7 @@ namespace Kean.Gui.OpenGL
 			this.Target = new Backend.OpenGL21.Window(size, title);
 			Draw.Gpu.Backend.Factory.Implemetation = new Backend.OpenGL21.Factory();
 			this.image = new Image(this.Target.CreateImage());
+			this.VisibleChanged += v => { if (v) this.Invalidate(); };
 		}
 		~Window()
 		{

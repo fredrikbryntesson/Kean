@@ -26,6 +26,8 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			Gui.OpenGL.Test.Window.Test();
+
 			Draw.Color.Test.All.Test();
 			Draw.Gpu.Test.All.Test();
 			

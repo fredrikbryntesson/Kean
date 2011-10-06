@@ -129,6 +129,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color.Test", "src\Kean.Draw.Color.Test\Kean.Draw.Color.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL.Test", "src\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj", "{BC052502-2E40-4577-B35E-E659B8FCB6B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -391,6 +393,10 @@ Global
 		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
