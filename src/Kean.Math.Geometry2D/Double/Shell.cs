@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry2D.Double
         Abstract.Shell<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Double, double>
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
-        public Shell() { }
+        public Shell() : this(0, 0, 0, 0) { }
         public Shell(double left, double right, double top, double bottom) : base(left, right, top, bottom) { }
         public Box Decrease(Size size)
         {

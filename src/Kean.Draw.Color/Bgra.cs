@@ -26,6 +26,7 @@ namespace Kean.Draw.Color
 	{
 		public Bgr color;
 		public byte alpha;
+        public Bgra(byte blue, byte green, byte red, byte alpha) : this(new Bgr(blue, green, red), alpha) { }
 		public Bgra(Bgr color, byte alpha)
 		{
 			this.color = color;

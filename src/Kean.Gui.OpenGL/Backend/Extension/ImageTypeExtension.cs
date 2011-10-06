@@ -58,10 +58,10 @@ namespace Kean.Gui.OpenGL.Backend.Extension
 			{
 				default:
 				case Gpu.Backend.ImageType.Bgra:
-					result = OpenTK.Graphics.OpenGL.PixelFormat.Rgba;
+					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
 					break;
 				case Gpu.Backend.ImageType.Bgr:
-					result = OpenTK.Graphics.OpenGL.PixelFormat.Rgb;
+					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgr;
 					break;
 				case Gpu.Backend.ImageType.Monochrome:
 					result = OpenTK.Graphics.OpenGL.PixelFormat.Luminance;

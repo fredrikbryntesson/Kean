@@ -44,6 +44,8 @@ namespace Kean.Draw.Gpu
 		#region Draw Image
 		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
+            Gpu.Image intermediate = new Gpu.Bgra(image.Convert<Raster.Bgra>());
+            this.Backend.Draw(intermediate, source, destination);
 		}
 		#endregion
 		#region Draw Rectangle
@@ -53,6 +55,7 @@ namespace Kean.Draw.Gpu
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
+            this.Backend.Draw(color, region);
 		}
 		#endregion
 		#region Blend
@@ -63,9 +66,11 @@ namespace Kean.Draw.Gpu
 		#region Clear
 		public override void Clear()
 		{
-		}
+            this.Draw(new Color.Bgra());
+        }
 		public override void Clear(Geometry2D.Single.Box area)
 		{
+            this.Backend.Draw(new Color.Bgra(), area);
 		}
 		#endregion
 		#endregion

@@ -73,13 +73,45 @@ namespace Kean.Gui.OpenGL.Backend
 				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Image.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
 			return result;
 		}
-		public void Draw(Kean.Draw.IColor color)
+        public void Draw(Kean.Draw.IColor color)
 		{
 			this.Bind();
-			//GL.ClearColor();
+			GL.ClearColor(new OpenTK.Graphics.Color4(100,0,100,255));
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
-		}
+            this.Unbind();
+        }
+        public void Draw(Kean.Draw.IColor color, Geometry2D.Single.Box area)
+        {
+            this.Bind();
+            GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+            GL.Color4(1.0f, 0, 0, 1.0f);
+            GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+            GL.Vertex2(area.Left, area.Top);
+            GL.Vertex2(area.Right, area.Top);
+            GL.Vertex2(area.Right, area.Bottom);
+            GL.Vertex2(area.Left, area.Bottom);
+            GL.End();
+            GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+            this.Unbind();
+        }
+        public void Draw(Kean.Draw.Gpu.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+        {
+            this.Bind();
 
-		#endregion
+            /*
+            image.
+            GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+            GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+            GL.TexCoord2(leftTop.X, leftTop.Y); GL.Vertex2(rectangle.Left, rectangle.Top);
+            GL.TexCoord2(rightTop.X, rightTop.Y); GL.Vertex2(rectangle.Right, rectangle.Top);
+            GL.TexCoord2(rightBottom.X, rightBottom.Y); GL.Vertex2(rectangle.Right, rectangle.Bottom);
+            GL.TexCoord2(leftBottom.X, leftBottom.Y); GL.Vertex2(rectangle.Left, rectangle.Bottom);
+            GL.End();*/
+            this.Unbind();
+        }
+        #endregion
+
+       
 	}
 }

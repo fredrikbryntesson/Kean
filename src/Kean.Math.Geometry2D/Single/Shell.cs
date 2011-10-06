@@ -27,7 +27,7 @@ namespace Kean.Math.Geometry2D.Single
 		Abstract.Shell<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Single, float>
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
-        public Shell() { }
+        public Shell() : this(0,0,0,0) { }
         public Shell(float left, float right, float top, float bottom) : base(left, right, top, bottom) { }
         #region Casts
         public static implicit operator Shell(Integer.Shell value)
