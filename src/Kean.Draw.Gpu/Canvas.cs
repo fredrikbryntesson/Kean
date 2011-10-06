@@ -68,9 +68,9 @@ namespace Kean.Draw.Gpu
 		{
             this.Draw(new Color.Bgra());
         }
-		public override void Clear(Geometry2D.Single.Box area)
+		public override void Clear(Geometry2D.Single.Box region)
 		{
-            this.Backend.Draw(new Color.Bgra(), area);
+            this.Backend.Draw(new Color.Bgra(), region);
 		}
 		#endregion
 		#endregion

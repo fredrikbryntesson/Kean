@@ -96,13 +96,15 @@ namespace Kean.Gui.OpenGL.Backend
             GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
 			GL.Color4(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
             GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
             GL.Vertex2(region.Left, region.Top);
             GL.Vertex2(region.Right, region.Top);
             GL.Vertex2(region.Right, region.Bottom);
             GL.Vertex2(region.Left, region.Bottom);
             GL.End();
-            GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D); 
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
             this.Unbind();
         }
         public void Draw(Kean.Draw.Gpu.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)

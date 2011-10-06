@@ -88,7 +88,6 @@ namespace Kean.Draw.Gpu.Test
 			{
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Clear();
-				canvas.Image.Convert<Raster.Bgra>().Save("C:\\document\\Anders development folder\\Kean\\src\\Kean.Draw.Gpu.Test\\Correct\\Bgra\\Clear.png");
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.Clear.png")));
 			}
 		}
@@ -98,8 +97,7 @@ namespace Kean.Draw.Gpu.Test
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
 				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Clear(new Geometry2D.Single.Box(0, 0, 100, 100));
-				canvas.Image.Convert<Raster.Bgra>().Save("C:\\document\\Anders development folder\\Kean\\src\\Kean.Draw.Gpu.Test\\Correct\\Bgra\\ClearArea.png");
+				canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ClearArea.png")));
 			}
 		}

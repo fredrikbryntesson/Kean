@@ -115,7 +115,7 @@ namespace Kean.Draw
 		{
 			this.Clear((Geometry2D.Single.Size)this.Size);
 		}
-		public abstract void Clear(Geometry2D.Single.Box area);
+		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion
 		#endregion
 	}
