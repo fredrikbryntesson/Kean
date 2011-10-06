@@ -77,7 +77,7 @@ namespace Kean.Draw.Gpu.Test
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
 				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Kean.Math.Geometry2D.Single.Box(100, 100, 200, 200));
+				canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawColorRegion.png")));
 			}
 		}

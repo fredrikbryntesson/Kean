@@ -39,7 +39,7 @@ namespace Kean.Gui.OpenGL.Backend
 		Image depth;
 		public uint Framebuffer { get; private set; }
 
-		protected Canvas(Image image)
+		protected Canvas(Gpu.Backend.IImage image)
 		{
 			this.Image = image;
 			this.depth = this.CreateDepth();
@@ -48,8 +48,16 @@ namespace Kean.Gui.OpenGL.Backend
 
 		#region Inheritors Interface
 		protected abstract Image CreateDepth();
-		protected abstract uint CreateFramebuffer(Image color, Image depth);
+		protected abstract uint CreateFramebuffer(Gpu.Backend.IImage color, Image depth);
 		protected abstract void Bind();
+		protected virtual void SetupViewport()
+		{
+			GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
+			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+			GL.PushMatrix();
+			new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f).Load();
+		}
 		protected abstract void Unbind();
 		#endregion
 
@@ -59,6 +67,8 @@ namespace Kean.Gui.OpenGL.Backend
 		
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
+			this.Bind();
+			this.SetupViewport();
 			Raster.Image result;
 			switch (this.Image.Type)
 			{
@@ -73,14 +83,13 @@ namespace Kean.Gui.OpenGL.Backend
 				GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Image.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, result.Pointer);
 			return result;
 		}
-        public void Draw(Kean.Draw.IColor color)
+		public void Draw(Kean.Draw.IColor color)
 		{
 			this.Bind();
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
 			GL.ClearColor(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
-            this.Unbind();
-        }
+		}
         public void Draw(Kean.Draw.IColor color, Geometry2D.Single.Box region)
         {
             this.Bind();
@@ -112,8 +121,6 @@ namespace Kean.Gui.OpenGL.Backend
             GL.End();*/
             this.Unbind();
         }
-        #endregion
-
-       
+		#endregion
 	}
 }

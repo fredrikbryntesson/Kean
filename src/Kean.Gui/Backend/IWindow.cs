@@ -47,6 +47,12 @@ namespace Kean.Gui.Backend
 		[Notify("StateChanged")]
 		WindowState State { get; set; }
 		event Action<WindowState> StateChanged;
+		[Notify("BorderChanged")]
+		WindowBorder Border { get; set; }
+		event Action<WindowBorder> BorderChanged;
+		[Notify("VisibleChanged")]
+		bool Visible { get; set; }
+		event Action<bool> VisibleChanged;
 
 		Pointer Pointer { get; }
 		Keyboard Keyboard { get; }

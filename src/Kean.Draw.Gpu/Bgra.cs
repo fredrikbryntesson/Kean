@@ -37,7 +37,7 @@ namespace Kean.Draw.Gpu
 		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Bgra, size, coordinateSystem))
 		{ }
-		public Bgra(Draw.Gpu.Backend.IImage image) : 
+		protected Bgra(Draw.Gpu.Backend.IImage image) : 
 			base(image)
 		{ }
 		#endregion

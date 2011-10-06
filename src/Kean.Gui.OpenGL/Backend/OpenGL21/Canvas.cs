@@ -36,7 +36,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 	public class Canvas :
 		Backend.Canvas
 	{
-		internal Canvas(Image image) :
+		internal Canvas(Gpu.Backend.IImage image) :
 			base(image)
 		{
 		}
@@ -44,43 +44,26 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			return new Depth(this.Factory as OpenGL21.Factory, this.Image.Size);
 		}
-		protected override uint CreateFramebuffer(Backend.Image color, Backend.Image depth)
+		protected override uint CreateFramebuffer(Gpu.Backend.IImage color, Backend.Image depth)
 		{
 			uint result;
 			GL.GenFramebuffers(1, out result);
 			GL.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, result);
-			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, color.Identifier, 0);
-			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.DepthAttachmentExt, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, depth.Identifier, 0);
+			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color as Backend.Image).Identifier, 0);
+			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.DepthAttachmentExt, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (depth as Backend.Image).Identifier, 0);
 			Exception.Framebuffer.Check();
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 			return result;
 		}
 		protected override void Bind()
 		{
-            GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
-            GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Framebuffer);
-            Exception.Framebuffer.Check();
-            GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
-            GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
-            GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-            GL.PushMatrix();
-            (new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f)).Load();
-            GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-            GL.PushMatrix();
-            GL.LoadIdentity();
-            GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-            GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
-        
-        }
+			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Framebuffer);
+			Exception.Framebuffer.Check();
+		}
 		protected override void Unbind()
 		{
-            GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
-            Exception.Framebuffer.Check();
-            GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-            GL.PopMatrix();
-            GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-            GL.PopMatrix();
-            GL.PopAttrib();
+			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
+			Exception.Framebuffer.Check();
 		}
 	}
 }

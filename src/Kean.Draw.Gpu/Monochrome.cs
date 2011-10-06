@@ -37,7 +37,7 @@ namespace Kean.Draw.Gpu
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem))
 		{ }
-		public Monochrome(Draw.Gpu.Backend.IImage image) : 
+		protected Monochrome(Draw.Gpu.Backend.IImage image) : 
 			base(image)
 		{ }
 		#endregion

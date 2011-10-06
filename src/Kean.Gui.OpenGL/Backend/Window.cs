@@ -1,4 +1,25 @@
-﻿using System;
+﻿// 
+//  Window.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2011 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Error = Kean.Core.Error;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
@@ -6,6 +27,8 @@ using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Parallel = Kean.Core.Parallel;
+using Gpu = Kean.Draw.Gpu;
+using Raster = Kean.Draw.Raster;
 
 namespace Kean.Gui.OpenGL.Backend
 {
@@ -16,7 +39,7 @@ namespace Kean.Gui.OpenGL.Backend
 		System.Threading.EventWaitHandle redrawSignal;
 		public Parallel.ThreadPool ThreadPool { get; private set; }
 		OpenTK.Graphics.IGraphicsContext mainContext;
-
+		public event Action Render;
 		public string Clipboard
 		{
 			get { return System.Windows.Forms.Clipboard.GetText(); }
@@ -40,6 +63,7 @@ namespace Kean.Gui.OpenGL.Backend
 			this.InitializeGpu();
 		}
 		protected abstract OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation);
+		public abstract Gpu.Backend.IImage CreateImage();
 		protected virtual void InitializeGpu()
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
@@ -75,7 +99,7 @@ namespace Kean.Gui.OpenGL.Backend
 			{
 				if (redraw)
 				{
-					this.Draw();
+					this.Render.Call();
 					if (this.mainContext.NotNull())
 					{
 						this.mainContext.VSync = false;
@@ -85,10 +109,6 @@ namespace Kean.Gui.OpenGL.Backend
 				base.ProcessEvents();
 				redraw = this.redrawSignal.WaitOne(20);
 			}
-		}
-
-		protected virtual void Draw()
-		{
 		}
 		/// <summary>
 		/// If called, Draw will be called during next rendering callback.

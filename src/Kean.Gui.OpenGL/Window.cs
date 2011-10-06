@@ -25,34 +25,46 @@ using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using Parallel = Kean.Core.Parallel;
 using Kean.Gui.OpenGL.Backend.Extension;
+using Gpu = Kean.Draw.Gpu;
 
 namespace Kean.Gui.OpenGL
 {
 	public class Window :
 		Gui.Backend.IWindow
 	{
+		class Image :
+			Gpu.Bgra
+		{
+			public Image(Gpu.Backend.IImage backend) :
+				base(backend)
+			{ }
+		}
 		Backend.Window target;
 		Backend.Window Target
 		{
 			get { return this.target; }
 			set 
 			{
-				this.target = value;
-				if (this.target.NotNull())
+				if (this.target.IsNull() && value.NotNull())
 				{
+					this.target = value;
+
 					this.target.IconChanged += (sender, e) => this.IconChanged.Call(this.Icon);
 					this.target.TitleChanged += (sender, e) => this.TitleChanged.Call(this.Title);
 					this.target.Move += (sender, e) => this.PositionChanged.Call(this.Position);
 					this.target.Resize += (sender, e) => this.SizeChanged.Call(this.Size);
 					this.target.WindowStateChanged += (sender, e) => this.StateChanged.Call(this.State);
-					this.target.WindowBorderChanged += (sender, e) => this.BorderChanged.Call(this.State);
+					this.target.WindowBorderChanged += (sender, e) => this.BorderChanged.Call(this.Border);
+					this.target.VisibleChanged += (sender, e) => this.VisibleChanged.Call(this.Visible);
+
 					this.target.InputDriver.Keyboard[0].KeyRepeat = true;
 					this.Keyboard = new Backend.Input.Keyboard(this.target);
 					this.Pointer = new Backend.Input.Pointer(this.target);
+					this.target.Render += () => this.Render(this.image.Canvas);
 				}
 			}
 		}
-
+		Image image;
 		bool invalidated;
 		bool validClose;
 
@@ -60,6 +72,7 @@ namespace Kean.Gui.OpenGL
 		{
 			this.Target = new Backend.OpenGL21.Window(size, title);
 			Draw.Gpu.Backend.Factory.Implemetation = new Backend.OpenGL21.Factory();
+			this.image = new Image(this.Target.CreateImage());
 		}
 		~Window()
 		{
@@ -129,17 +142,25 @@ namespace Kean.Gui.OpenGL
 			get { return this.target.WindowBorder.AsKean(); }
 			set { this.target.WindowBorder = value.AsOpenTK(); }
 		}
-		public event Action<WindowState> BorderChanged;
+		public event Action<WindowBorder> BorderChanged;
+		#endregion
+		#region Visible
+		public bool Visible
+		{
+			get { return this.target.Visible; }
+			set { this.target.Visible = value; }
+		}
+		public event Action<bool> VisibleChanged;
 		#endregion
 		public event Action<Draw.Canvas> Render;
+		public void Run()
+		{
+			this.Target.Run();
+		}
 		public void Invalidate()
 		{
 			this.invalidated = true;
 			this.target.Redraw();
-		}
-
-		public void Run()
-		{
 		}
 		object idlingLock = new object();
 		Action idling;
