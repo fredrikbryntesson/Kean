@@ -111,7 +111,7 @@ namespace Kean.Draw.Gpu.Test
 				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Point(500, 200));
-				canvas.Image.Convert<Raster.Bgra>().Save("test.png");
+				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnPosition.png")));
 			}
 		}
 		[Test]
@@ -121,8 +121,8 @@ namespace Kean.Draw.Gpu.Test
 			{
 				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(part, new Geometry2D.Single.Box(0,0,50,50), new Geometry2D.Single.Box(500,200,300,400));
-				canvas.Image.Convert<Raster.Bgra>().Save("test.png");
+				canvas.Draw(part, new Geometry2D.Single.Box(0,0,50,100), new Geometry2D.Single.Box(200,200,100,100));
+				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegion.png")));
 			}
 		}
 		[Test]

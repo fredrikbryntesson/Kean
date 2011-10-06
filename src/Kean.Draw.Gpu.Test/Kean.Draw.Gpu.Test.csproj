@@ -123,6 +123,12 @@
     <EmbeddedResource Include="Correct\Bgra\ClearArea.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\DrawImageOnPosition.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\DrawImageOnRegion.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Correct\Bgr\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
