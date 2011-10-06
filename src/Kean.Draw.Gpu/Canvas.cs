@@ -65,6 +65,7 @@ namespace Kean.Draw.Gpu
 		#region Blend
 		public override void Blend(float factor)
 		{
+			this.Backend.Blend(factor);
 		}
 		#endregion
 		#region Clear

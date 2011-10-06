@@ -139,6 +139,25 @@ namespace Kean.Gui.OpenGL.Backend
 			image.Render(source, destination);
 			this.Teardown();
 		}
+		//TODO Not working.
+		public void Blend(float factor)
+		{
+			this.Setup();
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.Color4(new OpenTK.Graphics.Color4(factor, factor, factor, factor));
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.One);
+			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncReverseSubtract);
+			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+			GL.Vertex2(0, 0);
+			GL.Vertex2(this.Image.Size.Width, 0);
+			GL.Vertex2(this.Image.Size.Width, this.Image.Size.Height);
+			GL.Vertex2(0, this.Image.Size.Height);
+			GL.End();
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncAdd);
+			this.Teardown();
+		}
 		#endregion
 	}
 }

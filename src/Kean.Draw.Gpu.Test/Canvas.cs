@@ -129,7 +129,12 @@ namespace Kean.Draw.Gpu.Test
 		public void Blend()
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
+			{
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Canvas canvas = image.Canvas;
+				canvas.Blend(0.5f);
+				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.Blend.png")));
+			}
 		}
 
 	}
