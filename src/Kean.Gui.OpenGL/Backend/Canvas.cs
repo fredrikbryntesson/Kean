@@ -76,20 +76,22 @@ namespace Kean.Gui.OpenGL.Backend
         public void Draw(Kean.Draw.IColor color)
 		{
 			this.Bind();
-			GL.ClearColor(new OpenTK.Graphics.Color4(100,0,100,255));
+			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
+			GL.ClearColor(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
             this.Unbind();
         }
-        public void Draw(Kean.Draw.IColor color, Geometry2D.Single.Box area)
+        public void Draw(Kean.Draw.IColor color, Geometry2D.Single.Box region)
         {
             this.Bind();
             GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
-            GL.Color4(1.0f, 0, 0, 1.0f);
+			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
+			GL.Color4(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
             GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
-            GL.Vertex2(area.Left, area.Top);
-            GL.Vertex2(area.Right, area.Top);
-            GL.Vertex2(area.Right, area.Bottom);
-            GL.Vertex2(area.Left, area.Bottom);
+            GL.Vertex2(region.Left, region.Top);
+            GL.Vertex2(region.Right, region.Top);
+            GL.Vertex2(region.Right, region.Bottom);
+            GL.Vertex2(region.Left, region.Bottom);
             GL.End();
             GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
             this.Unbind();
