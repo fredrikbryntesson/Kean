@@ -12,5 +12,7 @@ namespace Kean.Draw.Gpu.Backend
         void Draw(Draw.IColor color, Geometry2D.Single.Box region);
         void Draw(IImage image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		void Blend(float factor);
+		Geometry2D.Single.Box Clip { get; set; }
+		Geometry2D.Single.Transform Transform { get; set; }
     }
 }

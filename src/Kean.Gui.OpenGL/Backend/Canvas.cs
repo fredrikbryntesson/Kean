@@ -38,7 +38,8 @@ namespace Kean.Gui.OpenGL.Backend
 	{
 		Image depth;
 		public uint Framebuffer { get; private set; }
-
+		public Geometry2D.Single.Box Clip { get; set; }
+		public Geometry2D.Single.Transform Transform { get; set; }
 		protected Canvas(Gpu.Backend.IImage image)
 		{
 			this.Image = image;
@@ -73,15 +74,61 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.PopAttrib();
 		}
 		protected abstract void Unbind();
+		protected virtual void SetupClippingPlanes()
+		{
+			if (this.Clip.NotNull())
+			{
+				double[] left = new double[] { 1.0, 0.0, 0.0, -this.Clip.Left };
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane0, ref left[0]);
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
+				double[] right = new double[] { -1.0, 0.0, 0.0, this.Clip.Right };
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane1, ref right[0]);
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
+				double[] top = new double[] { 0.0, 1.0, 0.0, -this.Clip.Top };
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane2, ref top[0]);
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
+				double[] bottom = new double[] { 0.0, -1.0, 0.0, this.Clip.Bottom };
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane3, ref bottom[0]);
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
+			}
+		}
+		protected virtual void TearDownClippingPlanes()
+		{
+			if (this.Clip.NotNull())
+			{
+				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
+				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
+				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
+				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
+			}
+		}
+		protected virtual void SetupTransform()
+		{
+			if (this.Transform.NotNull())
+			{
+
+				Geometry2D.Single.Transform translation = Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)(this.Image.Size) / 2.0f);
+				(translation * this.Transform * translation.Inverse).Load();
+			}
+		}
+		protected virtual void TearDownTransform()
+		{
+			if (this.Transform.NotNull())
+				Geometry2D.Single.Transform.Identity.Load();
+		}
 		#endregion
 		void Setup()
 		{
 			this.Bind();
 			this.SetupViewport();
+			this.SetupClippingPlanes();
+			this.SetupTransform();
 		}
 		void Teardown()
 		{
 			this.Unbind();
+			this.TearDownClippingPlanes();
+			this.TearDownTransform();
 			this.TeardownViewport();
 		}
 		#region ICanvas Members
@@ -139,7 +186,7 @@ namespace Kean.Gui.OpenGL.Backend
 			image.Render(source, destination);
 			this.Teardown();
 		}
-		//TODO Not working.
+		
 		public void Blend(float factor)
 		{
 			this.Setup();

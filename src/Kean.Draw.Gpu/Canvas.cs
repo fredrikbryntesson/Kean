@@ -28,10 +28,12 @@ namespace Kean.Draw.Gpu
 		#region Clip, Transform, Push & Pop
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
+			this.Backend.Clip = clip;
 			return clip;
 		}
 		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
 		{
+			this.Backend.Transform = transform;
 			return transform;
 		}
 		#endregion

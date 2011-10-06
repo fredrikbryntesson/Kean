@@ -132,6 +132,18 @@
     <EmbeddedResource Include="Correct\Bgra\Blend.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\DrawColorRegionWithClipping.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\DrawImageOnRegionWithClipping.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\BlendWithClipping.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\DrawColorRegionWithTransformAndClipping.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Correct\Bgr\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
