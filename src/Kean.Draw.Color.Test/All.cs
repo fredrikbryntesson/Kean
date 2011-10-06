@@ -1,8 +1,8 @@
 ﻿// 
-//  IColor.cs
+//  All.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
 //  Copyright (c) 2011 Simon Mika
 // 
@@ -20,15 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Draw
+
+namespace Kean.Draw.Color.Test
 {
-	public interface IColor
+	public static class All
 	{
-		//void Set<T>(T color) where T : IColor;
-		T Convert<T>() where T : IColor, new();
-		IColor Copy();
-		//IColor Add(float factor, IColor other);
-		//IColor Substract(float factor, IColor other);
-		//float Distance(IColor other);
+		public static void Test()
+		{
+			Convert.Test();
+		}
 	}
 }

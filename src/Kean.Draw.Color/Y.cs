@@ -66,5 +66,34 @@ namespace Kean.Draw.Color
 			return value.y / 255.0;
 		}
 		#endregion
+		#region IColor Members
+		public IColor Copy()
+		{
+			return new Y(this.y);
+		}
+		public T Convert<T>() where T : IColor, new()
+		{
+			T result = default(T);
+			if (typeof(T) == typeof(Y))
+				result = (T)(IColor)this;
+			else if (typeof(T) == typeof(Yuv))
+				Color.Convert.FromY((Yuv v) => result = (T)(IColor)v)(this);
+			else if (typeof(T) == typeof(Bgr))
+				Color.Convert.FromY((Bgr v) => result = (T)(IColor)v)(this);
+			else if (typeof(T) == typeof(Bgra))
+			{
+				Bgr color = new Bgr();
+				Color.Convert.FromY((Bgr v) => color = (Bgr)(IColor)v)(this);
+				result = (T)(IColor)new Bgra(color,255);
+			}
+			return result;
+		}
+		#endregion
+		#region Object Overides
+		public override string ToString()
+		{
+			return this.y.ToString();
+		}
+		#endregion
 	}
 }

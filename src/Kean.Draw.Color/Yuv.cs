@@ -33,5 +33,34 @@ namespace Kean.Draw.Color
 			this.u = u;
 			this.v = v;
 		}
+		#region IColor Members
+		public IColor Copy()
+		{
+			return new Yuv(this.y, this.u, this.v);
+		}
+		public T Convert<T>() where T : IColor, new()
+		{
+			T result = default(T);
+			if (typeof(T) == typeof(Y))
+				Color.Convert.FromYuv((Y v) => result = (T)(IColor)v)(this);
+			else if (typeof(T) == typeof(Yuv))
+				result = (T)(IColor)this;
+			else if (typeof(T) == typeof(Bgr))
+				Color.Convert.FromYuv((Bgr v) => result = (T)(IColor)v)(this);
+			else if (typeof(T) == typeof(Bgra))
+			{
+				Bgr color = new Bgr();
+				Color.Convert.FromYuv((Bgr v) => color = (Bgr)(IColor)v)(this);
+				result = (T)(IColor)new Bgra(color, 255);
+			}
+			return result;
+		}
+		#endregion
+		#region Object Overides
+		public override string ToString()
+		{
+			return this.y + " " + this.u + " " + this.v;
+		}
+		#endregion
 	}
 }

@@ -26,11 +26,36 @@ namespace Kean.Draw.Color
 	{
 		public Bgr color;
 		public byte alpha;
-        public Bgra(byte blue, byte green, byte red, byte alpha) : this(new Bgr(blue, green, red), alpha) { }
+		public Bgra(byte blue, byte green, byte red, byte alpha) : this(new Bgr(blue, green, red), alpha) { }
 		public Bgra(Bgr color, byte alpha)
 		{
 			this.color = color;
 			this.alpha = alpha;
 		}
+		#region IColor Members
+		public IColor Copy()
+		{
+			return new Bgra(this.color, this.alpha);
+		}
+		public T Convert<T>() where T : IColor, new()
+		{
+			T result = default(T);
+			if (typeof(T) == typeof(Y))
+				Color.Convert.FromBgr((Y v) => result = (T)(IColor)v)(this.color);
+			else if (typeof(T) == typeof(Yuv))
+				Color.Convert.FromBgr((Yuv v) => result = (T)(IColor)v)(this.color);
+			else if (typeof(T) == typeof(Bgr))
+				result = (T)(IColor)this.color;
+			else if (typeof(T) == typeof(Bgra))
+				result = (T)(IColor)this;
+			return result;
+		}
+		#endregion
+		#region Object Overides
+		public override string ToString()
+		{
+			return this.color.ToString() + " " + this.alpha;
+		}
+		#endregion
 	}
 }

@@ -127,6 +127,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize", "src\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize.Test", "src\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj", "{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color.Test", "src\Kean.Draw.Color.Test\Kean.Draw.Color.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -385,6 +387,10 @@ Global
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFD4052-3FE8-4B58-8833-349550F073E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

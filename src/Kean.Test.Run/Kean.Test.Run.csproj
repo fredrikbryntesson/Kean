@@ -56,6 +56,10 @@
       <Project>{C7D3F01E-01B5-463E-A574-29B5F97E38BF}</Project>
       <Name>Kean.Core.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Color.Test\Kean.Draw.Color.Test.csproj">
+      <Project>{3EFD4052-3FE8-4B58-8833-349550F073E8}</Project>
+      <Name>Kean.Draw.Color.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
       <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
       <Name>Kean.Draw.Gpu.Test</Name>

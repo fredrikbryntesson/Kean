@@ -26,8 +26,9 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			Draw.Color.Test.All.Test();
 			Draw.Gpu.Test.All.Test();
-			/*
+			
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
 			Core.Uri.Test.All.Test();
@@ -43,7 +44,7 @@ namespace Kean.Test.Run
             Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
-			*/
+			
 		}
 	}
 }
