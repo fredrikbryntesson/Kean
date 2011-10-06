@@ -41,7 +41,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
         {
             string textFromValue = new Target.Integer.PointValue(10, 20);
             Expect(textFromValue, Is.EqualTo("10, 20"));
-            Target.Integer.PointValue @integerFromText = "10 20";
+            Target.Integer.PointValue @integerFromText = "10, 20";
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
         }

@@ -58,6 +58,7 @@ namespace Kean.Gui.Backend
 		Keyboard Keyboard { get; }
 		IClipboard Clipboard { get; }
 		Parallel.ThreadPool ThreadPool { get; }
+
 		event Action<Draw.Canvas> Render;
 		void Invalidate();
 		void Run();

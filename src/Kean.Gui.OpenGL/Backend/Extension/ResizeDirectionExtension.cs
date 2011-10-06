@@ -19,21 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Geometry2D = Kean.Math.Geometry2D;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using Error = Kean.Core.Error;
-using Log = Kean.Extra.Log;
-using Draw = Kean.Draw;
-using Gpu = Kean.Draw.Gpu;
-using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Backend.Extension;
-
 namespace Kean.Gui.OpenGL.Backend.Extension
 {
-	public static class ResizeDirectionExtension
+	static class ResizeDirectionExtension
 	{
-		public static OpenTK.ResizeDirection AsOpenTK(this Gui.Backend.ResizeDirection me)
+		public static OpenTK.ResizeDirection Convert(this Gui.Backend.ResizeDirection me)
 		{
 			OpenTK.ResizeDirection result;
 			switch (me)

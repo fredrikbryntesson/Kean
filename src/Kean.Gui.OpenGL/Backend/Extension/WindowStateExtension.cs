@@ -19,21 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Geometry2D = Kean.Math.Geometry2D;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using Error = Kean.Core.Error;
-using Log = Kean.Extra.Log;
-using Draw = Kean.Draw;
-using Gpu = Kean.Draw.Gpu;
-using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Backend.Extension;
-
 namespace Kean.Gui.OpenGL.Backend.Extension
 {
-	public static class WindowStateExtension
+	static class WindowStateExtension
 	{
-		public static Gui.WindowState AsKean(this OpenTK.WindowState me)
+		public static Gui.WindowState Convert(this OpenTK.WindowState me)
 		{
 			Gui.WindowState result;
 			switch (me)
@@ -54,7 +44,7 @@ namespace Kean.Gui.OpenGL.Backend.Extension
 			}
 			return result;
 		}
-		public static OpenTK.WindowState AsOpenTK(this Gui.WindowState me)
+		public static OpenTK.WindowState Convert(this Gui.WindowState me)
 		{
 			OpenTK.WindowState result;
 			switch (me)

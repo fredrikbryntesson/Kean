@@ -126,22 +126,22 @@ namespace Kean.Gui.OpenGL
 		public event Action<Geometry2D.Single.Size> SizeChanged;
 		public void StartResize(Gui.Backend.ResizeDirection direction)
 		{
-			this.target.StartResize(direction.AsOpenTK());
+			this.target.StartResize(direction.Convert());
 		}
 		#endregion
 		#region State
 		public WindowState State
 		{
-			get { return this.target.WindowState.AsKean(); }
-			set { this.target.WindowState = value.AsOpenTK(); }
+			get { return this.target.WindowState.Convert(); }
+			set { this.target.WindowState = value.Convert(); }
 		}
 		public event Action<WindowState> StateChanged;
 		#endregion
 		#region Border
 		public WindowBorder Border
 		{
-			get { return this.target.WindowBorder.AsKean(); }
-			set { this.target.WindowBorder = value.AsOpenTK(); }
+			get { return this.target.WindowBorder.Convert(); }
+			set { this.target.WindowBorder = value.Convert(); }
 		}
 		public event Action<WindowBorder> BorderChanged;
 		#endregion

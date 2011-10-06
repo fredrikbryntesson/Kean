@@ -19,21 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Geometry2D = Kean.Math.Geometry2D;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using Error = Kean.Core.Error;
-using Log = Kean.Extra.Log;
-using Draw = Kean.Draw;
-using Gpu = Kean.Draw.Gpu;
-using Raster = Kean.Draw.Raster;
-using Kean.Gui.OpenGL.Backend.Extension;
-
 namespace Kean.Gui.OpenGL.Backend.Extension
 {
-	public static class WindowBorderExtension
+	static class WindowBorderExtension
 	{
-		public static Gui.WindowBorder AsKean(this OpenTK.WindowBorder me)
+		public static Gui.WindowBorder Convert(this OpenTK.WindowBorder me)
 		{
 			Gui.WindowBorder result;
 			switch (me)
@@ -51,7 +41,7 @@ namespace Kean.Gui.OpenGL.Backend.Extension
 			}
 			return result;
 		}
-		public static OpenTK.WindowBorder AsOpenTK(this Gui.WindowBorder me)
+		public static OpenTK.WindowBorder Convert(this Gui.WindowBorder me)
 		{
 			OpenTK.WindowBorder result;
 			switch (me)
