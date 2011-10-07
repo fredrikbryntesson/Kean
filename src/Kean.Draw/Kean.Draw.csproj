@@ -44,6 +44,12 @@
     <Compile Include="CoordinateSystem.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="Path.cs" />
+    <Compile Include="PathSegment\Abstract.cs" />
+    <Compile Include="PathSegment\EllipticalArcTo.cs" />
+    <Compile Include="PathSegment\CurveTo.cs" />
+    <Compile Include="PathSegment\LineTo.cs" />
+    <Compile Include="PathSegment\MoveTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
