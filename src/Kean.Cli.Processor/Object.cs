@@ -46,13 +46,12 @@ namespace Kean.Cli.Processor
 						MemberAttribute[] attributes = member.GetAttributes<MemberAttribute>();
 						if (attributes.Length == 1)
 						{
-							if (attributes[0] is ObjectAttribute && member is Reflect.Property && (member as Reflect.Property).Readable)
+							if (attributes[0] is ObjectAttribute && member is Reflect.Property && (member as Reflect.Property).Readable && (member as Reflect.Property).Data.NotNull())
 								this.members.Add(new Object(attributes[0] as ObjectAttribute, member as Reflect.Property, this));
 							else if (attributes[0] is PropertyAttribute)
 							    this.members.Add(new Property(attributes[0] as PropertyAttribute, member as Reflect.Property, this));
 							else if (attributes[0] is MethodAttribute)
 							    this.members.Add(new Method(attributes[0] as MethodAttribute, member as Reflect.Method, this));
-
 						}
 					}
 				}

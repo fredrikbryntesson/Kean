@@ -112,6 +112,10 @@ namespace Kean.Cli.Processor
 		{
 			this.lineBuffer.Read();
 		}
+		public void Close()
+		{
+			this.lineBuffer.Close();
+		}
 		internal void Answer(Member member, params string[] parameters)
 		{
 			this.lineBuffer.WriteLine("$ " + member + " " + string.Join(" ", parameters));

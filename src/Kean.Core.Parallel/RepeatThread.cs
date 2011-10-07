@@ -68,7 +68,7 @@ namespace Kean.Core.Parallel
 		#endregion
 		public bool Stop()
 		{
-			return this.Join(50);
+			return this.Join(100);
 		}
 		public override bool Join(int timeOut)
 		{

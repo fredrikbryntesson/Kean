@@ -18,7 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core.Extension;
 namespace Kean.Cli.Processor.Test.Command
 {
 	public class Application
@@ -33,14 +35,23 @@ namespace Kean.Cli.Processor.Test.Command
 		public Geometry2D.Single Single { get; private set; }
 		[Object("geometryDouble", "2D Geometry types.")]
 		public Geometry2D.Double Double { get; private set; }
-		
-		public Application()
+
+		Action close;
+		public Application(Action exit)
 		{
+			this.close = exit;
 			this.Configuration = new Configuration(this);
 			this.Media = new Media();
 			this.Integer = new Geometry2D.Integer();
 			this.Single = new Geometry2D.Single();
 			this.Double = new Geometry2D.Double();
+		}
+
+		[Method("close", "Close the application.")]
+		public bool Close()
+		{
+			this.close.Call();
+			return this.close.NotNull();
 		}
 	}
 }

@@ -81,7 +81,14 @@ namespace Kean.IO.Net.Tcp
 				this.tcpListener.Start();
 				this.listener = Parallel.RepeatThread.Start("TcpServer", () => 
 				{
-					this.ThreadPool.Enqueue(this.Connected, Connection.Connect(this.tcpListener.AcceptTcpClient()));
+					try
+					{
+						this.ThreadPool.Enqueue(this.Connected, Connection.Connect(this.tcpListener.AcceptTcpClient()));
+					}
+					catch (System.Net.Sockets.SocketException)
+					{
+						System.Threading.Thread.CurrentThread.Abort();
+					}
 				});
 			}
 			return result;
@@ -105,6 +112,7 @@ namespace Kean.IO.Net.Tcp
 		}
 		public bool Stop()
 		{
+			this.tcpListener.Stop();
 			return this.listener.Stop();
 		}
 		#region IDisposable Members
@@ -112,7 +120,8 @@ namespace Kean.IO.Net.Tcp
 		{
 			if (this.listener.NotNull())
 			{
-				this.listener.Stop();
+				this.Stop();
+				this.listener.Abort();
 				this.listener.Dispose();
 				this.listener = null;
 				this.tcpListener = null;

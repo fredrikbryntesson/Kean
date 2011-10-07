@@ -27,17 +27,18 @@ namespace Kean.Cli.Processor.Test
 	{
 		static void Main(string[] args)
 		{
-			Command.Application application = new Command.Application();
+			Action close = null;
+			Command.Application application = new Command.Application(close);
 			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
 			{
-				new Editor(application, 
-					new VT100(
-						new IO.CharacterDevice(
-							new IO.Net.Telnet.Server(connection)))).Read();
+				close += () => { connection.Close(); connection.Dispose(); };
+				new Editor(application, new VT100(new IO.CharacterDevice(new IO.Net.Telnet.Server(connection)))).Read();
 			}
-			, 22);
-			Editor editor = new Editor(application, new ConsoleTerminal());
-			editor.Read();
+			, 23);
+			close += () => { server.Stop(); server.Dispose(); };
+			//Editor editor = null;
+			//editor = new Editor(application, new ConsoleTerminal());
+			//editor.Read();
 		}
 	}
 }
