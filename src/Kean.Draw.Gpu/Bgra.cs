@@ -45,8 +45,11 @@ namespace Kean.Draw.Gpu
 		public override T Convert<T>()
 		{
 			T result = null;
+			Raster.Image backend = this.Backend.Read();
 			if (typeof(T) == typeof(Raster.Bgra))
-				result = this.Backend.Read() as T;
+				result = backend as T;
+			else if (typeof(T) == typeof(Raster.Bgr) || typeof(T) == typeof(Raster.Monochrome))
+				result = backend.Convert<T>() as T;
 			return result;
 		}
 		// TODO:  Resize Bgra using GPU

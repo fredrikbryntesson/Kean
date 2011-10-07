@@ -145,6 +145,17 @@
     <EmbeddedResource Include="Correct\Bgra\DrawColorRegionWithTransformAndClipping.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Correct\Monochrome\ClearArea.png" />
+    <EmbeddedResource Include="Correct\Monochrome\ConvertToRaster.png" />
+    <EmbeddedResource Include="Correct\Monochrome\CreateFromRaster.png" />
+    <EmbeddedResource Include="Correct\Monochrome\DrawColor.png" />
+    <EmbeddedResource Include="Correct\Monochrome\DrawColorRegion.png" />
+    <EmbeddedResource Include="Correct\Monochrome\DrawImageOnBgra.png" />
+    <EmbeddedResource Include="Correct\Monochrome\DrawImageOnRegion.png" />
+    <EmbeddedResource Include="Correct\Monochrome\ResizeTo.png" />
+    <EmbeddedResource Include="Correct\Monochrome\ResizeWithin.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Correct\Bgr\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

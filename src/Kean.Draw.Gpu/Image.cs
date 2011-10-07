@@ -90,6 +90,8 @@ namespace Kean.Draw.Gpu
 			{
 				if (image is Raster.Bgra)
 					result = new Bgra(image as Raster.Bgra);
+				else if (image is Raster.Monochrome)
+					result = new Monochrome(image as Raster.Monochrome);
 				else
 					result = new Bgra(image.Convert<Raster.Bgra>());
 			}

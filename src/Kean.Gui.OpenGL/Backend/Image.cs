@@ -144,6 +144,12 @@ namespace Kean.Gui.OpenGL.Backend
 				case Gpu.Backend.ImageType.Bgra:
 					result = new Raster.Bgra(this.Size);
 					break;
+				case Gpu.Backend.ImageType.Bgr:
+					result = new Raster.Bgr(this.Size);
+					break;
+				case Gpu.Backend.ImageType.Monochrome:
+					result = new Raster.Monochrome(this.Size);
+					break;
 				default:
 					result = null;
 					break;
@@ -163,6 +169,7 @@ namespace Kean.Gui.OpenGL.Backend
 		}
 		public void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
+			this.Bind();
 			Geometry2D.Single.PointValue leftTop = new Geometry2D.Single.PointValue(source.Left / this.Size.Width, source.Top / this.Size.Height);
 			Geometry2D.Single.PointValue rightTop = new Geometry2D.Single.PointValue(source.Right / this.Size.Width, source.Top / this.Size.Height);
 			Geometry2D.Single.PointValue leftBottom = new Geometry2D.Single.PointValue(source.Left / this.Size.Width, source.Bottom / this.Size.Height);
@@ -175,6 +182,7 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.TexCoord2(rightBottom.X, rightBottom.Y); GL.Vertex2(destination.Right, destination.Bottom);
 			GL.TexCoord2(leftBottom.X, leftBottom.Y); GL.Vertex2(destination.Left, destination.Bottom);
 			GL.End();
+			this.Unbind();
 		}
 		#endregion
 	}

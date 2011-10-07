@@ -29,6 +29,17 @@ namespace Kean.Draw.Gpu.Test
 	public class Bgra :
 		Abstract<Bgra>
 	{
+		protected override void Run()
+		{
+			this.Run(
+				this.Create,
+				this.Equality,
+				this.CreateFromRaster,
+				this.Copy,
+				this.ResizeTo,
+				this.ResizeWithin
+				);
+		}
 		[Test]
 		public void Create()
 		{
@@ -48,12 +59,13 @@ namespace Kean.Draw.Gpu.Test
 				Expect(a, Is.Not.EqualTo(b));
 			}
 		}
+		/*
 		[Test]
 		public void ConvertToRaster()
 		{
 			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
 				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ConvertToRaster.png")));
-		}
+		}*/
 		[Test]
 		public void CreateFromRaster()
 		{
@@ -77,18 +89,6 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
-		}
-		protected override void Run()
-		{
-			this.Run(
-				this.Create,
-				this.Equality,
-				this.ConvertToRaster,
-				this.CreateFromRaster,
-				this.Copy,
-				this.ResizeTo,
-				this.ResizeWithin
-				);
 		}
 	}
 }

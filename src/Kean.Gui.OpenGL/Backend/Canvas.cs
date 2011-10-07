@@ -137,11 +137,8 @@ namespace Kean.Gui.OpenGL.Backend
 		
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
-			return this.Read(region, this.Image.Type);
-		}
-		public Raster.Image Read(Geometry2D.Integer.Box region, Kean.Draw.Gpu.Backend.ImageType type)
-		{
 			Raster.Image result;
+			Kean.Draw.Gpu.Backend.ImageType type = this.Image.Type;
 			switch (type)
 			{
 				case Gpu.Backend.ImageType.Bgra:

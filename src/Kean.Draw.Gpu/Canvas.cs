@@ -23,15 +23,6 @@ namespace Kean.Draw.Gpu
 		{
 			return this.Backend.Read(region);
 		}
-		public Raster.Image Read(Backend.ImageType type)
-		{
-			return this.Backend.Read(new Geometry2D.Integer.Box(new Geometry2D.Integer.Point(), this.Size), type);
-		}
-		public Raster.Image Read(Geometry2D.Integer.Box region, Backend.ImageType type)
-		{
-			return this.Backend.Read(region, type);
-		}
-
 		#region Draw.Canvas Overrides
 		#region Clip, Transform, Push & Pop
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
