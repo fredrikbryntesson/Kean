@@ -25,19 +25,24 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Gpu
 {
 	public class Monochrome :
-		Image
+		Packed
 	{
 		#region Constructors
 		public Monochrome(Raster.Monochrome image) :
 			base(Gpu.Backend.Factory.CreateImage(image))
 		{ }
+		public Monochrome(Gpu.Image image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			// TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
+		}		
 		public Monochrome(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem))
 		{ }
-		protected Monochrome(Draw.Gpu.Backend.IImage image) : 
+		protected internal Monochrome(Draw.Gpu.Backend.IImage image) : 
 			base(image)
 		{ }
 		#endregion

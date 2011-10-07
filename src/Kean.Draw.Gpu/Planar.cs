@@ -1,5 +1,5 @@
 ﻿// 
-//  Compression.cs
+//  Planar.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,15 +19,18 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using Buffer = Kean.Core.Buffer;
+using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Raster
+namespace Kean.Draw.Gpu
 {
-	public enum Compression
+	public abstract class Planar :
+		Image
 	{
-		Jpeg,
-		Png,
-		Bmp,
-		Gif,
+		protected Planar(Planar original) :
+			base(original) { }
+		protected Planar(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(size, coordinateSystem) { }
+
 	}
 }

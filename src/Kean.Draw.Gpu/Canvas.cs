@@ -9,7 +9,7 @@ namespace Kean.Draw.Gpu
 	{
 		protected internal Backend.ICanvas Backend { get; private set; }
 
-		internal Canvas(Image image) :
+		internal Canvas(Packed image) :
 			base(image)
 		{
 			this.Backend = image.Backend.Canvas;
@@ -48,9 +48,9 @@ namespace Kean.Draw.Gpu
 		{
 			if (!(image is Gpu.Image))
 				using (image = Gpu.Image.Create(image))
-					this.Backend.Draw((image as Gpu.Image).Backend, source, destination);
+					this.Backend.Draw((image as Gpu.Packed).Backend, source, destination);
 			else
-				this.Backend.Draw((image as Gpu.Image).Backend, source, destination);
+				this.Backend.Draw((image as Gpu.Packed).Backend, source, destination);
 		}
 		#endregion
 		#region Draw Rectangle

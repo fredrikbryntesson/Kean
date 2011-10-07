@@ -158,7 +158,7 @@ namespace Kean.Gui.OpenGL.Backend
 				this.Read(result.Pointer);
 			return result;
 		}
-		// TODO Use GPU to copy instead.
+		// TODO: Use GPU to copy instead.
 		public Gpu.Backend.IImage Copy()
 		{
 			return Gpu.Backend.Factory.CreateImage(this.Read());

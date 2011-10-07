@@ -108,7 +108,7 @@ namespace Kean.Draw
 			this.Wrap = wrap;
 		}
 		public abstract T Convert<T>() where T : Image;
-		public virtual Draw.Image ResizeWithin(Geometry2D.Integer.Size restriction)
+		public Draw.Image ResizeWithin(Geometry2D.Integer.Size restriction)
 		{
 			return this.ResizeTo((Geometry2D.Integer.Size)((Geometry2D.Single.Size)this.Size * Math.Single.Minimum((float)restriction.Width / (float)this.Size.Width, (float)restriction.Height / (float)this.Size.Height)));
 		}
@@ -133,7 +133,8 @@ namespace Kean.Draw
 		}
 		#region IDisposable Members
 		public virtual void Dispose()
-		{ }
+		{
+		}
 		#endregion
 	}
 }

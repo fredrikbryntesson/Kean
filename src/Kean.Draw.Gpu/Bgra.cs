@@ -25,12 +25,17 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Gpu
 {
 	public class Bgra :
-		Image
+		Packed
 	{
 		#region Constructors
 		public Bgra(Raster.Bgra image) :
 			base(Gpu.Backend.Factory.CreateImage(image))
 		{ }
+		public Bgra(Gpu.Image image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			// TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
+		}
 		public Bgra(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }

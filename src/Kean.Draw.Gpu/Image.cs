@@ -27,59 +27,33 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Gpu
 {
 	public abstract class Image :
-		Draw.Image,
-		IDisposable
+		Draw.Image
 	{
-		protected internal Backend.IImage Backend;
-
-		public override Kean.Draw.Canvas Canvas
-		{
-			get { return new Canvas(this); }
-		}
 		#region Constructors
-		protected Image(Backend.IImage backend) :
-			base(backend.Size, backend.CoordinateSystem)
-		{
-			this.Backend = backend;
-		}
+		protected Image(Planar original) :
+			base(original) { }
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+			base(size, coordinateSystem)
+		{ }
 		#endregion
-
 		#region Draw.Image Overrides
 		public override T Convert<T>()
 		{
-			return null;
-		}
-		
-		public override Draw.Image Create(Geometry2D.Integer.Size size)
-		{
-			return null;
-		}
-		public override Draw.Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
-		{
-			return null;
-		}
-		public override void Shift(Geometry2D.Integer.Size offset)
-		{
-		}
-		public override float Distance(Draw.Image other)
-		{
-			float result;
-			if (other.NotNull() && this.Size == other.Size)
-				result = this.Convert<Raster.Bgra>().Distance(other.Convert<Raster.Bgra>());
+			T result = null;
+			Type type = typeof(T);
+			if (type == this.GetType())
+				result = this.Copy() as T;
 			else
-				result = float.MaxValue;
+				if (type.IsSubclassOf(typeof(Packed)))
+				{
+					if (type == typeof(Bgra))
+						result = new Bgra(this) as T;
+					else if (type == typeof(Monochrome))
+						result = new Monochrome(this) as T;
+				}
+				else if (type == typeof(Yuv420))
+					result = new Yuv420(this) as T;
 			return result;
-		}
-		#endregion
-
-		#region IDisposable Members
-		public void Dispose()
-		{
-			if (this.Backend.NotNull())
-			{
-				this.Backend.Dispose();
-				this.Backend = null;
-			}
 		}
 		#endregion
 		#region Static Creators

@@ -16,7 +16,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
@@ -26,9 +28,9 @@ namespace Kean.Draw.Raster
 	public class Yuv420 :
 		Planar
 	{
-		Monochrome yBuffer;
-		Monochrome uBuffer;
-		Monochrome vBuffer;
+		public Monochrome Y { get; private set; }
+		public Monochrome U { get; private set; }
+		public Monochrome V { get; private set; }
 
 		public Yuv420(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
@@ -41,16 +43,16 @@ namespace Kean.Draw.Raster
 		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(buffer, size, coordinateSystem)
 		{
-			this.yBuffer = this.CreateY();
-			this.uBuffer = this.CreateU();
-			this.vBuffer = this.CreateV();
+			this.Y = this.CreateY();
+			this.U = this.CreateU();
+			this.V = this.CreateV();
 		}
 		protected Yuv420(Yuv420 original) :
 			base(original)
 		{
-			this.yBuffer = this.CreateY();
-			this.uBuffer = this.CreateU();
-			this.vBuffer = this.CreateV();
+			this.Y = this.CreateY();
+			this.U = this.CreateU();
+			this.V = this.CreateV();
 		}
 		internal Yuv420(Image original) :
 			this(original.Size, original.CoordinateSystem)
@@ -61,13 +63,13 @@ namespace Kean.Draw.Raster
 				int x = 0;
 				int width = this.Size.Width;
 
-				byte* yRow = (byte*)this.yBuffer.Pointer;
+				byte* yRow = (byte*)this.Y.Pointer;
 				byte* yDestination = yRow;
 
-				byte* uRow = (byte*)this.uBuffer.Pointer;
+				byte* uRow = (byte*)this.U.Pointer;
 				byte* uDestination = uRow;
 
-				byte* vRow = (byte*)this.vBuffer.Pointer;
+				byte* vRow = (byte*)this.V.Pointer;
 				byte* vDestination = vRow;
 
 				original.Apply(color =>
@@ -84,14 +86,14 @@ namespace Kean.Draw.Raster
 						x = 0;
 						y++;
 
-						yRow += this.yBuffer.Stride;
+						yRow += this.Y.Stride;
 						yDestination = yRow;
 						if (y % 2 == 0)
 						{
-							uRow += this.uBuffer.Stride;
+							uRow += this.U.Stride;
 							uDestination = uRow;
 
-							vRow += this.vBuffer.Stride;
+							vRow += this.V.Stride;
 							vDestination = vRow;
 						}
 					}
@@ -126,13 +128,13 @@ namespace Kean.Draw.Raster
 		{
 			unsafe
 			{
-				byte* yRow = (byte*)this.yBuffer.Pointer;
+				byte* yRow = (byte*)this.Y.Pointer;
 				byte* ySource = yRow;
 
-				byte* uRow = (byte*)this.uBuffer.Pointer;
+				byte* uRow = (byte*)this.U.Pointer;
 				byte* uSource = uRow;
 
-				byte* vRow = (byte*)this.vBuffer.Pointer;
+				byte* vRow = (byte*)this.V.Pointer;
 				byte* vSource = vRow;
 
 				int width = this.Size.Width;
@@ -149,11 +151,11 @@ namespace Kean.Draw.Raster
 							vSource++;
 						}
 					}
-					yRow += this.yBuffer.Stride;
+					yRow += this.Y.Stride;
 					if (y % 2 == 1)
 					{
-						uRow += this.uBuffer.Stride;
-						vRow += this.vBuffer.Stride;
+						uRow += this.U.Stride;
+						vRow += this.V.Stride;
 					}
 					ySource = yRow;
 					uSource = uRow;
