@@ -44,6 +44,7 @@
     <Compile Include="Backend\IFactory.cs" />
     <Compile Include="Backend\IImage.cs" />
     <Compile Include="Backend\ImageType.cs" />
+    <Compile Include="Bgr.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Image.cs" />

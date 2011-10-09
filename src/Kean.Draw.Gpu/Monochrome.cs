@@ -61,8 +61,10 @@ namespace Kean.Draw.Gpu
 		// TODO:  Resize Monochrome using GPU
 		public override Kean.Draw.Image ResizeTo(Kean.Math.Geometry2D.Integer.Size size)
 		{
-			return new Monochrome(this.Backend.Read().ResizeTo(size) as Raster.Monochrome);
-		}
+            Monochrome result = new Monochrome(size);
+            result.Canvas.Draw(this, new Geometry2D.Single.Box(0, 0, this.Size.Width, this.Size.Height), new Geometry2D.Single.Box(0, 0, size.Width, size.Height));
+            return result.Canvas.Image;
+        }
 		public override Draw.Image Copy()
 		{
 			return new Monochrome(this.Backend.Copy());

@@ -132,9 +132,17 @@ namespace Kean.Gui.OpenGL.Backend
 		public Draw.CoordinateSystem CoordinateSystem { get; set; }
 		public Geometry2D.Integer.Size Size { get; private set; }
 		public Gpu.Backend.ImageType Type { get; private set; }
-		public void Load(Geometry2D.Integer.Point offset, Raster.Image image)
+        // TODO Support more raster formats
+        public void Load(Geometry2D.Integer.Point offset, Raster.Image image)
 		{
-		}
+            this.Bind();
+            if(
+                image is Raster.Monochrome && this.Type == Kean.Draw.Gpu.Backend.ImageType.Monochrome ||
+                image is Raster.Bgr && this.Type == Kean.Draw.Gpu.Backend.ImageType.Bgr ||
+                image is Raster.Bgra && this.Type == Kean.Draw.Gpu.Backend.ImageType.Bgra)
+            GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, offset.X, offset.Y, image.Size.Width, image.Size.Height, this.Type.PixelFormat(), OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, image.Pointer);
+            this.Unbind();
+        }
 		public Raster.Image Read()
 		{
 			this.Bind();
@@ -161,8 +169,10 @@ namespace Kean.Gui.OpenGL.Backend
 		// TODO: Use GPU to copy instead.
 		public Gpu.Backend.IImage Copy()
 		{
-			return Gpu.Backend.Factory.CreateImage(this.Read());
-		}
+            Gpu.Backend.IImage result = Gpu.Backend.Factory.CreateImage(this.Type, this.Size, this.CoordinateSystem);
+            result.Canvas.Draw(this, new Kean.Math.Geometry2D.Single.Box(0,0,this.Size.Width, this.Size.Height), new Kean.Math.Geometry2D.Single.Box(0,0,this.Size.Width, this.Size.Height));
+            return result.Canvas.Image;
+       	}
 		public void Render()
 		{
 			this.Render(new Geometry2D.Single.Box(0.0f, 0.0f, this.Size.Width, this.Size.Height), new Geometry2D.Single.Box(0.0f, 0.0f, this.Size.Width, this.Size.Height));

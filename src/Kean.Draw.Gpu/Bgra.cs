@@ -57,10 +57,11 @@ namespace Kean.Draw.Gpu
 				result = backend.Convert<T>() as T;
 			return result;
 		}
-		// TODO:  Resize Bgra using GPU
-		public override Kean.Draw.Image ResizeTo(Kean.Math.Geometry2D.Integer.Size size)
+		public override Kean.Draw.Image ResizeTo(Geometry2D.Integer.Size size)
 		{
-			return new Bgra(this.Backend.Read().ResizeTo(size) as Raster.Bgra);
+            Bgra result = new Bgra(size);
+            result.Canvas.Draw(this, new Geometry2D.Single.Box(0, 0, this.Size.Width, this.Size.Height), new Geometry2D.Single.Box(0, 0, size.Width, size.Height));
+            return result.Canvas.Image;
 		}
 		public override Draw.Image Copy()
 		{
