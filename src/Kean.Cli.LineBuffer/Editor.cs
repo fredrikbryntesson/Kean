@@ -176,5 +176,10 @@ namespace Kean.Cli.LineBuffer
                 while (steps-- != 0)
                     this.terminal.Write(" ");
         }
-    }
+
+		public void Close()
+		{
+			this.terminal.Close();
+		}
+	}
 }
