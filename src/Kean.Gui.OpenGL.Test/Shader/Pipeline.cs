@@ -34,52 +34,65 @@ namespace Kean.Gui.OpenGL.Test.Shader
 		protected override void Run()
 		{
 			this.Run(
-				this.PaintAllRed,
-				this.SetVariables,
-				this.Multitexture
+                this.BgraToYuv,
+                this.ToMonochrome,
+                this.YuvToBgra
+				//this.PaintAllRed,
+				//this.SetVariables,
+				//this.Multitexture
 				);
 		}
 		[Test]
-		public void PaintAllRed()
+		public void ToMonochrome()
 		{
-			Target.Backend.Shader.Program program = new Target.Backend.Shader.Program();
-			program.Shaders.Add
-			   (
-				   new Target.Backend.Shader.Fragment
-					   (
-							@"
-                                uniform sampler2D tex0; 
-                                void main()
-                                    {
-                                        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-                                    }
-                             "
-						)
-			   );
-			program.Shaders.Add
-				(
-				new Target.Backend.Shader.Vertex
-					(
-						@"
-                            void main()
-                                {
-                                    gl_Position = ftransform(); 
-                                    gl_TexCoord[0] = gl_MultiTexCoord0;
-                                }
-                         "
-					)
-				);
 			Target.Backend.OpenGL21.Factory factory = new Target.Backend.OpenGL21.Factory();
 			Target.Backend.Image source = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Bgra, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
 			source.Load(new Geometry2D.Integer.Point(0, 0), Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
-			Target.Backend.Image destination = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Bgra, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+			Target.Backend.Image destination = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
 			Kean.Draw.Gpu.Backend.ICanvas destinationCanvas = destination.Canvas;
-			program.Use();
-			destinationCanvas.Draw(source);
-			program.UnUse();
-			Kean.Draw.Raster.Image result = destinationCanvas.Image.Read();
-			Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.PaintAllRed.png")));
+            Backend.BgraToY map = new Backend.BgraToY();
+            map.Apply(source, destinationCanvas as Backend.Canvas);
+            Kean.Draw.Raster.Image result = destinationCanvas.Image.Read();
+            result.Save("test.png");
+            //Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.PaintAllRed.png")));
 		}
+        [Test]
+        public void YuvToBgra()
+        {
+            Target.Backend.OpenGL21.Factory factory = new Target.Backend.OpenGL21.Factory();
+            Target.Backend.Image y = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            Target.Backend.Image u = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426) / 2, Kean.Draw.CoordinateSystem.Default);
+            Target.Backend.Image v = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426) / 2, Kean.Draw.CoordinateSystem.Default);
+            Raster.Yuv420 yuv = Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Yuv420>();
+            y.Load(new Geometry2D.Integer.Point(0, 0), yuv.Y);
+            u.Load(new Geometry2D.Integer.Point(0, 0), yuv.U);
+            v.Load(new Geometry2D.Integer.Point(0, 0), yuv.V);
+            Target.Backend.Image destination = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Bgra, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            Kean.Draw.Gpu.Backend.ICanvas destinationCanvas = destination.Canvas;
+            Backend.YuvToBgra map = new Backend.YuvToBgra();
+            map.Apply(y,u,v, destinationCanvas as Backend.Canvas);
+            Kean.Draw.Raster.Image result = destinationCanvas.Image.Read();
+            result.Save("test.png");
+            //Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.PaintAllRed.png")));
+        }
+        [Test]
+        public void BgraToYuv()
+        {
+            Target.Backend.OpenGL21.Factory factory = new Target.Backend.OpenGL21.Factory();
+            Target.Backend.Image source = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Bgra, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            source.Load(new Geometry2D.Integer.Point(0, 0), Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
+            Target.Backend.Image destination1 = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            Target.Backend.Image destination2 = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            Target.Backend.Image destination3 = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Monochrome, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
+            
+            Backend.BgraToYuv map = new Backend.BgraToYuv();
+            map.Apply(source, destination1, destination2, destination3);
+            destination1.Canvas.Image.Read().Save("y.png");
+            destination2.Canvas.Image.Read().Save("u.png");
+            destination3.Canvas.Image.Read().Save("v.png");
+            //Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.PaintAllRed.png")));
+        }
+        
 		[Test]
 		public void SetVariables()
 		{
@@ -128,6 +141,7 @@ namespace Kean.Gui.OpenGL.Test.Shader
 			Raster.Image result = destinationCanvas.Image.Read();
 			Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.SetVariables.png")));
 		}
+        /*
 		[Test]
 		public void Multitexture()
 		{
@@ -225,10 +239,10 @@ namespace Kean.Gui.OpenGL.Test.Shader
 			source.Load(new Geometry2D.Integer.Point(0, 0), Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
 			Target.Backend.Image destination = new Target.Backend.OpenGL21.Image(factory, Kean.Draw.Gpu.Backend.ImageType.Bgra, new Geometry2D.Integer.Size(639, 426), Kean.Draw.CoordinateSystem.Default);
 			Kean.Draw.Gpu.Backend.ICanvas destinationCanvas = destination.Canvas;
-			//Kean.Draw.Map map = new Kean.Gui.OpenGL.Map<Kean.Draw.Gpu.Image, Kean.Draw.Gpu.Image>();
+			Kean.Draw.Map map = new Kean.Gui.OpenGL.Map<Kean.Draw.Gpu.Image, Kean.Draw.Gpu.Image>();
 			//destinationCanvas.Draw(map, source);
 			Kean.Draw.Raster.Image result = destinationCanvas.Image.Read();
 			//Expect(result, Is.EqualTo(Raster.Bgra.OpenResource("Correct.PaintAllRed.png")));
-		}
+		}*/
 	}
 }

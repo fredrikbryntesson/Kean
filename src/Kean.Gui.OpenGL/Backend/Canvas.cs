@@ -117,14 +117,14 @@ namespace Kean.Gui.OpenGL.Backend
 				Geometry2D.Single.Transform.Identity.Load();
 		}
 		#endregion
-		void Setup()
+        internal void Setup()
 		{
 			this.Bind();
 			this.SetupViewport();
 			this.SetupClippingPlanes();
 			this.SetupTransform();
 		}
-		void Teardown()
+        internal void Teardown()
 		{
 			this.Unbind();
 			this.TearDownClippingPlanes();

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\BgraToYuv.cs" />
     <Compile Include="Backend\Canvas.cs" />
     <Compile Include="Backend\Extension\BackendExtension.cs" />
     <Compile Include="Backend\Extension\WindowBorderExtension.cs" />
@@ -55,7 +56,10 @@
     <Compile Include="Backend\Input\Pointer.cs" />
     <Compile Include="Backend\Input\PointerButtons.cs" />
     <Compile Include="Backend\Input\PointerWheels.cs" />
+    <Compile Include="Backend\Map.cs" />
     <Compile Include="Backend\OpenGL21\Depth.cs" />
+    <Compile Include="Backend\BgraToY.cs" />
+    <Compile Include="Backend\YuvToBgra.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Backend\Shader\Abstract.cs" />
     <Compile Include="Backend\Shader\Fragment.cs" />
