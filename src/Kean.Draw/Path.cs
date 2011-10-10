@@ -26,7 +26,8 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw
 {
-	public class Path
+	public class Path :
+		System.Collections.Generic.IEnumerable<PathSegment.Abstract>
 	{
 		PathSegment.Abstract first;
 
@@ -68,5 +69,20 @@ namespace Kean.Draw
 		{
 			this.Append(new PathSegment.Close());
 		}
+		#region IEnumerable<Abstract> and IEnumerable Members
+		System.Collections.Generic.IEnumerator<PathSegment.Abstract> System.Collections.Generic.IEnumerable<PathSegment.Abstract>.GetEnumerator()
+		{
+			PathSegment.Abstract next = this.first;
+			while (next.NotNull())
+			{
+				yield return next;
+				next = next.Next;
+			}
+		}
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return (this as System.Collections.Generic.IEnumerable<PathSegment.Abstract>).GetEnumerator();
+		}
+		#endregion
 	}
 }

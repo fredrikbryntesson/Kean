@@ -131,6 +131,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color.Test", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL.Test", "src\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj", "{BC052502-2E40-4577-B35E-E659B8FCB6B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo", "src\Kean.Draw.Cairo\Kean.Draw.Cairo.csproj", "{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo.Test", "src\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj", "{98BAF538-395F-4E2A-B1FD-29ECC7129C73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -397,6 +401,14 @@ Global
 		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC052502-2E40-4577-B35E-E659B8FCB6B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98BAF538-395F-4E2A-B1FD-29ECC7129C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98BAF538-395F-4E2A-B1FD-29ECC7129C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98BAF538-395F-4E2A-B1FD-29ECC7129C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98BAF538-395F-4E2A-B1FD-29ECC7129C73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

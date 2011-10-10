@@ -112,6 +112,14 @@ namespace Kean.Draw
 		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
 		#endregion
 		#region Draw Path
+		public void Stroke(IColor stroke, Path path)
+		{
+			this.Draw(stroke, null, path);
+		}
+		public void Fill(IColor fill, Path path)
+		{
+			this.Draw(null, fill, path);
+		}
 		public abstract void Draw(IColor stroke, IColor fill, Path path);
 		#endregion
 		#region Draw Map
