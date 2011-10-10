@@ -104,12 +104,15 @@ namespace Kean.Draw
 		}
 		public abstract void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		#endregion
-		#region Draw Rectangle
+		#region Draw Box
 		public virtual void Draw(IColor color)
 		{
 			this.Draw(color, (Geometry2D.Single.Size)this.Size);
 		}
 		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
+		#endregion
+		#region Draw Path
+		public abstract void Draw(IColor stroke, IColor fill, Path path);
 		#endregion
 		#region Draw Map
 		public abstract void Draw(Map map, Image image);

@@ -26,7 +26,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.PathSegment
 {
-	public class Abstract
+	public abstract class Abstract
 	{
 		Abstract previous;
 		public Abstract Previous 
@@ -50,11 +50,33 @@ namespace Kean.Draw.PathSegment
 					this.next.Previous = this;
 			}
 		}
+		protected virtual Geometry2D.Single.Point SubpathStart 
+		{ 
+			get { return this.Previous.NotNull() ? this.Previous.SubpathStart : new Geometry2D.Single.Point(); }
+			set { if (this.Previous.NotNull()) this.Previous.SubpathStart = value; }
+		}
 		public virtual Geometry2D.Single.Point End { get; set; }
-
-		public Abstract(Geometry2D.Single.Point end)
+		public Geometry2D.Single.Point Start { get { return this.Previous.NotNull() ? this.Previous.End : new Geometry2D.Single.Point(); } }
+		protected Abstract(Geometry2D.Single.Point end)
 		{
 			this.End = end;
+		}
+
+		protected abstract Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform);
+		public Geometry2D.Single.Box Bounds(Geometry2D.Single.Transform transform)
+		{
+			Geometry2D.Single.Box result = this.SegmentBounds(transform);
+			if (this.Next.NotNull())
+				result = result.Union(this.Next.Bounds(transform));
+			return result;
+		}
+
+		public void Append(Abstract segment)
+		{
+			if (this.Next.IsNull())
+				this.Next = segment;
+			else
+				this.Next.Append(segment);
 		}
 	}
 }

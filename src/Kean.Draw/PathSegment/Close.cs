@@ -1,5 +1,5 @@
 ﻿// 
-//  MoveTo.cs
+//  Close.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -26,21 +26,24 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.PathSegment
 {
-	public class MoveTo :
-		Abstract
+	public class Close :
+		LineTo
 	{
-		protected override Geometry2D.Single.Point SubpathStart 
-		{ 
-			get { return this.End; }
-			set { this.End = value; }
+		public override Geometry2D.Single.Point End
+		{
+			get { return this.SubpathStart; }
+			set { this.SubpathStart = value; }
 		}
-		public MoveTo(Geometry2D.Single.Point end) :
-			base(end)
+		public Close() :
+			base(new Geometry2D.Single.Point())
 		{ }
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
-			Geometry2D.Single.Point end = transform * this.End;
-			return new Geometry2D.Single.Box(end, new Geometry2D.Single.Size());
+			Geometry2D.Single.Point startPoint = transform * this.Start;
+			Geometry2D.Single.Point endPoint = transform * this.End;
+			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(Kean.Math.Single.Minimum(startPoint.X, endPoint.X), Kean.Math.Single.Minimum(startPoint.Y, endPoint.Y));
+			Geometry2D.Single.Size size = new Geometry2D.Single.Size(Kean.Math.Single.Absolute(startPoint.X - endPoint.X), Kean.Math.Single.Absolute(startPoint.Y - endPoint.Y));
+			return new Geometry2D.Single.Box(leftTop, size);
 		}
 	}
 }

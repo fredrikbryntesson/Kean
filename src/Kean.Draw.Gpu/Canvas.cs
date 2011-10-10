@@ -53,7 +53,7 @@ namespace Kean.Draw.Gpu
 				this.Backend.Draw((image as Gpu.Packed).Backend, source, destination);
 		}
 		#endregion
-		#region Draw Rectangle
+		#region Draw Box
 		public override void Draw(IColor color)
 		{
 			this.Backend.Draw(color);
@@ -61,6 +61,12 @@ namespace Kean.Draw.Gpu
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
             this.Backend.Draw(color, region);
+		}
+		#endregion
+		#region Draw Path
+		public override void Draw(IColor stroke, IColor fill, Path path)
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 		#region Draw Map
