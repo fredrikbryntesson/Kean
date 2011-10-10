@@ -187,13 +187,22 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			this.Teardown();
 		}
+		public void Draw(Gpu.Backend.IImage image)
+		{
+			this.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
+		}
         public void Draw(Gpu.Backend.IImage image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
         {
 			this.Setup();
 			image.Render(source, destination);
 			this.Teardown();
 		}
-		
+		public void Draw(Draw.Map map, Gpu.Backend.IImage image)
+		{
+			this.Setup();
+			
+			this.Teardown();
+		}
 		public void Blend(float factor)
 		{
 			this.Setup();

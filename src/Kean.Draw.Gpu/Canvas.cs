@@ -63,6 +63,16 @@ namespace Kean.Draw.Gpu
             this.Backend.Draw(color, region);
 		}
 		#endregion
+		#region Draw Map
+		public override void Draw(Draw.Map map, Draw.Image image)
+		{
+			if (!(image is Gpu.Image))
+				using (image = Gpu.Image.Create(image))
+					this.Backend.Draw(map, (image as Gpu.Packed).Backend);
+			else
+				this.Backend.Draw(map, (image as Gpu.Packed).Backend);
+		}
+		#endregion		
 		#region Blend
 		public override void Blend(float factor)
 		{

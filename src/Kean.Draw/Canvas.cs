@@ -111,6 +111,9 @@ namespace Kean.Draw
 		}
 		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
 		#endregion
+		#region Draw Map
+		public abstract void Draw(Map map, Image image);
+		#endregion
 		#region Blend
 		public abstract void Blend(float factor);
 		#endregion

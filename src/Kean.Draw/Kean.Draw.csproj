@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -44,6 +44,7 @@
     <Compile Include="CoordinateSystem.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathSegment\Abstract.cs" />
     <Compile Include="PathSegment\EllipticalArcTo.cs" />

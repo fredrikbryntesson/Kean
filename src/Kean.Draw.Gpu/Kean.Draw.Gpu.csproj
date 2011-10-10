@@ -48,6 +48,7 @@
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Monochrome.cs" />
     <Compile Include="Packed.cs" />
     <Compile Include="Planar.cs" />

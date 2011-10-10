@@ -76,11 +76,11 @@ namespace Kean.Gui.OpenGL.Backend
 			return result;
 		}
 		protected abstract Canvas CreateCanvas();
-		protected virtual void Bind()
+		public virtual void Bind()
 		{
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, this.Identifier);
 		}
-		protected virtual void Unbind()
+		public virtual void Unbind()
 		{
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 		}
