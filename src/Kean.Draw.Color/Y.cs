@@ -71,6 +71,11 @@ namespace Kean.Draw.Color
 		{
 			return new Y(this.y);
 		}
+		public void Set<T>(T color) where T : IColor
+		{
+			Y c = color.Convert<Y>();
+			this.y = c.y;
+		}
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
@@ -87,6 +92,16 @@ namespace Kean.Draw.Color
 				result = (T)(IColor)new Bgra(color,255);
 			}
 			return result;
+		}
+		public IColor Blend(float factor, IColor other)
+		{
+			Y c = other.Convert<Y>();
+			return new Y((byte)(this.y * (1 - factor) + c.y * factor));
+		}
+		public float Distance(IColor other)
+		{
+			Y c = other.Convert<Y>();
+			return Math.Single.SquareRoot(Math.Single.Squared(this.y - c.y));
 		}
 		#endregion
 		#region Object Overides

@@ -38,6 +38,13 @@ namespace Kean.Draw.Color
 		{
 			return new Yuv(this.y, this.u, this.v);
 		}
+		public void Set<T>(T color) where T : IColor
+		{
+			Yuv c = color.Convert<Yuv>();
+			this.y = c.y;
+			this.u = c.u;
+			this.v = c.v;
+		}
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
@@ -54,6 +61,16 @@ namespace Kean.Draw.Color
 				result = (T)(IColor)new Bgra(color, 255);
 			}
 			return result;
+		}
+		public IColor Blend(float factor, IColor other)
+		{
+			Yuv c = other.Convert<Yuv>();
+			return new Yuv((byte)(this.y * (1 - factor) + c.y * factor), (byte)(this.u * (1 - factor) + c.u * factor), (byte)(this.v * (1 - factor) + c.v * factor));
+		}
+		public float Distance(IColor other)
+		{
+			Yuv c = other.Convert<Yuv>();
+			return Math.Single.SquareRoot((Math.Single.Squared(this.y - c.y) + Math.Single.Squared(this.u - c.u) + Math.Single.Squared(this.v - c.v)) / 3);
 		}
 		#endregion
 		#region Object Overides

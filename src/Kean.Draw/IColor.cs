@@ -24,11 +24,10 @@ namespace Kean.Draw
 {
 	public interface IColor
 	{
-		//void Set<T>(T color) where T : IColor;
+		void Set<T>(T color) where T : IColor;
 		T Convert<T>() where T : IColor, new();
 		IColor Copy();
-		//IColor Add(float factor, IColor other);
-		//IColor Substract(float factor, IColor other);
-		//float Distance(IColor other);
+		IColor Blend(float factor, IColor other);
+		float Distance(IColor other);
 	}
 }

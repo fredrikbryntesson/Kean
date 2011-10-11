@@ -33,6 +33,12 @@ namespace Kean.Draw.Color
 			this.alpha = alpha;
 		}
 		#region IColor Members
+		public void Set<T>(T color) where T : IColor
+		{
+			Bgra c = color.Convert<Bgra>();
+			this.alpha = c.alpha;
+			this.color.Set(c.color);
+		}
 		public IColor Copy()
 		{
 			return new Bgra(this.color, this.alpha);
@@ -49,6 +55,16 @@ namespace Kean.Draw.Color
 			else if (typeof(T) == typeof(Bgra))
 				result = (T)(IColor)this;
 			return result;
+		}
+		public IColor Blend(float factor, IColor other)
+		{
+			Bgra c = other.Convert<Bgra>();
+			return new Bgr(this.color.Blend(factor, c.color).Convert<Bgr>(), (byte)(this.alpha * (1 - factor) + c.alpha * factor));
+		}
+		public float Distance(IColor other)
+		{
+			Bgra c = other.Convert<Bgra>();
+			return Math.Single.SquareRoot((Math.Single.Squared(this.color.Distance(c.color)) + Math.Single.Squared(this.alpha - c.alpha)) / 2);
 		}
 		#endregion
 		#region Object Overides
