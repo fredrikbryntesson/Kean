@@ -59,7 +59,7 @@ namespace Kean.Draw.Color
 		public IColor Blend(float factor, IColor other)
 		{
 			Bgra c = other.Convert<Bgra>();
-			return new Bgr(this.color.Blend(factor, c.color).Convert<Bgr>(), (byte)(this.alpha * (1 - factor) + c.alpha * factor));
+			return new Bgra(this.color.Blend(factor, c.color).Convert<Bgr>(), (byte)(this.alpha * (1 - factor) + c.alpha * factor));
 		}
 		public float Distance(IColor other)
 		{
