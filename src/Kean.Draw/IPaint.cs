@@ -1,5 +1,5 @@
 ﻿// 
-//  IColor.cs
+//  IPaint.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,13 +22,7 @@
 using System;
 namespace Kean.Draw
 {
-	public interface IColor :
-		IPaint
+	public interface IPaint
 	{
-		void Set<T>(T color) where T : IColor;
-		T Convert<T>() where T : IColor, new();
-		IColor Copy();
-		IColor Blend(float factor, IColor other);
-		float Distance(IColor other);
 	}
 }

@@ -76,5 +76,15 @@ namespace Kean.Draw.Color
 			return this.blue + " " + this.green + " " + this.red;
 		}
 		#endregion
+		#region Static Creators
+		public static Bgr White { get { return new Bgr(255, 255, 255); } }
+		public static Bgr Black { get { return new Bgr(0, 0, 0); } }
+		public static Bgr Blue { get { return new Bgr(255, 0, 0); } }
+		public static Bgr Green { get { return new Bgr(0, 255, 0); } }
+		public static Bgr Red { get { return new Bgr(0, 0, 255); } }
+		public static Bgr Magenta { get { return new Bgr(255, 0, 255); } }
+		public static Bgr Yellow { get { return new Bgr(255, 255, 0); } }
+		public static Bgr Cyan { get { return new Bgr(255, 255, 0); } }
+		#endregion
 	}
 }

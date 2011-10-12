@@ -52,7 +52,7 @@ namespace Kean.Draw.Cairo.Test
 		{
 			using (Cairo.Raster image = new Cairo.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(new Color.Bgra(255, 128, 0, 128), new Color.Bgra(0, 128, 255, 128), Path.CreateRectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100)));
+				image.Canvas.Draw(new Color.Bgra(0, 128, 255, 128), new Color.Bgra(255, 128, 0, 128), 2, Path.CreateRectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100)));
 				using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem))
 				using (Draw.Raster.Image correct = Draw.Raster.Image.OpenResource("Correct.Bgra.Rectangle.png"))
 					Expect(raster.Distance(correct), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Rectangle.0");

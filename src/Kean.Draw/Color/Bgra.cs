@@ -26,6 +26,7 @@ namespace Kean.Draw.Color
 	{
 		public Bgr color;
 		public byte alpha;
+		public Bgra(byte blue, byte green, byte red) : this(blue, green, red, 255) { }
 		public Bgra(byte blue, byte green, byte red, byte alpha) : this(new Bgr(blue, green, red), alpha) { }
 		public Bgra(Bgr color, byte alpha)
 		{
@@ -72,6 +73,16 @@ namespace Kean.Draw.Color
 		{
 			return this.color.ToString() + " " + this.alpha;
 		}
+		#endregion
+		#region Static Creators
+		public static Bgra White { get { return new Bgra(255, 255, 255); } }
+		public static Bgra Black { get { return new Bgra(0, 0, 0); } }
+		public static Bgra Blue { get { return new Bgra(255, 0, 0); } }
+		public static Bgra Green { get { return new Bgra(0, 255, 0); } }
+		public static Bgra Red { get { return new Bgra(0, 0, 255); } }
+		public static Bgra Magenta { get { return new Bgra(255, 0, 255); } }
+		public static Bgra Yellow { get { return new Bgra(255, 255, 0); } }
+		public static Bgra Cyan { get { return new Bgra(255, 255, 0); } }
 		#endregion
 	}
 }

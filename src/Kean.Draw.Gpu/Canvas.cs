@@ -64,7 +64,7 @@ namespace Kean.Draw.Gpu
 		}
 		#endregion
 		#region Draw Path
-		public override void Draw(IColor stroke, IColor fill, Path path)
+		public override void Draw(IPaint fill, IPaint stroke, float strokeWidth, Path path)
 		{
 			throw new NotImplementedException();
 		}

@@ -83,7 +83,7 @@ namespace Kean.Draw.Cairo
 				this.backend.Restore();
 			}
 		}
-		public override void Draw(IColor stroke, IColor fill, Path path)
+		public override void Draw(IPaint fill, IPaint stroke, float strokeWidth, Path path)
 		{
 			foreach (Draw.PathSegment.Abstract segment in path)
 			{
@@ -101,20 +101,25 @@ namespace Kean.Draw.Cairo
 				//Geometry2D.Single.Transform original = this.Transform;
 				if (this.Set(fill))
 				{
-					if (stroke.NotNull())
+					if (stroke.NotNull() && strokeWidth > 0)
 						this.backend.FillPreserve();
 					else
 						this.backend.Fill();
 				}
 				//this.Transform = original;
 			}
-			if (stroke.NotNull() && this.Set(stroke))
-		    	this.backend.Stroke();
+			if (stroke.NotNull() && strokeWidth > 0 && this.Set(stroke))
+			{
+				this.backend.LineWidth = strokeWidth;
+				this.backend.Stroke();
+			}
 		}
-		bool Set(IColor color)
+		bool Set(IPaint paint)
 		{
-			this.backend.Color = color.AsCairo();
-			return true;
+			bool result;
+			if (result = paint is IColor)
+				this.backend.Color = (paint as IColor).AsCairo();
+			return result;
 		}
 		#endregion
 		#region Draw Map
