@@ -51,6 +51,8 @@ namespace Kean.Draw.Gpu
 		#region Draw Image
 		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
+			if (image is Gpu.Monochrome && map.IsNull())
+				map = Map.MonochromeToBgr;
 			this.Backend.Use();
 			if (map.NotNull())
 			{
