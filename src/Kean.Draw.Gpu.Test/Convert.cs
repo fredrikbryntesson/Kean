@@ -51,14 +51,16 @@ namespace Kean.Draw.Gpu.Test
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
 			Gpu.Monochrome destination = source.Convert<Gpu.Monochrome>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgraToMonochrome.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgraToMonochrome.png")));
 		}
 		[Test]
 		public void BgraToBgr()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
 			Gpu.Bgr destination = source.Convert<Gpu.Bgr>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgraToBgr.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgraToBgr.png")));
 		}
 		
 		[Test]
@@ -66,70 +68,80 @@ namespace Kean.Draw.Gpu.Test
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>());
 			Gpu.Yuv420 destination = source.Convert<Gpu.Yuv420>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgraToYuv420.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgraToYuv420.png")));
 		}
 		[Test]
 		public void BgrToMonochrome()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgr>());
 			Gpu.Monochrome destination = source.Convert<Gpu.Monochrome>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgrToMonochrome.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgrToMonochrome.png")));
 		}
 		[Test]
 		public void BgrToBgra()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgr>());
 			Gpu.Bgra destination = source.Convert<Gpu.Bgra>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgrToBgra.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgrToBgra.png")));
 		}
 		[Test]
 		public void BgrToYuv420()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgr>());
 			Gpu.Yuv420 destination = source.Convert<Gpu.Yuv420>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("BgrToYuv420.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.BgrToYuv420.png")));
 		}
 		[Test]
 		public void MonochromeToBgra()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>());
 			Gpu.Bgra destination = source.Convert<Gpu.Bgra>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("MonochromeToBgra.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.MonochromeToBgra.png")));
 		}
 		[Test]
 		public void MonochromeToBgr()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>());
 			Gpu.Bgr destination = source.Convert<Gpu.Bgr>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("MonochromeToBgr.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.MonochromeToBgr.png")));
 		}
 		[Test]
 		public void MonochromeToYuv420()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>());
 			Gpu.Yuv420 destination = source.Convert<Gpu.Yuv420>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("MonochromeToYuv420.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.MonochromeToYuv420.png")));
 		}
 		[Test]
 		public void Yuv420ToBgra()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Yuv420>());
 			Gpu.Bgra destination = source.Convert<Gpu.Bgra>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("Yuv420ToBgra.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.Yuv420ToBgra.png")));
 		}
 		[Test]
 		public void Yuv420ToBgr()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Yuv420>());
 			Gpu.Bgr destination = source.Convert<Gpu.Bgr>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("Yuv420ToBgr.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.Yuv420ToBgr.png")));
 		}
 		[Test]
 		public void Yuv420ToMonochrome()
 		{
 			Gpu.Image source = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Yuv420>());
 			Gpu.Monochrome destination = source.Convert<Gpu.Monochrome>();
-			destination.Convert<Raster.Bgra>().Save("test.png");
+			destination.Convert<Raster.Bgra>().Save("Yuv420ToMonochrome.png");
+			Expect(destination.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Convert.Yuv420ToMonochrome.png")));
 		}
 	}
 }

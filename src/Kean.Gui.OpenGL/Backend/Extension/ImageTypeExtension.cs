@@ -46,7 +46,7 @@ namespace Kean.Gui.OpenGL.Backend.Extension
 					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgb8;
 					break;
 				case Gpu.Backend.TextureType.Monochrome:
-					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance8;
+					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba8;
 					break;
 			}
 			return result;
