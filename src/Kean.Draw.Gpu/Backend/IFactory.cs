@@ -30,7 +30,8 @@ namespace Kean.Draw.Gpu.Backend
 		ITexture CreateImage(Draw.Raster.Image image);
 		IFrameBuffer CreateFrameBuffer(params ITexture[] textures);
 
-		IShader ConvertBgrToMonochrome { get; }
+        IShader ConvertMonochromeToBgr { get; }
+        IShader ConvertBgrToMonochrome { get; }
 		IShader ConvertBgrToU { get; }
 		IShader ConvertBgrToV { get; }
 		IShader ConvertBgrToYuv420 { get; }

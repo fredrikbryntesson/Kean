@@ -34,8 +34,9 @@ namespace Kean.Draw.Gpu
 		{
 			this.Backend = backend;
 		}
-		public static Map BgrToMonochrome { get { return new Map(Gpu.Backend.Factory.ConvertBgrToMonochrome); } }
-		public static Map BgrToU { get { return new Map(Gpu.Backend.Factory.ConvertBgrToU); } }
+        public static Map MonochromeToBgr { get { return new Map(Gpu.Backend.Factory.ConvertMonochromeToBgr); } }
+        public static Map BgrToMonochrome { get { return new Map(Gpu.Backend.Factory.ConvertBgrToMonochrome); } }
+        public static Map BgrToU { get { return new Map(Gpu.Backend.Factory.ConvertBgrToU); } }
 		public static Map BgrToV { get { return new Map(Gpu.Backend.Factory.ConvertBgrToV); } }
 		public static Map BgrToYuv420 { get { return new Map(Gpu.Backend.Factory.ConvertBgrToYuv420); } }
 		public static Map Yuv420ToBgr { get { return new Map(Gpu.Backend.Factory.ConvertYuv420ToBgr); } }

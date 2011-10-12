@@ -43,6 +43,7 @@ namespace Kean.Gui.OpenGL.Backend
 
 		#region Inheritors Interface
 		protected abstract Shader.Vertex DefaultVertex { get; }
+        protected abstract Shader.Fragment MonochromeToBgrFragment { get; }
 		protected abstract Shader.Fragment BgrToMonochromeFragment { get; }
 		protected abstract Shader.Fragment BgrToUFragment { get; }
 		protected abstract Shader.Fragment BgrToVFragment { get; }
@@ -54,7 +55,8 @@ namespace Kean.Gui.OpenGL.Backend
 		public abstract Gpu.Backend.ITexture CreateImage(Raster.Image image);
 		public abstract Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Gpu.Backend.ITexture[] textures);
 
-		public Gpu.Backend.IShader ConvertBgrToMonochrome { get { return new Shader.Program(this.DefaultVertex, this.BgrToMonochromeFragment); } }
+        public Gpu.Backend.IShader ConvertMonochromeToBgr { get { return new Shader.Program(this.DefaultVertex, this.MonochromeToBgrFragment); } }
+        public Gpu.Backend.IShader ConvertBgrToMonochrome { get { return new Shader.Program(this.DefaultVertex, this.BgrToMonochromeFragment); } }
 		public Gpu.Backend.IShader ConvertBgrToU { get { return new Shader.Program(this.DefaultVertex, this.BgrToUFragment); } }
 		public Gpu.Backend.IShader ConvertBgrToV { get { return new Shader.Program(this.DefaultVertex, this.BgrToVFragment); } }
 		public Gpu.Backend.IShader ConvertBgrToYuv420 { get { return new Shader.Program(this.DefaultVertex, this.BgrToYuv420Fragment); } }

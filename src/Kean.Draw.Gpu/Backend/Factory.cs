@@ -37,7 +37,8 @@ namespace Kean.Draw.Gpu.Backend
 		{
 			return Factory.Implemetation.CreateImage(image);
 		}
-		public static IShader ConvertBgrToMonochrome { get { return Factory.Implemetation.ConvertBgrToMonochrome; } }
+        public static IShader ConvertMonochromeToBgr { get { return Factory.Implemetation.ConvertMonochromeToBgr; } }
+        public static IShader ConvertBgrToMonochrome { get { return Factory.Implemetation.ConvertBgrToMonochrome; } }
 		public static IShader ConvertBgrToU { get { return Factory.Implemetation.ConvertBgrToU; } }
 		public static IShader ConvertBgrToV { get { return Factory.Implemetation.ConvertBgrToV; } }
 		public static IShader ConvertBgrToYuv420 { get { return Factory.Implemetation.ConvertBgrToYuv420; } }

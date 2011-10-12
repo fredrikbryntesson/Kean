@@ -40,7 +40,7 @@ namespace Kean.Draw.Gpu
 		public Bgr(Gpu.Monochrome image) :
 			this(image.Size, image.CoordinateSystem)
 		{
-			this.Canvas.Draw(image);
+			this.Canvas.Draw(Map.MonochromeToBgr, image);
 		}
 		public Bgr(Gpu.Bgra image) :
             this(image.Size, image.CoordinateSystem)

@@ -40,7 +40,14 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		#endregion
 		#region Inheritors Interface
 		protected override Shader.Vertex DefaultVertex { get { return new Shader.Vertex(@"void main() { gl_Position = ftransform(); gl_TexCoord[0] = gl_MultiTexCoord0; }"); } }
-		protected override Shader.Fragment BgrToMonochromeFragment 
+        protected override Shader.Fragment MonochromeToBgrFragment
+        {
+            get
+            {
+                return new Shader.Fragment(@"uniform sampler2D monochrome0; void main() { vec4 value = texture2D(monochrome0, gl_TexCoord[0].xy); float y = value.x; gl_FragColor = vec4(y, y, y, 1.0); }");
+            }
+        }
+        protected override Shader.Fragment BgrToMonochromeFragment 
 		{
 			get 
 			{

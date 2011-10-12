@@ -74,6 +74,7 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.PopMatrix();
 			GL.PopAttrib();
 		}
+        protected abstract void BindTextures(Gpu.Backend.ITexture[] color);
 		protected abstract void Unbind();
 		protected virtual void SetupClippingPlanes()
 		{

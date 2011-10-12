@@ -30,6 +30,7 @@ using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
 using Kean.Gui.OpenGL.Backend.Extension;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
@@ -44,35 +45,40 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			return new Depth(this.Factory as OpenGL21.Factory, this.Size);
 		}
-		protected override uint CreateFrameBuffer(Kean.Draw.Gpu.Backend.ITexture[] color, Kean.Gui.OpenGL.Backend.Texture depth)
+		protected override uint CreateFrameBuffer(Gpu.Backend.ITexture[] color, Backend.Texture depth)
 		{
 			uint result;
 			GL.GenFramebuffers(1, out result);
 			GL.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, result);
-			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[0] as Backend.Texture).Identifier, 0);
-			if (color.Length > 1)
-			{
-				GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment1Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
-				if (color.Length > 2)
-				{
-					GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment2Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
-					if (color.Length > 3)
-					{
-						GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment3Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
-						if (color.Length > 4)
-							GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment4Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
-					}
-				}
-			}
-			GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.DepthAttachmentExt, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (depth as Backend.Texture).Identifier, 0);
+            this.BindTextures(color);
+            GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.DepthAttachmentExt, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (depth as Backend.Texture).Identifier, 0);
 			Exception.Framebuffer.Check();
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 			return result;
 		}
+        protected override void BindTextures(Gpu.Backend.ITexture[] color)
+        {
+            GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[0] as Backend.Texture).Identifier, 0);
+            if (color.Length > 1)
+            {
+                GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment1Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
+                if (color.Length > 2)
+                {
+                    GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment2Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
+                    if (color.Length > 3)
+                    {
+                        GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment3Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
+                        if (color.Length > 4)
+                            GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment4Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[1] as Backend.Texture).Identifier, 0);
+                    }
+                }
+            }
+        }
 		protected override void Bind()
 		{
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Framebuffer);
-			Exception.Framebuffer.Check();
+            this.BindTextures(this.Textures.ToArray());
+            Exception.Framebuffer.Check();
 		}
 		protected override void Unbind()
 		{
