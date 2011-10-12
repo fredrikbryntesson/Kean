@@ -2,7 +2,7 @@
 //  All.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
 //  Copyright (c) 2011 Simon Mika
 // 
@@ -21,13 +21,13 @@
 
 using System;
 
-namespace Kean.Draw.Color.Test
+namespace Kean.Draw.Cairo.Test
 {
 	public static class All
 	{
 		public static void Test()
 		{
-			Convert.Test();
+			Bgra.Test();
 		}
 	}
 }

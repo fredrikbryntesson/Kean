@@ -78,10 +78,6 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Color\Kean.Draw.Color.csproj">
-      <Project>{011F5C48-AC45-4C16-B081-3852BB5D65D4}</Project>
-      <Name>Kean.Draw.Color</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>
       <Name>Kean.Draw</Name>

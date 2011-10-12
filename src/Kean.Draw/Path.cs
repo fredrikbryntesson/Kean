@@ -42,32 +42,33 @@ namespace Kean.Draw
 			return this.first.NotNull() ? this.first.Bounds(transform) : new Geometry2D.Single.Box();
 		}
 
-		void Append(PathSegment.Abstract segment)
+		Path Append(PathSegment.Abstract segment)
 		{
 			if (this.first.IsNull())
 				this.first = segment;
 			else
 				this.first.Append(segment);
+			return this;
 		}
-		public void MoveTo(Geometry2D.Single.Point end)
+		public Path MoveTo(Geometry2D.Single.Point end)
 		{
-			this.Append(new PathSegment.MoveTo(end));
+			return this.Append(new PathSegment.MoveTo(end));
 		}
-		public void LineTo(Geometry2D.Single.Point end)
+		public Path LineTo(Geometry2D.Single.Point end)
 		{
-			this.Append(new PathSegment.LineTo(end));
+			return this.Append(new PathSegment.LineTo(end));
 		}
-		public void CurveTo(Geometry2D.Single.Point first, Geometry2D.Single.Point second, Geometry2D.Single.Point end)
+		public Path CurveTo(Geometry2D.Single.Point first, Geometry2D.Single.Point second, Geometry2D.Single.Point end)
 		{
-			this.Append(new PathSegment.CurveTo(first, second, end));
+			return this.Append(new PathSegment.CurveTo(first, second, end));
 		}
-		public void EllipticalArcTo(Geometry2D.Single.Point radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
+		public Path EllipticalArcTo(Geometry2D.Single.Point radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
 		{
-			this.Append(new PathSegment.EllipticalArcTo(radius, angle, largeArc, sweep, end));
+			return this.Append(new PathSegment.EllipticalArcTo(radius, angle, largeArc, sweep, end));
 		}
- 		public void Close()
+ 		public Path Close()
 		{
-			this.Append(new PathSegment.Close());
+			return this.Append(new PathSegment.Close());
 		}
 		#region IEnumerable<Abstract> and IEnumerable Members
 		System.Collections.Generic.IEnumerator<PathSegment.Abstract> System.Collections.Generic.IEnumerable<PathSegment.Abstract>.GetEnumerator()
@@ -82,6 +83,26 @@ namespace Kean.Draw
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return (this as System.Collections.Generic.IEnumerable<PathSegment.Abstract>).GetEnumerator();
+		}
+		#endregion
+		#region Static Create Methods
+		public static Path CreateRectangle(Geometry2D.Single.Box rectangle)
+		{
+			return new Path().MoveTo(rectangle.LeftTop).LineTo(rectangle.RightTop).LineTo(rectangle.RightBottom).LineTo(rectangle.LeftBottom).Close();
+		}
+		public static Path CreateRectangle(Geometry2D.Single.Box rectangle, Geometry2D.Single.Point radius)
+		{
+			return (radius.X <= 0 || radius.Y <= 0) ? Path.CreateRectangle(rectangle) : new Path()
+				.MoveTo(new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Top))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Right - radius.X, rectangle.Top))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right, rectangle.Top + radius.Y))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Right, rectangle.Bottom - radius.Y))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right - radius.X, rectangle.Bottom))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Bottom))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left, rectangle.Bottom - radius.Y))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Left, rectangle.Top + radius.Y))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Top))
+				.Close();
 		}
 		#endregion
 	}

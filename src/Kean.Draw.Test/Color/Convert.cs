@@ -24,7 +24,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Draw.Color;
 
-namespace Kean.Draw.Color.Test
+namespace Kean.Draw.Test.Color
 {
 	public class Convert :
 		Kean.Test.Fixture<Convert>

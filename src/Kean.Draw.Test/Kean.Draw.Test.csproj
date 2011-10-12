@@ -3,15 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{011F5C48-AC45-4C16-B081-3852BB5D65D4}</ProjectGuid>
+    <ProjectGuid>{3EFD4052-3FE8-4B58-8833-349550F073E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.Draw.Color</RootNamespace>
-    <AssemblyName>Kean.Draw.Color</AssemblyName>
+    <RootNamespace>Kean.Draw.Test</RootNamespace>
+    <AssemblyName>Kean.Draw.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,36 +31,42 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bgr.cs" />
-    <Compile Include="Bgra.cs" />
-    <Compile Include="Convert.cs" />
+    <Compile Include="All.cs" />
+    <Compile Include="Color\Convert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Y.cs" />
-    <Compile Include="Yuv.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core</Name>
+    <ProjectReference Include="..\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj">
+      <Project>{98BAF538-395F-4E2A-B1FD-29ECC7129C73}</Project>
+      <Name>Kean.Draw.Cairo.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
+      <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
+      <Name>Kean.Draw.Gpu.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
+      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
+      <Name>Kean.Draw.Raster.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>
       <Name>Kean.Draw</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
-      <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
-      <Name>Kean.Math</Name>
+    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+      <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
+      <Name>Kean.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

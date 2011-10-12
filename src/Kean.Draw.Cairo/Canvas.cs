@@ -108,7 +108,7 @@ namespace Kean.Draw.Cairo
 				}
 				//this.Transform = original;
 			}
-			if (this.Set(stroke))
+			if (stroke.NotNull() && this.Set(stroke))
 		    	this.backend.Stroke();
 		}
 		bool Set(IColor color)

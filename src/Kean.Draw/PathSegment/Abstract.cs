@@ -35,7 +35,7 @@ namespace Kean.Draw.PathSegment
 			set 
 			{ 
 				this.previous = value;
-				if (this.previous.NotNull())
+				if (this.previous.NotNull() && this.previous.Next != this)
 					this.previous.Next = this;
 			}
 		}
@@ -46,7 +46,7 @@ namespace Kean.Draw.PathSegment
 			set
 			{
 				this.next = value;
-				if (this.next.NotNull())
+				if (this.next.NotNull() && this.next.Previous != this)
 					this.next.Previous = this;
 			}
 		}

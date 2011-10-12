@@ -11,7 +11,7 @@ namespace Kean.Draw.Cairo
 			this(new Buffer.Vector<Color.Bgra>(size.Area), size)
 		{ }
 		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, new global::Cairo.ImageSurface(buffer, global::Cairo.Format.Argb32, size.Width, size.Height, size.Width), size)
+			base(buffer, new global::Cairo.ImageSurface(buffer, global::Cairo.Format.Argb32, size.Width, size.Height, size.Width * 4), size)
 		{ }
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
 		{

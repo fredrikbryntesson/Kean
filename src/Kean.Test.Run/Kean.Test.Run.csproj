@@ -56,9 +56,9 @@
       <Project>{C7D3F01E-01B5-463E-A574-29B5F97E38BF}</Project>
       <Name>Kean.Core.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Color.Test\Kean.Draw.Color.Test.csproj">
-      <Project>{3EFD4052-3FE8-4B58-8833-349550F073E8}</Project>
-      <Name>Kean.Draw.Color.Test</Name>
+    <ProjectReference Include="..\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj">
+      <Project>{98BAF538-395F-4E2A-B1FD-29ECC7129C73}</Project>
+      <Name>Kean.Draw.Cairo.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
       <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
@@ -71,6 +71,10 @@
     <ProjectReference Include="..\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj">
       <Project>{6D086688-CDFE-4F96-B0FA-13B22F7B0808}</Project>
       <Name>Kean.Core.Uri.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Test\Kean.Draw.Test.csproj">
+      <Project>{3EFD4052-3FE8-4B58-8833-349550F073E8}</Project>
+      <Name>Kean.Draw.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj">
       <Project>{BC052502-2E40-4577-B35E-E659B8FCB6B8}</Project>

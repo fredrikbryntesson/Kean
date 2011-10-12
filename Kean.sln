@@ -45,8 +45,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri.Test", "src\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw", "src\Kean.Draw\Kean.Draw.csproj", "{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color", "src\Kean.Draw.Color\Kean.Draw.Color.csproj", "{011F5C48-AC45-4C16-B081-3852BB5D65D4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu", "src\Kean.Draw.Gpu\Kean.Draw.Gpu.csproj", "{A519A94C-2837-4A3D-B90A-1535704DCC8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu.Test", "src\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj", "{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}"
@@ -127,7 +125,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize", "src\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize.Test", "src\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj", "{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Color.Test", "src\Kean.Draw.Color.Test\Kean.Draw.Color.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Test", "src\Kean.Draw.Test\Kean.Draw.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL.Test", "src\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj", "{BC052502-2E40-4577-B35E-E659B8FCB6B8}"
 EndProject
@@ -229,10 +227,6 @@ Global
 		{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{011F5C48-AC45-4C16-B081-3852BB5D65D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{011F5C48-AC45-4C16-B081-3852BB5D65D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{011F5C48-AC45-4C16-B081-3852BB5D65D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{011F5C48-AC45-4C16-B081-3852BB5D65D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A519A94C-2837-4A3D-B90A-1535704DCC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
