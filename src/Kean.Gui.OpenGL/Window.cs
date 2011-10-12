@@ -35,7 +35,7 @@ namespace Kean.Gui.OpenGL
 		class Image :
 			Gpu.Bgra
 		{
-			public Image(Gpu.Backend.IImage backend) :
+			public Image(Gpu.Backend.ITexture backend) :
 				base(backend)
 			{ }
 		}

@@ -7,12 +7,17 @@ namespace Kean.Draw.Gpu
 	public class Canvas :
 		Draw.Canvas
 	{
-		protected internal Backend.ICanvas Backend { get; private set; }
+		protected internal Backend.IFrameBuffer Backend { get; private set; }
 
 		internal Canvas(Packed image) :
 			base(image)
 		{
-			this.Backend = image.Backend.Canvas;
+			this.Backend = image.Backend.FrameBuffer;
+		}
+		internal Canvas(Planar image, params Packed[] channels) :
+			base(image)
+		{
+			this.Backend = channels[0].Backend.Factory.CreateFrameBuffer(channels.Map(s => s.Backend));
 		}
 
 		public Raster.Image Read()
@@ -44,13 +49,26 @@ namespace Kean.Draw.Gpu
 		#endregion
 		#region Draw, Blend, Clear
 		#region Draw Image
-		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			if (!(image is Gpu.Image))
+			this.Backend.Use();
+			if (map.NotNull())
+			{
+				map.Backend.BindChannels(image);
+				map.Backend.Use();
+			}
+			image.Render(source, destination);
+			if (map.NotNull())
+				map.Backend.Unuse();
+			this.Backend.Unuse();
+		}
+		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		{
+			if (!(image is Image))
 				using (image = Gpu.Image.Create(image))
-					this.Backend.Draw((image as Gpu.Packed).Backend, source, destination);
+					this.Draw(map as Map, image as Image, source, destination);
 			else
-				this.Backend.Draw((image as Gpu.Packed).Backend, source, destination);
+				this.Draw(map as Map, image as Image, source, destination);
 		}
 		#endregion
 		#region Draw Box
@@ -69,16 +87,6 @@ namespace Kean.Draw.Gpu
 			throw new NotImplementedException();
 		}
 		#endregion
-		#region Draw Map
-		public override void Draw(Draw.Map map, Draw.Image image)
-		{
-			if (!(image is Gpu.Image))
-				using (image = Gpu.Image.Create(image))
-					this.Backend.Draw(map, (image as Gpu.Packed).Backend);
-			else
-				this.Backend.Draw(map, (image as Gpu.Packed).Backend);
-		}
-		#endregion		
 		#region Blend
 		public override void Blend(float factor)
 		{

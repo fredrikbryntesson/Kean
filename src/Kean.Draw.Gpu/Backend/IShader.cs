@@ -1,10 +1,10 @@
 ﻿// 
-//  Fragment.cs
+//  IImage.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Anders Frisk
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,17 +20,15 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Gui.OpenGL.Backend.Shader
+namespace Kean.Draw.Gpu.Backend
 {
-	public class Fragment :
-		Abstract<Fragment>
+	public interface IShader :
+		IDisposable
 	{
-		protected override OpenTK.Graphics.OpenGL.ShaderType ShaderType
-		{
-			get { return OpenTK.Graphics.OpenGL.ShaderType.FragmentShader; }
-		}
-		public Fragment() { }
-		public Fragment(string code) : base(code) { }
+		void Use();
+		void Unuse();
+		void BindChannels(params Image[] images);
 	}
 }

@@ -26,22 +26,18 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Gpu
 {
-	public abstract class Map<T, Result> :
-		Draw.Map<T, Result>
-		where T : Image
-		where Result : Image
-	{ }
-	public abstract class Map<T1, T2, Result> :
-		Draw.Map<T1, T2, Result>
-		where T1 : Image
-		where T2 : Image
-		where Result : Image
-	{ }
-	public abstract class Map<T1, T2, T3, Result> :
-		Draw.Map<T1, T2, T3, Result>
-		where T1 : Image
-		where T2 : Image
-		where T3 : Image
-		where Result : Image
-	{ }
+	public class Map :
+		Draw.Map
+	{
+		protected internal Backend.IShader Backend { get; private set; }
+		public Map(Backend.IShader backend)
+		{
+			this.Backend = backend;
+		}
+		public static Map BgrToMonochrome { get { return new Map(Gpu.Backend.Factory.ConvertBgrToMonochrome); } }
+		public static Map BgrToU { get { return new Map(Gpu.Backend.Factory.ConvertBgrToU); } }
+		public static Map BgrToV { get { return new Map(Gpu.Backend.Factory.ConvertBgrToV); } }
+		public static Map BgrToYuv420 { get { return new Map(Gpu.Backend.Factory.ConvertBgrToYuv420); } }
+		public static Map Yuv420ToBgr { get { return new Map(Gpu.Backend.Factory.ConvertYuv420ToBgr); } }
+	}
 }

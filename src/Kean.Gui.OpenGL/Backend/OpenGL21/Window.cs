@@ -32,19 +32,19 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		Backend.Window
 	{
 		class ScreenImage :
-			Gpu.Backend.IImage
+			Gpu.Backend.ITexture
 		{
 			class ScreenCanvas :
-				OpenGL21.Canvas
+				OpenGL21.FrameBuffer
 			{
-				public ScreenCanvas(Gpu.Backend.IImage image) :
+				public ScreenCanvas(Gpu.Backend.ITexture image) :
 					base(image)
 				{ }
-				protected override Backend.Image CreateDepth()
+				protected override Backend.Texture CreateDepth()
 				{
 					return null;
 				}
-				protected override uint CreateFramebuffer(Kean.Draw.Gpu.Backend.IImage color, Kean.Gui.OpenGL.Backend.Image depth)
+				protected override uint CreateFrameBuffer(Kean.Draw.Gpu.Backend.ITexture[] color, Kean.Gui.OpenGL.Backend.Texture depth)
 				{
 					return 0;
 				}
@@ -61,15 +61,19 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 			public ScreenImage(Func<Geometry2D.Integer.Size> getSize)
 			{
 				this.getSize = getSize;
-				this.Canvas = new ScreenCanvas(this);
+				this.FrameBuffer = new ScreenCanvas(this);
 			}
-			#region IImage Members
+			#region ITexture Members
 			public bool Wrap { get { return false; } set { ; } }
 			public Gpu.Backend.IFactory Factory { get; private set; }
-			public Gpu.Backend.ICanvas Canvas { get; private set; }
+			public Gpu.Backend.IFrameBuffer FrameBuffer { get; private set; }
 			public Draw.CoordinateSystem CoordinateSystem { get; set; }
 			public Geometry2D.Integer.Size Size { get { return this.getSize(); } }
-			public Draw.Gpu.Backend.ImageType Type { get { return Gpu.Backend.ImageType.Bgra; } }
+			public Draw.Gpu.Backend.TextureType Type { get { return Gpu.Backend.TextureType.Bgra; } }
+			public void Use() { }
+			public void Use(int channel) { }
+			public void Unuse() { }
+			public void Unuse(int channel) { }
 			public void Load(Geometry2D.Integer.Point offset, Draw.Raster.Image image)
 			{
 				// TODO: implement this by using GL.WritePixels.
@@ -79,7 +83,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 				// TODO: implement this by using GL.ReadPixels.
 				return null;
 			}
-			public Gpu.Backend.IImage Copy()
+			public Gpu.Backend.ITexture Copy()
 			{
 				return null;
 			}
@@ -102,7 +106,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			return new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
 		}
-		public override Gpu.Backend.IImage CreateImage()
+		public override Gpu.Backend.ITexture CreateImage()
 		{
 			return new ScreenImage(() => new Geometry2D.Integer.Size(this.Width, this.Height));
 		}

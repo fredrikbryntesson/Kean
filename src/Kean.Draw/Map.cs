@@ -29,28 +29,4 @@ namespace Kean.Draw
 	public abstract class Map
 	{
 	}
-	public abstract class Map<T, Result> :
-		Map
-		where T : Image
-		where Result : Image
-	{
-		public abstract Result Apply(T input);
-	}
-	public abstract class Map<T1, T2, Result> :
-		Map
-		where T1 : Image
-		where T2 : Image
-		where Result : Image
-	{
-		public abstract Result Apply(T1 input1, T2 input2);
-	}
-	public abstract class Map<T1, T2, T3, Result> :
-		Map
-		where T1 : Image
-		where T2 : Image
-		where T3 : Image
-		where Result : Image
-	{
-		public abstract Result Apply(T1 input1, T2 input2, T3 input3);
-	}
 }

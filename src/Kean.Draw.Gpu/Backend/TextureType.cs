@@ -1,10 +1,10 @@
 ﻿// 
-//  Geometry.cs
+//  ImageType.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Anders Frisk
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -19,18 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace Kean.Gui.OpenGL.Backend.Shader
+namespace Kean.Draw.Gpu.Backend
 {
-	public class Geometry :
-		Abstract<Geometry>
+	public enum TextureType
 	{
-		protected override OpenTK.Graphics.OpenGL.ShaderType ShaderType
-		{
-			get { return OpenTK.Graphics.OpenGL.ShaderType.GeometryShaderExt; }
-		}
-		public Geometry() { }
-		public Geometry(string code) : base(code) { }
+		Monochrome,
+		Bgra,
+		Bgr,
 	}
 }

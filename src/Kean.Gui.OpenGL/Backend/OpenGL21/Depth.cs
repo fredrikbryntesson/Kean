@@ -32,13 +32,13 @@ using Kean.Gui.OpenGL.Backend.Extension;
 namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
 	internal class Depth :
-		Image
+		Texture
 	{
 
 		internal Depth(Factory factory, Geometry2D.Integer.Size size) :
-			base(factory, Gpu.Backend.ImageType.Bgra, size, Draw.CoordinateSystem.Default)
+			base(factory, Gpu.Backend.TextureType.Bgra, size, Draw.CoordinateSystem.Default)
 		{ }
-		protected override void Load(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, IntPtr data)
+		protected override void Load(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, IntPtr data)
 		{
 			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, (OpenTK.Graphics.OpenGL.PixelInternalFormat)OpenTK.Graphics.OpenGL.All.DepthComponent32, size.Width, size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.DepthComponent, OpenTK.Graphics.OpenGL.PixelType.UnsignedInt, IntPtr.Zero);
 		}

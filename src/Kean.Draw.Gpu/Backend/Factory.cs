@@ -28,15 +28,19 @@ namespace Kean.Draw.Gpu.Backend
 {
 	public static class Factory
 	{
-		static IFactory implemetation;
 		public static IFactory Implemetation { get; set; }
-		public static IImage CreateImage(ImageType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
+		public static ITexture CreateImage(TextureType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
 		{
 			return Factory.Implemetation.CreateImage(type, size, coordinateSystem);
 		}
-		public static IImage CreateImage(Draw.Raster.Image image)
+		public static ITexture CreateImage(Draw.Raster.Image image)
 		{
 			return Factory.Implemetation.CreateImage(image);
 		}
+		public static IShader ConvertBgrToMonochrome { get { return Factory.Implemetation.ConvertBgrToMonochrome; } }
+		public static IShader ConvertBgrToU { get { return Factory.Implemetation.ConvertBgrToU; } }
+		public static IShader ConvertBgrToV { get { return Factory.Implemetation.ConvertBgrToV; } }
+		public static IShader ConvertBgrToYuv420 { get { return Factory.Implemetation.ConvertBgrToYuv420; } }
+		public static IShader ConvertYuv420ToBgr { get { return Factory.Implemetation.ConvertYuv420ToBgr; } }
 	}
 }

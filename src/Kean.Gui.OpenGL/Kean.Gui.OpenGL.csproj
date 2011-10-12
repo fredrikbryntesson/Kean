@@ -45,8 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backend\BgraToYuv.cs" />
-    <Compile Include="Backend\Canvas.cs" />
+    <Compile Include="Backend\FrameBuffer.cs" />
     <Compile Include="Backend\Extension\BackendExtension.cs" />
     <Compile Include="Backend\Extension\WindowBorderExtension.cs" />
     <Compile Include="Backend\Extension\ResizeDirectionExtension.cs" />
@@ -56,11 +55,7 @@
     <Compile Include="Backend\Input\Pointer.cs" />
     <Compile Include="Backend\Input\PointerButtons.cs" />
     <Compile Include="Backend\Input\PointerWheels.cs" />
-    <Compile Include="Backend\Map.cs" />
     <Compile Include="Backend\OpenGL21\Depth.cs" />
-    <Compile Include="Backend\BgraToY.cs" />
-    <Compile Include="Backend\YuvToBgra.cs" />
-    <Compile Include="Map.cs" />
     <Compile Include="Backend\Shader\Abstract.cs" />
     <Compile Include="Backend\Shader\Fragment.cs" />
     <Compile Include="Backend\Shader\Geometry.cs" />
@@ -69,10 +64,10 @@
     <Compile Include="Exception\Framebuffer.cs" />
     <Compile Include="Backend\Extension\ImageTypeExtension.cs" />
     <Compile Include="Backend\Factory.cs" />
-    <Compile Include="Backend\Image.cs" />
-    <Compile Include="Backend\OpenGL21\Canvas.cs" />
+    <Compile Include="Backend\Texture.cs" />
+    <Compile Include="Backend\OpenGL21\FrameBuffer.cs" />
     <Compile Include="Backend\OpenGL21\Factory.cs" />
-    <Compile Include="Backend\OpenGL21\Image.cs" />
+    <Compile Include="Backend\OpenGL21\Texture.cs" />
     <Compile Include="Backend\OpenGL21\Window.cs" />
     <Compile Include="Backend\ThreadPool.cs" />
     <Compile Include="Backend\Window.cs" />

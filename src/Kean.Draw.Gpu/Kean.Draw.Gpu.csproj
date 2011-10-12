@@ -40,10 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Factory.cs" />
-    <Compile Include="Backend\ICanvas.cs" />
+    <Compile Include="Backend\IFrameBuffer.cs" />
     <Compile Include="Backend\IFactory.cs" />
-    <Compile Include="Backend\IImage.cs" />
-    <Compile Include="Backend\ImageType.cs" />
+    <Compile Include="Backend\IShader.cs" />
+    <Compile Include="Backend\ITexture.cs" />
+    <Compile Include="Backend\TextureType.cs" />
     <Compile Include="Bgr.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />

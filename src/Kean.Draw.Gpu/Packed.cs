@@ -29,18 +29,21 @@ namespace Kean.Draw.Gpu
 	public abstract class Packed :
 		Image
 	{
-		protected internal Backend.IImage Backend;
+		protected internal Backend.ITexture Backend { get; private set; }
 
 		#region Constructors
 		protected Packed(Planar original) :
 			base(original) { }
-		protected Packed(Backend.IImage backend) :
+		protected Packed(Backend.ITexture backend) :
 			base(backend.Size, backend.CoordinateSystem)
 		{
 			this.Backend = backend;
 		}
 		#endregion
-
+		internal override void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		{
+			this.Backend.Render(source, destination);
+		}
 		#region Draw.Image Overrides
 		public override Draw.Canvas Canvas
 		{

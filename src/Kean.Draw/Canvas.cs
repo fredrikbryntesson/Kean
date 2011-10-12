@@ -95,14 +95,26 @@ namespace Kean.Draw
 		#region Draw Image
 		public virtual void Draw(Draw.Image image)
 		{
-			this.Draw(image, new Geometry2D.Single.Point());
+			this.Draw(null, image);
+		}
+		public virtual void Draw(Map map, Image image)
+		{
+			this.Draw(map, image, new Geometry2D.Single.Point());
 		}
 		public virtual void Draw(Draw.Image image, Geometry2D.Single.Point position)
 		{
-			Geometry2D.Single.Box region = image.Crop.Decrease((Geometry2D.Single.Size)image.Size);
-			this.Draw(image, region, new Geometry2D.Single.Box(position, region.Size));
+			this.Draw(null, image, new Geometry2D.Single.Point());
 		}
-		public abstract void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
+		public virtual void Draw(Map map, Draw.Image image, Geometry2D.Single.Point position)
+		{
+			Geometry2D.Single.Box region = image.Crop.Decrease((Geometry2D.Single.Size)image.Size);
+			this.Draw(map, image, region, new Geometry2D.Single.Box(position, region.Size));
+		}
+		public virtual void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		{
+			this.Draw(null, image, source, destination);
+		}
+		public abstract void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		#endregion
 		#region Draw Box
 		public virtual void Draw(IColor color)
@@ -121,9 +133,6 @@ namespace Kean.Draw
 			this.Draw(fill, null, 0, path);
 		}
 		public abstract void Draw(IPaint fill, IPaint stroke, float strokeWidth, Path path);
-		#endregion
-		#region Draw Map
-		public abstract void Draw(Map map, Image image);
 		#endregion
 		#region Blend
 		public abstract void Blend(float factor);

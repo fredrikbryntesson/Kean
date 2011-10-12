@@ -36,17 +36,96 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 	{
 		#region Constructors
 		public Factory()
-		{}
+		{ }
 		#endregion
-
-		#region IFactory Members
-		public override Gpu.Backend.IImage CreateImage(Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
+		#region Inheritors Interface
+		protected override Shader.Vertex DefaultVertex { get { return new Shader.Vertex(@"void main() { gl_Position = ftransform(); gl_TexCoord[0] = gl_MultiTexCoord0; }"); } }
+		protected override Shader.Fragment BgrToMonochromeFragment 
 		{
-			return new Image(this, type, size, coordinateSystem); 
+			get 
+			{
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float y = input.x * 0.299 + input.y * 0.587 + input.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }");
+			} 
 		}
-		public override Gpu.Backend.IImage CreateImage(Raster.Image image)
+		protected override Shader.Fragment BgrToUFragment
 		{
-			return new Image(this, image);
+			get
+			{
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float u = input.x * (-0.168736) + input.y * (-0.331264) + input.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }");
+			}
+		}
+		protected override Shader.Fragment BgrToVFragment
+		{
+			get
+			{
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float v = input.x * 0.5 + input.y * (-0.418688) + input.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }");
+			}
+		}
+		protected override Shader.Fragment BgrToYuv420Fragment
+		{
+			get
+			{
+				return new Shader.Fragment(@"
+								uniform sampler2D bgr0;
+                                vec4 YuvToRgba(vec4 t);
+                                void main()
+                                {
+                                    vec2 center = gl_TexCoord[0].xy;
+                                    gl_FragData[0] = vec4(0.5, 0.0, 0.0, 1.0);
+                                    gl_FragData[1] = vec4(0.4, 0.0, 0.0, 1.0);
+                                    gl_FragData[2] = vec4(0.3, 0.0, 0.0, 1.0);
+                                }
+                                // Convert yuva to rgba
+                                vec4 YuvToRgba(vec4 t)
+                                {	
+	                                 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
+						                                -0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
+						                                1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
+								                        0,	                0,                  0,                          1);   
+                                		
+	                                return matrix * t;
+                                }");
+			}
+		}
+		protected override Shader.Fragment Yuv420ToBgrFragment
+		{
+			get 
+			{
+				return new Shader.Fragment(@"
+								uniform sampler2D monochrome0Y0;
+                                uniform sampler2D monochrome0U1;
+                                uniform sampler2D monochrome0V2;
+                                vec4 YuvToRgba(vec4 t);
+                                void main()
+                                {
+                                    vec2 center = gl_TexCoord[0].xy;
+                                    gl_FragColor = YuvToRgba(vec4(texture2D(monochrome0Y0, center).x, texture2D(monochrome0U1, center).x-0.5, texture2D(monochrome0V2, center).x-0.5, 1.0));
+                                }
+                                // Convert yuva to rgba
+                                vec4 YuvToRgba(vec4 t)
+                                {	
+	                                 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
+						                                -0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
+						                                1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
+								                        0,	                0,                  0,                          1);   
+                                		
+	                                return matrix * t;
+                                }"); 
+			} 
+		}
+		#endregion
+		#region IFactory Members
+		public override Gpu.Backend.ITexture CreateImage(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
+		{
+			return new Texture(this, type, size, coordinateSystem);
+		}
+		public override Gpu.Backend.ITexture CreateImage(Raster.Image image)
+		{
+			return new Texture(this, image);
+		}
+		public override Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Kean.Draw.Gpu.Backend.ITexture[] textures)
+		{
+			return new FrameBuffer(textures);
 		}
 		#endregion
 	}

@@ -1,5 +1,5 @@
 ﻿// 
-//  Map.cs
+//  IImage.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,29 +20,28 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
-using Gpu = Kean.Draw.Gpu;
-
-namespace Kean.Gui.OpenGL
+namespace Kean.Draw.Gpu.Backend
 {
-	public abstract class Map<T, Result> :
-		Gpu.Map<T, Result>
-		where T : Gpu.Image
-		where Result : Gpu.Image
-	{ }
-	public abstract class Map<T1, T2, Result> :
-		Gpu.Map<T1, T2, Result>
-		where T1 : Gpu.Image
-		where T2 : Gpu.Image
-		where Result : Gpu.Image
-	{ }
-	public abstract class Map<T1, T2, T3, Result> :
-		Gpu.Map<T1, T2, T3, Result>
-		where T1 : Gpu.Image
-		where T2 : Gpu.Image
-		where T3 : Gpu.Image
-		where Result : Gpu.Image
-	{ }
+	public interface ITexture :
+		IDisposable
+	{
+		IFrameBuffer FrameBuffer { get; }
+		IFactory Factory { get; }
+
+		bool Wrap { get; set; }
+		CoordinateSystem CoordinateSystem { get; set; }
+		Geometry2D.Integer.Size Size { get; }
+		TextureType Type { get; }
+		
+		void Load(Geometry2D.Integer.Point offset, Raster.Image image);
+		Raster.Image Read();
+
+		void Use();
+		void Use(int channel);
+		void Unuse();
+		void Unuse(int channel);
+
+		void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
+	}
 }

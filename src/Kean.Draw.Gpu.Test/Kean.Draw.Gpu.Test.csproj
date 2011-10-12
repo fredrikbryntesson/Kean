@@ -47,6 +47,7 @@
     <Compile Include="All.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
+    <Compile Include="Convert.cs" />
     <Compile Include="Monochrome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

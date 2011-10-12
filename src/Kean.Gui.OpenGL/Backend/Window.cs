@@ -69,7 +69,7 @@ namespace Kean.Gui.OpenGL.Backend
 			this.InitializeGpu();
 		}
 		protected abstract OpenTK.Graphics.GraphicsContext CreateContext(OpenTK.Platform.IWindowInfo windowInformation);
-		public abstract Gpu.Backend.IImage CreateImage();
+		public abstract Gpu.Backend.ITexture CreateImage();
 		protected virtual void InitializeGpu()
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);

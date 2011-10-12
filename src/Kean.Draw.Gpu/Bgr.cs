@@ -21,6 +21,7 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Draw.Gpu
 {
@@ -28,34 +29,52 @@ namespace Kean.Draw.Gpu
         Packed
     {
         #region Constructors
-        public Bgr(Raster.Bgra image) :
+        public Bgr(Raster.Image image) :
             base(Gpu.Backend.Factory.CreateImage(image))
         { }
-        public Bgr(Gpu.Image image) :
+		public Bgr(Gpu.Yuv420 image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			this.Canvas.Draw(Map.Yuv420ToBgr, image);
+		}
+		public Bgr(Gpu.Monochrome image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			this.Canvas.Draw(image);
+		}
+		public Bgr(Gpu.Bgra image) :
             this(image.Size, image.CoordinateSystem)
         {
-            // TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
+			this.Canvas.Draw(image);
         }
         public Bgr(Geometry2D.Integer.Size size) :
             this(size, CoordinateSystem.Default)
         { }
         public Bgr(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-            base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Bgr, size, coordinateSystem))
+            base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.TextureType.Bgr, size, coordinateSystem))
         { }
-        protected Bgr(Draw.Gpu.Backend.IImage image) :
+        protected Bgr(Draw.Gpu.Backend.ITexture image) :
             base(image)
         { }
         #endregion
         #region Image Overrides
         public override T Convert<T>()
         {
-            T result = null;
-            Raster.Image backend = this.Backend.Read();
-            if (typeof(T) == typeof(Raster.Bgr))
-                result = backend as T;
-            else if (typeof(T) == typeof(Raster.Bgra) || typeof(T) == typeof(Raster.Monochrome))
-                result = backend.Convert<T>() as T;
-            return result;
+			T result = null;
+			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+				result = this.Backend.Read().Convert<T>() as T;
+			else
+			{
+				if (typeof(T) == typeof(Gpu.Bgr))
+					result = this.Copy() as T;
+				else if (typeof(T) == typeof(Gpu.Bgra))
+					result = new Bgra(this) as T;
+				else if (typeof(T) == typeof(Gpu.Monochrome))
+					result = new Monochrome(this) as T;
+				else if (typeof(T) == typeof(Gpu.Yuv420))
+					result = new Yuv420(this) as T;
+			}
+			return result;
         }
         public override Kean.Draw.Image ResizeTo(Geometry2D.Integer.Size size)
         {
@@ -65,7 +84,7 @@ namespace Kean.Draw.Gpu
         }
         public override Draw.Image Copy()
         {
-            return new Bgr(this.Backend.Copy());
+            return new Bgr(this.Convert<Raster.Bgr>());
         }
         #endregion
     }

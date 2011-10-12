@@ -21,7 +21,7 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-
+using Kean.Core.Reflect.Extension;
 namespace Kean.Draw.Gpu
 {
 	public class Monochrome :
@@ -31,18 +31,26 @@ namespace Kean.Draw.Gpu
 		public Monochrome(Raster.Monochrome image) :
 			base(Gpu.Backend.Factory.CreateImage(image))
 		{ }
-		public Monochrome(Gpu.Image image) :
+		public Monochrome(Gpu.Yuv420 image) :
+			this(image.Y.Backend)
+		{ }
+		public Monochrome(Gpu.Bgr image) :
 			this(image.Size, image.CoordinateSystem)
 		{
-			// TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
-		}		
+			this.Canvas.Draw(Map.BgrToMonochrome, image);
+		}
+		public Monochrome(Gpu.Bgra image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			this.Canvas.Draw(Map.BgrToMonochrome, image);
+		}
 		public Monochrome(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem))
+			base(Gpu.Backend.Factory.CreateImage(Gpu.Backend.TextureType.Monochrome, size, coordinateSystem))
 		{ }
-		protected internal Monochrome(Draw.Gpu.Backend.IImage image) : 
+		protected internal Monochrome(Draw.Gpu.Backend.ITexture image) : 
 			base(image)
 		{ }
 		#endregion
@@ -50,12 +58,19 @@ namespace Kean.Draw.Gpu
 		public override T Convert<T>()
 		{
 			T result = null;
-			if (typeof(T) == typeof(Raster.Monochrome))
-				result = (this.Canvas as Canvas).Read() as T;
-			else if (typeof(T) == typeof(Raster.Bgra))
-				result = (this.Canvas as Canvas).Read().Convert<Raster.Bgra>() as T;
-			else if (typeof(T) == typeof(Raster.Bgr))
-				result = (this.Canvas as Canvas).Read().Convert<Raster.Bgr>() as T;
+			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+				result = this.Backend.Read().Convert<T>() as T; 
+			else
+			{
+				if (typeof(T) == typeof(Gpu.Monochrome))
+					result = this.Copy() as T;
+				else if (typeof(T) == typeof(Gpu.Bgr))
+					result = new Bgr(this) as T;
+				else if (typeof(T) == typeof(Gpu.Bgra))
+					result = new Bgra(this) as T;
+				else if (typeof(T) == typeof(Gpu.Yuv420))
+					result = new Yuv420(this) as T;
+			}
 			return result;
 		}
 		// TODO:  Resize Monochrome using GPU
@@ -67,7 +82,7 @@ namespace Kean.Draw.Gpu
         }
 		public override Draw.Image Copy()
 		{
-			return new Monochrome(this.Backend.Copy());
+			return new Monochrome(this.Convert<Raster.Monochrome>());
 		}		
 		#endregion
 	}

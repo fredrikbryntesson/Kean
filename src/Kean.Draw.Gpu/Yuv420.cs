@@ -28,50 +28,95 @@ namespace Kean.Draw.Gpu
 	public class Yuv420 : 
 		Planar
 	{
-		public Monochrome Y { get; private set; }
-		public Monochrome U { get; private set; }
-		public Monochrome V { get; private set; }
+		public Monochrome Y { get { return this.Channels[0] as Monochrome; } }
+		public Monochrome U { get { return this.Channels[1] as Monochrome; } }
+		public Monochrome V { get { return this.Channels[2] as Monochrome; } }
 
 		public Yuv420(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			this(
-			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size, coordinateSystem)),
-			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size / 2, coordinateSystem)),
-			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.ImageType.Monochrome, size / 2, coordinateSystem)),
-			size, coordinateSystem)
+			size, coordinateSystem,
+			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.TextureType.Monochrome, size, coordinateSystem)),
+			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.TextureType.Monochrome, size / 2, coordinateSystem)),
+			new Monochrome(Gpu.Backend.Factory.CreateImage(Gpu.Backend.TextureType.Monochrome, size / 2, coordinateSystem))
+			)
 		{ }
 		public Yuv420(Raster.Yuv420 image) :
 			this(
+			image.Size, image.CoordinateSystem,
 			new Monochrome(image.Y),
 			new Monochrome(image.U),
-			new Monochrome(image.V),
-			image.Size, image.CoordinateSystem)
+			new Monochrome(image.V)
+			)
 		{ }
-		public Yuv420(Gpu.Image image) :
+		public Yuv420(Gpu.Monochrome image) :
 			this(image.Size, image.CoordinateSystem)
 		{
+			this.Y.Canvas.Draw(image);
+			this.U.Canvas.Draw(new Kean.Draw.Color.Y(128));
+			this.V.Canvas.Draw(new Kean.Draw.Color.Y(128));
+		}
+		public Yuv420(Gpu.Bgr image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			this.Y.Canvas.Draw(Map.BgrToMonochrome, image);
+			this.U.Canvas.Draw(Map.BgrToU, image);
+			this.V.Canvas.Draw(Map.BgrToV, image);
+		}
+		public Yuv420(Gpu.Bgra image) :
+			this(image.Size, image.CoordinateSystem)
+		{
+			this.Y.Canvas.Draw(Map.BgrToMonochrome, image);
+			this.U.Canvas.Draw(Map.BgrToU, image, new Kean.Math.Geometry2D.Single.Box(0,0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0,0, this.U.Size.Width, this.U.Size.Height));
+			this.V.Canvas.Draw(Map.BgrToV, image, new Kean.Math.Geometry2D.Single.Box(0,0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0,0, this.V.Size.Width, this.V.Size.Height));
 			// TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
 		}
-		Yuv420(Monochrome y, Monochrome u, Monochrome v, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(size, coordinateSystem)
-		{
-			this.Y = y;
-			this.U = u;
-			this.V = v;
-		}
+		Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Monochrome y, Monochrome u, Monochrome v) :
+			base(size, coordinateSystem, y, u, v)
+		{ }
 		protected Yuv420(Yuv420 original) :
 			base(original)
+		{ }
+		internal override void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			this.Y = original.Y.Copy() as Monochrome;
-			this.U = original.U.Copy() as Monochrome;
-			this.V = original.V.Copy() as Monochrome;
+			this.U.Backend.Use(1);
+			this.V.Backend.Use(2);
+			this.Y.Backend.Use(0);
+			this.Y.Render(source, destination);
+			this.V.Backend.Unuse(2);
+			this.U.Backend.Unuse(1);
+			this.Y.Backend.Unuse(0);
 		}
 		#region Draw.Image Overrides
-		public override Draw.Canvas Canvas
+		public override T Convert<T>()
 		{
-			get { return null; }
+			T result = null;
+			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+			{
+				Raster.Monochrome y = this.Y.Backend.Read() as Raster.Monochrome;
+				Raster.Monochrome u = this.U.Backend.Read() as Raster.Monochrome;
+				Raster.Monochrome v = this.V.Backend.Read() as Raster.Monochrome;
+				byte[] buffer = new byte[y.Length + u.Length + v.Length];
+				System.Runtime.InteropServices.Marshal.Copy(y.Pointer, buffer, 0, y.Length);
+				System.Runtime.InteropServices.Marshal.Copy(u.Pointer, buffer, y.Length, u.Length);
+				System.Runtime.InteropServices.Marshal.Copy(v.Pointer, buffer, y.Length+u.Length, v.Length);
+				Raster.Yuv420 raster = new Kean.Draw.Raster.Yuv420(buffer, this.Size);
+				result = raster.Convert<T>() as T;
+			}
+			else
+			{
+				if (typeof(T) == typeof(Gpu.Yuv420))
+					result = this.Copy() as T;
+				else if (typeof(T) == typeof(Gpu.Bgra))
+					result = new Bgra(this) as T;
+				else if (typeof(T) == typeof(Gpu.Bgr))
+					result = new Bgr(this) as T;
+				else if (typeof(T) == typeof(Gpu.Monochrome))
+					result = new Monochrome(this) as T;
+			}
+			return result;
 		}
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
 		{
@@ -95,24 +140,6 @@ namespace Kean.Draw.Gpu
 		public override float Distance(Draw.Image other)
 		{
 			return float.NaN;
-		}
-		public override void Dispose()
-		{
-			if (this.Y.NotNull())
-			{
-				this.Y.Dispose();
-				this.Y = null;
-			}
-			if (this.U.NotNull())
-			{
-				this.U.Dispose();
-				this.U = null;
-			}
-			if (this.V.NotNull())
-			{
-				this.V.Dispose();
-				this.V = null;
-			}
 		}
 		#endregion
 	}

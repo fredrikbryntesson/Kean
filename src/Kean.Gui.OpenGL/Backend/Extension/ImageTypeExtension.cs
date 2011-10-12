@@ -33,53 +33,53 @@ namespace Kean.Gui.OpenGL.Backend.Extension
 {
 	public static class ImageTypeExtension
 	{
-		public static OpenTK.Graphics.OpenGL.PixelInternalFormat PixelInternalFormat(this Gpu.Backend.ImageType me)
+		public static OpenTK.Graphics.OpenGL.PixelInternalFormat PixelInternalFormat(this Gpu.Backend.TextureType me)
 		{
 			OpenTK.Graphics.OpenGL.PixelInternalFormat result;
 			switch (me)
 			{
 				default:
-				case Gpu.Backend.ImageType.Bgra:
+				case Gpu.Backend.TextureType.Bgra:
 					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba8;
 					break;
-				case Gpu.Backend.ImageType.Bgr:
+				case Gpu.Backend.TextureType.Bgr:
 					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgb8;
 					break;
-				case Gpu.Backend.ImageType.Monochrome:
+				case Gpu.Backend.TextureType.Monochrome:
 					result = OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance8;
 					break;
 			}
 			return result;
 		}
-		public static OpenTK.Graphics.OpenGL.PixelFormat PixelFormat(this Gpu.Backend.ImageType me)
+		public static OpenTK.Graphics.OpenGL.PixelFormat PixelFormat(this Gpu.Backend.TextureType me)
 		{
 			OpenTK.Graphics.OpenGL.PixelFormat result;
 			switch (me)
 			{
 				default:
-				case Gpu.Backend.ImageType.Bgra:
+				case Gpu.Backend.TextureType.Bgra:
 					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
 					break;
-				case Gpu.Backend.ImageType.Bgr:
+				case Gpu.Backend.TextureType.Bgr:
 					result = OpenTK.Graphics.OpenGL.PixelFormat.Bgr;
 					break;
-				case Gpu.Backend.ImageType.Monochrome:
+				case Gpu.Backend.TextureType.Monochrome:
 					result = OpenTK.Graphics.OpenGL.PixelFormat.Luminance;
 					break;
 			}
 			return result;
 		}
-		public static Gpu.Backend.ImageType GetImageType(this Raster.Image me)
+		public static Gpu.Backend.TextureType GetImageType(this Raster.Image me)
 		{
-			Gpu.Backend.ImageType result;
+			Gpu.Backend.TextureType result;
 			if (me is Raster.Bgra)
-				result = Gpu.Backend.ImageType.Bgra;
+				result = Gpu.Backend.TextureType.Bgra;
 			else if (me is Raster.Bgr)
-				result = Gpu.Backend.ImageType.Bgr;
+				result = Gpu.Backend.TextureType.Bgr;
 			else if (me is Raster.Monochrome)
-				result = Gpu.Backend.ImageType.Monochrome;
+				result = Gpu.Backend.TextureType.Monochrome;
 			else
-				result = Gpu.Backend.ImageType.Monochrome;
+				result = Gpu.Backend.TextureType.Monochrome;
 			return result;
 		}
 	}

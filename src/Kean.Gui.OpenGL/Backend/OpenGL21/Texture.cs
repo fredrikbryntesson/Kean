@@ -31,24 +31,24 @@ using Kean.Gui.OpenGL.Backend.Extension;
 
 namespace Kean.Gui.OpenGL.Backend.OpenGL21
 {
-	public class Image :
-		OpenGL.Backend.Image
+	public class Texture :
+		OpenGL.Backend.Texture
 	{
 
-		public Image(Factory factory, Gpu.Backend.ImageType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
+		public Texture(Factory factory, Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
 			base(factory, type, size, coordinateSystem)
 		{ }
-		public Image(Factory factory, Raster.Image image) :
+		public Texture(Factory factory, Raster.Image image) :
 			base(factory, image.GetImageType(), image.Size, image.CoordinateSystem, image.Pointer)
 		{ }
 
-		protected override Backend.Canvas CreateCanvas()
+		protected override Backend.FrameBuffer CreateCanvas()
 		{
-			return new Canvas(this);
+			return new FrameBuffer(this);
 		}
-		protected override Backend.Image Create()
+		protected override Backend.Texture Create()
 		{
-			return new Image(this.Factory as Factory, this.Type, this.Size, this.CoordinateSystem);
+			return new Texture(this.Factory as Factory, this.Type, this.Size, this.CoordinateSystem);
 		}
 	}
 }

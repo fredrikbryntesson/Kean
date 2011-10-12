@@ -21,16 +21,34 @@
 
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.Gpu
 {
 	public abstract class Planar :
 		Image
 	{
+		protected Packed[] Channels { get; private set; }
+		protected Planar(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, params Packed[] channels) :
+			base(size, coordinateSystem) 
+		{
+			this.Channels = channels;
+		}
 		protected Planar(Planar original) :
-			base(original) { }
-		protected Planar(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(size, coordinateSystem) { }
-
+			base(original) 
+		{
+			this.Channels = original.Channels.Map(c => c.Copy() as Gpu.Packed);
+		}
+		#region Draw.Image Overrides
+		public override Draw.Canvas Canvas { get { return new Canvas(this, this.Channels); } }
+		public override void Dispose()
+		{
+			if (this.Channels.NotNull())
+			{
+				this.Channels.Apply(c => c.Dispose());
+				this.Channels = null;
+			}
+		}
+		#endregion
 	}
 }

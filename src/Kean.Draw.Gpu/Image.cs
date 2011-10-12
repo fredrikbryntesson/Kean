@@ -36,7 +36,9 @@ namespace Kean.Draw.Gpu
 			base(size, coordinateSystem)
 		{ }
 		#endregion
+		internal abstract void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		#region Draw.Image Overrides
+		/*
 		public override T Convert<T>()
 		{
 			T result = null;
@@ -47,14 +49,38 @@ namespace Kean.Draw.Gpu
 				if (type.IsSubclassOf(typeof(Packed)))
 				{
 					if (type == typeof(Bgra))
-						result = new Bgra(this) as T;
+					{
+						if (this is Bgr)
+							result = new Bgra(this as Bgr) as T;
+						else if (this is Monochrome)
+							result = new Bgra(this as Monochrome) as T;
+						else if (this is Yuv420)
+							result = new Bgra(this as Yuv420) as T;
+					}
 					else if (type == typeof(Monochrome))
-						result = new Monochrome(this) as T;
+					{
+						if (this is Bgra)
+							result = new Monochrome(this as Bgra) as T;
+						else if (this is Bgr)
+							result = new Monochrome(this as Bgr) as T;
+						else if (this is Yuv420)
+							result = new Monochrome(this as Yuv420) as T;
+					}
 				}
-				else if (type == typeof(Yuv420))
-					result = new Yuv420(this) as T;
+				else
+				{
+					if (type == typeof(Yuv420))
+					{
+						if (this is Bgra)
+							result = new Yuv420(this as Bgra) as T;
+						else if (this is Bgr)
+							result = new Yuv420(this as Bgr) as T;
+						else if (this is Monochrome)
+							result = new Yuv420(this as Monochrome) as T;
+					}
+				}
 			return result;
-		}
+		}*/
 		#endregion
 		#region Static Creators
 		public static Image Create(Draw.Image image)
@@ -66,6 +92,8 @@ namespace Kean.Draw.Gpu
 					result = new Bgra(image as Raster.Bgra);
 				else if (image is Raster.Monochrome)
 					result = new Monochrome(image as Raster.Monochrome);
+				else if (image is Raster.Yuv420)
+					result = new Yuv420(image as Raster.Yuv420);
 				else
 					result = new Bgra(image.Convert<Raster.Bgra>());
 			}

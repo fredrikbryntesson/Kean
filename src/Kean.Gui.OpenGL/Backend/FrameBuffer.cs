@@ -30,35 +30,36 @@ using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
 using Kean.Gui.OpenGL.Backend.Extension;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Gui.OpenGL.Backend
 {
-	public abstract class Canvas :
-		Gpu.Backend.ICanvas
+	public abstract class FrameBuffer :
+		Gpu.Backend.IFrameBuffer
 	{
-		Image depth;
-		public uint Framebuffer { get; private set; }
+		Texture depth;
+		protected uint Framebuffer { get; private set; }
 		public Geometry2D.Single.Box Clip { get; set; }
 		public Geometry2D.Single.Transform Transform { get; set; }
-		protected Canvas(Gpu.Backend.IImage image)
+		protected FrameBuffer(params Gpu.Backend.ITexture[] textures)
 		{
-			this.Image = image;
+			this.Textures = new Collection.ReadOnlyVector<Gpu.Backend.ITexture>(textures);
 			this.depth = this.CreateDepth();
-			this.Framebuffer = this.CreateFramebuffer(image, this.depth);
+			this.Framebuffer = this.CreateFrameBuffer(textures, this.depth);
 		}
 
 		#region Inheritors Interface
-		protected abstract Image CreateDepth();
-		protected abstract uint CreateFramebuffer(Gpu.Backend.IImage color, Image depth);
+		protected abstract Texture CreateDepth();
+		protected abstract uint CreateFrameBuffer(Gpu.Backend.ITexture[] color, Texture depth);
 		protected abstract void Bind();
 		protected virtual void SetupViewport()
 		{
 			GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
-			GL.Viewport(0, 0, this.Image.Size.Width, this.Image.Size.Height);
+			GL.Viewport(0, 0, this.Size.Width, this.Size.Height);
 			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
 			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
 			GL.PushMatrix();
-			(new Geometry2D.Single.Transform(2.0f / this.Image.Size.Width, 0.0f, 0.0f, 2.0f / this.Image.Size.Height, -1.0f, -1.0f)).Load();
+			(new Geometry2D.Single.Transform(2.0f / this.Size.Width, 0.0f, 0.0f, 2.0f / this.Size.Height, -1.0f, -1.0f)).Load();
 			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
 			GL.PushMatrix();
 			GL.LoadIdentity();
@@ -107,7 +108,7 @@ namespace Kean.Gui.OpenGL.Backend
 			if (this.Transform.NotNull())
 			{
 
-				Geometry2D.Single.Transform translation = Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)(this.Image.Size) / 2.0f);
+				Geometry2D.Single.Transform translation = Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)(this.Size) / 2.0f);
 				(translation * this.Transform * translation.Inverse).Load();
 			}
 		}
@@ -117,37 +118,53 @@ namespace Kean.Gui.OpenGL.Backend
 				Geometry2D.Single.Transform.Identity.Load();
 		}
 		#endregion
-        internal void Setup()
+        void Setup()
 		{
 			this.Bind();
 			this.SetupViewport();
 			this.SetupClippingPlanes();
 			this.SetupTransform();
 		}
-        internal void Teardown()
+        void Teardown()
 		{
 			this.Unbind();
 			this.TearDownClippingPlanes();
 			this.TearDownTransform();
 			this.TeardownViewport();
 		}
-		#region ICanvas Members
-		public Gpu.Backend.IImage Image { get; private set; }
-		public Gpu.Backend.IFactory Factory { get { return this.Image.Factory; } }
-		
+		#region IFrameBuffer Members
+		public Collection.IReadOnlyVector<Gpu.Backend.ITexture> Textures { get; private set; }
+		public Gpu.Backend.IFactory Factory { get { return this.Textures[0].Factory; } }
+
+		public Geometry2D.Integer.Size Size { get { return this.Textures[0].Size; } }
+		public Draw.CoordinateSystem CoordinateSystem
+		{
+			get { return this.Textures[0].CoordinateSystem; }
+			set { this.Textures[0].CoordinateSystem = value; }
+		}
+
+		public void Use()
+		{
+			this.Setup();
+		}
+		public void Unuse()
+		{
+			this.Teardown();
+		}
+
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
 			Raster.Image result;
-			Kean.Draw.Gpu.Backend.ImageType type = this.Image.Type;
+			Kean.Draw.Gpu.Backend.TextureType type = this.Textures[0].Type;
 			switch (type)
 			{
-				case Gpu.Backend.ImageType.Bgra:
+				case Gpu.Backend.TextureType.Bgra:
 					result = new Raster.Bgra(region.Size);
 					break;
-				case Gpu.Backend.ImageType.Bgr:
+				case Gpu.Backend.TextureType.Bgr:
 					result = new Raster.Bgr(region.Size);
 					break;
-				case Gpu.Backend.ImageType.Monochrome:
+				case Gpu.Backend.TextureType.Monochrome:
 					result = new Raster.Monochrome(region.Size);
 					break;
 				default:
@@ -187,20 +204,10 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			this.Teardown();
 		}
-		public void Draw(Gpu.Backend.IImage image)
-		{
-			this.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
-		}
-        public void Draw(Gpu.Backend.IImage image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
-        {
-			this.Setup();
-			image.Render(source, destination);
-			this.Teardown();
-		}
-		public void Draw(Draw.Map map, Gpu.Backend.IImage image)
+		public void Draw(Draw.Map map, Gpu.Backend.ITexture image)
 		{
 			this.Setup();
-			
+		
 			this.Teardown();
 		}
 		public void Blend(float factor)
@@ -212,14 +219,21 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncReverseSubtract);
 			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 			GL.Vertex2(0, 0);
-			GL.Vertex2(this.Image.Size.Width, 0);
-			GL.Vertex2(this.Image.Size.Width, this.Image.Size.Height);
-			GL.Vertex2(0, this.Image.Size.Height);
+			GL.Vertex2(this.Size.Width, 0);
+			GL.Vertex2(this.Size.Width, this.Size.Height);
+			GL.Vertex2(0, this.Size.Height);
 			GL.End();
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncAdd);
 			this.Teardown();
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 	}

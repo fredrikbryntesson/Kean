@@ -126,6 +126,10 @@ namespace Kean.Draw.Cairo
 		public override void Draw(Draw.Map map, Draw.Image image)
 		{
 		}
+		public override void Draw(Map map, Kean.Draw.Image image, Kean.Math.Geometry2D.Single.Box source, Kean.Math.Geometry2D.Single.Box destination)
+		{
+			throw new NotImplementedException();
+		}
 		#endregion
 		#region Blend
 		public override void Blend(float factor)
