@@ -44,21 +44,21 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			get 
 			{
-				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float y = input.x * 0.299 + input.y * 0.587 + input.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }");
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float y = value.x * 0.299 + value.y * 0.587 + value.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }");
 			} 
 		}
 		protected override Shader.Fragment BgrToUFragment
 		{
 			get
 			{
-				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float u = input.x * (-0.168736) + input.y * (-0.331264) + input.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }");
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float u = value.x * (-0.168736) + value.y * (-0.331264) + value.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }");
 			}
 		}
 		protected override Shader.Fragment BgrToVFragment
 		{
 			get
 			{
-				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 input = texture2D(bgr0, gl_TexCoord[0].xy); float v = input.x * 0.5 + input.y * (-0.418688) + input.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }");
+				return new Shader.Fragment(@"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float v = value.x * 0.5 + value.y * (-0.418688) + value.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }");
 			}
 		}
 		protected override Shader.Fragment BgrToYuv420Fragment
