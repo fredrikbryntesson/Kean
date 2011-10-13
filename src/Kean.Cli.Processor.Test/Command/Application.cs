@@ -42,7 +42,7 @@ namespace Kean.Cli.Processor.Test.Command
 		public Application(Action exit)
 		{
 			this.close = exit;
-			this.Configuration = new Configuration(this);
+			//this.Configuration = new Configuration(this);
 			this.Media = new Media();
 			this.Integer = new Geometry2D.Integer();
 			this.Single = new Geometry2D.Single();
