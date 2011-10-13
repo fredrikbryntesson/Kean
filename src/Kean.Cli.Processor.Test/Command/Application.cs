@@ -35,7 +35,9 @@ namespace Kean.Cli.Processor.Test.Command
 		public Geometry2D.Single Single { get; private set; }
 		[Object("geometryDouble", "2D Geometry types.")]
 		public Geometry2D.Double Double { get; private set; }
-
+		[Property("mode")]
+		public Mode Mode { get; private set; }
+		
 		Action close;
 		public Application(Action exit)
 		{

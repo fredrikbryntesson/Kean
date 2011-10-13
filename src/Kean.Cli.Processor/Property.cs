@@ -70,16 +70,28 @@ namespace Kean.Cli.Processor
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
+			bool parsed = true;
 			if (parameters.Length > 0)
 			{
 				string value = string.Join(" ", parameters).Trim();
 				if (value.ToLower() == "notify" && this.changed.NotNull() && this.backend.Readable)
 					this.changed.Add(Delegate.CreateDelegate(new Kean.Core.Reflect.Type("mscorlib.dll", "System.Action", this.backend.Type), new Notifier(this, editor), typeof(Notifier).GetMethod("Notify").MakeGenericMethod(this.backend.Type)));
 				else
-					this.Value = value;
+				{
+					try
+					{
+						this.Value = value;
+					}
+					catch (Exception e)
+					{
+						parsed = false;
+					}
+				}
 			}
-			if (this.backend.Readable)
+			if (parsed && this.backend.Readable)
 				editor.Answer(this, this.Value);
+			else
+				editor.Error(this, "Error Invalid Name:", parameters);
 			return true;
 		}
 		public override string Complete(string[] parameters)

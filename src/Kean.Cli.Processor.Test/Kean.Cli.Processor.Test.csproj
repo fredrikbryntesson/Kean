@@ -49,6 +49,7 @@
     <Compile Include="Command\Geometry3D\Single.cs" />
     <Compile Include="Command\Media.cs" />
     <Compile Include="Command\MediaState.cs" />
+    <Compile Include="Command\Mode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

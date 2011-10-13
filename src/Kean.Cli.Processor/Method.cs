@@ -65,8 +65,11 @@ namespace Kean.Cli.Processor
 			}
 			if (methodResult.NotNull())
 			{
-				if (methodResult is bool && !(bool)methodResult)
-					editor.Answer(this, "failed");
+				if (methodResult is bool)
+				{
+					if (!(bool)methodResult)
+						editor.Answer(this, "failed");
+				}
 				else if (methodResult is string)
 					editor.Answer(this, methodResult as string);
 				else
