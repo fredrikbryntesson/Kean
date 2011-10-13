@@ -45,11 +45,15 @@ namespace Kean.Core.Parallel
         }
         public void Dispose()
         {
-            if (this.workers != null)
+            if (this.workers.NotNull())
             {
-                foreach (Worker worker in this.workers)
-                    worker.Dispose();
-                this.workers = null;
+				foreach (Worker worker in this.workers)
+					if (!worker.Occupied)
+						worker.Dispose();
+				foreach (Worker worker in this.workers)
+					if (worker.Occupied)
+						worker.Dispose();
+				this.workers = null;
             }
         }
         public void Enqueue(Action task) { this.Enqueue(new Task(task)); }

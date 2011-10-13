@@ -74,7 +74,10 @@ namespace Kean.Cli.Processor
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{
-			editor.Current = this;
+			if (parameters.Length == 0 || parameters.Length == 1 && parameters[0].IsEmpty())
+				editor.Current = this;
+			else
+				editor.Error(this, "Error Parsing:", parameters);
 			return true;
 		}
 		public override string Complete(string[] parameters)

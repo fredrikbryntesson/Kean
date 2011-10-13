@@ -9,7 +9,7 @@ namespace Kean.Cli.LineBuffer
     {
         int position = 0;
         Kean.Core.Collection.IList<Buffer> buffers = new Kean.Core.Collection.List<Buffer>();
-        public Buffer Current { get { return this.buffers[this.position]; } } 
+		public Buffer Current { get { return this.buffers[this.position]; } private set { this.buffers[this.position] = value; } }
         public int Count { get { return this.buffers.Count; } }
         public bool Empty { get { return this.buffers.Count == 0; } }
         public Action<string> Writer { get; set; }
@@ -44,6 +44,10 @@ namespace Kean.Cli.LineBuffer
                 this.position = this.buffers.Count - 1;
             this.Current.Write();
         }
+		public void ClearCurrent()
+		{
+			this.Current = new Buffer(this.Writer);
+		}
         public void Clear()
         {
             this.buffers = new Kean.Core.Collection.List<Buffer>();

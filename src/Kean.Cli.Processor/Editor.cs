@@ -48,6 +48,7 @@ namespace Kean.Cli.Processor
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;
+			this.lineBuffer.Error = line => "! " + line;
 
 			this.Current = this.Root = new Object(root);
 		}
@@ -123,6 +124,10 @@ namespace Kean.Cli.Processor
 		internal void Notify(Member member, params string[] parameters)
 		{
 			this.lineBuffer.WriteLine("% " + member + " " + string.Join(" ", parameters));
+		}
+		internal void Error(Member member, string message, params string[] parameters)
+		{
+			this.lineBuffer.WriteLine("! " + member + "> " + message + " " + string.Join(" ", parameters));
 		}
 	}
 }

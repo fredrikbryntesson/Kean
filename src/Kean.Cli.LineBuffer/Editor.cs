@@ -37,7 +37,8 @@ namespace Kean.Cli.LineBuffer
         public Func<string, bool> Execute { get; set; }
         public Func<string, string> Complete { get; set; }
         public Func<string, string> Help { get; set; }
-        public string Prompt { get; set; }
+		public Func<string, string> Error { get; set; }
+		public string Prompt { get; set; }
         public Editor(ITerminal terminal)
         {
 			this.terminal = terminal;
@@ -104,16 +105,14 @@ namespace Kean.Cli.LineBuffer
                             lock (this.@lock)
                                 this.executing = true;
 						    if (this.Execute.IsNull() || this.Execute(this.history.Current.ToString()))
-                            {
                                 this.history.Add();
-                                this.terminal.Write(this.Prompt);
-                            }
-                            else
-                            {
-                                this.terminal.Write(this.Prompt);
-                                this.history.Add();
-                            }
-                            lock (this.@lock)
+							else if (this.Error.NotNull())
+							{
+								this.terminal.WriteLine(this.Error(this.history.Current.ToString()));
+								this.history.ClearCurrent();
+							}
+							this.terminal.Write(this.Prompt);
+							lock (this.@lock)
                                 this.executing = false;
                         }
                         break;

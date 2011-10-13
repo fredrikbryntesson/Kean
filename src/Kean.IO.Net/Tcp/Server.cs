@@ -22,6 +22,8 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 using Parallel = Kean.Core.Parallel;
 using Uri = Kean.Core.Uri;
 
@@ -31,6 +33,7 @@ namespace Kean.IO.Net.Tcp
 		Synchronized,
 		IDisposable
 	{
+		Collection.IList<Tcp.Connection> activeConnections = new Collection.Synchronized.List<Connection>();
 		public Action<IByteDevice> Connected { get; set; }
 		public Uri.Endpoint Endpoint { get; private set; }
 		public bool Running
@@ -72,6 +75,13 @@ namespace Kean.IO.Net.Tcp
 		{
 			return this.Start(new Uri.Endpoint("", port));
 		}
+		void OnConnect(Tcp.Connection connection)
+		{
+			this.activeConnections.Add(connection);
+			this.Connected(connection);
+			connection.Close();
+			this.activeConnections.Remove(c => connection == c);
+		}
 		public bool Start(Uri.Endpoint endPoint)
 		{
 			bool result;
@@ -83,11 +93,11 @@ namespace Kean.IO.Net.Tcp
 				{
 					try
 					{
-						this.ThreadPool.Enqueue(this.Connected, Connection.Connect(this.tcpListener.AcceptTcpClient()));
+						this.ThreadPool.Enqueue(this.OnConnect, Connection.Connect(this.tcpListener.AcceptTcpClient()));
 					}
 					catch (System.Net.Sockets.SocketException)
 					{
-						System.Threading.Thread.CurrentThread.Abort();
+						this.listener.Abort();
 					}
 				});
 			}
@@ -118,6 +128,11 @@ namespace Kean.IO.Net.Tcp
 		#region IDisposable Members
 		public void Dispose()
 		{
+			if (this.ThreadPool.NotNull())
+			{
+				this.ThreadPool.Dispose();
+				this.ThreadPool = null;
+			}
 			if (this.listener.NotNull())
 			{
 				this.Stop();
@@ -125,6 +140,11 @@ namespace Kean.IO.Net.Tcp
 				this.listener.Dispose();
 				this.listener = null;
 				this.tcpListener = null;
+			}
+			if (this.activeConnections.NotNull())
+			{
+				this.activeConnections.Apply(c => c.Close());
+				this.activeConnections = null;
 			}
 		}
 		#endregion

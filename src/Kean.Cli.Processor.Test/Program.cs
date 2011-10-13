@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Kean.Core.Extension;
 using IO = Kean.IO;
 
 namespace Kean.Cli.Processor.Test
@@ -27,15 +28,14 @@ namespace Kean.Cli.Processor.Test
 	{
 		static void Main(string[] args)
 		{
-			Action close = null;
-			Command.Application application = new Command.Application(close);
+			Action close = () => Console.WriteLine("Close");
+			Command.Application application = new Command.Application(() => close.Call());
 			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
 			{
-				close += () => { connection.Close(); connection.Dispose(); };
 				new Editor(application, new VT100(new IO.CharacterDevice(new IO.Net.Telnet.Server(connection)))).Read();
 			}
 			, 23);
-			close += () => { server.Stop(); server.Dispose(); };
+			close += () => { server.Stop(); server.Dispose(); Console.WriteLine("Close3");};
 			//Editor editor = null;
 			//editor = new Editor(application, new ConsoleTerminal());
 			//editor.Read();
