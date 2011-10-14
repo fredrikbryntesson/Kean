@@ -1,4 +1,25 @@
-﻿using System;
+﻿// 
+//  Canvas.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2011 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
@@ -111,18 +132,8 @@ namespace Kean.Draw.Cairo
 			if (stroke.NotNull() && stroke.Width > 0 && this.Set(stroke.Paint))
 			{
 				this.backend.LineWidth = stroke.Width;
-				switch (stroke.LineCap)
-				{
-					case LineCap.Butt: this.backend.LineCap = global::Cairo.LineCap.Butt; break;
-					case LineCap.Round: this.backend.LineCap = global::Cairo.LineCap.Round; break;
-					case LineCap.Square: this.backend.LineCap = global::Cairo.LineCap.Square; break;
-				}
-				switch (stroke.LineJoin)
-				{
-					case LineJoin.Bevel: this.backend.LineJoin = global::Cairo.LineJoin.Bevel; break;
-					case LineJoin.Miter: this.backend.LineJoin = global::Cairo.LineJoin.Miter; break;
-					case LineJoin.Round: this.backend.LineJoin = global::Cairo.LineJoin.Round; break;
-				}
+				this.backend.LineCap = stroke.LineCap.ToCairo();
+				this.backend.LineJoin = stroke.LineJoin.ToCairo();
 				this.backend.Stroke();
 			}
 		}
@@ -130,7 +141,7 @@ namespace Kean.Draw.Cairo
 		{
 			bool result;
 			if (result = paint is IColor)
-				this.backend.Color = (paint as IColor).AsCairo();
+				this.backend.Color = (paint as IColor).ToCairo();
 			return result;
 		}
 		#endregion

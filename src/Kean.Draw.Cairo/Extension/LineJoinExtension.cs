@@ -1,5 +1,5 @@
 ﻿// 
-//  Bgr.cs
+//  LineJoinExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,34 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Buffer = Kean.Core.Buffer;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Cairo
+namespace Kean.Draw.Cairo.Extension
 {
-	public class Bgr :
-		Raster
+	public static class LineJoinExtension
 	{
-		public Bgr(Geometry2D.Integer.Size size) :
-			this(new Buffer.Vector<Color.Bgr>(size.Area), size)
-		{ }
-		public Bgr(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, new global::Cairo.ImageSurface(buffer, global::Cairo.Format.Argb32, size.Width, size.Height, size.Width), size)
-		{ }
-		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		public static global::Cairo.LineJoin ToCairo(this LineJoin me)
 		{
-			return new Bgra(size);
+			global::Cairo.LineJoin result;
+			switch (me)
+			{
+				case LineJoin.Bevel: result = global::Cairo.LineJoin.Bevel; break;
+				default:
+				case LineJoin.Miter: result = global::Cairo.LineJoin.Miter; break;
+				case LineJoin.Round: result = global::Cairo.LineJoin.Round; break;
+			}
+			return result;
 		}
-		public override float Distance(Draw.Image other)
+		public static LineJoin FromCairo(this global::Cairo.LineJoin me)
 		{
-			Bgr o = other.Convert<Bgr>();
-			return Buffer.Distance(o.Buffer);
+			LineJoin result;
+			switch (me)
+			{
+				case global::Cairo.LineJoin.Bevel: result = LineJoin.Bevel; break;
+				default:
+				case global::Cairo.LineJoin.Miter: result = LineJoin.Miter; break;
+				case global::Cairo.LineJoin.Round: result = LineJoin.Round; break;
+			}
+			return result;
 		}
 	}
 }

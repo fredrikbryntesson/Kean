@@ -1,5 +1,5 @@
 ﻿// 
-//  Image.cs
+//  Gradient.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,51 +23,44 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Draw.Cairo
+namespace Kean.Draw.Paint
 {
-	public abstract class Image :
-		Draw.Image
+	public abstract class Gradient :
+		Collection.Abstract.List<GradientStop>,
+		IPaint
 	{
-		internal global::Cairo.Surface Backend { get; private set; }
+		public Geometry2D.Single.Transform Transform { get; set; }
 
-		Canvas canvas;
-		public override Draw.Canvas Canvas
+		#region List Overrides
+		Collection.IList<GradientStop> stops = new Kean.Core.Collection.Sorted.List<GradientStop>();
+		public override int Count { get { return this.stops.Count; } }
+		public override GradientStop this[int index]
 		{
-			get 
-			{ 
-				if (this.canvas.IsNull())
-					this.canvas = new Canvas(this);
-				return this.canvas;
-			}
+			get { return this.stops[index]; }
+			set { this.stops[index] = value; }
 		}
-		protected Image(global::Cairo.Surface backend, Geometry2D.Integer.Size size) :
-			base(size, CoordinateSystem.Default)
+		public override void Add(GradientStop item)
 		{
-			this.Backend = backend;
+			this.stops.Add(item);
 		}
-		#region Draw.Image overrides
-		public override T Convert<T>()
+		public override void Insert(int index, GradientStop item)
 		{
-			return null;
+			this.stops.Insert(index, item);
 		}
-		public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
+		public override GradientStop Remove()
 		{
-			return null;
+			return this.stops.Remove();
 		}
-		public override Draw.Image Copy()
+		public override GradientStop Remove(int index)
 		{
-			return null;
+			return this.stops.Remove(index);
 		}
-		public override Draw.Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
-		{
-			return null;
-		}
-		public override void Shift(Geometry2D.Integer.Size offset) { }
 		#endregion
-		public void Save(string filename)
-		{
-			this.Backend.WriteToPng(filename);
-		}
+
+		public Gradient()
+		{ }
 	}
 }

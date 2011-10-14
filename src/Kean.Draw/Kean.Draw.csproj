@@ -55,6 +55,10 @@
     <Compile Include="IPaint.cs" />
     <Compile Include="LineCap.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Paint\Gradient.cs" />
+    <Compile Include="Paint\GradientStop.cs" />
+    <Compile Include="Paint\LinearGradient.cs" />
+    <Compile Include="Paint\RadialGradient.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathSegment\Abstract.cs" />
     <Compile Include="PathSegment\Close.cs" />
@@ -82,9 +86,6 @@
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Paint\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,5 @@
 ﻿// 
-//  Bgr.cs
+//  GradientStop.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Buffer = Kean.Core.Buffer;
+using Kean.Core;
+using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Cairo
+namespace Kean.Draw.Paint
 {
-	public class Bgr :
-		Raster
+	public class GradientStop
 	{
-		public Bgr(Geometry2D.Integer.Size size) :
-			this(new Buffer.Vector<Color.Bgr>(size.Area), size)
+		public float Position { get; set; }
+		public IColor Color { get; set; }
+		public GradientStop()
 		{ }
-		public Bgr(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, new global::Cairo.ImageSurface(buffer, global::Cairo.Format.Argb32, size.Width, size.Height, size.Width), size)
-		{ }
-		public override Draw.Image Create(Geometry2D.Integer.Size size)
-		{
-			return new Bgra(size);
-		}
-		public override float Distance(Draw.Image other)
-		{
-			Bgr o = other.Convert<Bgr>();
-			return Buffer.Distance(o.Buffer);
-		}
 	}
 }

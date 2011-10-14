@@ -1,5 +1,5 @@
 ﻿// 
-//  Bgr.cs
+//  LineCapExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,34 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Buffer = Kean.Core.Buffer;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Cairo
+namespace Kean.Draw.Cairo.Extension
 {
-	public class Bgr :
-		Raster
+	public static class LineCapExtension
 	{
-		public Bgr(Geometry2D.Integer.Size size) :
-			this(new Buffer.Vector<Color.Bgr>(size.Area), size)
-		{ }
-		public Bgr(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, new global::Cairo.ImageSurface(buffer, global::Cairo.Format.Argb32, size.Width, size.Height, size.Width), size)
-		{ }
-		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		public static global::Cairo.LineCap ToCairo(this LineCap me)
 		{
-			return new Bgra(size);
+			global::Cairo.LineCap result;
+			switch (me)
+			{
+				default:
+				case LineCap.Butt: result = global::Cairo.LineCap.Butt; break;
+				case LineCap.Round: result = global::Cairo.LineCap.Round; break;
+				case LineCap.Square: result = global::Cairo.LineCap.Square; break;
+			}
+			return result;
 		}
-		public override float Distance(Draw.Image other)
+		public static LineCap FromCairo(this global::Cairo.LineCap me)
 		{
-			Bgr o = other.Convert<Bgr>();
-			return Buffer.Distance(o.Buffer);
+			LineCap result;
+			switch (me)
+			{
+				default:
+				case global::Cairo.LineCap.Butt: result = LineCap.Butt; break;
+				case global::Cairo.LineCap.Round: result = LineCap.Round; break;
+				case global::Cairo.LineCap.Square: result = LineCap.Square; break;
+			}
+			return result;
 		}
 	}
 }
