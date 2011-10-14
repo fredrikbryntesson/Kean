@@ -124,15 +124,15 @@ namespace Kean.Draw
 		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
 		#endregion
 		#region Draw Path
-		public void Stroke(IPaint stroke, float strokeWidth, Path path)
+		public void Draw(Stroke stroke, Path path)
 		{
-			this.Draw(null, stroke, strokeWidth, path);
+			this.Draw(null, stroke, path);
 		}
-		public void Fill(IPaint fill, Path path)
+		public void Draw(IPaint fill, Path path)
 		{
-			this.Draw(fill, null, 0, path);
+			this.Draw(fill, null, path);
 		}
-		public abstract void Draw(IPaint fill, IPaint stroke, float strokeWidth, Path path);
+		public abstract void Draw(IPaint fill, Stroke stroke, Path path);
 		#endregion
 		#region Blend
 		public abstract void Blend(float factor);

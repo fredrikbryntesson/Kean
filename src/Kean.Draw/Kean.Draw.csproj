@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,9 +49,11 @@
     <Compile Include="Color\Y.cs" />
     <Compile Include="Color\Yuv.cs" />
     <Compile Include="CoordinateSystem.cs" />
+    <Compile Include="LineJoin.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="IPaint.cs" />
+    <Compile Include="LineCap.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathSegment\Abstract.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="PathSegment\LineTo.cs" />
     <Compile Include="PathSegment\MoveTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stroke.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">

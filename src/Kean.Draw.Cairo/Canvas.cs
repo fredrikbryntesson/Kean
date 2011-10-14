@@ -83,7 +83,7 @@ namespace Kean.Draw.Cairo
 				this.backend.Restore();
 			}
 		}
-		public override void Draw(IPaint fill, IPaint stroke, float strokeWidth, Path path)
+		public override void Draw(IPaint fill, Stroke stroke, Path path)
 		{
 			foreach (Draw.PathSegment.Abstract segment in path)
 			{
@@ -101,16 +101,28 @@ namespace Kean.Draw.Cairo
 				//Geometry2D.Single.Transform original = this.Transform;
 				if (this.Set(fill))
 				{
-					if (stroke.NotNull() && strokeWidth > 0)
+					if (stroke.NotNull() && stroke.Width > 0)
 						this.backend.FillPreserve();
 					else
 						this.backend.Fill();
 				}
 				//this.Transform = original;
 			}
-			if (stroke.NotNull() && strokeWidth > 0 && this.Set(stroke))
+			if (stroke.NotNull() && stroke.Width > 0 && this.Set(stroke.Paint))
 			{
-				this.backend.LineWidth = strokeWidth;
+				this.backend.LineWidth = stroke.Width;
+				switch (stroke.LineCap)
+				{
+					case LineCap.Butt: this.backend.LineCap = global::Cairo.LineCap.Butt; break;
+					case LineCap.Round: this.backend.LineCap = global::Cairo.LineCap.Round; break;
+					case LineCap.Square: this.backend.LineCap = global::Cairo.LineCap.Square; break;
+				}
+				switch (stroke.LineJoin)
+				{
+					case LineJoin.Bevel: this.backend.LineJoin = global::Cairo.LineJoin.Bevel; break;
+					case LineJoin.Miter: this.backend.LineJoin = global::Cairo.LineJoin.Miter; break;
+					case LineJoin.Round: this.backend.LineJoin = global::Cairo.LineJoin.Round; break;
+				}
 				this.backend.Stroke();
 			}
 		}
