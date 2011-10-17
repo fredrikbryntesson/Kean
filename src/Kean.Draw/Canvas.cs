@@ -134,6 +134,17 @@ namespace Kean.Draw
 		}
 		public abstract void Draw(IPaint fill, Stroke stroke, Path path);
 		#endregion
+		#region Draw Text
+		public void Draw(Stroke stroke, Text text, Geometry2D.Single.Point position)
+		{
+			this.Draw(null, stroke, text, position);
+		}
+		public void Draw(IPaint fill, Text text, Geometry2D.Single.Point position)
+		{
+			this.Draw(fill, null, text, position);
+		}
+		public abstract void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position);
+		#endregion
 		#region Blend
 		public abstract void Blend(float factor);
 		#endregion

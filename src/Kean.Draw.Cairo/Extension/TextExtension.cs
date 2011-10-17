@@ -1,5 +1,5 @@
 ﻿// 
-//  GradientStop.cs
+//  TextExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,17 +20,32 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Draw.Cairo.Extension;
 
-namespace Kean.Draw.Paint
+namespace Kean.Draw.Cairo.Extension
 {
-	public class GradientStop
+	public static class TextExtension
 	{
-		public float Offset { get; set; }
-		public IColor Color { get; set; }
-		public GradientStop()
-		{ }
+		public static Pango.Layout CreateLayout(this Text me, global::Cairo.Context context)
+		{
+			Pango.Layout result = Pango.CairoHelper.CreateLayout(context);
+			// Font
+			result.FontDescription = me.Font.FontDescription();
+
+			// Alignment
+			result.Alignment = me.Align.ToCairo();
+			// Wrapping
+			if (me.Width > 0)
+			{
+				result.Wrap = Pango.WrapMode.WordChar;
+				result.Width = (int)(me.Width * Pango.Scale.PangoScale);
+			}
+			else
+				result.Width = -1;
+
+			// Text
+			result.SetMarkup(me.Markup);
+			return result;
+		}
 	}
 }

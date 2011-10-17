@@ -1,5 +1,5 @@
 ﻿// 
-//  GradientStop.cs
+//  Text.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,17 +20,21 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Paint
+namespace Kean.Draw
 {
-	public class GradientStop
+	public class Text
 	{
-		public float Offset { get; set; }
-		public IColor Color { get; set; }
-		public GradientStop()
-		{ }
+		public string Markup { get; set; }
+		public string Raw { get; set; }
+		public Font Font { get; set; }
+		public TextAlign Align { get; set; }
+		public bool BaseLinePosition { get; set; }
+		public float Width { get; set; }
+		public Text()
+		{
+			this.Width = -1;
+		}
 	}
 }

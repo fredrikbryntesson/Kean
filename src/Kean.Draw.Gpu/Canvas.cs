@@ -89,6 +89,12 @@ namespace Kean.Draw.Gpu
 			throw new NotImplementedException();
 		}
 		#endregion
+		#region Draw Text
+		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 		#region Blend
 		public override void Blend(float factor)
 		{

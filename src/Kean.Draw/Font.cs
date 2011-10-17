@@ -1,5 +1,5 @@
 ﻿// 
-//  GradientStop.cs
+//  Font.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,17 +20,21 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Paint
+namespace Kean.Draw
 {
-	public class GradientStop
+	public class Font
 	{
-		public float Offset { get; set; }
-		public IColor Color { get; set; }
-		public GradientStop()
-		{ }
+		public string Family { get; private set; }
+		public float Size { get; private set; }
+		public FontWeight Weight { get; private set; }
+		public FontSlant Style { get; private set; }
+		public Font(string family, float size, FontWeight weight, FontSlant style)
+		{
+			this.Family = family;
+			this.Size = size;
+			this.Weight = weight;
+			this.Style = style;
+		}
 	}
 }

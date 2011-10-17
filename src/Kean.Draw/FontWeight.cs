@@ -1,5 +1,5 @@
 ﻿// 
-//  GradientStop.cs
+//  FontWeight.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,18 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Geometry2D = Kean.Math.Geometry2D;
-
-namespace Kean.Draw.Paint
+namespace Kean.Draw
 {
-	public class GradientStop
+	public enum FontWeight
 	{
-		public float Offset { get; set; }
-		public IColor Color { get; set; }
-		public GradientStop()
-		{ }
+		Normal,
+		Bold,
 	}
 }

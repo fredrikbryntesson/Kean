@@ -58,6 +58,13 @@ namespace Kean.Draw.Cairo
 		#endregion
 		#region Draw, Blend, Clear
 		#region Draw Image
+		public override void Draw(Draw.Map map, Draw.Image image)
+		{
+		}
+		public override void Draw(Map map, Kean.Draw.Image image, Kean.Math.Geometry2D.Single.Box source, Kean.Math.Geometry2D.Single.Box destination)
+		{
+			throw new NotImplementedException();
+		}
 		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
 		}
@@ -142,16 +149,27 @@ namespace Kean.Draw.Cairo
 			bool result;
 			if (result = paint is IColor)
 				this.backend.Color = (paint as IColor).ToCairo();
+			else if (paint is Paint.Gradient)
+			{
+				global::Cairo.Gradient gradient = null;
+				if (paint is Paint.LinearGradient)
+					gradient = new global::Cairo.LinearGradient((paint as Paint.LinearGradient).Start.X, (paint as Paint.LinearGradient).Start.Y, (paint as Paint.LinearGradient).Stop.X, (paint as Paint.LinearGradient).Stop.Y);
+				else if (paint is Paint.RadialGradient)
+					gradient = new global::Cairo.RadialGradient((paint as Paint.RadialGradient).Focal.X, (paint as Paint.RadialGradient).Focal.Y, 0, (paint as Paint.RadialGradient).Center.X, (paint as Paint.RadialGradient).Center.Y, (paint as Paint.RadialGradient).Radius);
+				if (result = gradient.NotNull())
+				{
+					foreach (Paint.GradientStop stop in paint as Paint.Gradient)
+						gradient.AddColorStop(stop.Offset, stop.Color.ToCairo());
+					this.backend.Pattern = gradient;
+				}
+			}
 			return result;
 		}
 		#endregion
-		#region Draw Map
-		public override void Draw(Draw.Map map, Draw.Image image)
+		#region Draw Text
+		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
 		{
-		}
-		public override void Draw(Map map, Kean.Draw.Image image, Kean.Math.Geometry2D.Single.Box source, Kean.Math.Geometry2D.Single.Box destination)
-		{
-			throw new NotImplementedException();
+
 		}
 		#endregion
 		#region Blend
