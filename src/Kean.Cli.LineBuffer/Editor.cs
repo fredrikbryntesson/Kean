@@ -99,13 +99,14 @@ namespace Kean.Cli.LineBuffer
                         break;
                     case (char)10: // Newline
                         {
-
-                            this.terminal.WriteLine();
-                            this.history.Save();
+							if (this.Execute.NotNull())
+								this.Execute(this.history.Current.ToString());
+							this.history.Save();
+							this.terminal.WriteLine();
                             lock (this.@lock)
                                 this.executing = true;
-						    if (this.Execute.IsNull() || this.Execute(this.history.Current.ToString()))
-                                this.history.Add();
+						   	if(this.history.Current.ToString().NotEmpty())	
+								this.history.Add();
 							else if (this.Error.NotNull())
 							{
 								this.terminal.WriteLine(this.Error(this.history.Current.ToString()));

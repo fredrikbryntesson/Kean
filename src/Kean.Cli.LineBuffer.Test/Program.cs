@@ -61,7 +61,8 @@ namespace Kean.Cli.LineBuffer.Test
             commands["play"] = () => Console.WriteLine("play it again");
             commands["beep"] = () => Console.Beep();
             commands["now"] = () => Console.WriteLine("now again");
-            editor.Execute = text => 
+            
+			editor.Execute = text => 
             {
                 string[] parts = text.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                 bool correct = true;
@@ -85,14 +86,14 @@ namespace Kean.Cli.LineBuffer.Test
                 }
                 return result.ToString();   
             };
-            
+            /*
             System.Timers.Timer timer = new System.Timers.Timer(4000);
             timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs elapsedArguments) =>
             {
                 editor.WriteLine("Hello");
             };
             timer.Start();
-            
+            */
             editor.Read();
 		}
 	}
