@@ -83,15 +83,15 @@ namespace Kean.IO
 		}
 		public bool WriteLine()
 		{
-			return this.Write(this.NewLine);
+			return this.Write(new char[] { '\n' });
 		}
 		public bool WriteLine(params char[] buffer)
 		{
-			return this.Write((System.Collections.Generic.IEnumerable<char>) buffer.Merge(this.NewLine));
+			return this.Write((System.Collections.Generic.IEnumerable<char>) buffer.Merge(new char[] {'\n'}));
 		}
 		public bool WriteLine(string value)
 		{
-			return this.Write(value + new string(this.NewLine));
+			return this.Write(value + "\n");
 		}
 		public bool WriteLine<T>(T value) where T : IConvertible
 		{
