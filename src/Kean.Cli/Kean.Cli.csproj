@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ConsoleDevice.cs" />
     <Compile Include="ConsoleTerminal.cs" />
+    <Compile Include="EditCommand.cs" />
     <Compile Include="ITerminal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Terminal.cs" />
@@ -62,6 +63,14 @@
     <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
+      <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
+      <Name>Kean.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿// 
-//  Decoder.cs
+//  CharacterInDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -26,68 +26,55 @@ using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
 
-namespace Kean.IO
+namespace Kean.IO.Filter
 {
-	class Decoder :
+	public class CharacterInDevice :
 		ICharacterInDevice
 	{
-		IByteInDevice backend;
-		System.Text.Encoding encoding;
+		ICharacterInDevice backend;
 		Collection.IQueue<char> queue = new Collection.Queue<char>();
+		Func<Func<char?>, char[]> filter;
+		public Func<Func<char?>, char[]> Filter
+		{
+			get { return this.filter ?? this.NullFilter; }
+			set { this.filter = value; }
+		}
 
 		#region Constructors
-		public Decoder(IByteInDevice backend, System.Text.Encoding encoding)
+		public CharacterInDevice(ICharacterInDevice backend)
 		{
 			this.backend = backend;
-			this.encoding = encoding;
 		}
-		~Decoder() { this.Close(); }
-		#endregion
-		void FillQueue()
+		public CharacterInDevice(ICharacterInDevice backend, Func<Func<char?>, char[]> filter) :
+			this(backend)
 		{
-			Collection.IList<byte> buffer = new Collection.List<byte>();
-			byte? next;
-			while (this.queue.Empty && (next = this.backend.Read()).HasValue)
-			{
-				buffer.Add(next.Value);
-				if (next == 0xef && (next = this.backend.Read()).HasValue)
-				{
-					buffer.Add(next.Value);
-					if (next == 0xbb && (next = this.backend.Read()).HasValue)
-					{
-						buffer.Add(next.Value);
-						if (next == 0xbf)
-						{
-							buffer.Remove();
-							buffer.Remove();
-							buffer.Remove();
-						}
-					}
-				}
-				this.queue.Enqueue(this.encoding.GetChars(buffer.ToArray()));
-			}
+			this.Filter = filter;
+		}
+		~CharacterInDevice() { this.Close(); }
+		#endregion
+		char[] NullFilter(Func<char?> read)
+		{
+			char? next = read();
+			return next.HasValue ? new char[] { next.Value } : new char[0];
 		}
 		#region ICharacterInDevice Members
 		public char? Peek()
 		{
 			if (this.queue.Empty)
-				this.FillQueue();
+				this.queue.Enqueue(this.Filter(this.backend.Read)); 
 			return this.queue.Empty ? (char?)null : this.queue.Peek();
 		}
 		public char? Read()
 		{
 			if (this.queue.Empty)
-				this.FillQueue();
+				this.queue.Enqueue(this.Filter(this.backend.Read)); 
 			char? result = this.queue.Empty ? (char?)null : this.queue.Dequeue();
 			return result;
 		}
 		#endregion
 
 		#region IInDevice Members
-		public bool Empty
-		{
-			get { return this.queue.Empty && (this.backend.IsNull() || this.backend.Empty); }
-		}
+		public bool Empty { get { return this.queue.Empty && (this.backend.IsNull() || this.backend.Empty); } }
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
@@ -106,5 +93,6 @@ namespace Kean.IO
 		#region IDisposable Members
 		void IDisposable.Dispose() { this.Close(); }
 		#endregion
+
 	}
 }

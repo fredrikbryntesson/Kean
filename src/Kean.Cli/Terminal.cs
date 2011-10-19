@@ -21,65 +21,65 @@
 
 using System;
 using Uri = Kean.Core.Uri;
+using Geometry2D = Kean.Math.Geometry2D;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Cli
 {
 	public class Terminal :
 		ITerminal
 	{
-		IO.ICharacterReader reader;
-		IO.ICharacterWriter writer;
 		#region Constructors
 		public Terminal(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
-		public Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
-			this(new IO.CharacterReader(inDevice), new IO.CharacterWriter(outDevice))
-		{ }
-		public Terminal(IO.ICharacterReader reader, IO.ICharacterWriter writer)
+		public Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
-			this.reader = reader;
-			this.writer = writer;
+			this.In = new IO.CharacterReader(new IO.Filter.CharacterInDevice(inDevice, this.FilterInput));
+			this.Out = new IO.CharacterWriter(outDevice);
 		}
 		#endregion
-		#region ITerminal Members
-		public bool Readable { get { return true; } }
-		public bool Writeable { get { return true; } }
-		#endregion
-		#region ICharacterReader Members
-		public Uri.Locator Resource { get { return this.reader.Resource; } }
-		public int Row { get { return this.reader.Row; } }
-		public int Column { get { return this.reader.Column; } }
-		public char Last { get { return this.reader.Last; } }
-		public bool Next() { return this.reader.Next(); }
-		#endregion
-		#region IInDevice Members
-		public bool Empty { get { return this.reader.Empty; } }
-		#endregion
 		#region IDevice Members
-		public bool Opened { get { return this.reader.Opened && this.writer.Opened; } }
-		public bool Close() { return this.reader.Close() && this.writer.Close(); }
+		public Uri.Locator Resource { get { throw new NotImplementedException(); } }
+		public bool Opened { get { return this.In.Opened && this.Out.Opened; } }
+		public bool Close() { return this.In.Close() && this.Out.Close(); }
 		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose() { this.Close(); }
 		#endregion
-		#region ICharacterWriter Members
-		public char[] NewLine
-		{
-			get { return this.writer.NewLine; }
-			set { this.writer.NewLine = value; }
-		}
-		public bool Write(params char[] buffer) { return this.writer.Write(buffer); }
-		public bool Write(string value) { return this.writer.Write(value); }
-		public bool Write<T>(T value) where T : IConvertible { return this.writer.Write(value); }
-		public bool Write(System.Collections.Generic.IEnumerable<char> buffer) { return this.writer.Write(buffer); }
-		public bool Write(string format, params object[] arguments) { return this.writer.Write(format, arguments); }
-		public bool WriteLine() { return this.writer.WriteLine(); }
-		public bool WriteLine(params char[] buffer) { return this.writer.WriteLine(buffer); }
-		public bool WriteLine(string value) { return this.writer.WriteLine(value); }
-		public bool WriteLine<T>(T value) where T : IConvertible { return this.writer.WriteLine(value); }
-		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer) { return this.writer.WriteLine(buffer); }
-		public bool WriteLine(string format, params object[] arguments) { return this.writer.WriteLine(format, arguments); }
+
+		#region ITerminal Members
+		public IO.ICharacterReader In { get; private set; }
+		public IO.ICharacterWriter Out { get; private set; }
+		public event Action<EditCommand> Command;
+		public virtual Geometry2D.Integer.Point CursorPosition { get { return null; } set { ; } }
+		public virtual bool MoveCursor(Geometry2D.Integer.Size distance) { return false; }
+		public virtual bool Clear() { return false; }
 		#endregion
+		protected virtual void OnCommand(EditCommand action)
+		{
+			this.Command(action);
+		}
+		char[] FilterInput(Func<char?> read)
+		{
+			Collection.IList<char> buffer = new Collection.List<char>();
+			char? next;
+			while (buffer.Count <= 0 && (next = read()).HasValue)
+				switch (next.Value)
+				{
+					case '\r':
+						if ((next = read()).HasValue && next.Value == '\n')
+							this.OnCommand(EditCommand.Enter);
+						break;
+					case '\n': this.OnCommand(EditCommand.Enter); break;
+					case '\b': this.OnCommand(EditCommand.Backspace); break;
+					case '\t': this.OnCommand(EditCommand.Tab); break;
+					default:
+						buffer.Add(next.Value);
+						break;
+				}
+			return buffer.ToArray();
+		}
 	}
 }

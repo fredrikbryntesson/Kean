@@ -1,5 +1,5 @@
 ﻿// 
-//  ConsoleTerminal.cs
+//  EditAction.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,22 +19,37 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace Kean.Cli
 {
-	public class ConsoleTerminal :
-		Terminal
+	public enum EditCommand : 
+		byte
 	{
-		#region Constructors
-		public ConsoleTerminal() :
-			this(new ConsoleDevice() { LocalEcho = false })
-		{ }
-		ConsoleTerminal(ConsoleDevice device) :
-			base(device, device)
-		{
-			device.Command += command => this.OnCommand(command);
-		}
-		#endregion
+		None = 0,
+		Home = 1,		// a
+		LeftArrow = 2,	// b
+		Copy = 3,		// c
+		Delete = 4,		// d
+		End = 5,		// e
+		RightArrow = 6, // f
+		// 7			// g
+		Backspace = 8,	// h
+		Tab = 9,		// i
+		Enter = 10,		// j
+		// 11			// k
+		// 12			// l
+		DownArrow = 13, // m
+		// 14			// n
+		UpArrow = 15,	// o
+		// 16			// p
+		Quit = 17,		// q
+		// 18			// r
+		// 19			// s
+		// 20			// t
+		// 21			// u
+		Paste = 22,		// v
+		// 23			// w
+		Cut = 24,		// x
+		Redo = 25,		// y
+		Undo = 26,		// z
 	}
 }

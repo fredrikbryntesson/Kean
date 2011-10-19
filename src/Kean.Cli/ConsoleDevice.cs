@@ -34,43 +34,33 @@ namespace Kean.Cli
 		public bool Opened { get { return true; } }
 		public bool Empty { get { return !Console.KeyAvailable; } }
 		public Uri.Locator Resource { get { return new Uri.Locator("console://", "/"); } }
+		public event Action<EditCommand> Command;
 		public ConsoleDevice()
 		{
 			this.LocalEcho = true;
 		}
 		public char? Read()
 		{
-			ConsoleKeyInfo key = Console.ReadKey(!this.LocalEcho);
 			char? result = null;
-			switch (key.Key)
+			do
 			{
-				case ConsoleKey.Home: result = (char)1; break;
-				case ConsoleKey.LeftArrow: result = (char)2; break;
-					// 3 Copy to clipboard
-				case ConsoleKey.Delete: result = (char)4; break;
-				case ConsoleKey.End: result = (char)5; break;
-				case ConsoleKey.RightArrow: result = (char)6; break;
-					// 7
-				//case ConsoleKey.Backspace: result = (char)8; break;
-				//case ConsoleKey.Tab: result = (char)9; break;
-                case ConsoleKey.Enter: result = (char)10; break;
-					// 11
-					// 12
-				case ConsoleKey.DownArrow: result = (char)13; break;
-					// 14
-				case ConsoleKey.UpArrow: result = (char)15; break;
-					// 16
-					// 17
-					// 18
-					// 19
-					// 20
-					// 21 Insert from clipboard
-					// 22
-					// 23 Redo
-					// 24 Cut to clipboard
-					// 25 Undo
-				default: result = key.KeyChar; break;
+				ConsoleKeyInfo key = Console.ReadKey(!this.LocalEcho);
+				switch (key.Key)
+				{
+					case ConsoleKey.Home: this.Command.Call(EditCommand.Home); break;
+					case ConsoleKey.LeftArrow: this.Command.Call(EditCommand.LeftArrow); break;
+					case ConsoleKey.Delete: this.Command.Call(EditCommand.Delete); break;
+					case ConsoleKey.End: this.Command.Call(EditCommand.End); break;
+					case ConsoleKey.RightArrow: this.Command.Call(EditCommand.RightArrow); break;
+					case ConsoleKey.Backspace: this.Command.Call(EditCommand.Backspace); break;
+					case ConsoleKey.Tab: this.Command.Call(EditCommand.Tab); break;
+					case ConsoleKey.Enter: this.Command.Call(EditCommand.Enter); break;
+					case ConsoleKey.DownArrow: this.Command.Call(EditCommand.DownArrow); break;
+					case ConsoleKey.UpArrow: this.Command.Call(EditCommand.UpArrow); break;
+					default: result = key.KeyChar; break;
+				}
 			}
+			while (!result.HasValue);
 			return result;
 		}
 		public char? Peek()
@@ -87,11 +77,16 @@ namespace Kean.Cli
 		{
 			return true;
 		}
+		#region ITerminal Members
+		public bool Readable { get { return true; } }
+		public bool Writeable { get { return true; } }
+		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
 		#endregion
+
 	}
 }

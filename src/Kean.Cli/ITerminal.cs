@@ -20,14 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Cli
 {
 	public interface ITerminal :
-		IO.ICharacterReader,
-		IO.ICharacterWriter
+		IO.IDevice
 	{
-		bool Readable { get; }
-		bool Writeable { get; }
+		IO.ICharacterReader In { get; }
+		IO.ICharacterWriter Out { get; }
+		event Action<EditCommand> Command;
+		Geometry2D.Integer.Point CursorPosition { get; set; }
+		bool MoveCursor(Geometry2D.Integer.Size distance);
+		bool Clear();
 	}
 }

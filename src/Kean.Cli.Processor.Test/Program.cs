@@ -36,9 +36,9 @@ namespace Kean.Cli.Processor.Test
 			}
 			, 23);
 			close += () => { server.Stop(); server.Dispose(); Console.WriteLine("Close3");};
-			//Editor editor = null;
-			//editor = new Editor(application, new ConsoleTerminal());
-			//editor.Read();
+			Editor editor = null;
+			editor = new Editor(application, new ConsoleTerminal());
+			editor.Read();
 		}
 	}
 }
