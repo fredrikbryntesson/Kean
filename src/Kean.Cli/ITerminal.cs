@@ -31,7 +31,7 @@ namespace Kean.Cli
 		IO.ICharacterWriter Out { get; }
 		event Action<EditCommand> Command;
 		Geometry2D.Integer.Point CursorPosition { get; set; }
-		bool MoveCursor(Geometry2D.Integer.Size distance);
+		bool MoveCursor(Geometry2D.Integer.Size delta);
 		bool Clear();
 	}
 }

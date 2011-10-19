@@ -22,6 +22,7 @@
 using System;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Cli
 {
@@ -42,6 +43,10 @@ namespace Kean.Cli
 			this.Out.NewLine = new char[] { '\r', '\n' };
 		}
 		#endregion
+		public override bool Clear()
+		{
+			return this.Out.Write('\x1b', '[', '2', 'J');
+		}
 		char[] FilterInput(Func<char?> read)
 		{
 			Collection.IList<char> buffer = new Collection.List<char>();

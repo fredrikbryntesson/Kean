@@ -28,7 +28,7 @@ namespace Kean.Cli
 		Home = 1,		// a
 		LeftArrow = 2,	// b
 		Copy = 3,		// c
-		Delete = 4,		// d
+		Exit = 4,		// d
 		End = 5,		// e
 		RightArrow = 6, // f
 		// 7			// g
@@ -41,7 +41,7 @@ namespace Kean.Cli
 		// 14			// n
 		UpArrow = 15,	// o
 		// 16			// p
-		Quit = 17,		// q
+		//Quit = 17,	// q
 		// 18			// r
 		// 19			// s
 		// 20			// t
@@ -51,5 +51,6 @@ namespace Kean.Cli
 		Cut = 24,		// x
 		Redo = 25,		// y
 		Undo = 26,		// z
+		Delete = 127,
 	}
 }

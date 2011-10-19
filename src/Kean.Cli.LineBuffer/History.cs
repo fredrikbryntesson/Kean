@@ -23,7 +23,7 @@ namespace Kean.Cli.LineBuffer
             this.buffers.Add(new Buffer(this.Writer));
             this.position = this.buffers.Count - 1;
         }
-        public void Save()
+        public void End()
         {
             this.Current.MoveCursorEnd();
             this.position = this.buffers.Count - 1;
