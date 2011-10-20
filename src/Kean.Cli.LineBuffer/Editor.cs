@@ -63,6 +63,7 @@ namespace Kean.Cli.LineBuffer
 					break;
 				case EditCommand.Exit:
 					this.exit = true;
+					this.Close();
 					break;
 				case EditCommand.End:
 					this.history.Current.MoveCursorEnd();
@@ -72,7 +73,7 @@ namespace Kean.Cli.LineBuffer
 					break;
 				// 7
 				case EditCommand.Backspace:
-					this.history.Current.MoveCursorLeftAndDelete();
+					this.history.Current.DeletePreviousCharacter();
 					break;
 				case EditCommand.Tab: // Tab
 					if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
@@ -130,6 +131,7 @@ namespace Kean.Cli.LineBuffer
 				case EditCommand.Undo:
 					break;
 				case EditCommand.Delete:
+					this.history.Current.DeleteCurrentCharacter();
 					break;
 			}
 		}

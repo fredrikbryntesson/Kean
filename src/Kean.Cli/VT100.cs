@@ -29,6 +29,12 @@ namespace Kean.Cli
 	public class VT100 :
 		Terminal
 	{
+		public enum OperatingLevel 
+		{
+			VT100,
+			VT400,
+		}
+		public OperatingLevel Level { get; private set; }
 		#region Constructors
 		public VT100(IO.ICharacterDevice device) :
 			this(device, device)
@@ -41,6 +47,7 @@ namespace Kean.Cli
 		{
 			inDevice.Filter = this.FilterInput;
 			this.Out.NewLine = new char[] { '\r', '\n' };
+			this.Out.Write('\x1b', '[', 'c'); // Request Identification string
 		}
 		#endregion
 		public override bool Clear()
@@ -64,9 +71,63 @@ namespace Kean.Cli
 										{
 											case 'A': this.OnCommand(EditCommand.UpArrow); break;
 											case 'B': this.OnCommand(EditCommand.DownArrow); break;
+											case 'C': this.OnCommand(EditCommand.RightArrow); break;
+											case 'D': this.OnCommand(EditCommand.LeftArrow); break;
+											case '1':
+												if ((next = read()).HasValue)
+													switch (next.Value)
+													{
+														case '~': this.OnCommand(EditCommand.Home); break;
+													}
+												break;
+											case '3':
+												if ((next = read()).HasValue)
+													switch (next.Value)
+													{
+														case '~': this.OnCommand(EditCommand.Delete); break;
+													}
+												break;
+											case '4':
+												if ((next = read()).HasValue)
+													switch (next.Value)
+													{
+														case '~': this.OnCommand(EditCommand.End); break;
+													}
+												break;
+											case '?':
+												System.Text.StringBuilder type = new System.Text.StringBuilder();
+												while ((next = read()).HasValue && next != 'c')
+													type.Append(next.Value);
+												string[] parameters = type.ToString().Split(';');
+												if (parameters.Length > 0)
+													switch (parameters[0])
+													{
+														default:
+														case "1":
+															this.Level = OperatingLevel.VT100;
+															break;
+														case "6":
+														case "62":
+														case "63":
+														case "64":
+															this.Level = OperatingLevel.VT400;
+															break;
+													}
+												break;
 										}
 									break;
 							}
+						break;
+					case '\x7f': //Delete
+						switch(this.Level)
+						{
+							case OperatingLevel.VT100:
+								this.OnCommand(EditCommand.Delete);
+								break;
+							case OperatingLevel.VT400:
+								this.OnCommand(EditCommand.Backspace); 
+								break;
+						}
 						break;
 					default:
 						buffer.Add(next.Value);

@@ -68,13 +68,16 @@ namespace Kean.Cli
 			while (buffer.Count <= 0 && (next = read()).HasValue)
 				switch (next.Value)
 				{
-					case '\r':
-						if ((next = read()).HasValue && next.Value == '\n')
-							this.OnCommand(EditCommand.Enter);
-						break;
-					case '\n': this.OnCommand(EditCommand.Enter); break;
+					case '\0': break;
+					case '\x04': this.OnCommand(EditCommand.Exit); break;
 					case '\b': this.OnCommand(EditCommand.Backspace); break;
 					case '\t': this.OnCommand(EditCommand.Tab); break;
+					case '\n': this.OnCommand(EditCommand.Enter); break;
+					case '\r':
+						this.OnCommand(EditCommand.Enter);
+						if ((next = read()).HasValue && (next.Value != '\n' && next.Value != '\0'))
+							buffer.Add(next.Value);
+						break;
 					default:
 						buffer.Add(next.Value);
 						break;

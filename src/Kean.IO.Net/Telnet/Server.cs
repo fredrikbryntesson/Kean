@@ -90,7 +90,7 @@ namespace Kean.IO.Net.Telnet
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
 										break;
 									case Option.TerminalSpeed:
-										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value, 1, (byte)Command.IAC, (byte)Command.SE });
+										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.SB, option.Value, 1, (byte)Command.IAC, (byte)Command.SE });
 										break;
 									case Option.SuppressGoAhead:
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value });

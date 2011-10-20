@@ -38,7 +38,7 @@ namespace Kean.Cli.LineBuffer
                 this.cursor++;
             }
         }
-        public void MoveCursorLeftAndDelete()
+        public void DeletePreviousCharacter()
         {
             if (this.cursor > 0)
             {
@@ -58,6 +58,17 @@ namespace Kean.Cli.LineBuffer
                 this.Writer((char)8 + " " + (char)8);
             }
         }
+		public void DeleteCurrentCharacter()
+		{
+			if (this.cursor >= 0 && this.cursor < this.line.Length)
+			{
+				this.line.Remove(this.cursor, 1);
+				this.Writer(" " + (char)8);
+				this.Writer(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
+				this.Writer(" " + (char)8);
+				this.MoveCursor(this.cursor - this.line.Length);
+			}
+		}
         public void Insert(char value)
         {
             this.line.Insert(this.cursor, value);
@@ -95,11 +106,11 @@ namespace Kean.Cli.LineBuffer
             this.Writer(this.line.ToString());
             this.cursor = this.line.Length;
         }
-        public void RemoveAndDelete()
+        void RemoveAndDelete()
         {
             this.MoveCursorEnd();
             while (this.line.Length > 0)
-                this.MoveCursorLeftAndDelete();
+                this.DeletePreviousCharacter();
             this.cursor = 0;
         }
         public void RemoveAndNotDelete()
