@@ -102,11 +102,31 @@ namespace Kean.Math.Geometry2D.Abstract
             }
         }
         #region Properties
-        public V ScalingX { get { return (((R)(this.A)).Squared() + ((R)this.B).Squared()).SquareRoot(); } }
-        public V ScalingY { get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); } }
-        public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; } }
-        public V Rotation { get { return ((R)this.B).ArcusTangensExtended((R)this.A); } }
-		public SizeType Translation { get { return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.E, this.F); } }
+        public V ScalingX 
+		{ 
+			get { return (((R)(this.A)).Squared() + ((R)this.B).Squared()).SquareRoot(); }
+			set { this.Scale((R)value / this.ScalingX, Abstract<R, V>.One); }
+		}
+        public V ScalingY 
+		{ 
+			get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); }
+			set { this.Scale(Abstract<R, V>.One, (R)value / this.ScalingY); }
+		}
+        public V Scaling 
+		{ 
+			get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; }
+			set { this.Scale((R)value / this.Scaling); }
+		}
+        public V Rotation 
+		{ 
+			get { return ((R)this.B).ArcusTangensExtended((R)this.A); }
+			set { this.Rotate((R)value - this.Rotation); }
+		}
+		public SizeType Translation 
+		{ 
+			get { return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.E, this.F); } 
+			set { this.Translate(value - this.Translation); }
+		}
         #endregion
 	
         #region Constructors
