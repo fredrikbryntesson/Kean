@@ -30,7 +30,15 @@ namespace Kean.Cli
 	public class Terminal :
 		ITerminal
 	{
+		public char[] NewLine
+		{
+			get { return this.Out.NewLine; }
+			set { this.Out.NewLine = value; }
+		}
 		#region Constructors
+		public Terminal(IO.IByteDevice device) :
+			this(new IO.CharacterDevice(device))
+		{ }
 		public Terminal(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
@@ -52,6 +60,7 @@ namespace Kean.Cli
 		#region ITerminal Members
 		public IO.ICharacterReader In { get; private set; }
 		public IO.ICharacterWriter Out { get; private set; }
+		public virtual bool Echo { get; set; }
 		public event Action<EditCommand> Command;
 		public virtual Geometry2D.Integer.Point CursorPosition { get { return null; } set { ; } }
 		public virtual bool MoveCursor(Geometry2D.Integer.Size delta) { return false; }

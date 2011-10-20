@@ -21,6 +21,7 @@
 using System;
 using Kean.Core.Extension;
 using IO = Kean.IO;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Cli.Processor.Test
 {
@@ -28,17 +29,17 @@ namespace Kean.Cli.Processor.Test
 	{
 		static void Main(string[] args)
 		{
-			Action close = () => Console.WriteLine("Close");
+			Action close = null;
 			Command.Application application = new Command.Application(() => close.Call());
-			IO.Net.Tcp.Server server = new IO.Net.Tcp.Server(connection =>
+			IDisposable telnet = Editor.Listen(application, "telnet://:23");
+			IDisposable tcp = Editor.Listen(application, "tcp://:20");
+			IDisposable console = Editor.Listen(application, "console:///");
+			close += () => 
 			{
-				new Editor(application, new VT100(new IO.CharacterDevice(new IO.Net.Telnet.Server(connection)))).Read();
-			}
-			, 23);
-			close += () => { server.Stop(); server.Dispose(); Console.WriteLine("Close3");};
-			Editor editor = null;
-			editor = new Editor(application, new ConsoleTerminal());
-			editor.Read();
+				telnet.Dispose();
+				tcp.Dispose();
+				console.Dispose();
+			};
 		}
 	}
 }

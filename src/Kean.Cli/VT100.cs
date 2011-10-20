@@ -20,6 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
@@ -35,7 +37,17 @@ namespace Kean.Cli
 			VT400,
 		}
 		public OperatingLevel Level { get; private set; }
+		IO.Net.Telnet.Server server;
 		#region Constructors
+		public VT100(IO.Net.Telnet.Server server) :
+			this(server as IO.IByteDevice)
+		{
+			this.server = server;
+			this.Echo = true;
+		}
+		public VT100(IO.IByteDevice device) :
+			this(new IO.CharacterDevice(device))
+		{ }
 		public VT100(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
@@ -46,10 +58,21 @@ namespace Kean.Cli
 			base(inDevice, outDevice)
 		{
 			inDevice.Filter = this.FilterInput;
-			this.Out.NewLine = new char[] { '\r', '\n' };
+			this.NewLine = new char[] { '\r', '\n' };
 			this.Out.Write('\x1b', '[', 'c'); // Request Identification string
 		}
 		#endregion
+		public override bool Echo
+		{
+			get { return this.server.NotNull() ? this.server.Echo : base.Echo; }
+			set 
+			{
+				if (this.server.NotNull())
+					this.server.Echo = value;
+				else
+					base.Echo = value; 
+			}
+		}
 		public override bool Clear()
 		{
 			return this.Out.Write('\x1b', '[', '2', 'J');

@@ -44,7 +44,7 @@ namespace Kean.Cli
 			char? result = null;
 			do
 			{
-				ConsoleKeyInfo key = Console.ReadKey(!this.LocalEcho);
+				ConsoleKeyInfo key = Console.ReadKey(this.LocalEcho);
 				switch (key.Key)
 				{
 					case ConsoleKey.Home: this.Command.Call(EditCommand.Home); break;

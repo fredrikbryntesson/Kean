@@ -24,6 +24,8 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
+using Parallel = Kean.Core.Parallel;
 
 namespace Kean.Cli.Processor
 {
@@ -129,6 +131,24 @@ namespace Kean.Cli.Processor
 		{
 			this.lineBuffer.WriteLine("! " + member + "> " + message + " " + string.Join(" ", parameters));
 		}
+		public static IDisposable Listen(object root, Uri.Locator resource)
+		{
+			IDisposable result = null;
+			switch (resource.Scheme)
+			{
+				case "telnet":
+					result = new IO.Net.Tcp.Server(connection => new Editor(root, new VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
+					break;
+				case "tcp":
+					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Terminal(connection) { NewLine = new char[] { '\r', '\n' } }).Read(), resource.Authority.Endpoint);
+					break;
+				case "console":
+					result = Parallel.Thread.Start("console", () => new Editor(root, new ConsoleTerminal()).Read());
+					break;
+			}
+			return result;
+		}
+
 	}
 }
  

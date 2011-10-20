@@ -45,7 +45,7 @@ namespace Kean.Cli.LineBuffer
 		{
 			this.terminal = terminal;
 			this.terminal.Command += this.OnCommand;
-			this.history = new History(c => this.terminal.Out.Write(c));
+			this.history = new History(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
 		}
 		void OnCommand(EditCommand command)
 		{
@@ -98,7 +98,8 @@ namespace Kean.Cli.LineBuffer
 					{
 						lock (this.@lock)
 							this.executing = true;
-						this.terminal.Out.WriteLine();
+						if (this.terminal.Echo)
+							this.terminal.Out.WriteLine();
 
 						if (this.Execute.NotNull())
 							this.Execute(this.history.Current.ToString());

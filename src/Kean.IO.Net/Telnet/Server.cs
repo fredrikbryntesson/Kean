@@ -31,12 +31,21 @@ namespace Kean.IO.Net.Telnet
 		IByteDevice
 	{
 		IByteDevice backend;
+		bool? echo;
+		public bool Echo
+		{
+			get { return this.echo.HasValue ? this.echo.Value : false; }
+			set
+			{
+				this.backend.Write(new byte[] { (byte)Command.IAC, (byte)(value ? Command.WILL : Command.WONT), (byte)Option.Echo });
+				this.backend.Write(new byte[] { (byte)Command.IAC, (byte)(value ? Command.WILL : Command.WONT), (byte)Option.SuppressGoAhead });
+				this.echo = value;
+			}
+		}
 
 		public Server(IByteDevice backend)
 		{
 			this.backend = backend;
-			this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, (byte)Option.Echo });
-			this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, (byte)Option.SuppressGoAhead });
 		}
 		~Server()
 		{
@@ -99,8 +108,8 @@ namespace Kean.IO.Net.Telnet
 						}
 						break; 
 					case Command.WONT: // Wont
-						this.backend.Read(); // option
-						break;
+							this.backend.Read();  // option
+							break;
 					case Command.DO: // Do
 						{
 							byte? option = this.backend.Read();  // option
@@ -115,13 +124,27 @@ namespace Kean.IO.Net.Telnet
 										break;
 									case Option.Echo:
 									case Option.SuppressGoAhead:
-										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, option.Value });
+										if (!this.echo.HasValue || !this.echo.Value)
+											this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WILL, option.Value });
+										this.echo = true;
 										break;
 								}
 						}
 						break;
 					case Command.DONT: // Dont
-						this.backend.Read(); // option
+						{
+							byte? option = this.backend.Read();  // option
+							if (option.HasValue)
+								switch ((Option)option.Value)
+								{
+									case Option.Echo:
+									case Option.SuppressGoAhead:
+										if (!this.echo.HasValue || this.echo.Value)
+											this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
+										this.echo = false;
+										break;
+								}
+						}
 						break;
 					case Command.IAC: // Interpret as command
 						this.Filter();

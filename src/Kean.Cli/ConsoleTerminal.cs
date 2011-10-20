@@ -27,16 +27,23 @@ namespace Kean.Cli
 	public class ConsoleTerminal :
 		Terminal
 	{
+		ConsoleDevice device;
 		#region Constructors
 		public ConsoleTerminal() :
-			this(new ConsoleDevice() { LocalEcho = false })
+			this(new ConsoleDevice())
 		{ }
 		ConsoleTerminal(ConsoleDevice device) :
 			base(device, device)
 		{
-			device.Command += command => this.OnCommand(command);
+			this.device = device;
+			this.device.Command += command => this.OnCommand(command);
 		}
 		#endregion
+		public override bool Echo
+		{
+			get { return this.device.LocalEcho; }
+			set { this.device.LocalEcho = value; }
+		}
 		public override Geometry2D.Integer.Point CursorPosition
 		{
 			get { return new Geometry2D.Integer.Point(Console.CursorLeft, Console.CursorTop); }

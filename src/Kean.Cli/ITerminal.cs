@@ -29,6 +29,7 @@ namespace Kean.Cli
 	{
 		IO.ICharacterReader In { get; }
 		IO.ICharacterWriter Out { get; }
+		bool Echo { get; set; }
 		event Action<EditCommand> Command;
 		Geometry2D.Integer.Point CursorPosition { get; set; }
 		bool MoveCursor(Geometry2D.Integer.Size delta);

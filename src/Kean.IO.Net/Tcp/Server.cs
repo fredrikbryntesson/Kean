@@ -128,6 +128,8 @@ namespace Kean.IO.Net.Tcp
 		#region IDisposable Members
 		public void Dispose()
 		{
+			if (this.listener.NotNull())
+				this.Stop();
 			if (this.ThreadPool.NotNull())
 			{
 				this.ThreadPool.Dispose();
@@ -135,7 +137,6 @@ namespace Kean.IO.Net.Tcp
 			}
 			if (this.listener.NotNull())
 			{
-				this.Stop();
 				this.listener.Abort();
 				this.listener.Dispose();
 				this.listener = null;
