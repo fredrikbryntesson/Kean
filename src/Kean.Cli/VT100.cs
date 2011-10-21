@@ -44,14 +44,15 @@ namespace Kean.Cli
 		{
 			this.server = server;
 			this.Echo = true;
+			this.Out.Write('\x1b', '[', 'c'); // Request Identification string
 		}
-		public VT100(IO.IByteDevice device) :
+		VT100(IO.IByteDevice device) :
 			this(new IO.CharacterDevice(device))
 		{ }
-		public VT100(IO.ICharacterDevice device) :
+		VT100(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
-		public VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
+		VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
 			this(new IO.Filter.CharacterInDevice(inDevice), outDevice)
 		{ }
 		VT100(IO.Filter.CharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
@@ -59,7 +60,6 @@ namespace Kean.Cli
 		{
 			inDevice.Filter = this.FilterInput;
 			this.NewLine = new char[] { '\r', '\n' };
-			this.Out.Write('\x1b', '[', 'c'); // Request Identification string
 		}
 		#endregion
 		public override bool Echo
