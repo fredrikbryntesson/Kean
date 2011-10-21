@@ -102,31 +102,11 @@ namespace Kean.Math.Geometry2D.Abstract
             }
         }
         #region Properties
-        public V ScalingX 
-		{ 
-			get { return (((R)(this.A)).Squared() + ((R)this.B).Squared()).SquareRoot(); }
-			set { this.Scale((R)value / this.ScalingX, Abstract<R, V>.One); }
-		}
-        public V ScalingY 
-		{ 
-			get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); }
-			set { this.Scale(Abstract<R, V>.One, (R)value / this.ScalingY); }
-		}
-        public V Scaling 
-		{ 
-			get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; }
-			set { this.Scale((R)value / this.Scaling); }
-		}
-        public V Rotation 
-		{ 
-			get { return ((R)this.B).ArcusTangensExtended((R)this.A); }
-			set { this.Rotate((R)value - this.Rotation); }
-		}
-		public SizeType Translation 
-		{ 
-			get { return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.E, this.F); } 
-			set { this.Translate(value - this.Translation); }
-		}
+		public SizeType Translation { get { return Vector<SizeType, SizeValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(this.E, this.F); }}
+        public V Scaling { get { return ((R)this.ScalingX + (R)this.ScalingY) / Kean.Math.Abstract<R, V>.Two; } }
+		public V ScalingX { get { return (((R)(this.A)).Squared() + ((R)this.B).Squared()).SquareRoot(); } }
+        public V ScalingY { get { return (((R)this.C).Squared() + ((R)this.D).Squared()).SquareRoot(); } }
+        public V Rotation { get { return ((R)this.B).ArcusTangensExtended((R)this.A); } }
         #endregion
 	
         #region Constructors
@@ -141,8 +121,31 @@ namespace Kean.Math.Geometry2D.Abstract
             this.F = f;
         }
         #endregion
-        #region Manipulations
-        public TransformType Translate(V delta)
+		#region Absolute Manipulations
+		public TransformType SetTranslation(SizeType translation)
+		{
+			return this.Translate(translation - this.Translation);
+		}
+		public TransformType SetScaling(V scaling)
+		{ 
+			return this.Scale((R)scaling / this.Scaling); 
+		}
+		public TransformType SetXScaling(V scaling)
+		{ 
+			return this.Scale((R)scaling / this.ScalingX, Abstract<R, V>.One); 
+		}
+		public TransformType SetYScaling(V scaling)
+		{
+			return this.Scale(Abstract<R, V>.One, (R)scaling / this.ScalingY);
+		}
+		public TransformType SetRotation(V rotation)
+		{ 
+			return this.Rotate((R)rotation - this.Rotation); 
+		}
+
+		#endregion
+		#region Relative Manipulations
+		public TransformType Translate(V delta)
         {
             return this.Translate(delta, delta);
         }
