@@ -38,7 +38,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Short ? (data as Data.Short).Value : 0;
+			return data is Data.Short ? (data as Data.Short).Value : (short)0;
 		}
 		#endregion
 	}

@@ -1,5 +1,5 @@
-﻿// 
-//  Byte.cs
+// 
+//  MyClass.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,27 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Draw.Cairo
 {
-	public class Byte :
-		ISerializer
+	public class MyClass
 	{
-		public Byte()
-		{ }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public MyClass()
 		{
-			return type == "byte" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
-		{
-			return new Data.Byte((byte)data);
-		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
-		{
-			return data is Data.Byte ? (data as Data.Byte).Value : (byte)0;
-		}
-		#endregion
 	}
 }
 

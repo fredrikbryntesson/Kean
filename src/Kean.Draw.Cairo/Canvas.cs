@@ -34,7 +34,6 @@ namespace Kean.Draw.Cairo
 		global::Cairo.Context backend;
 		internal Canvas(Image image) :
 			base(image)
-
 		{
 			this.backend = new global::Cairo.Context(image.Backend);
 		}

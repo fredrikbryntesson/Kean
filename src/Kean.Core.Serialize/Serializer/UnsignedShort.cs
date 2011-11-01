@@ -38,7 +38,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.UnsignedShort ? (data as Data.UnsignedShort).Value : 0;
+			return data is Data.UnsignedShort ? (data as Data.UnsignedShort).Value : (ushort)0;
 		}
 		#endregion
 	}
