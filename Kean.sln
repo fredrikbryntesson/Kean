@@ -133,6 +133,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo", "src\Kean
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo.Test", "src\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj", "{98BAF538-395F-4E2A-B1FD-29ECC7129C73}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kean", "Kean", "{B76369B1-F7F2-42BA-9AA7-C8151E205414}"
+	ProjectSection(SolutionItems) = preProject
+		src\Kean\CommonAssemblyInfo.cs = src\Kean\CommonAssemblyInfo.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
