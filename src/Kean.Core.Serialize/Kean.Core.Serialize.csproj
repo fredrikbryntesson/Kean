@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +90,6 @@
     <Compile Include="ParameterAttribute.cs" />
     <Compile Include="MethodAttribute.cs" />
     <Compile Include="Serializer\Group.cs" />
-    <Compile Include="Serializer\Decimal.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
