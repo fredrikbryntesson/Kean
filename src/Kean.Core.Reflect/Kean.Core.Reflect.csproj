@@ -64,11 +64,11 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(ProjectDir)\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>
   </PropertyGroup>
   <Import Project="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets" />
   <Target Name="BeforeBuild">
-    <Copy SourceFiles="..\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
+    <Copy SourceFiles="$(SolutionDir)src\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
