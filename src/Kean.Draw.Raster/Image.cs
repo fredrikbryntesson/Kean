@@ -262,5 +262,15 @@ namespace Kean.Draw.Raster
 			return result;
 		}
 		#endregion
-    }
+		#region IDisposable Members Override
+		public override void Dispose()
+		{
+			if (this.buffer.NotNull())
+			{
+				this.buffer.Dispose();
+				this.buffer = null;
+			}
+		}
+		#endregion
+	}
 }
