@@ -24,31 +24,31 @@ namespace Kean.Core.Extension
 {
 	public static class ArrayExtension
 	{
-		public static void Reverse<T>(this T[] data)
+		public static void Reverse<T>(this T[] me)
 		{
-			int half = data.Length / 2;
+			int half = me.Length / 2;
 			for (int i = 0; i < half; i++)
 			{
-				T t = data[i];
-				data[i] = data[data.Length - i - 1];
-				data[data.Length - i - 1] = t;
+				T t = me[i];
+				me[i] = me[me.Length - i - 1];
+				me[me.Length - i - 1] = t;
 			}
 		}
-		public static void Apply<T>(this T[] data, Action<T> function)
+		public static void Apply<T>(this T[] me, Action<T> function)
 		{
-			foreach (T element in data)
+			foreach (T element in me)
 				function(element);
 		}
-		public static void Modify<T>(this T[] data, Func<T, T> function)
+		public static void Modify<T>(this T[] me, Func<T, T> function)
 		{
-			for (int i = 0; i < data.Length; i++)
-				data[i] = function(data[i]);
+			for (int i = 0; i < me.Length; i++)
+				me[i] = function(me[i]);
 		}
-		public static void Map<T, S>(this T[] input, S[] output, Func<T, S> function)
+		public static void Map<T, S>(this T[] me, S[] result, Func<T, S> function)
 		{
-			int minimumLength = (input.Length > output.Length) ? output.Length : input.Length;
+			int minimumLength = (me.Length > result.Length) ? result.Length : me.Length;
 			for (int i = 0; i < minimumLength; i++)
-				output[i] = function(input[i]);
+				result[i] = function(me[i]);
 		}
 		public static S[] Map<T, S>(this T[] input, Func<T, S> function)
 		{
@@ -157,18 +157,18 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
-		public static S Find<T, S>(this T[] data, Func<T, S> function)
+		public static S Find<T, S>(this T[] me, Func<T, S> function)
 		{
 			S result = default(S);
-			foreach (T element in data)
+			foreach (T element in me)
 				if ((result = function(element)) != null)
 					break;
 			return result;
 		}
-		public static bool Exists<T>(this T[] data, Func<T, bool> function)
+		public static bool Exists<T>(this T[] me, Func<T, bool> function)
 		{
 			bool result = false;
-			foreach (T element in data)
+			foreach (T element in me)
 				if (function(element))
 				{
 					result = true;
@@ -176,10 +176,10 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
-		public static bool All<T>(this T[] data, Func<T, bool> function)
+		public static bool All<T>(this T[] me, Func<T, bool> function)
 		{
 			bool result = true;
-			foreach (T element in data)
+			foreach (T element in me)
 				if (!function(element))
 				{
 					result = false;
@@ -187,18 +187,32 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
-		public static S Fold<T, S>(this T[] data, Func<T, S, S> function, S initial)
+		public static S Fold<T, S>(this T[] me, Func<T, S, S> function, S initial)
 		{
-			foreach (T element in data)
+			foreach (T element in me)
 				initial = function(element, initial);
 			return initial;
 		}
-		public static T[] Copy<T>(this T[] data)
+		public static T[] Copy<T>(this T[] me)
 		{
-			T[] result = new T[data.Length];
-			for (int i = 0; i < result.Length; i++)
-				result[i] = data[i];
+			T[] result = new T[me.Length];
+			Buffer.BlockCopy(me, 0, result, 0, me.Length);
 			return result;
+		}
+		public static T[] Sort<T>(this T[] me, Comparer<T> comparer)
+		{
+			Array.Sort(me, comparer.AsComparison());
+			return me;
+		}
+		public static T[] Sort<T>(this T[] me, Comparison<T> comparison)
+		{
+			Array.Sort(me, comparison);
+			return me;
+		}
+		public static T[] Sort<T>(this T[] me)
+		{
+			Array.Sort(me);
+			return me;
 		}
 	}
 }
