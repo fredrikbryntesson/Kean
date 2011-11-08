@@ -72,7 +72,7 @@ namespace Kean.Core.Uri
         {
             this.Add(KeyValue.Create(key, value)); 
         }
-		public Query RemoveAll(params string[] keys)
+		public Query Remove(params string[] keys)
 		{
 			return this.Remove((KeyValue<string, string> q) => 
 			{
@@ -82,7 +82,7 @@ namespace Kean.Core.Uri
 				return result;
 			});
 		}
-		public Query RemoveAllBut(params string[] keys)
+		public Query Keep(params string[] keys)
 		{
 			return this.Remove((KeyValue<string, string> q) =>
 			{
