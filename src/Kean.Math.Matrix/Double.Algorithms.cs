@@ -74,11 +74,11 @@ namespace Kean.Math.Matrix
                 for (int j = 0; j < order; j++)
                 {
                     if (j > 0)
-                        result.Set(j, j, result.Extract(j, j + 1, j, order) - result.Extract(0, j, j, order) * result.Extract(0, j, j, j + 1).Transpose());
+                        result.Set(j, j, result.Platformct(j, j + 1, j, order) - result.Platformct(0, j, j, order) * result.Platformct(0, j, j, j + 1).Transpose());
                     double value = result[j, j];
                     if (value <= 0)
                         throw new Exception.NonPositive();
-                    result.Set(j, j, result.Extract(j, j + 1, j, order) / Kean.Math.Double.SquareRoot(value));
+                    result.Set(j, j, result.Platformct(j, j + 1, j, order) / Kean.Math.Double.SquareRoot(value));
                 }
                 for (int y = 0; y < order; y++)
                     for (int x = y + 1; x < order; x++)
@@ -142,8 +142,8 @@ namespace Kean.Math.Matrix
                     // Least norm
                     Double transpose = this.Transpose();
                     Double[] qr = transpose.QRFactorization();
-                    Double q = qr[0].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
-                    Double r = qr[1].Extract(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
+                    Double q = qr[0].Platformct(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Height);
+                    Double r = qr[1].Platformct(0, transpose.Dimensions.Width, 0, transpose.Dimensions.Width);
                     Double z = y.ForwardSubstitution(r.Transpose());
                     result = q * z;
                 }
@@ -151,8 +151,8 @@ namespace Kean.Math.Matrix
                 {
                     // Standard
                     Double[] qr = this.QRFactorization();
-                    Double q = qr[0].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Height);
-                    Double r = qr[1].Extract(0, this.Dimensions.Width, 0, this.Dimensions.Width);
+                    Double q = qr[0].Platformct(0, this.Dimensions.Width, 0, this.Dimensions.Height);
+                    Double r = qr[1].Platformct(0, this.Dimensions.Width, 0, this.Dimensions.Width);
                     result = (q.Transpose() * y).BackwardSubstitution(r);
                 }
             }
@@ -174,7 +174,7 @@ namespace Kean.Math.Matrix
             Double q = Double.Identity(order);
             for (int i = 0; i < iterations; i++)
             {
-                Double x = r.Extract(i, i + 1, i, r.Dimensions.Height);
+                Double x = r.Platformct(i, i + 1, i, r.Dimensions.Height);
                 Double y = (Kean.Math.Double.Sign(x[0, 0]) * x.Norm) * Double.Basis(r.Dimensions.Height - i, 0);
                 Double qi = Double.Identity(order).Paste(i, i, Double.HouseHolder(x, y));
                 r = qi * r;
@@ -249,24 +249,24 @@ namespace Kean.Math.Matrix
 
             for (int j = 0; j < n; j++)
             {
-                Kean.Core.Tuple<Double, double> leftHousePair = b.Extract(j, j + 1, j, m).House();
+                Kean.Core.Tuple<Double, double> leftHousePair = b.Platformct(j, j + 1, j, m).House();
                 Double leftHouseMultiplier = Double.Identity(m - j) - leftHousePair.Item2 * leftHousePair.Item1 * leftHousePair.Item1.Transpose();
                 leftHouseholder[j] = leftHouseMultiplier;
-                b.Set(j, j, leftHouseMultiplier * b.Extract(j, j));
+                b.Set(j, j, leftHouseMultiplier * b.Platformct(j, j));
                 if (j < n - 2)
                 {
-                    Kean.Core.Tuple<Double, double> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
+                    Kean.Core.Tuple<Double, double> rightHousePair = b.Platformct(j + 1, n, j, j + 1).Transpose().House();
                     Double rightHouseMultiplier = Double.Identity(n - j - 1) - rightHousePair.Item2 * rightHousePair.Item1 * rightHousePair.Item1.Transpose();
                     rightHouseholder[j] = rightHouseMultiplier;
-                    b.Set(j + 1, j, b.Extract(j + 1, j) * rightHouseMultiplier);
+                    b.Set(j + 1, j, b.Platformct(j + 1, j) * rightHouseMultiplier);
                 }
             }
             Double u = Double.Identity(m);
             for (int j = n - 1; j >= 0; j--)
-                u.Set(j, j, leftHouseholder[j] * u.Extract(j, j));
+                u.Set(j, j, leftHouseholder[j] * u.Platformct(j, j));
             Double v = Double.Identity(n);
             for (int j = n - 3; j >= 0; j--)
-                v.Set(j + 1, j + 1, rightHouseholder[j] * v.Extract(j + 1, j + 1));
+                v.Set(j + 1, j + 1, rightHouseholder[j] * v.Platformct(j + 1, j + 1));
             result = new Double[] { u, b, v };
             return result;
 
@@ -279,7 +279,7 @@ namespace Kean.Math.Matrix
         {
             Kean.Core.Tuple<Double, double> result;
             int n = this.Dimensions.Height;
-            Double tail = this.Extract(0, 1, 1, n);
+            Double tail = this.Platformct(0, 1, 1, n);
             double sigma = (tail.Transpose() * tail)[0, 0];
             Double nu = new Double(1, n);
             nu[0, 0] = 1;
@@ -379,7 +379,7 @@ namespace Kean.Math.Matrix
             {
                 Double[] ubv = this.BiDiagonalization();
                 Double u = ubv[0];
-                Double b = ubv[1]; //.Extract(0, n, 0, n);
+                Double b = ubv[1]; //.Platformct(0, n, 0, n);
                 Double v = ubv[2];
                 int q = 0;
                 while (q < n)
@@ -415,7 +415,7 @@ namespace Kean.Math.Matrix
                         break;
                     if (q < n)
                     {
-                        b22 = b.Extract(p, n - q, p, n - q);
+                        b22 = b.Platformct(p, n - q, p, n - q);
                         bool zeros = false;
                         for (int i = 0; i < b22.Dimensions.Width; i++)
                             if (Kean.Math.Double.Absolute(b22[i, i]) < tolerance && Kean.Math.Double.Absolute(b22[i + 1, i]) > tolerance)
@@ -451,7 +451,7 @@ namespace Kean.Math.Matrix
             int m = b.Dimensions.Height;
             int n = b.Dimensions.Width;
             Double t = b.Transpose() * b;
-            Double trail = t.Extract(n - 2, n, n - 2, n);
+            Double trail = t.Platformct(n - 2, n, n - 2, n);
             double d = (trail[0, 0] - trail[1, 1]) / 2;
             double mu = trail[1, 1] + d - Kean.Math.Double.Sign(d) * Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(d) + Kean.Math.Double.Squared(trail[1, 0]));
             double y = t[0, 0] - mu;

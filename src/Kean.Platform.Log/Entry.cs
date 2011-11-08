@@ -1,5 +1,5 @@
-// 
-//  AssemblyInfo.cs
+﻿//
+//  Entry
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -15,17 +15,30 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Error = Kean.Core.Error;
+using Collection = Kean.Core.Collection;
 
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-// Information about this assembly is defined by the following attributes. 
-// Change them to the values specific to your project.
-
-[assembly: AssemblyTitle("Kean.Test.Extra.Log")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
+namespace Kean.Platform.Log
+{
+	public class Entry :
+		Error.IError
+	{
+		#region IError Members
+		public DateTime Time { get; internal set; }
+		public Error.Level Level { get; internal set; }
+		public string Title { get; internal set; }
+		public string Message { get; internal set; }
+		public string AssemblyName { get; internal set; }
+		public string AssemblyVersion { get; internal set; }
+		public string Type { get; internal set; }
+		public string Method { get; internal set; }
+		public string Filename { get; internal set; }
+		public int Line { get; internal set; }
+		public int Column { get; internal set; }
+		#endregion
+	}
+}

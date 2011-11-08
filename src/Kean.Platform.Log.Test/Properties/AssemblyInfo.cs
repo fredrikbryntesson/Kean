@@ -1,5 +1,5 @@
-﻿//
-//  Abstract
+// 
+//  AssemblyInfo.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -15,33 +15,17 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-//
+// 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using Error = Kean.Core.Error;
 
-namespace Kean.Extra.Log.Writer
-{
-	public abstract class Abstract :
-		IWriter,
-		IDisposable
-	{
-		protected Abstract()
-		{
-		}
-		~Abstract()
-		{
-			(this as IDisposable).Dispose();
-		}
-		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			this.Close();
-		}
-		#endregion
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-		public abstract Action<Error.IError> Open();
-		public abstract void Close();
-	}
-}
+// Information about this assembly is defined by the following attributes. 
+// Change them to the values specific to your project.
+
+[assembly: AssemblyTitle("Kean.Test.Platform.Log")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+

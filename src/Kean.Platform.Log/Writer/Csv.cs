@@ -22,7 +22,7 @@ using System;
 using Kean.Core.Extension;
 using Error = Kean.Core.Error;
 
-namespace Kean.Extra.Log.Writer
+namespace Kean.Platform.Log.Writer
 {
 	public class Csv :
 		Abstract

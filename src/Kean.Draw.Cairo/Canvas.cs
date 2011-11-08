@@ -95,7 +95,7 @@ namespace Kean.Draw.Cairo
 		}
 		void Draw(Draw.PathSegment.EllipticalArcTo arc)
 		{
-			Tuple<Geometry2D.Single.Point, float, float> arcParameters = arc.ExtractArcCoordinates();
+			Tuple<Geometry2D.Single.Point, float, float> arcParameters = arc.PlatformctArcCoordinates();
 			if (arc.Radius.X == 0 || arc.Radius.Y == 0 || arcParameters.IsNull())
 				// If no solution to the coordinate problem just do:
 				this.backend.LineTo(arc.End.X, arc.End.Y);

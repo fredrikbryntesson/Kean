@@ -47,7 +47,7 @@ namespace Kean.Draw.PathSegment
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
 			Geometry2D.Single.Box result = null;
-			Tuple<Geometry2D.Single.Point, float, float> coordinates = this.ExtractArcCoordinates();
+			Tuple<Geometry2D.Single.Point, float, float> coordinates = this.PlatformctArcCoordinates();
 			float startAngle = coordinates.Item2;
 			float endAngle = coordinates.Item3;
 			Geometry2D.Single.Transform derivative = new Geometry2D.Single.Transform(transform.A, transform.B, transform.C, transform.D, 0, 0);
@@ -77,7 +77,7 @@ namespace Kean.Draw.PathSegment
 					angles.Add(currentAngle);
 			}
 		}
-		public Tuple<Geometry2D.Single.Point, float, float> ExtractArcCoordinates()
+		public Tuple<Geometry2D.Single.Point, float, float> PlatformctArcCoordinates()
 		{
 			float x1 = this.Start.X,
 				  y1 = this.Start.Y,

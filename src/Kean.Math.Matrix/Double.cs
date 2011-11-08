@@ -253,16 +253,16 @@ namespace Kean.Math.Matrix
             return result;
         }
         /// <summary>
-        /// Extract the submatrix being the rectangular part of current matrix with top left corner (x,y).
+        /// Platformct the submatrix being the rectangular part of current matrix with top left corner (x,y).
         /// </summary>
         /// <param name="left">Column position.</param>
         /// <param name="top">Row position.</param>
         /// <returns>Return the extract submatrix with top left corner (x,y).</returns>
-        public Double Extract(int left, int top)
+        public Double Platformct(int left, int top)
         {
-            return this.Extract(left, this.Dimensions.Width, top, this.Dimensions.Height);
+            return this.Platformct(left, this.Dimensions.Width, top, this.Dimensions.Height);
         }
-        public Double Extract(int left, int right, int top, int bottom)
+        public Double Platformct(int left, int right, int top, int bottom)
         {
             if (
                 left < 0 || left > this.Dimensions.Width ||

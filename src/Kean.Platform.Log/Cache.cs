@@ -25,7 +25,7 @@ using Basis = Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 
-namespace Kean.Extra.Log
+namespace Kean.Platform.Log
 {
 	public class Cache :
 		Basis.Synchronized,

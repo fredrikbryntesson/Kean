@@ -21,7 +21,7 @@ namespace Kean.Math.Matrix.Test
                 this.Block,
                 this.Copy,
                 this.Diagonal,
-                this.Extract,
+                this.Platformct,
                 this.Identity,
                 this.KroneckerProduct,
                 this.Minor,
@@ -180,11 +180,11 @@ namespace Kean.Math.Matrix.Test
             Expect(a.Minor(0, 0), Is.EqualTo(b), this.prefix + "Minor.0");
         }
         [Test]
-        public void Extract()
+        public void Platformct()
         {
             Target a = new Target(2, 3, new double[] { 1, 2, 3, 4, 5, 6 });
             Target b = new Target(2, 2, new double[] { 1, 2, 4, 5 });
-            Expect(a.Extract(0, 2, 0, 2), Is.EqualTo(b), this.prefix + "Extract.0");
+            Expect(a.Platformct(0, 2, 0, 2), Is.EqualTo(b), this.prefix + "Platformct.0");
         }
         [Test]
         public void Paste()

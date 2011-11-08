@@ -1,5 +1,5 @@
 ﻿//
-//  Entry
+//  IWriter
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,27 +18,15 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Error = Kean.Core.Error;
-using Collection = Kean.Core.Collection;
 
-namespace Kean.Extra.Log
+namespace Kean.Platform.Log
 {
-	public class Entry :
-		Error.IError
+	public interface IWriter
 	{
-		#region IError Members
-		public DateTime Time { get; internal set; }
-		public Error.Level Level { get; internal set; }
-		public string Title { get; internal set; }
-		public string Message { get; internal set; }
-		public string AssemblyName { get; internal set; }
-		public string AssemblyVersion { get; internal set; }
-		public string Type { get; internal set; }
-		public string Method { get; internal set; }
-		public string Filename { get; internal set; }
-		public int Line { get; internal set; }
-		public int Column { get; internal set; }
-		#endregion
+		Action<Error.IError> Open();
+		void Close();
 	}
 }
