@@ -24,7 +24,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 
-namespace Kean.Core.Argument
+namespace Kean.Cli.Argument
 {
 	/// <summary>
 	/// Contains handlers for command line arguments and parses the argument list.

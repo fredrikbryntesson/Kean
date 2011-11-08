@@ -28,24 +28,14 @@ namespace Kean.Core.Serialize
 		Attribute
 	{
     	public string Name { get; set; }
-		/// <summary>
-        /// If set the property is initialized to the given value.
-        /// </summary>
-        public object Default { get; set; }
 
 		public ParameterAttribute()
 		{
 		}
-		public ParameterAttribute(object defaultValue) :
-			this()
-		{
-			this.Default = defaultValue;
-		}
-		public ParameterAttribute(string name, object defaultValue) :
+		public ParameterAttribute(string name) :
 			this()
 		{
 			this.Name = name;
-			this.Default = defaultValue;
 		}
 	}
 }
