@@ -35,7 +35,7 @@ namespace Kean.Core.Uri.Test
         string prefix = "Kean.Core.Uri.Test.Query.";
         protected override void Run()
         {
-            this.Run(this.EqualityNull, this.Equality, this.Find);
+            this.Run(this.EqualityNull, this.Equality, this.Find, this.RemoveList, this.RemoveQuery);
         }
         [Test]
         public void EqualityNull()
@@ -69,5 +69,23 @@ namespace Kean.Core.Uri.Test
             Expect(query.Find((KeyValue<string, string> q) => q.Key == "keyB").Value, Is.EqualTo("valueB"), this.prefix + "Find.1");
             Expect(query.Find((KeyValue<string, string> q) => q.Key == "keyC").Value, Is.EqualTo("valueC"), this.prefix + "Find.2");
         }
+		[Test]
+		public void RemoveList()
+		{
+			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyA"), Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE"), this.prefix + "RemoveList.0");
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyE"), Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveList.1");
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyC"), Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"), this.prefix + "RemoveList.2");
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyF"), Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"), this.prefix + "RemoveList.3");
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyB"), Is.EqualTo((Target.Query)"keyD=valueD"), this.prefix + "RemoveList.4");
+			Expect(query = query.Remove((KeyValue<string, string> q) => q.Key == "keyD"), Is.EqualTo(null), this.prefix + "RemoveList.5");
+		}
+		[Test]
+		public void RemoveQuery()
+		{
+			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
+			Expect(query = query.RemoveAll("keyA", "keyE"), Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveQuery.0");
+			Expect(query = query.RemoveAllBut("keyC"), Is.EqualTo((Target.Query)"keyC=valueC"), this.prefix + "RemoveQuery.1");
+		}
     }
 }

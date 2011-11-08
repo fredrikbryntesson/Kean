@@ -72,6 +72,27 @@ namespace Kean.Core.Uri
         {
             this.Add(KeyValue.Create(key, value)); 
         }
+		public Query RemoveAll(params string[] keys)
+		{
+			return this.Remove((KeyValue<string, string> q) => 
+			{
+				bool result = false;
+				foreach(string key in keys)
+					result |= q.Key == key;
+				return result;
+			});
+		}
+		public Query RemoveAllBut(params string[] keys)
+		{
+			return this.Remove((KeyValue<string, string> q) =>
+			{
+				bool result = false;
+				foreach (string key in keys)
+					result |= q.Key == key;
+				return !result;
+			});
+		}
+        
         #region ILink<Query, KeyValue<string, string>> Members
 		public KeyValue<string, string> Head { get; set; }
         public Query Tail { get; set; }
