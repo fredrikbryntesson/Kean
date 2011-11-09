@@ -101,7 +101,7 @@ namespace Kean.Platform
 		}
 		#endregion
 		#region Constructors
-		protected Application()
+		public Application()
 		{
 			#region Initialize Properties
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetCallingAssembly();
