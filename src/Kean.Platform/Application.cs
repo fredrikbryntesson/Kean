@@ -154,6 +154,7 @@ namespace Kean.Platform
 			foreach (Module module in this.Modules)
 				module.AddArguments(parser);
 			parser.Parse(this.CommandLine);
+
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Created)
 					module.Initialize();
@@ -211,7 +212,12 @@ namespace Kean.Platform
 		}
 		void  IDisposable.Dispose()
 		{
-			throw new NotImplementedException();
+			if (this.Modules.NotNull())
+			{
+				foreach (Module module in this.Modules)
+					if (module.Mode != Mode.Disposed)
+						module.Dispose();
+			}
 		}
 		#endregion
 }
