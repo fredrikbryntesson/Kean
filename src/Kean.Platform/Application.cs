@@ -70,6 +70,7 @@ namespace Kean.Platform
 		public bool CatchErrors { get; set; }
 		#endregion
 		#region Events
+		public Action Run { private get; set; }
 		object onIdleLock = new object();
 		Action onIdle;
 		public event Action OnIdle
@@ -131,9 +132,6 @@ namespace Kean.Platform
 #endif
 			#endregion
 
-			Argument.Parser parser = new Argument.Parser();
-			this.AddArguments(parser);
-			parser.Parse(this.CommandLine);
 		}
 		#endregion
 		#region Public Methods
@@ -143,13 +141,26 @@ namespace Kean.Platform
 		}
 		void Executer()
 		{
+			Argument.Parser parser = new Argument.Parser();
+			parser.Add('v', "version", () =>
+			{
+				Console.WriteLine("Product: " + this.Product);
+				Console.WriteLine("Version: " + this.Version);
+				Console.WriteLine("Company: " + this.Company);
+				Console.WriteLine("Copyright: " + this.Copyright);
+				Console.WriteLine("Description: " + this.Description);
+			});
+			parser.Add('d', "debug", () => this.CatchErrors = false);
+			foreach (Module module in this.Modules)
+				module.AddArguments(parser);
+			parser.Parse(this.CommandLine);
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Created)
 					module.Initialize();
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Initialized)
 					module.Start();
-			this.Run();
+			this.Run.Call();
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
 					module.Stop();
@@ -193,25 +204,6 @@ namespace Kean.Platform
 				this.onIdle.Call();
 		}
 		#endregion
-		#region Implemetors Interface
-		protected virtual void Run()
-		{
-		}
-		#endregion
-		void AddArguments(Argument.Parser parser)
-		{
-			parser.Add('v', "version", () =>
-			{
-				Console.WriteLine("Product: " + this.Product);
-				Console.WriteLine("Company: " + this.Company);
-				Console.WriteLine("Copyright: " + this.Copyright);
-				Console.WriteLine("Description: " + this.Description);
-			});
-			parser.Add('d', "debug", () =>
-			{
-				this.CatchErrors = false;
-			});
-		}
 		#region IDisposable Members
 		~Application()
 		{
