@@ -61,7 +61,7 @@ namespace Kean.Platform.Log
 		public Module() :
 			base("Log")
 		{
-			this.cache.Writers.Add(new Log.Writer.Csv() { Filename = System.IO.Path.Combine(this.Application.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable) + ".log") });
+			this.ApplicationChanged += application => this.cache.Writers.Add(new Log.Writer.Csv() { Filename = System.IO.Path.Combine(application.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(application.Executable) + ".log") });
 		}
 		#endregion
 		#region Module Overrides
@@ -93,7 +93,7 @@ namespace Kean.Platform.Log
 			this.Append(Error.Level.Message, "Company", this.Application.Company);
 			this.Append(Error.Level.Message, "Copyright", this.Application.Copyright);
 			this.Append(Error.Level.Message, "Description", this.Application.Description);
-			this.Append(Error.Level.Message, "Command Line", this.Application.CommandLine.Fold((string accumululated, string element) => accumululated + " " + element, ""));
+			this.Append(Error.Level.Message, "Command Line", this.Application.CommandLine.Fold((string accumululated, string element) => element + " " + accumululated, ""));
 			this.Append(Error.Level.Message, "OS", System.Environment.OSVersion.VersionString);
 			this.Append(Error.Level.Message, "CLR Version", System.Environment.Version.ToString());
 			this.Append(Error.Level.Message, "Machine Name", System.Environment.MachineName);
@@ -108,6 +108,10 @@ namespace Kean.Platform.Log
 		public void Append(Error.IError item)
 		{
 			this.cache.Append(item);
+		}
+		public void Flush()
+		{
+			this.cache.Flush();
 		}
 		#endregion
 	}

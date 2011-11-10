@@ -35,7 +35,7 @@ namespace Kean.Platform
 	{
 		#region Modules
 		[Serialize.Parameter("Module")]
-		protected Collection.Hooked.IList<Module> Modules { get; private set; }
+		protected Collection.IList<Module> Modules { get; private set; }
 		public Module this[string name]
 		{
 			get
@@ -44,13 +44,6 @@ namespace Kean.Platform
 				if (result.IsNull())
 					this.Modules.Add(result = new Placeholder(name));
 				return result;
-			}
-			set
-			{
-				if (value.NotNull())
-					this.Modules.Add(value.Merge(this.Modules.Find(item => item.Name == name)));
-				else
-					this.Modules.Remove(module => module.Name == name);
 			}
 		}
 		#endregion
@@ -65,12 +58,11 @@ namespace Kean.Platform
 		public string[] CommandLine { get { return System.Environment.GetCommandLineArgs(); } }
 		public string Executable { get { return System.IO.Path.GetFullPath(this.CommandLine[0]); } }
 		public string ExecutablePath { get { return System.IO.Path.GetDirectoryName(this.Executable); } }
-
+		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
 		public bool CatchErrors { get; set; }
 		#endregion
 		#region Events
-		public Action Run { private get; set; }
 		object onIdleLock = new object();
 		Action onIdle;
 		public event Action OnIdle
@@ -103,6 +95,15 @@ namespace Kean.Platform
 		#region Constructors
 		public Application()
 		{
+			Collection.Hooked.List<Module> modules = new Collection.Hooked.List<Module>();
+			modules.Added += (index, module) => module.Application = this;
+			modules.Replaced += (index, old, @new) =>
+			{
+				old.Application = null;
+				@new.Application = this;
+			};
+			modules.Removed += (index, module) => module.Application = null;
+			this.Modules = modules;
 			#region Initialize Properties
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetCallingAssembly();
             // Product
@@ -135,9 +136,24 @@ namespace Kean.Platform
 		}
 		#endregion
 		#region Public Methods
-		public virtual bool Close()
+		public void Load(Module module)
 		{
-			return true;
+			Module old = this.Modules.Find(m => m.Name == module.Name);
+			if (old.NotNull())
+				this.Modules.Remove(m => m.Name == module.Name);
+			this.Modules.Add(module.Merge(old));
+		}
+		public void Load<T>(string name, T value)
+		{
+			this.Load(new Module<T>(name, value));
+		}
+		public void Unload(string name)
+		{
+			this.Modules.Remove(module => module.Name == name);
+		}
+		public bool Close()
+		{
+			return this.Runner.NotNull() && this.Runner.Close();
 		}
 		void Executer()
 		{
@@ -161,7 +177,8 @@ namespace Kean.Platform
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Initialized)
 					module.Start();
-			this.Run.Call();
+			if (this.Runner.NotNull())
+				this.Runner.Run();
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
 					module.Stop();

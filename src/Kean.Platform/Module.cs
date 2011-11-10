@@ -20,7 +20,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Argument = Kean.Cli.Argument;
+using Serialize = Kean.Core.Serialize;
 
 namespace Kean.Platform
 {
@@ -29,11 +32,38 @@ namespace Kean.Platform
 	{
 		#region Properties
 		internal Mode Mode { get; private set; }
-		public string Name { get; private set; }
-		public Application Application { get; internal set; }
+		string name;
+		[Serialize.Parameter("Name")]
+		public string Name 
+		{
+			get { return this.name; }
+			set
+			{
+				if (this.Application.NotNull())
+				{
+					Application application = this.Application;
+					application.Unload(this.name);
+					this.name = value;
+					application.Load(this);
+				}
+				else
+					this.name = value;
+			}
+		}
+		Application application;
+		public Application Application 
+		{
+			get { return this.application; }
+			internal set 
+			{
+				this.application = value;
+				this.ApplicationChanged.Call(this.application);
+			}
+		}
+		protected event Action<Application> ApplicationChanged;
 		#endregion
 		#region Events
-		public event Action<Module, Module> Replaced;
+		event Action<Module> loaded;
 		#endregion
 		#region Constructors
 		protected Module(string name)
@@ -62,9 +92,20 @@ namespace Kean.Platform
 			this.Mode = Mode.Disposed;
 		}
 		#endregion
+		public virtual void WhenLoaded<T>(Action<T> loaded) where T : Module
+		{
+			if (this is T)
+				loaded.Call(this as T);
+			this.loaded += m =>
+			{
+				if (m is T) 
+					loaded.Call(m as T);
+			};
+		}
 		internal Module Merge(Module other)
 		{
-			this.Replaced += other.Replaced;
+			if (other.NotNull())
+				this.loaded += other.loaded;
 			return this;
 		}
 		#region IDisposable Members
@@ -77,6 +118,26 @@ namespace Kean.Platform
 			if (this.Mode != Mode.Disposed)
 				this.Dispose();
 		}
+		#endregion
+	}
+	public class Module<T> :
+		Module
+	{
+		[Serialize.Parameter("Value")]
+		public T Value { get; set; }
+
+		#region Constructors
+		public Module(string name, T value) :
+			this(name)
+		{
+			this.Value = value;
+		}
+		public Module() :
+			this("")
+		{ }
+		public Module(string name) :
+			base(name)
+		{ }
 		#endregion
 	}
 }
