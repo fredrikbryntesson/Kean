@@ -97,7 +97,8 @@ namespace Kean.IO.Net.Tcp
 					}
 					catch (System.Net.Sockets.SocketException)
 					{
-						this.listener.Abort();
+						if (this.listener.NotNull())
+							this.listener.Abort();
 					}
 				});
 			}
