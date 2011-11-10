@@ -151,6 +151,11 @@ namespace Kean.Platform
 		{
 			this.Modules.Remove(module => module.Name == name);
 		}
+		public T GetValue<T>(string name) where T : class
+		{
+			Module<T> module = this[name] as Module<T>;
+			return module.NotNull() ? module.Value : null;
+		}
 		public bool Close()
 		{
 			return this.Runner.NotNull() && this.Runner.Close();
@@ -163,8 +168,9 @@ namespace Kean.Platform
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Initialized)
 					module.Start();
-			if (this.Runner.NotNull())
-				this.Runner.Run();
+			if (this.Runner.IsNull())
+				this.Runner = new Waiter();
+			this.Runner.Run();
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
 					module.Stop();
