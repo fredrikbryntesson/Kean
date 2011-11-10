@@ -57,6 +57,7 @@ namespace Kean.Platform
 			internal set 
 			{
 				this.application = value;
+				this.loaded.Call(this);
 				this.ApplicationChanged.Call(this.application);
 			}
 		}
