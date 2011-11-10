@@ -119,6 +119,10 @@ namespace Kean.Platform
 				this.Dispose();
 		}
 		#endregion
+		public override string ToString()
+		{
+			return this.Name;
+		}
 	}
 	public class Module<T> :
 		Module

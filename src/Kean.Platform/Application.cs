@@ -157,20 +157,6 @@ namespace Kean.Platform
 		}
 		void Executer()
 		{
-			Argument.Parser parser = new Argument.Parser();
-			parser.Add('v', "version", () =>
-			{
-				Console.WriteLine("Product: " + this.Product);
-				Console.WriteLine("Version: " + this.Version);
-				Console.WriteLine("Company: " + this.Company);
-				Console.WriteLine("Copyright: " + this.Copyright);
-				Console.WriteLine("Description: " + this.Description);
-			});
-			parser.Add('d', "debug", () => this.CatchErrors = false);
-			foreach (Module module in this.Modules)
-				module.AddArguments(parser);
-			parser.Parse(this.CommandLine);
-
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Created)
 					module.Initialize();
@@ -188,6 +174,19 @@ namespace Kean.Platform
 		}
 		public void Execute()
 		{
+			Argument.Parser parser = new Argument.Parser();
+			parser.Add('v', "version", () =>
+			{
+				Console.WriteLine("Product: " + this.Product);
+				Console.WriteLine("Version: " + this.Version);
+				Console.WriteLine("Company: " + this.Company);
+				Console.WriteLine("Copyright: " + this.Copyright);
+				Console.WriteLine("Description: " + this.Description);
+			});
+			parser.Add('d', "debug", () => this.CatchErrors = false);
+			foreach (Module module in this.Modules)
+				module.AddArguments(parser);
+			parser.Parse(this.CommandLine);
 			if (this.CatchErrors)
 			{
 				try
