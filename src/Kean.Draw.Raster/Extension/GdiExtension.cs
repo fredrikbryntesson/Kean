@@ -84,8 +84,7 @@ namespace Kean.Draw.Raster.Extension
 			if (me.NotNull())
 			{
 				if (me.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb &&
-					me.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb && 
-                    me.PixelFormat != System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+					me.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
 				{ // Bitmap data that we don't support we draw upon a ARGB bitmap and use that instead.
 					System.Drawing.Bitmap newBitmap = new System.Drawing.Bitmap(me.Width, me.Height);
 					using (System.Drawing.Graphics canvas = System.Drawing.Graphics.FromImage(newBitmap))
@@ -107,9 +106,6 @@ namespace Kean.Draw.Raster.Extension
 					case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
 						result = new Bgra(buffer, new Geometry2D.Integer.Size(me.Width, me.Height));
 						break;
-                    case System.Drawing.Imaging.PixelFormat.Format8bppIndexed:
-                        result = new Monochrome(buffer, new Geometry2D.Integer.Size(me.Width, me.Height));
-                        break;
 				}
 			}
 			return result;
