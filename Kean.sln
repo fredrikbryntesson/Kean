@@ -140,6 +140,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kean", "Kean", "{B76369B1-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform", "src\Kean.Platform\Kean.Platform.csproj", "{ABF16C06-E815-40C8-9194-13D9BE11E019}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Remote", "src\Kean.Platform.Remote\Kean.Platform.Remote.csproj", "{AA59DFCB-10D8-42A7-AEDC-E03069355A95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Remote.Test", "src\Kean.Platform.Remote.Test\Kean.Platform.Remote.Test.csproj", "{7BC20A20-B299-4B12-94B7-A402649A5527}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -414,6 +418,14 @@ Global
 		{ABF16C06-E815-40C8-9194-13D9BE11E019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF16C06-E815-40C8-9194-13D9BE11E019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF16C06-E815-40C8-9194-13D9BE11E019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA59DFCB-10D8-42A7-AEDC-E03069355A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA59DFCB-10D8-42A7-AEDC-E03069355A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA59DFCB-10D8-42A7-AEDC-E03069355A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA59DFCB-10D8-42A7-AEDC-E03069355A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC20A20-B299-4B12-94B7-A402649A5527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC20A20-B299-4B12-94B7-A402649A5527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC20A20-B299-4B12-94B7-A402649A5527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC20A20-B299-4B12-94B7-A402649A5527}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

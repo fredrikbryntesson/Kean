@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 - 2011 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,14 +21,19 @@
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Kean")]
-[assembly: AssemblyProduct("Kean Toolkit")]
-[assembly: AssemblyCopyright("2009 - 2011 Kean Developers")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("Kean.Platform.Remote.Test")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
 
-[assembly: AssemblyVersion("0.2.0.0")]
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
 
-//[assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("")]
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("ffef5e39-5e3c-41aa-9ba2-461e10d23f4b")]

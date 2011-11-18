@@ -1,10 +1,10 @@
 ﻿// 
-//  CommonAssemblyInfo.cs
+//  Root.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 - 2011 Simon Mika
+//  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,19 +16,31 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received data copy of the GNU Lesser General Public License
+//  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Reflection;
-using System.Runtime.CompilerServices;
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Processor = Kean.Cli.Processor;
+using Collection = Kean.Core.Collection;
 
-[assembly: AssemblyCompany("Kean")]
-[assembly: AssemblyProduct("Kean Toolkit")]
-[assembly: AssemblyCopyright("2009 - 2011 Kean Developers")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+namespace Kean.Platform.Remote
+{
+	class Root : 
+		Processor.Dynamic
+	{
+		Module module;
 
-[assembly: AssemblyVersion("0.2.0.0")]
+		public Root(Module module)
+		{
+			this.module = module;
+		}
 
-//[assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("")]
+		[Processor.Method("close", "Closes application.", "Shuts down the current application instance.")]
+		public bool Close()
+		{
+			return this.module.Application.NotNull() && this.module.Application.Close();
+		}
+	}
+}

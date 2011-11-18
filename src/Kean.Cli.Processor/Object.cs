@@ -17,7 +17,9 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
@@ -29,7 +31,7 @@ namespace Kean.Cli.Processor
 {
 	class Object :
 		Member,
-		Collection.IReadOnlyVector<Member>
+        System.Collections.Generic.IEnumerable<Member>
 	{
 		protected override char Delimiter { get { return '.'; } }
 		object backend;
@@ -42,6 +44,7 @@ namespace Kean.Cli.Processor
 				{
 					this.members = new Collection.Sorted.List<Member>();
 					if (this.backend.NotNull())
+					{
 						foreach (Reflect.Member member in this.backend.GetMembers(Reflect.MemberFilter.Instance | Reflect.MemberFilter.Public | Reflect.MemberFilter.Method | Reflect.MemberFilter.Property))
 						{
 							MemberAttribute[] attributes = member.GetAttributes<MemberAttribute>();
@@ -55,12 +58,26 @@ namespace Kean.Cli.Processor
 									this.members.Add(new Method(attributes[0] as MethodAttribute, member as Reflect.Method, this));
 							}
 						}
+						if (this.backend is IReload)
+						{
+							(this.backend as IReload).Reload += () => this.members = null;
+							if (this.backend is IDynamic)
+								foreach (Tuple<string, string, string, object> dynamic in (this.backend as IDynamic).GetDynamic())
+									this.members.Add(new Object(dynamic.Item1, dynamic.Item2, dynamic.Item3, dynamic.Item4));
+						}
+					}
+
 				}
 				return this.members;
 			}
 		}
 		public Object(object backend) :
 			base(null, null, null)
+		{
+			this.backend = backend;
+		}
+		public Object(string name, string description, string usage, object backend) :
+			base(new ObjectAttribute(name, description, usage), null, null)
 		{
 			this.backend = backend;
 		}
@@ -103,38 +120,17 @@ namespace Kean.Cli.Processor
 					results.Add(Tuple.Create(member.Name, member.Description));
 			return results.Fold((m, r) => r + m.Item1 + "\t" + m.Item2 + "\n", "");
 		}
-		#region IReadOnlyVector<Member> Members
-		public int Count
-		{
-			get { return this.Members.Count; }
-		}
-		public Member this[int index]
-		{
-			get { return this.Members[index]; }
-		}
-		#endregion
 		#region IEnumerable<Member> Members
 		public System.Collections.Generic.IEnumerator<Member> GetEnumerator()
 		{
-			return this.Members.GetEnumerator();
+			foreach (Member member in this.Members)
+				yield return member;
 		}
 		#endregion
 		#region IEnumerable Members
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return this.Members.GetEnumerator();
-		}
-		#endregion
-		#region IEquatable<IVector<member>> Members
-		public bool Equals(Collection.IVector<Member> other)
-		{
-			return this.Members.Equals(other);
-		}
-		#endregion
-		#region IEquatable<IReadOnlyVector<Member>> Members
-		public bool Equals(Kean.Core.Collection.IReadOnlyVector<Member> other)
-		{
-			return this.Members.Equals(other);
+			return (this as System.Collections.IEnumerable).GetEnumerator();
 		}
 		#endregion
 	}
