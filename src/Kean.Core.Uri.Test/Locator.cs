@@ -86,7 +86,7 @@ namespace Kean.Core.Uri.Test
 		[Test]
 		public void Space2()
 		{
-			Target.Locator locator = "schemeA+schemeB://name:password@example.com:80/folder a/folder b/file+0.extension?key a=value a&keyB=valueB#fragment 0";
+			Target.Locator locator = "schemeA+schemeB://name:password@example.com:80/folder a/folder b/file 0.extension?key a=value a&keyB=valueB#fragment 0";
 			Expect(locator, Is.Not.EqualTo(null), this.prefix + "Space2.0");
 			Expect(locator != null, "locator != null", this.prefix + "Space2.1");
 			Expect((string)locator.Scheme, Is.EqualTo("schemeA+schemeB"), this.prefix + "Space2.2");
@@ -95,7 +95,7 @@ namespace Kean.Core.Uri.Test
 			Expect((string)locator.Query, Is.EqualTo("key+a=value+a&keyB=valueB"), this.prefix + "Space2.5");
 			Expect((string)locator.Fragment, Is.EqualTo("fragment 0"), this.prefix + "Space2.6");
 			Expect((string)locator, Is.EqualTo("schemeA+schemeB://name:password@example.com:80/folder+a/folder+b/file+0.extension?key+a=value+a&keyB=valueB#fragment+0"), this.prefix + "Space2.7");
-			Expect(locator == "schemeA+schemeB://name:password@example.com:80/folder+a/folder+b/file+0.extension?key+a=value+a&keyB=valueB#fragment+0", "locator == \"schemeA+schemeB://name:password@example.com:80/folder+a/folder+b/file+0.extension?key+a=value+a&keyB=valueB#fragment+0\"", this.prefix + "Space2.8");
+			Expect(locator == "schemeA+schemeB://name:password@example.com:80/folder a/folder b/file+0.extension?key a=value a&keyB=valueB#fragment 0", "locator == \"schemeA+schemeB://name:password@example.com:80/folder a/folder b/file 0.extension?key a=value a&keyB=valueB#fragment 0\"", this.prefix + "Space2.8");
 		}
 		[Test]
         public void PathAbsolute()
