@@ -113,7 +113,7 @@ namespace Kean.Core.Uri
                     result.Append("&");
                     result.Append(this.Tail.String);
                 }
-                return result.ToString();
+                return result.ToString().Replace(' ', '+');
             }
             set
             {
@@ -124,8 +124,8 @@ namespace Kean.Core.Uri
                 }
                 else
                 {
-                    string[] splitted = value.Split(new char[] { '&', ';' }, 2);
-                    string[] keyValue = splitted[0].Split(new char[] { '=' }, 2);
+                    string[] splitted = value.Replace('+', ' ').Split(new char[] { '&', ';' }, 2);
+				    string[] keyValue = splitted[0].Split(new char[] { '=' }, 2);
                     this.Head = KeyValue.Create(keyValue[0], keyValue.Length > 1 ? keyValue[1] : null);
                     this.Tail = splitted.Length > 1 ? new Query() { String = splitted[1] } : null;
                 }

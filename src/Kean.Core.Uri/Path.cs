@@ -58,7 +58,7 @@ namespace Kean.Core.Uri
                 }
                 else
                 {
-                    string[] splitted = value.Split(new char[] { '/' }, 2);
+                    string[] splitted = value.Replace('+',' ').Split(new char[] { '/' }, 2);
                     this.Head = splitted[0];
                     this.Tail = splitted.Length > 1 ?  new Path() { String = splitted[1] } : null;
                 }

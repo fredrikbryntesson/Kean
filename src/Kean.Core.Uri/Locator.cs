@@ -52,7 +52,7 @@ namespace Kean.Core.Uri
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment != null)
 					result.AppendFormat("#{0}", this.Fragment);
-				return result.ToString();
+				return result.ToString().Replace(' ', '+');
 			}
 			set
 			{
@@ -70,7 +70,7 @@ namespace Kean.Core.Uri
 					if (splitted.Length > 1) // has scheme
 					{
 						this.Scheme = splitted[0];
-						value = splitted[1];
+						value = splitted[1].Replace('+', ' ');
 					}
 					else
 						value = splitted[0];
