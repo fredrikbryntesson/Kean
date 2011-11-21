@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  Loader.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,18 +20,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Processor = Kean.Cli.Processor;
 
 namespace Kean.Platform.Remote.Test
 {
-	class Program
+	public class Loader
 	{
-		static void Main(string[] args)
+		Platform.Remote.Module remote;
+		internal Loader(Platform.Remote.Module remote)
 		{
-			Application application = new Application();
-			Remote.Module remote = new Remote.Module();
-			remote.Load("loader", new Loader(remote));
-			application.Load(remote);
-			application.Execute();
+			this.remote = remote;
+		}
+
+		[Processor.Method("load")]
+		public void Load(string name)
+		{
+			this.remote.Load(name, new Object());
+		}
+		[Processor.Method("unload")]
+		public void Unload(string name)
+		{
+			this.remote.Unload(name);
 		}
 	}
 }

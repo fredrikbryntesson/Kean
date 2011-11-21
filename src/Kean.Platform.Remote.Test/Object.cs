@@ -20,18 +20,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Processor = Kean.Cli.Processor;
 
 namespace Kean.Platform.Remote.Test
 {
-	class Program
+	public class Object
 	{
-		static void Main(string[] args)
-		{
-			Application application = new Application();
-			Remote.Module remote = new Remote.Module();
-			remote.Load("loader", new Loader(remote));
-			application.Load(remote);
-			application.Execute();
-		}
+		[Processor.Property("name", "Name of configuration.", "The name of the current configuration.")]
+		public string Name { get; set; }
+		[Processor.Property("type", "Type of configuration.", "The type of the current configuration.")]
+		public string Type { get; set; }
+		[Processor.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
+		public string Comment { get; set; }
 	}
 }
