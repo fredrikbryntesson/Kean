@@ -68,9 +68,9 @@ namespace Kean.Core.Uri
 		{
 			return new Query(this.Head, this.Tail.NotNull() ? this.Tail.Copy() : null);
 		}
-        public void Add(string key, string value)
+		public Query Add(string key, string value)
         {
-            this.Add(KeyValue.Create(key, value)); 
+            return this.Add(KeyValue.Create(key, value)); 
         }
 		public Query Remove(params string[] keys)
 		{

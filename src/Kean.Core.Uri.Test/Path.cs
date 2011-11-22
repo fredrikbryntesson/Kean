@@ -36,8 +36,8 @@ namespace Kean.Core.Uri.Test
             this.Run(
                 this.EqualityNull,
                 this.Equality,
-				this.Space,
-				this.Space2
+				this.SpacePlus,
+				this.SpaceSpace
                 );
         }
         [Test]
@@ -63,34 +63,34 @@ namespace Kean.Core.Uri.Test
             Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Equality.9");
         }
 		[Test]
-		public void Space()
+		public void SpacePlus()
 		{
 			Target.Path path = "folder+A/folder+B/file.extension";
-			Expect(path, Is.Not.EqualTo(null), this.prefix + "Space.0");
-			Expect(path != null, "path != null", this.prefix + "Space.1");
-			Expect((string)path, Is.EqualTo("folder A/folder B/file.extension"), this.prefix + "Space.2");
-			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "Space.3");
-			Expect(path.Head, Is.EqualTo("folder A"), this.prefix + "Space.4");
-			Expect((string)path.Tail, Is.EqualTo("folder B/file.extension"), this.prefix + "Space.5");
-			Expect(path.Tail == "folder B/file.extension", "path.Tail == \"folder B/file.extension\"", this.prefix + "Space.6");
-			Expect(path.Tail.Head, Is.EqualTo("folder B"), this.prefix + "Space.7");
-			Expect((string)path.Tail.Tail, Is.EqualTo("file.extension"), this.prefix + "Space.8");
-			Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Space.9");
+			Expect(path, Is.Not.EqualTo(null), this.prefix + "SpacePlus.0");
+			Expect(path != null, "path != null", this.prefix + "SpacePlus.1");
+			Expect((string)path, Is.EqualTo("folder A/folder B/file.extension"), this.prefix + "SpacePlus.2");
+			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "SpacePlus.3");
+			Expect(path.Head, Is.EqualTo("folder A"), this.prefix + "SpacePlus.4");
+			Expect((string)path.Tail, Is.EqualTo("folder B/file.extension"), this.prefix + "SpacePlus.5");
+			Expect(path.Tail == "folder B/file.extension", "path.Tail == \"folder B/file.extension\"", this.prefix + "SpacePlus.6");
+			Expect(path.Tail.Head, Is.EqualTo("folder B"), this.prefix + "SpacePlus.7");
+			Expect((string)path.Tail.Tail, Is.EqualTo("file.extension"), this.prefix + "SpacePlus.8");
+			Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "SpacePlus.9");
 		}
 		[Test]
-		public void Space2()
+		public void SpaceSpace()
 		{
 			Target.Path path = "folder A/folder B/file.extension";
-			Expect(path, Is.Not.EqualTo(null), this.prefix + "Space2.0");
-			Expect(path != null, "path != null", this.prefix + "Space2.1");
-			Expect((string)path, Is.EqualTo("folder A/folder B/file.extension"), this.prefix + "Space2.2");
-			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "Space2.3");
-			Expect(path.Head, Is.EqualTo("folder A"), this.prefix + "Space2.4");
-			Expect((string)path.Tail, Is.EqualTo("folder B/file.extension"), this.prefix + "Space2.5");
-			Expect(path.Tail == "folder B/file.extension", "path.Tail == \"folder B/file.extension\"", this.prefix + "Space2.6");
-			Expect(path.Tail.Head, Is.EqualTo("folder B"), this.prefix + "Space2.7");
-			Expect((string)path.Tail.Tail, Is.EqualTo("file.extension"), this.prefix + "Space2.8");
-			Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Space2.9");
+			Expect(path, Is.Not.EqualTo(null), this.prefix + "SpaceSpace.0");
+			Expect(path != null, "path != null", this.prefix + "SpaceSpace.1");
+			Expect((string)path, Is.EqualTo("folder A/folder B/file.extension"), this.prefix + "SpaceSpace.2");
+			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "SpaceSpace.3");
+			Expect(path.Head, Is.EqualTo("folder A"), this.prefix + "SpaceSpace.4");
+			Expect((string)path.Tail, Is.EqualTo("folder B/file.extension"), this.prefix + "SpaceSpace.5");
+			Expect(path.Tail == "folder B/file.extension", "path.Tail == \"folder B/file.extension\"", this.prefix + "SpaceSpace.6");
+			Expect(path.Tail.Head, Is.EqualTo("folder B"), this.prefix + "SpaceSpace.7");
+			Expect((string)path.Tail.Tail, Is.EqualTo("file.extension"), this.prefix + "SpaceSpace.8");
+			Expect(path.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "SpaceSpace.9");
 		}
 	}
 }

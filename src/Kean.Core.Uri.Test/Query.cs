@@ -35,7 +35,7 @@ namespace Kean.Core.Uri.Test
         string prefix = "Kean.Core.Uri.Test.Query.";
         protected override void Run()
         {
-            this.Run(this.EqualityNull, this.Equality, this.Find, this.RemoveList, this.RemoveQuery);
+            this.Run(this.EqualityNull, this.Equality, this.Find, this.RemoveList, this.RemoveQuery, this.AddQuery);
         }
         [Test]
         public void EqualityNull()
@@ -88,6 +88,13 @@ namespace Kean.Core.Uri.Test
 			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
 			Expect(query = query.Remove("keyA", "keyE"), Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveQuery.0");
 			Expect(query = query.Keep("keyC"), Is.EqualTo((Target.Query)"keyC=valueC"), this.prefix + "RemoveQuery.1");
+		}
+		[Test]
+		public void AddQuery()
+		{
+			Target.Query query = "keyA=valueA";
+			query = query.Add("keyB", "valueB");
+			Expect((string)query, Is.EqualTo("keyB=valueB&keyA=valueA"), this.prefix + "EAddQuery.0");
 		}
     }
 }
