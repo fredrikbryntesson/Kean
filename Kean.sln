@@ -144,6 +144,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Remote", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Remote.Test", "src\Kean.Platform.Remote.Test\Kean.Platform.Remote.Test.csproj", "{7BC20A20-B299-4B12-94B7-A402649A5527}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect.Test", "src\Kean.Core.Reflect.Test\Kean.Core.Reflect.Test.csproj", "{30A5AE45-568B-48DF-8BE1-163B316A7B0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -426,6 +428,10 @@ Global
 		{7BC20A20-B299-4B12-94B7-A402649A5527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BC20A20-B299-4B12-94B7-A402649A5527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BC20A20-B299-4B12-94B7-A402649A5527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A5AE45-568B-48DF-8BE1-163B316A7B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A5AE45-568B-48DF-8BE1-163B316A7B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A5AE45-568B-48DF-8BE1-163B316A7B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A5AE45-568B-48DF-8BE1-163B316A7B0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

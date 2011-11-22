@@ -26,18 +26,19 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			//Gui.OpenGL.Test.Shader.Pipeline.Test();
-			Draw.Gpu.Test.All.Test();
-			Gui.OpenGL.Test.Window.Test();
-			
+			Core.Reflect.Test.All.Test();
+
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
+			Core.Reflect.Test.All.Test();
 			Core.Uri.Test.All.Test();
 			Xml.Dom.Test.Open.Test();
 			Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
 			Draw.Gpu.Test.All.Test();
-            Math.Test.All.Test();
+			Draw.Gpu.Test.All.Test();
+			Gui.OpenGL.Test.Window.Test();
+			Math.Test.All.Test();
             Math.Complex.Test.All.Test();
             Math.Geometry2D.Test.All.Test();
             Math.Geometry3D.Test.All.Test();

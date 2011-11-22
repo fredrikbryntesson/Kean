@@ -53,6 +53,10 @@
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Reflect.Test\Kean.Core.Reflect.Test.csproj">
+      <Project>{30A5AE45-568B-48DF-8BE1-163B316A7B0B}</Project>
+      <Name>Kean.Core.Reflect.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Test\Kean.Core.Test.csproj">
       <Project>{C7D3F01E-01B5-463E-A574-29B5F97E38BF}</Project>
       <Name>Kean.Core.Test</Name>

@@ -31,6 +31,7 @@ namespace Kean.Core.Reflect
 	{
 		public string Assembly { get; private set; }
 		public string Name { get; private set; }
+		public Type Parent { get; private set; }
 		Collection.IList<Type> arguments;
 		public Collection.IReadOnlyVector<Type> Arguments { get; private set; }
 
@@ -77,7 +78,13 @@ namespace Kean.Core.Reflect
 		Type(System.Type type) :
 			this()
 		{
-			this.Name = type.Namespace + "." + type.Name.Split(new char[] { '`' }, 2) [0];
+			if (type.IsNested)
+			{
+				this.Parent = new Type(type.DeclaringType);
+				this.Name = this.Parent.Name + "+" + type.Name.Split(new char[] { '`' }, 2)[0];
+			}
+			else
+				this.Name = type.Namespace + "." + type.Name.Split(new char[] { '`' }, 2)[0];
 			this.Assembly = type.Assembly.GetName().Name;
 			if (type.IsGenericType)
 				foreach (System.Type t in type.GetGenericArguments())
@@ -86,6 +93,19 @@ namespace Kean.Core.Reflect
 		Type(string name) :
 			this()
 		{
+			string[] splitted = name.Split('+');
+			if (splitted.Length > 1)
+			{
+				System.Text.StringBuilder parent = new System.Text.StringBuilder();
+				int i;
+				parent.Append(splitted[0]);
+				for (i = 1; i < splitted.Length - 1; i++)
+					parent.Append("+" + splitted[i]);
+				this.Parent = new Type(parent.ToString());
+				this.Assembly = this.Parent.Assembly;
+				this.Name = this.Parent.Name + "+";
+				name = splitted[i];
+			}
 			int pointer = -1;
 			while (++pointer < name.Length)
 				switch (name [pointer])
@@ -192,7 +212,7 @@ namespace Kean.Core.Reflect
 		}
 		public override bool Equals(object other)
 		{
-			return base.Equals(other);
+			return other is Type && this.Equals(other as Type);
 		}
 		public override int GetHashCode()
 		{
@@ -299,9 +319,10 @@ namespace Kean.Core.Reflect
 					}
 					resultBuilder.Append(">");
 				}
-
-				if (value.Name.StartsWith(value.Assembly))
-					resultBuilder = new System.Text.StringBuilder(value.Assembly + ":" + value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
+				//if (value.Parent.NotNull())
+				//    resultBuilder = new System.Text.StringBuilder(value.Parent).Append("+").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
+				else if (value.Name.StartsWith(value.Assembly))
+					resultBuilder = new System.Text.StringBuilder(value.Assembly).Append(":").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
 				else
 				{
 					resultBuilder = new System.Text.StringBuilder(value.Name).Append(resultBuilder);
