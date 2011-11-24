@@ -63,7 +63,7 @@ namespace Kean.Cli.Processor
 							(this.backend as IReload).Reload += () => this.members = null;
 							if (this.backend is IDynamic)
 								foreach (Tuple<string, string, string, object> dynamic in (this.backend as IDynamic).GetDynamic())
-									this.members.Add(new Object(dynamic.Item1, dynamic.Item2, dynamic.Item3, dynamic.Item4));
+									this.members.Add(new Object(dynamic.Item1, dynamic.Item2, dynamic.Item3, dynamic.Item4, this));
 						}
 					}
 
@@ -76,8 +76,8 @@ namespace Kean.Cli.Processor
 		{
 			this.backend = backend;
 		}
-		public Object(string name, string description, string usage, object backend) :
-			base(new ObjectAttribute(name, description, usage), null, null)
+		public Object(string name, string description, string usage, object backend, Object parent) :
+			base(new ObjectAttribute(name, description, usage), null, parent)
 		{
 			this.backend = backend;
 		}

@@ -24,7 +24,8 @@ using Processor = Kean.Cli.Processor;
 
 namespace Kean.Platform.Remote.Test
 {
-	public class Object
+	public class Object :
+		Processor.Dynamic
 	{
 		[Processor.Property("name", "Name of configuration.", "The name of the current configuration.")]
 		public string Name { get; set; }
@@ -32,5 +33,16 @@ namespace Kean.Platform.Remote.Test
 		public string Type { get; set; }
 		[Processor.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
 		public string Comment { get; set; }
+
+		[Processor.Method("load")]
+		public void Load(string name)
+		{
+			this.Load(name, new Object());
+		}
+		[Processor.Method("unload")]
+		public void Unload(string name)
+		{
+			this.Unload(name);
+		}
 	}
 }
