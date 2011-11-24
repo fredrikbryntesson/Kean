@@ -164,11 +164,19 @@ namespace Kean.IO.Net.Telnet
 		}
 		public byte? Read()
 		{
-			byte? result = this.backend.Read();
-			while (result == 255)
+			byte? result;
+			try
 			{
-				this.Filter();
 				result = this.backend.Read();
+				while (result == 255)
+				{
+					this.Filter();
+					result = this.backend.Read();
+				}
+			}
+			catch (NullReferenceException)
+			{
+				result = null;
 			}
 			return result;
 		}
