@@ -35,7 +35,7 @@ namespace Kean.Cli.Processor.Parameter
 		}
 		public override string AsString(object value)
 		{
-			return ((System.DateTime)value).ToString();
+			return ((System.DateTime)value).ToString("o");
 		}
 		public override object FromString(string value)
 		{

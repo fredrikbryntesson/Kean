@@ -37,6 +37,8 @@ namespace Kean.Cli.Processor.Test.Command
 		public Geometry2D.Double Double { get; private set; }
 		[Property("mode")]
 		public Mode Mode { get; private set; }
+		[Property("time")]
+		public DateTime Time { get; private set; }
 		
 		Action close;
 		public Application(Action exit)
@@ -47,6 +49,7 @@ namespace Kean.Cli.Processor.Test.Command
 			this.Integer = new Geometry2D.Integer();
 			this.Single = new Geometry2D.Single();
 			this.Double = new Geometry2D.Double();
+			this.Time = DateTime.Now;
 		}
 
 		[Method("close", "Close the application.")]

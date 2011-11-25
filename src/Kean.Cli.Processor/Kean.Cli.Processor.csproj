@@ -34,8 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dynamic.cs" />
@@ -101,6 +99,10 @@
     <ProjectReference Include="..\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
+      <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
+      <Name>Kean.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
