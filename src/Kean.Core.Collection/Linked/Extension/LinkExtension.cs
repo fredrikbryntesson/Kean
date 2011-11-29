@@ -36,6 +36,11 @@ namespace Kean.Core.Collection.Linked.Extension
 				Tail = me,
 			};
 		}
+		public static L Append<L, T>(this L me, T item)
+			where L : class, ILink<L, T>, new()
+		{
+			return (me.Tail.IsNull() ? new L() { Head = item } : me.Tail.Append(item)).Add(me.Head);
+		}
 		public static T Get<L, T>(this ILink<L, T> me, int index)
 			where L : class, ILink<L, T>, new() 
 		{
