@@ -149,16 +149,20 @@ namespace Kean.Cli.LineBuffer
 		{
 			lock (this.@lock)
 			{
-				if (this.executing)
-					this.terminal.Out.WriteLine(value);
-				else
-				{
-					this.Remove(-this.oldmessage - this.Prompt.Length - this.history.Current.ToString().Length);
-					this.terminal.Out.WriteLine(value);
-					this.oldmessage = value.Length;
-					this.terminal.Out.Write(this.Prompt);
-					this.history.Current.Write();
-				}
+                if (this.executing)
+                {
+                    this.terminal.Out.WriteLine(value);
+                    this.oldmessage = value.Length;
+                }
+                else
+                {
+                    //this.Remove(-this.oldmessage - this.Prompt.Length - this.history.Current.ToString().Length);
+                    this.Remove(-this.Prompt.Length);
+                    this.terminal.Out.WriteLine(value);
+                    this.oldmessage = value.Length;
+                    this.terminal.Out.Write(this.Prompt);
+                    this.history.Current.Write();
+                }
 			}
 		}
 		void Remove(int steps)

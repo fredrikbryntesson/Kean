@@ -26,8 +26,23 @@ namespace Kean.Cli.Processor.Test.Command
 {
 	public class Media
 	{
+        string resource;
 		[Property("resource")]
-		public string Resource { get; private set; }
+        [Notify("ResourceChanged")]
+        public string Resource 
+        {
+            get{ return this.resource;}
+            private set
+            {
+                if (value != this.resource)
+                {
+                    this.resource = value;
+                    this.ResourceChanged.Call(value);
+                }
+            }
+        }
+        public event Action<string> ResourceChanged;
+
 		MediaState state;
 		[Property("state")]
 		[Notify("StateChanged")]
@@ -100,8 +115,11 @@ namespace Kean.Cli.Processor.Test.Command
 		public bool Eject()
 		{
 			bool result;
-			if (result = this.State != MediaState.Closed)
-				this.State = MediaState.Closed;
+            if (result = this.State != MediaState.Closed)
+            {
+                this.State = MediaState.Closed;
+                this.Resource = null;
+            }
 			return result;
 		}
 		[Method("open", "Open a resource.", "Opens a resource and pauses.")]
