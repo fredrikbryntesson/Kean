@@ -149,11 +149,10 @@ namespace Kean.Core.Collection.Test.Base
 			d["kean"] = null; 
 			Expect(d.Contains("hello"), Is.True, this.Prefix + "NullValue." + 0);
 			Expect(d.Contains("kean"), Is.True, this.Prefix + "NullValue." + 1);
-			Expect(d.Remove("kean"), Is.True, this.Prefix + "NullValue." + 2);
-			Expect(d.Contains("kean"), Is.False, this.Prefix + "NullValue." + 3);
+			Expect(d.Contains("kean"), Is.True, this.Prefix + "NullValue." + 3);
+			Expect(d.Remove("kean"), Is.True, this.Prefix + "NullValue." + 4);
+			Expect(d.Contains("kean"), Is.False, this.Prefix + "NullValue." + 5);
 			Expect(d["kean"], Is.Null, this.Prefix + "NullValue." + 4);
-
-
 		}
 	}
 }
