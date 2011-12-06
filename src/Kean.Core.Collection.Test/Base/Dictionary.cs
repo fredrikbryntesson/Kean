@@ -45,7 +45,8 @@ namespace Kean.Core.Collection.Test.Base
                 this.SingleElement,
                 this.TwoElements,
                 this.TwelveElements,
-                this.Equality
+                this.Equality,
+				this.NullValue
             );
         }
         
@@ -140,6 +141,20 @@ namespace Kean.Core.Collection.Test.Base
             Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 6);
             Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 7);
         }
+		[Test]
+		public void NullValue()
+		{
+			Collection.IDictionary<string, string> d = new Collection.Dictionary<string, string>();
+			d["hello"] = "goodbye";
+			d["kean"] = null; 
+			Expect(d.Contains("hello"), Is.True, this.Prefix + "NullValue." + 0);
+			Expect(d.Contains("kean"), Is.True, this.Prefix + "NullValue." + 1);
+			Expect(d.Remove("kean"), Is.True, this.Prefix + "NullValue." + 2);
+			Expect(d.Contains("kean"), Is.False, this.Prefix + "NullValue." + 3);
+			Expect(d["kean"], Is.Null, this.Prefix + "NullValue." + 4);
+
+
+		}
 	}
 }
 
