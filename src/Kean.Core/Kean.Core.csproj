@@ -57,18 +57,18 @@
     <Compile Include="Action.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="IString.cs" />
-    <Compile Include="Properties\CommonAssemblyInfo.cs" Condition="Exists('Properties\CommonAssemblyInfo.cs')"/>
+    <Compile Include="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition="Exists('$(MSBuildBinPath)\Microsoft.CSharp.targets')"/>
-  <PropertyGroup Condition="Exists('$(SolutionDir)lib\MSBuildTasks\')">
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>
   </PropertyGroup>
-  <Import Project="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets')"/>
+  <Import Project="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets" />
   <Target Name="BeforeBuild">
-    <Copy SourceFiles="$(SolutionDir)src\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" Condition="Exists('$(SolutionDir)src\Kean\CommonAssemblyInfo.cs')" />
-    <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT' And Exists('$(MSBuildProjectDirectory)') And Exists('SvnVersion')" quiet="true">
+    <Copy SourceFiles="$(SolutionDir)src\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
+    <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
-    <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" Condition="Exists('Properties/CommonAssemblyInfo.cs') And Exists('FileUpdate')"/>
+    <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
   </Target>
 </Project>
