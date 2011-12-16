@@ -43,7 +43,7 @@ namespace Kean.Draw.Raster
 		protected Image(Image original) :
 			base(original)
 		{
-			this.buffer = original.buffer;
+			this.buffer = original.buffer.Copy();
 		}
 		protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(size, coordinateSystem)

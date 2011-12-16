@@ -38,6 +38,7 @@ namespace Kean.Draw.Raster.Test
                 this.Open,
                 this.Equality,
                 this.Save,
+                this.Copy,
                 this.Bgr,
                 this.Bgra,
                 this.Monochrome,
@@ -55,7 +56,7 @@ namespace Kean.Draw.Raster.Test
             Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 3), this.prefix + "Open.1");
             bitmap = Target.Image.OpenResource("Bitmaps/Convert/monochrome.png");
             Expect(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.2");
-            Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area), this.prefix + "Open.3");
+            Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 4), this.prefix + "Open.3");
        
         }
         [Test]
@@ -73,6 +74,13 @@ namespace Kean.Draw.Raster.Test
             original.Save("original.bmp");
             Expect(original.Distance(Target.Image.Open("original.png")), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Save.0");
             Expect(original.Distance(Target.Image.Open("original.bmp")), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Save.1");
+        }
+        [Test]
+        public void Copy()
+        {
+            Target.Image original = Target.Image.OpenResource("Bitmaps/Convert/original.png");
+            Target.Image copy = original.Copy() as Target.Image;
+            Expect(original.Pointer,Is.Not.EqualTo(copy.Pointer), this.prefix + "Copy.0");
         }
         #endregion
         #region Convert
