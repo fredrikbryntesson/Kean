@@ -38,8 +38,8 @@ namespace Kean.Core.Reflect
 		{
 			get
 			{
-				if (this.attributes.IsNull())
-					this.attributes = this.information.GetCustomAttributes(true).Map(attribute => attribute as System.Attribute);
+                if (this.attributes.IsNull())
+                    this.attributes = System.Attribute.GetCustomAttributes(this.information, true).Map(attribute => attribute as System.Attribute);
 				return this.attributes;
 			}
 		}
@@ -53,7 +53,7 @@ namespace Kean.Core.Reflect
 		public T[] GetAttributes<T>()
 			where T : System.Attribute
 		{
-			return this.information.GetCustomAttributes(typeof(T), true).Map(attribute => attribute as T);
+            return System.Attribute.GetCustomAttributes(this.information, typeof(T), true).Map(attribute => attribute as T);
 		}
 
 		#region IComparable<Member> Members

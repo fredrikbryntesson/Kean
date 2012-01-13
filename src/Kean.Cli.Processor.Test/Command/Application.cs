@@ -25,6 +25,7 @@ namespace Kean.Cli.Processor.Test.Command
 {
 	public class Application
 	{
+        
 		[Object("configuration")]
 		public Configuration Configuration { get; private set; }
 		[Object("media", "Control the input media.")]
@@ -35,21 +36,23 @@ namespace Kean.Cli.Processor.Test.Command
 		public Geometry2D.Single Single { get; private set; }
 		[Object("geometryDouble", "2D Geometry types.")]
 		public Geometry2D.Double Double { get; private set; }
-		[Property("mode")]
+		[Property("mode", "Enum test")]
 		public Mode Mode { get; private set; }
-		[Property("time")]
+		[Property("time", "Datetime test")]
 		public DateTime Time { get; private set; }
-		
-		Action close;
+        [Object("car", "Test of inheritance")]
+        public Car Car { get; protected set; }
+        Action close;
 		public Application(Action exit)
 		{
-			this.close = exit;
-			this.Configuration = new Configuration(this);
+        	this.close = exit;
+            this.Configuration = new Configuration(this);
 			this.Media = new Media();
 			this.Integer = new Geometry2D.Integer();
 			this.Single = new Geometry2D.Single();
 			this.Double = new Geometry2D.Double();
 			this.Time = DateTime.Now;
+            this.Car = new Car();
 		}
 
 		[Method("close", "Close the application.")]

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -34,9 +34,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\Application.cs" />
+    <Compile Include="Command\Car.cs" />
     <Compile Include="Command\Configuration.cs" />
     <Compile Include="Command\Geometry2D\Double.cs" />
     <Compile Include="Command\Geometry2D\Integer.cs" />
@@ -47,6 +50,7 @@
     <Compile Include="Command\Media.cs" />
     <Compile Include="Command\MediaState.cs" />
     <Compile Include="Command\Mode.cs" />
+    <Compile Include="Command\Vehicle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
