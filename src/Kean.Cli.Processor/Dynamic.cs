@@ -61,9 +61,20 @@ namespace Kean.Cli.Processor
 		}
 		public void Load(string name, string description, string usage, object value)
 		{
-			this.data[name] = Tuple.Create(description, usage, value);
-			this.loaded.Call(name, value);
-			this.Reload();
+            string[] path = name.Split(new char[] { '.' }, 2);
+            if (path.Length > 1)
+            {
+                Processor.Dynamic next = this[path[0]] as Processor.Dynamic;
+                if (next.IsNull())
+                    this.Load(path[0], next = new Processor.Dynamic());
+                next.Load(name.Substring(path[0].Length + 1), description, usage, value);
+            }
+            else
+            {
+                this.data[name] = Tuple.Create(description, usage, value);
+                this.loaded.Call(name, value);
+                this.Reload();
+            }
 		}
 		public void Unload(string name)
 		{

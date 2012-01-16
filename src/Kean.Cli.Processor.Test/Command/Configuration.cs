@@ -22,7 +22,8 @@ using System;
 
 namespace Kean.Cli.Processor.Test.Command
 {
-	public class Configuration
+	public class Configuration :
+        Dynamic
 	{
 		[Property("name", "Name of configuration.", "The name of the current configuration.")]
 		public string Name { get; set; }

@@ -30,7 +30,8 @@ namespace Kean.Platform.Remote.Test
 			Application application = new Application();
 			Remote.Module remote = new Remote.Module();
 			remote.Load("loader", new Loader(remote));
-			application.Load(remote);
+            remote.Load("old.object", new Object());
+            application.Load(remote);
 			application.Execute();
 		}
 	}

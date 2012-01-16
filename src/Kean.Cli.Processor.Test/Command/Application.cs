@@ -47,6 +47,7 @@ namespace Kean.Cli.Processor.Test.Command
 		{
         	this.close = exit;
             this.Configuration = new Configuration(this);
+            this.Configuration.Load("this.is.something.very.long", "Description", "Usage", new Car());
 			this.Media = new Media();
 			this.Integer = new Geometry2D.Integer();
 			this.Single = new Geometry2D.Single();
