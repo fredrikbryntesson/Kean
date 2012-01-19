@@ -56,9 +56,21 @@ namespace Kean.Core.Parallel
 				this.workers = null;
             }
         }
-        public void Enqueue(Action task) { this.Enqueue(new Task(task)); }
-        public void Enqueue<T>(Action<T> task, T argument) { this.Enqueue(new Task<T>(task, argument)); }
-		public void Enqueue<T1, T2>(Action<T1, T2> task, T1 argument1, T2 argument2) { this.Enqueue(new Task<T1, T2>(task, argument1, argument2)); }
+        public void Enqueue(Action task) 
+        { 
+            if(task.NotNull()) 
+                this.Enqueue(new Task(task)); 
+        }
+        public void Enqueue<T>(Action<T> task, T argument) 
+        { 
+            if(task.NotNull())
+                this.Enqueue(new Task<T>(task, argument)); 
+        }
+		public void Enqueue<T1, T2>(Action<T1, T2> task, T1 argument1, T2 argument2) 
+        { 
+            if(task.NotNull())
+                this.Enqueue(new Task<T1, T2>(task, argument1, argument2)); 
+        }
 		public void Enqueue(ITask task)
         {
             try
@@ -93,11 +105,13 @@ namespace Kean.Core.Parallel
 
         public void ForEachWorker(Action task)
         {
-            this.ForEachWorker(new Task(task));
+            if(task.NotNull())
+                this.ForEachWorker(new Task(task));
         }
         public void ForEachWorker<T>(Action<T> task, T argument)
         {
-            this.ForEachWorker(new Task<T>(task, argument));
+            if (task.NotNull())
+                this.ForEachWorker(new Task<T>(task, argument));
         }
         public void ForEachWorker(ITask task)
         {
