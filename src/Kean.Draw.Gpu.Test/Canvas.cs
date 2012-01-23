@@ -112,7 +112,7 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Point(500, 200));
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnPosition.png")));
@@ -123,7 +123,7 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Box(0,0,50,100), new Geometry2D.Single.Box(200,200,100,100));
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegion.png")));
@@ -134,7 +134,7 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Blend(0.5f);
 				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.Blend.png")));
@@ -158,7 +158,7 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
 				canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
@@ -171,7 +171,7 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
+				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
 				canvas.Blend(0.5f);
