@@ -30,7 +30,7 @@ namespace Kean.Core.Collection
 		where TKey : IEquatable<TKey>
 	{
 		IDictionary<TKey, TValue> data;
-		ReadOnlyDictionary()
+		public ReadOnlyDictionary()
 		{
 			this.data = new Dictionary<TKey, TValue>();
 		}
@@ -40,6 +40,9 @@ namespace Kean.Core.Collection
 			foreach (KeyValue<TKey, TValue> element in data)
 				this.data[element.Key] = element.Value;
 		}
+		public ReadOnlyDictionary(params KeyValue<TKey, TValue>[] data) :
+			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)
+		{ }
 		#region IReadOnlyDictionary<TKey,TValue> Members
 		public TValue this[TKey key] { get { return this.data[key]; } }
 		public bool Contains(TKey key) { return this.data.Contains(key); }
