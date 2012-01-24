@@ -1,10 +1,10 @@
 ﻿// 
-//  QueueExtension.cs
+//  DictionaryExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -23,22 +23,18 @@ using System;
 
 namespace Kean.Core.Collection.Extension
 {
-	public static class QueueExtension
+	public static class DictionaryExtension
 	{
-		public static void Enqueue<T>(this IQueue<T> me, System.Collections.Generic.IEnumerable<T> items)
+		public static void Update<TKey, TValue>(this IDictionary<TKey, TValue> me, System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> items)
+			where TKey : IEquatable<TKey>
 		{
-			foreach (T item in items)
-				me.Enqueue(item);
+			foreach (KeyValue<TKey, TValue> item in items)
+				me[item.Key] = item.Value;
 		}
-		public static void Enqueue<T>(this IQueue<T> me, IQueue<T> source)
+		public static void Update<TKey, TValue>(this IDictionary<TKey, TValue> me, params KeyValue<TKey, TValue>[] items)
+			where TKey : IEquatable<TKey>
 		{
-			while (!source.Empty)
-				me.Enqueue(source.Dequeue());
+			me.Update<TKey, TValue>((System.Collections.Generic.IEnumerable<KeyValue<TKey,TValue>>) items);
 		}
-        public static void Clear<T>(this IQueue<T> me)
-        {
-            while (!me.Empty)
-                me.Dequeue();
-        }
 	}
 }

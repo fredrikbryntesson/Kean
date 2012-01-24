@@ -45,10 +45,12 @@
     <Compile Include="Enumerable.cs" />
     <Compile Include="Exception\Unsortable.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\DictionaryExtension.cs" />
     <Compile Include="Extension\EnumeratorExtension.cs" />
     <Compile Include="Extension\EnumerableExtension.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Extension\QueueExtension.cs" />
+    <Compile Include="Extension\ReadOnlyDictionaryExtension.cs" />
     <Compile Include="Extension\SetExtension.cs" />
     <Compile Include="Extension\ReadOnlyVectorExtension.cs" />
     <Compile Include="Hooked\IList.cs" />
