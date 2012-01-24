@@ -51,6 +51,7 @@
     <Compile Include="NonNullable.cs" />
     <Compile Include="Extension\ActionExtension.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="ReferenceCounter.cs" />
     <Compile Include="Synchronized.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="ITuple.cs" />
