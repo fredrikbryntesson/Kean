@@ -121,5 +121,15 @@ namespace Kean.Core
 		{
 			return this.count.ToString();
 		}
+		public static ReferenceCounter operator ++(ReferenceCounter counter)
+		{
+			counter.Increase();
+			return counter;
+		}
+		public static ReferenceCounter operator --(ReferenceCounter counter)
+		{
+			counter.Decrease();
+			return counter;
+		}
 	}
 }
