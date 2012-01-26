@@ -217,13 +217,13 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.ToString(true);
-        }
-		public string ToString(bool commaSeparated)
-		{
-			return ((R)this.X).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Y).ToString();
+			return this.ToString("{0}, {1}");
 		}
-        #endregion
+		public string ToString(string format)
+		{
+			return String.Format(format, ((R)this.X).ToString(), ((R)this.Y).ToString());
+		}
+		#endregion
         #region Casts
         public static explicit operator V[](Vector<VectorType, VectorValue, TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)
         {

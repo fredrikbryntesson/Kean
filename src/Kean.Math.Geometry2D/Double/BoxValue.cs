@@ -124,13 +124,13 @@ namespace Kean.Math.Geometry2D.Double
         }
         #endregion
         #region Object Overrides
-        public override string ToString()
-        {
-            return this.ToString(true);
-        }
-		public string ToString(bool commaSeparated)
+		public override string ToString()
 		{
-			return ((Box)this).ToString(commaSeparated);
+			return ((Box)this).ToString();
+		}
+		public string ToString(string format)
+		{
+			return ((Box)this).ToString(format);
 		}
 		public override int GetHashCode()
         {

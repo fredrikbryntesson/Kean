@@ -94,12 +94,12 @@ namespace Kean.Math.Geometry3D.Single
         }
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return ((Size)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Size)this).ToString(commaSeparated);
+			return ((Size)this).ToString(format);
 		}
-        #endregion
+		#endregion
     }
 }

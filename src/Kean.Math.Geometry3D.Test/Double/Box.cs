@@ -90,7 +90,7 @@ namespace Kean.Math.Geometry3D.Test.Double
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Double.BoxValue(10, 20, 30, 40, 50, 60);
-            Expect(textFromValue, Is.EqualTo("10 20 30 40 50 60"));
+            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
             Target.Double.BoxValue @doubleFromText = "10 20 30 40 50 60";
             Expect(@doubleFromText.Left, Is.EqualTo(10));
             Expect(@doubleFromText.Top, Is.EqualTo(20));

@@ -146,12 +146,12 @@ namespace Kean.Math.Geometry2D.Double
         }
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return ((Transform)this).ToString();
 		}
-		public string ToString(bool matlab)
+		public string ToString(string format)
 		{
-			return ((Transform)this).ToString(matlab);
+			return ((Transform)this).ToString(format);
 		}
-        #endregion
+		#endregion
     }
 }

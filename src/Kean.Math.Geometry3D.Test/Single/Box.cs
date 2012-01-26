@@ -62,7 +62,7 @@ namespace Kean.Math.Geometry3D.Test.Single
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40, 50, 60);
-            Expect(textFromValue, Is.EqualTo("10 20 30 40 50 60"));
+            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
             Target.Single.BoxValue @integerFromText = "10 20 30 40 50 60";
             Expect(@integerFromText.Left, Is.EqualTo(10));
             Expect(@integerFromText.Top, Is.EqualTo(20));

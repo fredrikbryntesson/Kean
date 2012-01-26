@@ -235,11 +235,11 @@ namespace Kean.Math.Geometry2D.Double
         }
 		public override string ToString()
 		{
-			return this.ToString(true);
+			return ((Point)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Point)this).ToString(commaSeparated);
+			return ((Point)this).ToString(format);
 		}
         #endregion
     }

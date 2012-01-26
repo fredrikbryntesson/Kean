@@ -211,11 +211,11 @@ namespace Kean.Math.Geometry2D.Abstract
         }
         public override string ToString()
         {
-            return this.ToString(true);
+            return this.ToString("{0}, {1}, {2}, {3}");
         }
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return this.leftTop.ToString(commaSeparated) + (commaSeparated ? ", " : " ") + this.size.ToString(commaSeparated);
+			return string.Format(format, this.leftTop.X.ToString(), this.leftTop.Y.ToString(), this.size.Width.ToString(), this.size.Height.ToString());
 		}
         public override int GetHashCode()
         {

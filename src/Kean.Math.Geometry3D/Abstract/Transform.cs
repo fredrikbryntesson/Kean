@@ -363,10 +363,19 @@ namespace Kean.Math.Geometry3D.Abstract
 				((R)this.I).ToString() + ", " + ((R)this.J).ToString() + ", " + ((R)this.K).ToString() + ", " + ((R)this.L).ToString();
 			return result;
 		}
-        public override string ToString()
-        {
-			return this.ToString(false);
-        }
+		public override string ToString()
+		{
+			return this.ToString("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}");
+		}
+		public string ToMatlabString()
+		{
+			return this.ToString("{0}, {3}, {6}, {9}; {1}, {4}, {7}, {10}; {2}, {5}, {8}, {11}; 0, 0, 0, 1");
+		}
+		public string ToString(string format)
+		{
+			return string.Format(format, ((R)this.A).ToString(), ((R)this.B).ToString(), ((R)this.C).ToString(), ((R)this.D).ToString(), ((R)this.E).ToString(), ((R)this.F).ToString(), ((R)this.G).ToString(), ((R)this.H).ToString(), ((R)this.I).ToString(), ((R)this.J).ToString(), ((R)this.K).ToString(), ((R)this.L).ToString());
+		}
+
         #endregion
         #region Casts
         public static explicit operator V[,](Transform<TransformType, TransformValue, SizeType, SizeValue, R, V> value)

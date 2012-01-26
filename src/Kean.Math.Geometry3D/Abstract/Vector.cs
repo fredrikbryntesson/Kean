@@ -210,11 +210,11 @@ namespace Kean.Math.Geometry3D.Abstract
         }
 		public override string ToString()
 		{
-			return this.ToString(true);
+			return this.ToString("{0}, {1}, {2}");
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
         {
-			return ((R)this.X).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Y).ToString() + (commaSeparated ? ", " : " ") + ((R)this.Z).ToString();
+			return string.Format(format, ((R)this.X).ToString(), ((R)this.Y).ToString(), ((R)this.Z).ToString());
         }
         #endregion
         #region Casts

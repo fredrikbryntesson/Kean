@@ -79,13 +79,13 @@ namespace Kean.Math.Geometry3D.Integer
         #region Object Overrides
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return ((Box)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Box)this).ToString(commaSeparated);
+			return ((Box)this).ToString(format);
 		}
-        public override int GetHashCode()
+		public override int GetHashCode()
         {
             return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
         }

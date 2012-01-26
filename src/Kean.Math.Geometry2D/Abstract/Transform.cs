@@ -327,19 +327,18 @@ namespace Kean.Math.Geometry2D.Abstract
                 ^ this.E.GetHashCode()
                 ^ this.F.GetHashCode();
         }
-		public string ToString(bool matlab)
+		public override string ToString()
 		{
-			string result;
-			if(matlab)
-				result = ((R)this.A).ToString() + "," + ((R)this.C).ToString() + "," + ((R)this.E).ToString() + ";" + ((R)this.B).ToString() + "," + ((R)this.D).ToString() + "," + ((R)this.F).ToString() + ";" + new R().ToString() + "," + new R().ToString() + "," + Kean.Math.Abstract<R, V>.One.ToString();
-			else
-				result = ((R)this.A).ToString() + ", " + ((R)this.B).ToString() + ", " + ((R)this.C).ToString() + ", " + ((R)this.D).ToString() + ", " + ((R)this.E).ToString() + ", " + ((R)this.F).ToString();
-			return result;
+			return this.ToString("{0}, {1}, {2}, {3}, {4}, {5}");
 		}
-        public override string ToString()
-        {
-			return this.ToString(false);
-        }
+		public string ToMatlabString()
+		{
+			return this.ToString("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1");
+		}
+		public string ToString(string format)
+		{
+			return string.Format(format, ((R)this.A).ToString(), ((R)this.B).ToString(), ((R)this.C).ToString(), ((R)this.D).ToString(), ((R)this.E).ToString(), ((R)this.F).ToString());
+		}
         #endregion
         #region Casts
         public static explicit operator V[,](Transform<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> value)
@@ -350,7 +349,6 @@ namespace Kean.Math.Geometry2D.Abstract
                     result[x, y] = value[x, y];
             return result;
         }
-        #endregion
-       
+        #endregion       
     }
 }

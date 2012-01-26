@@ -130,12 +130,12 @@ namespace Kean.Math.Geometry2D.Single
         }
 		public override string ToString()
 		{
-			return this.ToString(true);
+			return ((Shell)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Shell)this).ToString(commaSeparated);
+			return ((Shell)this).ToString(format);
 		}
-        #endregion
+		#endregion
     }
 }

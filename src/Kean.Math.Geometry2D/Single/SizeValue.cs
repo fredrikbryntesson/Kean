@@ -135,11 +135,11 @@ namespace Kean.Math.Geometry2D.Single
         }
 		public override string ToString()
 		{
-			return this.ToString(true);
+			return ((Size)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Size)this).ToString(commaSeparated);
+			return ((Size)this).ToString(format);
 		}
         #endregion
     }

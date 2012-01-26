@@ -95,12 +95,12 @@ namespace Kean.Math.Geometry3D.Double
         }
 		public override string ToString()
 		{
-			return this.ToString(false);
+			return ((Point)this).ToString();
 		}
-		public string ToString(bool commaSeparated)
+		public string ToString(string format)
 		{
-			return ((Point)this).ToString(commaSeparated);
+			return ((Point)this).ToString(format);
 		}
-        #endregion
+		#endregion
     }
 }

@@ -65,7 +65,7 @@ namespace Kean.Math.Geometry3D.Test.Single
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20, 30);
-            Expect(textFromValue, Is.EqualTo("10 20 30"));
+            Expect(textFromValue, Is.EqualTo("10, 20, 30"));
             Target.Single.SizeValue @integerFromText = "10 20 30";
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));
