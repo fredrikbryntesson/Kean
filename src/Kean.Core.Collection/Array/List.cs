@@ -29,7 +29,7 @@ namespace Kean.Core.Collection.Array
 		Abstract.List<T>
 	{
 		T[] items;
-		static readonly T[] EmptyArray = new T[0];
+		static readonly T[] emptyArray = new T[0];
 		public int Capacity
 		{
 			get { return this.items.Length; }
@@ -43,13 +43,14 @@ namespace Kean.Core.Collection.Array
 		#region Constructors
 		public List()
 		{
-			this.items = List<T>.EmptyArray;
+			this.items = List<T>.emptyArray;
 		}
 		public List(int capacity) : this()
 		{
 			this.Capacity = capacity;
 		}
-		public List(params T[] items) : this(items.Length)
+		public List(params T[] items) : 
+			this(items.Length)
 		{
 			Extension.ListExtension.Add(this, items);
 		}
@@ -117,5 +118,16 @@ namespace Kean.Core.Collection.Array
 			}
 		}
 		#endregion
+		#region Operators
+		public static implicit operator List<T>(T[] data)
+		{
+			return new List<T>(data);
+		}
+		public static explicit operator T[](List<T> data)
+		{
+			return data.items;
+		}
+		#endregion
+
 	}
 }
