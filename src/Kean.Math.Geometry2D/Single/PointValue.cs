@@ -157,6 +157,12 @@ namespace Kean.Math.Geometry2D.Single
             return right * left;
         }
         #endregion
+        #region Arithmetic Transform and Vector
+        public static PointValue operator *(TransformValue left, PointValue right)
+        {
+            return new PointValue(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
+        }
+        #endregion
         #region Static Operators
         public static PointValue Floor(Geometry2D.Single.PointValue other)
         {
