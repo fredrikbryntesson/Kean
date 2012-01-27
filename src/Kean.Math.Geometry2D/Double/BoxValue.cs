@@ -49,6 +49,14 @@ namespace Kean.Math.Geometry2D.Double
             this.LeftTop = leftTop;
             this.Size = size;
         }
+        public bool Contains(Integer.PointValue point)
+        {
+            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
+        }
+        public bool Contains(Single.PointValue point)
+        {
+            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
+        }
         public bool Contains(Double.PointValue point)
         {
             return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
