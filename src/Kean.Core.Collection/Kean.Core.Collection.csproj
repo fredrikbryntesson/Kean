@@ -70,6 +70,7 @@
     <Compile Include="Slice.cs" />
     <Compile Include="Sorted\List.cs" />
     <Compile Include="Stack.cs" />
+    <Compile Include="Synchronized\Dictionary.cs" />
     <Compile Include="Wrap\ListQueue.cs" />
     <Compile Include="Wrap\ListStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
