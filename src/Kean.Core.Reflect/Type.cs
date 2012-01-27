@@ -178,20 +178,32 @@ namespace Kean.Core.Reflect
 		}
 
 		#region Implemented Interfaces
+		public bool Implements(Type type)
+		{
+			return this.GetImplementation(type).NotNull();
+		}
 		public bool Implements<T>()
 		{
 			return this.GetImplementation<T>().NotNull();
 		}
+		public Type GetImplementation(Type type)
+		{
+			return ((System.Type)this).GetInterface(type.Name);
+		}
 		public Type GetImplementation<T>()
 		{
-			return ((System.Type)this).GetInterface(typeof(T).Name);
+			return this.GetImplementation(typeof(T));
 		}
 		#endregion
 		#region Inherited Classes
 		public Type Base { get { return ((System.Type)this).BaseType.NotNull() ? ((Type)((System.Type)this).BaseType) : null; } }
 		public bool Inherits<T>()
 		{
-			return this == typeof(T) || ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits<T>();
+			return this.Inherits(typeof(T));
+		}
+		public bool Inherits(Type type)
+		{
+			return this == type || ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits(type);
 		}
 		#endregion
 		#region Get Attributes
