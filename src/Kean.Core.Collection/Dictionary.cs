@@ -89,11 +89,7 @@ namespace Kean.Core.Collection
         #region Object Overrides
         public override bool Equals(object other)
         {
-            return (other is Dictionary<TKey, TValue>) && this.Equals(other as Dictionary<TKey, TValue>);
-        }
-        public bool Equals(Dictionary<TKey, TValue> other)
-        {
-            return this == other;
+            return (other is IDictionary<TKey, TValue>) && this.Equals(other as IDictionary<TKey, TValue>);
         }
         public override string ToString()
         {
@@ -105,16 +101,26 @@ namespace Kean.Core.Collection
         }
         #endregion
         #region Comparison Operators
-        public static bool operator ==(Dictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+        public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {
             return object.ReferenceEquals(left, right) ||
                 !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.data  == right.data;
+                left.data.Equals(right);
         }
-        public static bool operator !=(Dictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+        public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {
             return !(left == right);
         }
-        #endregion
+		public static bool operator ==(IDictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+		{
+			return object.ReferenceEquals(left, right) ||
+				!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
+				right.data.Equals(left);
+		}
+		public static bool operator !=(IDictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
+		{
+			return !(left == right);
+		}
+		#endregion
     }
 }

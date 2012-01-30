@@ -122,8 +122,8 @@ namespace Kean.Core.Collection.Test.Base
         [Test]
         public void Equality()
         {
-            D a = this.Create(10);
-            D b = this.Create(10);
+            D a = this.Create(100);
+            D b = this.Create(100);
             for (int i = 0; i < 100; i++)
             {
                 a["index" + i] = i;
