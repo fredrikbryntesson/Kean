@@ -27,15 +27,26 @@ namespace Kean.Core.Collection
         IDictionary<TKey, TValue>
         where TKey : IEquatable<TKey>
     {
-        Hash.Dictionary<TKey, TValue> data;
-        public Dictionary()
-        {
-            this.data = new Hash.Dictionary<TKey, TValue>();
-        }
-        public Dictionary(int capacity)
-        {
-            this.data = new Hash.Dictionary<TKey, TValue>(capacity);
-        }
+        IDictionary<TKey, TValue> data;
+		public Dictionary(IDictionary<TKey, TValue> data)
+		{
+			this.data = data;
+		}
+        public Dictionary() :
+			this(new Hash.Dictionary<TKey, TValue>())
+        { }
+        public Dictionary(int capacity) :
+			this(new Hash.Dictionary<TKey, TValue>(capacity))
+        { }
+		public Dictionary(System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> data) :
+			this()
+		{
+			foreach (KeyValue<TKey, TValue> item in data)
+				this[item.Key] = item.Value;
+		}
+		public Dictionary(params KeyValue<TKey, TValue>[] data) :
+			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)
+		{ }
 
         #region IDictionary[TKey,TValue] implementation
         public bool Contains(TKey key)
