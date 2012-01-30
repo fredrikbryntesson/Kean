@@ -111,16 +111,6 @@ namespace Kean.Core.Collection
         {
             return !(left == right);
         }
-		public static bool operator ==(IDictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
-		{
-			return object.ReferenceEquals(left, right) ||
-				!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-				right.data.Equals(left);
-		}
-		public static bool operator !=(IDictionary<TKey, TValue> left, Dictionary<TKey, TValue> right)
-		{
-			return !(left == right);
-		}
 		#endregion
     }
 }
