@@ -24,7 +24,8 @@ namespace Kean.Math.Geometry3D.Test.Abstract
                 this.ScalarMultitplication,
                 this.GetValues,
                 this.Casting,
-                this.CastingNull
+                this.CastingNull,
+                this.Hash
                 );
         }
         [Test]

@@ -32,7 +32,8 @@ namespace Kean.Math.Geometry2D.Test.Abstract
                 this.GetValues,
                 this.Swap,
                 this.Casting,
-                this.CastingNull
+                this.CastingNull,
+                this.Hash
                 );
         }
         string prefix = "Kean.Math.Geometry2D.Test.Abstract.Point.";

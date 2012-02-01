@@ -63,5 +63,12 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             Expect((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
         }
         #endregion
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.Vector0.Hash(), Is.Not.EqualTo(0));
+        }
+        #endregion
     }
 }

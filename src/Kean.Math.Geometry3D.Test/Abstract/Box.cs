@@ -24,11 +24,12 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected BoxType Box0 { get; set; }
         protected BoxType Box1 { get; set; }
         protected BoxType Box2 { get; set; }
-        protected override void  Run()
+        protected override void Run()
         {
             this.Run(
-                this.LeftTop, 
-                this.Size);
+                this.LeftTop,
+                this.Size,
+                this.Hash);
         }
         #region Equality
         [Test]
@@ -74,5 +75,12 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         {
         }
         #endregion
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.Box0.Hash(), Is.Not.EqualTo(0));
         }
+        #endregion
+    }
 }

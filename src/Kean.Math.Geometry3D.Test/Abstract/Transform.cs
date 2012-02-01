@@ -55,7 +55,8 @@ namespace Kean.Math.Geometry3D.Test.Abstract
                 this.MultiplicationTransformTransform,
                 this.MultiplicationTransformPoint,
                 this.Casting,
-                this.CastingNull
+                this.CastingNull,
+                this.Hash
                 );
         }
  
@@ -326,5 +327,12 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             Expect(this.CastToString(tranform), Is.EqualTo(value));
             Expect(this.CastFromString(value), Is.EqualTo(tranform));
         }
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.Transform0.Hash(), Is.Not.EqualTo(0));
+        }
+        #endregion
     }
 }

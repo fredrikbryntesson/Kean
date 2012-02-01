@@ -28,7 +28,8 @@ namespace Kean.Math.Geometry3D.Test.Abstract
                 this.ScalarProduct,
                 this.CrossProduct,
                 this.Casting,
-                this.CastingNull
+                this.CastingNull,
+                this.Hash
                 );
         }
         [Test]

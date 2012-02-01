@@ -215,7 +215,7 @@ namespace Kean.Math.Geometry2D.Abstract
         }
 		public string ToString(string format)
 		{
-			return string.Format(format, this.leftTop.X.ToString(), this.leftTop.Y.ToString(), this.size.Width.ToString(), this.size.Height.ToString());
+            return string.Format(format, ((R)this.leftTop.X).ToString(), ((R)this.leftTop.Y).ToString(), ((R)this.size.Width).ToString(), ((R)this.size.Height).ToString());
 		}
         public override int GetHashCode()
         {

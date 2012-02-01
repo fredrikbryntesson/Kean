@@ -26,7 +26,8 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         {
             this.Run(
                 this.LeftTop,
-                this.Size);
+                this.Size,
+                this.Hash);
         }
         string prefix = "Kean.Math.Geometry2D.Test.Abstract.Box.";
         protected abstract V Cast(double value);
@@ -74,6 +75,13 @@ namespace Kean.Math.Geometry2D.Test.Abstract
         [Test]
         public void ScalarMultitplication()
         {
+        }
+        #endregion
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.Box0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
     }

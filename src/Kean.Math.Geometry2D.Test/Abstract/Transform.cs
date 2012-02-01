@@ -56,7 +56,8 @@ namespace Kean.Math.Geometry2D.Test.Abstract
                 this.GetScaling,
                 this.GetRotation,
                 this.Casting,
-                this.CastingNull
+                this.CastingNull,
+                this.Hash
                 );
         }
         string prefix = "Kean.Math.Geometry2D.Test.Abstract.Transform.";
@@ -259,5 +260,12 @@ namespace Kean.Math.Geometry2D.Test.Abstract
             Expect(this.CastToString(transform), Is.EqualTo(value), this.prefix + "CastingNull.0");
             Expect(this.CastFromString(value), Is.EqualTo(transform), this.prefix + "CastingNull.1");
         }
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.Transform0.Hash(), Is.Not.EqualTo(0));
+        }
+        #endregion
     }
 }
