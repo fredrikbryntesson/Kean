@@ -159,7 +159,7 @@ namespace Kean.Math.Geometry3D.Abstract
 		}
         public override int GetHashCode()
         {
-            return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
+            return 33 * this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
         #region Static Methods

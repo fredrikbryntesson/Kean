@@ -295,7 +295,7 @@ namespace Kean.Math.Geometry3D.Double
             }
             public override int GetHashCode()
             {
-                return this.Real.GetHashCode() ^ this.Imaginary.GetHashCode();
+                return 33 * this.Real.GetHashCode() ^ this.Imaginary.GetHashCode();
             }
             public override string ToString()
             {

@@ -83,7 +83,7 @@ namespace Kean.Math.Geometry3D.Single
         #region Object Overrides
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
+            return 33 * (33 * this.X.GetHashCode() ^ this.Y.GetHashCode()) ^ this.Z.GetHashCode();
         }
 		public override string ToString()
 		{

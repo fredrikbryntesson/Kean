@@ -143,18 +143,7 @@ namespace Kean.Math.Geometry3D.Integer
         /// <returns>Hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            return this.A.GetHashCode()
-                ^ this.B.GetHashCode()
-                ^ this.C.GetHashCode()
-                ^ this.D.GetHashCode()
-                ^ this.E.GetHashCode()
-                ^ this.F.GetHashCode()
-                ^ this.G.GetHashCode()
-                ^ this.H.GetHashCode()
-                ^ this.I.GetHashCode()
-                ^ this.J.GetHashCode()
-                ^ this.K.GetHashCode()
-                ^ this.L.GetHashCode();
+            return 33 * (33 * (33 * (33 * (33 * (33 * (33 * (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode()) ^ this.G.GetHashCode()) ^ this.H.GetHashCode()) ^ this.I.GetHashCode()) ^ this.J.GetHashCode()) ^ this.K.GetHashCode()) ^ this.L.GetHashCode();
         }
 		public override string ToString()
 		{

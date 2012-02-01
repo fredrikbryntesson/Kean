@@ -126,7 +126,7 @@ namespace Kean.Math.Geometry2D.Integer
 		}
         public override int GetHashCode()
         {
-            return this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
+            return 33 * this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
         }
         #endregion
     }

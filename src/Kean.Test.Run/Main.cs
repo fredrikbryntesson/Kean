@@ -26,6 +26,9 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            Math.Geometry2D.Test.All.Test();
+            Math.Geometry3D.Test.All.Test();
+       
 			Core.Reflect.Test.All.Test();
 
 			Core.Test.All.Test();

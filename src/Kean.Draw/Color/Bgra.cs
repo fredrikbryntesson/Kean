@@ -22,7 +22,8 @@ using System;
 namespace Kean.Draw.Color
 {
 	public struct Bgra :
-		IColor
+		IColor, 
+        System.IEquatable<Bgra>
 	{
 		public Bgr color;
 		public byte alpha;
@@ -73,7 +74,31 @@ namespace Kean.Draw.Color
 		{
 			return this.color.ToString() + " " + this.alpha;
 		}
-		#endregion
+        public override bool Equals(object other)
+        {
+            return other is Bgra && this.Equals((Bgra)other);
+        }
+        public override int GetHashCode()
+        {
+            return 33 * this.color.GetHashCode() ^ this.alpha.GetHashCode();
+        }
+      	#endregion
+        #region IEquatable<Bgra> Members
+        public bool Equals(Bgra other)
+        {
+            return this.color == other.color && this.alpha == other.alpha;
+        }
+        #endregion
+        #region Comparison Operators
+        public static bool operator ==(Bgra left, Bgra right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Bgra left, Bgra right)
+        {
+            return !(left == right);
+        }
+        #endregion
 		#region Static Creators
 		public static Bgra White { get { return new Bgra(255, 255, 255); } }
 		public static Bgra Black { get { return new Bgra(0, 0, 0); } }

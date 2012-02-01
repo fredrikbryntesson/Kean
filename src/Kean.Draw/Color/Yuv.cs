@@ -22,7 +22,8 @@ using System;
 namespace Kean.Draw.Color
 {
 	public struct Yuv :
-		IColor
+		IColor,
+        System.IEquatable<Yuv>
 	{
 		public byte y;
 		public byte u;
@@ -78,6 +79,30 @@ namespace Kean.Draw.Color
 		{
 			return this.y + " " + this.u + " " + this.v;
 		}
+        public override bool Equals(object other)
+        {
+            return other is Yuv && this.Equals((Yuv)other);
+        }
+        public override int GetHashCode()
+        {
+            return 33 * (33 * this.y.GetHashCode() ^ this.u.GetHashCode()) ^ this.v.GetHashCode();
+        }
 		#endregion
+        #region IEquatable<Yuv> Members
+        public bool Equals(Yuv other)
+        {
+            return this.y == other.y && this.u == other.u && this.v == other.v;
+        }
+        #endregion
+        #region Comparison Operators
+        public static bool operator ==(Yuv left, Yuv right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Yuv left, Yuv right)
+        {
+            return !(left == right);
+        }
+        #endregion
 	}
 }

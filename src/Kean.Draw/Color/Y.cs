@@ -25,7 +25,8 @@ using Math = Kean.Math;
 namespace Kean.Draw.Color
 {
 	public struct Y :
-		IColor
+		IColor,
+        System.IEquatable<Y>
 	{
 		public byte y;
 		public Y(byte y)
@@ -109,6 +110,30 @@ namespace Kean.Draw.Color
 		{
 			return this.y.ToString();
 		}
+        public override bool Equals(object other)
+        {
+            return other is Y && this.Equals((Y)other);
+        }
 		#endregion
+        #region IEquatable<Y> Members
+        public bool Equals(Y other)
+        {
+            return this.y == other.y;
+        }
+        public override int GetHashCode()
+        {
+            return this.y.GetHashCode();
+        }
+        #endregion
+        #region Comparison Operators
+        public static bool operator ==(Y left, Y right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Y left, Y right)
+        {
+            return !(left == right);
+        }
+        #endregion
 	}
 }

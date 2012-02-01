@@ -131,7 +131,7 @@ namespace Kean.Math.Geometry2D.Single
         #region Object Overrides
         public override int GetHashCode()
         {
-            return this.Width.GetHashCode() ^ this.Height.GetHashCode();
+            return 33 * this.Width.GetHashCode() ^ this.Height.GetHashCode();
         }
 		public override string ToString()
 		{

@@ -118,7 +118,7 @@ namespace Kean.Math.Geometry2D.Integer
         #region Object Overrides
         public override int GetHashCode()
         {
-            return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
+            return 33 * (33 * (33 * this.Left.GetHashCode() ^ this.Right.GetHashCode()) ^ this.Top.GetHashCode()) ^ this.Bottom.GetHashCode();
         }
 		public override string ToString()
 		{

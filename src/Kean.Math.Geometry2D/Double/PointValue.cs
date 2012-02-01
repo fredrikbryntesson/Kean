@@ -237,7 +237,7 @@ namespace Kean.Math.Geometry2D.Double
         #region Object Overrides
         public override int GetHashCode()
         {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+            return 33 * this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
 		public override string ToString()
 		{

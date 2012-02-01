@@ -95,7 +95,7 @@ namespace Kean.Math.Geometry2D.Abstract
         /// <returns>Hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            return this.Left.GetHashCode() ^ this.Right.GetHashCode() ^ this.Top.GetHashCode() ^ this.Bottom.GetHashCode();
+            return 33 * (33 * (33 * this.Left.GetHashCode() ^ this.Right.GetHashCode()) ^ this.Top.GetHashCode()) ^ this.bottom.GetHashCode();
         }
 		public override string ToString()
 		{

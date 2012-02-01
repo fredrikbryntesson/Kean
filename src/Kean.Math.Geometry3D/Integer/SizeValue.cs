@@ -82,7 +82,7 @@ namespace Kean.Math.Geometry3D.Integer
         #region Object Overrides
         public override int GetHashCode()
         {
-            return this.Width.GetHashCode() ^ this.Height.GetHashCode() ^ this.Depth.GetHashCode();
+            return 33 * (33 * this.Width.GetHashCode() ^ this.Height.GetHashCode()) ^ this.Depth.GetHashCode();
         }
 		public override string ToString()
 		{

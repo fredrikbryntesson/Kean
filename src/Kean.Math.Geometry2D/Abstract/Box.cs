@@ -219,7 +219,7 @@ namespace Kean.Math.Geometry2D.Abstract
 		}
         public override int GetHashCode()
         {
-            return this.leftTop.GetHashCode() ^ this.size.GetHashCode();
+            return 33 * this.leftTop.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
         #region Static Methods

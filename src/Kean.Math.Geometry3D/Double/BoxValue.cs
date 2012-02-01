@@ -104,7 +104,7 @@ namespace Kean.Math.Geometry3D.Double
 		}
 		public override int GetHashCode()
         {
-            return this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
+            return 33 * this.leftTopFront.GetHashCode() ^ this.size.GetHashCode();
         }
         #endregion
     }

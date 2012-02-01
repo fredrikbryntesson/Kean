@@ -22,7 +22,8 @@ using System;
 namespace Kean.Draw.Color
 {
 	public struct Bgr :
-		IColor
+		IColor, 
+        System.IEquatable<Bgr>
 	{
 		public byte blue;
 		public byte green;
@@ -75,9 +76,33 @@ namespace Kean.Draw.Color
 		{
 			return this.blue + " " + this.green + " " + this.red;
 		}
+        public override bool Equals(object other)
+        {
+            return other is Bgr && this.Equals((Bgr)other);
+        }
+        public override int GetHashCode()
+        {
+            return 33 * (33 * this.blue.GetHashCode() ^ this.green.GetHashCode()) ^ this.red.GetHashCode();
+        }
 		#endregion
-		#region Static Creators
-		public static Bgr White { get { return new Bgr(255, 255, 255); } }
+        #region IEquatable<Bgr> Members
+        public bool Equals(Bgr other)
+        {
+            return this.blue == other.blue && this.green == other.green && this.red == other.red;
+        }
+        #endregion
+        #region Comparison Operators
+        public static bool operator ==(Bgr left, Bgr right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Bgr left, Bgr right)
+        {
+            return !(left == right);
+        }
+        #endregion
+        #region Static Creators
+        public static Bgr White { get { return new Bgr(255, 255, 255); } }
 		public static Bgr Black { get { return new Bgr(0, 0, 0); } }
 		public static Bgr Blue { get { return new Bgr(255, 0, 0); } }
 		public static Bgr Green { get { return new Bgr(0, 255, 0); } }
@@ -86,5 +111,5 @@ namespace Kean.Draw.Color
 		public static Bgr Yellow { get { return new Bgr(255, 255, 0); } }
 		public static Bgr Cyan { get { return new Bgr(255, 255, 0); } }
 		#endregion
-	}
+    }
 }
