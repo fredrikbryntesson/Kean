@@ -332,6 +332,12 @@ namespace Kean.Math.Matrix
                 for (int y = top; y < bottom; y++)
                     this[x, y] = 0;
         }
+        public void Clear()
+        {
+            for (int x = 0; x < this.Dimensions.Width; x++)
+                for (int y = 0; y < this.Dimensions.Height; y++)
+                    this[x, y] = 0;
+        }
         /// <summary>
         /// Creates a copy of the current matrix.
         /// </summary>

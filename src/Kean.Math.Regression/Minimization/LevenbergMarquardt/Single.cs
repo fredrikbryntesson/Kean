@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace Kean.Math.Regression.Minimization.LevenbergMarquardt
 {
@@ -13,6 +11,7 @@ namespace Kean.Math.Regression.Minimization.LevenbergMarquardt
         float error1;
         float error2;
         float tao;
+        public Single(Func<Matrix.Single, Matrix.Single> function, Func<Matrix.Single, Matrix.Single> jacobian) : this(function, jacobian, 200, 1e-18f, 1e-18f, 1e-3f) { }
         public Single(Func<Matrix.Single, Matrix.Single> function, Func<Matrix.Single, Matrix.Single> jacobian, int iterations, float error1, float error2, float tao)
         {
             this.function = function;
@@ -66,6 +65,7 @@ namespace Kean.Math.Regression.Minimization.LevenbergMarquardt
                     }
                 }
             }
+            //Console.WriteLine("iterations " + k);
             return x;
         }
     }

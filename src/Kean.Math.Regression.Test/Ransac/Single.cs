@@ -23,7 +23,7 @@ namespace Kean.Math.Regression.Test.Ransac
         [Test]
         public void RobustPolynomialRegression()
         {
-            int degree = 4 + 1;
+            int degree = 1 + 1;
             System.Func<Kean.Math.Matrix.Single, float, float> map = (t, x) =>
             {
                 float result = 0;
@@ -33,43 +33,42 @@ namespace Kean.Math.Regression.Test.Ransac
             };
             Target.Model<float, float, Kean.Math.Matrix.Single> model = new Target.Model<float, float, Kean.Math.Matrix.Single>()
             {
-                RequiredMeasures = degree + 30,
-                Estimate = data =>
+                RequiredMeasures = degree,
+                Estimate = (domain, range) =>
                 {
                     Kean.Math.Matrix.Single result = null;
-                    int n = data.Count;
+                    int n = domain.Length;
                     Kean.Math.Matrix.Single a = new Kean.Math.Matrix.Single(degree, n);
                     Kean.Math.Matrix.Single b = new Kean.Math.Matrix.Single(1, n);
                     for (int i = 0; i < n; i++)
                     {
-                        float x = data[i].Item1;
-                        b[0, i] = data[i].Item2;
+                        float x = domain[i];
+                        b[0, i] = range[i];
                         for (int j = 0; j < degree; j++)
                             a[j, i] = Kean.Math.Single.Power(x, j);
                     }
                     result = a.Solve(b) ?? new Kean.Math.Matrix.Single(1, degree);
                     return result;
                 },
-                Threshold = 900,
-                Map = map,
-                Metric = (y1, y2) => Kean.Math.Single.Squared(y1 - y2)
+                FitModel = (transform, domain, range) => Kean.Math.Double.Absolute(map(transform, domain) - range) < 80, 
             };
-            Target.Estimator<float, float, Kean.Math.Matrix.Single> estimate =
-                new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 520);
+            Target.Estimator<float, float, Matrix.Single> estimate =
+                new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 2000, 0.95);
             Collection.IList<Kean.Core.Tuple<float, float>> points =
                 new Collection.List<Kean.Core.Tuple<float, float>>();
-            Kean.Math.Matrix.Single coefficients = new Kean.Math.Matrix.Single(1, degree, new float[] { 20, 10, 5, 10 });
+            Kean.Math.Matrix.Single coefficients = new Kean.Math.Matrix.Single(1, degree, new float[] { 20, 10 });
             Kean.Math.Random.Single.Normal generator = new Kean.Math.Random.Single.Normal(0, 30);
-            for (float x = -100; x < 10; x += 0.1f)
+            Kean.Math.Random.Single.Normal large = new Kean.Math.Random.Single.Normal(0, 200);
+            
+            for (int x = 0; x < 200; x++)
             {
                 float y = map(coefficients, x) + generator.Generate();
+                if (x % 5 == 0)
+                    y += large.Generate();
                 points.Add(Kean.Core.Tuple.Create<float, float>(x, y));
             }
             estimate.Load(points);
-            Target.Estimation<float, float, Kean.Math.Matrix.Single> best = estimate.Compute();
-            if (best.NotNull())
-                Expect(best.Mapping.Distance(coefficients), Is.EqualTo(0).Within(500), this.prefix + "RobustPolynomialRegression.0");
-            /*
+            Target.Estimation<float, float, Matrix.Single> best = estimate.Compute();
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -81,8 +80,8 @@ namespace Kean.Math.Regression.Test.Ransac
                 pointsExport = pointsExport.TrimEnd(';');
                 file.WriteLine("points = [" + pointsExport + "];");
                 string consensusExport = "";
-                foreach (Kean.Core.Tuple<float, float> point in best.Inliers)
-                    consensusExport += Kean.Math.Single.ToString(point.Item1) + " " + Kean.Math.Single.ToString(point.Item2) + ";";
+                for(int i = 0; i < best.Count; i++)
+                    consensusExport += Kean.Math.Single.ToString(best.InlierDomain[i]) + " " + Kean.Math.Single.ToString(best.InlierRange[i]) + ";";
                 consensusExport = consensusExport.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensusExport + "];");
 
@@ -104,49 +103,50 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("plot(points(:,1), polyval(fliplr(correctModel'),points(:,1)), 'r');");
                 file.WriteLine("plot(points(:,1), polyval(fliplr(bestModel'),points(:,1)), 'g');");
                 file.Close();
-
-                int n = best.Inliers.Count;
-                Kean.Math.Matrix.Single a = new Kean.Math.Matrix.Single(degree, n);
-                Kean.Math.Matrix.Single b = new Kean.Math.Matrix.Single(1, n);
+                int n = best.Count;
+                Matrix.Single a = new Matrix.Single(degree, n);
+                Matrix.Single b = new Matrix.Single(1, n);
                 for (int i = 0; i < n; i++)
                 {
-                    float x = best.Inliers[i].Item1;
-                    b[0, i] = best.Inliers[i].Item2;
+                    float x = best.InlierDomain[i];
+                    b[0, i] = best.InlierRange[i];
                     for (int j = 0; j < degree; j++)
                         a[j, i] = Kean.Math.Single.Power(x, j);
                 }
-                Kean.Math.Matrix.Single guess = new Kean.Math.Matrix.Single(1, degree);
+                Matrix.Single guess = new Matrix.Single(1, degree);
                 for (int i = 0; i < degree; i++)
                     guess[0, i] = 1;
+                guess = best.Mapping;
                 Kean.Math.Matrix.Single refine = this.Estimate(a, b, guess);   
-
+                
             }
-            */
+            
         }
         Kean.Math.Matrix.Single Estimate(Kean.Math.Matrix.Single a, Kean.Math.Matrix.Single b, Kean.Math.Matrix.Single guess)
         {
             Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> function = x => b - a * x;
             Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> jacobian = x => -a;
-            Kean.Math.Regression.Minimization.LevenbergMarquardt.Single lm = new Kean.Math.Regression.Minimization.LevenbergMarquardt.Single(function, jacobian, 200, 1e-18f, 1e-18f, 1e-3f);
+            Kean.Math.Regression.Minimization.LevenbergMarquardt.Single lm = new Kean.Math.Regression.Minimization.LevenbergMarquardt.Single(function, jacobian, 200, 1e-18f, 1e-18f, 1e-2f);
             return lm.Estimate(guess);
         }
 
         [Test]
         public void ScaleRotationTranslationRegression()
         {
+            Func<Matrix.Single, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> map = (t, x) => new Geometry2D.Single.PointValue(t[0, 0] * x.X - t[0, 1] * x.Y + t[0, 2], t[0, 1] * x.X + t[0, 0] * x.Y + t[0, 3]);
             Target.Model<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> model = new Target.Model<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>()
             {
                 RequiredMeasures = 5,
-                Estimate = data =>
+                Estimate = (domain, range) =>
                 {
-                    int count = data.Count;
+                    int count = domain.Length;
                     Kean.Math.Matrix.Single a = new Kean.Math.Matrix.Single(4, 2 * count);
                     Kean.Math.Matrix.Single b = new Kean.Math.Matrix.Single(1, 2 * count);
                     int j = 0;
                     for (int i = 0; i < count; i++)
                     {
-                        Geometry2D.Single.PointValue previous = data[i].Item1;
-                        Geometry2D.Single.PointValue y = data[i].Item2;
+                        Geometry2D.Single.PointValue previous = domain[i];
+                        Geometry2D.Single.PointValue y = range[i];
                         a[0, j] = previous.X;
                         a[1, j] = -previous.Y;
                         a[2, j] = 1;
@@ -160,12 +160,10 @@ namespace Kean.Math.Regression.Test.Ransac
                     }
                     return a.Solve(b) ?? new Kean.Math.Matrix.Single(1, 4);
                 },
-                Threshold = 20,
-                Map = (t, x) => new Geometry2D.Single.PointValue(t[0, 0] * x.X - t[0, 1] * x.Y + t[0, 2], t[0, 1] * x.X + t[0, 0] * x.Y + t[0, 3]),
-                Metric = (y1, y2) => Kean.Math.Single.Squared((y1 - y2).Length)
+                FitModel = (tranform, domain, range) => map(tranform, domain).Distance(range) < 8,
             };
             Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> estimate =
-                new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>(model, 20);
+                new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>(model, 20,0.999);
             Collection.IList<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
                 new Collection.List<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
             float s = 2;
@@ -194,9 +192,6 @@ namespace Kean.Math.Regression.Test.Ransac
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> best = estimate.Compute();
             Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosinus(thetaAngle), s * Kean.Math.Single.Sinus(thetaAngle), xTranslation, yTranslation });
             if (best.NotNull())
-                Expect(best.Mapping.Distance(correct), Is.EqualTo(0).Within(1), this.prefix + "ScaleRotationTranslationRegression.0");
-            /*
-            if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
                 file.WriteLine("clear all;");
@@ -216,14 +211,15 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
                 string consensus = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in best.Inliers)
-                    consensus += point.Item2.ToString() + "; ";
+                for (int i = 0; i< best.Count; i++)
+                    consensus += best.InlierRange[i].ToString() + "; ";
                 consensus = consensus.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensus + "];");
                 file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
                 file.WriteLine("bestmodel = [" + best.Mapping + "];");
                 file.Close();
-                int count = best.Inliers.Count;
+       
+                int count = best.Count;
                 Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> f = beta =>
                 {
                     float scale = beta[0, 0];
@@ -233,8 +229,8 @@ namespace Kean.Math.Regression.Test.Ransac
                     Kean.Math.Matrix.Single result = new Kean.Math.Matrix.Single(1, 2 * count);
                     for (int i = 0; i < count; i++)
                     {
-                        Geometry2D.Single.PointValue previous = best.Inliers[i].Item1;
-                        Geometry2D.Single.PointValue current = best.Inliers[i].Item2;
+                        Geometry2D.Single.PointValue previous = best.InlierDomain[i];
+                        Geometry2D.Single.PointValue current = best.InlierRange[i];
                         result[0, 2 * i + 0] = scale * Kean.Math.Single.Cosinus(theta) * previous.X - scale * Kean.Math.Single.Sinus(theta) * previous.Y + xt - current.X;
                         result[0, 2 * i + 1] = scale * Kean.Math.Single.Sinus(theta) * previous.X + scale * Kean.Math.Single.Cosinus(theta) * previous.Y + yt - current.Y;
                     }
@@ -249,7 +245,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     Kean.Math.Matrix.Single result = new Kean.Math.Matrix.Single(4, 2 * count);
                     for (int i = 0; i < count; i++)
                     {
-                        Geometry2D.Single.PointValue previous = best.Inliers[i].Item1;
+                        Geometry2D.Single.PointValue previous = best.InlierDomain[i];
                         result[0, 2 * i + 0] = Kean.Math.Single.Cosinus(theta) * previous.X - Kean.Math.Single.Sinus(theta) * previous.Y;
                         result[1, 2 * i + 0] = -scale * Kean.Math.Single.Sinus(theta) * previous.X - scale * Kean.Math.Single.Cosinus(theta) * previous.Y;
                         result[2, 2 * i + 0] = 1;
@@ -261,7 +257,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     }
                     return result;
                 };
-
+                /*
                 Kean.Math.Regression.Minimization.LevenbergMarquardt.Single lm =
                     new Kean.Math.Regression.Minimization.LevenbergMarquardt.Single(f, j,
                         200, 1e-8f, 1e-8f, 1e-3f);
@@ -271,8 +267,10 @@ namespace Kean.Math.Regression.Test.Ransac
                 float yTranslationGuess = best.Mapping[0, 3];
                 Kean.Math.Matrix.Single guess = new Kean.Math.Matrix.Single(1, 4, new float[] { 1, 1, 1, 1 }); // new Kean.Math.Matrix.Single(1, 4, new float[] { scaleGuess, thetaGuess, xTranslationGuess, yTranslationGuess }); 
                 Kean.Math.Matrix.Single estimation = lm.Estimate(guess);
+                */
             }
-            */
+            
+
         }
         [Test]
         public void TranslationRegression()
@@ -280,19 +278,17 @@ namespace Kean.Math.Regression.Test.Ransac
             Target.Model<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> model = new Target.Model<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>()
             {
                 RequiredMeasures = 5,
-                Estimate = data =>
+                Estimate = (domain, range) =>
                 {
-                    int count = data.Count;
+                    int count = domain.Length;
                     Geometry2D.Single.PointValue result = new Geometry2D.Single.PointValue();
                     for (int i = 0; i < count; i++)
-                        result += data[i].Item2 - data[i].Item1;
+                        result += range[i] - domain[i];
                     result.X /= (float)count;
                     result.Y /= (float)count;
                     return result;
                 },
-                Threshold = 8,
-                Map = (t, x) => t + x,
-                Metric = (y1, y2) => Kean.Math.Single.Squared((y1 - y2).Length)
+                FitModel = (transform, domain, range) => (transform + domain).Distance(range) < 10,
             };
             Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> estimate =
                 new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(model, 20);

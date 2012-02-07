@@ -10,7 +10,6 @@ namespace Kean.Math.Regression.Test
         public static void Test()
         {
             Ransac.Single.Test();
-            Ransac.Double.Test();
             Minimization.Single.Test();
             Minimization.Double.Test();
             Interpolation.Splines.Geometry2D.Test();

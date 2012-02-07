@@ -13,6 +13,7 @@ namespace Kean.Math.Regression.Minimization.LevenbergMarquardt
         double error1;
         double error2;
         double tao;
+        public Double(Func<Matrix.Double, Matrix.Double> function, Func<Matrix.Double, Matrix.Double> jacobian) : this(function, jacobian, 200, 1e-18, 1e-18, 1e-3) { }
         public Double(Func<Matrix.Double, Matrix.Double> function, Func<Matrix.Double, Matrix.Double> jacobian, int iterations, double error1, double error2, double tao)
         {
             this.function = function;
@@ -66,6 +67,7 @@ namespace Kean.Math.Regression.Minimization.LevenbergMarquardt
                     }
                 }
             }
+            //Console.WriteLine("iterations " + k);
             return x;
         }
     }

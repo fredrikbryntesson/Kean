@@ -30,7 +30,8 @@ namespace Kean.Math.Regression.Ransac
     {
         Model<Domain, Range, Transform> model;
         int maximumIterations;
-        Collection.IList<Kean.Core.Tuple<Domain, Range>> data;
+        Domain[] domain;
+        Range[] range;
         Random.IInterval<int> random;
         double confidence;
         public Estimator(Model<Domain, Range, Transform> model, int maximumIterations) : this(model, maximumIterations, 0.99) { }
@@ -43,84 +44,102 @@ namespace Kean.Math.Regression.Ransac
         }
         public void Load(Collection.IList<Kean.Core.Tuple<Domain, Range>> data)
         {
-            this.data = data;
+            int count = data.Count;
+            this.domain = new Domain[count];
+            this.range = new Range[count];
+            for (int i = 0; i < count; i++)
+            {
+                Kean.Core.Tuple<Domain, Range> pair = data[i];
+                this.domain[i] = pair.Item1;
+                this.range[i] = pair.Item2;
+            }
+        }
+        public void Load(Domain[] domain, Range[] range)
+        {
+            if (domain.Length != range.Length)
+                throw new Exception.InputData();
+            this.domain = domain;
+            this.range = range;
         }
         public void Reset()
         {
-            this.data = null;
+            this.domain = null;
+            this.range = null;
         }
         public Estimation<Domain, Range, Transform> Compute()
         {
             Estimation<Domain, Range, Transform> result = null;
-            if (this.model.IsNull() || this.model.Estimate.IsNull() || this.model.Map.IsNull() || this.model.Metric.IsNull())
-                throw new Exception.ModelSetup();
-            if (this.data.IsNull() || this.model.IsNull())
-                throw new Exception.InputData();
-            if (this.data.Count >= this.model.RequiredMeasures)
+            int neededMeasures = this.model.FitsWell == 0 ? this.model.RequiredMeasures : this.model.FitsWell;
+            int count = this.domain.Length;
+            if (count >= neededMeasures)
             {
                 int iterations = this.maximumIterations;
-                int numberOfInliers = 0;
-                int count = this.data.Count;
-                int neededMeasures = this.model.FitsWell == 0 ? this.model.RequiredMeasures : this.model.FitsWell;
+                bool[] bestMask = null;
+                Transform bestModel = default(Transform);
+                int maximumInliers = 0;
+                //Console.WriteLine();
                 for (int d = 0; d < iterations; d++)
                 {
-                    Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> maybeInliersOutliers = this.InliersOutliers();
-                    Transform maybeModel = this.model.Estimate(maybeInliersOutliers.Item1);
-                    Collection.IList<Kean.Core.Tuple<Domain, Range>> consensusSet = maybeInliersOutliers.Item1;
-                    foreach (Kean.Core.Tuple<Domain, Range> outlier in maybeInliersOutliers.Item2)
-                        if (this.model.Metric(this.model.Map(maybeModel, outlier.Item1), outlier.Item2) < this.model.Threshold)
-                            consensusSet.Add(outlier);
-                    if (consensusSet.Count > Kean.Math.Integer.Maximum(neededMeasures - 1, numberOfInliers))
+                    this.random.Floor = 0;
+                    this.random.Ceiling = count - 1;
+                    int[] indices = this.random.GenerateUnique(neededMeasures);
+                    if (indices.NotNull())
                     {
-                        Transform thisModel = this.model.Estimate(consensusSet);
-                        double thisError = 0;
-                        foreach (Kean.Core.Tuple<Domain, Range> datum in consensusSet)
-                            thisError += this.model.Metric(this.model.Map(thisModel, datum.Item1), datum.Item2);
-                        numberOfInliers = consensusSet.Count;
-                        result = new Estimation<Domain, Range, Transform>(consensusSet, thisError, thisModel, (double)numberOfInliers / count);
-                        iterations = this.UpdateNumberOfIterations((double)(count - numberOfInliers) / count, iterations, neededMeasures);
+                        Domain[] subDomain = new Domain[indices.Length];
+                        Range[] subRange = new Range[indices.Length];
+                        for (int i = 0; i < indices.Length; i++)
+                        {
+                            subDomain[i] = this.domain[indices[i]];
+                            subRange[i] = this.range[indices[i]];
+                        }
+                        Transform maybeModel = this.model.Estimate(subDomain, subRange);
+                        bool[] maybeMask = new bool[this.domain.Length];
+                        int currentInliers = 0;
+                        for (int i = 0; i < this.domain.Length; i++)
+                            currentInliers += (maybeMask[i] = this.model.FitModel(maybeModel, this.domain[i], this.range[i])) ? 1 : 0;
+                        if (currentInliers > Kean.Math.Integer.Maximum(neededMeasures - 1, maximumInliers))
+                        {
+                            maximumInliers = currentInliers;
+                            bestMask = maybeMask;
+                            iterations = this.UpdateNumberOfIterations((double)(maximumInliers) / count, neededMeasures, iterations);
+                            //Console.WriteLine(" iterations : " + d + " of total " + iterations + " consensus " + currentInliers + " of total " + count);
+                        }
                     }
+                }
+                if (bestMask.NotNull())
+                {
+                    Domain[] subDomain = new Domain[maximumInliers];
+                    Range[] subRange = new Range[maximumInliers];
+                    for (int i = 0, k = 0; i < count; i++)
+                        if (bestMask[i])
+                        {
+                            subDomain[k] = this.domain[i];
+                            subRange[k++] = this.range[i];
+                        }
+                    result = new Estimation<Domain, Range, Transform>(subDomain, subRange, this.model.Estimate(subDomain, subRange));
                 }
             }
             return result;
         }
-        int UpdateNumberOfIterations(double outlierProbability, int iterations, int neededMeasures)
+        // See  parameter section under http://en.wikipedia.org/wiki/RANSAC
+        int UpdateNumberOfIterations(double inlierProbability, int neededMeasures, int iterations)
         {
             int result = 0;
+            double denominator = 1 - Kean.Math.Double.Power(inlierProbability, neededMeasures);
+            denominator = Kean.Math.Double.Clamp(denominator, double.Epsilon, 1 - double.Epsilon);
             double nominator = Kean.Math.Double.Maximum(1 - this.confidence, double.Epsilon);
-            double denominator = 1 - Kean.Math.Double.Power(1 - outlierProbability, neededMeasures);
-            if (denominator >= double.Epsilon)
-            {
-                nominator = Kean.Math.Double.Logarithm(nominator);
-                denominator = Kean.Math.Double.Logarithm(denominator);
-                result = denominator >= 0 || -nominator >= maximumIterations * (-denominator) ?
-                    iterations : Kean.Math.Integer.Round(nominator / denominator);
-            }
+            nominator = Kean.Math.Double.Logarithm(nominator);
+            denominator = Kean.Math.Double.Logarithm(denominator);
+            result = -nominator >= -denominator * iterations ? iterations : Kean.Math.Integer.Round(nominator / denominator);
             return result;
         }
-
-        Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> InliersOutliers()
+        Collection.IList<Kean.Core.Tuple<Domain, Range>> Select(Collection.IList<Kean.Core.Tuple<Domain, Range>> data, int needed)
         {
-            Kean.Core.Tuple<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>> result;
-            Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers = new Collection.List<Kean.Core.Tuple<Domain, Range>>(this.data.Count);
-            Collection.IList<Kean.Core.Tuple<Domain, Range>> outliers = new Collection.List<Kean.Core.Tuple<Domain, Range>>(this.data.Count);
-            this.random.Ceiling = this.data.Count - 1;
-            int[] inlierIndexes = this.random.GenerateUnique(this.model.RequiredMeasures);
-            Array.Sort(inlierIndexes);
-            int[] outlierIndexes = new int[this.data.Count - inlierIndexes.Length];
-            int k = 0;
-            for (int j = 0; j < inlierIndexes[0]; j++)
-                outlierIndexes[k++] = j;
-            for (int i = 0; i < inlierIndexes.Length - 1; i++)
-                for (int j = inlierIndexes[i] + 1; j < inlierIndexes[i + 1]; j++)
-                    outlierIndexes[k++] = j;
-            for (int j = inlierIndexes[inlierIndexes.Length - 1] + 1; j < this.data.Count; j++)
-                outlierIndexes[k++] = j;
-            for (int i = 0; i < inlierIndexes.Length; i++)
-                inliers.Add(this.data[inlierIndexes[i]]);
-            for (int i = 0; i < outlierIndexes.Length; i++)
-                outliers.Add(this.data[outlierIndexes[i]]);
-            result = Kean.Core.Tuple.Create<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Collection.IList<Kean.Core.Tuple<Domain, Range>>>(inliers, outliers);
+            Collection.IList<Kean.Core.Tuple<Domain, Range>> result = new Collection.List<Kean.Core.Tuple<Domain, Range>>(data.Count);
+            this.random.Ceiling = data.Count - 1;
+            int[] indices = this.random.GenerateUnique(needed);
+            for (int i = 0; i < indices.Length; i++)
+                result.Add(data[indices[i]]);
             return result;
         }
     }

@@ -26,25 +26,19 @@ namespace Kean.Math.Regression.Ransac
 {
     public class Model<Domain,Range, Transform>
     {
-        public Func<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Transform> Estimate { get; set; }
-        public Func<Transform, Domain, Range> Map { get; set; }
-        public Func<Range,Range, double> Metric { get; set; }
-        public double Threshold { get; set; }
+        public Func<Domain[], Range[], Transform> Estimate { get; set; }
+        public Func<Transform, Domain, Range, bool> FitModel { get; set; }
         public int FitsWell { get; set; }
         public int RequiredMeasures { get; set; }
         public Model() { }
         public Model(
-            Func<Collection.IList<Kean.Core.Tuple<Domain, Range>>, Transform> estimate,
-            Func<Transform, Domain, Range> map,
-            Func<Range, Range, double> metric,
-            double threshold,
+            Func<Domain[], Range[], Transform> estimate,
+            Func<Transform, Domain, Range, bool> fitModel,
             int fitsWell,
             int requiredMeasures)
         {
             this.Estimate = estimate;
-            this.Map = map;
-            this.Metric = metric;
-            this.Threshold = threshold;
+            this.FitModel = fitModel;
             this.FitsWell = fitsWell;
             this.RequiredMeasures = requiredMeasures;
         }

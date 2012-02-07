@@ -26,26 +26,19 @@ namespace Kean.Math.Regression.Ransac
 {
     public class Estimation<Domain, Range, Transform>
     {
-        public Collection.IList<Kean.Core.Tuple<Domain, Range>> Inliers { get; set; }
-        public double Error { get; set; }
+        public Domain[] InlierDomain { get; private set; }
+        public Range[] InlierRange { get; private set; }
         public Transform Mapping { get; set; }
-        public double InlierRatio { get; set; }
-        public Estimation(Collection.IList<Kean.Core.Tuple<Domain, Range>> inliers, double error, Transform mapping, double inlierRatio)
+        public int Count { get { return this.InlierDomain.Length; } }
+        public Estimation(Domain[] inlierDomain, Range[] inlierRange, Transform mapping)
         {
-            this.Inliers = inliers;
-            this.Error = error;
+            this.InlierDomain = inlierDomain;
+            this.InlierRange = inlierRange;
             this.Mapping = mapping;
-            this.InlierRatio = inlierRatio;
-        }
-        #region Object overrides
-        public override int GetHashCode()
-        {
-            return this.Inliers.GetHashCode()^this.Error.GetHashCode()^this.Mapping.GetHashCode();
         }
         public override string ToString()
         {
-            return "Transform: " + this.Mapping.ToString() + " Inliers " + + this.Inliers.Count +  " Error:" + Kean.Math.Double.ToString(this.Error);
+            return "Count: " + this.Count + "  Transform: " + this.Mapping.ToString();
         }
-        #endregion
     }
 }

@@ -16,7 +16,8 @@ namespace Kean.Math.Regression.Test.Minimization
         {
             this.Run(
                 this.LevenbergMarquardt1,
-                this.LevenbergMarquardt2
+                this.LevenbergMarquardt2,
+                this.LevenbergMarquardt3
                 );
         }
         string prefix = "Kean.Math.Regression.Test.Minimization.Single.";
@@ -55,6 +56,44 @@ namespace Kean.Math.Regression.Test.Minimization
             Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(7f), this.prefix + "LevenbergMarquardt2.0");
             Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
         }
+        [Test]
+        public void LevenbergMarquardt3()
+        {
+            Func<float, float, float, float> map = (x,a,b) => a * Kean.Math.Single.Exponential(b * x);
+            int n = 100;
+            float[] xx = new float[n];
+            float[] yy = new float[n];
+            float aa = 1;
+            float bb = 2;
+            Random.Single.Normal generator = new Random.Single.Normal(0, 1);
+            float[] noise = generator.Generate(n);
+            for(int i = 0; i < n; i++)
+            {
+                xx[i] = -i + 10;
+                yy[i] = map(xx[i], aa, bb) + noise[i];
+            }
 
+            Func<Matrix.Single, Matrix.Single> f = ab =>
+            {
+                Matrix.Single result = new Matrix.Single(1, n);
+                for (int i = 0; i < n; i++)
+                {
+                    result[0, i] = yy[i] - map(xx[i], ab[0, 0], ab[0, 1]);
+                }
+                return result;
+            };
+            Func<Matrix.Single, Matrix.Single> j = ab =>
+            {
+                Matrix.Single result = new Matrix.Single(2, n);
+                for (int i = 0; i < n; i++)
+                {
+                    result[0, i] = -Kean.Math.Single.Exponential(ab[0, 1] * xx[i]);
+                    result[1, i] = -ab[0,0] * xx[i] * Kean.Math.Single.Exponential(ab[0, 1] * xx[i]);
+                }
+                return result;
+            };
+            Target.Single lm = new Target.Single(f, j);
+            Matrix.Single estimate = lm.Estimate(new Matrix.Single(1,2, new float[] {3,3}));
+        }
     }
 }
