@@ -1,4 +1,25 @@
-﻿using System;
+﻿// 
+//  Document.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2011-2012 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
@@ -33,6 +54,25 @@ namespace Kean.Xml.Dom
 		public Document()
 		{
 			this.Version = 1.0f;
+		}
+
+		public bool Save(Uri.Locator resource)
+		{
+			using (IO.ICharacterWriter writer = IO.CharacterWriter.Open(resource))
+				return this.Save(writer);
+		}
+		public bool Save(IO.ICharacterWriter writer)
+		{
+			return writer.NotNull() && this.Save(new Writer.Formatting(writer));
+		}
+		public bool Save(IWriter writer)
+		{
+			return writer.Write(this);
+		}
+
+		public static explicit operator string(Document document)
+		{
+			return document.ToString();
 		}
 		public static explicit operator Document(string data)
 		{
@@ -77,10 +117,6 @@ namespace Kean.Xml.Dom
 		{
 			return Document.Open(new Sax.Parser(stream));
 		}
-		public static Document Open(System.IO.Stream stream, string resource)
-		{
-			return Document.Open(new Sax.Parser(stream));
-		}
 		#endregion
 		#region Object Overrides
 		public override bool Equals(object other)
@@ -96,7 +132,9 @@ namespace Kean.Xml.Dom
 		}
 		public override string ToString()
 		{
-			return base.ToString();
+			IO.Text.Writer result = new IO.Text.Writer();
+			this.Save(new Writer.Formatting(result));
+			return result;
 		}
 		#endregion
 		#region IEquatable<Document> Members

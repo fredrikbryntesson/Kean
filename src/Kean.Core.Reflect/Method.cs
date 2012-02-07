@@ -25,7 +25,8 @@ using Kean.Core.Collection.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Method :
-		Member
+		Member,
+		IComparable<Method>
 	{
 		Parameter[] parameters;
 		public Parameter[] Parameters
@@ -68,6 +69,12 @@ namespace Kean.Core.Reflect
 				result = new Method(parent, parentType, information);
 			return result;
 		}
+		#region IComparable<Method> Members
+		Order IComparable<Method>.Compare(Method other)
+		{
+			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
+		}
+		#endregion
 	}
 }
 

@@ -239,7 +239,7 @@ namespace Kean.Core.Reflect
 		}
 		public bool Equals(string other)
 		{
-			return this == other;
+			return (string)this == other;
 		}
 		public bool Equals(System.Type other)
 		{
@@ -346,20 +346,20 @@ namespace Kean.Core.Reflect
 			}
 			return result;
 		}
-		public static implicit operator Type(System.Type value)
+		public static implicit operator Type(System.Type type)
 		{
-			return new Type(value);
+			return type.IsNull() ? null : new Type(type);
 		}
-		public static implicit operator System.Type(Type value)
+		public static implicit operator System.Type(Type type)
 		{
-			if (value.type.IsNull())
+			if (type.type.IsNull())
 			{
-				System.Text.StringBuilder name = new System.Text.StringBuilder(value.Name);
-				if (value.Arguments.Count > 0)
+				System.Text.StringBuilder name = new System.Text.StringBuilder(type.Name);
+				if (type.Arguments.Count > 0)
 				{
-					name = name.AppendFormat("`{0}[", value.Arguments.Count);
+					name = name.AppendFormat("`{0}[", type.Arguments.Count);
 					bool first = true;
-					foreach (Type argument in value.Arguments)
+					foreach (Type argument in type.Arguments)
 					{
 						if (first)
 							first = false;
@@ -369,11 +369,11 @@ namespace Kean.Core.Reflect
 					}
 					name.Append("]");
 				}
-				if (value.Assembly.NotEmpty() && value.Assembly != "mscorlib")
-					name.AppendFormat(", {0}", value.Assembly);
-				value.type = System.Type.GetType(name.ToString(), false);
+				if (type.Assembly.NotEmpty() && type.Assembly != "mscorlib")
+					name.AppendFormat(", {0}", type.Assembly);
+				type.type = System.Type.GetType(name.ToString(), false);
 			}
-			return value.type;
+			return type.type;
 		}
 		#endregion
 	}

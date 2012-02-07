@@ -1,10 +1,10 @@
 // 
-//  Open.cs
+//  Tests.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,57 +18,54 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+
 namespace Kean.Xml.Dom.Test
 {
     [TestFixture]
-    public class Open :
-        Kean.Test.Fixture<Open>
-    {
-        Factory factory;
-        public override void Setup()
-        {
-            base.Setup();
-            this.factory = new Factory();
-        }
+    public abstract class Tests<T> :
+        Factory<T>
+		where T : Tests<T>, new()
+	{
         [Test]
         public void Valid001()
         {
-            Expect(this.factory.Open("valid001"), Is.EqualTo(this.factory.Create("valid001")));
+			this.Verify("valid001");
         }
         [Test]
         public void Valid002()
         {
-            Expect(this.factory.Open("valid002"), Is.EqualTo(this.factory.Create("valid002")));
+			this.Verify("valid002");
         }
         [Test]
         public void Valid003()
         {
-            Expect(this.factory.Open("valid003"), Is.EqualTo(this.factory.Create("valid003")));
+			this.Verify("valid003");
         }
         [Test]
         public void Valid004()
         {
-            Expect(this.factory.Open("valid004"), Is.EqualTo(this.factory.Create("valid004")));
+			this.Verify("valid004");
         }
         [Test]
         public void Valid005()
         {
-            Expect(this.factory.Open("valid005"), Is.EqualTo(this.factory.Create("valid005")));
+			this.Verify("valid005");
         }
         [Test]
         public void Valid006()
         {
-            Expect(this.factory.Open("valid006"), Is.EqualTo(this.factory.Create("valid006")));
+			this.Verify("valid006");
         }
         [Test]
         public void Valid007()
         {
-            Expect(this.factory.Open("valid007"), Is.EqualTo(this.factory.Create("valid007")));
+			this.Verify("valid007");
         }
         protected override void Run()
         {

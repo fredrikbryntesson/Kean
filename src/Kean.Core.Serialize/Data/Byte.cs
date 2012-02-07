@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public Byte(byte value) :
 			base(value)
 		{ }
+		public Byte(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Byte Create(string value)
 		{
 			byte result;

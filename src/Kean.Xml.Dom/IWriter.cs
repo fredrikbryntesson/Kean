@@ -1,10 +1,10 @@
 ﻿// 
-//  Object.cs
+//  IWriter.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,37 +20,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Xml.Dom
 {
-	public abstract class Object
+	public interface IWriter
 	{
-		public Region Region { get; internal set; }
-
-		Document document;
-		public Document Document
-		{
-			get { return this.document; }
-			internal set { this.ChangeDocument(value); }
-		}
-		Element parent;
-		public Element Parent
-		{
-			get { return this.parent; }
-			internal set { this.ChangeParent(value); }
-		}
-		protected Object()
-		{
-		}
-		protected virtual void ChangeDocument(Document document)
-		{
-			this.document = document;
-		}
-		protected virtual void ChangeParent(Element parent)
-		{
-			this.parent = parent;
-			this.document = parent.NotNull() ? parent.document : null;
-		}
+		bool Write(Element element);
+		bool Write(Data data);
+		bool Write(Text text);
+		bool Write(ProcessingInstruction processingInstruction);
+		bool Write(Node node);
+		bool Write(Document document);
+		bool Write(Comment comment);
+		bool Write(Attribute attribute);
 	}
 }

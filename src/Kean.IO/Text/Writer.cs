@@ -1,10 +1,10 @@
 ﻿// 
-//  Object.cs
+//  Writer.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,36 +21,31 @@
 
 using System;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
-namespace Kean.Xml.Dom
+namespace Kean.IO.Text
 {
-	public abstract class Object
+	public class Writer :
+		CharacterWriter
 	{
-		public Region Region { get; internal set; }
-
-		Document document;
-		public Document Document
+		CharacterOutDevice backend;
+		public Writer() :
+			this(new CharacterOutDevice())
+		{ }
+		Writer(CharacterOutDevice backend) :
+			base(backend)
 		{
-			get { return this.document; }
-			internal set { this.ChangeDocument(value); }
+			this.backend = backend;
 		}
-		Element parent;
-		public Element Parent
+		public override string ToString()
 		{
-			get { return this.parent; }
-			internal set { this.ChangeParent(value); }
+			return this.backend;
 		}
-		protected Object()
+		public static implicit operator string(Writer writer)
 		{
-		}
-		protected virtual void ChangeDocument(Document document)
-		{
-			this.document = document;
-		}
-		protected virtual void ChangeParent(Element parent)
-		{
-			this.parent = parent;
-			this.document = parent.NotNull() ? parent.document : null;
+			return writer.backend;
 		}
 	}
 }

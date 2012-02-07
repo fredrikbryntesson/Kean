@@ -1,10 +1,10 @@
 ﻿// 
-//  IData.cs
+//  Factory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009-2011 Simon Mika
+//  Copyright (c) 2009-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,9 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using Kean.Core;
+using Kean.Core.Extension;
+using Kean.Core.Collection.Extension;
+using Collection = Kean.Core.Collection;
+using Reflect = Kean.Core.Reflect;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Serialize.Test
 {
@@ -31,9 +36,11 @@ namespace Kean.Xml.Serialize.Test
 		IFactory
 		where T : Kean.Test.Fixture<T>, new()
 	{
-		protected void Test(Type type)
+		Serialize.Storage storage;
+		protected void Test(Reflect.Type type)
 		{
-			//Serialize.Storage(this.Factory.Filename(type), this.Factory.Create(type), this.Factory.Name(type));
+			string filename = this.Filename(type);
+			storage.Store(this.Create(type), filename);
 			//FileAssert.AreEqual(Factory.ReferencePath(type), Factory.Filename(type), "Serializing test \"{0}\" failed.", type.Name);
 		}
 
@@ -42,27 +49,32 @@ namespace Kean.Xml.Serialize.Test
 		public int Integer { get { return 42; } }
 		public float Float { get { return 13.37f; } }
 		public Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
-		public string String { get { return "The Power of Attraction."; } }
+		public string String { get { return "This is Kean."; } }
 
-		private int identifierCounter;
+		int identifierCounter;
 
 		internal Factory()
 		{
 		}
+		public override void Setup()
+		{
+			this.storage = new Storage(new Core.Serialize.Serializer.Default());
+			base.Setup();
+		}
 
-		public string Name(Type type)
+		string Name(Reflect.Type type)
 		{
 			return type.Name.Split('`')[0];
 		}
-		public string Filename(Type type)
+		string Filename(Reflect.Type type)
 		{
-			return this.Name(type) + ".xml";
+			return Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
 		}
-		public string ReferencePath(string filename)
+		string ReferencePath(string filename)
 		{
-			return "../../src/Test/Core/Attraction.Test.Core.Serializing/SerializedData/" + filename;
+			return "" + filename;
 		}
-		public string ReferencePath(Type type)
+		string ReferencePath(Reflect.Type type)
 		{
 			return this.ReferencePath(this.Filename(type));
 		}
@@ -72,12 +84,12 @@ namespace Kean.Xml.Serialize.Test
 			result.Initilize(this, typeof(T).Name + this.identifierCounter++);
 			return result;
 		}
-		internal object Create(Type type)
+		internal object Create(Reflect.Type type)
 		{
 			object result = null;
-			if (!type.IsPrimitive && type.GetInterfaces().Contains(typeof(Data.IData)))
+			if (type.Category != Reflect.TypeCategory.Primitive && type.Implements<Data.IData>())
 			{
-				result = System.Activator.CreateInstance(type);
+				result = type.Create();
 				(result as Data.IData).Initilize(this, type.Name + this.identifierCounter++);
 			}
 			else if (type == typeof(bool))

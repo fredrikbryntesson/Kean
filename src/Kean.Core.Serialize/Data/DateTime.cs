@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public TimeSpan(System.TimeSpan value) :
 			base(value)
 		{ }
+		public TimeSpan(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static TimeSpan Create(string value)
 		{
 			System.TimeSpan result;

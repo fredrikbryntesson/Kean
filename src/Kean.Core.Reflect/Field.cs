@@ -19,10 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Kean.Core;
+using Kean.Core.Extension;
+
 namespace Kean.Core.Reflect
 {
 	public class Field :
-		Member
+		Member,
+		IComparable<Field>
 	{
 		protected System.Reflection.FieldInfo Information { get; private set; }
 		public object Data
@@ -40,6 +44,12 @@ namespace Kean.Core.Reflect
 		{
 			return new Field<T>(this.Parent, this.ParentType, this.Information);
 		}
+		#region IComparable<Field> Members
+		Order IComparable<Field>.Compare(Field other)
+		{
+			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
+		}
+		#endregion
 		internal static Field Create(object parent, Type parentType, System.Reflection.FieldInfo fieldInformation)
 		{
 			Field result;

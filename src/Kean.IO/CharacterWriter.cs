@@ -67,7 +67,7 @@ namespace Kean.IO
 		}
 		public bool Write(string value)
 		{
-			return this.Write(value.ToCharArray());
+			return value.IsNull() || this.Write(value.ToCharArray());
 		}
 		public bool Write<T>(T value) where T : IConvertible
 		{

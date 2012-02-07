@@ -1,5 +1,5 @@
 ﻿// 
-//  Object.cs
+//  Open.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,37 +20,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
 using Kean.Core.Extension;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Xml.Dom
+namespace Kean.Xml.Dom.Test
 {
-	public abstract class Object
+	public class Save :
+		Tests<Save>
 	{
-		public Region Region { get; internal set; }
-
-		Document document;
-		public Document Document
+		protected override void Verify(string name)
 		{
-			get { return this.document; }
-			internal set { this.ChangeDocument(value); }
-		}
-		Element parent;
-		public Element Parent
-		{
-			get { return this.parent; }
-			internal set { this.ChangeParent(value); }
-		}
-		protected Object()
-		{
-		}
-		protected virtual void ChangeDocument(Document document)
-		{
-			this.document = document;
-		}
-		protected virtual void ChangeParent(Element parent)
-		{
-			this.parent = parent;
-			this.document = parent.NotNull() ? parent.document : null;
+			//this.Create(name).Save(this.Filename(name));
 		}
 	}
 }

@@ -141,6 +141,10 @@
       <Project>{124712B0-21A1-4AFC-AFAD-211662A8E6C3}</Project>
       <Name>Kean.Xml.Dom.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj">
+      <Project>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</Project>
+      <Name>Kean.Xml.Serialize.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

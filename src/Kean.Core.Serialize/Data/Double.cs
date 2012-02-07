@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public Double(double value) :
 			base(value)
 		{ }
+		public Double(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Double Create(string value)
 		{
 			double result;

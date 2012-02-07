@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public Character(char value) :
 			base(value)
 		{ }
+		public Character(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Character Create(string value)
 		{
 			char result;

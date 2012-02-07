@@ -46,6 +46,9 @@ namespace Kean.Core.Serialize.Data
 		public Decimal(decimal value) :
 			base(value)
 		{ }
+		public Decimal(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Decimal Create(string value)
 		{
 			decimal result;

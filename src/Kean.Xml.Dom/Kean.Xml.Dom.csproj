@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -34,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute.cs" />
@@ -44,12 +46,14 @@
     <Compile Include="Exception\Abstract.cs" />
     <Compile Include="Exception\EndTagUnmatched.cs" />
     <Compile Include="Fragment.cs" />
+    <Compile Include="IWriter.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="ProcessingInstruction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="Writer\Formatting.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Cli.Argument\Kean.Cli.Argument.csproj">

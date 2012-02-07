@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -72,6 +72,8 @@
     <Compile Include="IByteDevice.cs" />
     <Compile Include="IByteOutDevice.cs" />
     <Compile Include="IByteInDevice.cs" />
+    <Compile Include="Text\CharacterOutDevice.cs" />
+    <Compile Include="Text\Writer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

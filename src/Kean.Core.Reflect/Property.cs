@@ -19,10 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Kean.Core;
+using Kean.Core.Extension;
+
 namespace Kean.Core.Reflect
 {
 	public class Property : 
-		Member
+		Member,
+		IComparable<Property>
 	{
 		protected System.Reflection.PropertyInfo Information { get; private set; }
 		public object Data
@@ -52,6 +56,12 @@ namespace Kean.Core.Reflect
 				result = new Property(parent, parentType, information);
 			return result;
 		}
+		#region IComparable<Property> Members
+		Order IComparable<Property>.Compare(Property other)
+		{
+			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
+		}
+		#endregion
 	}
 	public class Property<T> :
 		Property

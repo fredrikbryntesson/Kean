@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public Long(long value) :
 			base(value)
 		{ }
+		public Long(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Long Create(string value)
 		{
 			long result;

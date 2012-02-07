@@ -37,8 +37,7 @@ namespace Kean.Xml.Serialize
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator locator)
 		{
-			Dom.Document document = Dom.Document.Open(locator);
-			return this.Convert(document.Root);
+			return this.Convert(Dom.Document.Open(locator).Root);
 		}
 		Core.Serialize.Data.Node Convert(Dom.Element element)
 		{
@@ -46,11 +45,18 @@ namespace Kean.Xml.Serialize
 		}
 		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator locator)
 		{
-			throw new NotImplementedException();
+			return new Dom.Document() { Root = this.Convert(value) }.Save(locator);
 		}
 		Dom.Element Convert(Core.Serialize.Data.Node element)
 		{
-			return null;
+			Dom.Element result = new Dom.Element(element.Name ?? "node");
+			if (element.Type.NotNull())
+				result.Attributes.Add(new Kean.Xml.Dom.Attribute("type", element.Type));
+			if (element is Core.Serialize.Data.Leaf)
+				result.Add(new Dom.Text((element as Core.Serialize.Data.Leaf).Text));
+			else if (element is Core.Serialize.Data.Branch)
+				(element as Core.Serialize.Data.Branch).Nodes.Apply(e => result.Add(this.Convert(e)));
+			return result;
 		}
 	}
 }

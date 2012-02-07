@@ -24,7 +24,8 @@ using Kean.Core.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Event : 
-		Member
+		Member,
+		IComparable<Event>
 	{
 		protected System.Reflection.EventInfo Information { get; private set; }
 		Event(object parent, Type parentType, System.Reflection.EventInfo information) :
@@ -40,6 +41,12 @@ namespace Kean.Core.Reflect
 		{
 			this.Information.RemoveEventHandler(this.Parent, handler);
 		}
+		#region IComparable<Event> Members
+		Order IComparable<Event>.Compare(Event other)
+		{
+			return this.Name.CompareWith(other.NotNull() ? other.Name : null);
+		}
+		#endregion
 		internal static Event Create(object parent, Type parentType, System.Reflection.EventInfo information)
 		{
 			return information.NotNull() ? new Event(parent, parentType, information) : null;

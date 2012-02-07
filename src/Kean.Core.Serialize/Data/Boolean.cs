@@ -35,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public Boolean(bool value) :
 			base(value)
 		{ }
+		public Boolean(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
 		public static Boolean Create(string value)
 		{
 			Boolean result;

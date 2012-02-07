@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Reflect = Kean.Core.Reflect;
 
 namespace Kean.Core.Serialize.Data
 {
@@ -34,6 +35,9 @@ namespace Kean.Core.Serialize.Data
 		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value); } }
 		public Integer(int value) :
 			base(value)
+		{ }
+		public Integer(object value, Reflect.Type type) :
+			base(value, type)
 		{ }
 		public static Integer Create(string value)
 		{
