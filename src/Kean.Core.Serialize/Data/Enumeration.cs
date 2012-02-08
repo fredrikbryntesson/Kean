@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -53,7 +53,7 @@ namespace Kean.Core.Serialize.Data
 			} 
 		}
 		public Enumeration(object value, Reflect.Type type) :
-			base(value)
+			base(value, type)
 		{
 			this.type = type;
 		}

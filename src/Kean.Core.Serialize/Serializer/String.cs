@@ -34,7 +34,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.String((string)data);
+			return new Data.String(data, type);
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{

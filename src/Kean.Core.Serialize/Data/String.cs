@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -34,6 +34,9 @@ namespace Kean.Core.Serialize.Data
 		public override byte[] Binary { get { return System.Text.Encoding.UTF8.GetBytes(this.Value); } }
 		public String(string value) :
 			base(value)
+		{ }
+		public String(object value, Reflect.Type type) :
+			base(value, type)
 		{ }
 		public static String Create(string value)
 		{

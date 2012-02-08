@@ -64,7 +64,8 @@ namespace Kean.Xml.Serialize.Test
 
 		string Name(Reflect.Type type)
 		{
-			return type.Name.Split('`')[0];
+			string[] splitted = ((string)type).Split(':');
+			return splitted.Length > 1 ? splitted[1] : splitted[0];
 		}
 		string Filename(Reflect.Type type)
 		{

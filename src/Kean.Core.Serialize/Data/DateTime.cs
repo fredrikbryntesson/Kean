@@ -1,10 +1,10 @@
 // 
-//  TimeSpan.cs
+//  DateTime.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -27,25 +27,25 @@ using Kean.Core.Collection.Extension;
 
 namespace Kean.Core.Serialize.Data
 {
-	public class TimeSpan :
-		Leaf<System.TimeSpan>
+	public class DateTime :
+		Leaf<System.DateTime>
 	{
 		public override string Text { get { return this.Value.ToString(); } }
 		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value.Ticks); } }
-		public TimeSpan(System.TimeSpan value) :
+		public DateTime(System.DateTime value) :
 			base(value)
 		{ }
-		public TimeSpan(object value, Reflect.Type type) :
+		public DateTime(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static TimeSpan Create(string value)
+		public static DateTime Create(string value)
 		{
-			System.TimeSpan result;
-			return System.TimeSpan.TryParse(value, out result) ? new TimeSpan(result) : null;
+			System.DateTime result;
+			return System.DateTime.TryParse(value, out result) ? new DateTime(result) : null;
 		}
-		public static TimeSpan Create(byte[] value)
+		public static DateTime Create(byte[] value)
 		{
-			return value.Length == 4 ? new TimeSpan(new System.TimeSpan(BitConverter.ToInt64(value, 0))) : null;
+			return value.Length == 4 ? new DateTime(new System.DateTime(BitConverter.ToInt64(value, 0))) : null;
 		}
 	}
 }
