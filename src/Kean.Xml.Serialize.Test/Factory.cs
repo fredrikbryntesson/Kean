@@ -39,12 +39,11 @@ namespace Kean.Xml.Serialize.Test
 		Serialize.Storage storage;
 		protected void Test(Reflect.Type type)
 		{
-			string filename = this.Filename(type);
+			Uri.Locator filename = this.Filename(type);
+			string resource = "Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
-			//FileAssert.AreEqual(Factory.ReferencePath(type), Factory.Filename(type), "Serializing test \"{0}\" failed.", type.Name);
+			ExpectAsResource(filename.Path.PlattformPath, resource, "Serializing test \"{0}\" failed.", this.Name(type));
 		}
-
-
 		public bool Boolean { get { return true; } }
 		public int Integer { get { return 42; } }
 		public float Float { get { return 13.37f; } }
@@ -67,7 +66,7 @@ namespace Kean.Xml.Serialize.Test
 			string[] splitted = ((string)type).Split(':');
 			return splitted.Length > 1 ? splitted[1] : splitted[0];
 		}
-		string Filename(Reflect.Type type)
+		Uri.Locator Filename(Reflect.Type type)
 		{
 			return Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
 		}

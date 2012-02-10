@@ -71,5 +71,11 @@ namespace Kean.Test
 			fixture.TearDown();
 			Console.WriteLine("done");
 		}
+		public static void ExpectAsResource(string filename, string resource, string message, params object[] arguments)
+		{
+			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
+			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open), 
+				assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.')), message, arguments);
+		}
 	}
 }

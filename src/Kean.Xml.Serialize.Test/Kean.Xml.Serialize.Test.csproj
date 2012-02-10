@@ -92,7 +92,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Xml\" />
+    <EmbeddedResource Include="Xml\Data.Enumerator.xml" />
+    <EmbeddedResource Include="Xml\float.xml" />
+    <EmbeddedResource Include="Xml\int.xml" />
+    <EmbeddedResource Include="Xml\string.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
