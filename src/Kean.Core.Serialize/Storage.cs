@@ -53,7 +53,7 @@ namespace Kean.Core.Serialize
 		{
 			Data.Node data = this.Load(locator);
 			T result = (T)this.Serializer.Deserialize(this, typeof(T), data);
-			if (data.Locator.NotNull())
+			if (data.NotNull() && data.Locator.NotNull())
 				this.Resolver[data.Locator] = result;
 			return result;
 		}

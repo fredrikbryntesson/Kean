@@ -61,7 +61,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			ISerializer serializer = this.Find(data.Type ?? type);
+			ISerializer serializer = data.NotNull() ? this.Find(data.Type ?? type) : null;
 			return  serializer.NotNull() ? serializer.Deserialize(storage, type, data) : null;
 		}
 		#endregion

@@ -35,17 +35,18 @@ namespace Kean.Xml.Serialize
 		public Storage(params Core.Serialize.ISerializer[] serializers) :
 			base(serializers)
 		{ }
-		protected override Core.Serialize.Data.Node Load(Uri.Locator locator)
+		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
-			return this.Convert(Dom.Document.Open(locator).Root);
+			return this.Convert(Dom.Document.Open(resource).Root);
 		}
 		Core.Serialize.Data.Node Convert(Dom.Element element)
 		{
-			return null;
+			Core.Serialize.Data.Node result = null;
+			return result;
 		}
-		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator locator)
+		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator resource)
 		{
-			return new Dom.Document() { Root = this.Convert(value) }.Save(locator);
+			return new Dom.Document() { Root = this.Convert(value) }.Save(resource);
 		}
 		Dom.Element Convert(Core.Serialize.Data.Node element)
 		{

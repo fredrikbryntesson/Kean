@@ -117,6 +117,10 @@ namespace Kean.Xml.Dom
 		{
 			return Document.Open(new Sax.Parser(stream));
 		}
+		public static Document Open(Uri.Locator resource)
+		{
+			return Document.Open(new Sax.Parser(resource));
+		}
 		#endregion
 		#region Object Overrides
 		public override bool Equals(object other)

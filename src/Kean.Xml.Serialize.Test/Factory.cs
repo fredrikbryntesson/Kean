@@ -40,9 +40,10 @@ namespace Kean.Xml.Serialize.Test
 		protected void Test(Reflect.Type type)
 		{
 			Uri.Locator filename = this.Filename(type);
-			string resource = "Xml/" + this.Name(type) + ".xml";
+			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
-			ExpectAsResource(filename.Path.PlattformPath, resource, "Serializing test \"{0}\" failed.", this.Name(type));
+			ExpectAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			object loaded = storage.Load<object>(resource);
 		}
 		public bool Boolean { get { return true; } }
 		public int Integer { get { return 42; } }
@@ -63,8 +64,8 @@ namespace Kean.Xml.Serialize.Test
 
 		string Name(Reflect.Type type)
 		{
-			string[] splitted = ((string)type).Split(':');
-			return splitted.Length > 1 ? splitted[1] : splitted[0];
+			string[] splitted = ((string)type).Split(':', '.');
+			return splitted[splitted.Length - 1];
 		}
 		Uri.Locator Filename(Reflect.Type type)
 		{

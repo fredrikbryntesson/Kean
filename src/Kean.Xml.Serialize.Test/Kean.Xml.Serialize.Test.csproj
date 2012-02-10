@@ -92,7 +92,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Data.Enumerator.xml" />
+    <EmbeddedResource Include="Xml\Enumerator.xml" />
     <EmbeddedResource Include="Xml\float.xml" />
     <EmbeddedResource Include="Xml\int.xml" />
     <EmbeddedResource Include="Xml\string.xml" />
