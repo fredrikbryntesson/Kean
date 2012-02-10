@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -28,8 +29,6 @@ namespace Kean.Core.Serialize.Serializer
 	public class Group :
 		ISerializer
 	{
-		Collection.Dictionary<Reflect.Type, ISerializer> cache = new Collection.Dictionary<Reflect.Type, ISerializer>();
-
 		ISerializer[] serializers;
 		public Group(params ISerializer[] serializers)
 		{
@@ -39,38 +38,20 @@ namespace Kean.Core.Serialize.Serializer
 		public ISerializer Find(Reflect.Type type)
 		{
 			ISerializer result = null;
-			if (cache.Contains(type))
-				result = cache[type];
-			else
-			{
-				MethodAttribute[] attributes;
-				if (type.Category != Reflect.TypeCategory.Primitive && (attributes = type.GetAttributes<MethodAttribute>()).Length == 1)
-					result = attributes[0].Serializer;
-				else
-				{
-					foreach (ISerializer serializer in this.serializers)
-						if ((result = serializer.Find(type)).NotNull())
-							break;
-				}
-				cache[type] = result;
-			}
+			foreach (ISerializer serializer in this.serializers)
+				if ((result = serializer.Find(type)).NotNull())
+					break;
 			return result;
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
 			ISerializer serializer = this.Find(data.Type());
-			Data.Node result = null;
-			if (serializer.NotNull())
-				result = serializer.Serialize(storage, type, data);
-			return result;
+			return serializer.NotNull() ? serializer.Serialize(storage, type, data) : null;
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
 			ISerializer serializer = this.Find(data.Type ?? type);
-			object result = null;
-			if (serializer.NotNull())
-				result = serializer.Deserialize(storage, type, data);
-			return result;
+			return serializer.NotNull() ? serializer.Deserialize(storage, type, data) : null;
 		}
 		#endregion
 	}

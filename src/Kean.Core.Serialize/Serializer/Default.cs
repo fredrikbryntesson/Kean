@@ -30,10 +30,10 @@ namespace Kean.Core.Serialize.Serializer
 	{
 		public Default() :
 			base(
-			new Class(),
 			new SystemTypes(),
 			new StringInterface(),
-			new StringCastable())
+			new StringCastable(),
+			new Class())
 		{ }
 	}
 }

@@ -41,7 +41,7 @@ namespace Kean.Core.Serialize
 		protected Storage(Resolver resolver, ISerializer serializer)
 		{
 			this.Resolver = resolver;
-			this.Serializer = serializer;
+			this.Serializer = new Serializer.Cache(serializer);
 		}
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)

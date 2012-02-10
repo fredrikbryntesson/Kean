@@ -25,8 +25,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Xml.Serialize.Test
 {
-	public class ValueTypes :
-		Factory<ValueTypes>
+	public class SystemTypes :
+		Factory<SystemTypes>
 	{
 		protected override void  Run()
 		{
