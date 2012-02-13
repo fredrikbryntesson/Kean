@@ -32,7 +32,7 @@ namespace Kean.Core.Serialize.Data
 	{
 		Reflect.Type type;
 		public override string Text { get { return this.Value.ToString(); } }
-		public override byte[] Binary 
+		public override byte[] Raw 
 		{ 
 			get 
 			{
@@ -56,26 +56,6 @@ namespace Kean.Core.Serialize.Data
 			base(value, type)
 		{
 			this.type = type;
-		}
-		public static Enumeration Create(string value, Reflect.Type type)
-		{
-			return new Enumeration((Enum)Enum.Parse(type, value), type);
-		}
-		public static Enumeration Create(byte[] value, Reflect.Type type)
-		{
-			Enumeration result = null;
-			switch ((Reflect.Type)Enum.GetUnderlyingType(type))
-			{
-				case "sbyte": if (value.Length == 1) result = new Enumeration((Enum)Enum.ToObject(type, (sbyte)value[0]), type); break;
-				case "byte": if (value.Length == 1) result = new Enumeration((Enum)Enum.ToObject(type, value[0]), type); break;
-				case "short": if (value.Length == 2) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToInt32(value, 0)), type); break;
-				case "ushort": if (value.Length == 2) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToUInt32(value, 0)), type); break;
-				case "int": if (value.Length == 4) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToInt32(value, 0)), type); break;
-				case "uint": if (value.Length == 4) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToUInt32(value, 0)), type); break;
-				case "long": if (value.Length == 8) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToInt64(value, 0)), type); break;
-				case "ulong": if (value.Length == 8) result = new Enumeration((Enum)Enum.ToObject(type, BitConverter.ToUInt64(value, 0)), type); break;
-			}
-			return result;
 		}
 	}
 }

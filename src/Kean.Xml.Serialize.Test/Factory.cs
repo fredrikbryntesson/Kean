@@ -43,7 +43,7 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
 			ExpectAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
-			object loaded = storage.Load<object>(resource);
+			this.Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 		public bool Boolean { get { return true; } }
 		public int Integer { get { return 42; } }
@@ -106,24 +106,24 @@ namespace Kean.Xml.Serialize.Test
 			return result;
 		}
 
-		internal void Verify(object value)
+		internal void Verify(object value, string message, params object[] arguments)
 		{
 			Expect(value, Is.Not.Null);
 			if (value is Data.IData)
-				(value as Data.IData).Verify(this);
+				(value as Data.IData).Verify(this, message, arguments);
 			else
 			{
 				Type type = value.GetType();
 				if (type == typeof(bool))
-					Expect(value, Is.EqualTo(this.Boolean));
+					Expect(value, Is.EqualTo(this.Boolean), message, arguments);
 				else if (type == typeof(int))
-					Expect(value, Is.EqualTo(this.Integer));
+					Expect(value, Is.EqualTo(this.Integer), message, arguments);
 				else if (type == typeof(float))
-					Expect(value, Is.EqualTo(this.Float));
+					Expect(value, Is.EqualTo(this.Float), message, arguments);
 				else if (type == typeof(Data.Enumerator))
-					Expect(value, Is.EqualTo(this.Enumerator));
+					Expect(value, Is.EqualTo(this.Enumerator), message, arguments);
 				else if (type == typeof(string))
-					Expect(value, Is.EqualTo(this.String));
+					Expect(value, Is.EqualTo(this.String), message, arguments);
 			}
 		}
 	}

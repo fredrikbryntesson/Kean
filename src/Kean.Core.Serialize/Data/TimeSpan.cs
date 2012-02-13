@@ -31,7 +31,7 @@ namespace Kean.Core.Serialize.Data
 		Leaf<System.TimeSpan>
 	{
 		public override string Text { get { return this.Value.ToString(); } }
-		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value.Ticks); } }
+		public override byte[] Raw { get { return BitConverter.GetBytes(this.Value.Ticks); } }
 		public TimeSpan(System.TimeSpan value) :
 			base(value)
 		{ }

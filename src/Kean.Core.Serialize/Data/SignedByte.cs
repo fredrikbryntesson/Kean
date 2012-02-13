@@ -31,7 +31,7 @@ namespace Kean.Core.Serialize.Data
 		Leaf<sbyte>
 	{
 		public override string Text { get { return this.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo); } }
-		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value); } }
+		public override byte[] Raw { get { return BitConverter.GetBytes(this.Value); } }
 		public SignedByte(sbyte value) :
 			base(value)
 		{ }

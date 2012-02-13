@@ -1,10 +1,10 @@
 ﻿// 
-//  IData.cs
+//  Binary.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009-2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +19,32 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Kean.Xml.Serialize.Test.Data
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+
+namespace Kean.Core.Serialize.Data
 {
-	public interface IData
+	public class Binary :
+		Leaf<byte[]>
 	{
-		void Initilize(IFactory factory, string name);
-		void Verify(IFactory factory, string message, params object[] arguments);
+		public override string Text { get { return Convert.ToBase64String(this.Value); } }
+		public override byte[] Raw { get { return this.Value; } }
+		public Binary(byte[] value) :
+			base(value)
+		{ }
+		public Binary(object value, Reflect.Type type) :
+			base(value, type)
+		{ }
+		public static Binary Create(string value)
+		{
+			return new Binary(Convert.FromBase64String(value));
+		}
+		public static Binary Create(byte[] value)
+		{
+			return new Binary(value);
+		}
 	}
 }

@@ -31,21 +31,12 @@ namespace Kean.Core.Serialize.Data
 		Leaf<float>
 	{
 		public override string Text { get { return this.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo); } }
-		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value); } }
+		public override byte[] Raw { get { return BitConverter.GetBytes(this.Value); } }
 		public Single(float value) :
 			base(value)
 		{ }
 		public Single(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Single Create(string value)
-		{
-			float result;
-			return float.TryParse(value, out result) ? new Single(result) : null;
-		}
-		public static Single Create(byte[] value)
-		{
-			return value.Length == 4 ? new Single(BitConverter.ToInt32(value, 0)) : null;
-		}
 	}
 }

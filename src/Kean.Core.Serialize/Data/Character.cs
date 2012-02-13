@@ -31,7 +31,7 @@ namespace Kean.Core.Serialize.Data
 		Leaf<char>
 	{
 		public override string Text { get { return this.Value.ToString(); } }
-		public override byte[] Binary { get { return System.Text.Encoding.UTF8.GetBytes(this.Text); } }
+		public override byte[] Raw { get { return System.Text.Encoding.UTF8.GetBytes(this.Text); } }
 		public Character(char value) :
 			base(value)
 		{ }

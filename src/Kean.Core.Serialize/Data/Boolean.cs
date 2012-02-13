@@ -31,7 +31,7 @@ namespace Kean.Core.Serialize.Data
 		Leaf<bool>
 	{
 		public override string Text { get { return this.Value ? "true" : "false"; } }
-		public override byte[] Binary { get { return new byte[] { Convert.ToByte(this.Value) }; } }
+		public override byte[] Raw { get { return new byte[] { Convert.ToByte(this.Value) }; } }
 		public Boolean(bool value) :
 			base(value)
 		{ }

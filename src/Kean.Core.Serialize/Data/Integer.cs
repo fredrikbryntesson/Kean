@@ -32,21 +32,12 @@ namespace Kean.Core.Serialize.Data
 		Leaf<int>
 	{
 		public override string Text { get { return this.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo); } }
-		public override byte[] Binary { get { return BitConverter.GetBytes(this.Value); } }
+		public override byte[] Raw { get { return BitConverter.GetBytes(this.Value); } }
 		public Integer(int value) :
 			base(value)
 		{ }
 		public Integer(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Integer Create(string value)
-		{
-			int result;
-			return int.TryParse(value, out result) ? new Integer(result) : null;
-		}
-		public static Integer Create(byte[] value)
-		{
-			return value.Length == 4 ? new Integer(BitConverter.ToInt32(value, 0)) : null;
-		}
 	}
 }

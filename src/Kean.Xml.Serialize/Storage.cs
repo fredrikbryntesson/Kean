@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -42,6 +42,21 @@ namespace Kean.Xml.Serialize
 		Core.Serialize.Data.Node Convert(Dom.Element element)
 		{
 			Core.Serialize.Data.Node result = null;
+			if (element.All(n => !(n is Dom.Element)))
+			{
+				string value = element.Fold((n, s) => s + (n is Dom.Text ? (n as Dom.Text).Value : n is Dom.Data ? (n as Dom.Data).Value : ""), "");
+				result = new Core.Serialize.Data.String(value) { Name = element.Name };
+			}
+			else
+			{
+				result = new Core.Serialize.Data.Branch() { Name = element.Name };
+				foreach (Dom.Node node in element)
+					if (node is Dom.Element)
+						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));
+			}
+			Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
+			if (type.NotNull())
+				result.Type = type.Value;
 			return result;
 		}
 		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator resource)

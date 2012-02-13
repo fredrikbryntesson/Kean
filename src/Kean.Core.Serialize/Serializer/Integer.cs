@@ -18,7 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -38,7 +40,10 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Integer ? (data as Data.Integer).Value : 0;
+			return data is Data.Integer ? (data as Data.Integer).Value :
+				data is Data.Binary ? BitConverter.ToInt32((data as Data.Binary).Value, 0) :
+				data is Data.String ? int.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
+				0;
 		}
 		#endregion
 	}

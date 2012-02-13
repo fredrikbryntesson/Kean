@@ -33,55 +33,9 @@ namespace Kean.Core.Serialize.Data
 		Node
 	{
 		public abstract string Text { get; }
-		public abstract byte[] Binary { get; }
+		public abstract byte[] Raw { get; }
 		protected Leaf()
 		{ }
-		#region Creators
-		public static Leaf Create(Reflect.Type type, string data)
-		{
-			Leaf result = null;
-			switch (type.Category)
-			{
-				case Reflect.TypeCategory.Enumeration:
-					result = Enumeration.Create(data, type);
-					break;
-				case Reflect.TypeCategory.Structure:
-				case Reflect.TypeCategory.Class:
-				case Reflect.TypeCategory.Primitive:
-					switch (type)
-					{
-						case "bool": result = Boolean.Create(data); break;
-						case "int": result = Integer.Create(data); break;
-						case "byte": result = Byte.Create(data); break;
-						case "char": result = Character.Create(data); break;
-						case "long": result = Long.Create(data); break;
-						case "short": result = Short.Create(data); break;
-						case "uint": result = UnsignedInteger.Create(data); break;
-						case "sbyte": result = SignedByte.Create(data); break;
-						case "ulong": result = UnsignedLong.Create(data); break;
-						case "ushort": result = UnsignedShort.Create(data); break;
-						case "float": result = Single.Create(data); break;
-						case "double": result = Double.Create(data); break;
-						case "decimal": result = Decimal.Create(data); break;
-						case "System.DateTime": result = DateTime.Create(data); break;
-						case "System.TimeSpan": result = TimeSpan.Create(data); break;
-						case "string": result = String.Create(data); break;
-					}
-					break;
-			}
-			return result;
-		}
-		public static Leaf Create(Reflect.Type type, byte[] data)
-		{
-			Leaf result = null;
-			switch (type)
-			{
-				case "bool": result = Boolean.Create(data); break;
-				case "string": result = String.Create(data); break;
-			}
-			return result;
-		}
-		#endregion
 	}
 	public abstract class Leaf<T> :
 		Leaf

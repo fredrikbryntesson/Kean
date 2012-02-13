@@ -31,7 +31,7 @@ namespace Kean.Core.Serialize.Data
 		Leaf<decimal>
 	{
 		public override string Text { get { return this.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo); } }
-		public override byte[] Binary 
+		public override byte[] Raw 
 		{ 
 			get 
 			{

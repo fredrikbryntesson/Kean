@@ -39,7 +39,26 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Enumeration ? (data as Data.Enumeration).Value : Enum.ToObject(type, 0);
+			return data is Data.Enumeration ? (data as Data.Enumeration).Value :
+				data is Data.Binary ? this.Create((data as Data.Binary).Value, data.Type ?? type) :
+				data is Data.String ? Enum.Parse(data.Type ?? type, (data as Data.String).Value) :
+				Enum.ToObject(data.Type ?? type, 0);
+		}
+		object Create(byte[] value, Reflect.Type type)
+		{
+			object result = null;
+			switch ((Reflect.Type)Enum.GetUnderlyingType(type))
+			{
+				case "sbyte": if (value.Length == 1) result = Enum.ToObject(type, (sbyte)value[0]); break;
+				case "byte": if (value.Length == 1) result = Enum.ToObject(type, value[0]); break;
+				case "short": if (value.Length == 2) result = Enum.ToObject(type, BitConverter.ToInt32(value, 0)); break;
+				case "ushort": if (value.Length == 2) result = Enum.ToObject(type, BitConverter.ToUInt32(value, 0)); break;
+				case "int": if (value.Length == 4) result = Enum.ToObject(type, BitConverter.ToInt32(value, 0)); break;
+				case "uint": if (value.Length == 4) result = Enum.ToObject(type, BitConverter.ToUInt32(value, 0)); break;
+				case "long": if (value.Length == 8) result = Enum.ToObject(type, BitConverter.ToInt64(value, 0)); break;
+				case "ulong": if (value.Length == 8) result = Enum.ToObject(type, BitConverter.ToUInt64(value, 0)); break;
+			}
+			return result;
 		}
 		#endregion
 	}
