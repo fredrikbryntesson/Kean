@@ -114,6 +114,9 @@
     <EmbeddedResource Include="Xml\ulong.xml" />
     <EmbeddedResource Include="Xml\ushort.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\DateTimeOffset.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>

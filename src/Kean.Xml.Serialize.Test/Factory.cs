@@ -60,6 +60,7 @@ namespace Kean.Xml.Serialize.Test
 		char Character { get { return 'k'; } }
 		string String { get { return "This is Kean."; } }
 		DateTime DateTime { get { return new DateTime(2111, 11, 11, 11, 11, 11, 111); } }
+		DateTimeOffset DateTimeOffset { get { return new DateTimeOffset(this.DateTime, new TimeSpan(13, 37, 00)); } }
 		TimeSpan TimeSpan { get { return new TimeSpan(1337, 11, 11, 11, 111); } }
 		bool Boolean { get { return true; } }
 		Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
@@ -134,6 +135,8 @@ namespace Kean.Xml.Serialize.Test
 				result = this.String;
 			else if (type == typeof(DateTime))
 				result = this.DateTime;
+			else if (type == typeof(DateTimeOffset))
+				result = this.DateTimeOffset;
 			else if (type == typeof(TimeSpan))
 				result = this.TimeSpan;
 			else if (type == typeof(bool))
@@ -187,6 +190,8 @@ namespace Kean.Xml.Serialize.Test
 					Expect(value, Is.EqualTo(this.String), message, arguments);
 				else if (type == typeof(DateTime))
 					Expect(value, Is.EqualTo(this.DateTime), message, arguments);
+				else if (type == typeof(DateTimeOffset))
+					Expect(value, Is.EqualTo(this.DateTimeOffset), message, arguments);
 				else if (type == typeof(TimeSpan))
 					Expect(value, Is.EqualTo(this.TimeSpan), message, arguments);
 				else if (type == typeof(bool))

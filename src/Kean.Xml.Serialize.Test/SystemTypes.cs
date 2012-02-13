@@ -45,6 +45,7 @@ namespace Kean.Xml.Serialize.Test
 				this.Char,
 				this.String,
 				this.DateTime,
+				this.DateTimeOffset,
 				this.TimeSpan,
 				this.Boolean,
 				this.Enumerator
@@ -82,6 +83,8 @@ namespace Kean.Xml.Serialize.Test
 
 		[Test]
 		public void DateTime() { this.Test(typeof(DateTime)); }
+		[Test]
+		public void DateTimeOffset() { this.Test(typeof(DateTimeOffset)); }
 		[Test]
 		public void TimeSpan() { this.Test(typeof(TimeSpan)); }
 

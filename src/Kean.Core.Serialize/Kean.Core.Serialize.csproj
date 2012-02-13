@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Binary.cs" />
+    <Compile Include="Data\DateTimeOffset.cs" />
     <Compile Include="DictionaryAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Boolean.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Serializer\Boolean.cs" />
     <Compile Include="Serializer\Cache.cs" />
     <Compile Include="Serializer\Character.cs" />
+    <Compile Include="Serializer\DateTimeOffset.cs" />
     <Compile Include="Serializer\Decimal.cs" />
     <Compile Include="Serializer\Default.cs" />
     <Compile Include="Serializer\SystemTypes.cs" />

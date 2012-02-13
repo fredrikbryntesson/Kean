@@ -1,10 +1,10 @@
-﻿// 
-//  System.cs
+// 
+//  DateTimeOffset.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,23 +18,34 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Serialize.Data
 {
-	public class SystemTypes :
-		Group
+	public class DateTimeOffset :
+		Leaf<System.DateTimeOffset>
 	{
-		public SystemTypes() :
-			base(
-			new PrimitiveTypes(),
-			new String(),
-			new Enumeration(),
-			new DateTime(),
-			new DateTimeOffset(),
-			new TimeSpan())
+		public override string Text { get { return this.Value.ToString("o"); } }
+		public override byte[] Raw 
+		{ 
+			get 
+			{ 
+				byte[] result = new byte[16];
+				Array.Copy(BitConverter.GetBytes(this.Value.DateTime.Ticks), result, 8);
+				Array.Copy(BitConverter.GetBytes(this.Value.Offset.Ticks), 0, result, 8, 8);
+				return result; 
+			} 
+		}
+		public DateTimeOffset(System.DateTime value) :
+			base(value)
+		{ }
+		public DateTimeOffset(object value, Reflect.Type type) :
+			base(value, type)
 		{ }
 	}
 }
