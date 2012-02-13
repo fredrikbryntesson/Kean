@@ -33,6 +33,7 @@ namespace Kean.Math.Regression.Ransac
         Domain[] domain;
         Range[] range;
         Random.IInterval<int> random;
+        bool[] mask;
         double confidence;
         public Estimator(Model<Domain, Range, Transform> model, int maximumIterations) : this(model, maximumIterations, 0.99) { }
         public Estimator(Model<Domain, Range, Transform> model, int maximumIterations, double confidence)
@@ -56,15 +57,39 @@ namespace Kean.Math.Regression.Ransac
         }
         public void Load(Domain[] domain, Range[] range)
         {
-            if (domain.Length != range.Length)
-                throw new Exception.InputData();
-            this.domain = domain;
-            this.range = range;
+            this.Load(domain, range, null);
+        }
+        public void Load(Domain[] domain, Range[] range, bool[] mask)
+        {
+            this.mask = mask;
+            if (this.mask.IsNull())
+            {
+                this.domain = domain;
+                this.range = range;
+            }
+            else
+            {
+                int count = 0;
+                mask.Apply(b => count += b ? 1 : 0);
+                this.domain = new Domain[count];
+                this.range = new Range[count];
+                int i = 0, j = 0;
+                mask.Apply(b =>
+                {
+                    if (b)
+                    {
+                        this.domain[i] = domain[j];
+                        this.range[i++] = range[j];
+                    }
+                    j++;
+                });
+            }
         }
         public void Reset()
         {
             this.domain = null;
             this.range = null;
+            this.mask = null;
         }
         public Estimation<Domain, Range, Transform> Compute()
         {
@@ -75,7 +100,6 @@ namespace Kean.Math.Regression.Ransac
             {
                 int iterations = this.maximumIterations;
                 bool[] bestMask = null;
-                Transform bestModel = default(Transform);
                 int maximumInliers = 0;
                 //Console.WriteLine();
                 for (int d = 0; d < iterations; d++)
@@ -116,7 +140,19 @@ namespace Kean.Math.Regression.Ransac
                             subDomain[k] = this.domain[i];
                             subRange[k++] = this.range[i];
                         }
-                    result = new Estimation<Domain, Range, Transform>(subDomain, subRange, this.model.Estimate(subDomain, subRange));
+                    bool[] totalMask = null;
+                    if (this.mask.NotNull())
+                    {
+                        totalMask = new bool[this.mask.Length];
+                        int i = 0, j = 0; 
+                        this.mask.Apply(b =>
+                        {
+                            if (b && bestMask[i++])
+                                totalMask[j] = true;
+                            j++;
+                        });
+                    }
+                    result = new Estimation<Domain, Range, Transform>(subDomain, subRange, this.model.Estimate(subDomain, subRange), totalMask);
                 }
             }
             return result;

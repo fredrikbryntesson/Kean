@@ -28,13 +28,15 @@ namespace Kean.Math.Regression.Ransac
     {
         public Domain[] InlierDomain { get; private set; }
         public Range[] InlierRange { get; private set; }
-        public Transform Mapping { get; set; }
+        public Transform Mapping { get; private set; }
+        public bool[] Mask { get; private set; }
         public int Count { get { return this.InlierDomain.Length; } }
-        public Estimation(Domain[] inlierDomain, Range[] inlierRange, Transform mapping)
+        public Estimation(Domain[] inlierDomain, Range[] inlierRange, Transform mapping, bool[] mask)
         {
             this.InlierDomain = inlierDomain;
             this.InlierRange = inlierRange;
             this.Mapping = mapping;
+            this.Mask = mask;
         }
         public override string ToString()
         {

@@ -5,6 +5,7 @@ using Kean.Core.Extension;
 using Target = Kean.Math.Regression.Ransac;
 using Geometry2D = Kean.Math.Geometry2D;
 using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
 namespace Kean.Math.Regression.Test.Ransac
 {
@@ -50,37 +51,47 @@ namespace Kean.Math.Regression.Test.Ransac
                     result = a.Solve(b) ?? new Kean.Math.Matrix.Single(1, degree);
                     return result;
                 },
-                FitModel = (transform, domain, range) => Kean.Math.Double.Absolute(map(transform, domain) - range) < 80, 
+                FitModel = (transform, domain, range) => Kean.Math.Double.Absolute(map(transform, domain) - range) < 80,
             };
             Target.Estimator<float, float, Matrix.Single> estimate =
                 new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 2000, 0.95);
-            Collection.IList<Kean.Core.Tuple<float, float>> points =
-                new Collection.List<Kean.Core.Tuple<float, float>>();
             Kean.Math.Matrix.Single coefficients = new Kean.Math.Matrix.Single(1, degree, new float[] { 20, 10 });
             Kean.Math.Random.Single.Normal generator = new Kean.Math.Random.Single.Normal(0, 30);
-            Kean.Math.Random.Single.Normal large = new Kean.Math.Random.Single.Normal(0, 200);
-            
-            for (int x = 0; x < 200; x++)
+            Kean.Math.Random.Single.Normal large = new Kean.Math.Random.Single.Normal(0, 500);
+
+            int count = 200;
+            float[] d = new float[count];
+            float[] r = new float[count];
+            bool[] mask = new bool[count];
+            for (int i = 0; i < count; i++)
             {
-                float y = map(coefficients, x) + generator.Generate();
-                if (x % 5 == 0)
-                    y += large.Generate();
-                points.Add(Kean.Core.Tuple.Create<float, float>(x, y));
+                mask[i] = i < 50 || i > 100;
+                d[i] = i;
+                r[i] = map(coefficients, d[i]) + generator.Generate();
+                if (i % 5 == 0)
+                    r[i] += large.Generate();
             }
-            estimate.Load(points);
+
+            estimate.Load(d, r, mask);
             Target.Estimation<float, float, Matrix.Single> best = estimate.Compute();
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
                 file.WriteLine("clear all;");
                 file.WriteLine("close all;");
-                string pointsExport = "";
-                foreach (Kean.Core.Tuple<float, float> point in points)
-                    pointsExport += Kean.Math.Single.ToString(point.Item1) + " " + Kean.Math.Single.ToString(point.Item2) + ";";
-                pointsExport = pointsExport.TrimEnd(';');
-                file.WriteLine("points = [" + pointsExport + "];");
+                string maskedPointsExport = "";
+                for (int i = 0; i < count; i++)
+                    if (best.Mask[i])
+                        maskedPointsExport += Kean.Math.Single.ToString(d[i]) + " " + Kean.Math.Single.ToString(r[i]) + ";";
+                maskedPointsExport = maskedPointsExport.TrimEnd(';');
+                string nonMaskedPointsExport = "";
+                for (int i = 0; i < count; i++)
+                    nonMaskedPointsExport += Kean.Math.Single.ToString(d[i]) + " " + Kean.Math.Single.ToString(r[i]) + ";";
+                nonMaskedPointsExport = nonMaskedPointsExport.TrimEnd(';');
+                file.WriteLine("maskedpoints = [" + maskedPointsExport + "];");
+                file.WriteLine("nonmaskedpoints = [" + nonMaskedPointsExport + "];");
                 string consensusExport = "";
-                for(int i = 0; i < best.Count; i++)
+                for (int i = 0; i < best.Count; i++)
                     consensusExport += Kean.Math.Single.ToString(best.InlierDomain[i]) + " " + Kean.Math.Single.ToString(best.InlierRange[i]) + ";";
                 consensusExport = consensusExport.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensusExport + "];");
@@ -90,7 +101,8 @@ namespace Kean.Math.Regression.Test.Ransac
                     bestModelExport += Kean.Math.Single.ToString(best.Mapping[0, y]) + ";";
                 bestModelExport = bestModelExport.TrimEnd(';');
                 file.WriteLine("bestModel = [" + bestModelExport + "];");
-                file.WriteLine("scatter(points(:,1), points(:,2),'b');");
+                file.WriteLine("scatter(maskedpoints(:,1), maskedpoints(:,2),'b');");
+                file.WriteLine("scatter(nonmaskedpoints(:,1), nonmaskedpoints(:,2),'k');");
 
                 string correctModelExport = "";
                 for (int y = 0; y < degree; y++)
@@ -100,8 +112,8 @@ namespace Kean.Math.Regression.Test.Ransac
 
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(consensus(:,1), consensus(:,2),'r');");
-                file.WriteLine("plot(points(:,1), polyval(fliplr(correctModel'),points(:,1)), 'r');");
-                file.WriteLine("plot(points(:,1), polyval(fliplr(bestModel'),points(:,1)), 'g');");
+                file.WriteLine("plot(nonmaskedpoints(:,1), polyval(fliplr(correctModel'),nonmaskedpoints(:,1)), 'r');");
+                file.WriteLine("plot(nonmaskedpoints(:,1), polyval(fliplr(bestModel'),nonmaskedpoints(:,1)), 'g');");
                 file.Close();
                 int n = best.Count;
                 Matrix.Single a = new Matrix.Single(degree, n);
@@ -117,10 +129,10 @@ namespace Kean.Math.Regression.Test.Ransac
                 for (int i = 0; i < degree; i++)
                     guess[0, i] = 1;
                 guess = best.Mapping;
-                Kean.Math.Matrix.Single refine = this.Estimate(a, b, guess);   
-                
+                Kean.Math.Matrix.Single refine = this.Estimate(a, b, guess);
+
             }
-            
+
         }
         Kean.Math.Matrix.Single Estimate(Kean.Math.Matrix.Single a, Kean.Math.Matrix.Single b, Kean.Math.Matrix.Single guess)
         {
@@ -163,7 +175,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 FitModel = (tranform, domain, range) => map(tranform, domain).Distance(range) < 8,
             };
             Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> estimate =
-                new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>(model, 20,0.999);
+                new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>(model, 20, 0.999);
             Collection.IList<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
                 new Collection.List<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
             float s = 2;
@@ -211,14 +223,14 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
                 string consensus = "";
-                for (int i = 0; i< best.Count; i++)
+                for (int i = 0; i < best.Count; i++)
                     consensus += best.InlierRange[i].ToString() + "; ";
                 consensus = consensus.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensus + "];");
                 file.WriteLine("scatter(consensus(:,1),consensus(:,2),'g');");
                 file.WriteLine("bestmodel = [" + best.Mapping + "];");
                 file.Close();
-       
+
                 int count = best.Count;
                 Func<Kean.Math.Matrix.Single, Kean.Math.Matrix.Single> f = beta =>
                 {
@@ -269,7 +281,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 Kean.Math.Matrix.Single estimation = lm.Estimate(guess);
                 */
             }
-            
+
 
         }
         [Test]
@@ -313,7 +325,7 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(107, 107), new Geometry2D.Single.PointValue(120, 130)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> best = estimate.Compute();
-            if(best.NotNull())
+            if (best.NotNull())
                 Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression.0");
             /*
             if (best.NotNull())
@@ -347,5 +359,5 @@ namespace Kean.Math.Regression.Test.Ransac
             }
             */
         }
-     }
+    }
 }
