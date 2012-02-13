@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public TimeSpan(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static TimeSpan Create(string value)
-		{
-			System.TimeSpan result;
-			return System.TimeSpan.TryParse(value, out result) ? new TimeSpan(result) : null;
-		}
-		public static TimeSpan Create(byte[] value)
-		{
-			return value.Length == 4 ? new TimeSpan(new System.TimeSpan(BitConverter.ToInt64(value, 0))) : null;
-		}
 	}
 }

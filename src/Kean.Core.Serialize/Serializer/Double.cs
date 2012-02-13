@@ -38,7 +38,10 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.Double ? (data as Data.Double).Value : 0;
+			return data is Data.Double ? (data as Data.Double).Value :
+				data is Data.Binary ? BitConverter.ToDouble((data as Data.Binary).Value, 0) :
+				data is Data.String ? double.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
+				0;
 		}
 		#endregion
 	}

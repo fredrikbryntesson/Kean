@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Byte(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Byte Create(string value)
-		{
-			byte result;
-			return byte.TryParse(value, out result) ? new Byte(result) : null;
-		}
-		public static Byte Create(byte[] value)
-		{
-			return value.Length == 1 ? new Byte(value[0]) : null;
-		}
 	}
 }

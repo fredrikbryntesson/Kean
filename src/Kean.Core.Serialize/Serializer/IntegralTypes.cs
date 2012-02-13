@@ -34,6 +34,7 @@ namespace Kean.Core.Serialize.Serializer
 			new Byte(),
 			new Long(),
 			new Short(),
+			new UnsignedShort(),
 			new UnsignedInteger(),
 			new SignedByte(),
 			new UnsignedLong(),

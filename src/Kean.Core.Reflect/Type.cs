@@ -140,7 +140,7 @@ namespace Kean.Core.Reflect
 				case "sbyte": this.Name = "System.SByte"; break;
 				case "char": this.Name = "System.Char";	break;
 				case "short": this.Name = "System.Int16"; break;
-				case "ushort": this.Name = "System.Uint16";	break;
+				case "ushort": this.Name = "System.UInt16";	break;
 				case "int":	this.Name = "System.Int32";	break;
 				case "uint": this.Name = "System.UInt32"; break;
 				case "long": this.Name = "System.Int64"; break;
@@ -306,7 +306,7 @@ namespace Kean.Core.Reflect
 			case "System.Char":	result = "char"; break;
 			case "System.Decimal": result = "decimal"; break;
 			case "System.Int16": result = "short"; break;
-			case "System.Uint16": result = "ushort"; break;
+			case "System.UInt16": result = "ushort"; break;
 			case "System.Int32": result = "int"; break;
 			case "System.UInt32": result = "uint"; break;
 			case "System.Int64": result = "long"; break;
@@ -333,7 +333,7 @@ namespace Kean.Core.Reflect
 				}
 				//if (value.Parent.NotNull())
 				//    resultBuilder = new System.Text.StringBuilder(value.Parent).Append("+").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
-				else if (value.Name.StartsWith(value.Assembly))
+				else if (value.Assembly.NotEmpty() && value.Name.StartsWith(value.Assembly))
 					resultBuilder = new System.Text.StringBuilder(value.Assembly).Append(":").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
 				else
 				{

@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Short(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Short Create(string value)
-		{
-			short result;
-			return short.TryParse(value, out result) ? new Short(result) : null;
-		}
-		public static Short Create(byte[] value)
-		{
-			return value.Length == 2 ? new Short(BitConverter.ToInt16(value, 0)) : null;
-		}
 	}
 }

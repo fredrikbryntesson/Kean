@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public UnsignedLong(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static UnsignedLong Create(string value)
-		{
-			ulong result;
-			return ulong.TryParse(value, out result) ? new UnsignedLong(result) : null;
-		}
-		public static UnsignedLong Create(byte[] value)
-		{
-			return value.Length == 4 ? new UnsignedLong(BitConverter.ToUInt64(value, 0)) : null;
-		}
 	}
 }

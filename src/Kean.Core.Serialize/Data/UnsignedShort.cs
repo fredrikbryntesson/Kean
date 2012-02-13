@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public UnsignedShort(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static UnsignedShort Create(string value)
-		{
-			ushort result;
-			return ushort.TryParse(value, out result) ? new UnsignedShort(result) : null;
-		}
-		public static UnsignedShort Create(byte[] value)
-		{
-			return value.Length == 4 ? new UnsignedShort(BitConverter.ToUInt16(value, 0)) : null;
-		}
 	}
 }

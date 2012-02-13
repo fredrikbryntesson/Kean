@@ -30,7 +30,7 @@ namespace Kean.Core.Serialize.Serializer
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
-			return type == "DateTime" ? this : null;
+			return type == "System.DateTime" ? this : null;
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
@@ -38,7 +38,10 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.DateTime ? (data as Data.DateTime).Value : new System.DateTime();
+			return data is Data.DateTime ? (data as Data.DateTime).Value :
+				data is Data.Binary ? new System.DateTime(BitConverter.ToInt64((data as Data.Binary).Value, 0)) :
+				data is Data.String ? System.DateTime.Parse((data as Data.String).Value) :
+				new System.DateTime();
 		}
 		#endregion
 	}

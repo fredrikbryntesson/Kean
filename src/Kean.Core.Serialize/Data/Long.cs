@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Long(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Long Create(string value)
-		{
-			long result;
-			return long.TryParse(value, out result) ? new Long(result) : null;
-		}
-		public static Long Create(byte[] value)
-		{
-			return value.Length == 8 ? new Long(BitConverter.ToInt64(value, 0)) : null;
-		}
 	}
 }

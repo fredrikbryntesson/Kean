@@ -38,13 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public String(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static String Create(string value)
-		{
-			return new String(value);
-		}
-		public static String Create(byte[] value)
-		{
-			return new String(System.Text.Encoding.UTF8.GetString(value));
-		}
 	}
 }

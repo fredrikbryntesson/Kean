@@ -29,7 +29,7 @@ namespace Kean.Core.Reflect.Extension
 		#region Get Type
 		public static Type Type(this object me)
 		{
-			return me.GetType();
+			return me.NotNull() ? me.GetType() : null;
 		}
 		#endregion
 		#region Get/Set Properties

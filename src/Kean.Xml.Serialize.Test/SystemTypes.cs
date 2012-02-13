@@ -1,5 +1,5 @@
 ﻿// 
-//  ValueTypes.cs
+//  SystemTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -31,32 +31,63 @@ namespace Kean.Xml.Serialize.Test
 		protected override void  Run()
 		{
 			this.Run(
+				this.Byte,
+				this.SignedByte,
+				this.Short,
+				this.UnsignedShort,
 				this.Integer,
+				this.UnsignedInteger,
+				this.Long,
+				this.UnsignedLong,
 				this.Single,
+				this.Double,
+				this.Decimal,
+				this.Char,
 				this.String,
+				this.DateTime,
+				this.TimeSpan,
+				this.Boolean,
 				this.Enumerator
 				);
 		}
 
+		[Test] 
+		public void Byte() { this.Test(typeof(byte)); }
+		[Test] 
+		public void SignedByte() { this.Test(typeof(sbyte)); }
+		[Test] 
+		public void Short() { this.Test(typeof(short)); }
+		[Test] 
+		public void UnsignedShort() { this.Test(typeof(ushort)); }
 		[Test]
-		public void Integer()
-		{
-			this.Test(typeof(int));
-		}
+		public void Integer() { this.Test(typeof(int)); }
 		[Test]
-		public void Single()
-		{
-			this.Test(typeof(float));
-		}
+		public void UnsignedInteger() { this.Test(typeof(uint)); }
 		[Test]
-		public void String()
-		{
-			this.Test(typeof(string));
-		}
+		public void Long() { this.Test(typeof(long)); }
 		[Test]
-		public void Enumerator()
-		{
-			this.Test(typeof(Data.Enumerator));
-		}
+		public void UnsignedLong() { this.Test(typeof(ulong)); }
+
+		[Test] 
+		public void Single() { this.Test(typeof(float)); }
+		[Test]
+		public void Double() { this.Test(typeof(double)); }
+		[Test]
+		public void Decimal() { this.Test(typeof(decimal)); }
+
+		[Test] 
+		public void Char() { this.Test(typeof(char)); }
+		[Test] 
+		public void String() { this.Test(typeof(string)); }
+
+		[Test]
+		public void DateTime() { this.Test(typeof(DateTime)); }
+		[Test]
+		public void TimeSpan() { this.Test(typeof(TimeSpan)); }
+
+		[Test]
+		public void Boolean() { this.Test(typeof(bool)); }
+		[Test] 
+		public void Enumerator() { this.Test(typeof(Data.Enumerator)); }
 	}
 }

@@ -30,7 +30,7 @@ namespace Kean.Core.Serialize.Data
 	public class DateTime :
 		Leaf<System.DateTime>
 	{
-		public override string Text { get { return this.Value.ToString(); } }
+		public override string Text { get { return this.Value.ToString("o"); } }
 		public override byte[] Raw { get { return BitConverter.GetBytes(this.Value.Ticks); } }
 		public DateTime(System.DateTime value) :
 			base(value)
@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public DateTime(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static DateTime Create(string value)
-		{
-			System.DateTime result;
-			return System.DateTime.TryParse(value, out result) ? new DateTime(result) : null;
-		}
-		public static DateTime Create(byte[] value)
-		{
-			return value.Length == 4 ? new DateTime(new System.DateTime(BitConverter.ToInt64(value, 0))) : null;
-		}
 	}
 }

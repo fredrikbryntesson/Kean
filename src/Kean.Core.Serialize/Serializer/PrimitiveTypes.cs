@@ -32,7 +32,8 @@ namespace Kean.Core.Serialize.Serializer
 			new IntegralTypes(),
 			new Single(),
 			new Double(),
-			new Decimal())
+			new Decimal(),
+			new Boolean())
 		{ }
 	}
 }

@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Double(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Double Create(string value)
-		{
-			double result;
-			return double.TryParse(value, out result) ? new Double(result) : null;
-		}
-		public static Double Create(byte[] value)
-		{
-			return value.Length == 8 ? new Double(BitConverter.ToDouble(value, 0)) : null;
-		}
 	}
 }

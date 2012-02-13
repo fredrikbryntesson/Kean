@@ -43,13 +43,26 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
 			ExpectAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
-			this.Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
+			Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
-		public bool Boolean { get { return true; } }
-		public int Integer { get { return 42; } }
-		public float Float { get { return 13.37f; } }
-		public Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
-		public string String { get { return "This is Kean."; } }
+
+		byte Byte { get { return 42; } }
+		sbyte SignedByte { get { return -42; } }
+		short Short { get { return -1337; } }
+		ushort UnsignedShort { get { return 1337; } }
+		int Integer { get { return -1337; } }
+		uint UnsignedInteger { get { return 1337; } }
+		long Long { get { return -1337; } }
+		ulong UnsignedLong { get { return 1337; } }
+		float Single { get { return -13.37f; } }
+		double Double { get { return -13.37; } }
+		decimal Decimal { get { return -13.37m; } }
+		char Character { get { return 'k'; } }
+		string String { get { return "This is Kean."; } }
+		DateTime DateTime { get { return new DateTime(2111, 11, 11, 11, 11, 11, 111); } }
+		TimeSpan TimeSpan { get { return new TimeSpan(1337, 11, 11, 11, 111); } }
+		bool Boolean { get { return true; } }
+		Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
 
 		int identifierCounter;
 
@@ -58,7 +71,7 @@ namespace Kean.Xml.Serialize.Test
 		}
 		public override void Setup()
 		{
-			this.storage = new Storage(new Core.Serialize.Serializer.Default());
+	storage = new Storage(new Core.Serialize.Serializer.Default());
 			base.Setup();
 		}
 
@@ -93,20 +106,44 @@ namespace Kean.Xml.Serialize.Test
 				result = type.Create();
 				(result as Data.IData).Initilize(this, type.Name + this.identifierCounter++);
 			}
-			else if (type == typeof(bool))
-				result = this.Boolean;
+			else if (type == typeof(byte))
+				result = this.Byte;
+			else if (type == typeof(sbyte))
+				result = this.SignedByte;
+			else if (type == typeof(short))
+				result = this.Short;
+			else if (type == typeof(ushort))
+				result = this.UnsignedShort;
 			else if (type == typeof(int))
 				result = this.Integer;
+			else if (type == typeof(uint))
+				result = this.UnsignedInteger;
+			else if (type == typeof(long))
+				result = this.Long;
+			else if (type == typeof(ulong))
+				result = this.UnsignedLong;
 			else if (type == typeof(float))
-				result = this.Float;
-			else if (type == typeof(Data.Enumerator))
-				result = this.Enumerator;
+				result = this.Single;
+			else if (type == typeof(double))
+				result = this.Double;
+			else if (type == typeof(decimal))
+				result = this.Decimal;
+			else if (type == typeof(char))
+				result = this.Character;
 			else if (type == typeof(string))
 				result = this.String;
+			else if (type == typeof(DateTime))
+				result = this.DateTime;
+			else if (type == typeof(TimeSpan))
+				result = this.TimeSpan;
+			else if (type == typeof(bool))
+				result = this.Boolean;
+			else if (type == typeof(Data.Enumerator))
+				result = this.Enumerator;
 			return result;
 		}
 
-		internal void Verify(object value, string message, params object[] arguments)
+		public void Verify(object value, string message, params object[] arguments)
 		{
 			Expect(value, Is.Not.Null);
 			if (value is Data.IData)
@@ -119,11 +156,43 @@ namespace Kean.Xml.Serialize.Test
 				else if (type == typeof(int))
 					Expect(value, Is.EqualTo(this.Integer), message, arguments);
 				else if (type == typeof(float))
-					Expect(value, Is.EqualTo(this.Float), message, arguments);
+					Expect(value, Is.EqualTo(this.Single), message, arguments);
 				else if (type == typeof(Data.Enumerator))
 					Expect(value, Is.EqualTo(this.Enumerator), message, arguments);
 				else if (type == typeof(string))
 					Expect(value, Is.EqualTo(this.String), message, arguments);
+				else if (type == typeof(byte))
+					Expect(value, Is.EqualTo(this.Byte), message, arguments);
+				else if (type == typeof(short))
+					Expect(value, Is.EqualTo(this.Short), message, arguments);
+				else if (type == typeof(ushort))
+					Expect(value, Is.EqualTo(this.UnsignedShort), message, arguments);
+				else if (type == typeof(int))
+					Expect(value, Is.EqualTo(this.Integer), message, arguments);
+				else if (type == typeof(uint))
+					Expect(value, Is.EqualTo(this.UnsignedInteger), message, arguments);
+				else if (type == typeof(long))
+					Expect(value, Is.EqualTo(this.Long), message, arguments);
+				else if (type == typeof(ulong))
+					Expect(value, Is.EqualTo(this.UnsignedLong), message, arguments);
+				else if (type == typeof(float))
+					Expect(value, Is.EqualTo(this.Single), message, arguments);
+				else if (type == typeof(double))
+					Expect(value, Is.EqualTo(this.Double), message, arguments);
+				else if (type == typeof(decimal))
+					Expect(value, Is.EqualTo(this.Decimal), message, arguments);
+				else if (type == typeof(char))
+					Expect(value, Is.EqualTo(this.Character), message, arguments);
+				else if (type == typeof(string))
+					Expect(value, Is.EqualTo(this.String), message, arguments);
+				else if (type == typeof(DateTime))
+					Expect(value, Is.EqualTo(this.DateTime), message, arguments);
+				else if (type == typeof(TimeSpan))
+					Expect(value, Is.EqualTo(this.TimeSpan), message, arguments);
+				else if (type == typeof(bool))
+					Expect(value, Is.EqualTo(this.Boolean), message, arguments);
+				else if (type == typeof(Data.Enumerator))
+					Expect(value, Is.EqualTo(this.Enumerator), message, arguments);
 			}
 		}
 	}

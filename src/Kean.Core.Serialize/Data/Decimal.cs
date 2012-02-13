@@ -49,14 +49,5 @@ namespace Kean.Core.Serialize.Data
 		public Decimal(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Decimal Create(string value)
-		{
-			decimal result;
-			return decimal.TryParse(value, out result) ? new Decimal(result) : null;
-		}
-		public static Decimal Create(byte[] value)
-		{
-			return value.Length == 16 ? new Decimal(new decimal(new int[] { BitConverter.ToInt32(value, 0), BitConverter.ToInt32(value, 4), BitConverter.ToInt32(value, 8), BitConverter.ToInt32(value, 12)})) : null;
-		}
 	}
 }

@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public UnsignedInteger(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static UnsignedInteger Create(string value)
-		{
-			uint result;
-			return uint.TryParse(value, out result) ? new UnsignedInteger(result) : null;
-		}
-		public static UnsignedInteger Create(byte[] value)
-		{
-			return value.Length == 4 ? new UnsignedInteger(BitConverter.ToUInt32(value, 0)) : null;
-		}
 	}
 }

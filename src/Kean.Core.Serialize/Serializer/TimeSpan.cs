@@ -30,7 +30,7 @@ namespace Kean.Core.Serialize.Serializer
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
-			return type == "TimeSpan" ? this : null;
+			return type == "System.TimeSpan" ? this : null;
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
@@ -38,7 +38,10 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.TimeSpan ? (data as Data.Leaf<System.TimeSpan>).Value : new System.TimeSpan();
+			return data is Data.TimeSpan ? (data as Data.TimeSpan).Value :
+				data is Data.Binary ? new System.TimeSpan(BitConverter.ToInt64((data as Data.Binary).Value, 0)) :
+				data is Data.String ? System.TimeSpan.Parse((data as Data.String).Value) :
+				new System.TimeSpan();
 		}
 		#endregion
 	}

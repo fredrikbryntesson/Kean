@@ -38,15 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Character(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Character Create(string value)
-		{
-			char result;
-			return char.TryParse(value, out result) ? new Character(result) : null;
-		}
-		public static Character Create(byte[] value)
-		{
-			string result = System.Text.Encoding.UTF8.GetString(value);
-			return result.NotEmpty() && result.Length == 1 ? new Character(result[0]) : null;
-		}
 	}
 }

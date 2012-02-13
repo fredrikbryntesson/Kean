@@ -38,7 +38,10 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
 		{
-			return data is Data.UnsignedShort ? (data as Data.UnsignedShort).Value : (ushort)0;
+			return data is Data.UnsignedShort ? (data as Data.UnsignedShort).Value :
+				data is Data.Binary ? BitConverter.ToUInt16((data as Data.Binary).Value, 0) :
+				data is Data.String ? ushort.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
+				(ushort)0;
 		}
 		#endregion
 	}

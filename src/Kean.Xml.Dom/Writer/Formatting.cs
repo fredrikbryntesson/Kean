@@ -111,11 +111,11 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(Element element)
 		{
-			return this.Write("<") && this.Write(element.Name) && 
+			return element.IsNull() || (this.Write("<") && this.Write(element.Name) && 
 				element.Attributes.Fold((attribute, result) => result && this.Write(attribute), true) &&
 				element.Count > 0 ? 
 				this.WriteLine(">") && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
-				this.WriteLine(" />");
+				this.WriteLine(" />"));
 		}
 		public bool Write(ProcessingInstruction processingInstruction)
 		{

@@ -38,14 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public SignedByte(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static SignedByte Create(string value)
-		{
-			sbyte result;
-			return sbyte.TryParse(value, out result) ? new SignedByte(result) : null;
-		}
-		public static SignedByte Create(byte[] value)
-		{
-			return value.Length == 1 ? new SignedByte(unchecked((sbyte)value[0])) : null;
-		}
 	}
 }

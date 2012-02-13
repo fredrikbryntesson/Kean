@@ -97,6 +97,23 @@
     <EmbeddedResource Include="Xml\int.xml" />
     <EmbeddedResource Include="Xml\string.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\byte.xml" />
+    <EmbeddedResource Include="Xml\sbyte.xml" />
+    <EmbeddedResource Include="Xml\short.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\bool.xml" />
+    <EmbeddedResource Include="Xml\char.xml" />
+    <EmbeddedResource Include="Xml\DateTime.xml" />
+    <EmbeddedResource Include="Xml\decimal.xml" />
+    <EmbeddedResource Include="Xml\double.xml" />
+    <EmbeddedResource Include="Xml\long.xml" />
+    <EmbeddedResource Include="Xml\TimeSpan.xml" />
+    <EmbeddedResource Include="Xml\uint.xml" />
+    <EmbeddedResource Include="Xml\ulong.xml" />
+    <EmbeddedResource Include="Xml\ushort.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>

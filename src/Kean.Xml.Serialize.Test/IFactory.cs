@@ -25,12 +25,7 @@ namespace Kean.Xml.Serialize.Test
 {
 	public interface IFactory
 	{
-		bool Boolean { get; }
-		float Float { get; }
-		int Integer { get; }
-		string String { get; }
-		Data.Enumerator Enumerator { get; }
-
 		T Create<T>() where T : Data.IData;
+		void Verify(object value, string message, params object[] arguments);
 	}
 }

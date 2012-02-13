@@ -38,26 +38,5 @@ namespace Kean.Core.Serialize.Data
 		public Boolean(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
-		public static Boolean Create(string value)
-		{
-			Boolean result;
-			switch (value)
-			{
-				case "true":
-					result = new Boolean(true);
-					break;
-				case "false":
-					result = new Boolean(false);
-					break;
-				default:
-					result = null;
-					break;
-			}
-			return result;
-		}
-		public static Boolean Create(byte[] value)
-		{
-			return value.Length == 1 ? new Boolean(value[0] > 0) : null;
-		}
 	}
 }
