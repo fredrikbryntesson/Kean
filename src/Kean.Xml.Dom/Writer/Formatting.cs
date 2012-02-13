@@ -103,18 +103,19 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(Comment comment)
 		{
-			return this.WriteLine("<!--") && this.Write(comment.Value) && this.Write("-->");
+			return this.Write("<!--") && this.Write(comment.Value) && this.Write("-->");
 		}
 		public bool Write(Data data)
 		{
-			return this.WriteLine("<![CDATA[") && this.Write(data.Value) && this.Write("]]>");
+			return this.Write("<![CDATA[") && this.Write(data.Value) && this.Write("]]>");
 		}
 		public bool Write(Element element)
 		{
+			bool noNewlines;
 			return element.IsNull() || (this.Write("<") && this.Write(element.Name) && 
 				element.Attributes.Fold((attribute, result) => result && this.Write(attribute), true) &&
-				element.Count > 0 ? 
-				this.WriteLine(">") && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
+				element.Count > 0 ?
+				this.Write(">") && (noNewlines = !element.Exists(n => n is Element) || this.WriteLine()) && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
 				this.WriteLine(" />"));
 		}
 		public bool Write(ProcessingInstruction processingInstruction)
@@ -124,7 +125,7 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(Text text)
 		{
-			return this.WriteLine(text.Value);
+			return this.Write(text.Value);
 		}
 		#endregion
 	}

@@ -1,4 +1,2 @@
 <?xml version="1.0" encoding="" ?>
-<node type="sbyte">
-	-42
-</node>
+<node type="sbyte">-42</node>
