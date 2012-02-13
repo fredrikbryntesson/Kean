@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Collection.Extension;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize.Data
 {
@@ -31,6 +32,12 @@ namespace Kean.Core.Serialize.Data
 		public Branch()
 		{
 			this.Nodes = new Collection.List<Node>();
+		}
+		public Branch(object value, Reflect.Type type) :
+			this()
+		{
+			Reflect.Type valueType = value.Type();
+			this.Type = valueType != type ? valueType : null;
 		}
 	}
 }

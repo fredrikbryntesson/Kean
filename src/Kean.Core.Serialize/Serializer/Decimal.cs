@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Decimal(data, type);
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
 			return data is Data.Decimal ? (data as Data.Decimal).Value :
 				data is Data.Binary ? new decimal(new int[] { BitConverter.ToInt32((data as Data.Binary).Value, 0), BitConverter.ToInt32((data as Data.Binary).Value, 4), BitConverter.ToInt32((data as Data.Binary).Value, 8), BitConverter.ToInt32((data as Data.Binary).Value, 12) }) :

@@ -37,12 +37,12 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Enumeration(data, type);
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
 			return data is Data.Enumeration ? (data as Data.Enumeration).Value :
-				data is Data.Binary ? this.Create((data as Data.Binary).Value, data.Type ?? type) :
-				data is Data.String ? Enum.Parse(data.Type ?? type, (data as Data.String).Value) :
-				Enum.ToObject(data.Type ?? type, 0);
+				data is Data.Binary ? this.Create((data as Data.Binary).Value, data.Type) :
+				data is Data.String ? Enum.Parse(data.Type, (data as Data.String).Value) :
+				Enum.ToObject(data.Type, 0);
 		}
 		object Create(byte[] value, Reflect.Type type)
 		{

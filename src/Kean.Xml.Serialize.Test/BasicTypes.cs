@@ -1,5 +1,5 @@
 ﻿// 
-//  Long.cs
+//  BasicTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,32 +18,24 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Core.Serialize.Serializer
+using System;
+using NUnit.Framework;
+using Kean.Core.Extension;
+
+namespace Kean.Xml.Serialize.Test
 {
-	public class Long :
-		ISerializer
+	public class BasicTypes :
+		Factory<BasicTypes>
 	{
-		public Long()
-		{ }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		protected override void Run()
 		{
-			return type == "long" ? this : null;
+			this.Run(
+				this.Structure
+				);
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
-		{
-			return new Data.Long(data, type);
-		}
-		public object Deserialize(Storage storage, Data.Node data)
-		{
-			return data is Data.Long ? (data as Data.Long).Value :
-				data is Data.Binary ? BitConverter.ToInt64((data as Data.Binary).Value, 0) :
-				data is Data.String ? long.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
-				(long)0;
-		}
-		#endregion
+
+		[Test]
+		public void Structure() { this.Test(typeof(Data.Structure)); }
 	}
 }
-

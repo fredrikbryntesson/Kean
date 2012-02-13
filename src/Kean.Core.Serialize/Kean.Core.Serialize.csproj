@@ -70,6 +70,7 @@
     <Compile Include="Serializer\Boolean.cs" />
     <Compile Include="Serializer\Cache.cs" />
     <Compile Include="Serializer\Character.cs" />
+    <Compile Include="Serializer\Structure.cs" />
     <Compile Include="Serializer\DateTimeOffset.cs" />
     <Compile Include="Serializer\Decimal.cs" />
     <Compile Include="Serializer\Default.cs" />

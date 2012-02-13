@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.UnsignedLong(data, type);
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
 			return data is Data.UnsignedLong ? (data as Data.UnsignedLong).Value :
 				data is Data.Binary ? BitConverter.ToUInt64((data as Data.Binary).Value, 0) :

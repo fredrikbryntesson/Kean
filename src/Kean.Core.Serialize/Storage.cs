@@ -52,7 +52,7 @@ namespace Kean.Core.Serialize
 		public T Load<T>(Uri.Locator locator)
 		{
 			Data.Node data = this.Load(locator);
-			T result = (T)this.Serializer.Deserialize(this, typeof(T), data);
+			T result = (T)this.Serializer.Deserialize(this, data.DefaultType(typeof(T)));
 			if (data.NotNull() && data.Locator.NotNull())
 				this.Resolver[data.Locator] = result;
 			return result;

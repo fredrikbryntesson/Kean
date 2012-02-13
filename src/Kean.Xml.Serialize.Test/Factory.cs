@@ -93,11 +93,52 @@ namespace Kean.Xml.Serialize.Test
 		{
 			return this.ReferencePath(this.Filename(type));
 		}
-		public T Create<T>() where T : Data.IData
+		public T Create<T>()
 		{
-			T result = (T)System.Activator.CreateInstance(typeof(T));
-			result.Initilize(this, typeof(T).Name + this.identifierCounter++);
-			return result;
+			object result = default(T);
+			Reflect.Type type = typeof(T);
+			if (type.Category != Reflect.TypeCategory.Primitive && type.Implements<Data.IData>())
+			{
+				result = type.Create();
+				(result as Data.IData).Initilize(this, type.Name + this.identifierCounter++);
+			}
+			else if (type == typeof(byte))
+				result = this.Byte;
+			else if (type == typeof(sbyte))
+				result = this.SignedByte;
+			else if (type == typeof(short))
+				result = this.Short;
+			else if (type == typeof(ushort))
+				result = this.UnsignedShort;
+			else if (type == typeof(int))
+				result = this.Integer;
+			else if (type == typeof(uint))
+				result = this.UnsignedInteger;
+			else if (type == typeof(long))
+				result = this.Long;
+			else if (type == typeof(ulong))
+				result = this.UnsignedLong;
+			else if (type == typeof(float))
+				result = this.Single;
+			else if (type == typeof(double))
+				result = this.Double;
+			else if (type == typeof(decimal))
+				result = this.Decimal;
+			else if (type == typeof(char))
+				result = this.Character;
+			else if (type == typeof(string))
+				result = this.String;
+			else if (type == typeof(DateTime))
+				result = this.DateTime;
+			else if (type == typeof(DateTimeOffset))
+				result = this.DateTimeOffset;
+			else if (type == typeof(TimeSpan))
+				result = this.TimeSpan;
+			else if (type == typeof(bool))
+				result = this.Boolean;
+			else if (type == typeof(Data.Enumerator))
+				result = this.Enumerator;
+			return (T)result;
 		}
 		internal object Create(Reflect.Type type)
 		{

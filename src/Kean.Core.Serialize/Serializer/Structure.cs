@@ -1,10 +1,10 @@
 // 
-//  StringInterface.cs
+//  Structure.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,34 +18,40 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
-	public class StringInterface :
+	public class Structure :
 		ISerializer
 	{
-		public StringInterface()
+		public Structure()
 		{ }
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
-			return type.Implements<IString>() ? this : null;
+			return type.Category == Reflect.TypeCategory.Structure ? this : null;
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			return new Data.String((data as IString).String);
+			Data.Branch result = new Data.Branch(data, type);
+			foreach (Reflect.Field field in data.GetFields())
+				result.Nodes.Add(storage.Serializer.Serialize(storage, field.Type, field.Data).UpdateName(field.Name));
+			return result;
 		}
 		public object Deserialize(Storage storage, Data.Node data)
 		{
-			object result;
-			if (data is Data.String)
+			object result = data.Type.Create();
+			Reflect.Field[] fields = result.GetFields();
+			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
-				result = data.Type.Create();
-				(result as IString).String = (data as Data.String).Value;
+				Reflect.Field field = fields.Find(f => f.Name == node.Name);
+				field.Data = storage.Serializer.Deserialize(storage, node.DefaultType(field.Type));
 			}
-			else
-				result = null;
 			return result;
 		}
 		#endregion

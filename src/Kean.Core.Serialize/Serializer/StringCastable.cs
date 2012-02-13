@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 
@@ -38,9 +39,9 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.String((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Serialize.Data.Node data)
+		public object Deserialize(Storage storage, Serialize.Data.Node data)
 		{
-			return this.GetFromStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
+			return this.GetFromStringCast(data.Type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
 		}
 		#endregion
 		System.Reflection.MethodInfo GetFromStringCast(Type type)

@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Boolean(data, type);
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
 			return data is Data.Boolean ? (data as Data.Boolean).Value :
 				data is Data.Binary ? (data as Data.Binary).Value[0] > 0 :

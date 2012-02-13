@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Serialize.Data
 {
@@ -31,6 +32,17 @@ namespace Kean.Core.Serialize.Data
 		public Reflect.Type Type { get; set; }
 		protected Node()
 		{
+		}
+		public Node UpdateName(string name)
+		{
+			this.Name = name;
+			return this;
+		}
+		public Node DefaultType(Reflect.Type type)
+		{
+			if (this.Type.IsNull())
+				this.Type = type;
+			return this;
 		}
 	}
 }

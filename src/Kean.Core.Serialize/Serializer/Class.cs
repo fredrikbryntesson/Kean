@@ -47,11 +47,11 @@ namespace Kean.Core.Serialize.Serializer
 			}
 			return result;
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
-			object result = type.Create();
+			object result = data.Type.Create();
 			foreach (Data.Node property in (data as Data.Branch).Nodes)
-				result.Set(property.Name, storage.Serializer.Deserialize(storage, property.Type, property));
+				result.Set(property.Name, storage.Serializer.Deserialize(storage, property));
 			return result;
 		}
 		#endregion

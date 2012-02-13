@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Double(data, type);
 		}
-		public object Deserialize(Storage storage, Reflect.Type type, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data)
 		{
 			return data is Data.Double ? (data as Data.Double).Value :
 				data is Data.Binary ? BitConverter.ToDouble((data as Data.Binary).Value, 0) :

@@ -25,7 +25,7 @@ namespace Kean.Xml.Serialize.Test
 {
 	public interface IFactory
 	{
-		T Create<T>() where T : Data.IData;
+		T Create<T>();
 		void Verify(object value, string message, params object[] arguments);
 	}
 }
