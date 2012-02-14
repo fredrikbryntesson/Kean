@@ -215,5 +215,21 @@ namespace Kean.Core.Extension
 			Array.Sort(me);
 			return me;
 		}
+		public static bool Empty<T>(this T[] me)
+		{
+			return me.IsNull() || me.Length == 0;
+		}
+		public static bool NotEmpty<T>(this T[] me)
+		{
+			return !me.Empty();
+		}
+		public static T First<T>(this T[] me)
+		{
+			return me.NotEmpty() ? me[0] : default(T);
+		}
+		public static T Last<T>(this T[] me)
+		{
+			return me.NotEmpty() ? me[me.Length - 1] : default(T);
+		}
 	}
 }
