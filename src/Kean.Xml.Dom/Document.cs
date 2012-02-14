@@ -58,7 +58,7 @@ namespace Kean.Xml.Dom
 
 		public bool Save(Uri.Locator resource)
 		{
-			using (IO.ICharacterWriter writer = IO.CharacterWriter.Open(resource))
+			using (IO.ICharacterWriter writer = IO.CharacterWriter.Create(resource))
 				return this.Save(writer);
 		}
 		public bool Save(IO.ICharacterWriter writer)

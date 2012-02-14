@@ -96,10 +96,14 @@ namespace Kean.IO
 			this.Close();
 		}
 		#endregion
-		#region Static Open
+		#region Static Open & Create
 		public static ICharacterDevice Open(Uri.Locator resource)
 		{
 			return new CharacterDevice(ByteDevice.Open(resource));
+		}
+		public static ICharacterDevice Create(Uri.Locator resource)
+		{
+			return new CharacterDevice(ByteDevice.Create(resource));
 		}
 		#endregion
 

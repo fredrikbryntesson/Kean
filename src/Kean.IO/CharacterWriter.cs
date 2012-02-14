@@ -163,10 +163,14 @@ namespace Kean.IO
 			#endregion
 		}
 		#endregion
-		#region Static Open
+		#region Static Open & Create
 		public static ICharacterWriter Open(Uri.Locator resource)
 		{
 			return new CharacterWriter(CharacterDevice.Open(resource));
+		}
+		public static ICharacterWriter Create(Uri.Locator resource)
+		{
+			return new CharacterWriter(CharacterDevice.Create(resource));
 		}
 		#endregion
 	}

@@ -106,8 +106,16 @@ namespace Kean.IO
 			this.Close();
 		}
 		#endregion
-		#region Static Open
+		#region Static Open & Create
 		public static IByteDevice Open(Uri.Locator resource)
+		{
+			return ByteDevice.Open(resource, System.IO.FileMode.Open);
+		}
+		public static IByteDevice Create(Uri.Locator resource)
+		{
+			return ByteDevice.Open(resource, System.IO.FileMode.Create);
+		}
+		static IByteDevice Open(Uri.Locator resource, System.IO.FileMode mode)
 		{
 			IByteDevice result = null;
 			switch (resource.Scheme)
@@ -116,7 +124,7 @@ namespace Kean.IO
 					result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
 					break;
 				case "file":
-					result = new ByteDevice(System.IO.File.Open(resource.Path, System.IO.FileMode.OpenOrCreate)) { Resource = resource };
+					result = new ByteDevice(System.IO.File.Open(resource.Path, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
 					break;
 			}
 			return result;
