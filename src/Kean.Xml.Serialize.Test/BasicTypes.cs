@@ -33,7 +33,8 @@ namespace Kean.Xml.Serialize.Test
 			this.Run(
 				this.Structure,
 				this.Class,
-				this.ComplexClass
+				this.ComplexClass,
+				this.Linked
 				);
 		}
 
@@ -43,5 +44,7 @@ namespace Kean.Xml.Serialize.Test
 		public void Class() { this.Test(typeof(Data.Class)); }
 		[Test]
 		public void ComplexClass() { this.Test(typeof(Data.ComplexClass)); }
+		[Test]
+		public void Linked() { this.Test(typeof(Data.Linked)); }
 	}
 }

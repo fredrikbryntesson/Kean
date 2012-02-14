@@ -71,12 +71,20 @@ namespace Kean.Xml.Serialize
 			if (element.NotNull())
 			{
 				result = new Dom.Element(element.Name ?? "node");
-				if (element.Type.NotNull())
+				if (element is Core.Serialize.Data.Link)
+				{
 					result.Attributes.Add(new Kean.Xml.Dom.Attribute("type", element.Type));
-				if (element is Core.Serialize.Data.Leaf)
-					result.Add(new Dom.Text((element as Core.Serialize.Data.Leaf).Text));
-				else if (element is Core.Serialize.Data.Branch)
-					(element as Core.Serialize.Data.Branch).Nodes.Apply(e => result.Add(this.Convert(e)));
+					result.Add(new Dom.Text((element as Core.Serialize.Data.Link).Target));
+				}
+				else
+				{
+					if (element.Type.NotNull())
+						result.Attributes.Add(new Kean.Xml.Dom.Attribute("type", element.Type));
+					if (element is Core.Serialize.Data.Leaf)
+						result.Add(new Dom.Text((element as Core.Serialize.Data.Leaf).Text));
+					else if (element is Core.Serialize.Data.Branch)
+						(element as Core.Serialize.Data.Branch).Nodes.Apply(e => result.Add(this.Convert(e)));
+				}
 			}
 			return result;
 		}

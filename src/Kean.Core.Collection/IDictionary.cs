@@ -26,7 +26,6 @@ namespace Kean.Core.Collection
 	public interface IDictionary<TKey, TValue> :
 		System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>,
 		IEquatable<IDictionary<TKey, TValue>>
-        where TKey : IEquatable<TKey>
 	{
         TValue this[TKey key] { get; set; }
         bool Contains(TKey key);

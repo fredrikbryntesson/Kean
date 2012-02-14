@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 
 namespace Kean.Core.Serialize
@@ -25,7 +26,7 @@ namespace Kean.Core.Serialize
 	public interface ISerializer
 	{
 		ISerializer Find(Reflect.Type type);
-		Data.Node Serialize(Storage storage, Reflect.Type type, object data);
+		Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator);
 		object Deserialize(Storage storage, Data.Node data);
 	}
 }

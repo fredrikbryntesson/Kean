@@ -35,7 +35,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return this.GetFromStringCast(type).NotNull() && this.GetToStringCast(type).NotNull() ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.String((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
 		}

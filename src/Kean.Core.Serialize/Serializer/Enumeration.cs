@@ -33,7 +33,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type.Category == Reflect.TypeCategory.Enumeration ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.Enumeration(data, type);
 		}

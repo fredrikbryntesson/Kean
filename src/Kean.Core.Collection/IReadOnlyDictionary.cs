@@ -26,7 +26,6 @@ namespace Kean.Core.Collection
 	public interface IReadOnlyDictionary<TKey, TValue> :
 		System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>,
 		IEquatable<IDictionary<TKey, TValue>>
-		where TKey : IEquatable<TKey>
 	{
 		TValue this[TKey key] { get; }
 		bool Contains(TKey key);

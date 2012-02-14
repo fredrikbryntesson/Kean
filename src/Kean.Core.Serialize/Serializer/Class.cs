@@ -36,14 +36,19 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type.Category == Reflect.TypeCategory.Class ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Branch result = new Data.Branch(data, type);
 			foreach (Reflect.Property property in data.GetProperties())
 			{
 				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 				if (attributes.Length == 1)
-					result.Nodes.Add(storage.Serialize(storage, property.Type, property.Data).UpdateName(property.Name).UpdateAttribute(attributes[0]));
+				{
+					string name = attributes[0].Name ?? property.Name;
+					Uri.Locator l = locator.Copy();
+					l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+					result.Nodes.Add(storage.Serialize(storage, property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]));
+				}
 			}
 			return result;
 		}

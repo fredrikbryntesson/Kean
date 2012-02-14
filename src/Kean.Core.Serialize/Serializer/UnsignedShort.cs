@@ -32,7 +32,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type == "ushort" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.UnsignedShort(data, type);
 		}

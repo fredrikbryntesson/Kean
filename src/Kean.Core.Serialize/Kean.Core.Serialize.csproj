@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Binary.cs" />
+    <Compile Include="Data\Link.cs" />
     <Compile Include="Data\DateTimeOffset.cs" />
     <Compile Include="DictionaryAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

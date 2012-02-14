@@ -46,6 +46,7 @@
     <Compile Include="Data\ComplexClass.cs" />
     <Compile Include="Data\Enumerator.cs" />
     <Compile Include="Data\IData.cs" />
+    <Compile Include="Data\Linked.cs" />
     <Compile Include="Data\Structure.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="IFactory.cs" />

@@ -42,7 +42,7 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator filename = this.Filename(type);
 			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
-			ExpectAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
 			Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 

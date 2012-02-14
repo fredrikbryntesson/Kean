@@ -27,5 +27,6 @@ namespace Kean.Xml.Serialize.Test
 	{
 		T Create<T>();
 		void Verify(object value, string message, params object[] arguments);
+		void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments);
 	}
 }

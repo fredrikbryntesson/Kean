@@ -47,7 +47,7 @@ namespace Kean.Core.Serialize
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.Serialize(this, typeof(T), value), locator);
+			return this.Store(this.Serialize(this, typeof(T), value, locator), locator);
 		}
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)
@@ -61,9 +61,15 @@ namespace Kean.Core.Serialize
 			return this.serializer.Find(type);
 		}
 
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			return this.serializer.Serialize(storage, type, data);
+			Uri.Locator l = this.Resolver[data];
+			Data.Node result = null;
+			if (l.NotNull())
+				result = new Data.Link(l);
+			else
+				this.Resolver[data] = locator;
+			return result ?? this.serializer.Serialize(storage, type, data, locator);
 		}
 
 		public object Deserialize(Storage storage, Serialize.Data.Node data)

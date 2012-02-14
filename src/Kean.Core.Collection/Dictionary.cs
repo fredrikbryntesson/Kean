@@ -25,7 +25,6 @@ namespace Kean.Core.Collection
 {
     public class Dictionary<TKey, TValue> :
         IDictionary<TKey, TValue>
-        where TKey : IEquatable<TKey>
     {
         IDictionary<TKey, TValue> data;
 		public Dictionary(IDictionary<TKey, TValue> data)

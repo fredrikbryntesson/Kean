@@ -1,10 +1,10 @@
-﻿// 
-//  Integer.cs
+// 
+//  Link.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,32 +20,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Serialize.Data
 {
-	public class Integer :
-		ISerializer
+	public class Link :
+		Node
 	{
-		public Integer()
-		{ }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public Uri.Locator Target { get; set; }
+		public Link(Uri.Locator target)
 		{
-			return type == "int" ? this : null;
+			this.Target = target;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
-		{
-			return new Data.Integer(data, type);
-		}
-		public object Deserialize(Storage storage, Data.Node data)
-		{
-			return data is Data.Integer ? (data as Data.Integer).Value :
-				data is Data.Binary ? BitConverter.ToInt32((data as Data.Binary).Value, 0) :
-				data is Data.String ? int.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
-				0;
-		}
-		#endregion
 	}
 }
-

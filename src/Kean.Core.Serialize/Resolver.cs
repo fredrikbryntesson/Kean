@@ -30,6 +30,7 @@ namespace Kean.Core.Serialize
 	public class Resolver
 	{
 		Collection.IDictionary<Uri.Locator, object> targets;
+		Collection.IDictionary<object, Uri.Locator> reverse;
 		Collection.IDictionary<Uri.Locator, Action<object>> looseEnds;
 
 		public object this[Uri.Locator locator] 
@@ -42,14 +43,21 @@ namespace Kean.Core.Serialize
 				else
 				{
 					this.targets[locator] = value;
+					this.reverse[value] = locator;
 					this.looseEnds[locator].Call(value);
 				}
 			}
+		}
+		public Uri.Locator this[object data]
+		{
+			get { return this.reverse[data]; }
+			set { this[value] = data; }
 		}
 
 		public Resolver()
 		{
 			this.targets = new Collection.Dictionary<Uri.Locator, object>();
+			this.reverse = new Collection.Dictionary<object, Uri.Locator>();
 			this.looseEnds = new Collection.Dictionary<Uri.Locator, Action<object>>();
 		}
 

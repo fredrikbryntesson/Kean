@@ -27,7 +27,6 @@ namespace Kean.Core.Collection
 {
 	public class ReadOnlyDictionary<TKey, TValue> :
 		IReadOnlyDictionary<TKey, TValue>
-		where TKey : IEquatable<TKey>
 	{
 		IDictionary<TKey, TValue> data;
 		public ReadOnlyDictionary()

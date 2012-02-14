@@ -28,7 +28,6 @@ namespace Kean.Core.Collection.Hash
 {
 	public class Dictionary<TKey, TValue> :
 		IDictionary<TKey, TValue>
-		where TKey : System.IEquatable<TKey>
 	{
 		IList<KeyValue<TKey, TValue>>[] data;
 		public TValue this[TKey key]
