@@ -26,9 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-            Math.Regression.Test.Ransac.Single.Test();
-        
-			Xml.Serialize.Test.All.Test();
+           	Xml.Serialize.Test.All.Test();
 
 
             Core.Reflect.Test.All.Test();

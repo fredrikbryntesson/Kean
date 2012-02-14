@@ -9,6 +9,7 @@ namespace Kean.Math.Regression.Test
     {
         public static void Test()
         {
+            Filter.Kalman.Test();
             Ransac.Single.Test();
             Minimization.Single.Test();
             Minimization.Double.Test();
