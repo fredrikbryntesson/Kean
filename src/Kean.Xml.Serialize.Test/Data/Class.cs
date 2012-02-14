@@ -38,7 +38,7 @@ namespace Kean.Xml.Serialize.Test.Data
 		public string String { get; set; }
 
 		#region IData
-		public void Initilize(IFactory factory, string name)
+		public virtual void Initilize(IFactory factory)
 		{
 			this.Boolean = factory.Create<bool>();
 			this.Integer = factory.Create<int>();
@@ -46,7 +46,7 @@ namespace Kean.Xml.Serialize.Test.Data
 			this.Enumerator = factory.Create<Enumerator>();
 			this.String = factory.Create<string>();
 		}
-		public void Verify(IFactory factory, string message, params object[] arguments)
+		public virtual void Verify(IFactory factory, string message, params object[] arguments)
 		{
 			factory.Verify(this.Boolean, message, arguments);
 			factory.Verify(this.Integer, message, arguments);

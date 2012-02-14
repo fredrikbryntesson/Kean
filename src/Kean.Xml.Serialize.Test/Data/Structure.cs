@@ -33,7 +33,7 @@ namespace Kean.Xml.Serialize.Test.Data
 		public string String;
 
 		#region IData
-		public void Initilize(IFactory factory, string name)
+		public void Initilize(IFactory factory)
 		{
 			this.Boolean = factory.Create<bool>();
 			this.Integer = factory.Create<int>();

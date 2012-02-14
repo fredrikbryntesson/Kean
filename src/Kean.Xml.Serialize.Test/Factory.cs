@@ -65,14 +65,12 @@ namespace Kean.Xml.Serialize.Test
 		bool Boolean { get { return true; } }
 		Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
 
-		int identifierCounter;
-
 		internal Factory()
 		{
 		}
 		public override void Setup()
 		{
-	storage = new Storage(new Core.Serialize.Serializer.Default());
+			storage = new Storage(new Core.Serialize.Serializer.Default());
 			base.Setup();
 		}
 
@@ -93,60 +91,17 @@ namespace Kean.Xml.Serialize.Test
 		{
 			return this.ReferencePath(this.Filename(type));
 		}
-		public T Create<T>()
+		public U Create<U>()
 		{
-			object result = default(T);
-			Reflect.Type type = typeof(T);
-			if (type.Category != Reflect.TypeCategory.Primitive && type.Implements<Data.IData>())
-			{
-				result = type.Create();
-				(result as Data.IData).Initilize(this, type.Name + this.identifierCounter++);
-			}
-			else if (type == typeof(byte))
-				result = this.Byte;
-			else if (type == typeof(sbyte))
-				result = this.SignedByte;
-			else if (type == typeof(short))
-				result = this.Short;
-			else if (type == typeof(ushort))
-				result = this.UnsignedShort;
-			else if (type == typeof(int))
-				result = this.Integer;
-			else if (type == typeof(uint))
-				result = this.UnsignedInteger;
-			else if (type == typeof(long))
-				result = this.Long;
-			else if (type == typeof(ulong))
-				result = this.UnsignedLong;
-			else if (type == typeof(float))
-				result = this.Single;
-			else if (type == typeof(double))
-				result = this.Double;
-			else if (type == typeof(decimal))
-				result = this.Decimal;
-			else if (type == typeof(char))
-				result = this.Character;
-			else if (type == typeof(string))
-				result = this.String;
-			else if (type == typeof(DateTime))
-				result = this.DateTime;
-			else if (type == typeof(DateTimeOffset))
-				result = this.DateTimeOffset;
-			else if (type == typeof(TimeSpan))
-				result = this.TimeSpan;
-			else if (type == typeof(bool))
-				result = this.Boolean;
-			else if (type == typeof(Data.Enumerator))
-				result = this.Enumerator;
-			return (T)result;
+			return (U)(this.Create(typeof(U)) ?? default(U));
 		}
-		internal object Create(Reflect.Type type)
+		public object Create(Reflect.Type type)
 		{
-			object result = null;
+			object result;
 			if (type.Category != Reflect.TypeCategory.Primitive && type.Implements<Data.IData>())
 			{
 				result = type.Create();
-				(result as Data.IData).Initilize(this, type.Name + this.identifierCounter++);
+				(result as Data.IData).Initilize(this);
 			}
 			else if (type == typeof(byte))
 				result = this.Byte;
@@ -184,9 +139,10 @@ namespace Kean.Xml.Serialize.Test
 				result = this.Boolean;
 			else if (type == typeof(Data.Enumerator))
 				result = this.Enumerator;
+			else
+				result = null;
 			return result;
 		}
-
 		public void Verify(object value, string message, params object[] arguments)
 		{
 			Expect(value, Is.Not.Null);
