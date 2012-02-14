@@ -43,7 +43,7 @@ namespace Kean.Core.Serialize.Serializer
 			{
 				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 				if (attributes.Length == 1)
-					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Type, property.Data).UpdateName(property.Name).UpdateAttribute(attributes[0]));
+					result.Nodes.Add(storage.Serialize(storage, property.Type, property.Data).UpdateName(property.Name).UpdateAttribute(attributes[0]));
 			}
 			return result;
 		}
@@ -54,7 +54,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
 				Reflect.Property property = properties.Find(f => f.Name == node.Name);
-				property.Data = storage.Serializer.Deserialize(storage, node.DefaultType(property.Type));
+				property.Data = storage.Deserialize(storage, node.DefaultType(property.Type));
 			}
 			return result;
 		}

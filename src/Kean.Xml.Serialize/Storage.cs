@@ -37,22 +37,24 @@ namespace Kean.Xml.Serialize
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
-			return this.Convert(Dom.Document.Open(resource).Root);
+			return this.Convert(Dom.Document.Open(resource).Root, resource);
 		}
-		Core.Serialize.Data.Node Convert(Dom.Element element)
+		Core.Serialize.Data.Node Convert(Dom.Element element, Uri.Locator resource)
 		{
+			resource = resource.Copy();
+			resource.Fragment = (resource.Fragment.NotEmpty() ? resource.Fragment + "." : "") + element.Name;
 			Core.Serialize.Data.Node result = null;
 			if (element.All(n => !(n is Dom.Element)))
 			{
 				string value = element.Fold((n, s) => s + (n is Dom.Text ? (n as Dom.Text).Value : n is Dom.Data ? (n as Dom.Data).Value : ""), "");
-				result = new Core.Serialize.Data.String(value) { Name = element.Name };
+				result = new Core.Serialize.Data.String(value) { Name = element.Name, Locator = resource };
 			}
 			else
 			{
-				result = new Core.Serialize.Data.Branch() { Name = element.Name };
+				result = new Core.Serialize.Data.Branch() { Name = element.Name, Locator = resource };
 				foreach (Dom.Node node in element)
 					if (node is Dom.Element)
-						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));
+						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element, resource));
 			}
 			Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
 			if (type.NotNull())

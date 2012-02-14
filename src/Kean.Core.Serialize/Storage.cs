@@ -27,13 +27,14 @@ using Uri = Kean.Core.Uri;
 
 namespace Kean.Core.Serialize
 {
-	public abstract class Storage
+	public abstract class Storage :
+		ISerializer
 	{
-		public ISerializer Serializer { get; private set; }
+		ISerializer serializer;
 		public Resolver Resolver { get; private set; }
 
 		protected Storage(params ISerializer[] serializers) :
-			this(null, serializers)
+			this(new Resolver(), serializers)
 		{ }
 		protected Storage(Resolver resolver, params ISerializer[] serializers) :
 			this(resolver, new Serializer.Group(serializers))
@@ -41,21 +42,37 @@ namespace Kean.Core.Serialize
 		protected Storage(Resolver resolver, ISerializer serializer)
 		{
 			this.Resolver = resolver;
-			this.Serializer = new Serializer.Cache(serializer);
+			this.serializer = new Serializer.Cache(serializer);
 		}
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.Serializer.Serialize(this, typeof(T), value), locator);
+			return this.Store(this.Serialize(this, typeof(T), value), locator);
 		}
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)
 		{
-			Data.Node data = this.Load(locator);
-			T result = (T)this.Serializer.Deserialize(this, data.DefaultType(typeof(T)));
+			return (T)this.Deserialize(this, this.Load(locator).DefaultType(typeof(T)));
+		}
+
+		#region ISerializer Members
+		public ISerializer Find(Kean.Core.Reflect.Type type)
+		{
+			return this.serializer.Find(type);
+		}
+
+		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
+		{
+			return this.serializer.Serialize(storage, type, data);
+		}
+
+		public object Deserialize(Storage storage, Serialize.Data.Node data)
+		{
+			object result = this.serializer.Deserialize(storage, data);
 			if (data.NotNull() && data.Locator.NotNull())
 				this.Resolver[data.Locator] = result;
 			return result;
 		}
+		#endregion
 	}
 }

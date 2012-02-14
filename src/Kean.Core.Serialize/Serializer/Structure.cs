@@ -40,7 +40,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			Data.Branch result = new Data.Branch(data, type);
 			foreach (Reflect.Field field in data.GetFields())
-				result.Nodes.Add(storage.Serializer.Serialize(storage, field.Type, field.Data).UpdateName(field.Name));
+				result.Nodes.Add(storage.Serialize(storage, field.Type, field.Data).UpdateName(field.Name));
 			return result;
 		}
 		public object Deserialize(Storage storage, Data.Node data)
@@ -50,7 +50,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
 				Reflect.Field field = fields.Find(f => f.Name == node.Name);
-				field.Data = storage.Serializer.Deserialize(storage, node.DefaultType(field.Type));
+				field.Data = storage.Deserialize(storage, node.DefaultType(field.Type));
 			}
 			return result;
 		}
