@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +30,35 @@ namespace Kean.Core.Reflect
 		System.IEquatable<System.Type>
 	{
 		public string Assembly { get; private set; }
-		public string Name { get; private set; }
+		string name;
+		public string Name 
+		{
+			get { return this.name; }
+			private set
+			{
+				this.name = value;
+				switch (this.name)
+				{
+					case "System.Boolean": this.ShortName = "bool"; break;
+					case "System.Byte": this.ShortName = "byte"; break;
+					case "System.SByte": this.ShortName = "sbyte"; break;
+					case "System.Char": this.ShortName = "char"; break;
+					case "System.Decimal": this.ShortName = "decimal"; break;
+					case "System.Int16": this.ShortName = "short"; break;
+					case "System.UInt16": this.ShortName = "ushort"; break;
+					case "System.Int32": this.ShortName = "int"; break;
+					case "System.UInt32": this.ShortName = "uint"; break;
+					case "System.Int64": this.ShortName = "long"; break;
+					case "System.UInt64": this.ShortName = "ulong"; break;
+					case "System.Single": this.ShortName = "float"; break;
+					case "System.Double": this.ShortName = "double"; break;
+					case "System.String": this.ShortName = "string"; break;
+					case "System.Object": this.ShortName = "object"; break;
+					default: this.ShortName = this.Name.NotEmpty() ? this.name.Split('.', ':').Last() : null; break;
+				}
+			}
+		}
+		public string ShortName { get; private set; }
 		public Type Parent { get; private set; }
 		Collection.IList<Type> arguments;
 		public Collection.IReadOnlyVector<Type> Arguments { get; private set; }

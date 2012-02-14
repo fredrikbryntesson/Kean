@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="" ?>
-<node type="uint">1337</node>
+<uint type="uint">1337</uint>

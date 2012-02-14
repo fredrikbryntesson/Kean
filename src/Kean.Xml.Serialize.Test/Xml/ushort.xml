@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="" ?>
-<node type="ushort">1337</node>
+<ushort type="ushort">1337</ushort>
