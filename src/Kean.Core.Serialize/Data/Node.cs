@@ -30,7 +30,7 @@ namespace Kean.Core.Serialize.Data
 		string name;
 		public string Name 
 		{
-			get { return this.name ?? (this.Type.NotNull() ? this.Type.ShortName : null); }
+			get { return (this.Attribute.NotNull() ? this.Attribute.Name : null) ?? this.name ?? (this.Type.NotNull() ? this.Type.ShortName : null); }
 			set { this.name = value; } 
 		}
 		public ParameterAttribute Attribute { get; set; }
@@ -41,6 +41,11 @@ namespace Kean.Core.Serialize.Data
 		public Node UpdateName(string name)
 		{
 			this.Name = name;
+			return this;
+		}
+		public Node UpdateAttribute(ParameterAttribute attribute)
+		{
+			this.Attribute = attribute;
 			return this;
 		}
 		public Node DefaultType(Reflect.Type type)

@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -38,20 +38,24 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data)
 		{
-			Data.Branch result = new Data.Branch() { Type = type };
+			Data.Branch result = new Data.Branch(data, type);
 			foreach (Reflect.Property property in data.GetProperties())
 			{
 				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 				if (attributes.Length == 1)
-					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Type, property.Data));
+					result.Nodes.Add(storage.Serializer.Serialize(storage, property.Type, property.Data).UpdateName(property.Name).UpdateAttribute(attributes[0]));
 			}
 			return result;
 		}
 		public object Deserialize(Storage storage, Data.Node data)
 		{
 			object result = data.Type.Create();
-			foreach (Data.Node property in (data as Data.Branch).Nodes)
-				result.Set(property.Name, storage.Serializer.Deserialize(storage, property));
+			Reflect.Property[] properties = result.GetProperties();
+			foreach (Data.Node node in (data as Data.Branch).Nodes)
+			{
+				Reflect.Property property = properties.Find(f => f.Name == node.Name);
+				property.Data = storage.Serializer.Deserialize(storage, node.DefaultType(property.Type));
+			}
 			return result;
 		}
 		#endregion
