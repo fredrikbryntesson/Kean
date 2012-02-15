@@ -41,16 +41,17 @@ namespace Kean.Core.Uri
 			get
 			{
 				System.Text.StringBuilder result = new System.Text.StringBuilder();
-				if (this.Scheme != null)
+				if (this.Scheme.NotNull())
 					result.AppendFormat("{0}://", this.Scheme);
-				if (this.Authority != null)
+				if (this.Authority.NotNull())
 					result.Append(this.Authority);
-				result.Append("/");
-				if (this.Path != null)
-					result.Append(this.Path);
-				if (this.Query != null)
+				if (this.Path.NotNull())
+					result.Append("/").Append(this.Path);
+				else if (this.Scheme.NotNull() || this.Authority.NotNull())
+					result.Append("/");
+				if (this.Query.NotNull())
 					result.AppendFormat("?{0}", this.Query);
-				if (this.Fragment != null)
+				if (this.Fragment.NotNull())
 					result.AppendFormat("#{0}", this.Fragment);
 				return result.ToString().Replace(' ', '+');
 			}
@@ -159,10 +160,33 @@ namespace Kean.Core.Uri
 				result = absolute;
 			return result;
 		}
+		public Locator Relative(Locator locator)
+		{
+			Locator result = this.Copy();
+			if (locator.NotNull() && result.Scheme == locator.Scheme)
+			{
+				result.Scheme = null;
+				if (result.Authority == locator.Authority)
+				{
+					result.Authority = null;
+					if (result.Path == locator.Path)
+					{
+						result.Path = null;
+						if (result.Query == locator.Query)
+						{
+							result.Query = null;
+							if (result.Fragment == locator.Fragment)
+								result.Fragment = null;
+						}
+					}
+				}
+			}
+			return result;
+		}
 		#region IEquatable<Locator> Members
 		public bool Equals(Locator other)
 		{
-			return !object.ReferenceEquals(other, null) &&
+			return other.NotNull() &&
 				this.Scheme == other.Scheme &&
 				this.Authority == other.Authority &&
 				this.Path == other.Path &&
@@ -173,22 +197,11 @@ namespace Kean.Core.Uri
 		#region Object Overrides
 		public override bool Equals(object other)
 		{
-			return other is Locator && base.Equals(other as Locator);
+			return other is Locator && this.Equals(other as Locator);
 		}
 		public override int GetHashCode()
 		{
-			int result = 0;
-			if (this.Scheme != null)
-				result ^= this.Scheme.GetHashCode();
-			if (this.Authority != null)
-				result ^= this.Authority.GetHashCode();
-			if (this.Path != null)
-				result ^= this.Path.GetHashCode();
-			if (this.Query != null)
-				result ^= this.Query.GetHashCode();
-			if (this.Fragment != null)
-				result ^= this.Fragment.GetHashCode();
-			return result;
+			return ((string)this).Hash(); // this.Scheme.Hash() ^ this.Authority.Hash() ^ this.Path.Hash() ^ this.Query.Hash() ^ this.Fragment.Hash();
 		}
 		public override string ToString()
 		{
@@ -221,5 +234,6 @@ namespace Kean.Core.Uri
 			return locator.NotEmpty() ? new Locator() { String = locator } : null;
 		}
 		#endregion
+
 	}
 }

@@ -24,6 +24,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize
 {
@@ -38,13 +39,20 @@ namespace Kean.Core.Serialize
 			get { return this.targets[locator]; }
 			set
 			{
-				if (this.targets[locator].NotNull())
-					new Exception.DuplicateIdentifier(locator).Throw();
-				else
+				if (locator.NotNull() && value.NotNull())
 				{
-					this.targets[locator] = value;
-					this.reverse[value] = locator;
-					this.looseEnds[locator].Call(value);
+					if (this.targets[locator].NotNull())
+						new Exception.DuplicateIdentifier(locator).Throw();
+					else
+					{
+						this.targets[locator] = value;
+						Console.WriteLine("!" + locator + "!");
+						if (this.reverse[value].IsNull())
+							this.reverse[value] = locator;
+						Action<object> looseEnd = this.looseEnds[locator];
+						if (looseEnd.NotNull())
+							looseEnd.Call(value);
+					}
 				}
 			}
 		}
@@ -61,11 +69,12 @@ namespace Kean.Core.Serialize
 			this.looseEnds = new Collection.Dictionary<Uri.Locator, Action<object>>();
 		}
 
-		public void Resolve(Uri.Locator locator, Action<object> set)
+		public bool Resolve(Uri.Locator locator, Action<object> set)
 		{
+			bool result;
 			object target = this.targets[locator];
-			if (target.NotNull())
-				set(target);
+			if (result = target.NotNull())
+				set.Call(target);
 			else
 			{
 				Action<object> looseEnd = this.looseEnds[locator];
@@ -74,6 +83,18 @@ namespace Kean.Core.Serialize
 				else
 					this.looseEnds[locator] = set;
 			}
+			return result;
+		}
+		internal Uri.Locator Update(object data, Uri.Locator locator)
+		{
+			Uri.Locator result = null;
+			if (!data.Type().Category.IsValue())
+			{
+				result = this[data];
+				if (result.IsNull())
+					this[data] = locator;
+			}
+			return result;
 		}
 	}
 }

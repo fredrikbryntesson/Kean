@@ -127,7 +127,7 @@ namespace Kean.Core.Uri
         }
         public override int GetHashCode()
         {
-            return this.Head.GetHashCode() ^ base.GetHashCode();
+			return this.Head.Hash() ^ this.Tail.Hash();
         }
         public override string ToString()
         {

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 using Kean.Core.Reflect.Extension;
 
@@ -38,6 +39,17 @@ namespace Kean.Core.Serialize.Data
 		{
 			Reflect.Type valueType = value.Type();
 			this.Type = valueType != type ? valueType : null;
+		}
+		public override Node UpdateLocators(Uri.Locator locator)
+		{
+			base.UpdateLocators(locator);
+			foreach (Node child in this.Nodes)
+			{
+				locator = this.Locator.Copy();
+				locator.Fragment = (locator.Fragment.NotEmpty() ? locator.Fragment + "." : "") + child.Name;
+				child.UpdateLocators(locator);
+			}
+			return this;
 		}
 	}
 }

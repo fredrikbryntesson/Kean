@@ -131,6 +131,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Xml\ComplexClass.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\Linked.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>

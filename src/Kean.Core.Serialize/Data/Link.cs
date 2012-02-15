@@ -30,7 +30,18 @@ namespace Kean.Core.Serialize.Data
 	public class Link :
 		Node
 	{
+		public override Kean.Core.Uri.Locator Locator
+		{
+			get { return base.Locator; }
+			set 
+			{
+				if (this.Target.NotNull())
+					this.Target = this.Target.Resolve(value);
+				base.Locator = value;
+			}
+		}
 		public Uri.Locator Target { get; set; }
+		public Uri.Locator Relative { get { return this.Target.Relative(this.Locator); } }
 		public Link(Uri.Locator target)
 		{
 			this.Target = target;

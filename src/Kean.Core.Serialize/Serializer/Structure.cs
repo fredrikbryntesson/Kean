@@ -43,7 +43,7 @@ namespace Kean.Core.Serialize.Serializer
 			{
 				Uri.Locator l = locator.Copy();
 				l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + field.Name;
-				result.Nodes.Add(storage.Serialize(storage, field.Type, field.Data, l).UpdateName(field.Name));
+				result.Nodes.Add(storage.Serialize(field.Type, field.Data, l).UpdateName(field.Name));
 			}
 			return result;
 		}
@@ -54,7 +54,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
 				Reflect.Field field = fields.Find(f => f.Name == node.Name);
-				field.Data = storage.Deserialize(storage, node.DefaultType(field.Type));
+				storage.Deserialize(node.DefaultType(field.Type), d => field.Data = d);
 			}
 			return result;
 		}

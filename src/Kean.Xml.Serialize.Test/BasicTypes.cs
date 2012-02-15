@@ -31,10 +31,10 @@ namespace Kean.Xml.Serialize.Test
 		protected override void Run()
 		{
 			this.Run(
+				this.Linked,
 				this.Structure,
 				this.Class,
-				this.ComplexClass,
-				this.Linked
+				this.ComplexClass
 				);
 		}
 

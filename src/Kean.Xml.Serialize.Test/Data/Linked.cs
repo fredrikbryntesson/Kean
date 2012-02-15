@@ -25,33 +25,41 @@ using NUnit.Framework.SyntaxHelpers;
 namespace Kean.Xml.Serialize.Test.Data
 {
 	public class Linked :
-		Class
+		IData
 	{
 		[Core.Serialize.Parameter]
 		public Structure Structure0 { get; set; }
 		[Core.Serialize.Parameter]
 		public Structure Structure1 { get; set; }
 		[Core.Serialize.Parameter]
+		public ComplexClass ComplexClass { get; set; }
+		[Core.Serialize.Parameter]
 		public Class Class0 { get; set; }
 		[Core.Serialize.Parameter]
 		public Class Class1 { get; set; }
+		[Core.Serialize.Parameter]
+		public Class OtherClass { get; set; }
 
 		#region IData
-		public override void Initilize(IFactory factory)
+		public  void Initilize(IFactory factory)
 		{
-			base.Initilize(factory);
 			this.Structure0 = this.Structure1 = factory.Create<Structure>();
-			this.Class0 = this.Class1 = factory.Create<Class>();
+			this.ComplexClass = factory.Create<ComplexClass>();
+			this.Class0 = this.Class1 = this.ComplexClass.Class;
+			this.OtherClass = factory.Create<Class>();
 		}
-		public override void Verify(IFactory factory, string message, params object[] arguments)
+		public void Verify(IFactory factory, string message, params object[] arguments)
 		{
-			base.Verify(factory, message, arguments);
 			factory.Verify(this.Structure0, Is.Not.SameAs(this.Structure1), message, arguments);
 			factory.Verify(this.Structure0, message, arguments);
 			factory.Verify(this.Structure1, message, arguments);
-			factory.Verify(this.Class0, Is.SameAs(this.Class1), message, arguments);
+			factory.Verify(this.ComplexClass.Class, Is.SameAs(this.Class0), message, arguments);
+			factory.Verify(this.ComplexClass.Class, Is.SameAs(this.Class1), message, arguments);
+			factory.Verify(this.ComplexClass.Class, Is.Not.SameAs(this.OtherClass), message, arguments);
+			factory.Verify(this.ComplexClass, message, arguments);
 			factory.Verify(this.Class0, message, arguments);
 			factory.Verify(this.Class1, message, arguments);
+			factory.Verify(this.OtherClass, message, arguments);
 		}
 		#endregion
 	}

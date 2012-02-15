@@ -37,26 +37,27 @@ namespace Kean.Xml.Serialize
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
-			return this.Convert(Dom.Document.Open(resource).Root, resource);
+			return this.Convert(Dom.Document.Open(resource).Root);
 		}
-		Core.Serialize.Data.Node Convert(Dom.Element element, Uri.Locator resource)
+		string GetTextContent(Dom.Element element)
 		{
-			resource = resource.Copy();
-			resource.Fragment = (resource.Fragment.NotEmpty() ? resource.Fragment + "." : "") + element.Name;
+			return element.Fold((n, s) => s + (n is Dom.Text ? (n as Dom.Text).Value : n is Dom.Data ? (n as Dom.Data).Value : ""), "");
+		}
+		Core.Serialize.Data.Node Convert(Dom.Element element)
+		{
 			Core.Serialize.Data.Node result = null;
-			if (element.All(n => !(n is Dom.Element)))
-			{
-				string value = element.Fold((n, s) => s + (n is Dom.Text ? (n as Dom.Text).Value : n is Dom.Data ? (n as Dom.Data).Value : ""), "");
-				result = new Core.Serialize.Data.String(value) { Name = element.Name, Locator = resource };
-			}
+			Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
+			if (type.NotNull() && type.Value == "link")
+				result = new Core.Serialize.Data.Link(this.GetTextContent(element)) { Name = element.Name };
+			else if (element.All(n => !(n is Dom.Element)))
+				result = new Core.Serialize.Data.String(this.GetTextContent(element)) { Name = element.Name };
 			else
 			{
-				result = new Core.Serialize.Data.Branch() { Name = element.Name, Locator = resource };
+				result = new Core.Serialize.Data.Branch() { Name = element.Name };
 				foreach (Dom.Node node in element)
 					if (node is Dom.Element)
-						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element, resource));
+						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));
 			}
-			Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
 			if (type.NotNull())
 				result.Type = type.Value;
 			return result;
@@ -73,8 +74,8 @@ namespace Kean.Xml.Serialize
 				result = new Dom.Element(element.Name ?? "node");
 				if (element is Core.Serialize.Data.Link)
 				{
-					result.Attributes.Add(new Kean.Xml.Dom.Attribute("type", element.Type));
-					result.Add(new Dom.Text((element as Core.Serialize.Data.Link).Target));
+					result.Attributes.Add(new Kean.Xml.Dom.Attribute("type", "link"));
+					result.Add(new Dom.Text((element as Core.Serialize.Data.Link).Relative));
 				}
 				else
 				{

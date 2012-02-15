@@ -26,7 +26,7 @@ namespace Kean.Core.Serialize.Data
 {
 	public abstract class Node
 	{
-		public Uri.Locator Locator { get; set; }
+		public virtual Uri.Locator Locator { get; set; }
 		string name;
 		public string Name 
 		{
@@ -52,6 +52,15 @@ namespace Kean.Core.Serialize.Data
 		{
 			if (this.Type.IsNull())
 				this.Type = type;
+			return this;
+		}
+		public virtual Node UpdateLocators(Uri.Locator locator)
+		{
+			return this.UpdateLocator(locator);
+		}
+		public Node UpdateLocator(Uri.Locator locator)
+		{
+			this.Locator = locator;
 			return this;
 		}
 	}

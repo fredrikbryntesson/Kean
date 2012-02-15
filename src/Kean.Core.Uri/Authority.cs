@@ -83,12 +83,7 @@ namespace Kean.Core.Uri
         }
         public override int GetHashCode()
         {
-            int result = 0;
-            if (this.User != null)
-                result ^= this.User.GetHashCode();
-            if (this.Endpoint != null)
-                result ^= this.Endpoint.GetHashCode();
-            return result;
+			return this.User.Hash() ^ this.Endpoint.Hash();
         }
         public override string ToString()
         {

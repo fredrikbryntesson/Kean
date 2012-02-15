@@ -33,8 +33,9 @@ namespace Kean.Core.Serialize.Serializer
 			new SystemTypes(),
 			new StringInterface(),
 			new StringCastable(),
-			new Class(),
-			new Structure())
+			new Structure(),
+			new Class()
+			)
 		{ }
 	}
 }

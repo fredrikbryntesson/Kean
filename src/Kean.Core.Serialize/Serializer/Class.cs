@@ -38,16 +38,23 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			Data.Branch result = new Data.Branch(data, type);
-			foreach (Reflect.Property property in data.GetProperties())
+			Data.Node result;
+			Uri.Locator l = storage.Resolver.Update(data, locator);
+			if (l.NotNull())
+				result = new Data.Link(l);
+			else
 			{
-				ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
-				if (attributes.Length == 1)
+				result = new Data.Branch(data, type);
+				foreach (Reflect.Property property in data.GetProperties())
 				{
-					string name = attributes[0].Name ?? property.Name;
-					Uri.Locator l = locator.Copy();
-					l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
-					result.Nodes.Add(storage.Serialize(storage, property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]));
+					ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
+					if (attributes.Length == 1)
+					{
+						string name = attributes[0].Name ?? property.Name;
+						l = locator.Copy();
+						l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+						(result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(locator));
+					}
 				}
 			}
 			return result;
@@ -59,7 +66,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
 				Reflect.Property property = properties.Find(f => f.Name == node.Name);
-				property.Data = storage.Deserialize(storage, node.DefaultType(property.Type));
+				storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
 			}
 			return result;
 		}

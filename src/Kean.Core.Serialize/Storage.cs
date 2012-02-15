@@ -24,11 +24,11 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize
 {
-	public abstract class Storage :
-		ISerializer
+	public abstract class Storage
 	{
 		ISerializer serializer;
 		public Resolver Resolver { get; private set; }
@@ -47,38 +47,34 @@ namespace Kean.Core.Serialize
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.Serialize(this, typeof(T), value, locator), locator);
+			return this.Store(this.Serialize(typeof(T), value, locator), locator);
 		}
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)
 		{
-			return (T)this.Deserialize(this, this.Load(locator).DefaultType(typeof(T)));
+			return (T)(this.Resolver[locator] ?? this.Deserialize(this.Load(locator).DefaultType(typeof(T)).UpdateLocators(locator)));
 		}
 
-		#region ISerializer Members
-		public ISerializer Find(Kean.Core.Reflect.Type type)
+		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
 		{
-			return this.serializer.Find(type);
+			return this.serializer.Serialize(this, type, data, locator);
 		}
 
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		object Deserialize(Serialize.Data.Node node)
 		{
-			Uri.Locator l = this.Resolver[data];
-			Data.Node result = null;
-			if (l.NotNull())
-				result = new Data.Link(l);
+			return node.NotNull() ? (this.Resolver[node.Locator] = this.serializer.Deserialize(this, node)) : null;
+		}
+		public void Deserialize(Serialize.Data.Node node, Action<object> set)
+		{
+			bool result = true;
+			if (node is Data.Link)
+				result = this.Resolver.Resolve((node as Data.Link).Target, d =>
+				{
+					this.Resolver[node.Locator] = d;
+					set.Call(d);
+				});
 			else
-				this.Resolver[data] = locator;
-			return result ?? this.serializer.Serialize(storage, type, data, locator);
+				set.Call(this.Deserialize(node));
 		}
-
-		public object Deserialize(Storage storage, Serialize.Data.Node data)
-		{
-			object result = this.serializer.Deserialize(storage, data);
-			if (data.NotNull() && data.Locator.NotNull())
-				this.Resolver[data.Locator] = result;
-			return result;
-		}
-		#endregion
 	}
 }

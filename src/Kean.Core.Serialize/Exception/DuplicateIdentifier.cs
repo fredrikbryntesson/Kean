@@ -28,13 +28,13 @@ namespace Kean.Core.Serialize.Exception
 		Exception
 	{
 		public DuplicateIdentifier(string identifier, string resource, int line, int column)
-			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is aleady defined previously. Error located at line {2} column {3} in file \"{1}\".", identifier, resource, line.ToString(), column.ToString())
+			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously. Error located at line {2} column {3} in file \"{1}\".", identifier, resource, line.ToString(), column.ToString())
 		{ }
 		public DuplicateIdentifier(DuplicateIdentifier inner, Uri.Locator resource, int row, int column)
 			: base(inner, inner.Level, inner.Title, inner.Message + "Error located at line {1} column {2} in file \"{0}\".", resource, row.ToString(), column.ToString())
 		{ }
 		public DuplicateIdentifier(string identifier)
-			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is aleady defined previously.", identifier)
+			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously.", identifier)
 		{ }
 	}
 }
