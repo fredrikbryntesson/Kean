@@ -77,17 +77,17 @@ namespace Kean.Core.Uri
         #region IEquatable<User> Members
         public bool Equals(User other)
         {
-            return !object.ReferenceEquals(other, null) && this.Name == other.Name && this.Password == other.Password;
+            return other.NotNull() && this.Name == other.Name && this.Password == other.Password;
         }
         #endregion
         #region Object Overrides
         public override bool Equals(object other)
         {
-            return other is User && base.Equals(other as User);
+            return other is User && this.Equals(other as User);
         }
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode() ^ this.Password.GetHashCode();
+            return this.Name.Hash() ^ this.Password.Hash();
         }
         public override string ToString()
         {
@@ -97,7 +97,7 @@ namespace Kean.Core.Uri
         #region Operators
         public static bool operator ==(User left, User right)
         {
-            return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
+            return left.SameOrEquals(right);
         }
         public static bool operator !=(User left, User right)
         {

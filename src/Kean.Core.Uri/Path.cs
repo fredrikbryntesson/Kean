@@ -117,7 +117,7 @@ namespace Kean.Core.Uri
         #region IEquatable<Path> Members
         public bool Equals(Path other)
         {
-            return !object.ReferenceEquals(other, null) && this.Head == other.Head && this.Tail == other.Tail;
+            return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
         }
         #endregion
         #region Object Overrides

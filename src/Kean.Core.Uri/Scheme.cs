@@ -83,7 +83,7 @@ namespace Kean.Core.Uri
         #region Object overrides
         public override bool Equals(object other)
         {
-            return other is Scheme && base.Equals(other as Scheme);
+            return other is Scheme && this.Equals(other as Scheme);
         }
         public override int GetHashCode()
         {
@@ -97,7 +97,7 @@ namespace Kean.Core.Uri
         #region IEquatable<Scheme> Members
         public bool Equals(Scheme other)
         {
-            return !object.ReferenceEquals(other, null) && this.Head == other.Head && this.Tail == other.Tail;
+            return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
         }
         #endregion
 		#region Operators

@@ -46,7 +46,6 @@ namespace Kean.Core.Serialize
 					else
 					{
 						this.targets[locator] = value;
-						Console.WriteLine("!" + locator + "!");
 						if (this.reverse[value].IsNull())
 							this.reverse[value] = locator;
 						Action<object> looseEnd = this.looseEnds[locator];

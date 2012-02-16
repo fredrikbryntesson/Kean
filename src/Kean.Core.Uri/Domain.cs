@@ -83,7 +83,7 @@ namespace Kean.Core.Uri
         #region IEquatable<Domain> Members
         public bool Equals(Domain other)
         {
-            return !object.ReferenceEquals(other, null) && this.Head == other.Head && this.Tail == other.Tail;
+            return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
         }
         #endregion
         #region Object Overrides
@@ -93,7 +93,7 @@ namespace Kean.Core.Uri
         }
         public override int GetHashCode()
         {
-            return this.Head.GetHashCode() ^ base.GetHashCode();
+            return this.Head.Hash() ^ this.Tail.Hash();
         }
         public override string ToString()
         {

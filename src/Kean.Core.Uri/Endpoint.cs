@@ -80,17 +80,17 @@ namespace Kean.Core.Uri
         #region IEquatable<Endpoint> Members
         public bool Equals(Endpoint other)
         {
-            return !object.ReferenceEquals(other, null) && this.Host == other.Host && this.Port == other.Port;
+            return other.NotNull() && this.Host == other.Host && this.Port == other.Port;
         }
         #endregion
         #region Object Overrides
         public override bool Equals(object other)
         {
-            return other is Endpoint && base.Equals(other as Endpoint);
+            return other is Endpoint && this.Equals(other as Endpoint);
         }
         public override int GetHashCode()
         {
-            return this.Host.GetHashCode() ^ this.Port.GetHashCode();
+            return this.Host.Hash() ^ this.Port.Hash();
         }
         public override string ToString()
         {
@@ -100,7 +100,7 @@ namespace Kean.Core.Uri
         #region Operators
         public static bool operator ==(Endpoint left, Endpoint right)
         {
-            return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
+            return left.SameOrEquals(right);
         }
         public static bool operator !=(Endpoint left, Endpoint right)
         {

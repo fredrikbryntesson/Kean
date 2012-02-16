@@ -79,7 +79,7 @@ namespace Kean.Core.Uri
         #region Object Overrides
         public override bool Equals(object other)
         {
-            return other is Authority && base.Equals(other as Authority);
+            return other is Authority && this.Equals(other as Authority);
         }
         public override int GetHashCode()
         {

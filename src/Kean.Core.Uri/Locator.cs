@@ -201,7 +201,7 @@ namespace Kean.Core.Uri
 		}
 		public override int GetHashCode()
 		{
-			return ((string)this).Hash(); // this.Scheme.Hash() ^ this.Authority.Hash() ^ this.Path.Hash() ^ this.Query.Hash() ^ this.Fragment.Hash();
+			return this.Scheme.Hash() ^ this.Authority.Hash() ^ this.Path.Hash() ^ this.Query.Hash() ^ this.Fragment.Hash();
 		}
 		public override string ToString()
 		{
