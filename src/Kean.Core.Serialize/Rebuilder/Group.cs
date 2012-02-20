@@ -1,10 +1,10 @@
 ﻿// 
-//  Default.cs
+//  Group.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,21 +22,32 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Serialize.Rebuilder
 {
-	public class Default :
-		Group
+	public class Group :
+		IRebuilder
 	{
-		public Default() :
-			base(
-			new SystemTypes(),
-			new StringInterface(),
-			new StringCastable(),
-			new Array(),
-			new Structure(),
-			new Class()
-			)
-		{ }
+		IRebuilder[] rebuilders;
+		public Group(params IRebuilder[] rebuilders)
+		{
+			this.rebuilders = rebuilders;
+		}
+		#region IRebuilder Members
+		public Data.Node Store(Storage storage, Data.Node data)
+		{
+			foreach (IRebuilder rebuilder in this.rebuilders)
+				data = rebuilder.Store(storage, data);
+			return data;
+		}
+		public Data.Node Load(Storage storage, Data.Node data)
+		{
+			foreach (IRebuilder rebuilder in this.rebuilders)
+				data = rebuilder.Load(storage, data);
+			return data;
+		}
+		#endregion
 	}
 }
+

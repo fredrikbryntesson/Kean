@@ -33,9 +33,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRebuilder.cs" />
     <Compile Include="Data\Binary.cs" />
+    <Compile Include="Data\Collection.cs" />
     <Compile Include="Data\Link.cs" />
     <Compile Include="Data\DateTimeOffset.cs" />
     <Compile Include="DictionaryAttribute.cs" />
@@ -66,7 +70,11 @@
     <Compile Include="IDeserialized.cs" />
     <Compile Include="ISerializable.cs" />
     <Compile Include="ISerializer.cs" />
+    <Compile Include="Rebuilder\Collection.cs" />
+    <Compile Include="Rebuilder\Default.cs" />
+    <Compile Include="Rebuilder\Group.cs" />
     <Compile Include="Resolver.cs" />
+    <Compile Include="Serializer\Array.cs" />
     <Compile Include="Serializer\Byte.cs" />
     <Compile Include="Serializer\Boolean.cs" />
     <Compile Include="Serializer\Cache.cs" />

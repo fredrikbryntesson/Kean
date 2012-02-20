@@ -1,10 +1,10 @@
 ﻿// 
-//  Default.cs
+//  CollectionTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,23 +20,22 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
+using NUnit.Framework;
 using Kean.Core.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Xml.Serialize.Test
 {
-	public class Default :
-		Group
+	public class CollectionTypes :
+		Factory<CollectionTypes>
 	{
-		public Default() :
-			base(
-			new SystemTypes(),
-			new StringInterface(),
-			new StringCastable(),
-			new Array(),
-			new Structure(),
-			new Class()
-			)
-		{ }
+		protected override void Run()
+		{
+			this.Run(
+				this.Array
+				);
+		}
+
+		[Test]
+		public void Array() { this.Test(typeof(Data.Array)); }
 	}
 }

@@ -29,10 +29,10 @@ namespace Kean.Core.Serialize.Data
 	public class Branch :
 		Node
 	{
-		public Collection.IList<Node> Nodes { get; private set; }
+		public Core.Collection.IList<Node> Nodes { get; private set; }
 		public Branch()
 		{
-			this.Nodes = new Collection.List<Node>();
+			this.Nodes = new Core.Collection.List<Node>();
 		}
 		public Branch(object value, Reflect.Type type) :
 			this()

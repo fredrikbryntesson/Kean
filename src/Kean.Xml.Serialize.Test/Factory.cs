@@ -70,7 +70,7 @@ namespace Kean.Xml.Serialize.Test
 		}
 		public override void Setup()
 		{
-			storage = new Storage(new Core.Serialize.Serializer.Default());
+			storage = new Storage(new Core.Serialize.Rebuilder.Default(), new Core.Serialize.Serializer.Default());
 			base.Setup();
 		}
 

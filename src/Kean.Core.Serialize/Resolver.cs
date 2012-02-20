@@ -41,9 +41,7 @@ namespace Kean.Core.Serialize
 			{
 				if (locator.NotNull() && value.NotNull())
 				{
-					if (this.targets[locator].NotNull())
-						new Exception.DuplicateIdentifier(locator).Throw();
-					else
+					if (this.targets[locator].IsNull())
 					{
 						this.targets[locator] = value;
 						if (this.reverse[value].IsNull())
@@ -52,6 +50,9 @@ namespace Kean.Core.Serialize
 						if (looseEnd.NotNull())
 							looseEnd.Call(value);
 					}
+					else
+						new Exception.DuplicateIdentifier(locator).Throw();
+
 				}
 			}
 		}

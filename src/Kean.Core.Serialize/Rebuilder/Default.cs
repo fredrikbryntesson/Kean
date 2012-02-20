@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,21 +22,17 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Core.Serialize.Rebuilder
 {
 	public class Default :
 		Group
 	{
 		public Default() :
-			base(
-			new SystemTypes(),
-			new StringInterface(),
-			new StringCastable(),
-			new Array(),
-			new Structure(),
-			new Class()
-			)
-		{ }
+			base(new Collection())
+		{
+		}
 	}
 }
+

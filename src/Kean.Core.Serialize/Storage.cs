@@ -31,28 +31,33 @@ namespace Kean.Core.Serialize
 	public abstract class Storage
 	{
 		ISerializer serializer;
+		IRebuilder rebuilder;
 		public Resolver Resolver { get; private set; }
 
 		protected Storage(params ISerializer[] serializers) :
-			this(new Resolver(), serializers)
+			this(new Resolver(), new Rebuilder.Default(), serializers)
 		{ }
-		protected Storage(Resolver resolver, params ISerializer[] serializers) :
-			this(resolver, new Serializer.Group(serializers))
+		protected Storage(IRebuilder rebuilder, params ISerializer[] serializers) :
+			this(new Resolver(), rebuilder, serializers)
 		{ }
-		protected Storage(Resolver resolver, ISerializer serializer)
+		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers) :
+			this(resolver, rebuilder, new Serializer.Group(serializers))
+		{ }
+		protected Storage(Resolver resolver, IRebuilder rebuilder, ISerializer serializer)
 		{
 			this.Resolver = resolver;
+			this.rebuilder = rebuilder;
 			this.serializer = new Serializer.Cache(serializer);
 		}
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.Serialize(typeof(T), value, locator), locator);
+			return this.Store(this.rebuilder.Store(this, this.Serialize(typeof(T), value, locator)), locator);
 		}
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)
 		{
-			return (T)(this.Resolver[locator] ?? this.Deserialize(this.Load(locator).DefaultType(typeof(T)).UpdateLocators(locator)));
+			return (T)(this.Resolver[locator] ?? this.Deserialize(this.rebuilder.Load(this, this.Load(locator).DefaultType(typeof(T)).UpdateLocators(locator))));
 		}
 
 		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)

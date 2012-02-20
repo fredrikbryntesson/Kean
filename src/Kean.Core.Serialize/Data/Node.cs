@@ -28,12 +28,12 @@ namespace Kean.Core.Serialize.Data
 	{
 		public virtual Uri.Locator Locator { get; set; }
 		string name;
-		public string Name 
+		public virtual string Name 
 		{
 			get { return (this.Attribute.NotNull() ? this.Attribute.Name : null) ?? this.name ?? (this.Type.NotNull() ? this.Type.ShortName : null); }
 			set { this.name = value; } 
 		}
-		public ParameterAttribute Attribute { get; set; }
+		public virtual ParameterAttribute Attribute { get; set; }
 		public Reflect.Type Type { get; set; }
 		protected Node()
 		{

@@ -27,6 +27,7 @@ namespace Kean.Xml.Serialize.Test
 	{
 		public static void Test()
 		{
+			Serialize.Test.CollectionTypes.Test();
 			Serialize.Test.BasicTypes.Test();
 			Serialize.Test.SystemTypes.Test();
 		}

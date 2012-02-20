@@ -32,8 +32,8 @@ namespace Kean.Xml.Serialize
 	public class Storage : 
 		Core.Serialize.Storage
 	{
-		public Storage(params Core.Serialize.ISerializer[] serializers) :
-			base(serializers)
+		public Storage(Core.Serialize.IRebuilder rebuilder, params Core.Serialize.ISerializer[] serializers) :
+			base(rebuilder, serializers)
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
