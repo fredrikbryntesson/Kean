@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{06324516-5008-4A34-9C54-041F30F5A229}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -79,6 +79,7 @@
     <Compile Include="Serializer\Boolean.cs" />
     <Compile Include="Serializer\Cache.cs" />
     <Compile Include="Serializer\Character.cs" />
+    <Compile Include="Serializer\List.cs" />
     <Compile Include="Serializer\Structure.cs" />
     <Compile Include="Serializer\DateTimeOffset.cs" />
     <Compile Include="Serializer\Decimal.cs" />

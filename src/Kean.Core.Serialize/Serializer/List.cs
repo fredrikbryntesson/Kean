@@ -1,5 +1,5 @@
 ﻿// 
-//  Array.cs
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,30 +23,36 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Core.Serialize.Serializer
 {
-	public class Array :
+	public class List :
 		ISerializer
 	{
-		public Array()
+		public List()
 		{ }
+        System.Type GetInterface(Reflect.Type type)
+        {
+            return ((System.Type)type).GetInterface(typeof(Collection.IList<>).Name);
+        }
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
-			return type.Category == Reflect.TypeCategory.Array ? this : null;
+			return this.GetInterface(type).NotNull() ? this : null;
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Collection result = new Data.Collection(data, type);
 			Reflect.Type elementType = ((System.Type)data.Type()).GetElementType();
 			int c = 0;
-			foreach (object child in data as System.Array)
+			foreach (object child in data as System.Collections.IEnumerable)
 				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
 			return result;
 		}
 		public object Deserialize(Storage storage, Data.Node data)
 		{
+			System.Array result = null;
 			Core.Collection.IList<Data.Node> nodes;
 			Reflect.Type elementType;
 			if (data is Data.Collection)
@@ -60,7 +66,7 @@ namespace Kean.Core.Serialize.Serializer
 				elementType = data.Type;
 			}
 
-            System.Array result = System.Array.CreateInstance(elementType, nodes.Count);
+			result = System.Array.CreateInstance(elementType, nodes.Count);
 			int i = 0;
 			foreach (Data.Node child in nodes)
 			{

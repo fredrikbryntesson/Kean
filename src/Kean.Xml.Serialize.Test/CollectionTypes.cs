@@ -31,11 +31,14 @@ namespace Kean.Xml.Serialize.Test
 		protected override void Run()
 		{
 			this.Run(
+                //this.List,
 				this.Array
 				);
 		}
 
 		[Test]
 		public void Array() { this.Test(typeof(Data.Array)); }
-	}
+        [Test]
+        public void List() { this.Test(typeof(Data.List)); }
+    }
 }

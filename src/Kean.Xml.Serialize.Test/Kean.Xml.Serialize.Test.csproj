@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -46,6 +46,7 @@
     <Compile Include="Data\Class.cs" />
     <Compile Include="Data\ComplexClass.cs" />
     <Compile Include="Data\Array.cs" />
+    <Compile Include="Data\List.cs" />
     <Compile Include="Data\Enumerator.cs" />
     <Compile Include="Data\IData.cs" />
     <Compile Include="Data\Linked.cs" />
