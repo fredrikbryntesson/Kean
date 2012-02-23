@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -28,54 +28,30 @@ using Collection = Kean.Core.Collection;
 namespace Kean.Core.Serialize.Serializer
 {
 	public class List :
-		ISerializer
+		Collection
 	{
 		public List()
 		{ }
-        System.Type GetInterface(Reflect.Type type)
-        {
-            return ((System.Type)type).GetInterface(typeof(Collection.IList<>).Name);
-        }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		System.Type GetInterface(Reflect.Type type)
 		{
-			return this.GetInterface(type).NotNull() ? this : null;
+			return ((System.Type)type).GetInterface(typeof(Core.Collection.IList<>).Name);
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		protected override bool Found(Reflect.Type type)
 		{
-			Data.Collection result = new Data.Collection(data, type);
-			Reflect.Type elementType = ((System.Type)data.Type()).GetElementType();
-			int c = 0;
-			foreach (object child in data as System.Collections.IEnumerable)
-				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
-			return result;
+			return this.GetInterface(type).NotNull();
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		protected override Reflect.Type GetElementType(Reflect.Type type)
 		{
-			System.Array result = null;
-			Core.Collection.IList<Data.Node> nodes;
-			Reflect.Type elementType;
-			if (data is Data.Collection)
-			{
-				nodes = (data as Data.Collection).Nodes;
-				elementType = ((System.Type)data.Type).GetElementType();
-			}
-			else 
-			{ // only one element in array so it was impossible to know it was a collection
-				nodes = new Kean.Core.Collection.List<Data.Node>(data);
-				elementType = data.Type;
-			}
-
-			result = System.Array.CreateInstance(elementType, nodes.Count);
-			int i = 0;
-			foreach (Data.Node child in nodes)
-			{
-				int c = i++; // ensure c is unique in every closure of lambda function below
-				storage.Deserialize(child.DefaultType(elementType), d => result.SetValue(d, c));
-			}
-			return result;
+			return this.GetInterface(type).GetGenericArguments()[0];
 		}
-		#endregion
+		protected override object Create(Reflect.Type type, Reflect.Type elementType, int count)
+		{
+			return System.Activator.CreateInstance(type);
+		}
+		protected override void Set(object collection, object value, int index)
+		{
+			this.GetInterface(collection.Type()).GetMethod("Add").Invoke(collection, new object[] { value });
+		}
 	}
 }
 

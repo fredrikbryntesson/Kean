@@ -31,7 +31,7 @@ namespace Kean.Xml.Serialize.Test
 		protected override void Run()
 		{
 			this.Run(
-                //this.List,
+                this.List,
 				this.Array
 				);
 		}

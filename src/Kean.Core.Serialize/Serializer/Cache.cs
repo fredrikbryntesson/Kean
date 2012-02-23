@@ -29,7 +29,7 @@ namespace Kean.Core.Serialize.Serializer
 	public class Cache :
 		ISerializer
 	{
-		Collection.Dictionary<Reflect.Type, ISerializer> cache = new Collection.Dictionary<Reflect.Type, ISerializer>();
+		Core.Collection.Dictionary<Reflect.Type, ISerializer> cache = new Core.Collection.Dictionary<Reflect.Type, ISerializer>();
 
 		ISerializer serializer;
 		public Cache(ISerializer serializer)
