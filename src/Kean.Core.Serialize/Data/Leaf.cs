@@ -53,8 +53,11 @@ namespace Kean.Core.Serialize.Data
 		Leaf(object value, Reflect.Type valueType, Reflect.Type type) :
 			this((T)value, valueType != type ? valueType : null)
 		{ }
+		protected Leaf(object value, object data, Reflect.Type type) :
+			this((T)value, data.Type(), type)
+		{ }
 		protected Leaf(object value, Reflect.Type type) :
-			this((T)value, value.Type(), type)
+			this(value, value, type)
 		{ }
 	}
 }

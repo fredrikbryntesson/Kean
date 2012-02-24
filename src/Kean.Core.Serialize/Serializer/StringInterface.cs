@@ -34,7 +34,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			return new Data.String((data as IString).String);
+			return new Data.String((data as IString).String, data, type);
 		}
 		public object Deserialize(Storage storage, Data.Node data)
 		{

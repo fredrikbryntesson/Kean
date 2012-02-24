@@ -38,5 +38,8 @@ namespace Kean.Core.Serialize.Data
 		public String(object value, Reflect.Type type) :
 			base(value, type)
 		{ }
+		public String(string value, object data, Reflect.Type type) :
+			base(value, data, type)
+		{ }
 	}
 }

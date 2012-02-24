@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Extension;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -37,7 +38,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			return new Data.String((string)this.GetToStringCast(type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture));
+			return new Data.String((string)this.GetToStringCast(data.Type()).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture), data, type);
 		}
 		public object Deserialize(Storage storage, Serialize.Data.Node data)
 		{

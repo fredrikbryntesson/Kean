@@ -38,6 +38,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="All.cs" />
@@ -47,12 +49,14 @@
     <Compile Include="Data\Class.cs" />
     <Compile Include="Data\ComplexClass.cs" />
     <Compile Include="Data\Array.cs" />
+    <Compile Include="Data\StringInterface.cs" />
     <Compile Include="Data\Dictionary.cs" />
     <Compile Include="Data\KeyValue.cs" />
     <Compile Include="Data\List.cs" />
     <Compile Include="Data\Enumerator.cs" />
     <Compile Include="Data\IData.cs" />
     <Compile Include="Data\Linked.cs" />
+    <Compile Include="Data\StringCast.cs" />
     <Compile Include="Data\Structure.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="IFactory.cs" />
@@ -151,6 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Xml\Dictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\StringCast.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\StringInterface.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
