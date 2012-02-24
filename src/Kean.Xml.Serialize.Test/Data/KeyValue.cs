@@ -1,5 +1,5 @@
 ﻿// 
-//  CollectionTypes.cs
+//  KeyValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using NUnit.Framework;
-using Kean.Core.Extension;
+using Kean.Core;
+using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Xml.Serialize.Test.Data
 {
-	public class CollectionTypes :
-		Factory<CollectionTypes>
+	public class KeyValue :
+		IData
 	{
-		protected override void Run()
-		{
-			this.Run(
-				this.Dictionary,
-				this.List,
-				this.Array
-				);
-		}
+		[Core.Serialize.Parameter]
+		public KeyValue<string, object> Data { get; set; }
 
-		[Test]
-		public void Array() { this.Test(typeof(Data.Array)); }
-        [Test]
-        public void List() { this.Test(typeof(Data.List)); }
-		[Test]
-		public void Dictionary() { this.Test(typeof(Data.Dictionary)); }
+		#region IData
+		public virtual void Initilize(IFactory factory)
+		{
+			this.Data = Core.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
+		}
+		public virtual void Verify(IFactory factory, string message, params object[] arguments)
+		{
+			factory.Verify(this.Data.Key, message, arguments);
+			factory.Verify(this.Data.Value, message, arguments);
+		}
+		#endregion
 	}
 }

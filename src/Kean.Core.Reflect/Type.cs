@@ -349,19 +349,17 @@ namespace Kean.Core.Reflect
 				{
 					resultBuilder = new System.Text.StringBuilder().Append("<");
 					bool first = true;
-					foreach (System.Type name in value.Arguments)
+					foreach (Type name in value.Arguments)
 					{
 						if (!first)
 							resultBuilder.Append(",");
 						else
 							first = false;
-						resultBuilder.Append(name.FullName);
+						resultBuilder.Append((string)name);
 					}
 					resultBuilder.Append(">");
 				}
-				//if (value.Parent.NotNull())
-				//    resultBuilder = new System.Text.StringBuilder(value.Parent).Append("+").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
-				else if (value.Assembly.NotEmpty() && value.Name.StartsWith(value.Assembly))
+				if (value.Assembly.NotEmpty() && value.Name.StartsWith(value.Assembly))
 					resultBuilder = new System.Text.StringBuilder(value.Assembly).Append(":").Append(value.Name.Substring(value.Assembly.Length + 1)).Append(resultBuilder);
 				else
 				{

@@ -1,5 +1,5 @@
 ﻿// 
-//  CollectionTypes.cs
+//  CoreTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,27 +21,22 @@
 
 using System;
 using NUnit.Framework;
+using Kean.Core;
 using Kean.Core.Extension;
 
 namespace Kean.Xml.Serialize.Test
 {
-	public class CollectionTypes :
-		Factory<CollectionTypes>
+	public class CoreTypes :
+		Factory<CoreTypes>
 	{
 		protected override void Run()
 		{
 			this.Run(
-				this.Dictionary,
-				this.List,
-				this.Array
+				this.KeyValue
 				);
 		}
 
 		[Test]
-		public void Array() { this.Test(typeof(Data.Array)); }
-        [Test]
-        public void List() { this.Test(typeof(Data.List)); }
-		[Test]
-		public void Dictionary() { this.Test(typeof(Data.Dictionary)); }
+		public void KeyValue() { this.Test(typeof(Data.KeyValue)); }
 	}
 }

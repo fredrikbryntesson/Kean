@@ -35,6 +35,7 @@ namespace Kean.Core.Serialize.Serializer
 			new StringCastable(),
 			new Array(),
             new List(),
+			new Dictionary(),
 			new Structure(),
 			new Class()
 			)

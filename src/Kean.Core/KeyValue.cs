@@ -35,8 +35,8 @@ namespace Kean.Core
 		IEquatable<KeyValue<K, V>>,
 		ITuple
 	{
-		public K Key { get; set; }
-		public V Value { get; set; }
+		public K Key;
+		public V Value;
 		public KeyValue(K key, V value) :
 			this()
 		{

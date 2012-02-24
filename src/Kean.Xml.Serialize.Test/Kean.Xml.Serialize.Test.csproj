@@ -43,9 +43,12 @@
     <Compile Include="All.cs" />
     <Compile Include="BasicTypes.cs" />
     <Compile Include="CollectionTypes.cs" />
+    <Compile Include="CoreTypes.cs" />
     <Compile Include="Data\Class.cs" />
     <Compile Include="Data\ComplexClass.cs" />
     <Compile Include="Data\Array.cs" />
+    <Compile Include="Data\Dictionary.cs" />
+    <Compile Include="Data\KeyValue.cs" />
     <Compile Include="Data\List.cs" />
     <Compile Include="Data\Enumerator.cs" />
     <Compile Include="Data\IData.cs" />
@@ -142,6 +145,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Xml\List.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\KeyValue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\Dictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

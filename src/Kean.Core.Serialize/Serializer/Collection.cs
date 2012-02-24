@@ -43,7 +43,7 @@ namespace Kean.Core.Serialize.Serializer
 		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Collection result = new Data.Collection(data, type);
-			Reflect.Type elementType = ((System.Type)data.Type()).GetElementType();
+			Reflect.Type elementType = this.GetElementType(type);
 			int c = 0;
 			foreach (object child in data as System.Collections.IEnumerable)
 				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
