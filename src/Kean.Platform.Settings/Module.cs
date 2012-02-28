@@ -76,6 +76,13 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Start()
 		{
+			try
+			{
+				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
+					try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(file)).Dispose(); } catch { } 
+			}
+			catch { }
+			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
 			if (this.locators.NotNull())
 				foreach (Uri.Locator locator in this.locators)
 				{

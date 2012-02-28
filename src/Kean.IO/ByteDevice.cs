@@ -111,6 +111,10 @@ namespace Kean.IO
 		{
 			return ByteDevice.Open(resource, System.IO.FileMode.Open);
 		}
+		public static IByteDevice Open(Uri.Locator input, Uri.Locator output)
+		{
+			return new ByteDeviceSplitter(ByteDevice.Open(input), ByteDevice.Create(output));
+		}
 		public static IByteDevice Create(Uri.Locator resource)
 		{
 			return ByteDevice.Open(resource, System.IO.FileMode.Create);
@@ -118,20 +122,21 @@ namespace Kean.IO
 		static IByteDevice Open(Uri.Locator resource, System.IO.FileMode mode)
 		{
 			IByteDevice result = null;
-			switch (resource.Scheme)
-			{
-				case "assembly":
-					result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
-					break;
-				case "file":
-					result = new ByteDevice(System.IO.File.Open(resource.Path, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
-					break;
-			}
+			if (resource.NotNull())
+				switch (resource.Scheme)
+				{
+					case "assembly":
+						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
+						break;
+					case "file":
+						result = new ByteDevice(System.IO.File.Open(resource.Path, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
+						break;
+				}
 			return result;
 		}
 		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name,  resource) };
+			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
 		}
 		#endregion
 	}

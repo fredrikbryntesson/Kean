@@ -136,6 +136,9 @@ namespace Kean.Platform.Settings
 			IDisposable result = null;
 			switch (resource.Scheme)
 			{
+				case "file":
+					new Editor(root, new Cli.Terminal(IO.ByteDevice.Open(resource, null))).Read();
+					break;
 				case "telnet":
 					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
 					break;

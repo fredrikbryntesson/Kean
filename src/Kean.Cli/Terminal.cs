@@ -42,6 +42,9 @@ namespace Kean.Cli
 		public Terminal(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
+		public Terminal(IO.IByteInDevice read, IO.IByteOutDevice write) :
+			this(new IO.CharacterDevice(new IO.ByteDeviceSplitter(read, write)))
+		{ }
 		public Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
 			this.In = new IO.CharacterReader(new IO.Filter.CharacterInDevice(inDevice, this.FilterInput));

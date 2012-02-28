@@ -109,6 +109,14 @@
       <Name>Kean.Platform</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="settings.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Settings\name.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -72,6 +72,7 @@
     <Compile Include="IByteDevice.cs" />
     <Compile Include="IByteOutDevice.cs" />
     <Compile Include="IByteInDevice.cs" />
+    <Compile Include="ByteDeviceSplitter.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
     <Compile Include="Text\Writer.cs" />
   </ItemGroup>
