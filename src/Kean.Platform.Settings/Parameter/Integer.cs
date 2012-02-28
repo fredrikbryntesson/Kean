@@ -1,10 +1,10 @@
 ﻿// 
-//  Root.cs
+//  Integer.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <anderfrisk77@gmail.com
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,24 +22,34 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
+using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Platform.Remote
+namespace Kean.Platform.Settings.Parameter
 {
-	class Root : 
-		Settings.Dynamic
+	class Integer :
+		Abstract
 	{
-		Module module;
-
-		public Root(Module module)
+		internal Integer(Reflect.Type type) :
+			base(type)
 		{
-			this.module = module;
 		}
-
-		[Settings.Method("close", "Closes application.", "Shuts down the current application instance.")]
-		public bool Close()
+		public override string AsString(object value)
 		{
-			return this.module.Application.NotNull() && this.module.Application.Close();
+			return ((int)value).ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+		}
+		public override object FromString(string value)
+		{
+			int result = 0;
+			int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out result);
+			return result;
+		}
+		public override string Complete(string incomplete)
+		{
+			return incomplete;
+		}
+		public override string Help(string incomplete)
+		{
+			return "";
 		}
 	}
 }

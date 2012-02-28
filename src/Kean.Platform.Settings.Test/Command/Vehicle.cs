@@ -1,10 +1,10 @@
 ﻿// 
-//  Root.cs
+//  Vehicle.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,26 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
 
-namespace Kean.Platform.Remote
+namespace Kean.Platform.Settings.Test.Command
 {
-	class Root : 
-		Settings.Dynamic
-	{
-		Module module;
-
-		public Root(Module module)
-		{
-			this.module = module;
-		}
-
-		[Settings.Method("close", "Closes application.", "Shuts down the current application instance.")]
-		public bool Close()
-		{
-			return this.module.Application.NotNull() && this.module.Application.Close();
-		}
-	}
+    public abstract class Vehicle
+    {
+        [Property("wheels", "Number of wheels.")]
+        public abstract int Wheels { get; protected set; }
+        [Property("serial", "Serial number of vehicle.")]
+        public int Serial { get; protected set; }
+        [Method("drive", "Drive vehicle.")]
+        public abstract void Drive();
+    }
 }

@@ -1,10 +1,10 @@
 ﻿// 
-//  Root.cs
+//  Double.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,28 +18,26 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
 
-namespace Kean.Platform.Remote
+namespace Kean.Platform.Settings.Test.Command.Geometry3D
 {
-	class Root : 
-		Settings.Dynamic
+	public class Double
 	{
-		Module module;
-
-		public Root(Module module)
+		[Property("point")]
+		public Kean.Math.Geometry3D.Double.Point Point { get; private set; }
+		[Property("size")]
+		public Kean.Math.Geometry3D.Double.Size Size { get; private set; }
+		[Property("shell")]
+		public Kean.Math.Geometry3D.Double.Shell Shell { get; private set; }
+		[Property("box")]
+		public Kean.Math.Geometry3D.Double.Box Box { get; private set; }
+		[Property("transform")]
+		public Kean.Math.Geometry3D.Double.Transform Transform { get; private set; }
+		public Double()
 		{
-			this.module = module;
-		}
-
-		[Settings.Method("close", "Closes application.", "Shuts down the current application instance.")]
-		public bool Close()
-		{
-			return this.module.Application.NotNull() && this.module.Application.Close();
 		}
 	}
 }

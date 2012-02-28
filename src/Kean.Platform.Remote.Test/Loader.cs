@@ -20,7 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Processor = Kean.Cli.Processor;
 
 namespace Kean.Platform.Remote.Test
 {
@@ -32,12 +31,12 @@ namespace Kean.Platform.Remote.Test
 			this.remote = remote;
 		}
 
-		[Processor.Method("load")]
+		[Settings.Method("load")]
 		public void Load(string name)
 		{
 			this.remote.Load(name, new Object());
 		}
-		[Processor.Method("unload")]
+		[Settings.Method("unload")]
 		public void Unload(string name)
 		{
 			this.remote.Unload(name);

@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer.Test", "src\Kean.Cli.LineBuffer.Test\Kean.Cli.LineBuffer.Test.csproj", "{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Processor", "src\Kean.Cli.Processor\Kean.Cli.Processor.csproj", "{881FABE6-BA89-4242-9686-864E75EC541C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings", "src\Kean.Platform.Settings\Kean.Platform.Settings.csproj", "{881FABE6-BA89-4242-9686-864E75EC541C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Processor.Test", "src\Kean.Cli.Processor.Test\Kean.Cli.Processor.Test.csproj", "{473C25A4-F760-4CE7-8783-554471B6E986}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings.Test", "src\Kean.Platform.Settings.Test\Kean.Platform.Settings.Test.csproj", "{473C25A4-F760-4CE7-8783-554471B6E986}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core", "src\Kean.Core\Kean.Core.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
 EndProject

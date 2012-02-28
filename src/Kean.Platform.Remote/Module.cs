@@ -25,7 +25,6 @@ using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Argument = Kean.Cli.Argument;
-using Processor = Kean.Cli.Processor;
 
 namespace Kean.Platform.Remote
 {
@@ -82,7 +81,7 @@ namespace Kean.Platform.Remote
 				{
 					if (this.OpenConsole && this.locator.Scheme == "console" && Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
 						Module.AllocateConsole();
-					this.editor = Processor.Editor.Listen(this.root, this.locator);
+					this.editor = Settings.Editor.Listen(this.root, this.locator);
 				}
 				catch { }
 			}

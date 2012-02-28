@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  IDynamic.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 
-namespace Kean.Platform.Remote.Test
+namespace Kean.Platform.Settings
 {
-	public class Object :
-		Settings.Dynamic
+	public interface IDynamic :
+		IReload
 	{
-		[Settings.Property("name", "Name of configuration.", "The name of the current configuration.")]
-		public string Name { get; set; }
-		[Settings.Property("type", "Type of configuration.", "The type of the current configuration.")]
-		public string Type { get; set; }
-		[Settings.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
-		public string Comment { get; set; }
-
-		[Settings.Method("load")]
-		public void Load(string name)
-		{
-			this.Load(name, new Object());
-		}
-		[Settings.Method("unload")]
-		public void Unload(string name)
-		{
-			this.Unload(name);
-		}
+		System.Collections.Generic.IEnumerable<Tuple<string, string, string, object>> GetDynamic();
 	}
 }

@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  MethodAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,30 +18,23 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
-namespace Kean.Platform.Remote.Test
+namespace Kean.Platform.Settings
 {
-	public class Object :
-		Settings.Dynamic
+	[AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+	public class MethodAttribute :
+		MemberAttribute
 	{
-		[Settings.Property("name", "Name of configuration.", "The name of the current configuration.")]
-		public string Name { get; set; }
-		[Settings.Property("type", "Type of configuration.", "The type of the current configuration.")]
-		public string Type { get; set; }
-		[Settings.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
-		public string Comment { get; set; }
-
-		[Settings.Method("load")]
-		public void Load(string name)
-		{
-			this.Load(name, new Object());
-		}
-		[Settings.Method("unload")]
-		public void Unload(string name)
-		{
-			this.Unload(name);
-		}
+		public MethodAttribute(string name) :
+			this(name, null)
+		{ }
+		public MethodAttribute(string name, string description) :
+			base(name, description, null)
+		{ }
+		public MethodAttribute(string name, string description, string usage) :
+			base(name, description, usage)
+		{ }
 	}
 }
+

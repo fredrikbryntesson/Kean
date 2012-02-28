@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AA59DFCB-10D8-42A7-AEDC-E03069355A95}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,9 +51,9 @@
       <Project>{D3B69E94-AB2C-4144-8DD2-9F6556331188}</Project>
       <Name>Kean.Cli.LineBuffer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Cli.Processor\Kean.Cli.Processor.csproj">
+    <ProjectReference Include="..\Kean.Platform.Settings\Kean.Platform.Settings.csproj">
       <Project>{881FABE6-BA89-4242-9686-864E75EC541C}</Project>
-      <Name>Kean.Cli.Processor</Name>
+      <Name>Kean.Platform.Settings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Cli\Kean.Cli.csproj">
       <Project>{67647070-B042-4905-8F92-FF59E094E048}</Project>

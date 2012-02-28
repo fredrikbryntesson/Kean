@@ -18,30 +18,28 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
+using Kean.Core.Extension;
+using IO = Kean.IO;
+using Uri = Kean.Core.Uri;
 
-namespace Kean.Platform.Remote.Test
+namespace Kean.Platform.Settings.Test
 {
-	public class Object :
-		Settings.Dynamic
+	class Program
 	{
-		[Settings.Property("name", "Name of configuration.", "The name of the current configuration.")]
-		public string Name { get; set; }
-		[Settings.Property("type", "Type of configuration.", "The type of the current configuration.")]
-		public string Type { get; set; }
-		[Settings.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
-		public string Comment { get; set; }
-
-		[Settings.Method("load")]
-		public void Load(string name)
+		static void Main(string[] args)
 		{
-			this.Load(name, new Object());
-		}
-		[Settings.Method("unload")]
-		public void Unload(string name)
-		{
-			this.Unload(name);
+			Action close = null;
+			Command.Application application = new Command.Application(() => close.Call());
+			IDisposable telnet = Editor.Listen(application, "telnet://:23");
+			IDisposable tcp = Editor.Listen(application, "tcp://:20");
+			IDisposable console = Editor.Listen(application, "console:///");
+			close += () => 
+			{
+				telnet.Dispose();
+				tcp.Dispose();
+				console.Dispose();
+			};
 		}
 	}
 }

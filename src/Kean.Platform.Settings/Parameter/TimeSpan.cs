@@ -1,5 +1,5 @@
 ﻿// 
-//  Program.cs
+//  String.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,28 +20,34 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Platform.Remote.Test
+namespace Kean.Platform.Settings.Parameter
 {
-	public class Object :
-		Settings.Dynamic
+	class TimeSpan :
+		Abstract
 	{
-		[Settings.Property("name", "Name of configuration.", "The name of the current configuration.")]
-		public string Name { get; set; }
-		[Settings.Property("type", "Type of configuration.", "The type of the current configuration.")]
-		public string Type { get; set; }
-		[Settings.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
-		public string Comment { get; set; }
-
-		[Settings.Method("load")]
-		public void Load(string name)
+		internal TimeSpan(Reflect.Type type) :
+			base(type)
 		{
-			this.Load(name, new Object());
 		}
-		[Settings.Method("unload")]
-		public void Unload(string name)
+		public override string AsString(object value)
 		{
-			this.Unload(name);
+			return ((System.TimeSpan)value).ToString();
+		}
+		public override object FromString(string value)
+		{
+			return System.TimeSpan.Parse(value);
+		}
+		public override string Complete(string incomplete)
+		{
+			return incomplete.NotEmpty() && char.IsDigit(incomplete[0]) ? incomplete : "";
+		}
+		public override string Help(string incomplete)
+		{
+			return "[h:]mm:ss[.fff]";
 		}
 	}
 }
