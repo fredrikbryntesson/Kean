@@ -39,8 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Loader.cs" />
-    <Compile Include="Object.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
@@ -53,10 +51,6 @@
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Platform.Remote\Kean.Platform.Remote.csproj">
-      <Project>{AA59DFCB-10D8-42A7-AEDC-E03069355A95}</Project>
-      <Name>Kean.Platform.Remote</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Platform\Kean.Platform.csproj">
       <Project>{ABF16C06-E815-40C8-9194-13D9BE11E019}</Project>

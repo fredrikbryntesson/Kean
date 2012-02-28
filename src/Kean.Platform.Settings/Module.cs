@@ -26,7 +26,7 @@ using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Argument = Kean.Cli.Argument;
 
-namespace Kean.Platform.Remote
+namespace Kean.Platform.Settings
 {
 	public class Module :
 		Platform.Module
@@ -46,7 +46,7 @@ namespace Kean.Platform.Remote
 		}
 
 		public Module() :
-			base("Remote")
+			base("Settings")
 		{
 			this.root = new Root(this);
 		}

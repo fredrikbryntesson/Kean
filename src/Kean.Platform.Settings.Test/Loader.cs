@@ -1,5 +1,5 @@
 ﻿// 
-//  Root.cs
+//  Loader.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,26 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
 
-namespace Kean.Platform.Remote
+namespace Kean.Platform.Settings.Test
 {
-	class Root : 
-		Settings.Dynamic
+	public class Loader
 	{
-		Module module;
-
-		public Root(Module module)
+		Platform.Settings.Module remote;
+		internal Loader(Platform.Settings.Module remote)
 		{
-			this.module = module;
+			this.remote = remote;
 		}
 
-		[Settings.Method("close", "Closes application.", "Shuts down the current application instance.")]
-		public bool Close()
+		[Settings.Method("load")]
+		public void Load(string name)
 		{
-			return this.module.Application.NotNull() && this.module.Application.Close();
+			this.remote.Load(name, new Object());
+		}
+		[Settings.Method("unload")]
+		public void Unload(string name)
+		{
+			this.remote.Unload(name);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿// 
-//  Loader.cs
+//  Program.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,25 +21,27 @@
 
 using System;
 
-namespace Kean.Platform.Remote.Test
+namespace Kean.Platform.Settings.Test
 {
-	public class Loader
+	public class Object :
+		Dynamic
 	{
-		Platform.Remote.Module remote;
-		internal Loader(Platform.Remote.Module remote)
-		{
-			this.remote = remote;
-		}
+		[Settings.Property("name", "Name of configuration.", "The name of the current configuration.")]
+		public string Name { get; set; }
+		[Settings.Property("type", "Type of configuration.", "The type of the current configuration.")]
+		public string Type { get; set; }
+		[Settings.Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
+		public string Comment { get; set; }
 
 		[Settings.Method("load")]
 		public void Load(string name)
 		{
-			this.remote.Load(name, new Object());
+			this.Load(name, new Object());
 		}
 		[Settings.Method("unload")]
 		public void Unload(string name)
 		{
-			this.remote.Unload(name);
+			this.Unload(name);
 		}
 	}
 }

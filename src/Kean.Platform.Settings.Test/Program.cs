@@ -29,17 +29,29 @@ namespace Kean.Platform.Settings.Test
 	{
 		static void Main(string[] args)
 		{
-			Action close = null;
-			Command.Application application = new Command.Application(() => close.Call());
-			IDisposable telnet = Editor.Listen(application, "telnet://:23");
-			IDisposable tcp = Editor.Listen(application, "tcp://:20");
-			IDisposable console = Editor.Listen(application, "console:///");
-			close += () => 
+			if (args.Length == 0)
 			{
-				telnet.Dispose();
-				tcp.Dispose();
-				console.Dispose();
-			};
+				Action close = null;
+				Command.Application application = new Command.Application(() => close.Call());
+				IDisposable telnet = Editor.Listen(application, "telnet://:23");
+				IDisposable tcp = Editor.Listen(application, "tcp://:20");
+				IDisposable console = Editor.Listen(application, "console:///");
+				close += () =>
+				{
+					telnet.Dispose();
+					tcp.Dispose();
+					console.Dispose();
+				};
+			}
+			else
+			{
+				Application application = new Application();
+				Settings.Module remote = new Settings.Module();
+				remote.Load("loader", new Loader(remote));
+				remote.Load("old.object", new Object());
+				application.Load(remote);
+				application.Execute();
+			}
 		}
 	}
 }
