@@ -25,14 +25,15 @@ using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Argument = Kean.Cli.Argument;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Platform.Settings
 {
 	public class Module :
 		Platform.Module
 	{
-		System.IDisposable editor;
-		Uri.Locator locator;
+		Collection.IList<IDisposable> editors = new Collection.List<IDisposable>();
+		Collection.IList<Uri.Locator> locators = new Collection.List<Kean.Core.Uri.Locator>();
 
 		Root root;
 
@@ -70,21 +71,22 @@ namespace Kean.Platform.Settings
 
 		protected override void AddArguments(Argument.Parser parser)
 		{
-			parser.Add('r', "remote", argument => this.locator = argument);
+			parser.Add('r', "remote", argument => this.locators.Add(argument));
 			base.AddArguments(parser);
 		}
 		protected override void Start()
 		{
-			if (this.locator.NotNull())
-			{
-				try
+			if (this.locators.NotNull())
+				foreach (Uri.Locator locator in this.locators)
 				{
-					if (this.OpenConsole && this.locator.Scheme == "console" && Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
-						Module.AllocateConsole();
-					this.editor = Settings.Editor.Listen(this.root, this.locator);
+					try
+					{
+						if (this.OpenConsole && locator.Scheme == "console" && Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+							Module.AllocateConsole();
+						this.editors.Add(Settings.Editor.Listen(this.root, locator));
+					}
+					catch { }
 				}
-				catch { }
-			}
 			base.Start();
 		}
 		protected override void Stop()
@@ -93,8 +95,11 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Dispose()
 		{
-			if (editor.NotNull())
-				editor.Dispose();
+			if (this.editors.NotNull())
+			{
+				this.editors.Apply(editor => editor.Dispose());
+				this.editors = null;
+			}
 			base.Dispose();
 		}
 		[System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto, CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
