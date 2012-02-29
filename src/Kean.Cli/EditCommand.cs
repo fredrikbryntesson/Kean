@@ -41,7 +41,7 @@ namespace Kean.Cli
 		// 14			// n
 		UpArrow = 15,	// o
 		// 16			// p
-		//Quit = 17,	// q
+		Quit = 17,		// q
 		// 18			// r
 		// 19			// s
 		// 20			// t

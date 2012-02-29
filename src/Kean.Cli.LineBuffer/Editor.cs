@@ -27,7 +27,8 @@ using IO = Kean.IO;
 
 namespace Kean.Cli.LineBuffer
 {
-	public class Editor
+	public class Editor :
+		IDisposable
 	{
 		object @lock = new object();
 		bool executing;
@@ -94,6 +95,7 @@ namespace Kean.Cli.LineBuffer
 							this.history.Current.Renew(result);
 					}
 					break;
+				case EditCommand.Quit:
 				case EditCommand.Enter:
 					{
 						lock (this.@lock)
@@ -177,7 +179,19 @@ namespace Kean.Cli.LineBuffer
 
 		public void Close()
 		{
-			this.terminal.Close();
+			lock (this.@lock)
+				if (this.terminal.NotNull())
+				{
+					this.terminal.Close();
+					this.terminal = null;
+				}
 		}
+
+		#region IDisposable Members
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
+		#endregion
 	}
 }

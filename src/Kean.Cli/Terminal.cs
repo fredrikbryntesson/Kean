@@ -20,6 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Geometry2D = Kean.Math.Geometry2D;
 using Collection = Kean.Core.Collection;
@@ -54,7 +56,7 @@ namespace Kean.Cli
 		#region IDevice Members
 		public Uri.Locator Resource { get { throw new NotImplementedException(); } }
 		public bool Opened { get { return this.In.Opened && this.Out.Opened; } }
-		public bool Close() { return this.In.Close() && this.Out.Close(); }
+		public bool Close() { this.OnCommand(EditCommand.Quit); return this.In.Close() && this.Out.Close(); }
 		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose() { this.Close(); }
@@ -71,7 +73,7 @@ namespace Kean.Cli
 		#endregion
 		protected virtual void OnCommand(EditCommand action)
 		{
-			this.Command(action);
+			this.Command.Call(action);
 		}
 		char[] FilterInput(Func<char?> read)
 		{

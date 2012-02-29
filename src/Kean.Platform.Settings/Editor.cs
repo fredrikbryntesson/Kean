@@ -29,7 +29,8 @@ using Parallel = Kean.Core.Parallel;
 
 namespace Kean.Platform.Settings
 {
-	public class Editor
+	public class Editor :
+		IDisposable
 	{
 		internal Object Root { get; private set; }
 		Object current;
@@ -117,7 +118,11 @@ namespace Kean.Platform.Settings
 		}
 		public void Close()
 		{
-			this.lineBuffer.Close();
+			if (this.lineBuffer.NotNull())
+			{
+				this.lineBuffer.Close();
+				this.lineBuffer = null;
+			}
 		}
 		internal void Answer(Member member, params string[] parameters)
 		{
@@ -131,13 +136,19 @@ namespace Kean.Platform.Settings
 		{
 			this.lineBuffer.WriteLine("! " + member + "> " + message + " " + string.Join(" ", parameters));
 		}
+		#region IDisposable Members
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
+		#endregion
 		public static IDisposable Listen(object root, Uri.Locator resource)
 		{
 			IDisposable result = null;
 			switch (resource.Scheme)
 			{
 				case "file":
-					new Editor(root, new Cli.Terminal(IO.ByteDevice.Open(resource, null))).Read();
+					((Editor)(result = new Editor(root, new Cli.Terminal(IO.ByteDevice.Open(resource, null))))).Read();
 					break;
 				case "telnet":
 					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
@@ -151,7 +162,6 @@ namespace Kean.Platform.Settings
 			}
 			return result;
 		}
-
 	}
 }
  
