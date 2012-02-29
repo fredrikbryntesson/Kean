@@ -8,8 +8,8 @@
     <ProjectGuid>{473C25A4-F760-4CE7-8783-554471B6E986}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.Cli.Processor.Test</RootNamespace>
-    <AssemblyName>Kean.Cli.Processor.Test</AssemblyName>
+    <RootNamespace>Kean.Platform.Settings.Test</RootNamespace>
+    <AssemblyName>Kean.Platform.Settings.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -110,6 +110,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Kean.Platform.Settings.Test.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="settings.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

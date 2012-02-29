@@ -8,8 +8,8 @@
     <ProjectGuid>{881FABE6-BA89-4242-9686-864E75EC541C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.Cli.Processor</RootNamespace>
-    <AssemblyName>Kean.Cli.Processor</AssemblyName>
+    <RootNamespace>Kean.Platform.Settings</RootNamespace>
+    <AssemblyName>Kean.Platform.Settings</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

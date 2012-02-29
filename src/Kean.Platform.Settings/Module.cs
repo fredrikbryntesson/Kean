@@ -76,6 +76,7 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Start()
 		{
+			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); } catch { }
 			try
 			{
 				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
