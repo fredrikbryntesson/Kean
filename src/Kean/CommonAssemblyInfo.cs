@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: AssemblyCompany("Kean")]
 [assembly: AssemblyProduct("Kean Toolkit")]
-[assembly: AssemblyCopyright("2009 - 2011 Kean Developers")]
+[assembly: AssemblyCopyright("2009 - 2012 Kean Developers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
