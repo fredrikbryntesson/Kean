@@ -81,11 +81,11 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+    <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
+    <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>

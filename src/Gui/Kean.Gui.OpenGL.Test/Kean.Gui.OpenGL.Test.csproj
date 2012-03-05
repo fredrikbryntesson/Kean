@@ -36,11 +36,11 @@
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OpenTK\OpenTK.dll</HintPath>
+      <HintPath>..\..\..\lib\OpenTK\OpenTK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -83,15 +83,15 @@
       <Project>{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}</Project>
       <Name>Kean.Gui</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+    <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Math\Kean.Math.csproj">
+    <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Test\Kean.Test.csproj">
+    <ProjectReference Include="..\..\Test\Kean.Test\Kean.Test.csproj">
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
     </ProjectReference>

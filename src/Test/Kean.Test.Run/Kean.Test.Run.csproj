@@ -32,7 +32,7 @@
     <Reference Include="System" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +137,11 @@
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Xml.Dom.Test\Kean.Xml.Dom.Test.csproj">
+    <ProjectReference Include="..\..\Xml\Kean.Xml.Dom.Test\Kean.Xml.Dom.Test.csproj">
       <Project>{124712B0-21A1-4AFC-AFAD-211662A8E6C3}</Project>
       <Name>Kean.Xml.Dom.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj">
+    <ProjectReference Include="..\..\Xml\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj">
       <Project>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</Project>
       <Name>Kean.Xml.Serialize.Test</Name>
     </ProjectReference>
