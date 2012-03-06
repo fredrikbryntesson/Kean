@@ -144,5 +144,14 @@ namespace Kean.Platform
 			base(name)
 		{ }
 		#endregion
+		protected internal override void Dispose()
+		{
+			if (this.Value is IDisposable)
+			{
+				(this.Value as IDisposable).Dispose();
+				this.Value = default(T);
+			}
+			base.Dispose();
+		}
 	}
 }
