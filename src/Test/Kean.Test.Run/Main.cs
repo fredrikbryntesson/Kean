@@ -26,6 +26,8 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            Kean.Draw.Net.Test.All.Test();
+
            	Xml.Serialize.Test.All.Test();
 
 
