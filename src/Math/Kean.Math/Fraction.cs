@@ -38,24 +38,34 @@ namespace Kean.Math
 		{
 			if (value.NotEmpty())
 			{
-				string[] splitted = value.Split(new char[] { '[', ']', ';', ',', ':', '/', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 				if (value.Contains('[', ']'))
 				{
+					string[] splitted = value.Split(new char[] { '[', ']', ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 					int[] nominatorDenominator = this.EvaluateQuotients(splitted.Map<string, int>(s => Kean.Math.Integer.Parse(s)));
 					this.Nominator = nominatorDenominator[0];
 					this.Denominator = nominatorDenominator[1];
 				}
 				else
 				{
-					if (splitted.Length == 2)
+					if (value.Contains(':') || value.Contains('/'))
 					{
-						this.Nominator = Kean.Math.Integer.Parse(splitted[0]);
-						this.Denominator = Kean.Math.Integer.Parse(splitted[1]);
+						string[] splitted = value.Split(new char[] { ':', '/', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+						if (splitted.Length == 2)
+						{
+							this.Nominator = Kean.Math.Integer.Parse(splitted[0]);
+							this.Denominator = Kean.Math.Integer.Parse(splitted[1]);
+						}
 					}
 					else
 					{
-						this.Nominator = Kean.Math.Integer.Parse(splitted[0]);
-						this.Denominator = 1;
+						value = value.Replace(',', '.');
+						if (!value.Contains('.'))
+						{
+							this.Nominator = Kean.Math.Integer.Parse(value);
+							this.Denominator = 1;
+						}
+						else
+							this.DecimalToFraction(Kean.Math.Double.Parse(value));
 					}
 				}
 			}
@@ -67,6 +77,10 @@ namespace Kean.Math
 			this.quotientsAndGCD = this.EuclidanAlgorithm();
 		}
 		public Fraction(double value)
+		{
+			this.DecimalToFraction(value);
+		}
+		void DecimalToFraction(double value)
 		{
 			int[] quotients = this.ContinuousFraction(value, 10, 1e-3);
 			int[] nominator = new int[quotients.Length + 2];

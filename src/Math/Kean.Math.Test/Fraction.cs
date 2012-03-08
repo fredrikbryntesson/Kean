@@ -14,7 +14,9 @@ namespace Kean.Math.Test
         [Test]
         public void ConstructorsCastsAndProperties()
         {
-	        Expect(new Kean.Math.Fraction("3:5").Nominator, Is.EqualTo(3));
+			Expect((float)(Kean.Math.Fraction)("3.5"), Is.EqualTo(3.5f));
+			Expect((float)(Kean.Math.Fraction)("3,5"), Is.EqualTo(3.5));
+			Expect(new Kean.Math.Fraction("3:5").Nominator, Is.EqualTo(3));
 			Expect(new Kean.Math.Fraction("3:5").Denominator, Is.EqualTo(5));
 			Expect((float)new Kean.Math.Fraction(3.245f), Is.EqualTo(3.245f));
 			Expect((double)new Kean.Math.Fraction(3.245), Is.EqualTo(3.245));
