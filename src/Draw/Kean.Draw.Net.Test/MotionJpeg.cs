@@ -46,12 +46,11 @@ namespace Kean.Draw.Net.Test
             multi.NewFrame += (Raster.Image image) =>
             {
                 counter++;
-              //  image.Save("test.jpg");
-                Console.WriteLine("motion new image " + counter);
+                Console.Write(".");
             };
             multi.Start();
-            while (counter < 20)
-                System.Threading.Thread.Sleep(1000);
+            while (counter < 10)
+                System.Threading.Thread.Sleep(100);
             multi.Stop();
         }
     }

@@ -46,8 +46,7 @@ namespace Kean.Draw.Net.Test
             single.NewFrame += (image) => 
             {
                 counter++;
-                //image.Save("test.jpg");
-                Console.WriteLine("new image " + counter);
+                Console.Write(".");
             };
             single.Start();
             while(counter < 20)

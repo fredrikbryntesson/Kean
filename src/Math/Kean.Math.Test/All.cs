@@ -6,6 +6,7 @@ namespace Kean.Math.Test
     {
         public static void Test()
         {
+            Fraction.Test();
             Single.Test();
             Double.Test();
         }
