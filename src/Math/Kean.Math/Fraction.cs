@@ -4,7 +4,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math
 {
-	public class Fraction
+	public class Fraction : 
+        IEquatable<Fraction>
 	{
 		public int Nominator { get; private set; }
 		public int Denominator { get; private set; }
@@ -182,10 +183,28 @@ namespace Kean.Math
 			}
 			return result;
 		}
-		
-
+        #region Comparison Operators
+        public static bool operator ==(Fraction left, Fraction right)
+        {
+            return object.ReferenceEquals(left, right) ||
+                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
+                left.Nominator * right.Denominator - right.Nominator * left.Denominator == 0;
+        }
+        public static bool operator !=(Fraction left, Fraction right)
+        {
+            return !(left == right);
+        }
+        #endregion
 		#region Object Overrides
-		public override string ToString()
+        public override bool Equals(object other)
+        {
+            return (other is Fraction) && this.Equals(other as Fraction);
+        }
+        public bool Equals(Fraction other)
+        {
+            return this == other;
+        }
+     	public override string ToString()
 		{
 			return this;
 		}
