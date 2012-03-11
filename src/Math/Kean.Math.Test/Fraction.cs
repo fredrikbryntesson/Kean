@@ -10,14 +10,17 @@ namespace Kean.Math.Test
 		string prefix = "Kean.Math.Test.";
         protected override void Run()
         {
-			this.Run(this.Constructors, this.Casts, this.Equality);
+			this.Run(
+                this.Constructors, 
+                this.Casts, 
+                this.GCD,
+                this.Equality,
+                this.Arithmetics);
         }
-		
-        [Test]
+	    [Test]
         public void Constructors()
         {
-
-			Expect(new Kean.Math.Fraction("3:5").Nominator, Is.EqualTo(3), this.prefix + "Constructors.0");
+            Expect(new Kean.Math.Fraction("3:5").Nominator, Is.EqualTo(3), this.prefix + "Constructors.0");
 			Expect(new Kean.Math.Fraction("3:5").Denominator, Is.EqualTo(5), this.prefix + "Constructors.1");
 			Expect((float)new Kean.Math.Fraction(3.245f), Is.EqualTo(3.245f), this.prefix + "Constructors.2");
 			Expect((double)new Kean.Math.Fraction(3.245), Is.EqualTo(3.245), this.prefix + "Constructors.3");
@@ -27,8 +30,9 @@ namespace Kean.Math.Test
 			Expect((float)new Kean.Math.Fraction(-3.245f), Is.EqualTo(-3.245f), this.prefix + "Constructors.7");
 			Expect((double)new Kean.Math.Fraction(-3.245), Is.EqualTo(-3.245), this.prefix + "Constructors.8");
 			Expect((string)new Kean.Math.Fraction(-3.245), Is.EqualTo("-649:200"), this.prefix + "Constructors.9");
-			
-		}
+            Expect(new Kean.Math.Fraction(3, 5).Nominator, Is.EqualTo(3), this.prefix + "Constructors.10");
+            Expect(new Kean.Math.Fraction(3, 5).Denominator, Is.EqualTo(5), this.prefix + "Constructors.11");
+        }
 		[Test]
 		public void Casts()
 		{
@@ -59,6 +63,28 @@ namespace Kean.Math.Test
 			Expect((Kean.Math.Fraction)("3:5") != (Kean.Math.Fraction)("5:10"), Is.True, this.prefix + "Equality.1");
 			Expect(((Kean.Math.Fraction)("3:5")).Equals((Kean.Math.Fraction)("6:10")), Is.True, this.prefix + "Equality.2");
 		}
+        [Test]
+        public void GCD()
+        {
+            Expect(new Kean.Math.Fraction().GCD, Is.EqualTo(1), this.prefix + "GCD.0");
+            Expect(new Kean.Math.Fraction(3,5).GCD, Is.EqualTo(1), this.prefix + "GCD.1");
+            Expect(new Kean.Math.Fraction(-3, 5).GCD, Is.EqualTo(1), this.prefix + "GCD.2");
+            Expect(new Kean.Math.Fraction(-3, 15).GCD, Is.EqualTo(3), this.prefix + "GCD.3");
+            Expect(((Kean.Math.Fraction)("3:5") / 3).Nominator, Is.EqualTo(1), this.prefix + "GCD.4");
+            Expect(((Kean.Math.Fraction)("3:5") / 3).Denominator, Is.EqualTo(5), this.prefix + "GCD.5");
+
+        }
+        [Test]
+        public void Arithmetics()
+        {
+            Expect((Kean.Math.Fraction)("3:5") * (Kean.Math.Fraction)("2:7"), Is.EqualTo((Kean.Math.Fraction)("6:35")), this.prefix + "Arithmetics.0");
+            Expect((Kean.Math.Fraction)("3:5") + (Kean.Math.Fraction)("2:7"), Is.EqualTo((Kean.Math.Fraction)("31:35")), this.prefix + "Arithmetics.1");
+            Expect((Kean.Math.Fraction)("3:5") - (Kean.Math.Fraction)("2:7"), Is.EqualTo((Kean.Math.Fraction)("11:35")), this.prefix + "Arithmetics.2");
+            Expect(-(Kean.Math.Fraction)("3:5"), Is.EqualTo((Kean.Math.Fraction)("-3:5")), this.prefix + "Arithmetics.3");
+            Expect(7 *(Kean.Math.Fraction)("3:5"), Is.EqualTo((Kean.Math.Fraction)("21:5")), this.prefix + "Arithmetics.4");
+            Expect((Kean.Math.Fraction)("3:5") * 7, Is.EqualTo((Kean.Math.Fraction)("21:5")), this.prefix + "Arithmetics.5");
+            Expect((Kean.Math.Fraction)("3:5") / 3, Is.EqualTo((Kean.Math.Fraction)("1:5")), this.prefix + "Arithmetics.6");
+        }
 
     }
 }
