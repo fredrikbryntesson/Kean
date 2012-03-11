@@ -72,7 +72,6 @@ namespace Kean.Math.Test
             Expect(new Kean.Math.Fraction(-3, 15).GCD, Is.EqualTo(3), this.prefix + "GCD.3");
             Expect(((Kean.Math.Fraction)("3:5") / 3).Nominator, Is.EqualTo(1), this.prefix + "GCD.4");
             Expect(((Kean.Math.Fraction)("3:5") / 3).Denominator, Is.EqualTo(5), this.prefix + "GCD.5");
-
         }
         [Test]
         public void Arithmetics()
@@ -85,6 +84,5 @@ namespace Kean.Math.Test
             Expect((Kean.Math.Fraction)("3:5") * 7, Is.EqualTo((Kean.Math.Fraction)("21:5")), this.prefix + "Arithmetics.5");
             Expect((Kean.Math.Fraction)("3:5") / 3, Is.EqualTo((Kean.Math.Fraction)("1:5")), this.prefix + "Arithmetics.6");
         }
-
     }
 }
