@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -28,96 +28,42 @@ using Kean.Core.Collection.Extension;
 namespace Kean.Core.Uri
 {
     public class Path :
-		Collection.ILink<Path, string>,
         IString,
         IEquatable<Path>
     {
-        #region ILink<Path, string> Members
-		public string Head { get; set; }
-		public Path Tail { get; set; }
-        #endregion
+		PathLink head;
         #region IString Members
         public string String
         {
-            get
-            {
-                System.Text.StringBuilder result = new System.Text.StringBuilder(this.Head);
-                if (this.Tail.NotNull())
-                {
-                    result.Append("/");
-                    result.Append(this.Tail.String);
-                }
-                return result.ToString();
-            }
-            set
-            {
-                if (value.IsEmpty())
-                {
-                    this.Head = null;
-                    this.Tail = null;
-                }
-                else
-                {
-                    string[] splitted = value.Replace('+',' ').Split(new char[] { '/' }, 2);
-                    this.Head = splitted[0];
-                    this.Tail = splitted.Length > 1 ?  new Path() { String = splitted[1] } : null;
-                }
-            }
+			get { return this.head.NotNull() ? this.head.String : "/"; }
+            set { this.head = new PathLink() { String = value }; }
         }
         #endregion
 		public string PlattformPath
 		{
-			get 
-			{
-				string name = this.Head ?? "";
-				if (name.EndsWith(":"))
-					name += System.IO.Path.DirectorySeparatorChar;
-				return this.Tail.NotNull() ? System.IO.Path.Combine(name, this.Tail.PlattformPath) : name; 
-			}
-			set
-			{
-				if (value.IsEmpty())
-				{
-					this.Head = null;
-					this.Tail = null;
-				}
-				else
-				{
-					string[] splitted = value.Split(new char[] { System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar }, 2);
-					this.Head = splitted[0];
-					this.Tail = splitted.Length > 1 ? new Path() { PlattformPath = splitted[1] } : null;
-				}
-			}
+			get { return this.head.NotNull() ? this.head.PlattformPath : ""; }
+			set { this.head = new PathLink() { PlattformPath = value }; }
 		}
-		public bool IsFolder { get { return this.Tail.IsNull() ? this.Head.IsEmpty() : this.Tail.IsFolder; } }
-		public Path Folder { get { return this.Tail.IsNull() ? new Path() : new Path(this.Head, this.Tail.Folder); } }
+		public bool IsFolder { get { return this.head.NotNull() && this.head.IsFolder; } }
+		public Path Folder { get { return this.head.NotNull() ? new Path(this.head.Folder) : new Path(); } }
+		public string Extension { get { return this.head.Extension; } set { this.head.Extension = value; } }
 		public Path() { }
 		public Path(params string[] path) :
-			this(0, path) { }
-		Path(int skip, string[] path) :
+			this(new PathLink(path))
+		{ }
+		Path(PathLink last) :
 			this()
 		{
-			if (path.NotNull() && path.Length > skip)
-			{
-				this.Head = path[skip];
-				if (path.Length > skip + 1)
-					this.Tail = new Path(skip + 1, path);
-			}
-		}
-		public Path(string head, Path tail) :
-			this()
-		{
-			this.Head = head;
-			this.Tail = tail;
+			this.head = last;
 		}
 		public Path Copy()
 		{
-			return new Path(this.Head, this.Tail.NotNull() ? this.Tail.Copy() : null);
+			return new Path(this.head.Copy());
 		}
         #region IEquatable<Path> Members
         public bool Equals(Path other)
         {
-            return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
+            return other.NotNull() && this.head == other.head;
         }
         #endregion
         #region Object Overrides
@@ -127,7 +73,7 @@ namespace Kean.Core.Uri
         }
         public override int GetHashCode()
         {
-			return this.Head.Hash() ^ this.Tail.Hash();
+			return this.head.Hash();
         }
         public override string ToString()
         {
@@ -136,39 +82,17 @@ namespace Kean.Core.Uri
         #endregion
 		public static Path FromPlattformPath(string path)
 		{
-			return path.NotEmpty() ? new Path() { PlattformPath = path } : null;
+			return new Path() { PlattformPath = path };
 		}
-		#region Operators
-		static Path Create(System.IO.DirectoryInfo directory, Path tail)
-		{
-			Path result = null;
-			if (directory.NotNull())
-			{
-				result = new Path() { Head = directory.Name.TrimEnd('\\'), Tail = tail };
-				if (directory.Parent.NotNull())
-					result = Path.Create(directory.Parent, result);
-			}
-			return result;
-		}
-		static Path Create(System.IO.FileInfo file, Path tail)
-		{
-			Path result = null;
-			if (file.NotNull())
-			{
-				result = new Path() { Head = file.Name, Tail = tail };
-				if (file.Directory.NotNull())
-					result = Path.Create(file.Directory, result);
-			}
-			return result;
-		}
+		#region static operators
 		#region Casts with System.IO.FileSystemInfo
 		public static implicit operator Path(System.IO.FileSystemInfo item)
 		{
-			return item is System.IO.DirectoryInfo ? Path.Create(item as System.IO.DirectoryInfo, null) : item is System.IO.FileInfo ? Path.Create(item as System.IO.FileInfo, null) : null;
+			return new Path((PathLink)item);
 		}
 		public static explicit operator System.IO.DirectoryInfo(Path path)
 		{
-			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlattformPath) : null;
+			return path.NotNull() ? (System.IO.DirectoryInfo)path.head : null;
 		}
 		#endregion
 		#region Casts with string
@@ -184,7 +108,7 @@ namespace Kean.Core.Uri
 		#region Equality Operators
 		public static bool operator ==(Path left, Path right)
         {
-            return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
+            return left.SameOrEquals(right);
         }
         public static bool operator !=(Path left, Path right)
         {
@@ -194,11 +118,7 @@ namespace Kean.Core.Uri
 		#region Add Operator
 		public static Path operator +(Path left, Path right)
 		{
-			if (left.IsNull() || left.Tail.IsNull() && left.Head.IsEmpty())
-				left = right;
-			else
-				left.Tail = left.Tail + right;
-			return left;
+			return left.IsNull() ? right : right.IsNull() ? left : new Path(left.head + right.head);
 		}
 		#endregion
 		#endregion

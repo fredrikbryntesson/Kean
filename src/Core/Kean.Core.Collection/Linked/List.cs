@@ -34,12 +34,12 @@ namespace Kean.Core.Collection.Linked
 		Abstract.List<T>
 		where L : class, ILink<L, T>, new()
 	{
-		L last;
-		public override int Count { get { return this.last.Count<L, T>(); } }
+		public L Last { get; set; }
+		public override int Count { get { return this.Last.Count<L, T>(); } }
 		public override T this[int index]
 		{
-			get { return this.last.Get<L, T>(this.Count - index - 1); }
-			set { this.last.Set<L, T>(this.Count - index - 1, value); }
+			get { return this.Last.Get<L, T>(this.Count - index - 1); }
+			set { this.Last.Set<L, T>(this.Count - index - 1, value); }
 		}
 		#region Constructors
 		public List() { }
@@ -54,31 +54,31 @@ namespace Kean.Core.Collection.Linked
 		#endregion
 		public override void Add(T element)
 		{
-			this.last = new L()
+			this.Last = new L()
 			{
 				Head = element,
-				Tail = this.last,
+				Tail = this.Last,
 			};
 		}
 		public override T Remove()
 		{
 			T result = default(T);
-			if (this.last.NotNull())
+			if (this.Last.NotNull())
 			{
-				result = this.last.Head;
-				this.last = this.last.Tail;
+				result = this.Last.Head;
+				this.Last = this.Last.Tail;
 			}
 			return result;
 		}
         public override T Remove(int index)
 		{
 			T result;
-			this.last = this.last.Remove(this.Count - index - 1, out result);
+			this.Last = this.Last.Remove(this.Count - index - 1, out result);
 			return result;
 		}
         public override void Insert(int index, T element)
 		{
-			this.last = this.last.Insert(this.Count - index, element);
+			this.Last = this.Last.Insert(this.Count - index, element);
 		}
 	}
 }
