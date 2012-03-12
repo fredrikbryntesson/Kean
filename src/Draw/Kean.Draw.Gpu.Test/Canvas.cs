@@ -115,7 +115,7 @@ namespace Kean.Draw.Gpu.Test
 				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Point(500, 200));
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnPosition.png")));
+				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnPosition.png")), Is.LessThan(5));
 			}
 		}
 		[Test]
@@ -126,7 +126,7 @@ namespace Kean.Draw.Gpu.Test
 				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Box(0,0,50,100), new Geometry2D.Single.Box(200,200,100,100));
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegion.png")));
+				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegion.png")), Is.LessThan(5));
 			}
 		}
 		[Test]
@@ -163,7 +163,7 @@ namespace Kean.Draw.Gpu.Test
 				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
 				canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
 				canvas.Pop();
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegionWithClipping.png")));
+				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegionWithClipping.png")), Is.LessThan(5));
 			}
 		}
 		[Test]

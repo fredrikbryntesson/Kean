@@ -136,7 +136,7 @@ namespace Kean.Draw.Gpu.Test
 				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Monochrome>();
 				Kean.Draw.Canvas canvas = image.Canvas;
 				canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
-				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.DrawImageOnRegion.png")));
+				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Monochrome.DrawImageOnRegion.png")), Is.LessThan(5));
 			}
 		}
 		[Test]
