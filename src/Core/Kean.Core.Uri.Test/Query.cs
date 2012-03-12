@@ -88,13 +88,20 @@ namespace Kean.Core.Uri.Test
 			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
 			Expect(query = query.Remove("keyA", "keyE"), Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveQuery.0");
 			Expect(query = query.Keep("keyC"), Is.EqualTo((Target.Query)"keyC=valueC"), this.prefix + "RemoveQuery.1");
+			query = query.Remove("keyC", "keyC");
+			Expect(query, Is.EqualTo(null), this.prefix + "RemoveQuery.2");
 		}
 		[Test]
 		public void AddQuery()
 		{
 			Target.Query query = "keyA=valueA";
 			query = query.Add("keyB", "valueB");
-			Expect((string)query, Is.EqualTo("keyB=valueB&keyA=valueA"), this.prefix + "EAddQuery.0");
+			Expect((string)query, Is.EqualTo("keyB=valueB&keyA=valueA"), this.prefix + "AddQuery.0");
+			query = new Target.Query();
+			string a = query.ToString();
+			query = query.Add("keyB", "valueB");
+			query = query.Add("keyC", "valueC");
+			Expect((string)query, Is.EqualTo("keyC=valueC&keyB=valueB"), this.prefix + "AddQuery.1");
 		}
     }
 }
