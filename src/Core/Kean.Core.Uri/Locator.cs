@@ -38,7 +38,12 @@ namespace Kean.Core.Uri
 			get { return this.path; }
 			set { this.path = value ?? new Path(); } 
 		}
-		public Query Query { get; set; }
+		Query query = new Query();
+		public Query Query 
+		{
+			get { return this.query; }
+			set { this.query = value ?? new Query(); } 
+		}
 		public string Fragment { get; set; }
 
 		#region IString Members
@@ -52,7 +57,7 @@ namespace Kean.Core.Uri
 				if (this.Authority.NotNull())
 					result.Append(this.Authority);
 				result.Append(this.Path);
-				if (this.Query.NotNull())
+				if (!this.Query.Empty)
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment.NotNull())
 					result.AppendFormat("#{0}", this.Fragment);

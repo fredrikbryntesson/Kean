@@ -104,7 +104,7 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathAbsolute.0");
             Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "PathAbsolute.1");
             Expect((string)locator.Path, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "PathAbsolute.2");
-            Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "PathAbsolute.3");
+            Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "PathAbsolute.3");
             Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathAbsolute.4");
             Expect((string)locator, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "PathAbsolute.5");
             Expect(locator == "/folderA/folderB/file.extension", "locator == \"/folderA/folderB/file.extension\"", this.prefix + "PathAbsolute.6");
@@ -116,7 +116,7 @@ namespace Kean.Core.Uri.Test
 			Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.0");
 			Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.1");
 			Expect((string)locator.Path, Is.EqualTo("/folderA/folderB/"), this.prefix + "PathAbsoluteWithoutResource.2");
-			Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.3");
+			Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "PathAbsoluteWithoutResource.3");
 			Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathAbsoluteWithoutResource.4");
 			Expect((string)locator, Is.EqualTo("/folderA/folderB/"), this.prefix + "PathAbsoluteWithoutResource.5");
 			Expect(locator == "/folderA/folderB/", "locator == \"/folderA/folderB/\"", this.prefix + "PathAbsoluteWithoutResource.6");
@@ -128,7 +128,7 @@ namespace Kean.Core.Uri.Test
 			Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathRelative.0");
 			Expect((string)locator.Authority, Is.EqualTo("."), this.prefix + "PathRelative.1");
 			Expect((string)locator.Path, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "PathRelative.2");
-			Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "PathRelative.3");
+			Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "PathRelative.3");
 			Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathRelative.4");
 			Expect((string)locator, Is.EqualTo("./folderA/folderB/file.extension"), this.prefix + "PathRelative.5");
 			Expect(locator == "./folderA/folderB/file.extension", "locator == \"./folderA/folderB/file.extension\"", this.prefix + "PathRelative.6");
@@ -140,7 +140,7 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Scheme, Is.EqualTo("schemeA+schemeB"), this.prefix + "NoPath.0");
             Expect((string)locator.Authority, Is.EqualTo("name:password@example.com:80"), this.prefix + "NoPath.1");
             Expect((string)locator.Path, Is.EqualTo(""), this.prefix + "NoPath.2");
-            Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "NoPath.3");
+			Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "NoPath.3");
             Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "NoPath.4");
             Expect((string)locator, Is.EqualTo("schemeA+schemeB://name:password@example.com:80"), this.prefix + "NoPath.5");
             Expect(locator == "schemeA+schemeB://name:password@example.com:80", "locator == \"schemeA+schemeB://name:password@example.com:80\"", this.prefix + "NoPath.6");
@@ -188,7 +188,7 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Scheme, Is.EqualTo("schemeA+schemeB"), this.prefix + "NoPathAndQueryWithFragment.0");
             Expect((string)locator.Authority, Is.EqualTo("name:password@example.com:80"), this.prefix + "NoPathAndQueryWithFragment.1");
             Expect((string)locator.Path, Is.EqualTo(""), this.prefix + "NoPathAndQueryWithFragment.2");
-            Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "NoPathAndQueryWithFragment.3");
+            Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "NoPathAndQueryWithFragment.3");
             Expect((string)locator.Fragment, Is.EqualTo("fragment"), this.prefix + "NoPathAndQueryWithFragment.4");
             Expect((string)locator, Is.EqualTo("schemeA+schemeB://name:password@example.com:80#fragment"), this.prefix + "NoPathAndQueryWithFragment.5");
             Expect(locator == "schemeA+schemeB://name:password@example.com:80#fragment", "locator == \"schemeA+schemeB://name:password@example.com:80#fragment\"", this.prefix + "NoPathAndQueryWithFragment.6");
@@ -200,7 +200,7 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlattformPath.0");
             Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlattformPath.1");
             Expect((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.2");
-            Expect((string)locator.Query, Is.EqualTo(null), this.prefix + "FromPlattformPath.3");
+            Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "FromPlattformPath.3");
             Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlattformPath.4");
             Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
             Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");

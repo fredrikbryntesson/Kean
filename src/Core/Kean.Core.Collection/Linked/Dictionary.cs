@@ -34,27 +34,27 @@ namespace Kean.Core.Collection.Linked
 		IDictionary<TKey, TValue>
 		where L : class, ILink<L, KeyValue<TKey, TValue>>, new()
 	{
-		L head;
+		protected L Head { get; set; }
 		public Dictionary() { }
 
 		#region IDictionary<TKey,TValue> Members
 		public TValue this[TKey key]
 		{
-			get { return this.head.Find(item => item.Key.Equals(key)).Value; }
+			get { return this.Head.Find(item => item.Key.Equals(key)).Value; }
 			set
 			{
 				this.Remove(key);
-				this.head = new L() { Head = KeyValue.Create(key, value), Tail = this.head };
+				this.Head = new L() { Head = KeyValue.Create(key, value), Tail = this.Head };
 			}
 		}
 		public bool Contains(TKey key)
 		{
-			return this.head.Exists(item => item.Key.Equals(key));
+			return this.Head.Exists(item => item.Key.Equals(key));
 		}
 		public bool Remove(TKey key)
 		{
 			bool result = false;
-			this.head = this.head.Remove(item => result = item.Key.Equals(key));
+			this.Head = this.Head.Remove(item => result = item.Key.Equals(key));
 			return result;
 		}
 		#endregion
@@ -62,7 +62,7 @@ namespace Kean.Core.Collection.Linked
 		#region IEnumerable<KeyValue<TKey,TValue>> Members
 		public System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> GetEnumerator()
 		{
-			return this.head.GetEnumerator();
+			return this.Head.GetEnumerator();
 		}
 		#endregion
 		#region IEnumerable Members
@@ -76,7 +76,7 @@ namespace Kean.Core.Collection.Linked
 		public bool Equals(IDictionary<TKey, TValue> other)
 		{
 			bool result = other.NotNull();
-			int count = this.head.Count();
+			int count = this.Head.Count();
 			if (result)
 				foreach (KeyValue<TKey, TValue> pair in other)
 					if (!(result = count-- == 0 || this[pair.Key].Equals(pair.Value)))
@@ -91,11 +91,11 @@ namespace Kean.Core.Collection.Linked
 		}
 		public override string ToString()
 		{
-			return this.head.ToString();
+			return this.Head.ToString();
 		}
 		public override int GetHashCode()
 		{
-			return this.head.GetHashCode();
+			return this.Head.GetHashCode();
 		}
 		#endregion
 		#region Comparison Operators

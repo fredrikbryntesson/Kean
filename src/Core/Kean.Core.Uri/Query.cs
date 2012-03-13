@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -28,125 +28,38 @@ using Kean.Core.Collection.Linked.Extension;
 namespace Kean.Core.Uri
 {
 	public class Query :
-		Collection.ILink<Query, KeyValue<string, string>>,
+		Collection.Linked.Dictionary<QueryLink, string, string>,
 		IString,
 		IEquatable<Query>
 	{
-		public string this[string key]
-		{
-			get { return this.Head.Key == key ? this.Head.Value : (this.Tail.NotNull() ? this.Tail[key] : null); }
-			set
-			{
-				if (this.Head.Key == key)
-					this.Head = KeyValue.Create(key, value);
-				else if (this.Tail.NotNull())
-					this.Tail[key] = value;
-				else
-					this.Tail = new Query(key, value);
-			}
-		}
-		public Query()
-		{
-		}
-		public Query(KeyValue<string, string> head) :
-			this()
-		{
-			this.Head = head;
-		}
-		public Query(string key, string value) :
-			this(KeyValue.Create(key, value))
-		{ }
-		public Query(KeyValue<string, string> head, Query tail) :
-			this(head)
-		{
-			this.Tail = tail;
-		}
-		public Query(string key, string value, Query tail) :
-			this(KeyValue.Create(key, value), tail)
-		{ }
+		public bool Empty { get { return this.Head.IsNull(); } }
+		public Query() { }
 		public Query Copy()
 		{
-			return new Query(this.Head, this.Tail.NotNull() ? this.Tail.Copy() : null);
+			return new Query() { Head = this.Head.NotNull() ? this.Head.Copy() : null };
 		}
-		public Query Add(string key, string value)
+		public void Remove(params string[] keys)
 		{
-			Query result;
-			KeyValue<string, string> item = KeyValue.Create(key, value);
-			if (this.head.HasValue)
-				result = this.Add(item);
-			else
-				result = new Query(item);
-			return result;
+			if (this.Head.NotNull())
+				this.Head = this.Head.Remove(keys);
 		}
-		public Query Remove(params string[] keys)
+		public void Keep(params string[] keys)
 		{
-			return this.Remove((KeyValue<string, string> q) =>
-			{
-				bool result = false;
-				foreach (string key in keys)
-					result |= q.Key == key;
-				return result;
-			});
-		}
-		public Query Keep(params string[] keys)
-		{
-			return this.Remove((KeyValue<string, string> q) =>
-			{
-				bool result = false;
-				foreach (string key in keys)
-					result |= q.Key == key;
-				return !result;
-			});
+			if (this.Head.NotNull())
+				this.Head = this.Head.Keep(keys);
 		}
 
-		#region ILink<Query, KeyValue<string, string>> Members
-		KeyValue<string, string>? head;
-		public KeyValue<string, string> Head
-		{
-			get { return this.head.HasValue ? this.head.Value : default(KeyValue<string, string>); }
-			set { this.head = value; }
-		}
-		public Query Tail { get; set; }
-		#endregion
 		#region IString Members
 		public string String
 		{
-			get
-			{
-				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Head.Key);
-				if (this.Head.Value.NotNull())
-				{
-					result.Append("=");
-					result.Append(this.Head.Value);
-				}
-				if (this.Tail != null)
-				{
-					result.Append("&");
-					result.Append(this.Tail.String);
-				}
-				return result.ToString().Replace(' ', '+');
-			}
-			set
-			{
-				if (value.IsEmpty())
-				{
-					this.Head = KeyValue.Create<string, string>(null, null);
-					this.Tail = null;
-				}
-				else
-				{
-					string[] splitted = value.Replace('+', ' ').Split(new char[] { '&', ';' }, 2);
-					string[] keyValue = splitted[0].Split(new char[] { '=' }, 2);
-					this.Head = KeyValue.Create(keyValue[0], keyValue.Length > 1 ? keyValue[1] : null);
-					this.Tail = splitted.Length > 1 ? new Query() { String = splitted[1] } : null;
-				}
-			}
+			get { return this.Head.NotNull() ? this.Head.String.Replace(' ', '+') : ""; }
+			set { this.Head = value.NotEmpty() ? new QueryLink() { String = value.Replace('+', ' ') } : null; }
 		}
 		#endregion
 		#region IEquatable<Query> Members
 		public bool Equals(Query other)
 		{
-			return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
+			return this.Head == other.Head;
 		}
 		#endregion
 		#region Object Overrides
@@ -156,7 +69,7 @@ namespace Kean.Core.Uri
 		}
 		public override int GetHashCode()
 		{
-			return this.Head.Hash() ^ this.Tail.Hash();
+			return this.Head.Hash();
 		}
 		public override string ToString()
 		{
@@ -178,7 +91,7 @@ namespace Kean.Core.Uri
 		}
 		public static implicit operator Query(string query)
 		{
-			return query.IsEmpty() ? null : new Query() { String = query };
+			return new Query() { String = query.IsEmpty() ? null : query };
 		}
 		#endregion
 	}
