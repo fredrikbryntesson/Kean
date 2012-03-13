@@ -73,6 +73,7 @@
     <Compile Include="Synchronized\Dictionary.cs" />
     <Compile Include="Tree\INode.cs" />
     <Compile Include="Tree\ITree.cs" />
+    <Compile Include="Wrap\ListDictionary.cs" />
     <Compile Include="Wrap\ListQueue.cs" />
     <Compile Include="Wrap\ListStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

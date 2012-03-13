@@ -1,5 +1,10 @@
-﻿//  
-//  Copyright (c) 2011 Simon Mika
+// 
+//  Dictionary.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -13,30 +18,26 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
 
-namespace Kean.Core.Collection.Test
+using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Core.Collection;
+
+namespace Kean.Core.Collection.Test.Wrap
 {
-    public static class All
-    {
-        public static void Test()
-        {
-            ReadOnly.Test();
-            Vector.Test();
-            List.Test();
-            Queue.Test();
-            Stack.Test();
-            Dictionary.Test();
-            Linked.List.Test();
-            Linked.Queue.Test();
-            Linked.Stack.Test();
-            Array.Vector.Test();
-            Array.List.Test();
-            Array.Queue.Test();
-            Array.Stack.Test();
-            Sorted.List.Test();
-			Hash.Dictionary.Test();
-			Wrap.ListDictionary.Test();
-        }
-    }
+	[TestFixture]
+	public class ListDictionary :
+		Base.Dictionary<ListDictionary, Target.Wrap.ListDictionary<string, int>>
+	{
+		public ListDictionary()
+		{
+			this.Prefix = "Kean.Core.Collection.Test.Wrap.Dictionary.";
+		}
+		protected override Target.Wrap.ListDictionary<string, int> Create (int size)
+		{
+			return new Target.Wrap.ListDictionary<string, int>(size);
+		}
+	}
 }
+
