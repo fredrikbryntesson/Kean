@@ -124,9 +124,7 @@ namespace Kean.Core.Collection.Hash
         #region Comparison Operators
         public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {
-            return object.ReferenceEquals(left, right) ||
-                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.Equals(right);
+            return left.SameOrEquals(right);
         }
         public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {

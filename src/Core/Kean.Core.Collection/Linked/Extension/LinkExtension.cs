@@ -99,12 +99,7 @@ namespace Kean.Core.Collection.Linked.Extension
 		public static L Remove<L, T>(this ILink<L, T> me, Func<T, bool> function)
 			where L : class, ILink<L, T>, new()
 		{
-			L result;
-			if (me.IsNull())
-				throw new Exception.InvalidIndex();
-			else
-				result = function(me.Head) ? (me.Tail.NotNull() ? me.Tail.Remove(function) : null) : (me.Tail.NotNull() ? me.Tail.Remove(function).Add(me.Head) : me as L);
-			return result; 
+			return me.IsNull() ? null : function(me.Head) ? (me.Tail.NotNull() ? me.Tail.Remove(function) : null) : (me.Tail.NotNull() ? me.Tail.Remove(function).Add(me.Head) : me as L);
 		}
 		public static bool Equals<L, T>(this ILink<L, T> me, L other)
 			where L : class, ILink<L, T>, new() 
@@ -154,12 +149,12 @@ namespace Kean.Core.Collection.Linked.Extension
         public static int Index<L, T>(this ILink<L, T> me, Func<T, bool> function)
             where L : class, ILink<L, T>, new()
         {
-            return function(me.Head) ? 0 : (me.Tail.IsNull() ? -1 : 1 + me.Tail.Index(function));
+            return me.IsNull() ? -1 : function(me.Head) ? 0 : 1 + me.Tail.Index(function);
         }
         public static T Find<L, T>(this ILink<L, T> me, Func<T, bool> function)
             where L : class, ILink<L, T>, new()
         {
-            return function(me.Head) ? me.Head : (me.Tail.IsNull() ? default(T) : me.Tail.Find(function));
+            return me.IsNull() ? default(T) : function(me.Head) ? me.Head : me.Tail.Find(function);
         }
         public static S Find<L, T, S>(this ILink<L, T> me, Func<T, S> function)
             where L : class, ILink<L, T>, new()
@@ -171,13 +166,21 @@ namespace Kean.Core.Collection.Linked.Extension
         public static bool Exists<L, T>(this ILink<L, T> me, Func<T, bool> function)
             where L : class, ILink<L, T>, new()
         {
-            return function(me.Head) || me.Tail.NotNull() && me.Tail.Exists(function);
+            return me.NotNull() && (function(me.Head) ||  me.Tail.Exists(function));
         }
         public static bool All<L, T>(this ILink<L, T> me, Func<T, bool> function)
             where L : class, ILink<L, T>, new()
         {
-            return function(me.Head) && (me.Tail.IsNull() || me.Tail.Exists(function));
+            return me.IsNull() || (function(me.Head) && me.Tail.Exists(function));
         }
-
+		public static System.Collections.Generic.IEnumerator<T> GetEnumerator<L, T>(this ILink<L, T> me)
+			where L : class, ILink<L, T>, new()
+		{
+			while (me.NotNull())
+			{
+				yield return me.Head;
+				me = me.Tail;
+			}
+		}
     }
 }

@@ -43,6 +43,7 @@
     <Compile Include="Base\Queue.cs" />
     <Compile Include="Base\Stack.cs" />
     <Compile Include="Base\Vector.cs" />
+    <Compile Include="Linked\Dictionary.cs" />
     <Compile Include="Wrap\ListDictionary.cs" />
     <Compile Include="Hash\Dictionary.cs" />
     <Compile Include="Linked\Stack.cs" />

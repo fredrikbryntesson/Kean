@@ -18,8 +18,10 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Collection
 {
@@ -102,9 +104,7 @@ namespace Kean.Core.Collection
         #region Comparison Operators
         public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {
-            return object.ReferenceEquals(left, right) ||
-                !object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-                left.data.Equals(right);
+            return left.SameOrEquals(right);
         }
         public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
         {

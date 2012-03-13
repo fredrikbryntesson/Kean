@@ -60,6 +60,7 @@
     <Compile Include="Hooked\FilteredList.cs" />
     <Compile Include="IReadOnlyDictionary.cs" />
     <Compile Include="ISet.cs" />
+    <Compile Include="Linked\Dictionary.cs" />
     <Compile Include="Linked\Set.cs" />
     <Compile Include="Merge.cs" />
     <Compile Include="Queue.cs" />
