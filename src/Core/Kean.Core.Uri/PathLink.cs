@@ -41,12 +41,9 @@ namespace Kean.Core.Uri
 		{
 			get
 			{
-				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Head);
+				System.Text.StringBuilder result = new System.Text.StringBuilder("/").Append(this.Head);
 				if (this.Tail.NotNull())
-				{
-					result.Append("/");
 					result.Append(this.Tail.String);
-				}
 				return result.ToString();
 			}
 			set
@@ -59,6 +56,8 @@ namespace Kean.Core.Uri
 				else
 				{
 					string[] splitted = value.Replace('+', ' ').Split(new char[] { '/' }, 2);
+					if (splitted[0].IsEmpty() && splitted.Length > 1)
+						splitted = splitted[1].Replace('+', ' ').Split(new char[] { '/' }, 2);
 					this.Head = splitted[0];
 					this.Tail = splitted.Length > 1 ? new PathLink() { String = splitted[1] } : null;
 				}

@@ -129,14 +129,14 @@ namespace Kean.IO
 						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
 						break;
 					case "file":
-						result = new ByteDevice(System.IO.File.Open(resource.Path, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
+						result = new ByteDevice(System.IO.File.Open(resource.Path.PlattformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
 						break;
 				}
 			return result;
 		}
 		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + "." + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
+			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
 		}
 		#endregion
 	}

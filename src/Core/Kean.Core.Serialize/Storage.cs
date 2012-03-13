@@ -71,9 +71,8 @@ namespace Kean.Core.Serialize
 		}
 		public void Deserialize(Serialize.Data.Node node, Action<object> set)
 		{
-			bool result = true;
 			if (node is Data.Link)
-				result = this.Resolver.Resolve((node as Data.Link).Target, d =>
+				this.Resolver.Resolve((node as Data.Link).Target, d =>
 				{
 					this.Resolver[node.Locator] = d;
 					set.Call(d);

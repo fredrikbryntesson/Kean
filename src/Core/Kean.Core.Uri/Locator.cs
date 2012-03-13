@@ -29,9 +29,15 @@ namespace Kean.Core.Uri
 		IString,
 		IEquatable<Locator>
 	{
+
 		public Scheme Scheme { get; set; }
 		public Authority Authority { get; set; }
-		public Path Path { get; set; }
+		Path path = new Path();
+		public Path Path 
+		{
+			get { return this.path; }
+			set { this.path = value ?? new Path(); } 
+		}
 		public Query Query { get; set; }
 		public string Fragment { get; set; }
 
@@ -45,10 +51,7 @@ namespace Kean.Core.Uri
 					result.AppendFormat("{0}://", this.Scheme);
 				if (this.Authority.NotNull())
 					result.Append(this.Authority);
-				if (this.Path.NotNull())
-					result.Append("/").Append(this.Path);
-				else if (this.Scheme.NotNull() || this.Authority.NotNull())
-					result.Append("/");
+				result.Append(this.Path);
 				if (this.Query.NotNull())
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment.NotNull())
@@ -57,7 +60,7 @@ namespace Kean.Core.Uri
 			}
 			set
 			{
-				if (!value.NotEmpty())
+				if (value.IsEmpty())
 				{
 					this.Scheme = null;
 					this.Authority = null;
@@ -69,12 +72,8 @@ namespace Kean.Core.Uri
 				{
 					string[] splitted = value.Split(new string[] { "://" }, 2, StringSplitOptions.RemoveEmptyEntries);
 					if (splitted.Length > 1) // has scheme
-					{
 						this.Scheme = splitted[0];
-						value = splitted[1].Replace('+', ' ');
-					}
-					else
-						value = splitted[0];
+					value = splitted.Last().Replace('+', ' ');
 					if (!value.StartsWith("/"))
 					{
 						splitted = value.Split(new char[] { '/', '#', '?' }, 2);
@@ -86,7 +85,6 @@ namespace Kean.Core.Uri
 					}
 					if (value.NotEmpty())
 					{
-						value = value.TrimStart('/');
 						if (value.NotEmpty())
 						{
 							if (value.StartsWith("#"))
@@ -150,7 +148,7 @@ namespace Kean.Core.Uri
 				else
 					result = new Locator(absolute.Scheme, this.Authority, this.Path, this.Query, this.Fragment);
 			}
-			else if (this.Path.NotNull())
+			else if (!this.Path.Empty)
 				result = new Locator(absolute.Scheme, absolute.Authority, this.Path, this.Query, this.Fragment);
 			else if (this.Query.NotNull())
 				result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path, this.Query, this.Fragment);

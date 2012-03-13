@@ -35,7 +35,7 @@ namespace Kean.Core.Uri
         #region IString Members
         public string String
         {
-			get { return this.head.NotNull() ? this.head.String : "/"; }
+			get { return this.head.NotNull() ? this.head.String : ""; }
             set { this.head = new PathLink() { String = value }; }
         }
         #endregion
@@ -44,6 +44,7 @@ namespace Kean.Core.Uri
 			get { return this.head.NotNull() ? this.head.PlattformPath : ""; }
 			set { this.head = new PathLink() { PlattformPath = value }; }
 		}
+		public bool Empty { get { return this.head.IsNull(); } }
 		public bool IsFolder { get { return this.head.NotNull() && this.head.IsFolder; } }
 		public Path Folder { get { return this.head.NotNull() ? new Path(this.head.Folder) : new Path(); } }
 		public string Extension { get { return this.head.Extension; } set { this.head.Extension = value; } }

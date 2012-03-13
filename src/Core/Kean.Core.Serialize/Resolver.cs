@@ -35,10 +35,10 @@ namespace Kean.Core.Serialize
 		Collection.IDictionary<Uri.Locator, Action<object>> looseEnds;
 
 		public object this[Uri.Locator locator] 
-		{ 
+		{
 			get { return this.targets[locator]; }
 			set
-			{
+			{				
 				if (locator.NotNull() && value.NotNull())
 				{
 					if (this.targets[locator].IsNull())
