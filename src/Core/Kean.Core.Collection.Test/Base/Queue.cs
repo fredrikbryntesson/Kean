@@ -36,13 +36,13 @@ namespace Kean.Core.Collection.Test.Base
         protected override void Run()
 		{
             this.Run(
-            (Action)this.EmptyQueue,
-            Kean.Test.Test<Target.Exception.Empty>.Create(this.DequeueEmpty, this.Prefix + "DequeueEmpty.0"),
-            Kean.Test.Test<Target.Exception.Empty>.Create(this.PeekEmpty, this.Prefix + "PeekEmpty.0"),
-            (Action)this.EnqueuePeekDequeue,
-            (Action)this.EnqueuePeekDequeueTen,
-            (Action)this.EnqueueDequeueEnqueue,
-            (Action)this.AddAfterEmptyQueue
+            this.EmptyQueue,
+            this.DequeueEmpty,
+            this.PeekEmpty,
+            this.EnqueuePeekDequeue,
+            this.EnqueuePeekDequeueTen,
+            this.EnqueueDequeueEnqueue,
+            this.AddAfterEmptyQueue
             );
 		}
         [Test]

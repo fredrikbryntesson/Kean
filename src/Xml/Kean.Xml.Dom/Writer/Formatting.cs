@@ -86,7 +86,7 @@ namespace Kean.Xml.Dom.Writer
 		#region IWriter Members
 		public bool Write(Document document)
 		{
-			return this.WriteLine("<?xml version=\"{0}\" encoding=\"{1}\" ?>", document.Version.ToString("#.0"), document.Encoding) && this.Write(document.Root);
+			return this.WriteLine("<?xml version=\"{0}\" encoding=\"{1}\" ?>", document.Version.ToString("#.0", System.Globalization.CultureInfo.InvariantCulture), document.Encoding) && this.Write(document.Root);
 		}
 		public bool Write(Node node)
 		{

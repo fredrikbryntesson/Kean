@@ -55,17 +55,18 @@ namespace Kean.Core.Collection.Wrap
 		}
 		public T Peek()
 		{
-			if (this.size == 0)
-				throw new Exception.Empty();
-			return this.data[this.tail];
+			return this.size == 0 ? default(T) : this.data[this.tail];
 		}
 		public T Dequeue()
 		{
 			T result = this.Peek();
 			// let garbage collector do its job
-			this.data[this.tail] = default(T);
-			this.tail = (this.tail - 1 + this.data.Count) % this.data.Count;
-			this.size--;
+			if (this.data.Count > 0)
+			{
+				this.data[this.tail] = default(T);
+				this.tail = (this.tail - 1 + this.data.Count) % this.data.Count;
+				this.size--;
+			}
 			return result;
 		}
 		#endregion
