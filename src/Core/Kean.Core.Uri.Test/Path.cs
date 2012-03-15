@@ -36,8 +36,7 @@ namespace Kean.Core.Uri.Test
             this.Run(
                 this.EqualityNull,
                 this.Equality,
-				this.SpacePlus,
-				this.SpaceSpace
+				this.Space
                 );
         }
         [Test]
@@ -57,22 +56,13 @@ namespace Kean.Core.Uri.Test
             Expect(path == "folderA/folderB/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "Equality.3");
         }
 		[Test]
-		public void SpacePlus()
+		public void Space()
 		{
-			Target.Path path = "folder+A/folder+B/file.extension";
-			Expect(path, Is.Not.EqualTo(null), this.prefix + "SpacePlus.0");
-			Expect(path != null, "path != null", this.prefix + "SpacePlus.1");
-			Expect((string)path, Is.EqualTo("/folder A/folder B/file.extension"), this.prefix + "SpacePlus.2");
-			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "SpacePlus.3");
-		}
-		[Test]
-		public void SpaceSpace()
-		{
-			Target.Path path = "folder A/folder B/file.extension";
+			Target.Path path = "folder A/folder B/file C.extension";
 			Expect(path, Is.Not.EqualTo(null), this.prefix + "SpaceSpace.0");
 			Expect(path != null, "path != null", this.prefix + "SpaceSpace.1");
-			Expect((string)path, Is.EqualTo("/folder A/folder B/file.extension"), this.prefix + "SpaceSpace.2");
-			Expect(path == "folder+A/folder+B/file.extension", "path == \"folderA/folderB/file.extension\"", this.prefix + "SpaceSpace.3");
+			Expect((string)path, Is.EqualTo("/folder A/folder B/file C.extension"), this.prefix + "SpaceSpace.2");
+			Expect(path == "folder A/folder B/file C.extension", "path == \"folder A/folder B/file C.extension\"", this.prefix + "SpaceSpace.3");
 		}
 	}
 }

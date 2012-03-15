@@ -46,7 +46,8 @@ namespace Kean.Core.Uri.Test
                 this.NoPathAndQueryWithFragment,
 			    this.FromPlattformPath,
 				this.SpacePlus,
-				this.SpaceSpace);
+				this.SpaceSpace,
+				this.RelativeResolve);
         }
         [Test]
         public void EqualityNull()
@@ -206,10 +207,14 @@ namespace Kean.Core.Uri.Test
             Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");
         }
 		[Test]
-		public void Relative()
+		public void RelativeResolve()
 		{
-			Target.Locator absolute = "";
-			//Target.Locator relative = 
+			Target.Locator locator = "schemeA+schemeB://name:password@example.com:80/folder+a/folder+b/file+0.extension?key+a=value+a&keyB=valueB#fragment+0";
+			Target.Locator file = "schemeA+schemeB://name:password@example.com:80/folder+a/folder+b/file+0.extension?key+a=value+a&keyB=valueB";
+			Target.Locator relative = locator.Relative(file);
+			Expect(relative == "#fragment+0", this.prefix + "RelativeResolve.0");
+			Target.Locator resolve = relative.Resolve(file);
+			Expect(resolve == locator, this.prefix + "RelativeResolve.1");
 		}
     }
 }
