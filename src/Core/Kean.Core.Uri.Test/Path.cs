@@ -36,7 +36,8 @@ namespace Kean.Core.Uri.Test
             this.Run(
                 this.EqualityNull,
                 this.Equality,
-				this.Space
+				this.Space,
+				this.Hash
                 );
         }
         [Test]
@@ -63,6 +64,15 @@ namespace Kean.Core.Uri.Test
 			Expect(path != null, "path != null", this.prefix + "SpaceSpace.1");
 			Expect((string)path, Is.EqualTo("/folder A/folder B/file C.extension"), this.prefix + "SpaceSpace.2");
 			Expect(path == "folder A/folder B/file C.extension", "path == \"folder A/folder B/file C.extension\"", this.prefix + "SpaceSpace.3");
+		}
+		[Test]
+		public void Hash()
+		{
+			Target.Path path = "folderA/folderB/file.extension";
+			Target.Path path2 = "folderA/folderB/file.extension2";
+			Expect(path, Is.Not.EqualTo(path2), this.prefix + "Hash.0");
+			Expect(path.GetHashCode(), Is.Not.EqualTo(path2.GetHashCode()), this.prefix + "Hash.1");
+ 
 		}
 	}
 }

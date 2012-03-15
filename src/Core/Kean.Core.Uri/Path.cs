@@ -124,7 +124,17 @@ namespace Kean.Core.Uri
 		#region IEquatable<Path> Members
 		public bool Equals(Path other)
 		{
-			return other.NotNull() && this.Last == other.Last;
+			bool result = true;
+			PathLink myTail = this.Last;
+			PathLink otherTail = other.Last;
+			while (myTail.NotNull() && otherTail.NotNull())
+			{
+				result &= myTail.Head == otherTail.Head;
+				myTail = myTail.Tail;
+				otherTail = otherTail.Tail;
+			}
+			result &= myTail.IsNull() && otherTail.IsNull();
+			return result;
 		}
 		#endregion
 		#region Object Overrides
@@ -134,7 +144,14 @@ namespace Kean.Core.Uri
 		}
 		public override int GetHashCode()
 		{
-			return this.Last.Hash();
+			int result = 0;
+			PathLink tail = this.Last;
+			while (tail.NotNull())
+			{
+				result = 33 * result ^ tail.Head.Hash();
+				tail = tail.Tail;
+			}
+			return result;
 		}
 		public override string ToString()
 		{
