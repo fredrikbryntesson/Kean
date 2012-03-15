@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -30,11 +30,11 @@ namespace Kean.Core.Parallel
     {
 		public int ThreadCount { get { return this.workers.Length; } }
         Worker[] workers;
-        Collection.List<ITask> tasks;
+        Collection.Queue<ITask> tasks;
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
         public ThreadPool(string name, int workers)
         {
-            this.tasks = new Collection.List<ITask>();
+            this.tasks = new Collection.Queue<ITask>();
             this.workers = new Worker[workers];
             for (int i = 0; i < workers; i++)
                 this.workers[i] = new Worker(this, name, i);
@@ -76,7 +76,7 @@ namespace Kean.Core.Parallel
             try
             {
                 lock (this.tasks)
-                    this.tasks.Add(task);
+                    this.tasks.Enqueue(task);
                 lock (this.workers)
                     foreach (Worker worker in this.workers)
                         if (!worker.Occupied)
@@ -94,7 +94,7 @@ namespace Kean.Core.Parallel
         internal ITask Dequeue()
         {
             lock (this.tasks)
-                return (this.tasks.Count > 0) ? this.tasks.Remove() : null;
+                return this.tasks.Dequeue();
         }
 
         internal void Log(Worker worker, System.Exception e)

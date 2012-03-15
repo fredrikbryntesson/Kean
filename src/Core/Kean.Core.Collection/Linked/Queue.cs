@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Kean.Core.Collection.Linked.Extension;
 
 namespace Kean.Core.Collection.Linked
@@ -41,7 +42,7 @@ namespace Kean.Core.Collection.Linked
 		public void Enqueue(T item)
 		{
 			L link = new L() { Head = item };
-			if (this.last == null)
+			if (this.last.IsNull())
 				this.first = link;
 			else
 				this.last.Tail = link;
@@ -49,23 +50,20 @@ namespace Kean.Core.Collection.Linked
 		}
 		public T Peek()
 		{
-			try
-			{
-				return this.first.Head;
-			}
-			catch (NullReferenceException e)
-			{
-				throw new Exception.Empty(e);
-			}
+			return this.first.NotNull() ? this.first.Head : default(T);
 		}
 		public T Dequeue()
 		{
-			if (this.first == null)
-				throw new Exception.Empty();
-			T result = this.first.Head;
-			this.first = this.first.Tail;
-            if (this.first == null)
-                this.last = null;
+			T result;
+			if (this.first.IsNull())
+				result = default(T);
+			else
+			{
+				result = this.first.Head;
+				this.first = this.first.Tail;
+				if (this.first.IsNull())
+					this.last = null;
+			}
 			return result;
 		}
 	}

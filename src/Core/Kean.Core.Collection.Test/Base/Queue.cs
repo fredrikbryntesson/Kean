@@ -64,20 +64,18 @@ namespace Kean.Core.Collection.Test.Base
             Expect(target.Count, EqualTo(0), this.Prefix + "EmptyQueue.1");
         }
 		[Test]
-		[ExpectedException(typeof(Target.Exception.Empty))]
 		public void DequeueEmpty()
 		{
 			Q target = new Q();
 			Expect(target.Empty, this.Prefix + "DequeueEmpty.0");
-			target.Dequeue();
+			Expect(target.Dequeue(), EqualTo(0), this.Prefix + "DequeueEmpty.1");
 		}
 		[Test]
-		[ExpectedException(typeof(Target.Exception.Empty))]
 		public void PeekEmpty()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "DequeueEmpty.0");
-			target.Peek();
+			Expect(target.Empty, this.Prefix + "PeekEmpty.0");
+			Expect(target.Peek(), EqualTo(0), this.Prefix + "PeekEmpty.0");
 		}
 		[Test]
 		public void EnqueuePeekDequeue()
