@@ -22,15 +22,15 @@
 using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.Draw.Net.Http;
+using Target = Kean.Draw.Net.Rtsp;
 
 namespace Kean.Draw.Net.Test
 {
     [TestFixture]
-    public class MotionJpeg :
-        Kean.Test.Fixture<MotionJpeg>
+    public class Rtsp :
+        Kean.Test.Fixture<Rtsp>
     {
-        string prefix = "Kean.Draw.Net.MotionJpeg.";
+        string prefix = "Kean.Draw.Net.Test.Rtsp.";
         protected override void Run()
         {
             this.Run(
@@ -40,19 +40,13 @@ namespace Kean.Draw.Net.Test
         [Test]
         public void Open()
         {
-            //Target.MotionJpeg multi = new Kean.Draw.Net.MotionJpeg("http://192.168.1.21/mjpg/video.mjpg");
-            Target.MotionJpeg multi = new Target.MotionJpeg("http://194.218.96.90/axis-cgi/mjpg/video.cgi?resolution=480x360");
-            int counter = 0;
-            multi.NewFrame += (Raster.Image image) =>
-            {
-                counter++;
-                Console.Write(".");
-            };
-            multi.Start();
-            while (counter < 10)
-                System.Threading.Thread.Sleep(100);
-            multi.Stop();
+            Target.Client client = new Target.Client("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
+            client.Setup();
+            client.Play();
+            client.Start();
+            Console.ReadKey();
+            client.Pause();
+            client.TearDown();
         }
     }
-
 }

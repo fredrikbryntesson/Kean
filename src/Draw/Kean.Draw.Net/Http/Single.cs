@@ -3,7 +3,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 
-namespace Kean.Draw.Net
+namespace Kean.Draw.Net.Http
 {
     public abstract class Single : 
         Abstract

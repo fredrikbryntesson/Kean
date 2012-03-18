@@ -5,7 +5,7 @@ using Uri = Kean.Core.Uri;
 using Raster = Kean.Draw.Raster;
 using Parallel = Kean.Core.Parallel;
 
-namespace Kean.Draw.Net
+namespace Kean.Draw.Net.Http
 {
     public abstract class Abstract
     {

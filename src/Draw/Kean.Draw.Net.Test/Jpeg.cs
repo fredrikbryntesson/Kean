@@ -22,7 +22,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.Draw.Net;
+using Target = Kean.Draw.Net.Http;
 
 namespace Kean.Draw.Net.Test
 {
@@ -41,7 +41,7 @@ namespace Kean.Draw.Net.Test
         public void Open()
         {
             //Target.Jpeg single = new Kean.Draw.Net.Jpeg("http://192.168.1.21/axis-cgi/jpg/image.cgi?resolution=640x480");
-            Target.Jpeg single = new Kean.Draw.Net.Jpeg("http://194.218.96.90/axis-cgi/jpg/image.cgi?resolution=480x360");
+            Target.Jpeg single = new Target.Jpeg("http://194.218.96.90/axis-cgi/jpg/image.cgi?resolution=480x360");
             int counter = 0;
             single.NewFrame += (image) => 
             {

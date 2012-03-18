@@ -4,7 +4,7 @@ using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Raster = Kean.Draw.Raster;
 
-namespace Kean.Draw.Net
+namespace Kean.Draw.Net.Http
 {
     public class Jpeg :
         Single,

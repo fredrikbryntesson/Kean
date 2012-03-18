@@ -45,13 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract.cs" />
-    <Compile Include="Jpeg.cs" />
-    <Compile Include="Multi.cs" />
-    <Compile Include="MotionJpeg.cs" />
-    <Compile Include="Single.cs" />
-    <Compile Include="ISource.cs" />
+    <Compile Include="Http\Abstract.cs" />
+    <Compile Include="Http\Jpeg.cs" />
+    <Compile Include="Http\Multi.cs" />
+    <Compile Include="Http\MotionJpeg.cs" />
+    <Compile Include="Http\Single.cs" />
+    <Compile Include="Http\ISource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rtsp\Client.cs" />
+    <Compile Include="Rtsp\Jpeg.cs" />
+    <Compile Include="Rtsp\Rtp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cli\Kean.Cli\Kean.Cli.csproj">
