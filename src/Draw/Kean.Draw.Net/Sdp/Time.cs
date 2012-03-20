@@ -1,5 +1,5 @@
 ﻿// 
-//  ISource.cs
+//  Time.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -19,17 +19,18 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 using System;
-using Raster = Kean.Draw.Raster;
 
-namespace Kean.Draw.Net.Http
-{
-    public interface ISource
+namespace Kean.Draw.Net.Sdp
+{  
+    /*  
+        Time description
+        t=  (time the session is active)
+        r=* (zero or more repeat times)
+    */
+    public class Time
     {
-        event Action<Raster.Image> NewFrame;
-        bool Running { get; }
-        void Start();
-        void Stop();
+        public string Active { get; set; }
+        public string Repeat { get; set; }
     }
 }

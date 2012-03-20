@@ -26,9 +26,9 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            //Kean.Draw.Net.Test.All.Test();
             Math.Test.All.Test();
-            //Kean.Draw.Net.Test.All.Test(); // Move parts to IO.
-           	
+            
 
             Core.Reflect.Test.All.Test();
 

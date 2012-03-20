@@ -1,5 +1,5 @@
 ﻿// 
-//  ISource.cs
+//  State.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -19,17 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 using System;
-using Raster = Kean.Draw.Raster;
 
-namespace Kean.Draw.Net.Http
+namespace Kean.Draw.Net.Sdp
 {
-    public interface ISource
+    enum State
     {
-        event Action<Raster.Image> NewFrame;
-        bool Running { get; }
-        void Start();
-        void Stop();
+        Session, 
+        Time,
+        Media,
     }
 }

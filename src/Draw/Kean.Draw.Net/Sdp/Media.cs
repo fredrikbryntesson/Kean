@@ -1,5 +1,5 @@
 ﻿// 
-//  ISource.cs
+//  Media.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -19,17 +19,28 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 using System;
-using Raster = Kean.Draw.Raster;
+using Collection = Kean.Core.Collection;
 
-namespace Kean.Draw.Net.Http
+namespace Kean.Draw.Net.Sdp
 {
-    public interface ISource
+    /*
+        Media description, if present
+        m=  (media name and transport address)
+        i=* (media title)
+        c=* (connection information—optional if included at
+             session level)
+        b=* (zero or more bandwidth information lines)
+        k=* (encryption key)
+        a=* (zero or more media attribute lines)
+    */
+    public class Media
     {
-        event Action<Raster.Image> NewFrame;
-        bool Running { get; }
-        void Start();
-        void Stop();
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string Connection { get; set; }
+        public string Bandwidth { get; set; }
+        public string EncryptionKey { get; set; }
+        public Collection.List<string> Attributes { get; set; }
     }
 }

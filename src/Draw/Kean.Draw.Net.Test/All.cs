@@ -26,6 +26,7 @@ namespace Kean.Draw.Net.Test
     {
         public static void Test()
         {
+            Sdp.Test();
             Rtsp.Test();
             //MotionJpeg.Test();
             //Jpeg.Test();

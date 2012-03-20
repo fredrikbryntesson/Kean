@@ -89,6 +89,10 @@
       <Project>{BC052502-2E40-4577-B35E-E659B8FCB6B8}</Project>
       <Name>Kean.Gui.OpenGL.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO.Net.Test\Kean.IO.Net.Test.csproj">
+      <Project>{1C398A0B-ADF3-4DB6-9426-D21F5F7F824F}</Project>
+      <Name>Kean.IO.Net.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>

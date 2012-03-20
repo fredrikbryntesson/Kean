@@ -55,6 +55,11 @@
     <Compile Include="Rtsp\Client.cs" />
     <Compile Include="Rtsp\Jpeg.cs" />
     <Compile Include="Rtsp\Rtp.cs" />
+    <Compile Include="Sdp\Media.cs" />
+    <Compile Include="Sdp\Protocol.cs" />
+    <Compile Include="Sdp\Session.cs" />
+    <Compile Include="Sdp\State.cs" />
+    <Compile Include="Sdp\Time.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cli\Kean.Cli\Kean.Cli.csproj">
