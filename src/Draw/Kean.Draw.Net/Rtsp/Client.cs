@@ -64,22 +64,17 @@ namespace Kean.Draw.Net.Rtsp
 		bool Start()
 		{
 			bool result = false;
-			if (result = this.clientConnection.NotNull())
+			if (result = this.clientConnection.NotNull() && this.port.HasValue)
 			{
 				this.Initialize();
-				System.Net.Sockets.Socket server = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
-						 System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp);
-				System.Net.EndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.65"), this.port.Value);
-				server.Bind(endPoint);
-				this.stopped = false;
+                System.Net.Sockets.UdpClient server = new System.Net.Sockets.UdpClient(this.port.Value);
+                System.Net.IPEndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, this.port.Value);
+                this.stopped = false;
 				this.thread = Parallel.Thread.Start("Draw.Net", () =>
 				{
 					Console.WriteLine("Started");
-					server.ReceiveBufferSize = 8192 * 15;
-					server.ReceiveTimeout = 200;
-					byte[] jpegData = new byte[512 * 1024];
+                    byte[] jpegData = new byte[512 * 1024];
 					int jpegDataLength = 0;
-					byte[] buffer = new byte[server.ReceiveBufferSize];
 					bool frame = false;
 					bool first = true;
 					int index = 0;
@@ -87,8 +82,8 @@ namespace Kean.Draw.Net.Rtsp
 					{
 						if (server.Available > 0)
 						{
-							int read = server.Receive(buffer);
-							Rtp rtp = new Rtp(buffer, read);
+                            byte[] buffer = server.Receive(ref endPoint);
+						   	Rtp rtp = new Rtp(buffer, buffer.Length);
 							if (rtp.Marker && !frame)
 								frame = true;
 							else if (!rtp.Marker && frame)
