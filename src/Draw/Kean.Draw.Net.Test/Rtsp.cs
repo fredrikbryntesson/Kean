@@ -40,19 +40,26 @@ namespace Kean.Draw.Net.Test
         [Test]
         public void Open()
         {
-            Target.Jpeg jpeg = new Target.Jpeg("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
+          //  Target.Jpeg jpeg = new Target.Jpeg("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
             
-            //Target.Jpeg jpeg = new Target.Jpeg("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
-            int counter = 0;
-            jpeg.NewFrame += image =>
-            {
-                counter++;
-                Console.Write(".");
-            };
-            jpeg.Start();
-            while (counter < 20)
-                System.Threading.Thread.Sleep(100);
-            jpeg.Stop();
+            Target.Jpeg jpeg = new Target.Jpeg();
+
+			//bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
+				bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
+			if (opened)
+			{
+				int counter = 0;
+				jpeg.NewFrame += image =>
+				{
+					counter++;
+					Console.Write(".");
+				};
+				bool starting = jpeg.Play();
+				Console.WriteLine("Playback starts : " + starting);
+				while (counter < 20)
+					System.Threading.Thread.Sleep(100);
+				jpeg.Close();
+			}
         }
     }
 }

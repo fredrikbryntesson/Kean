@@ -1,10 +1,10 @@
 ﻿// 
-//  Jpeg.cs
+//  IArrayConvertible.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Anders Frisk
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,22 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Raster = Kean.Draw.Raster;
 
-namespace Kean.Draw.Net.Rtsp
+namespace Kean.Core.Collection
 {
-    public class Jpeg :
-        Client
-    {
-        public Jpeg() : base() { }
-		public event Action<Raster.Image> NewFrame;
-        protected override void Initialize()
-        {
-            this.NewData += data => this.NewFrame.Call(Raster.Image.Open(new System.IO.MemoryStream(data)));
-            base.Initialize();
-        }
-    }
+	public interface IArrayConvertible<T>
+	{
+		int Count { get; }
+		bool CopyTo(T[] target, int targetOffset, int sourceOffset, int count);
+	}
 }

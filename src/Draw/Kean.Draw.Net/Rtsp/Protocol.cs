@@ -95,9 +95,13 @@ namespace Kean.Draw.Net.Rtsp
         string SetupAnswer(string value)
         {
             string result = null;
-            string[] splitted = value.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            if (splitted.Length > 0 && splitted[0].Contains("RTSP/1.0 200 OK")) 
-                result = splitted.Find(s => s.Contains("Session:")).Replace("Session:", "").Trim();
+            string[] splitted = value.Split(new char[] { '\r', '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
+			if (splitted.Length > 0 && splitted[0].Contains("RTSP/1.0 200 OK"))
+			{
+				string session = splitted.Find(s => s.Contains("Session:"));
+				if (session.NotEmpty())
+					result = session.Replace("Session:", "").Trim();
+			}
             return result;
         }
         public bool Play()

@@ -58,6 +58,7 @@
     <Compile Include="Hooked\IStack.cs" />
     <Compile Include="Hooked\IVector.cs" />
     <Compile Include="Hooked\FilteredList.cs" />
+    <Compile Include="IArrayConvertible.cs" />
     <Compile Include="IReadOnlyDictionary.cs" />
     <Compile Include="ISet.cs" />
     <Compile Include="Linked\Dictionary.cs" />
