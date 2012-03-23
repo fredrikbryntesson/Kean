@@ -30,7 +30,7 @@ namespace Kean.Draw.Net.Http
 {
     public abstract class Abstract
     {
-        public abstract string Content { get; }
+        protected abstract string Content { get; }
         int attempts;
         string login;
         string password;
@@ -50,7 +50,7 @@ namespace Kean.Draw.Net.Http
         }
         public abstract event Action<byte[]> NewData;
         public bool Running { get { return !this.stopped; } }
-        public void Start()
+        public bool Start()
         {
             this.Initialize();
             this.stopped = false;
@@ -83,11 +83,12 @@ namespace Kean.Draw.Net.Http
                     { }
                 } while (attempt++ < this.attempts);
             });
-
+            return true;
         }
-        public void Stop()
+        public bool Stop()
         {
             this.stopped = true;
+            return true;
         }
         protected abstract void StreamParser(System.Net.WebResponse response, byte[] buffer, int readSize);
         protected virtual void Initialize()

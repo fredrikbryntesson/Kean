@@ -29,9 +29,9 @@ namespace Kean.Draw.Net.Http
 {
     public class MotionJpeg :
          Multi,
-         ISource
+        ISource
     {
-        public override string SubContent { get { return "image/jpeg"; } }
+        protected override string SubContent { get { return "image/jpeg"; } }
         public MotionJpeg(Uri.Locator locator) : this(locator, null, null, 1024, 4) { }
         public MotionJpeg(Uri.Locator locator, int readSize, int attempts) : this(locator, null, null, readSize, attempts) { }
         public MotionJpeg(Uri.Locator locator, string login, string password, int readSize, int attempts) : base(locator, login, password, readSize, attempts) { }

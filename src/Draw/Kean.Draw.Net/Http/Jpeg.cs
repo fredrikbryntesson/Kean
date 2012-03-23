@@ -34,8 +34,8 @@ namespace Kean.Draw.Net.Http
         public Jpeg(Uri.Locator locator) : this(locator, null, null, 1024, 4) { }
         public Jpeg(Uri.Locator locator, int readSize, int attempts) : this(locator, null, null, readSize, attempts) { }
         public Jpeg(Uri.Locator locator, string login, string password, int readSize, int attempts) : base(locator, login, password, readSize, attempts) { }
-          
-        public override string Content { get { return "image/jpeg"; } }
+
+        protected override string Content { get { return "image/jpeg"; } }
         public event Action<Raster.Image> NewFrame;
         protected override void Initialize()
         {

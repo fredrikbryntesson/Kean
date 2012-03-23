@@ -31,6 +31,7 @@ namespace Kean.Draw.Net.Rtsp
     public class Client
     {
         bool stopped;
+        public event Action<byte[]> NewData;
         public bool Running { get { return !this.stopped; } }
         Uri.Locator locator;
         System.Net.Sockets.TcpClient clientConnection;
@@ -39,152 +40,136 @@ namespace Kean.Draw.Net.Rtsp
         int counter = 0;
         string session;
         Parallel.Thread thread;
+        Protocol protocol;
         public Client(Uri.Locator locator)
         {
             this.locator = locator;
             this.clientConnection = new System.Net.Sockets.TcpClient(this.locator.Authority.Endpoint.Host.ToString(), this.locator.Authority.Endpoint.Port.HasValue ? (int)this.locator.Authority.Endpoint.Port.Value : 554);
             this.clientStream = clientConnection.GetStream();
+            this.protocol = new Protocol(locator, this.SendMessage, this.RecieveMessage);
         }
-        public void Start()
+        public bool Start()
         {
-            System.Net.Sockets.Socket server = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
-                     System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp);
-            System.Net.EndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.65"), this.port);
-            server.Bind(endPoint);
-            this.stopped = false;
-            this.thread = Parallel.Thread.Start("Draw.Net", () =>
+            bool result = false;
+            this.Initialize();
+            if (result = this.Setup() && this.Play())
             {
-                Console.WriteLine("Started");
-                server.ReceiveBufferSize = 8192 * 15;
-                server.ReceiveTimeout = 200;
-                byte[] jpegData = new byte[512 * 1024];
-                int jpegDataLength = 0;
-                byte[] buffer = new byte[server.ReceiveBufferSize];
-                bool frame = false;
-                bool first = true;
-                int index = 0;
-                while (this.Running)
+                System.Net.Sockets.Socket server = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                         System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp);
+                System.Net.EndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.65"), this.port);
+                server.Bind(endPoint);
+                this.stopped = false;
+                this.thread = Parallel.Thread.Start("Draw.Net", () =>
                 {
-                    if (server.Available > 0)
+                    Console.WriteLine("Started");
+                    server.ReceiveBufferSize = 8192 * 15;
+                    server.ReceiveTimeout = 200;
+                    byte[] jpegData = new byte[512 * 1024];
+                    int jpegDataLength = 0;
+                    byte[] buffer = new byte[server.ReceiveBufferSize];
+                    bool frame = false;
+                    bool first = true;
+                    int index = 0;
+                    while (this.Running)
                     {
-                        int read = server.Receive(buffer);
-                        Rtp rtp = new Rtp(buffer, read);
-                        if (rtp.Marker && !frame)
-                            frame = true;
-                        else if (!rtp.Marker && frame)
+                        if (server.Available > 0)
                         {
-                            Jpeg jpeg = new Jpeg(buffer, rtp.PayloadOffset, rtp.PayloadLength, first);
-                            // first
-                            if (first)
+                            int read = server.Receive(buffer);
+                            Rtp rtp = new Rtp(buffer, read);
+                            if (rtp.Marker && !frame)
+                                frame = true;
+                            else if (!rtp.Marker && frame)
                             {
-                                byte[] header = jpeg.CreateHeader();    
-                                Array.Copy(header, jpegData, header.Length);
-                                jpegDataLength += header.Length;
+                                Net.Jpeg.Protocol jpeg = new Net.Jpeg.Protocol(buffer, rtp.PayloadOffset, rtp.PayloadLength, first);
+                                // first
+                                if (first)
+                                {
+                                    byte[] header = jpeg.CreateHeader();
+                                    Array.Copy(header, jpegData, header.Length);
+                                    jpegDataLength += header.Length;
+                                }
+                                first = false;
+                                // between
+                                Array.Copy(buffer, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
+                                jpegDataLength += jpeg.PayloadLength;
                             }
-                            first = false;
-                            // between
-                            Array.Copy(buffer, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
-                            jpegDataLength += jpeg.PayloadLength;
-                        }
-                        else if (rtp.Marker && frame)
-                        {
-                            // last
-                            Jpeg jpeg = new Jpeg(buffer, rtp.PayloadOffset, rtp.PayloadLength, false);
-                            Array.Copy(buffer, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
-                            jpegDataLength += jpeg.PayloadLength;
-                            Raster.Image image = Raster.Image.Open(new System.IO.MemoryStream(jpegData, 0, jpegDataLength));
-                            image.Save("test" + (index++) + ".png");
-                            Console.WriteLine("image found " + image.NotNull() + " time " +rtp.Timestamp);
-                            jpegDataLength = 0;
-                            first = true;
+                            else if (rtp.Marker && frame)
+                            {
+                                // last
+                                Net.Jpeg.Protocol jpeg = new Net.Jpeg.Protocol(buffer, rtp.PayloadOffset, rtp.PayloadLength, false);
+                                Array.Copy(buffer, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
+                                jpegDataLength += jpeg.PayloadLength;
+
+                                byte[] data = new byte[jpegDataLength];
+                                Array.Copy(jpegData, 0, data, 0, jpegDataLength);
+                                this.NewData.Call(data);
+                                /*
+                                Raster.Image image = Raster.Image.Open(new System.IO.MemoryStream(jpegData, 0, jpegDataLength));
+                                image.Save("test" + (index++) + ".png");
+                                Console.WriteLine("image found " + image.NotNull() + " time " + rtp.Timestamp);
+                                */
+                                jpegDataLength = 0;
+                                first = true;
+                            }
                         }
                     }
-                }
-                Console.WriteLine("Stopped");
-            });
-        }
-        public void Setup()
-        {
-            Console.WriteLine();
-            string message = "DESCRIBE " + this.locator.ToString() + " RTSP/1.0\r\nCSeq: " + (this.counter++).ToString() + "\r\n\r\n";
-            this.SendMessage(message);
-            System.Threading.Thread.Sleep(200);
-            string recieved = null;
-            while ((recieved = this.RecieveMessage()).IsEmpty())
-                System.Threading.Thread.Sleep(200);
-            Console.WriteLine(recieved);
-        }
-        public void Play()
-        {
-            string message = "SETUP rtsp://192.168.1.21:554/axis-media/media.amp/trackID=1?videocodec=jpeg RTSP/1.0\r\nCSeq: " + (this.counter++).ToString() + "\r\nTransport: RTP/AVP;unicast;client_port=" + this.port + "-" + (this.port + 1).ToString() + "\r\n\r\n";
-            this.SendMessage(message);
-            System.Threading.Thread.Sleep(200);
-            string recieved = null;
-            while ((recieved = this.RecieveMessage()).IsEmpty())
-                System.Threading.Thread.Sleep(200);
-            Console.WriteLine(recieved);
-            string[] splitted = recieved.Substring(recieved.IndexOf("Session:") + 8).Split(new char[] { ' ', '\r', '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
-            this.session = splitted[0];
-            Console.WriteLine("Session " + this.session);
-            if (this.session.NotEmpty())
-            {
-                message = "PLAY " + this.locator.ToString() + " RTSP/1.0\r\nCSeq: " + (this.counter++).ToString() + "\r\nSession: " + this.session + "\r\n\r\n";
-                this.SendMessage(message);
-                System.Threading.Thread.Sleep(200);
-                Console.WriteLine(this.RecieveMessage());
-                System.Threading.Thread.Sleep(200);
+                    Console.WriteLine("Stopped");
+                });
             }
+            return result;
         }
-        public void Pause()
+        public bool Stop()
         {
-            if (this.session.NotEmpty())
-            {
-                string message = "PAUSE " + this.locator.ToString() + " RTSP/1.0\r\nCSeq: " + (this.counter++).ToString() + "\r\nSession: " + this.session + "\r\n\r\n";
-                this.SendMessage(message);
-                System.Threading.Thread.Sleep(200);
-                string recieved = null;
-                while ((recieved = this.RecieveMessage()).IsEmpty())
-                    System.Threading.Thread.Sleep(200);
-                Console.WriteLine(recieved);
-            }
+            return this.Pause() && this.TearDown();
         }
-        public void TearDown()
+        bool Setup()
         {
-            this.stopped = true;
-            if (this.session.NotEmpty())
+            bool result = false;
+            result = this.protocol.Description();
+            return result;
+        }
+        bool Play()
+        {
+            bool result = false;
+            int? port = this.protocol.Setup();
+            if (port.HasValue)
             {
-                string message = "TEARDOWN " + this.locator.ToString() + " RTSP/1.0\r\nCSeq: " + (this.counter++).ToString() + "\r\nSession: " + this.session + "\r\n\r\n";
-                this.SendMessage(message);
-                System.Threading.Thread.Sleep(200);
-                string recieved = null;
-                while ((recieved = this.RecieveMessage()).IsEmpty())
-                    System.Threading.Thread.Sleep(200);
-                Console.WriteLine(recieved);
+                this.port = port.Value;
+                result = this.protocol.Play();
             }
+            return result;
+        }
+        bool Pause()
+        {
+            return this.protocol.Pause(); 
+        }
+        bool TearDown()
+        {
+            return this.protocol.Teardown();
         }
         void SendMessage(string message)
         {
             byte[] buffer = System.Text.Encoding.ASCII.GetBytes(message);
             this.clientStream.Write(buffer, 0, buffer.Length);
+            System.Threading.Thread.Sleep(200);
         }
         string RecieveMessage()
         {
             string result = null;
             System.Text.StringBuilder builder = new System.Text.StringBuilder();
+            System.Threading.Thread.Sleep(200);
+            int trials = 0;
             while (this.clientConnection.Connected && this.clientStream.CanRead && this.clientStream.DataAvailable)
-            {
-                int value = this.clientStream.ReadByte();
-                if (value >= 0)
-                    builder.Append(System.Text.Encoding.ASCII.GetChars(new byte[] { (byte)value }));
-                else
                 {
-                    result = builder.ToString();
-                    break;
+                    int value = this.clientStream.ReadByte();
+                    if (value >= 0)
+                        builder.Append(System.Text.Encoding.ASCII.GetChars(new byte[] { (byte)value }));
+                    System.Threading.Thread.Sleep(10);
                 }
-            }
             result = builder.ToString();
             return result;
         }
-
+        protected virtual void Initialize()
+        { }
     }
 }

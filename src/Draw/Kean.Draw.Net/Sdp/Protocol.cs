@@ -70,7 +70,7 @@ namespace Kean.Draw.Net.Sdp
     public class Protocol
     {
         public Session Session { get; set; }
-        public Time Active { get; set; }
+        public Time Time { get; set; }
         public Collection.List<Media> Media { get; set; }
         public Protocol()
         {}
@@ -83,9 +83,9 @@ namespace Kean.Draw.Net.Sdp
             {
                 if (keyValues[k].Item1 == 't')
                 {
-                    this.Active = new Time() { Active = keyValues[k].Item2 };
+                    this.Time = new Time() { Active = keyValues[k].Item2 };
                     if (++k < keyValues.Length && keyValues[k].Item1 == 'r')
-                        this.Active.Repeat = keyValues[k].Item2;
+                        this.Time.Repeat = keyValues[k].Item2;
                 }
                 else if (keyValues[k].Item1 == 'm')
                 {
@@ -165,84 +165,17 @@ namespace Kean.Draw.Net.Sdp
             string result;
             System.Text.StringBuilder builder = new System.Text.StringBuilder();
             if (this.Session.NotNull())
+                builder.Append(this.Session.ToString());
+            if (this.Time.NotNull())
+                builder.Append(this.Time.ToString());
+            if (this.Media.NotNull())
             {
-                if(this.Session.Version.NotEmpty())
-                {
-                    builder.Append("v=");
-                    builder.Append(this.Session.Version);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.OriginatorIdentifier.NotEmpty())
-                {
-                    builder.Append("o=");
-                    builder.Append(this.Session.OriginatorIdentifier);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Name.NotEmpty())
-                {
-                    builder.Append("s=");
-                    builder.Append(this.Session.Name);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Information.NotEmpty())
-                {
-                    builder.Append("i=");
-                    builder.Append(this.Session.Information);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Uri.NotEmpty())
-                {
-                    builder.Append("u=");
-                    builder.Append(this.Session.Uri);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Email.NotEmpty())
-                {
-                    builder.Append("e=");
-                    builder.Append(this.Session.Email);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.PhoneNumber.NotEmpty())
-                {
-                    builder.Append("p=");
-                    builder.Append(this.Session.PhoneNumber);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Connection.NotEmpty())
-                {
-                    builder.Append("c=");
-                    builder.Append(this.Session.Connection);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Bandwidth.NotEmpty())
-                {
-                    builder.Append("b=");
-                    builder.Append(this.Session.Bandwidth);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.TimeZoneAdjustment.NotEmpty())
-                {
-                    builder.Append("z=");
-                    builder.Append(this.Session.TimeZoneAdjustment);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.EncryptionKey.NotEmpty())
-                {
-                    builder.Append("k=");
-                    builder.Append(this.Session.EncryptionKey);
-                    builder.Append("\r\n");
-                }
-                if (this.Session.Attributes.NotNull())
-                {
-                    foreach (string attribute in this.Session.Attributes)
-                    {
-                        builder.Append("a=");
-                        builder.Append(attribute);
-                        builder.Append("\r\n");
-                    }
-                }
+                foreach(Media media in this.Media)
+                builder.Append(media.ToString());
             }
-            return builder.ToString();
+
+            result = builder.ToString();
+            return result;
         }
         #endregion
         #region Casts

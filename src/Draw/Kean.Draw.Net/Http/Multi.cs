@@ -32,8 +32,8 @@ namespace Kean.Draw.Net.Http
         Abstract
     {
         public override event Action<byte[]> NewData;
-        public override string Content { get { return "multipart/x-mixed-replace"; } }
-        public abstract string SubContent { get; }
+        protected override string Content { get { return "multipart/x-mixed-replace"; } }
+        protected abstract string SubContent { get; }
         public Multi(Uri.Locator locator, string login, string password, int readSize, int attempts) : base(locator, login, password, readSize, attempts) { }
         /*
                \r\n

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 
 namespace Kean.Draw.Net.Sdp
@@ -54,5 +55,90 @@ namespace Kean.Draw.Net.Sdp
         public string TimeZoneAdjustment { get; set; }
         public string EncryptionKey { get; set; }
         public Collection.List<string> Attributes { get; set; }
+        #region Object overrides
+        public override string ToString()
+        {
+            string result;
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
+            if (this.Version.NotEmpty())
+            {
+                builder.Append("v=");
+                builder.Append(this.Version);
+                builder.Append("\r\n");
+            }
+            if (this.OriginatorIdentifier.NotEmpty())
+            {
+                builder.Append("o=");
+                builder.Append(this.OriginatorIdentifier);
+                builder.Append("\r\n");
+            }
+            if (this.Name.NotEmpty())
+            {
+                builder.Append("s=");
+                builder.Append(this.Name);
+                builder.Append("\r\n");
+            }
+            if (this.Information.NotEmpty())
+            {
+                builder.Append("i=");
+                builder.Append(this.Information);
+                builder.Append("\r\n");
+            }
+            if (this.Uri.NotEmpty())
+            {
+                builder.Append("u=");
+                builder.Append(this.Uri);
+                builder.Append("\r\n");
+            }
+            if (this.Email.NotEmpty())
+            {
+                builder.Append("e=");
+                builder.Append(this.Email);
+                builder.Append("\r\n");
+            }
+            if (this.PhoneNumber.NotEmpty())
+            {
+                builder.Append("p=");
+                builder.Append(this.PhoneNumber);
+                builder.Append("\r\n");
+            }
+            if (this.Connection.NotEmpty())
+            {
+                builder.Append("c=");
+                builder.Append(this.Connection);
+                builder.Append("\r\n");
+            }
+            if (this.Bandwidth.NotEmpty())
+            {
+                builder.Append("b=");
+                builder.Append(this.Bandwidth);
+                builder.Append("\r\n");
+            }
+            if (this.TimeZoneAdjustment.NotEmpty())
+            {
+                builder.Append("z=");
+                builder.Append(this.TimeZoneAdjustment);
+                builder.Append("\r\n");
+            }
+            if (this.EncryptionKey.NotEmpty())
+            {
+                builder.Append("k=");
+                builder.Append(this.EncryptionKey);
+                builder.Append("\r\n");
+            }
+            if (this.Attributes.NotNull())
+            {
+                foreach (string attribute in this.Attributes)
+                {
+                    builder.Append("a=");
+                    builder.Append(attribute);
+                    builder.Append("\r\n");
+                }
+            }
+            result = builder.ToString();
+            return result;
+        }
+        #endregion
     }
+
 }

@@ -42,6 +42,8 @@ namespace Kean.Draw.Net.Test
             // "RTSP/1.0 200 OK\r\nCSeq: 0\r\nContent-Type: application/sdp\r\nContent-Base: rtsp://192.168.1.21:554/axis-media/media.amp/\r\nDate: Wed, 05 Jan 2011 22:08:21 GMT\r\nContent-Length: 342\r\n\r\nv=0\r\no=- 1294265301839884 1294265301839884 IN IP4 192.168.1.21\r\ns=Media Presentation\r\ne=NONE\r\nc=IN IP4 0.0.0.0\r\nt=0 0\r\na=control:rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg\r\na=range:npt=0.000000-\r\nm=video 0 RTP/AVP 26\r\na=framesize:26 640-480\r\na=control:rtsp://192.168.1.21:554/axis-media/media.amp/trackID=1?videocodec=jpeg\r\n"
             string description = "v=0\r\no=- 1294265301839884 1294265301839884 IN IP4 192.168.1.21\r\ns=Media Presentation\r\ne=NONE\r\nc=IN IP4 0.0.0.0\r\nt=0 0\r\na=control:rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg\r\na=range:npt=0.000000-\r\nm=video 0 RTP/AVP 26\r\na=framesize:26 640-480\r\na=control:rtsp://192.168.1.21:554/axis-media/media.amp/trackID=1?videocodec=jpeg\r\n";
             Target.Protocol protocol = description;
+            Console.WriteLine();
+            Console.WriteLine(protocol.ToString());
         }
     }
 }

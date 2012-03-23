@@ -21,9 +21,9 @@
 
 using System;
 
-namespace Kean.Draw.Net.Rtsp
+namespace Kean.Draw.Net.Jpeg
 {
-    public struct Jpeg
+    public struct Protocol
     {
         public int TypeSpecific;
         public int FragmentOffset;
@@ -34,7 +34,7 @@ namespace Kean.Draw.Net.Rtsp
         public int PayloadOffset;
         public int PayloadLength;
         public byte[] QuantizationTable;
-        public Jpeg(byte[] buffer, int offset, int length, bool first)
+        public Protocol(byte[] buffer, int offset, int length, bool first)
         {
             this.TypeSpecific = buffer[offset + 0];
             this.FragmentOffset = System.BitConverter.ToInt32(new byte[] { buffer[offset + 3], buffer[offset + 2], buffer[offset + 1], 0 }, 0);
@@ -70,7 +70,7 @@ namespace Kean.Draw.Net.Rtsp
         public byte[] CreateHeader(byte[] lumaQuantization, byte[] chromaQuantization)
         {
             byte[] result;
-            result = Jpeg.CreateHeader(this.Quality, this.JpegType, this.Height / 8, this.Width / 8, lumaQuantization, chromaQuantization);
+            result = Protocol.CreateHeader(this.Quality, this.JpegType, this.Height / 8, this.Width / 8, lumaQuantization, chromaQuantization);
             return result;
         }
         static byte[] CreateHeader(int quality, int jpegType, int height, int width, byte[] lumaQuantizationTable, byte[] chromaQuantizationTable)
@@ -94,8 +94,8 @@ namespace Kean.Draw.Net.Rtsp
             header[offset++] = (byte)0xff;
             header[offset++] = (byte)0xd8;            /** SOI **/
 
-            offset = Jpeg.CreateQuantizationHeader(header, lumaQuantizationTable, 0, offset);
-            offset = Jpeg.CreateQuantizationHeader(header, chromaQuantizationTable, 1, offset);
+            offset = Protocol.CreateQuantizationHeader(header, lumaQuantizationTable, 0, offset);
+            offset = Protocol.CreateQuantizationHeader(header, chromaQuantizationTable, 1, offset);
 
             //            if (dri != 0)
             //                off = MakeDRIHeader(header, dri, off);
@@ -123,10 +123,10 @@ namespace Kean.Draw.Net.Rtsp
             header[offset++] = (byte)0x11;            /** hsamoff = 1, vsamoff = 1 **/
             header[offset++] = (byte)1;               /** quant table 1 **/
 
-            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.lum_dc_codelens, Jpeg.lum_dc_symbols, 0, 0, offset);
-            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.lum_ac_codelens, Jpeg.lum_ac_symbols, 0, 1, offset);
-            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.chm_dc_codelens, Jpeg.chm_dc_symbols, 1, 0, offset);
-            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.chm_ac_codelens, Jpeg.chm_ac_symbols, 1, 1, offset);
+            offset = Protocol.CreateHuffmanHeader(header, Protocol.lum_dc_codelens, Protocol.lum_dc_symbols, 0, 0, offset);
+            offset = Protocol.CreateHuffmanHeader(header, Protocol.lum_ac_codelens, Protocol.lum_ac_symbols, 0, 1, offset);
+            offset = Protocol.CreateHuffmanHeader(header, Protocol.chm_dc_codelens, Protocol.chm_dc_symbols, 1, 0, offset);
+            offset = Protocol.CreateHuffmanHeader(header, Protocol.chm_ac_codelens, Protocol.chm_ac_symbols, 1, 1, offset);
 
             header[offset++] = (byte)0xff;
             header[offset++] = (byte)0xda;            /** SOS **/

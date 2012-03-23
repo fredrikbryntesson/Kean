@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 
 namespace Kean.Draw.Net.Sdp
@@ -42,5 +43,54 @@ namespace Kean.Draw.Net.Sdp
         public string Bandwidth { get; set; }
         public string EncryptionKey { get; set; }
         public Collection.List<string> Attributes { get; set; }
+
+        #region Object overrides
+        public override string ToString()
+        {
+            string result;
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
+            if (this.Name.NotEmpty())
+            {
+                builder.Append("m=");
+                builder.Append(this.Name);
+                builder.Append("\r\n");
+            }
+            if (this.Title.NotEmpty())
+            {
+                builder.Append("i=");
+                builder.Append(this.Title);
+                builder.Append("\r\n");
+            }
+            if (this.Connection.NotEmpty())
+            {
+                builder.Append("c=");
+                builder.Append(this.Connection);
+                builder.Append("\r\n");
+            }
+            if (this.Bandwidth.NotEmpty())
+            {
+                builder.Append("b=");
+                builder.Append(this.Bandwidth);
+                builder.Append("\r\n");
+            }
+            if (this.EncryptionKey.NotEmpty())
+            {
+                builder.Append("k=");
+                builder.Append(this.EncryptionKey);
+                builder.Append("\r\n");
+            }
+            if (this.Attributes.NotNull())
+            {
+                foreach (string attribute in this.Attributes)
+                {
+                    builder.Append("a=");
+                    builder.Append(attribute);
+                    builder.Append("\r\n");
+                }
+            }
+            result = builder.ToString();
+            return result;
+        }
+        #endregion
     }
 }

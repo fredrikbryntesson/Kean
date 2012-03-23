@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.Net.Sdp
 {  
@@ -32,5 +33,27 @@ namespace Kean.Draw.Net.Sdp
     {
         public string Active { get; set; }
         public string Repeat { get; set; }
+        
+        #region Object overrides
+        public override string ToString()
+        {
+            string result;
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
+            if (this.Active.NotEmpty())
+            {
+                builder.Append("t=");
+                builder.Append(this.Active);
+                builder.Append("\r\n");
+            }
+            if (this.Repeat.NotEmpty())
+            {
+                builder.Append("r=");
+                builder.Append(this.Repeat);
+                builder.Append("\r\n");
+            }
+            result = builder.ToString();
+            return result;
+        }
+        #endregion
     }
 }
