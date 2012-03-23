@@ -52,10 +52,13 @@ namespace Kean.Draw.Net.Rtsp
 				this.clientConnection = new System.Net.Sockets.TcpClient(this.locator.Authority.Endpoint.Host.ToString(), this.locator.Authority.Endpoint.Port.HasValue ? (int)this.locator.Authority.Endpoint.Port.Value : 554);
 				this.clientStream = clientConnection.GetStream();
 				this.protocol = new Protocol(locator, this.SendMessage, this.RecieveMessage);
-				result = this.Setup() && this.Start();
+				result = this.Setup();
+                result &= this.Start();
 			}
 			catch (Exception e)
-			{ }
+			{
+                Console.WriteLine("Error" + e.Message);
+            }
 			return result;
 		}
 		bool Start()
@@ -66,7 +69,7 @@ namespace Kean.Draw.Net.Rtsp
 				this.Initialize();
 				System.Net.Sockets.Socket server = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
 						 System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp);
-				System.Net.EndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.110"), this.port.Value);
+				System.Net.EndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("192.168.1.65"), this.port.Value);
 				server.Bind(endPoint);
 				this.stopped = false;
 				this.thread = Parallel.Thread.Start("Draw.Net", () =>
