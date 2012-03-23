@@ -9,6 +9,7 @@ namespace Kean.Draw.Net.Rtsp
 
     public class Protocol
     {
+        public int Port { get; private set; }
         int counter = 0;
         Uri.Locator locator;
         Action<string> sender;
@@ -78,9 +79,9 @@ namespace Kean.Draw.Net.Rtsp
             }
             return result;
         }
-        public int? Setup()
+        public bool Setup()
         {
-            int? result = null;
+            bool result = false;
             if (this.video.NotNull())
             {
                 int clientPort = 9000;
@@ -88,7 +89,10 @@ namespace Kean.Draw.Net.Rtsp
                 this.sender.Call("SETUP " + this.video.ToString() + " RTSP/1.0\r\n" + "CSeq: " + (this.counter++).ToString() + "\r\n" + "Transport: RTP/AVP;" + cast.ToString().ToLower() + ";client_port=" + clientPort + "-" + (clientPort + 1).ToString() + "\r\n\r\n");
                 this.session = this.SetupAnswer(this.reciever());
                 if (this.session.NotEmpty())
-                    result = clientPort;
+                {
+                    this.Port = clientPort;
+                    result = true;
+                }
             }
             return result;
         }

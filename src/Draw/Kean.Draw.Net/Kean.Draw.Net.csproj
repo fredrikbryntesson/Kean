@@ -63,6 +63,8 @@
     <Compile Include="Sdp\Session.cs" />
     <Compile Include="Sdp\State.cs" />
     <Compile Include="Sdp\Time.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="TcpClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cli\Kean.Cli\Kean.Cli.csproj">

@@ -44,19 +44,18 @@ namespace Kean.Draw.Net.Test
             
             Target.Jpeg jpeg = new Target.Jpeg();
 
-			//bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
-				bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
+			bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
+			//	bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
 			if (opened)
 			{
 				int counter = 0;
 				jpeg.NewFrame += image =>
 				{
-					counter++;
-					Console.Write(".");
+				    image.Save("test" + (counter++) + ".png");
+                    Console.Write(".");
 				};
 				bool starting = jpeg.Play();
-				Console.WriteLine("Playback starts : " + starting);
-				while (counter < 20)
+				while (counter < 2)
 					System.Threading.Thread.Sleep(100);
 				jpeg.Close();
 			}
