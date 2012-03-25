@@ -39,9 +39,28 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+    <Compile Include="Tokenizer.cs" />
     <Compile Include="Token\Abstract.cs" />
+    <Compile Include="Token\Identifier.cs" />
+    <Compile Include="Token\Symbol.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
+      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
+      <Name>Kean.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
+      <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
+      <Name>Kean.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Xml\Kean.Xml.Dom\Kean.Xml.Dom.csproj">
       <Project>{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}</Project>
       <Name>Kean.Xml.Dom</Name>

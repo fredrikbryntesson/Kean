@@ -1,5 +1,5 @@
 ﻿// 
-//  Abstract.cs
+//  Identifier.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,12 +23,14 @@ using System;
 
 namespace Kean.Fubl.Token
 {
-    public abstract class Abstract
+    public class Identifier : 
+        Abstract
     {
-        public IO.Text.Region Region { get; private set; }
-        protected Abstract(IO.Text.Region region)
+        public string Name { get; private set; }
+        public Identifier(string name, IO.Text.Region region) :
+            base(region)
         {
-            this.Region = region;
+            this.Name = name;
         }
     }
 }

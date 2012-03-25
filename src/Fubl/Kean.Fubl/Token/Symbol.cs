@@ -1,5 +1,5 @@
 ﻿// 
-//  Abstract.cs
+//  Symbol.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,12 +23,17 @@ using System;
 
 namespace Kean.Fubl.Token
 {
-    public abstract class Abstract
+    public class Symbol : 
+        Abstract
     {
-        public IO.Text.Region Region { get; private set; }
-        protected Abstract(IO.Text.Region region)
+        public string Name { get; set; }
+        public Symbol(char name, IO.Text.Region region) :
+            this(new string(name, 1), region)
+        { }
+        public Symbol(string name, IO.Text.Region region) :
+            base(region)
         {
-            this.Region = region;
+
         }
     }
 }
