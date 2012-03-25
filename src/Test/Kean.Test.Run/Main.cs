@@ -26,6 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            Xml.Serialize.Test.All.Test();
             Kean.Draw.Net.Test.All.Test();
             Math.Test.All.Test();
             
@@ -49,7 +50,6 @@ namespace Kean.Test.Run
             Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
-			Xml.Serialize.Test.All.Test();
 
 		}
 	}

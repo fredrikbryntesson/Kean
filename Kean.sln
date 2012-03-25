@@ -164,6 +164,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net", "src\Draw\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net.Test", "src\Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj", "{C8BD80C8-2A97-4808-9122-D59E1F5308EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fubl", "Fubl", "{003FD32D-8428-4996-8F7B-A93F3241ECC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Fubl", "src\Fubl\Kean.Fubl\Kean.Fubl.csproj", "{4FCB513D-9EF1-41E7-9DC8-701900BE567F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -450,6 +454,10 @@ Global
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FCB513D-9EF1-41E7-9DC8-701900BE567F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FCB513D-9EF1-41E7-9DC8-701900BE567F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FCB513D-9EF1-41E7-9DC8-701900BE567F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FCB513D-9EF1-41E7-9DC8-701900BE567F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -525,6 +533,7 @@ Global
 		{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8} = {23C800E5-F8A0-4771-B965-8BF93DDB0664}
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7} = {23C800E5-F8A0-4771-B965-8BF93DDB0664}
 		{6AEA339E-D930-4834-995D-301892768C10} = {23C800E5-F8A0-4771-B965-8BF93DDB0664}
+		{4FCB513D-9EF1-41E7-9DC8-701900BE567F} = {003FD32D-8428-4996-8F7B-A93F3241ECC4}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Kean.Test.Run\Kean.Test.Run.csproj
