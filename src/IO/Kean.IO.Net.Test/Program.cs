@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Parallel = Kean.Core.Parallel;
 
 namespace Kean.IO.Net.Test
@@ -28,8 +29,9 @@ namespace Kean.IO.Net.Test
 	{
 		static void Main(string[] args)
 		{
-			Program.Proxy(23, "192.168.1.102:23");
+			//Program.Proxy(23, "192.168.1.102:23");
 			//Program.Proxy();
+            Program.Terminal();
 		}
 		static void Proxy()
 		{
@@ -101,10 +103,23 @@ namespace Kean.IO.Net.Test
 		}
 		static void Terminal()
 		{
-			ICharacterDevice connection = new CharacterDevice(Tcp.Connection.Connect("192.168.1.101:23"));
-			char? incomming;
-			while ((incomming = connection.Read()).HasValue)
-				Console.Write(incomming.Value);
+			ICharacterDevice connection = new CharacterDevice(Tcp.Connection.Connect("127.0.0.1:23"));
+            ICharacterWriter writer = new CharacterWriter(connection);
+            Parallel.Thread receiver = Parallel.Thread.Start(() =>
+            {
+                char? incomming;
+                while (connection.Opened)
+                    while ((incomming = connection.Read()).HasValue)
+                        Console.Write(incomming.Value);
+            });
+            while (writer.Opened)
+            {
+                string outgoing = Console.In.ReadLine();
+                if (outgoing.NotEmpty())
+                    writer.WriteLine(outgoing);
+            }
+            receiver.Abort();
+
 		}
 		static void Echo()
 		{
