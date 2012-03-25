@@ -21,27 +21,25 @@
 
 using System;
 
-namespace Kean.Xml.Sax
+namespace Kean.IO.Text
 {
-	class Mark
+	public class Mark
 	{
-		Parser parser;
-		string resource;
+		ICharacterReader reader;
 		Position start;
 		Position end;
-		public Mark(Parser parser)
+		public Mark(ICharacterReader reader)
 		{
-			this.parser = parser;
-			this.resource = parser.Resource;
-			this.start = this.parser.Position;
+			this.reader = reader;
+			this.start = new Position(this.reader);
 		}
 		public void End()
 		{
-			this.end = this.parser.Position;
+            this.end = new Position(this.reader);
 		}
 		public static implicit operator Region(Mark mark)
 		{
-			return new Region(mark.resource, mark.start, mark.end ?? mark.parser.Position);
+            return new Region(mark.reader.Resource, mark.start, mark.end ?? new Position(mark.reader));
 		}
 	}
 }

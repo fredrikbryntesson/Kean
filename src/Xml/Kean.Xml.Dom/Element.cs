@@ -50,10 +50,10 @@ namespace Kean.Xml.Dom
 		{
 			this.Name = name;
 		}
-		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Region>>> attributes) :
+        public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>> attributes) :
 			this(name)
 		{
-			foreach (KeyValue<string, Tuple<string, Region>> attribute in attributes)
+            foreach (KeyValue<string, Tuple<string, IO.Text.Region>> attribute in attributes)
 				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
 		}
 		protected override void ChangeDocument(Document document)
@@ -168,7 +168,7 @@ namespace Kean.Xml.Dom
 				if (current.Name != name)
 					throw new Exception.EndTagUnmatched(current.Name, current.Region, name, region);
 				if (current.Region.NotNull() && region.NotNull())
-					current.Region = new Region(current.Region.Resource, current.Region.Start, region.End); 
+                    current.Region = new IO.Text.Region(current.Region.Resource, current.Region.Start, region.End); 
 				current = current.Parent;
 			};
 			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };

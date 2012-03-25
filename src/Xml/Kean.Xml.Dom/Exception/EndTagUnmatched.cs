@@ -26,14 +26,14 @@ namespace Kean.Xml.Dom.Exception
         Abstract
     {
 		public string StartName { get; private set; }
-		public Region StartRegion { get; private set; }
+		public IO.Text.Region StartRegion { get; private set; }
 		public string EndName { get; private set; }
-		public Region EndRegion { get; private set; }
-		internal EndTagUnmatched(string startName, Region startRegion, string endName, Region endRegion) : 
+		public IO.Text.Region EndRegion { get; private set; }
+        internal EndTagUnmatched(string startName, IO.Text.Region startRegion, string endName, IO.Text.Region endRegion) : 
             this(null, startName, startRegion, endName, endRegion) 
 		{ }
-		internal EndTagUnmatched(System.Exception innerException, string startName, Region startRegion, string endName, Region endRegion) :
-			base(innerException, Error.Level.Recoverable, "XML Tree error", "XML end element \"{5}\" between row {6} column {7} and row {8} column {9} does not match start element \"{0}\" between row {1} column {2} and row {3} column {4} in \"{10}\".", startName, startRegion.Start.Line.ToString(), startRegion.Start.Column.ToString(), startRegion.End.Line.ToString(), startRegion.End.Column.ToString(), endName, startRegion.Start.Line.ToString(), endRegion.Start.Column.ToString(), endRegion.End.Line.ToString(), endRegion.End.Column.ToString(), endRegion.Resource)
+        internal EndTagUnmatched(System.Exception innerException, string startName, IO.Text.Region startRegion, string endName, IO.Text.Region endRegion) :
+			base(innerException, Error.Level.Recoverable, "XML Tree error", "XML end element \"{5}\" between row {6} column {7} and row {8} column {9} does not match start element \"{0}\" between row {1} column {2} and row {3} column {4} in \"{10}\".", startName, startRegion.Start.Row.ToString(), startRegion.Start.Column.ToString(), startRegion.End.Row.ToString(), startRegion.End.Column.ToString(), endName, startRegion.Start.Row.ToString(), endRegion.Start.Column.ToString(), endRegion.End.Row.ToString(), endRegion.End.Column.ToString(), endRegion.Resource)
 		{
 			this.StartName = startName;
 			this.StartRegion = startRegion;

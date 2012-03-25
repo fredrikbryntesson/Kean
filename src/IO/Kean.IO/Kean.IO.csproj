@@ -74,6 +74,9 @@
     <Compile Include="IByteInDevice.cs" />
     <Compile Include="ByteDeviceSplitter.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
+    <Compile Include="Text\Mark.cs" />
+    <Compile Include="Text\Position.cs" />
+    <Compile Include="Text\Region.cs" />
     <Compile Include="Text\Writer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
