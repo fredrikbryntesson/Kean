@@ -51,11 +51,12 @@ namespace Kean.Draw.Net.Test
 				int counter = 0;
 				jpeg.NewFrame += image =>
 				{
-				    image.Save("test" + (counter++) + ".png");
+                    image.Save("test" + (counter++).ToString("0000") + ".png");
                     Console.Write(".");
 				};
 				bool starting = jpeg.Play();
-				while (counter < 2)
+                DateTime now = DateTime.Now;
+                while (counter < 20 && (DateTime.Now - now).Duration().TotalSeconds < 10)
 					System.Threading.Thread.Sleep(100);
 				jpeg.Close();
 			}

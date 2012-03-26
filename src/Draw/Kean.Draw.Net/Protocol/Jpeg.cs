@@ -20,21 +20,39 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 
-namespace Kean.Draw.Net.Jpeg
+namespace Kean.Draw.Net.Protocol
 {
-    public struct Protocol
+    public struct Jpeg :
+        IProtocol
     {
+        public bool First;
         public int TypeSpecific;
         public int FragmentOffset;
         public int JpegType;
         public int Quality;
         public int Width;
         public int Height;
-        public int PayloadOffset;
-        public int PayloadLength;
+        public byte[] Payload;
         public byte[] QuantizationTable;
-        public Protocol(byte[] buffer, int offset, int length, bool first)
+        public Jpeg(int typeSpecific, int fragmentOffset, int jpegType, int quality, int width, int height, byte[] payload, byte[] quantizationTable)
+        {
+            this.First = false;
+            this.TypeSpecific = typeSpecific;
+            this.FragmentOffset = fragmentOffset;
+            this.JpegType = jpegType;
+            this.Quality = quality;
+            this.Width = width;
+            this.Height = height;
+            this.Payload = payload;
+            this.QuantizationTable = quantizationTable;
+        }
+        public void Setup(byte[] data)
+        {
+            this.Setup(data, 0, data.Length);
+        }
+        public void Setup(byte[] buffer, int offset, int length)
         {
             this.TypeSpecific = buffer[offset + 0];
             this.FragmentOffset = System.BitConverter.ToInt32(new byte[] { buffer[offset + 3], buffer[offset + 2], buffer[offset + 1], 0 }, 0);
@@ -42,21 +60,30 @@ namespace Kean.Draw.Net.Jpeg
             this.Quality = buffer[offset + 5];
             this.Width = buffer[offset + 6] * 8;
             this.Height = buffer[offset + 7] * 8;
-            if (first)
+            this.First = this.FragmentOffset == 0;
+            if (this.First)
             {
                 int mbz = buffer[offset + 8];
                 int precision = buffer[offset + 9];
                 int quantizationTableLength = (ushort)((buffer[offset + 10]) * 256 + buffer[offset + 11]);
                 this.QuantizationTable = new byte[quantizationTableLength];
-                Array.Copy(buffer, offset + 12, this.QuantizationTable, 0, this.QuantizationTable.Length); 
-                this.PayloadOffset = offset + 12 + quantizationTableLength;
-                this.PayloadLength = length - 12 - quantizationTableLength;   
+                Array.Copy(buffer, offset + 12, this.QuantizationTable, 0, this.QuantizationTable.Length);
+                this.Payload = new byte[length - 12 - quantizationTableLength];
+                Array.Copy(buffer, offset + 12 + quantizationTableLength, this.Payload, 0, this.Payload.Length);
             }
             else
             {
                 this.QuantizationTable = null;
-                this.PayloadOffset = offset + 8;
-                this.PayloadLength = length - 8;
+                if (length - 8 >= 0)
+                {
+                    this.Payload = new byte[length - 8];
+                    Array.Copy(buffer, offset + 8, this.Payload, 0, this.Payload.Length);
+                }
+                else
+                {
+                    this.Payload = null;
+                    Console.WriteLine("bad data.........................................");
+                }
             }
         }
         public byte[] CreateHeader()
@@ -70,10 +97,18 @@ namespace Kean.Draw.Net.Jpeg
         public byte[] CreateHeader(byte[] lumaQuantization, byte[] chromaQuantization)
         {
             byte[] result;
-            result = Protocol.CreateHeader(this.Quality, this.JpegType, this.Height / 8, this.Width / 8, lumaQuantization, chromaQuantization);
+            result = Jpeg.CreateHeader(this.Quality, this.JpegType, this.Width / 8, this.Height / 8, lumaQuantization, chromaQuantization);
             return result;
         }
-        static byte[] CreateHeader(int quality, int jpegType, int height, int width, byte[] lumaQuantizationTable, byte[] chromaQuantizationTable)
+        public static byte[] CreateHeader(int quality, int jpegType, int width, int height, byte[] quantizationTable)
+        {
+            byte[] lumaQuantization = new byte[64];
+            byte[] chromaQuantization = new byte[64];
+            Array.Copy(quantizationTable, lumaQuantization, 64);
+            Array.Copy(quantizationTable, 64, chromaQuantization, 0, 64);
+            return Jpeg.CreateHeader(quality, jpegType, width, height, lumaQuantization, chromaQuantization);
+        }
+        public static byte[] CreateHeader(int quality, int jpegType, int width, int height, byte[] lumaQuantizationTable, byte[] chromaQuantizationTable)
         {
             byte[] result;
             byte[] header = new byte[1024];
@@ -94,8 +129,8 @@ namespace Kean.Draw.Net.Jpeg
             header[offset++] = (byte)0xff;
             header[offset++] = (byte)0xd8;            /** SOI **/
 
-            offset = Protocol.CreateQuantizationHeader(header, lumaQuantizationTable, 0, offset);
-            offset = Protocol.CreateQuantizationHeader(header, chromaQuantizationTable, 1, offset);
+            offset = Jpeg.CreateQuantizationHeader(header, lumaQuantizationTable, 0, offset);
+            offset = Jpeg.CreateQuantizationHeader(header, chromaQuantizationTable, 1, offset);
 
             //            if (dri != 0)
             //                off = MakeDRIHeader(header, dri, off);
@@ -123,10 +158,10 @@ namespace Kean.Draw.Net.Jpeg
             header[offset++] = (byte)0x11;            /** hsamoff = 1, vsamoff = 1 **/
             header[offset++] = (byte)1;               /** quant table 1 **/
 
-            offset = Protocol.CreateHuffmanHeader(header, Protocol.lum_dc_codelens, Protocol.lum_dc_symbols, 0, 0, offset);
-            offset = Protocol.CreateHuffmanHeader(header, Protocol.lum_ac_codelens, Protocol.lum_ac_symbols, 0, 1, offset);
-            offset = Protocol.CreateHuffmanHeader(header, Protocol.chm_dc_codelens, Protocol.chm_dc_symbols, 1, 0, offset);
-            offset = Protocol.CreateHuffmanHeader(header, Protocol.chm_ac_codelens, Protocol.chm_ac_symbols, 1, 1, offset);
+            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.lum_dc_codelens, Jpeg.lum_dc_symbols, 0, 0, offset);
+            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.lum_ac_codelens, Jpeg.lum_ac_symbols, 0, 1, offset);
+            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.chm_dc_codelens, Jpeg.chm_dc_symbols, 1, 0, offset);
+            offset = Jpeg.CreateHuffmanHeader(header, Jpeg.chm_ac_codelens, Jpeg.chm_ac_symbols, 1, 1, offset);
 
             header[offset++] = (byte)0xff;
             header[offset++] = (byte)0xda;            /** SOS **/
@@ -271,15 +306,5 @@ namespace Kean.Draw.Net.Jpeg
         0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
         0xf9, 0xfa,
 };
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -21,9 +21,10 @@
 
 using System;
 
-namespace Kean.Draw.Net.Rtsp
+namespace Kean.Draw.Net.Protocol
 {
-    public struct Rtp
+    public struct Rtp<T>
+        where T : IProtocol
     {
         public int Version;
         public bool Padding;
@@ -34,9 +35,8 @@ namespace Kean.Draw.Net.Rtsp
         public ushort SequenceNumber;
         public TimeSpan Timestamp;
         public uint SynchronizationSourceIdentifier;
-        public int PayloadOffset;
-        public int PayloadLength;
-        public Rtp(byte[] data, int length)
+        public T Payload;
+        public Rtp(byte[] data)
         {
             this.Version = data[0] >> 6;
             this.Padding = (1 & (data[0] >> 5)) == 1;
@@ -49,14 +49,11 @@ namespace Kean.Draw.Net.Rtsp
             this.SynchronizationSourceIdentifier = System.BitConverter.ToUInt32(new byte[] { data[11], data[10], data[9], data[8] }, 0);
             if (!this.Extension)
             {
-                this.PayloadOffset = 12;
-                this.PayloadLength = length - 12;
+                this.Payload = default(T);
+                this.Payload.Setup(data, 12, data.Length - 12);
             }
             else
-            {
-                this.PayloadOffset = 0;
-                this.PayloadLength = 0;
-            }
+                this.Payload = default(T);
         }
         public override string ToString()
         {

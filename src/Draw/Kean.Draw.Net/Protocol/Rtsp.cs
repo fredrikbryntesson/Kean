@@ -1,13 +1,32 @@
-﻿using System;
+﻿// 
+//  Rtsp.cs
+//  
+//  Author:
+//       Anders Frisk <andersfrisk77@gmail.com>
+//  
+//  Copyright (c) 2012 Anders Frisk
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 
-
-namespace Kean.Draw.Net.Rtsp
+namespace Kean.Draw.Net.Protocol
 {
-
-    public class Protocol
+    public class Rtsp
     {
         public int Port { get; private set; }
         int counter = 0;
@@ -16,11 +35,21 @@ namespace Kean.Draw.Net.Rtsp
         Func<string> reciever;
         Uri.Locator video;
         string session;
-        public Protocol(Uri.Locator locator, Action<string> sender, Func<string> reciever)
+        public Rtsp(Uri.Locator locator, Action<string> sender, Func<string> reciever)
         {
             this.locator = locator;    
             this.sender = sender;
             this.reciever = reciever;
+        }
+        // "RTSP/1.0 200 OK\r\nCSeq: 0\r\nPublic: DESCRIBE, GET_PARAMETER, PAUSE, PLAY, SETUP, SET_PARAMETER, TEARDOWN\r\nDate: Wed, 12 Jan 2011 05:28:33 GMT\r\n\r\n"
+        public bool Options()
+        {
+            bool result = false;
+            this.sender.Call("OPTIONS " + this.locator.ToString() + " RTSP/1.0\r\n" + "CSeq: " + (this.counter++).ToString() + "\r\n\r\n");
+            string answer = this.reciever();
+            if (result = this.CommandSucceded(answer))
+                result &= answer.Contains("DESCRIBE") && answer.Contains("SETUP") && answer.Contains("PLAY") && answer.Contains("PAUSE") && answer.Contains("TEARDOWN"); 
+            return result;
         }
         public bool Description()
         {
@@ -85,8 +114,8 @@ namespace Kean.Draw.Net.Rtsp
             if (this.video.NotNull())
             {
                 int clientPort = 9000;
-                Cast cast = Cast.Unicast;
-                this.sender.Call("SETUP " + this.video.ToString() + " RTSP/1.0\r\n" + "CSeq: " + (this.counter++).ToString() + "\r\n" + "Transport: RTP/AVP;" + cast.ToString().ToLower() + ";client_port=" + clientPort + "-" + (clientPort + 1).ToString() + "\r\n\r\n");
+                string cast ="unicast";
+                this.sender.Call("SETUP " + this.video.ToString() + " RTSP/1.0\r\n" + "CSeq: " + (this.counter++).ToString() + "\r\n" + "Transport: RTP/AVP;" + cast + ";client_port=" + clientPort + "-" + (clientPort + 1).ToString() + "\r\n\r\n");
                 this.session = this.SetupAnswer(this.reciever());
                 if (this.session.NotEmpty())
                 {

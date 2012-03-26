@@ -32,9 +32,8 @@ namespace Kean.Draw.Net.Rtsp
     {
         public event Action<byte[]> NewData;
         public Status Status { get; private set; }
-        TcpClient tcpClient;
         Parallel.Thread thread;
-        Protocol protocol;
+        Protocol.Rtsp protocol;
         public Client()
         { }
         public bool Open(Uri.Locator locator)
@@ -43,15 +42,16 @@ namespace Kean.Draw.Net.Rtsp
             this.Initialize();
             try
             {
-                this.tcpClient = new TcpClient();
-                if (result = this.tcpClient.Open(locator))
+                Draw.Net.Client.Tcp client = new Net.Client.Tcp();
+                if (result = client.Open(locator))
                 {
-                    this.protocol = new Protocol(locator, this.tcpClient.SendMessage, this.tcpClient.RecieveMessage);
+                    this.protocol = new Protocol.Rtsp(locator, client.SendMessage, client.RecieveMessage);
                     result &= this.Setup();
                     if (result)
                     {
                         this.Status = Status.Playing;
-                        this.Start();
+                        if(this.Play())
+                            this.Start();
                     }
                 }
             }
@@ -63,54 +63,52 @@ namespace Kean.Draw.Net.Rtsp
         }
         void Start()
         {
-            System.Net.Sockets.UdpClient udpClient = new System.Net.Sockets.UdpClient(this.protocol.Port);
-            //udpClient.Client.Blocking = true;
-            //udpClient.Client.ReceiveTimeout = 1000;
-            System.Net.IPEndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, this.protocol.Port);
+            Net.Client.Rtp<Protocol.Jpeg> client = new Net.Client.Rtp<Protocol.Jpeg>();
+            client.Open(this.protocol.Port);
             this.thread = Parallel.Thread.Start("Draw.Net", () =>
             {
-                byte[] jpegData = new byte[512 * 1024];
-                int jpegDataLength = 0;
+                int width = 0;
+                int height = 0;
+                int jpegType = 0;
+                int quality = 0;
+                byte[] quantizationTable = null;
+                byte[] jpegPayload = new byte[512 * 1024];
+                int jpegPayloadLength = 0;
                 bool frame = false;
-                bool first = true;
                 while (this.Status != Status.Closed)
                 {
-                    if (udpClient.Available > 0)
+                    if (client.Avaliable)
                     {
-                        byte[] udp = udpClient.Receive(ref endPoint);
-                        Rtp rtp = new Rtp(udp, udp.Length);
+                        Protocol.Rtp<Protocol.Jpeg> rtp = client.Recieve();
+                        //Console.WriteLine("Counter " + rtp.SequenceNumber + " offset" + rtp.Payload.FragmentOffset + " " + rtp.Marker + " " + rtp.Payload.Width + " " + rtp.Payload.Height);
                         //Console.WriteLine("rtp " + rtp.SequenceNumber + " marker " + rtp.Marker);
                         // Leave the first partial image (which will never will be completed).
                         if (rtp.Marker && !frame)
                             frame = true;
                         else if (!rtp.Marker && frame)
                         {
-                            Net.Jpeg.Protocol jpeg = new Net.Jpeg.Protocol(udp, rtp.PayloadOffset, rtp.PayloadLength, first);
-                            // first part of jpeg image
-                            if (first)
+                            if (rtp.Payload.First)
                             {
-                                byte[] header = jpeg.CreateHeader();
-                                Array.Copy(header, jpegData, header.Length);
-                                jpegDataLength += header.Length;
-                                first = false;
+                                width = rtp.Payload.Width;
+                                height = rtp.Payload.Height;
+                                jpegType = rtp.Payload.JpegType;
+                                quality = rtp.Payload.Quality;
+                                quantizationTable = rtp.Payload.QuantizationTable;
                             }
-                            // parts in between
-                            Array.Copy(udp, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
-                            jpegDataLength += jpeg.PayloadLength;
+                            Array.Copy(rtp.Payload.Payload, 0, jpegPayload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
+                            jpegPayloadLength += rtp.Payload.Payload.Length;
                         }
                         else if (rtp.Marker && frame)
                         {
-                            // last part of jpeg image
-                            Net.Jpeg.Protocol jpeg = new Net.Jpeg.Protocol(udp, rtp.PayloadOffset, rtp.PayloadLength, false);
-                            Array.Copy(udp, jpeg.PayloadOffset, jpegData, jpegDataLength, jpeg.PayloadLength);
-                            jpegDataLength += jpeg.PayloadLength;
+                            Array.Copy(rtp.Payload.Payload, 0, jpegPayload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
+                            jpegPayloadLength += rtp.Payload.Payload.Length;
 
-                            // complete jpeg image data
-                            byte[] data = new byte[jpegDataLength];
-                            Array.Copy(jpegData, 0, data, 0, jpegDataLength);
-                            this.NewData.Call(data);
-                            jpegDataLength = 0;
-                            first = true;
+                            byte[] image = new byte[512 * 1024];
+                            byte[] header = Protocol.Jpeg.CreateHeader(quality, jpegType, width / 8, height / 8, quantizationTable);
+                            Array.Copy(header, image, header.Length);
+                            Array.Copy(jpegPayload, 0, image, header.Length, jpegPayloadLength);
+                            this.NewData.Call(image);
+                            jpegPayloadLength = 0;
                         }
                     }
                 }
@@ -118,7 +116,7 @@ namespace Kean.Draw.Net.Rtsp
         }
         bool Setup()
         {
-            return this.protocol.Description() && this.protocol.Setup();
+            return this.protocol.Options() && this.protocol.Description() && this.protocol.Setup();
         }
         public bool Play()
         {

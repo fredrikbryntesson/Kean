@@ -23,38 +23,53 @@ using System;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Collection = Kean.Core.Collection;
-namespace Kean.Draw.Net
+namespace Kean.Draw.Net.Client
 {
-    public class TcpClient
+    public class Tcp
     {
-        Uri.Locator locator;
-        System.Net.Sockets.Socket tcpClient;
-        public TcpClient()
+        System.Net.Sockets.TcpClient client;
+        byte[] buffer;
+        public Tcp()
         { }
         public bool Open(Uri.Locator locator)
         {
             bool result = false;
-            this.locator = locator;
             try
             {
-                this.tcpClient = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
-                this.tcpClient.Connect(this.locator.Authority.Endpoint.Host.ToString(), this.locator.Authority.Endpoint.Port.HasValue ? (int)this.locator.Authority.Endpoint.Port.Value : 554);
+                this.client = new System.Net.Sockets.TcpClient();
+                this.buffer = new byte[this.client.ReceiveBufferSize];
+                this.client.Connect(locator.Authority.Endpoint.Host.ToString(), locator.Authority.Endpoint.Port.HasValue ? (int)locator.Authority.Endpoint.Port.Value : 554);
                 result = true;
             }
             catch (Exception e)
             {}
             return result;
         }
+        public void Send(byte[] buffer)
+        {
+            this.client.Client.Send(buffer);
+        }
         public void SendMessage(string message)
         {
-            this.tcpClient.Send(System.Text.Encoding.ASCII.GetBytes(message));
+            this.Send(System.Text.Encoding.ASCII.GetBytes(message));
+        }
+        public byte[] Recieve()
+        {
+            byte[] result = null;
+            int read = this.client.Client.Receive(this.buffer);
+            if (read >= 0)
+            {
+                result = new byte[read];
+                Array.Copy(this.buffer, 0, result, 0, read);
+            }
+            return result;
         }
         public string RecieveMessage()
         {
             string result = null;
-            byte[] buffer = new byte[10000];
-            int read = this.tcpClient.Receive(buffer);
-            result = System.Text.Encoding.ASCII.GetString(buffer, 0, read);
+            byte[] answer = this.Recieve();
+            if (answer.NotEmpty())
+                result = System.Text.Encoding.ASCII.GetString(answer);
             return result;
         }
     }
