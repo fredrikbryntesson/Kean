@@ -42,22 +42,22 @@ namespace Kean.Draw.Net.Test
         {
           //  Target.Jpeg jpeg = new Target.Jpeg("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
             
-            Target.Jpeg jpeg = new Target.Jpeg();
+            Target.Client jpeg = new Target.Client();
 
-			bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
-			//	bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
+			//bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
+				bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
 			if (opened)
 			{
 				int counter = 0;
-				jpeg.NewFrame += image =>
+                jpeg.NewFrame += image =>
 				{
-                    image.Save("test" + (counter++).ToString("0000") + ".png");
+                //    image.Save("frames/test" + (counter++).ToString("0000") + ".png");
                     Console.Write(".");
 				};
 				bool starting = jpeg.Play();
                 DateTime now = DateTime.Now;
                 while (counter < 20 && (DateTime.Now - now).Duration().TotalSeconds < 10)
-					System.Threading.Thread.Sleep(100);
+					System.Threading.Thread.Sleep(10);
 				jpeg.Close();
 			}
         }

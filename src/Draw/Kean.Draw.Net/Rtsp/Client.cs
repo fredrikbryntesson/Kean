@@ -30,9 +30,8 @@ namespace Kean.Draw.Net.Rtsp
 {
     public class Client
     {
-        public event Action<byte[]> NewData;
+        public event Action<Raster.Image> NewFrame;
         public Status Status { get; private set; }
-        Parallel.Thread thread;
         Protocol.Rtsp protocol;
         public Client()
         { }
@@ -65,16 +64,11 @@ namespace Kean.Draw.Net.Rtsp
         {
             Net.Client.Rtp<Protocol.Jpeg> client = new Net.Client.Rtp<Protocol.Jpeg>();
             client.Open(this.protocol.Port);
-            this.thread = Parallel.Thread.Start("Draw.Net", () =>
+            Parallel.ThreadPool pool = new Parallel.ThreadPool("Draw.Net.Pool");
+            Parallel.Thread.Start("Draw.Net", () =>
             {
-                int width = 0;
-                int height = 0;
-                int jpegType = 0;
-                int quality = 0;
-                byte[] quantizationTable = null;
-                byte[] jpegPayload = new byte[512 * 1024];
-                int jpegPayloadLength = 0;
                 bool frame = false;
+                Protocol.Jpeg image = new Protocol.Jpeg();
                 while (this.Status != Status.Closed)
                 {
                     if (client.Avaliable)
@@ -89,28 +83,34 @@ namespace Kean.Draw.Net.Rtsp
                         {
                             if (rtp.Payload.First)
                             {
-                                width = rtp.Payload.Width;
-                                height = rtp.Payload.Height;
-                                jpegType = rtp.Payload.JpegType;
-                                quality = rtp.Payload.Quality;
-                                quantizationTable = rtp.Payload.QuantizationTable;
+                                image = new Protocol.Jpeg(
+                                    rtp.Payload.TypeSpecific,
+                                    0,
+                                    rtp.Payload.JpegType,
+                                    rtp.Payload.Quality,
+                                    rtp.Payload.Size,
+                                    new byte[512 * 1024],
+                                    rtp.Payload.QuantizationTable);
                             }
-                            Array.Copy(rtp.Payload.Payload, 0, jpegPayload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
-                            jpegPayloadLength += rtp.Payload.Payload.Length;
+                            Array.Copy(rtp.Payload.Payload, 0, image.Payload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
+                            image.PayloadLength = Kean.Math.Integer.Maximum(image.PayloadLength, rtp.Payload.FragmentOffset + rtp.Payload.Payload.Length);
                         }
                         else if (rtp.Marker && frame)
                         {
-                            Array.Copy(rtp.Payload.Payload, 0, jpegPayload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
-                            jpegPayloadLength += rtp.Payload.Payload.Length;
-
-                            byte[] image = new byte[512 * 1024];
-                            byte[] header = Protocol.Jpeg.CreateHeader(quality, jpegType, width / 8, height / 8, quantizationTable);
-                            Array.Copy(header, image, header.Length);
-                            Array.Copy(jpegPayload, 0, image, header.Length, jpegPayloadLength);
-                            this.NewData.Call(image);
-                            jpegPayloadLength = 0;
+                            Array.Copy(rtp.Payload.Payload, 0, image.Payload, rtp.Payload.FragmentOffset, rtp.Payload.Payload.Length);
+                            image.PayloadLength = Kean.Math.Integer.Maximum(image.PayloadLength, rtp.Payload.FragmentOffset + rtp.Payload.Payload.Length);
+                            pool.Enqueue(() =>
+                            {
+                                byte[] header = image.CreateHeader();
+                                byte[] all = new byte[header.Length + image.PayloadLength];
+                                Array.Copy(header, all, header.Length);
+                                Array.Copy(image.Payload, 0, all, header.Length, image.PayloadLength);
+                                this.NewFrame.Call(Raster.Image.Open(new System.IO.MemoryStream(all)));
+                            });
                         }
                     }
+                    else
+                        System.Threading.Thread.Sleep(20);
                 }
             });
         }

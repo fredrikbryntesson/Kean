@@ -57,7 +57,6 @@
     <Compile Include="Protocol\IProtocol.cs" />
     <Compile Include="Rtsp\Client.cs" />
     <Compile Include="Protocol\Jpeg.cs" />
-    <Compile Include="Rtsp\Jpeg.cs" />
     <Compile Include="Protocol\Rtsp.cs" />
     <Compile Include="Protocol\Rtp.cs" />
     <Compile Include="Sdp\Media.cs" />

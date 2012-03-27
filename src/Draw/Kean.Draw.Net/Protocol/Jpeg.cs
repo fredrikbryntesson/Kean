@@ -21,6 +21,7 @@
 
 using System;
 using Kean.Core.Extension;
+using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Net.Protocol
 {
@@ -32,20 +33,20 @@ namespace Kean.Draw.Net.Protocol
         public int FragmentOffset;
         public int JpegType;
         public int Quality;
-        public int Width;
-        public int Height;
+        public Geometry2D.Integer.Size Size;
         public byte[] Payload;
+        public int PayloadLength;
         public byte[] QuantizationTable;
-        public Jpeg(int typeSpecific, int fragmentOffset, int jpegType, int quality, int width, int height, byte[] payload, byte[] quantizationTable)
+        public Jpeg(int typeSpecific, int fragmentOffset, int jpegType, int quality, Geometry2D.Integer.Size size, byte[] payload, byte[] quantizationTable)
         {
             this.First = false;
             this.TypeSpecific = typeSpecific;
             this.FragmentOffset = fragmentOffset;
             this.JpegType = jpegType;
             this.Quality = quality;
-            this.Width = width;
-            this.Height = height;
+            this.Size = size;
             this.Payload = payload;
+            this.PayloadLength = 0;
             this.QuantizationTable = quantizationTable;
         }
         public void Setup(byte[] data)
@@ -58,8 +59,7 @@ namespace Kean.Draw.Net.Protocol
             this.FragmentOffset = System.BitConverter.ToInt32(new byte[] { buffer[offset + 3], buffer[offset + 2], buffer[offset + 1], 0 }, 0);
             this.JpegType = buffer[offset + 4];
             this.Quality = buffer[offset + 5];
-            this.Width = buffer[offset + 6] * 8;
-            this.Height = buffer[offset + 7] * 8;
+            this.Size = new Geometry2D.Integer.Size(buffer[offset + 6] * 8, buffer[offset + 7] * 8);
             this.First = this.FragmentOffset == 0;
             if (this.First)
             {
@@ -97,7 +97,7 @@ namespace Kean.Draw.Net.Protocol
         public byte[] CreateHeader(byte[] lumaQuantization, byte[] chromaQuantization)
         {
             byte[] result;
-            result = Jpeg.CreateHeader(this.Quality, this.JpegType, this.Width / 8, this.Height / 8, lumaQuantization, chromaQuantization);
+            result = Jpeg.CreateHeader(this.Quality, this.JpegType, this.Size.Width / 8, this.Size.Height / 8, lumaQuantization, chromaQuantization);
             return result;
         }
         public static byte[] CreateHeader(int quality, int jpegType, int width, int height, byte[] quantizationTable)
