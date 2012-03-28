@@ -34,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterDevice.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="IByteOutDevice.cs" />
     <Compile Include="IByteInDevice.cs" />
     <Compile Include="ByteDeviceSplitter.cs" />
+    <Compile Include="Text\Builder.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
     <Compile Include="Text\Mark.cs" />
     <Compile Include="Text\Position.cs" />

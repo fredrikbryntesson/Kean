@@ -46,6 +46,9 @@ namespace Kean.Fubl
                 }
                 else if (char.IsLetter(reader.Last))
                 {
+                    do
+                    {
+                    } while(reader.Next() && char.IsLetterOrDigit(reader.Last));
                 }
             }
         }
