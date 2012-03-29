@@ -82,7 +82,7 @@ namespace Kean.Platform.Settings
 					{
 						this.Value = value;
 					}
-					catch (Exception e)
+					catch (System.Exception e)
 					{
 						parsed = false;
 					}

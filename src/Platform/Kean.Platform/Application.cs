@@ -85,8 +85,8 @@ namespace Kean.Platform
 			remove { lock (this.onClosedLock) this.onClosed -= value; }
 		}
 		object onErrorLock = new object();
-		Action<Exception> onError;
-		public event Action<Exception> OnError
+		Action<Exception.Uncaught> onError;
+		public event Action<Exception.Uncaught> OnError
 		{
 			add { lock (this.onErrorLock) this.onError += value; }
 			remove { lock (this.onErrorLock) this.onError -= value; }
@@ -199,9 +199,9 @@ namespace Kean.Platform
 				{
 					this.Executer();
 				}
-				catch(Exception e)
+				catch(System.Exception e)
 				{
-					this.onError.Call(e);
+					this.onError.Call(new Exception.Uncaught(e));
 				}
 				finally
 				{

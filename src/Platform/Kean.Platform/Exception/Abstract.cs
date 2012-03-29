@@ -1,10 +1,10 @@
 ﻿// 
-//  TaskFailed.cs
+//  Abstract.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,12 +21,12 @@
 
 using Error = Kean.Core.Error;
 
-namespace Kean.Core.Parallel.Exception
+namespace Kean.Platform.Exception
 {
-    public class TaskFailed : 
-        Exception
+    public class Abstract : 
+        Error.Exception
     {
-		internal TaskFailed(System.Exception innerException, Worker worker) : 
-            base(innerException, Error.Level.Recoverable, "Thread pool task failed.", "Task on thread pool {0} failed with message \"{1}\".", worker.Name, innerException.Message) { }
+        internal Abstract(Error.Level level, string title, string message, params string[] arguments) : this(null, level, title, message, arguments) { }
+        internal Abstract(System.Exception innerException, Error.Level level, string title, string message, params string[] arguments) : base(innerException, level, title, message, arguments) { }
     }
 }

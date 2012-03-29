@@ -1,10 +1,10 @@
 ﻿// 
-//  TaskFailed.cs
+//  Uncaught.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Error = Kean.Core.Error;
+using Kean.Core.Reflect.Extension;
 
-namespace Kean.Core.Parallel.Exception
+namespace Kean.Platform.Exception
 {
-    public class TaskFailed : 
-        Exception
+    public class Uncaught : 
+        Abstract
     {
-		internal TaskFailed(System.Exception innerException, Worker worker) : 
-            base(innerException, Error.Level.Recoverable, "Thread pool task failed.", "Task on thread pool {0} failed with message \"{1}\".", worker.Name, innerException.Message) { }
+		internal Uncaught(System.Exception innerException) :
+			base(innerException, Error.Level.Critical, "Uncaught Error.", "An exception of type \"{0}\" with message \"{1}\" was not caught.", innerException.Type().Name, innerException.Message) { }
     }
 }

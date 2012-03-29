@@ -78,7 +78,11 @@ namespace Kean.Platform.Log
 		}
 		protected override void Initialize()
 		{
-			this.Application.OnError += exception => { this.cache.Flush(); };
+			this.Application.OnError += error => 
+			{
+				this.Append(error);
+				this.cache.Flush(); 
+			};
 			this.Application.OnClosed += () =>
 			{
 				if (this.SaveLog)

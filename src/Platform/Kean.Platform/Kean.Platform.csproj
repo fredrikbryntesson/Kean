@@ -39,6 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Exception\Abstract.cs" />
+    <Compile Include="Exception\Uncaught.cs" />
     <Compile Include="IRunner.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Mode.cs" />
@@ -63,6 +65,10 @@
     <ProjectReference Include="..\..\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
       <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
       <Name>Kean.Core.Parallel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
+      <Name>Kean.Core.Reflect</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj">
       <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>
