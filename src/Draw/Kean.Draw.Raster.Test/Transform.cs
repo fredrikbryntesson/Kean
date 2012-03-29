@@ -35,6 +35,7 @@ namespace Kean.Draw.Raster.Test
         protected override void Run()
         {
             this.Run(
+                this.AspectRatio,
 				this.Different,
                 this.CutRotate,
                 this.CutScale,
@@ -71,7 +72,8 @@ namespace Kean.Draw.Raster.Test
             Target.Image copy = image.Copy(size, transform) as Target.Image;
 			copy.Save("copy.png");
 			image.Save("image.png");
-			float distance = copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/scaled.png").Convert<Target.Bgra>());
+
+            float distance = copy.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/scaled.png").Convert<Target.Bgra>());
             Expect(distance, Is.LessThanOrEqualTo(20), this.prefix + "CutScale.0");
         }
         [Test]
@@ -107,6 +109,15 @@ namespace Kean.Draw.Raster.Test
             Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(100, 100);
             Expect(first.ResizeTo(size).Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/resized2.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize2.0");
         }
+        [Test]
+        public void AspectRatio()
+        {
+            Target.Image first = Target.Image.OpenResource("Bitmaps/Transform/original.png");
+            float ratio = 3f;
+            Target.Image second = first.Copy(new Geometry2D.Integer.Size(Kean.Math.Integer.Round((ratio != 0 ? ratio : 1) * first.Size.Height), first.Size.Height), Geometry2D.Single.Transform.CreateScaling(first.Size.Width / (float)first.Size.Height / (ratio != 0  ? ratio : 1), 1)) as Target.Image;
+            Expect(second.Convert<Target.Bgra>().Distance(Target.Image.OpenResource("Bitmaps/Transform/aspect.png").Convert<Target.Bgra>()), Is.LessThanOrEqualTo(20), this.prefix + "Resize2.0");
+        }
+        
         #endregion
     }
 }

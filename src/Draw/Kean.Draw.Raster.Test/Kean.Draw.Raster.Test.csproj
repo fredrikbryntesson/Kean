@@ -107,6 +107,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Bitmaps\Transform\resized2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Bitmaps\Transform\aspect.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>
