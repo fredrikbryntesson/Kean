@@ -113,6 +113,10 @@ namespace Kean.Platform.Log
 		{
 			this.cache.Append(item);
 		}
+		public void Append(Error.Level level, string title, System.Exception exception)
+		{
+			this.cache.Append(level, title, exception);
+		}
 		public void Flush()
 		{
 			this.cache.Flush();

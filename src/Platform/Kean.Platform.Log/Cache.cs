@@ -64,26 +64,13 @@ namespace Kean.Platform.Log
 			Cache.append -= this.Append;
 		}
 		#endregion
+		public void Append(Error.Level level, string title, System.Exception exception)
+		{
+			this.Append(Error.Entry.Create(level, title, exception));
+		}
 		public void Append(Error.Level level, string title, string message)
 		{
-			System.Diagnostics.StackFrame frame = new System.Diagnostics.StackTrace().GetFrame(1);
-			System.Reflection.MethodBase method = frame.GetMethod();
-			Type type = method.DeclaringType;
-			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
-			this.Append(new Entry()
-			{
-				Time = DateTime.Now,
-				Level = level,
-				Title = title,
-				Message = message,
-				AssemblyName = assembly.Name,
-				AssemblyVersion = assembly.Version.ToString(),
-				Type = type.FullName,
-				Method = method.Name,
-				Filename = frame.GetFileName(),
-				Line = frame.GetFileLineNumber(),
-				Column = frame.GetFileColumnNumber(),
-			});
+			this.Append(Error.Entry.Create(level, title, message));
 		}
 		public void Append(Error.IError item)
 		{
@@ -116,27 +103,15 @@ namespace Kean.Platform.Log
 		{
 			Cache.append.Call(entry);
 		}
+		public static void Log(Error.Level level, string title, System.Exception exception)
+		{
+			Cache.Log(Error.Entry.Create(level, title, exception));
+		}
 		public static void Log(Error.Level level, string title, string message)
 		{
-			System.Diagnostics.StackFrame frame = new System.Diagnostics.StackTrace().GetFrame(1);
-			System.Reflection.MethodBase method = frame.GetMethod();
-			Type type = method.DeclaringType;
-			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
-			Cache.Log(new Entry()
-			{ 
-				Time = DateTime.Now, 
-				Level = level, 
-				Title = title, 
-				Message = message, 
-				AssemblyName = assembly.Name,
-				AssemblyVersion = assembly.Version.ToString(),
-				Type = type.FullName,
-				Method = method.Name,
-				Filename = frame.GetFileName(),
-				Line = frame.GetFileLineNumber(),
-				Column = frame.GetFileColumnNumber(),
-			});
+			Cache.Log(Error.Entry.Create(level, title, message));
 		}
+
 }	
 }
 

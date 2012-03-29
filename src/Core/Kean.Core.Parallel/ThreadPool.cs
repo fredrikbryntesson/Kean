@@ -169,7 +169,7 @@ namespace Kean.Core.Parallel
         internal void OnException(System.Exception e, Worker worker)
         {
 			if (this.Log.NotNull())
-				this.Log(new Exception.TaskFailed(e, worker));
+				this.Log(Error.Entry.Create(Error.Level.Recoverable, string.Format("Thread Pool Worker {0} Failed.", worker.Name), e));
         }
 
         public void ForEachWorker(Action task)

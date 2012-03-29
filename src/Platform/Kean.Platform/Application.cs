@@ -27,6 +27,7 @@ using Kean.Core.Collection.Extension;
 using Error = Kean.Core.Error;
 using Argument = Kean.Cli.Argument;
 using Serialize = Kean.Core.Serialize;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Platform
 {
@@ -85,8 +86,8 @@ namespace Kean.Platform
 			remove { lock (this.onClosedLock) this.onClosed -= value; }
 		}
 		object onErrorLock = new object();
-		Action<Exception.Uncaught> onError;
-		public event Action<Exception.Uncaught> OnError
+		Action<Error.IError> onError;
+		public event Action<Error.IError> OnError
 		{
 			add { lock (this.onErrorLock) this.onError += value; }
 			remove { lock (this.onErrorLock) this.onError -= value; }
@@ -199,9 +200,13 @@ namespace Kean.Platform
 				{
 					this.Executer();
 				}
-				catch(System.Exception e)
+				catch (Error.Exception e)
 				{
-					this.onError.Call(new Exception.Uncaught(e));
+					this.onError.Call(e);
+				}
+				catch (System.Exception e)
+				{
+					this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
 				}
 				finally
 				{

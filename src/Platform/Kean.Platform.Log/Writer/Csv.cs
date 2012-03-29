@@ -36,7 +36,8 @@ namespace Kean.Platform.Log.Writer
 			if (!this.append)
 				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
 			this.append = true;
-			return (Error.IError entry) => {
+			return (Error.IError entry) =>
+			{
 				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
 				entry.Time,
 				entry.Level,
