@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2009-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,10 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core.Extension;
+
 namespace Kean.Core.Error
 {
 	public abstract class Exception :
@@ -64,8 +67,7 @@ namespace Kean.Core.Error
 			this.Filename = frame.GetFileName();
 			this.Line = frame.GetFileLineNumber();
 			this.Column = frame.GetFileColumnNumber();
-			if (Exception.Log != null)
-				Exception.Log(this);
+			Exception.Log.Call(this);
 		}
         public void Throw()
         {

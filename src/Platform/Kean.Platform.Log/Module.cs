@@ -61,6 +61,7 @@ namespace Kean.Platform.Log
 		public Module() :
 			base("Log")
 		{
+			Error.Exception.Log += this.Append;
 			this.ApplicationChanged += application => this.cache.Writers.Add(new Log.Writer.Csv() { Filename = System.IO.Path.Combine(application.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(application.Executable) + ".log") });
 		}
 		#endregion
@@ -72,8 +73,7 @@ namespace Kean.Platform.Log
 			{
 				this.Application.CatchErrors = true;
 				this.SaveLog = true;
-				this.LogThreshold = Error.Level.Warning;
-				this.AllThreshold = Error.Level.Warning;
+				this.LogThreshold = this.AllThreshold = Error.Exception.Threshold = Error.Level.Warning;
 			});
 		}
 		protected override void Initialize()
