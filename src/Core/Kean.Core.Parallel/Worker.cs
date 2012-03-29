@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -27,13 +27,13 @@ namespace Kean.Core.Parallel
 {
 	internal class Worker
 	{
+		public string Name { get; private set; }
 		System.Threading.Thread thread;
 		ThreadPool pool;
 		object wakeUp;
 		object semaphore;
 		Collection.Queue<ITask> tasks;
 		bool occupied;
-		string name;
 		public bool Waiting { get { return thread.ThreadState == System.Threading.ThreadState.WaitSleepJoin; } }
 		public bool Occupied
 		{
@@ -50,7 +50,7 @@ namespace Kean.Core.Parallel
 		}
 		bool end;
 
-		internal Worker(ThreadPool pool, string poolName, int index)
+		internal Worker(ThreadPool pool, int index)
 		{
 			this.pool = pool;
 			this.wakeUp = new object();
@@ -66,17 +66,25 @@ namespace Kean.Core.Parallel
 					{
 						if (task.NotNull())
 						{
-							try
+							if (this.pool.CatchErrors)
+								try
+								{
+									this.Occupied = true;
+									task.Run();
+								}
+								catch (System.Exception e)
+								{
+									this.pool.OnException(e, this);
+								}
+								finally
+								{
+									task = null;
+									this.Occupied = false;
+								}
+							else
 							{
 								this.Occupied = true;
 								task.Run();
-							}
-							//catch (Exception e)
-							//{
-							//    this.pool.Log(this, e);
-							//}
-							finally
-							{
 								task = null;
 								this.Occupied = false;
 							}
@@ -85,7 +93,7 @@ namespace Kean.Core.Parallel
 					} while (task.NotNull());
 				}
 			}));
-			this.thread.Name = poolName + ":" + index;
+			this.thread.Name = this.Name = pool.Name + ":" + index;
 			this.thread.Start();
 		}
 		~Worker()

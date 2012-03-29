@@ -28,16 +28,20 @@ namespace Kean.Core.Parallel
     public class ThreadPool :
         IDisposable
     {
+		public string Name { get; private set; }
+		public event Action<Error.IError> Log;
+		public bool CatchErrors { get; set; }
 		public int ThreadCount { get { return this.workers.Length; } }
         Worker[] workers;
         Collection.Queue<ITask> tasks;
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
         public ThreadPool(string name, int workers)
         {
+			this.Name = name;
             this.tasks = new Collection.Queue<ITask>();
             this.workers = new Worker[workers];
             for (int i = 0; i < workers; i++)
-                this.workers[i] = new Worker(this, name, i);
+                this.workers[i] = new Worker(this, i);
         }
         ~ThreadPool()
         {
@@ -132,10 +136,10 @@ namespace Kean.Core.Parallel
                 return this.tasks.Dequeue();
         }
 
-        internal void Log(Worker worker, System.Exception e)
+        internal void OnException(System.Exception e, Worker worker)
         {
-            Console.WriteLine("Thread endend with exception: " + e.ToString());
-            throw e;
+			if (this.Log.NotNull())
+				this.Log(new Exception.TaskFailed(e, worker));
         }
 
         public void ForEachWorker(Action task)
