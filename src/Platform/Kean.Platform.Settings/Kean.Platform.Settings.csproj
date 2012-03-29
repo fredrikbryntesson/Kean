@@ -82,6 +82,10 @@
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
       <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
       <Name>Kean.Core.Parallel</Name>
@@ -113,6 +117,10 @@
     <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Platform.Log\Kean.Platform.Log.csproj">
+      <Project>{14F02E00-9ED6-4730-BE4D-F0DF96853A21}</Project>
+      <Name>Kean.Platform.Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Platform\Kean.Platform.csproj">
       <Project>{ABF16C06-E815-40C8-9194-13D9BE11E019}</Project>
