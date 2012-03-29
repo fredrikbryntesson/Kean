@@ -29,10 +29,10 @@ namespace Kean.Math.Geometry2D.Abstract
         public abstract ShellValue Value { get; }
 
         #region Constructors
-        protected Shell()
-        {
-        }
-        protected Shell(V left, V right, V top, V bottom)
+        protected Shell() : this(new V()) { }
+		protected Shell(V value) : this(value, value) { }
+		protected Shell(V x, V y) : this(x, x, y, y) { }
+		protected Shell(V left, V right, V top, V bottom)
         {
             this.left = (R)left;
             this.right = (R)right;
@@ -45,13 +45,25 @@ namespace Kean.Math.Geometry2D.Abstract
 		{
 			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
 				Point < TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V > .Create(this.Left, this.Top),
-				Size < TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V > .Create(((R)size.Width) - this.Left - this.Right, ((R)size.Height) - this.Top - this.Bottom));
+				Size < TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V > .Create((R)size.Width - this.Left - this.Right, (R)size.Height - this.Top - this.Bottom));
 		}
 		public BoxType Increase(ISize<V> size)
 		{
 			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
 				Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(((R)this.Left).Negate(), ((R)this.Right).Negate()),
-				Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(((R)size.Width) + this.Left + this.Right, ((R)size.Height) + this.Top + this.Bottom));
+				Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)size.Width + this.Left + this.Right, (R)size.Height + this.Top + this.Bottom));
+		}
+		public BoxType Decrease(IBox<PointValue, SizeValue, V> box)
+		{
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
+				Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)((IPoint<V>)box.LeftTop).X + this.Left, (R)((IPoint<V>)box.LeftTop).Y + this.Top),
+				Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)box.Size.Width - this.Left - this.Right, (R)box.Size.Height - this.Top - this.Bottom));
+		}
+		public BoxType Increase(IBox<PointValue, SizeValue, V> box)
+		{
+			return Box<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create(
+				Point<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)((IPoint<V>)box.LeftTop).X - this.Left, (R)((IPoint<V>)box.LeftTop).Y - this.Top),
+				Size<TransformType, TransformValue, ShellType, ShellValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>.Create((R)box.Size.Width + this.Left + this.Right, (R)box.Size.Height + this.Top + this.Bottom));
 		}
 		#endregion
 		#region Comparison Operators

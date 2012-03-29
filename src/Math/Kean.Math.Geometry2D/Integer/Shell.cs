@@ -17,7 +17,8 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 
@@ -27,8 +28,10 @@ namespace Kean.Math.Geometry2D.Integer
 		Abstract.Shell<Transform, TransformValue, Shell, ShellValue, Box, BoxValue, Point, PointValue, Size, SizeValue, Kean.Math.Integer, int>
     {
         public override ShellValue Value { get { return (ShellValue)this; } }
-        public Shell() : this(0, 0, 0, 0) { }
-        public Shell(int left, int right, int top, int bottom) : base(left, right, top, bottom) { }
+		public Shell() : base() { }
+		public Shell(int value) : base(value) { }
+		public Shell(int x, int y) : base(x, y) { }
+		public Shell(int left, int right, int top, int bottom) : base(left, right, top, bottom) { }
         public Box Decrease(Size size)
         {
             return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
