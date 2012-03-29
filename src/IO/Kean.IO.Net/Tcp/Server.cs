@@ -44,8 +44,9 @@ namespace Kean.IO.Net.Tcp
 		System.Net.Sockets.TcpListener tcpListener; 
 		public Parallel.ThreadPool ThreadPool { get; private set; }
 		#region Constructors
-		public Server() :
-			this(new Kean.Core.Parallel.ThreadPool("TcpServer", 1) { MaximumThreadCount = -1 })
+		public Server() : this("TcpServer") { }
+		public Server(string name) :
+			this(new Kean.Core.Parallel.ThreadPool(name, 1) { MaximumThreadCount = -1 })
 		{ }
 		public Server(Action<IByteDevice> connected) :
 			this()

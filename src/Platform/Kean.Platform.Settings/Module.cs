@@ -91,7 +91,10 @@ namespace Kean.Platform.Settings
 					{
 						if (this.OpenConsole && locator.Scheme == "console" && (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows))
 							Module.AllocateConsole();
-						this.editors.Add(Settings.Editor.Listen(this.root, locator));
+						IDisposable editor = Settings.Editor.Listen(this.root, locator);
+						if (editor is IO.Net.Tcp.Server)
+							(editor as IO.Net.Tcp.Server).ThreadPool.CatchErrors = this.Application.CatchErrors;
+						this.editors.Add(editor);
 					}
 					catch { }
 				}
