@@ -60,7 +60,6 @@ namespace Kean.Core.Parallel
 			{
 				while (!this.end)
 				{
-					lock (this.wakeUp) System.Threading.Monitor.Wait(this.wakeUp);
 					ITask task = null;
 					do
 					{
@@ -91,6 +90,7 @@ namespace Kean.Core.Parallel
 						}
 						lock (this.semaphore) task = this.tasks.Empty ? this.pool.Dequeue() : this.tasks.Dequeue();
 					} while (task.NotNull());
+					lock (this.wakeUp) System.Threading.Monitor.Wait(this.wakeUp);
 				}
 			}));
 			this.thread.Name = this.Name = pool.Name + ":" + index;
@@ -117,7 +117,7 @@ namespace Kean.Core.Parallel
 		{
 			lock (this.wakeUp) System.Threading.Monitor.Pulse(this.wakeUp);
 		}
-		public void Enque(ITask task)
+		public void Enqueue(ITask task)
 		{
 			lock (this.semaphore)
 				this.tasks.Enqueue(task);

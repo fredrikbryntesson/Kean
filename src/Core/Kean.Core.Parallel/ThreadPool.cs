@@ -31,17 +31,26 @@ namespace Kean.Core.Parallel
 		public string Name { get; private set; }
 		public event Action<Error.IError> Log;
 		public bool CatchErrors { get; set; }
-		public int ThreadCount { get { return this.workers.Length; } }
-        Worker[] workers;
+		public int ThreadCount { get { return this.workers.Count; } }
+		public int MinimumThreadCount { get; private set; }
+		int maximumThreadCount;
+		public int MaximumThreadCount 
+		{
+			get { return this.maximumThreadCount > this.MinimumThreadCount || this.maximumThreadCount == -1 ? this.maximumThreadCount : this.MinimumThreadCount; }
+			set { this.maximumThreadCount = value; } 
+		}
+		int workerIndex = 0;
+		Collection.IList<Worker> workers;
         Collection.Queue<ITask> tasks;
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
         public ThreadPool(string name, int workers)
         {
 			this.Name = name;
             this.tasks = new Collection.Queue<ITask>();
-            this.workers = new Worker[workers];
-            for (int i = 0; i < workers; i++)
-                this.workers[i] = new Worker(this, i);
+			this.MinimumThreadCount = workers;
+			this.workers = new Collection.List<Worker>(this.MinimumThreadCount);
+			for (int i = 0; i < this.MinimumThreadCount; i++)
+				this.AddWorker();
         }
         ~ThreadPool()
         {
@@ -59,8 +68,13 @@ namespace Kean.Core.Parallel
 						worker.Dispose();
 				this.workers = null;
             }
-        }
-        public void Enqueue(Action task) 
+		}
+		void AddWorker()
+		{
+			this.workers.Add(new Worker(this, this.workerIndex++));
+		}
+		#region Enqueue Action
+		public void Enqueue(Action task) 
         { 
             if(task.NotNull()) 
                 this.Enqueue(new Task(task)); 
@@ -110,19 +124,35 @@ namespace Kean.Core.Parallel
 			if (task.NotNull())
 				this.Enqueue(new Task<T1, T2, T3, T4, T5, T6, T7, T8, TRest>(task, argument1, argument2, argument3, argument4, argument5, argument6, argument7, argument8, argumentRest));
 		}
+		#endregion
 		public void Enqueue(ITask task)
         {
             try
             {
                 lock (this.tasks)
                     this.tasks.Enqueue(task);
-                lock (this.workers)
-                    foreach (Worker worker in this.workers)
-                        if (!worker.Occupied)
-                        {
-                            worker.Start();
-                            break;
-                        }
+				lock (this.workers)
+				{
+					int waiting = -1;
+					int i;
+					for (i = 0; i < this.workers.Count; i++)
+					{
+						if (!workers[i].Occupied)
+						{
+							if (++waiting == 0)
+								workers[i].Start();
+							else if (this.ThreadCount <= this.MinimumThreadCount)
+								break;
+							else if (waiting == 2)
+							{
+								this.workers.Remove(i).Dispose();
+								break;
+							}
+						}
+					}
+					if (waiting == -1 && (this.MaximumThreadCount > this.ThreadCount || this.MaximumThreadCount == -1))
+						this.AddWorker();
+				}
             }
             catch (ArgumentNullException e)
             {
@@ -156,7 +186,7 @@ namespace Kean.Core.Parallel
         {
             lock (this.workers)
                 foreach (Worker worker in this.workers)
-                    worker.Enque(task);
+                    worker.Enqueue(task);
         }
 		static ThreadPool global;
 		public static ThreadPool Global
