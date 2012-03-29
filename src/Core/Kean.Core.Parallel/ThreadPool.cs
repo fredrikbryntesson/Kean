@@ -71,6 +71,41 @@ namespace Kean.Core.Parallel
             if(task.NotNull())
                 this.Enqueue(new Task<T1, T2>(task, argument1, argument2)); 
         }
+		public void Enqueue<T1, T2, T3>(Action<T1, T2, T3> task, T1 argument1, T2 argument2, T3 argument3)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3>(task, argument1, argument2, argument3));
+		}
+		public void Enqueue<T1, T2, T3, T4>(Action<T1, T2, T3, T4> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4>(task, argument1, argument2, argument3, argument4));
+		}
+		public void Enqueue<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4, T5>(task, argument1, argument2, argument3, argument4, argument5));
+		}
+		public void Enqueue<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5, T6 argument6)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4, T5, T6>(task, argument1, argument2, argument3, argument4, argument5, argument6));
+		}
+		public void Enqueue<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5, T6 argument6, T7 argument7)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4, T5, T6, T7>(task, argument1, argument2, argument3, argument4, argument5, argument6, argument7));
+		}
+		public void Enqueue<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5, T6 argument6, T7 argument7, T8 argument8)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4, T5, T6, T7, T8>(task, argument1, argument2, argument3, argument4, argument5, argument6, argument7, argument8));
+		}
+		public void Enqueue<T1, T2, T3, T4, T5, T6, T7, T8, TRest>(Action<T1, T2, T3, T4, T5, T6, T7, T8, TRest> task, T1 argument1, T2 argument2, T3 argument3, T4 argument4, T5 argument5, T6 argument6, T7 argument7, T8 argument8, TRest argumentRest)
+		{
+			if (task.NotNull())
+				this.Enqueue(new Task<T1, T2, T3, T4, T5, T6, T7, T8, TRest>(task, argument1, argument2, argument3, argument4, argument5, argument6, argument7, argument8, argumentRest));
+		}
 		public void Enqueue(ITask task)
         {
             try
