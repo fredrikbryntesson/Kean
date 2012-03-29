@@ -89,7 +89,7 @@ namespace Kean.Platform.Settings
 				{
 					try
 					{
-						if (this.OpenConsole && locator.Scheme == "console" && Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+						if (this.OpenConsole && locator.Scheme == "console" && (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows))
 							Module.AllocateConsole();
 						this.editors.Add(Settings.Editor.Listen(this.root, locator));
 					}

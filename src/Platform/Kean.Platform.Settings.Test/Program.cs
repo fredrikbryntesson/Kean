@@ -46,7 +46,7 @@ namespace Kean.Platform.Settings.Test
 			else
 			{
 				Application application = new Application();
-				Settings.Module remote = new Settings.Module();
+				Settings.Module remote = new Settings.Module() { OpenConsole = true };
 				remote.Load("loader", new Loader(remote));
 				remote.Load("old.object", new Object());
 				application.Load(remote);
