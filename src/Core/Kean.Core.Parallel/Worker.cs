@@ -133,12 +133,11 @@ namespace Kean.Core.Parallel
 			if (this.thread.NotNull())
 			{
 				this.End = true;
-				this.Start();
-				this.Start();
-				this.thread.Join(100);
 				this.thread.Interrupt();
 				this.Start();
+				this.thread.Join(100);
 				this.thread.Abort();
+				this.thread.Join(100);
 				this.thread = null;
 			}
 		}
