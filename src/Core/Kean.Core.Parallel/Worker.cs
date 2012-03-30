@@ -139,7 +139,10 @@ namespace Kean.Core.Parallel
 			{
 				this.End = true;
 				this.Start();
+				this.Start();
+				this.thread.Join(100);
 				this.thread.Interrupt();
+				this.Start();
 				this.thread.Abort();
 				this.thread = null;
 			}
