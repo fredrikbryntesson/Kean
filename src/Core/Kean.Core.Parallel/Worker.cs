@@ -49,6 +49,11 @@ namespace Kean.Core.Parallel
 			}
 		}
 		bool end;
+		bool End
+		{
+			get { lock (this.semaphore) return this.end; }
+			set { lock (this.semaphore) this.end = value; }
+		}
 
 		internal Worker(ThreadPool pool, int index)
 		{
@@ -58,51 +63,67 @@ namespace Kean.Core.Parallel
 			this.tasks = new Collection.Queue<ITask>();
 			this.thread = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
 			{
-				while (!this.end)
+				try
 				{
-					ITask task = null;
-					do
+					while (!this.End)
 					{
-						if (task.NotNull())
+						ITask task = null;
+						do
 						{
-							if (this.pool.CatchErrors)
-								try
-								{
-									this.Occupied = true;
-									task.Run();
-								}
-								catch (System.Threading.ThreadInterruptedException)
-								{
-								}
-								catch (System.Exception e)
-								{
-									this.pool.OnException(e, this);
-								}
-								finally
-								{
-									task = null;
-									this.Occupied = false;
-								}
-							else
+							if (task.NotNull())
 							{
-								try
+								if (this.pool.CatchErrors)
+									try
+									{
+										this.Occupied = true;
+										task.Run();
+									}
+									catch (System.Threading.ThreadAbortException)
+									{
+									}
+									catch (System.Threading.ThreadInterruptedException)
+									{
+									}
+									catch (System.Exception e)
+									{
+										this.pool.OnException(e, this);
+									}
+									finally
+									{
+										task = null;
+										this.Occupied = false;
+									}
+								else
 								{
-									this.Occupied = true;
-									task.Run();
-								}
-								catch (System.Threading.ThreadInterruptedException)
-								{
-								}
-								finally
-								{
-									task = null;
-									this.Occupied = false;
+									try
+									{
+										this.Occupied = true;
+										task.Run();
+									}
+									catch (System.Threading.ThreadAbortException)
+									{
+									}
+									catch (System.Threading.ThreadInterruptedException)
+									{
+									}
+									finally
+									{
+										task = null;
+										this.Occupied = false;
+									}
 								}
 							}
-						}
-						lock (this.semaphore) task = this.tasks.Empty ? this.pool.Dequeue() : this.tasks.Dequeue();
-					} while (task.NotNull());
-					lock (this.wakeUp) System.Threading.Monitor.Wait(this.wakeUp);
+							lock (this.semaphore) task = this.tasks.Empty ? this.pool.Dequeue() : this.tasks.Dequeue();
+						} while (!this.End && task.NotNull());
+						if (!this.End)
+							lock (this.wakeUp) System.Threading.Monitor.Wait(this.wakeUp);
+					}
+				}
+				catch (System.Threading.ThreadAbortException)
+				{
+				}
+				catch (System.Threading.ThreadInterruptedException)
+				{
 				}
 			}));
 			this.thread.Name = this.Name = pool.Name + ":" + index;
@@ -116,12 +137,10 @@ namespace Kean.Core.Parallel
 		{
 			if (this.thread.NotNull())
 			{
-				this.End();
-				if (this.Occupied)
-				{
-					this.thread.Interrupt();
-					this.thread.Abort();
-				}
+				this.End = true;
+				this.Start();
+				this.thread.Interrupt();
+				this.thread.Abort();
 				this.thread = null;
 			}
 		}
@@ -133,12 +152,6 @@ namespace Kean.Core.Parallel
 		{
 			lock (this.semaphore)
 				this.tasks.Enqueue(task);
-			this.Start();
-		}
-		public void End()
-		{
-			lock (this.semaphore)
-				this.end = true;
 			this.Start();
 		}
 	}
