@@ -78,9 +78,6 @@ namespace Kean.Core.Parallel
 										this.Occupied = true;
 										task.Run();
 									}
-									catch (System.Threading.ThreadAbortException)
-									{
-									}
 									catch (System.Threading.ThreadInterruptedException)
 									{
 									}
@@ -100,9 +97,6 @@ namespace Kean.Core.Parallel
 										this.Occupied = true;
 										task.Run();
 									}
-									catch (System.Threading.ThreadAbortException)
-									{
-									}
 									catch (System.Threading.ThreadInterruptedException)
 									{
 									}
@@ -121,11 +115,12 @@ namespace Kean.Core.Parallel
 				}
 				catch (System.Threading.ThreadAbortException)
 				{
+					System.Threading.Thread.ResetAbort();
 				}
 				catch (System.Threading.ThreadInterruptedException)
 				{
 				}
-			}));
+			})) { IsBackground = true };
 			this.thread.Name = this.Name = pool.Name + ":" + index;
 			this.thread.Start();
 		}
