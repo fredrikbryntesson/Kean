@@ -71,6 +71,9 @@ namespace Kean.Core.Parallel
 									this.Occupied = true;
 									task.Run();
 								}
+								catch (System.Threading.ThreadInterruptedException)
+								{
+								}
 								catch (System.Exception e)
 								{
 									this.pool.OnException(e, this);
@@ -82,10 +85,19 @@ namespace Kean.Core.Parallel
 								}
 							else
 							{
-								this.Occupied = true;
-								task.Run();
-								task = null;
-								this.Occupied = false;
+								try
+								{
+									this.Occupied = true;
+									task.Run();
+								}
+								catch (System.Threading.ThreadInterruptedException)
+								{
+								}
+								finally
+								{
+									task = null;
+									this.Occupied = false;
+								}
 							}
 						}
 						lock (this.semaphore) task = this.tasks.Empty ? this.pool.Dequeue() : this.tasks.Dequeue();
