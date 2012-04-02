@@ -38,7 +38,7 @@ namespace Kean.Platform.Settings
 		{
 			this.Name = attribute.NotNull() ? attribute.Name : null;
 			this.Description = attribute.NotNull() ? attribute.Description : null;
-			this.Usage = attribute.NotNull() ? attribute.Description ?? attribute.Usage : null;
+			this.Usage = attribute.NotNull() ? attribute.Usage ?? this.Description : null;
 			this.backend = backend;
 			this.Parent = parent;
 		}
