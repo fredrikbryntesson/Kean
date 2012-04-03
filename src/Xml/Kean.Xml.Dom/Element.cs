@@ -56,6 +56,18 @@ namespace Kean.Xml.Dom
             foreach (KeyValue<string, Tuple<string, IO.Text.Region>> attribute in attributes)
 				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
 		}
+		public Element(string name, params KeyValue<string, Tuple<string, IO.Text.Region>>[] attributes) :
+			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>>)attributes)
+		{ }
+		public Element(string name, System.Collections.Generic.IEnumerable<Node> nodes) :
+			this(name)
+		{
+			foreach (Node node in nodes)
+				this.Add(node);
+		}
+		public Element(string name, params Node[] nodes) :
+			this(name, (System.Collections.Generic.IEnumerable<Node>)nodes)
+		{ }
 		protected override void ChangeDocument(Document document)
 		{
 			base.ChangeDocument(document);

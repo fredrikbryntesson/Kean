@@ -54,7 +54,6 @@ namespace Kean.Platform.Settings.Parameter
 		}
 		public override string Complete(string incomplete)
 		{
-
 			Collection.List<string> alternatives = new Collection.List<string>();
 			foreach (string value in this.Values)
 				if (value.StartsWith(incomplete))

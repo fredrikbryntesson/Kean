@@ -36,7 +36,7 @@ namespace Kean.Platform.Settings
 		protected override char Delimiter { get { return '.'; } }
 		object backend;
 		Collection.IList<Member> members;
-		Collection.IList<Member> Members
+		internal Collection.IList<Member> Members
 		{
 			get
 			{
@@ -65,6 +65,8 @@ namespace Kean.Platform.Settings
 								foreach (Tuple<string, string, string, object> dynamic in (this.backend as IDynamic).GetDynamic())
 									this.members.Add(new Object(dynamic.Item1, dynamic.Item2, dynamic.Item3, dynamic.Item4, this));
 						}
+						if (this.backend is Root)
+							(this.backend as Root).Object = this;
 					}
 
 				}

@@ -118,6 +118,18 @@
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Xml\Kean.Xml.Dom\Kean.Xml.Dom.csproj">
+      <Project>{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}</Project>
+      <Name>Kean.Xml.Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xml\Kean.Xml.Sax\Kean.Xml.Sax.csproj">
+      <Project>{125A7070-AA9F-4A6A-A328-6B744D578885}</Project>
+      <Name>Kean.Xml.Sax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xml\Kean.Xml\Kean.Xml.csproj">
+      <Project>{6AEA339E-D930-4834-995D-301892768C10}</Project>
+      <Name>Kean.Xml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Platform.Log\Kean.Platform.Log.csproj">
       <Project>{14F02E00-9ED6-4730-BE4D-F0DF96853A21}</Project>
       <Name>Kean.Platform.Log</Name>

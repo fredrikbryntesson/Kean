@@ -54,6 +54,12 @@ namespace Kean.Xml.Dom
 		public Document()
 		{
 			this.Version = 1.0f;
+			this.Encoding = "UTF-8";
+		}
+		public Document(Element root) :
+			this()
+		{
+			this.Root = root;
 		}
 
 		public bool Save(Uri.Locator resource)
