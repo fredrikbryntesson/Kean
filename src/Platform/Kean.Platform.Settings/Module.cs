@@ -33,7 +33,8 @@ namespace Kean.Platform.Settings
 		Platform.Module
 	{
 		Collection.IList<IDisposable> editors = new Collection.List<IDisposable>();
-		Collection.IList<Uri.Locator> locators = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Core.Uri.Locator>();
 
 		Root root;
 
@@ -71,12 +72,14 @@ namespace Kean.Platform.Settings
 
 		protected override void AddArguments(Argument.Parser parser)
 		{
-			parser.Add('r', "remote", argument => this.locators.Add(argument));
+			parser.Add('c', "config", argument => this.remotes.Add(argument));
+			parser.Add('r', "remote", argument => this.remotes.Add(argument));
 			base.AddArguments(parser);
 		}
 		protected override void Start()
 		{
-			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); } catch { }
+			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
+			catch { }
 			try
 			{
 				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
@@ -84,8 +87,15 @@ namespace Kean.Platform.Settings
 			}
 			catch { }
 			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
-			if (this.locators.NotNull())
-				foreach (Uri.Locator locator in this.locators)
+			try
+			{
+				foreach (Uri.Locator locator in this.configurations)
+					try { Settings.Editor.Listen(this.root, locator).Dispose(); }
+					catch { }
+			}
+			catch { }
+			if (this.remotes.NotNull())
+				foreach (Uri.Locator locator in this.remotes)
 				{
 					try
 					{
