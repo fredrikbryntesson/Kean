@@ -35,8 +35,46 @@ namespace Kean.Platform.Settings
 	{
 		protected override char Delimiter { get { return '.'; } }
 		object backend;
+		#region Sorted vectors of members for help
+		internal Collection.IReadOnlyVector<Property> Properties
+		{
+			get
+			{
+				return new Collection.Wrap.ReadOnlyVector<Property>(this.Members.Fold((m, l) =>
+				{
+					if (m is Property)
+						l.Add(m as Property);
+					return l;
+				}, new Collection.List<Property>()));
+			}
+		}
+		internal Collection.IReadOnlyVector<Method> Methods
+		{
+			get
+			{
+				return new Collection.Wrap.ReadOnlyVector<Method>(this.Members.Fold((m, l) =>
+				{
+					if (m is Method)
+						l.Add(m as Method);
+					return l;
+				}, new Collection.List<Method>()));
+			}
+		}
+		internal Collection.IReadOnlyVector<Object> Objects
+		{
+			get
+			{
+				return new Collection.Wrap.ReadOnlyVector<Object>(this.Members.Fold((m, l) =>
+				{
+					if (m is Object)
+						l.Add(m as Object);
+					return l;
+				}, new Collection.List<Object>()));
+			}
+		}
+		#endregion
 		Collection.IList<Member> members;
-		internal Collection.IList<Member> Members
+		Collection.IList<Member> Members
 		{
 			get
 			{
@@ -50,12 +88,12 @@ namespace Kean.Platform.Settings
 							MemberAttribute[] attributes = member.GetAttributes<MemberAttribute>();
 							if (attributes.Length == 1)
 							{
-								if (attributes[0] is ObjectAttribute && member is Reflect.Property && (member as Reflect.Property).Readable && (member as Reflect.Property).Data.NotNull())
-									this.members.Add(new Object(attributes[0] as ObjectAttribute, member as Reflect.Property, this));
-								else if (attributes[0] is PropertyAttribute)
+								if (attributes[0] is PropertyAttribute)
 									this.members.Add(new Property(attributes[0] as PropertyAttribute, member as Reflect.Property, this));
 								else if (attributes[0] is MethodAttribute)
 									this.members.Add(new Method(attributes[0] as MethodAttribute, member as Reflect.Method, this));
+								else if (attributes[0] is ObjectAttribute && member is Reflect.Property && (member as Reflect.Property).Readable && (member as Reflect.Property).Data.NotNull())
+									this.members.Add(new Object(attributes[0] as ObjectAttribute, member as Reflect.Property, this));
 							}
 						}
 						if (this.backend is IReload)
