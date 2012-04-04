@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 using IO = Kean.IO;
@@ -31,24 +32,18 @@ namespace Kean.Platform.Settings.Test
 		{
 			if (args.Length == 0)
 			{
-				Action close = null;
-				Command.Application application = new Command.Application(() => close.Call());
+				Command.Application application = new Command.Application();
 				IDisposable telnet = Editor.Listen(application, "telnet://:23");
 				IDisposable tcp = Editor.Listen(application, "tcp://:20");
 				IDisposable console = Editor.Listen(application, "console:///");
-				close += () =>
-				{
-					telnet.Dispose();
-					tcp.Dispose();
-					console.Dispose();
-				};
 			}
 			else
 			{
 				Application application = new Application();
-				Settings.Module remote = new Settings.Module() { OpenConsole = true };
+				Settings.Module remote = new Settings.Module();
 				remote.Load("loader", new Loader(remote));
 				remote.Load("old.object", new Object());
+				remote.Load("application", new Command.Application());
 				application.Load(remote);
 				application.Execute();
 			}

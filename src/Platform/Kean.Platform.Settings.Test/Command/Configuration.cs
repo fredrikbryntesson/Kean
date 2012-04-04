@@ -31,11 +31,8 @@ namespace Kean.Platform.Settings.Test.Command
 		public string Type { get; set; }
 		[Property("comment", "Comment describing the configuration.", "Comment that describes the current configuration.")]
 		public string Comment { get; set; }
-		[Object("application", "Recursive path to application.")]
-		public Application Application { get; private set; }
-		public Configuration(Application parent)
+		public Configuration()
 		{
-			this.Application = parent;
 		}
 		//[Method("save", "Saves configuration.", "Saves the current configuration to the default path.")]
 		//public void Save()

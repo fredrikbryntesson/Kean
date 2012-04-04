@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -34,6 +34,9 @@ namespace Kean.Platform.Settings
 		{ }
 		public PropertyAttribute(string name, string description, string usage) :
 			base(name, description, usage)
+		{ }
+		public PropertyAttribute(string name, string description, string usage, string example) :
+			base(name, description, usage, example)
 		{ }
 	}
 }

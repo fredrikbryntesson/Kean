@@ -55,6 +55,7 @@ namespace Kean.Platform.Settings
 			get { return this.parameter.AsString(this.backend.Data); }
 			set { this.backend.Data = this.parameter.FromString(value); }
 		}
+		public PropertyMode Mode { get; private set; }
 		public Property(PropertyAttribute attribute, Reflect.Property backend, Object parent) :
 			base(attribute, backend, parent)
 		{
@@ -63,10 +64,17 @@ namespace Kean.Platform.Settings
 
 			if (this.backend.Readable)
 			{
+				this.Mode |= PropertyMode.Read;
 				NotifyAttribute[] attributes = this.backend.GetAttributes<NotifyAttribute>();
 				if (attributes.Length == 1)
+				{
 					this.changed = this.Parent.GetEvent(attributes[0].Name);
+					if (this.changed.NotNull())
+						this.Mode |= PropertyMode.Notify;
+				}
 			}
+			if (this.backend.Writable)
+				this.Mode |= PropertyMode.Write;
 		}
 		public override bool Execute(Editor editor, string[] parameters)
 		{

@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core;
 
 namespace Kean.Platform.Settings
 {
@@ -34,6 +36,9 @@ namespace Kean.Platform.Settings
 		{ }
 		public MethodAttribute(string name, string description, string usage) :
 			base(name, description, usage)
+		{ }
+		public MethodAttribute(string name, string description, string usage, string example) :
+			base(name, description, usage, example)
 		{ }
 	}
 }

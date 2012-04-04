@@ -28,11 +28,17 @@ namespace Kean.Platform.Settings
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public string Usage { get; private set; }
+		public string Example { get; set; }
 		protected MemberAttribute(string name, string description, string usage)
 		{
 			this.Name = name;
 			this.Description = description;
 			this.Usage = usage;
+		}
+		protected MemberAttribute(string name, string description, string usage, string example) :
+			this(name, description, usage)
+		{
+			this.Example = example;
 		}
 	}
 }

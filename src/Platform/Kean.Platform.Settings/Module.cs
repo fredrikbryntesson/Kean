@@ -38,9 +38,6 @@ namespace Kean.Platform.Settings
 
 		Root root;
 
-		[Serialize.Parameter]
-		public bool OpenConsole { get; set; }
-
 		public object this[string name]
 		{
 			get { return this.root[name]; }
@@ -99,8 +96,6 @@ namespace Kean.Platform.Settings
 				{
 					try
 					{
-						if (this.OpenConsole && locator.Scheme == "console" && (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows))
-							Module.AllocateConsole();
 						IDisposable editor = Settings.Editor.Listen(this.root, locator);
 						if (editor is IO.Net.Tcp.Server)
 						{
@@ -126,7 +121,5 @@ namespace Kean.Platform.Settings
 			}
 			base.Dispose();
 		}
-		[System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto, CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
-		static extern int AllocateConsole();
 	}
 }

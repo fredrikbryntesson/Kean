@@ -50,14 +50,20 @@ namespace Kean.Xml.Dom
 		{
 			this.Name = name;
 		}
-        public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>> attributes) :
+		public Element(string name, string text) :
+			this(name, new Xml.Dom.Text(text))
+		{ }
+		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>> attributes) :
 			this(name)
 		{
             foreach (KeyValue<string, Tuple<string, IO.Text.Region>> attribute in attributes)
 				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
 		}
-		public Element(string name, params KeyValue<string, Tuple<string, IO.Text.Region>>[] attributes) :
-			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>>)attributes)
+		public Element(string name, params KeyValue<string, string>[] attributes) :
+			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>>)attributes.Map(a => KeyValue.Create(a.Key, Tuple.Create(a.Value, (IO.Text.Region)null))))
+		{ }
+		public Element(string name, KeyValue<string, string> attribute) :
+			this(name, new KeyValue<string, string>[] { attribute })
 		{ }
 		public Element(string name, System.Collections.Generic.IEnumerable<Node> nodes) :
 			this(name)
@@ -67,6 +73,22 @@ namespace Kean.Xml.Dom
 		}
 		public Element(string name, params Node[] nodes) :
 			this(name, (System.Collections.Generic.IEnumerable<Node>)nodes)
+		{ }
+		public Element(string name, Node node) :
+			this(name)
+		{
+			this.Add(node);
+		}
+		public Element(string name, Node node, params KeyValue<string, string>[] attributes) :
+			this(name, attributes)
+		{
+			this.Add(node);
+		}
+		public Element(string name, string text, params KeyValue<string, string>[] attributes) :
+			this(name, new Xml.Dom.Text(text), attributes)
+		{ }
+		public Element(string name, Node node, KeyValue<string, string> attribute) :
+			this(name, node, new KeyValue<string, string>[] { attribute })
 		{ }
 		protected override void ChangeDocument(Document document)
 		{
@@ -79,6 +101,11 @@ namespace Kean.Xml.Dom
 			base.ChangeParent(parent);
 			this.Attributes.Apply(attribute => { attribute.Parent = parent; });
 			this.Apply(node => { node.Parent = parent; });
+		}
+		public Element AddAttribute(string name, string value)
+		{
+			this.Attributes.Add(new Attribute(name, value));
+			return this;
 		}
 		#region IList<Node> Members
 		public void Add(Node item) 

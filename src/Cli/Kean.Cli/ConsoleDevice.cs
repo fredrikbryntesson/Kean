@@ -38,6 +38,15 @@ namespace Kean.Cli
 		public ConsoleDevice()
 		{
 			this.LocalEcho = true;
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+				try
+				{
+					int w = Console.WindowWidth;
+				}
+				catch (System.IO.IOException)
+				{
+					ConsoleDevice.AllocateConsole();
+				}
 		}
 		public char? Read()
 		{
@@ -87,6 +96,8 @@ namespace Kean.Cli
 			this.Close();
 		}
 		#endregion
+		[System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto, CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
+		static extern int AllocateConsole();
 
 	}
 }

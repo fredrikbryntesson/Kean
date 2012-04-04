@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 
 namespace Kean.Platform.Settings
@@ -25,8 +26,21 @@ namespace Kean.Platform.Settings
 	public class ParameterAttribute :
 		Attribute
 	{
-		public string[] Values { get; private set; }
-		public ParameterAttribute(params string[] values)
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public string Usage { get; set; }
+		public string[] Values { get; set; }
+		public ParameterAttribute(string name, string description)
+		{
+			this.Name = name;
+			this.Description = description;
+		}
+		public ParameterAttribute(string name, string description, string usage)
+		{
+			this.Usage = usage;
+		}
+		public ParameterAttribute(string name, string description, params string[] values) :
+			this(name, description, "[" + string.Join(" | ", values) + "]")
 		{
 			this.Values = values;
 		}

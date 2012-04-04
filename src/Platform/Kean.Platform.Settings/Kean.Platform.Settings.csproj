@@ -63,6 +63,7 @@
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="PropertyAttribute.cs" />
+    <Compile Include="PropertyMode.cs" />
     <Compile Include="Root.cs" />
   </ItemGroup>
   <ItemGroup>

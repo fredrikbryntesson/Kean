@@ -31,6 +31,7 @@ namespace Kean.Platform.Settings
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public string Usage { get; private set; }
+		public string Example { get; private set; }
 		Reflect.Member backend;
 		public Object Parent { get; private set; }
 		protected abstract char Delimiter { get; }
@@ -39,6 +40,7 @@ namespace Kean.Platform.Settings
 			this.Name = attribute.NotNull() ? attribute.Name : null;
 			this.Description = attribute.NotNull() ? attribute.Description : null;
 			this.Usage = attribute.NotNull() ? attribute.Usage ?? this.Description : null;
+			this.Example = attribute.NotNull() ? attribute.Example : null;
 			this.backend = backend;
 			this.Parent = parent;
 		}

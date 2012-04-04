@@ -42,11 +42,10 @@ namespace Kean.Platform.Settings.Test.Command
 		public DateTime Time { get; private set; }
         [Object("car", "Test of inheritance")]
         public Car Car { get; protected set; }
-        Action close;
-		public Application(Action exit)
+
+		public Application()
 		{
-        	this.close = exit;
-            this.Configuration = new Configuration(this);
+            this.Configuration = new Configuration();
             this.Configuration.Load("this.is.something.very.long", "Description", "Usage", new Car());
 			this.Media = new Media();
 			this.Integer = new Geometry2D.Integer();
@@ -54,13 +53,6 @@ namespace Kean.Platform.Settings.Test.Command
 			this.Double = new Geometry2D.Double();
 			this.Time = DateTime.Now;
             this.Car = new Car();
-		}
-
-		[Method("close", "Close the application.")]
-		public bool Close()
-		{
-			this.close.Call();
-			return this.close.NotNull();
 		}
 	}
 }

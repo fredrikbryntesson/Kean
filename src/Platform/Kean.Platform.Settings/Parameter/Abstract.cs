@@ -28,6 +28,10 @@ namespace Kean.Platform.Settings.Parameter
 {
 	abstract class Abstract
 	{
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public string Usage { get; private set; }
+
 		public Reflect.Type Type { get; private set; }
 		protected Abstract(Reflect.Type type)
 		{
@@ -39,7 +43,23 @@ namespace Kean.Platform.Settings.Parameter
 		public abstract string Help(string incomplete);
 		public static Abstract Create(Reflect.Parameter parameter)
 		{
-			return Abstract.Create(parameter.Type);
+			Abstract result;
+			if ((result = Abstract.Create(parameter.Type)).NotNull())
+			{
+				ParameterAttribute[] attributes = parameter.GetAttributes<ParameterAttribute>();
+				if (attributes.NotEmpty())
+				{
+					result.Name = attributes[0].Name;
+					result.Description = attributes[0].Name;
+					result.Usage = attributes[0].Usage;
+				}
+				else
+				{
+					result.Name = parameter.Name;
+					result.Usage = parameter.Type;
+				}
+			}
+			return result;
 		}
 		public static Abstract Create(Reflect.Property property)
 		{
