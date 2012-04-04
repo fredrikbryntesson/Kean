@@ -36,6 +36,7 @@ namespace Kean.Platform.Settings
 		internal Object Object { get; set; }
 		public string Title { get; set; }
 		public string Style { get; set; }
+        public Uri.Locator HelpFilename { get; set; }
 		public Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
@@ -52,14 +53,13 @@ namespace Kean.Platform.Settings
 		[Method("help", "Opens help in browser.", "Launches browser viewing help.")]
 		public void Help()
 		{
-			Uri.Locator filename = "file:///c:/help.html";
 			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
 				new Xml.Dom.Element("head",
 					new Xml.Dom.Element("title", new Xml.Dom.Text(this.Title)),
 					new Xml.Dom.Element("style", new Xml.Dom.Text(this.Style))
 					), 
-				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(filename);
-			System.Diagnostics.Process.Start(filename);
+				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(this.HelpFilename);
+			System.Diagnostics.Process.Start(this.HelpFilename);
 		}
 		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Object @object, bool topLevel)
 		{
@@ -95,24 +95,26 @@ namespace Kean.Platform.Settings
 		{
 			string name = prefix + method.Name;
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name), KeyValue.Create("id", name)));
-			Xml.Dom.Element parameters = new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<" + p.Name + ">"))), KeyValue.Create("class", "signature"));
-			Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
-			foreach (Parameter.Abstract parameter in method.Parameters)
-			{
-				parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
-				if (parameter.Usage.NotEmpty())
-					parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
-				if (parameter.Description.NotEmpty())
-					parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
-			}
-			parameters.Add(parametersList);
-			result.Add(parameters);
-			result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<" + p.Name + ">"))), KeyValue.Create("class", "signature")));
+			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(method.Name), KeyValue.Create("id", name)));
+            Xml.Dom.Element parameters = new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name + "_signature"), KeyValue.Create("class", "signature"));
+            if (method.Parameters.NotEmpty())
+            {
+                Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
+                foreach (Parameter.Abstract parameter in method.Parameters)
+                {
+                    parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
+                    if (parameter.Usage.NotEmpty())
+                        parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
+                    if (parameter.Description.NotEmpty())
+                        parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
+                }
+                parameters.Add(parametersList);
+            }
+            result.Add(parameters);
 			if (method.Usage.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Usage), KeyValue.Create("class", "usage")));
+                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", "usage")));
 			if (method.Example.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Example), KeyValue.Create("class", "example")));
+				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + method.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", "example")));
 			return result;
 		}
 		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Property property)
@@ -120,11 +122,11 @@ namespace Kean.Platform.Settings
 			string name = prefix + property.Name;
 			string classes = string.Join(" ", property.Mode.ToString().Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)).ToLowerInvariant();
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
+			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(property.Name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
 			if (property.Usage.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("class", classes + " usage")));
+                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", classes + " usage")));
 			if (property.Example.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Example), KeyValue.Create("class", classes + " example")));
+                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + property.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", classes + " example")));
 			return result;
 		}
 	}

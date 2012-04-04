@@ -38,17 +38,24 @@ namespace Kean.Platform.Settings
 
 		Root root;
 
-		public object this[string name]
-		{
-			get { return this.root[name]; }
-			set { this.root[name] = value; }
-		}
+        [Serialize.Parameter]
+        public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
+        [Serialize.Parameter]
+        public string Style { get { return this.root.Style; } set { this.root.Style = value; } }
+
+		public object this[string name] { get { return this.root[name]; } set { this.root[name] = value; } }
 
 		public Module() :
 			base("Settings")
 		{
 			this.root = new Root(this);
 		}
+        protected override void Initialize()
+        {
+            base.Initialize();
+            this.root.HelpFilename = Uri.Locator.FromPlattformPath(this.Application.ExecutablePath);
+            this.root.HelpFilename.Path.Add("settings.html");
+        }
 
 		public void Load(string name, object value)
 		{
