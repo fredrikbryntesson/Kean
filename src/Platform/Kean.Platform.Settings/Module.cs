@@ -72,7 +72,7 @@ namespace Kean.Platform.Settings
 
 		protected override void AddArguments(Argument.Parser parser)
 		{
-			parser.Add('c', "config", argument => this.remotes.Add(argument));
+			parser.Add('c', "config", argument => this.configurations.Add(argument));
 			parser.Add('r', "remote", argument => this.remotes.Add(argument));
 			base.AddArguments(parser);
 		}
