@@ -22,37 +22,34 @@
 using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using Target = Kean.Draw.Net.Http;
-
-namespace Kean.Draw.Net.Test
+using Target = Kean.Draw.Jpeg;
+namespace Kean.Draw.Jpeg.Test
 {
     [TestFixture]
     public class Jpeg :
         Kean.Test.Fixture<Jpeg>
     {
-        string prefix = "Kean.Draw.Net.Single.";
+        string prefix = "Kean.Draw.Jpeg.";
         protected override void Run()
         {
             this.Run(
+                this.Save,
                 this.Open
                 );
         }
         [Test]
         public void Open()
         {
-            //Target.Jpeg single = new Kean.Draw.Net.Jpeg("http://192.168.1.21/axis-cgi/jpg/image.cgi?resolution=640x480");
-            Target.Jpeg single = new Target.Jpeg("http://194.218.96.90/axis-cgi/jpg/image.cgi?resolution=480x360");
-            int counter = 0;
-            single.NewFrame += (image) => 
-            {
-                counter++;
-                Console.Write(".");
-            };
-            single.Start();
-            while(counter < 20)
-                System.Threading.Thread.Sleep(100);
-            single.Stop();
+            Raster.Image image = Target.Decompress.OpenResource("Data/original.jpg");
+            image.Save("test2.png");
+        }
+        [Test]
+        public void Save()
+        {
+            Raster.Image image = Target.Decompress.OpenResource("Data/original.jpg");
+            Target.Compress.Save(image);
         }
     }
+
 
 }

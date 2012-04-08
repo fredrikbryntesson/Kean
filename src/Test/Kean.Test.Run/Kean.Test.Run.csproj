@@ -19,6 +19,7 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,6 +69,10 @@
     <ProjectReference Include="..\..\Draw\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
       <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
       <Name>Kean.Draw.Gpu.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Draw\Kean.Draw.Jpeg.Test\Kean.Draw.Jpeg.Test.csproj">
+      <Project>{8CC95ED7-CD68-4852-8503-F871B4F7389C}</Project>
+      <Name>Kean.Draw.Jpeg.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj">
       <Project>{C8BD80C8-2A97-4808-9122-D59E1F5308EC}</Project>
