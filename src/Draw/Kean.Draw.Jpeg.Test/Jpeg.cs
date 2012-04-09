@@ -47,6 +47,7 @@ namespace Kean.Draw.Jpeg.Test
         public void Save()
         {
             Raster.Image image = Target.Decompress.OpenResource("Data/original.jpg");
+                           
             Target.Compress.Save(image);
         }
     }

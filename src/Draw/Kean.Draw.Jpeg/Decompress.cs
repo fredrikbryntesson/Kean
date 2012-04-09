@@ -51,7 +51,7 @@ namespace Kean.Draw.Jpeg
             try
             {
                 byte[] buffer = new byte[stream.Length];
-                int a = stream.Read(buffer, 0, (int)stream.Length);    
+                stream.Read(buffer, 0, (int)stream.Length);    
                 result = Decompress.Open(buffer);
             }
             catch (ArgumentException)
