@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="All.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
-    <Compile Include="Jpeg.cs" />
+    <Compile Include="Decompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

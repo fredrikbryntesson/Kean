@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +24,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\bin\Release\</OutputPath>
@@ -49,8 +49,7 @@
   <ItemGroup>
     <Compile Include="Api.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
-    <Compile Include="Compress.cs" />
-    <Compile Include="Decompress.cs" />
+    <Compile Include="Decompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sampler.cs" />
   </ItemGroup>
@@ -97,8 +96,9 @@
     <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)lib\LibJpeg\win32\*.dll" "$(TargetDir)"
-copy "$(SolutionDir)lib\LibJpeg\win64\*.dll" "$(TargetDir)"
-</PreBuildEvent>
+    <PreBuildEvent Condition="'$(Platform)' == 'x86'">copy "$(SolutionDir)lib\LibJpeg\win32\*.dll" "$(TargetDir)" </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent Condition="'$(Platform)' == 'x64'">copy "$(SolutionDir)lib\LibJpeg\win64\*.dll" "$(TargetDir)" </PreBuildEvent>
   </PropertyGroup>
 </Project>

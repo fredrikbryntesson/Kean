@@ -1,5 +1,5 @@
 ﻿// 
-//  Jpeg.cs
+//  Decompressor.cs
 //  
 //  Author:
 //      Anders Frisk <andersfrisk77@gmail.com>
@@ -26,29 +26,24 @@ using Target = Kean.Draw.Jpeg;
 namespace Kean.Draw.Jpeg.Test
 {
     [TestFixture]
-    public class Jpeg :
-        Kean.Test.Fixture<Jpeg>
+    public class Decompressor :
+        Kean.Test.Fixture<Decompressor>
     {
         string prefix = "Kean.Draw.Jpeg.";
         protected override void Run()
         {
             this.Run(
-                this.Save,
                 this.Open
                 );
         }
         [Test]
         public void Open()
         {
-            Raster.Image image = Target.Decompress.OpenResource("Data/original.jpg");
-            image.Save("test2.png");
-        }
-        [Test]
-        public void Save()
-        {
-            Raster.Image image = Target.Decompress.OpenResource("Data/original.jpg");
-                           
-            Target.Compress.Save(image);
+            using (Target.Decompressor decompressor = new Target.Decompressor())
+            {
+                Raster.Image image = decompressor.OpenResource("Data/original.jpg");
+                image.Save("test2.png");
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿// 
-//  Decompress.cs
+//  Decompressor.cs
 //  
 //  Author:
 //      Anders Frisk <andersfrisk77@gmail.com>
@@ -22,37 +22,58 @@
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using Raster = Kean.Draw.Raster;
+using Buffer = Kean.Core.Buffer;
 
 namespace Kean.Draw.Jpeg
 {
-    public static class Decompress
+    public class Decompressor : 
+        IDisposable
     {
-        public static Raster.Image OpenResource(System.Reflection.Assembly assembly, string name)
+        internal IntPtr Context { get; set; }
+        public Decompressor()
+        {
+            this.Context = Api.InitDecompressor();
+        }
+        ~Decompressor()
+        {
+            this.Dispose();
+        }
+        #region IDisposable Members
+        public void Dispose()
+        {
+            if (this.Context != IntPtr.Zero)
+            {
+                Api.Destroy(this.Context);
+                this.Context = IntPtr.Zero;
+            }
+        }
+        #endregion
+        public Raster.Image OpenResource(System.Reflection.Assembly assembly, string name)
         {
             name = assembly.GetName().Name + "." + name.Replace('\\', '.').Replace('/', '.');
             Raster.Image result;
             using (System.IO.Stream stream = assembly.GetManifestResourceStream(name))
-                result = Decompress.Open(stream);
+                result = this.Open(stream);
             return result;
         }
-        public static Raster.Image OpenResource(string name)
+        public Raster.Image OpenResource(string name)
         {
             string[] splitted = name.Split(new char[] { ':' }, 2);
             Raster.Image result;
             if (splitted.Length > 1)
-                result = Decompress.OpenResource(System.Reflection.Assembly.LoadWithPartialName(splitted[0]), splitted[1]);
+                result = this.OpenResource(System.Reflection.Assembly.LoadWithPartialName(splitted[0]), splitted[1]);
             else
-                result = Decompress.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
+                result = this.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
             return result;
         }
-        public static Raster.Image Open(System.IO.Stream stream)
+        public Raster.Image Open(System.IO.Stream stream)
         {
             Raster.Image result;
             try
             {
                 byte[] buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, (int)stream.Length);    
-                result = Decompress.Open(buffer);
+                result = this.Open(buffer);
             }
             catch (ArgumentException)
             {
@@ -60,13 +81,16 @@ namespace Kean.Draw.Jpeg
             }
             return result;
         }
-        public static Raster.Image Open(byte[] buffer)
+        public Raster.Image Open(byte[] data)
+        {
+            return this.Open(new Buffer.Vector<byte>(data));
+        }
+        public Raster.Image Open(Buffer.Vector<byte> data)
         {
             Raster.Image result = null;
-            IntPtr handler = Api.InitDecompressor();
             int width, height;
             Sampler sampler;
-            Api.DecompressHeader(handler, buffer, (uint)buffer.Length, out width, out height, out sampler);
+            Api.DecompressHeader(this.Context, data, (uint)data.Size, out width, out height, out sampler);
             switch (sampler)
             {
                 case Sampler.Yuv420:
@@ -79,8 +103,7 @@ namespace Kean.Draw.Jpeg
                     result = new Raster.Monochrome(new Geometry2D.Integer.Size(width, height));
                     break;
             }
-            Api.DecompressToYuv(handler, buffer, (uint)buffer.Length, result.Pointer, 0);
-            Api.Destroy(handler);
+            Api.DecompressToYuv(this.Context, data, (uint)data.Size, result.Pointer, 0);
             return result;
         }
     }

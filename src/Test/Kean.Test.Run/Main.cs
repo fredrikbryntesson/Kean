@@ -26,14 +26,14 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-            //Kean.Draw.Jpeg.Test.All.Test();
-            Xml.Serialize.Test.All.Test();
-            Kean.Draw.Net.Test.All.Test();
-            Math.Test.All.Test();
+            // CPU dependent tests
+            Kean.Draw.Jpeg.Test.All.Test();
             
-
+            //Any CPU tests
+            Kean.Draw.Net.Test.All.Test();
+            Xml.Serialize.Test.All.Test();
+            Math.Test.All.Test();
             Core.Reflect.Test.All.Test();
-
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
 			Core.Reflect.Test.All.Test();

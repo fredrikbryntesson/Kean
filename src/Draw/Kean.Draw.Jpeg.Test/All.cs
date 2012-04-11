@@ -27,7 +27,7 @@ namespace Kean.Draw.Jpeg.Test
     {
         public static void Test()
         {
-            Jpeg.Test();
+            Decompressor.Test();
         }
     }
 }
