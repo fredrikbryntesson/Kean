@@ -55,7 +55,10 @@ namespace Kean.Platform.Settings
 		{
 			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
 				new Xml.Dom.Element("head",
-					new Xml.Dom.Element("title", new Xml.Dom.Text(this.Title)),
+					new Xml.Dom.Element("meta", KeyValue.Create("charset", "UTF-8")),
+					new Xml.Dom.Element("title", new Xml.Dom.Text(this.Title ?? this.module.Application.Product + " " + this.module.Application.Version + " Settings Reference Manual")),
+					new Xml.Dom.Element("meta", KeyValue.Create("name", "generator"), KeyValue.Create("content", this.module.Application.Product + " " + this.module.Application.Version)),
+					new Xml.Dom.Element("meta", KeyValue.Create("name", "date"), KeyValue.Create("content", DateTime.Today.ToShortDateString())),
 					new Xml.Dom.Element("style", new Xml.Dom.Text(this.Style))
 					), 
 				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(this.HelpFilename);
@@ -71,20 +74,20 @@ namespace Kean.Platform.Settings
 			if (name.NotEmpty())
 				prefix = name + ".";
 			if (name.IsEmpty())
-				result.Add(new Xml.Dom.Element("h1", new Xml.Dom.Text(this.Title)));
+				result.Add(new Xml.Dom.Element("header", new Xml.Dom.Text(this.Title)));
 			else if (topLevel && !(topLevel = !(properties.Count > 0 || methods.Count > 0)))
-				result.Add(new Xml.Dom.Element("h2", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", "object")));
+				result.Add(new Xml.Dom.Element("h1", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", "object")));
 			if (properties.Count > 0)
 			{
-				result.Add(new Xml.Dom.Element("h3", new Xml.Dom.Text("Properties"), KeyValue.Create("id", name + "_properties"), KeyValue.Create("class", "properties")));
-				Xml.Dom.Element list = new Xml.Dom.Element("dl");
+				result.Add(new Xml.Dom.Element("h2", new Xml.Dom.Text("Properties"), KeyValue.Create("id", name + "_properties"), KeyValue.Create("class", "properties")));
+				Xml.Dom.Element list = new Xml.Dom.Element("dl", KeyValue.Create("class", "properties"));
 				properties.Apply(p => list.Add(this.GetHelp(prefix, p)));
 				result.Add(list);
 			}
 			if (methods.Count > 0)
 			{
-				result.Add(new Xml.Dom.Element("h3", new Xml.Dom.Text("Methods"), KeyValue.Create("id", name + "_methods"), KeyValue.Create("class", "methods")));
-				Xml.Dom.Element list = new Xml.Dom.Element("dl");
+				result.Add(new Xml.Dom.Element("h2", new Xml.Dom.Text("Methods"), KeyValue.Create("id", name + "_methods"), KeyValue.Create("class", "methods")));
+				Xml.Dom.Element list = new Xml.Dom.Element("dl", KeyValue.Create("class", "methods"));
 				methods.Apply(m => list.Add(this.GetHelp(prefix, m)));
 				result.Add(list);
 			}
