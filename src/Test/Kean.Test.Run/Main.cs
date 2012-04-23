@@ -31,14 +31,12 @@ namespace Kean.Test.Run
             
             //Any CPU tests
             Kean.Draw.Net.Test.All.Test();
-            Xml.Serialize.Test.All.Test();
             Math.Test.All.Test();
             Core.Reflect.Test.All.Test();
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
 			Core.Reflect.Test.All.Test();
 			Core.Uri.Test.All.Test();
-			Xml.Dom.Test.All.Test();
 			Draw.Raster.Test.Transform.Test();
             Draw.Raster.Test.Convert.Test();
 			Draw.Gpu.Test.All.Test();
@@ -51,7 +49,9 @@ namespace Kean.Test.Run
             Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
-
+			Xml.Serialize.Test.All.Test();
+			Xml.Dom.Test.All.Test();
+			
 		}
 	}
 }

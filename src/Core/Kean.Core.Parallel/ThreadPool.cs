@@ -28,8 +28,10 @@ namespace Kean.Core.Parallel
     public class ThreadPool :
         IDisposable
     {
+		public int TaskCount { get { return this.tasks.Count; } }
 		public string Name { get; private set; }
 		public event Action<Error.IError> Log;
+		public int QueueMaximum { get; set; }
 		public bool CatchErrors { get; set; }
 		public int ThreadCount { get { return this.workers.Count; } }
 		public int MinimumThreadCount { get; private set; }
@@ -129,8 +131,15 @@ namespace Kean.Core.Parallel
         {
             try
             {
-                lock (this.tasks)
-                    this.tasks.Enqueue(task);
+				lock (this.tasks)
+				{
+					if (this.QueueMaximum > 0 && this.tasks.Count >= this.QueueMaximum)
+					{
+						this.tasks.Dequeue(); // Throw old tasks away if queue grows to much.
+						//this.Log(Error.Entry.Create(Error.Level.Warning, string.Format("Thread Pool {0} reached queue maxium at {1}.", this.Name, this.QueueMaximum))); 
+					}
+					this.tasks.Enqueue(task);
+				}
 				lock (this.workers)
 				{
 					int waiting = -1;
