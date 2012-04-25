@@ -41,7 +41,7 @@ namespace Kean.Platform.Settings
         [Serialize.Parameter]
         public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
         [Serialize.Parameter]
-        public string Style { get { return this.root.Style; } set { this.root.Style = value; } }
+        public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
 
 		public object this[string name] { get { return this.root[name]; } set { this.root[name] = value; } }
 

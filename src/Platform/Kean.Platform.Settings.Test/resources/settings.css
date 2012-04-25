@@ -1,0 +1,54 @@
+﻿dl.properties > dt.read.write.notify:after {
+	content: "rwn";
+}
+dl.properties > dt.read.write:after {
+	content: "rw-";
+}
+dl.properties > dt.read.notify:after {
+	content: "r-n";
+}
+dl.properties > dt.write.notify:after {
+	content: "-wn";
+}
+dl.properties > dt.read:after {
+	content: "r--";
+}
+dl.properties > dt.write:after {
+	content: "-w-";
+}
+dl.properties > dt:after {
+	margin-left: 2em;
+	font-family:"Myriad Pro", "Verdana", sans-serif;
+	font-weight: normal;
+	font-size: 7pt;
+}
+dl.properties > dt, dl.methods > dt {
+	font-family: "Ubuntu Mono", "Lucida Console", Monaco, monospace;
+	font-weight: bold;
+}
+dd.example {
+	font-family: "Ubuntu Mono", "Lucida Console", Monaco, monospace;
+}
+h1.object {
+	font-family: "Ubuntu Mono", "Lucida Console", Monaco, monospace;
+	font-weight: bold;
+}
+h1.object:before {
+	font-family:"Myriad Pro", "Verdana", sans-serif;
+	font-weight: normal;
+}
+dd.signature {
+	font-family: "Ubuntu Mono", "Lucida Console", Monaco, monospace;
+}
+dd.signature > span.parameter:before, dd.signature > dl > dt:before {
+	content: "<";
+}
+dd.signature > span.parameter:after, dd.signature > dl > dt:after {
+	content: ">";
+}
+dd.signature > dl > dt {
+	font-weight: normal;
+}
+dd.signature > dl > dd {
+	font-family:"Myriad Pro", "Verdana", sans-serif;
+}

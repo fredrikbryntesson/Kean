@@ -35,13 +35,12 @@ namespace Kean.Platform.Settings
 
 		internal Object Object { get; set; }
 		public string Title { get; set; }
-		public string Style { get; set; }
+		public Xml.Dom.Fragment Header { get; set; }
         public Uri.Locator HelpFilename { get; set; }
 		public Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;
-			this.Style = @"";
 		}
 
 		[Method("close", "Closes application.", "Shuts down the current application instance.")]
@@ -53,14 +52,16 @@ namespace Kean.Platform.Settings
 		[Method("help", "Opens help in browser.", "Launches browser viewing help.")]
 		public void Help()
 		{
-			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
-				new Xml.Dom.Element("head",
+			Xml.Dom.Element head = new Xml.Dom.Element("head",
 					new Xml.Dom.Element("meta", KeyValue.Create("charset", "UTF-8")),
 					new Xml.Dom.Element("title", new Xml.Dom.Text(this.Title ?? this.module.Application.Product + " " + this.module.Application.Version + " Settings Reference Manual")),
 					new Xml.Dom.Element("meta", KeyValue.Create("name", "generator"), KeyValue.Create("content", this.module.Application.Product + " " + this.module.Application.Version)),
-					new Xml.Dom.Element("meta", KeyValue.Create("name", "date"), KeyValue.Create("content", DateTime.Today.ToShortDateString())),
-					new Xml.Dom.Element("style", new Xml.Dom.Text(this.Style))
-					), 
+					new Xml.Dom.Element("meta", KeyValue.Create("name", "date"), KeyValue.Create("content", DateTime.Today.ToShortDateString()))
+					);
+			if (this.Header.NotNull())
+				head.Add(this.Header);
+			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
+				head, 
 				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(this.HelpFilename);
 			System.Diagnostics.Process.Start(this.HelpFilename);
 		}
