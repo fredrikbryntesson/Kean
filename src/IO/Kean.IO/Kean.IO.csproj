@@ -77,6 +77,8 @@
     <Compile Include="ByteDeviceSplitter.cs" />
     <Compile Include="Text\Builder.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
+    <Compile Include="Text\CharacterInDevice.cs" />
+    <Compile Include="Text\Reader.cs" />
     <Compile Include="Text\Mark.cs" />
     <Compile Include="Text\Position.cs" />
     <Compile Include="Text\Region.cs" />

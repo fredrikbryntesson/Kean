@@ -44,6 +44,7 @@
     <Compile Include="Document.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Exception\Abstract.cs" />
+    <Compile Include="Exception\StartTagMissing.cs" />
     <Compile Include="Exception\EndTagUnmatched.cs" />
     <Compile Include="Fragment.cs" />
     <Compile Include="IWriter.cs" />

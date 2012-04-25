@@ -110,8 +110,11 @@ namespace Kean.Xml.Dom
 		#region IList<Node> Members
 		public void Add(Node item) 
 		{
-			item.Parent = this;
-			this.childNodes.Add(item); 
+			if (item.NotNull())
+			{
+				item.Parent = this;
+				this.childNodes.Add(item);
+			}
 		}
 		public Node Remove() 
 		{ 
@@ -139,7 +142,6 @@ namespace Kean.Xml.Dom
 			set 
 			{
 				this.childNodes[index].Parent = null;
-				value.Parent = this;
 				this.childNodes[index] = value;
 			}
 		}
@@ -178,7 +180,7 @@ namespace Kean.Xml.Dom
 				this.childNodes.Equals(other.childNodes);
 		}
 		#endregion
-		#region Operators
+		#region Equality Operators
 		public static bool operator ==(Element left, Element right)
 		{
 			return left.Same(right) || left.NotNull() && left.Equals(right);

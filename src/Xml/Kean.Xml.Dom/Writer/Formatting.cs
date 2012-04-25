@@ -118,6 +118,10 @@ namespace Kean.Xml.Dom.Writer
 				this.Write(">") && (noNewlines = !element.Exists(n => n is Element) || this.WriteLine()) && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
 				this.WriteLine(" />"));
 		}
+		public bool Write(Fragment fragment)
+		{
+			return fragment.IsNull() || fragment.Count == 0 || fragment.Fold((child, result) => result && this.Write(child), true);
+		}
 		public bool Write(ProcessingInstruction processingInstruction)
 		{
 			return this.Write("<?") && this.Write(processingInstruction.Target) && this.Write(" ") && this.AddIndent() &&

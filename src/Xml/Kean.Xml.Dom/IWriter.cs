@@ -32,6 +32,7 @@ namespace Kean.Xml.Dom
 		bool Write(ProcessingInstruction processingInstruction);
 		bool Write(Node node);
 		bool Write(Document document);
+		bool Write(Fragment fragment);
 		bool Write(Comment comment);
 		bool Write(Attribute attribute);
 	}

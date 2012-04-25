@@ -1,5 +1,5 @@
 ﻿// 
-//  All.cs
+//  Reader.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,16 +20,32 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
-namespace Kean.Xml.Dom.Test
+namespace Kean.IO.Text
 {
-	public static class All
+	public class Reader :
+		CharacterReader
 	{
-		public static void Test()
+		CharacterInDevice backend;
+		public Reader(string data) :
+			this(new CharacterInDevice(data))
+		{ }
+		Reader(CharacterInDevice backend) :
+			base(backend)
 		{
-			Dom.Test.Fragment.Test();
-			Dom.Test.Open.Test();
-			Dom.Test.Save.Test();
+			this.backend = backend;
+		}
+		public override string ToString()
+		{
+			return this.backend.ToString();
+		}
+		public static implicit operator string(Reader reader)
+		{
+			return reader.ToString();
 		}
 	}
 }

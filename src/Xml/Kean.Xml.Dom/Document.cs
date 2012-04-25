@@ -82,7 +82,7 @@ namespace Kean.Xml.Dom
 		}
 		public static explicit operator Document(string data)
 		{
-			return Document.Open(new Sax.Parser(data));
+			return Document.Open(new Sax.Parser(new IO.Text.Reader(data)));
 		}
 		#region Static Open
 		public static Document Open(Sax.Parser parser)
@@ -157,7 +157,7 @@ namespace Kean.Xml.Dom
 				this.Root == other.Root;
 		}
 		#endregion
-		#region Operators
+		#region Equality Operators
 		public static bool operator ==(Document left, Document right)
 		{
 			return left.Same(right) || left.NotNull() && left.Equals(right);
