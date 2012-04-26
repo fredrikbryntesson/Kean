@@ -85,20 +85,20 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(SolutionDir)lib\MSBuildTasks\</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksPath>$(ProjectDir)..\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>
   </PropertyGroup>
   <Import Project="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets" />
   <Target Name="BeforeBuild">
-    <Copy SourceFiles="$(SolutionDir)src\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
+    <Copy SourceFiles="$(ProjectDir)..\..\..\src\Kean\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
     <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent Condition="'$(Platform)' == 'x86'">copy "$(SolutionDir)lib\LibJpeg\win32\*.dll" "$(TargetDir)" </PreBuildEvent>
+    <PreBuildEvent Condition="'$(Platform)' == 'x86'">copy "$(ProjectDir)..\..\..\lib\LibJpeg\win32\*.dll" "$(TargetDir)" </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition="'$(Platform)' == 'x64'">copy "$(SolutionDir)lib\LibJpeg\win64\*.dll" "$(TargetDir)" </PreBuildEvent>
+    <PreBuildEvent Condition="'$(Platform)' == 'x64'">copy "$(ProjectDir)..\..\..\lib\LibJpeg\win64\*.dll" "$(TargetDir)" </PreBuildEvent>
   </PropertyGroup>
 </Project>
