@@ -24,7 +24,7 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class VectorExtension
 	{
-		public static void Reverse<T>(this IVector<T> me)
+		public static IVector<T> Reverse<T>(this IVector<T> me)
 		{
 			int half = me.Count / 2;
 			for (int i = 0; i < half; i++)
@@ -33,16 +33,19 @@ namespace Kean.Core.Collection.Extension
 				me[i] = me[me.Count - i - 1];
 				me[me.Count - i - 1] = t;
 			}
+			return me;
 		}
-		public static void Apply<T>(this IVector<T> me, Action<T> function)
+		public static IVector<T> Apply<T>(this IVector<T> me, Action<T> function)
 		{
 			foreach (T element in me)
 				function(element);
+			return me;
 		}
-		public static void Modify<T>(this IVector<T> me, Func<T, T> function)
+		public static IVector<T> Modify<T>(this IVector<T> me, Func<T, T> function)
 		{
 			for (int i = 0; i < me.Count; i++)
 				me[i] = function(me[i]);
+			return me;
 		}
 		public static void Map<T, S>(this IVector<T> me, IVector<S> output, Func<T, S> function)
 		{

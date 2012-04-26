@@ -52,17 +52,17 @@ namespace Kean.Xml.Dom
 			return writer.Write(this);
 		}
 		#region IList<Node> Members
-		public void Add(Node item)
+		public Collection.IList<Node> Add(Node item)
 		{
-			this.childNodes.Add(item);
+			return this.childNodes.Add(item);
 		}
 		public Node Remove()
 		{
 			return this.childNodes.Remove();
 		}
-		public void Insert(int index, Node item)
+		public Collection.IList<Node> Insert(int index, Node item)
 		{
-			this.childNodes.Insert(index, item);
+			return this.childNodes.Insert(index, item);
 		}
 		public Node Remove(int index)
 		{

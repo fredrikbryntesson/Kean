@@ -33,9 +33,9 @@ namespace Kean.Core.Collection.Wrap
 		}
 		#region IStack<T>
 		public bool Empty { get { return this.data.Count < 1; } }
-		public void Push(T item)
+		public Collection.IStack<T> Push(T item)
 		{
-			this.data.Add(item);
+			return this.data.Add(item) as Collection.IStack<T>;
 		}
 		public T Pop()
 		{

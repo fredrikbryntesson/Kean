@@ -39,7 +39,7 @@ namespace Kean.Core.Collection.Linked
 		public bool Empty { get { return this.first == null; } }
 		public int Count { get { return this.first.Count<L, T>(); } }
 		public Queue() { }
-		public void Enqueue(T item)
+		public Collection.IQueue<T> Enqueue(T item)
 		{
 			L link = new L() { Head = item };
 			if (this.last.IsNull())
@@ -47,6 +47,7 @@ namespace Kean.Core.Collection.Linked
 			else
 				this.last.Tail = link;
 			this.last = link;
+			return this;
 		}
 		public T Peek()
 		{

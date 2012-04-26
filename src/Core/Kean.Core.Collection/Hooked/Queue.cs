@@ -47,13 +47,14 @@ namespace Kean.Core.Collection.Hooked
 		{
 			get { return this.data.Count; }
 		}
-		public void Enqueue(T item)
+		public Collection.IQueue<T> Enqueue(T item)
 		{
 			if (this.OnEnqueue.AllTrue(item))
 			{
 				this.data.Enqueue(item);
 				this.Enqueued.Call(item);
 			}
+			return this;
 		}
 		public T Peek()
 		{

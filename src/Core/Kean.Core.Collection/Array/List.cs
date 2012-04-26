@@ -89,10 +89,11 @@ namespace Kean.Core.Collection.Array
 		}
 		#endregion
 		#region IList<T>
-		public override void Add(T item)
+		public override IList<T> Add(T item)
 		{
 			this.Increase();
 			this[this.Count - 1] = item;
+			return this;
 		}
 		public override T Remove()
 		{
@@ -106,7 +107,7 @@ namespace Kean.Core.Collection.Array
 			this.Decrease();
 			return result;
 		}
-        public override void Insert(int index, T item)
+		public override IList<T> Insert(int index, T item)
         {
 			if (index == this.Count)
 				this.Add(item);
@@ -116,6 +117,7 @@ namespace Kean.Core.Collection.Array
 				System.Array.Copy(this.items, index, this.items, index + 1, this.Count - index - 1);
 				this[index] = item;
 			}
+			return this;
 		}
 		#endregion
 		#region Operators

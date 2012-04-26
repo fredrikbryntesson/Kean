@@ -41,13 +41,14 @@ namespace Kean.Core.Collection.Hooked
 		#region Collection.IStack<T> Members
 		public bool Empty { get { return this.data.Empty; } }
 
-		public void Push(T item)
+		public Collection.IStack<T> Push(T item)
 		{
 			if (this.OnPush.AllTrue(item))
 			{
 				this.data.Push(item);
 				this.Pushed.Call(item);
 			}
+			return this;
 		}
 
 		public T Pop()

@@ -108,13 +108,14 @@ namespace Kean.Xml.Dom
 			return this;
 		}
 		#region IList<Node> Members
-		public void Add(Node item) 
+		public Collection.IList<Node> Add(Node item) 
 		{
 			if (item.NotNull())
 			{
 				item.Parent = this;
 				this.childNodes.Add(item);
 			}
+			return this;
 		}
 		public Node Remove() 
 		{ 
@@ -122,10 +123,10 @@ namespace Kean.Xml.Dom
 			result.Parent = null;
 			return result;
 		}
-		public void Insert(int index, Node item) 
+		public Collection.IList<Node> Insert(int index, Node item) 
 		{
 			item.Parent = this;
-			this.childNodes.Insert(index, item); 
+			return this.childNodes.Insert(index, item); 
 		}
 		public Node Remove(int index) 
 		{

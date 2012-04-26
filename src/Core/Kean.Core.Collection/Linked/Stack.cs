@@ -37,9 +37,10 @@ namespace Kean.Core.Collection.Linked
 		L top;
 		public bool Empty { get { return this.top == null; } }
 		public Stack() { }
-		public void Push(T item)
+		public Collection.IStack<T> Push(T item)
 		{
 			this.top = this.top.Add(item);
+			return this;
 		}
 		public T Pop()
 		{

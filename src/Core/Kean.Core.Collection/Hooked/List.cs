@@ -45,13 +45,14 @@ namespace Kean.Core.Collection.Hooked
 		{
 			this.data = data;
 		}
-		public void Add(T item)
+		public Collection.IList<T> Add(T item)
 		{
 			if (this.OnAdd.AllTrue(this.Count, item)) 
 			{
 				this.data.Add(item);
 				this.Added.Call(this.Count, item);
 			}
+			return this;
 		}
 		public T Remove()
 		{
@@ -64,13 +65,14 @@ namespace Kean.Core.Collection.Hooked
 				result = default(T);
 			return result;
 		}
-		public void Insert(int index, T item)
+		public Collection.IList<T> Insert(int index, T item)
 		{
 			if (this.OnAdd.AllTrue(index, item))
 			{
 				this.data.Insert(index, item);
 				this.Added.Call(index, item);
 			}
+			return this;
 		}
 		public T Remove(int index)
 		{

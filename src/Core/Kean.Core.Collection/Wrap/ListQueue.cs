@@ -37,7 +37,7 @@ namespace Kean.Core.Collection.Wrap
 		#region IQueue<T>
 		public bool Empty { get { return this.size == 0; } }
 		public int Count { get { return this.size; } }
-		public void Enqueue(T item)
+		public IQueue<T> Enqueue(T item)
 		{
 			if (this.size == this.data.Count)
 			{
@@ -52,6 +52,7 @@ namespace Kean.Core.Collection.Wrap
 				this.data[this.head] = item;
 			}
 			this.size++;
+			return this;
 		}
 		public T Peek()
 		{

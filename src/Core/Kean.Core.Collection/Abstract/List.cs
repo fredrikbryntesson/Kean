@@ -28,9 +28,9 @@ namespace Kean.Core.Collection.Abstract
 		protected List ()
 		{
 		}
-		public abstract void Add(T item);
+		public abstract IList<T> Add(T item);
 		public abstract T Remove ();
-		public abstract void Insert(int index, T item);
+		public abstract IList<T> Insert(int index, T item);
 		public abstract T Remove (int index);
 	}
 }

@@ -25,7 +25,7 @@ namespace Kean.Core.Extension
 {
 	public static class ArrayExtension
 	{
-		public static void Reverse<T>(this T[] me)
+		public static T[] Reverse<T>(this T[] me)
 		{
 			int half = me.Length / 2;
 			for (int i = 0; i < half; i++)
@@ -34,16 +34,19 @@ namespace Kean.Core.Extension
 				me[i] = me[me.Length - i - 1];
 				me[me.Length - i - 1] = t;
 			}
+			return me;
 		}
-		public static void Apply<T>(this T[] me, Action<T> function)
+		public static T[] Apply<T>(this T[] me, Action<T> function)
 		{
 			foreach (T element in me)
 				function(element);
+			return me;
 		}
-		public static void Modify<T>(this T[] me, Func<T, T> function)
+		public static T[] Modify<T>(this T[] me, Func<T, T> function)
 		{
 			for (int i = 0; i < me.Length; i++)
 				me[i] = function(me[i]);
+			return me;
 		}
 		public static void Map<T, S>(this T[] me, S[] result, Func<T, S> function)
 		{

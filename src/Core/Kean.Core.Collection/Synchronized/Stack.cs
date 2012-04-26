@@ -46,10 +46,10 @@ namespace Kean.Core.Collection.Synchronized
 		{
 			get { lock (this.Lock) return this.data.Empty; }
 		}
-		public void Push(T item)
+		public Collection.IStack<T> Push(T item)
 		{
 			lock (this.Lock)
-				this.data.Push(item);
+				return this.data.Push(item);
 		}
 		public T Pop()
 		{

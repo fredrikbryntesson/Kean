@@ -42,13 +42,13 @@ namespace Kean.Draw.Paint
 			get { return this.stops[index]; }
 			set { this.stops[index] = value; }
 		}
-		public override void Add(GradientStop item)
+		public override Collection.IList<GradientStop> Add(GradientStop item)
 		{
-			this.stops.Add(item);
+			return this.stops.Add(item);
 		}
-		public override void Insert(int index, GradientStop item)
+		public override Collection.IList<GradientStop> Insert(int index, GradientStop item)
 		{
-			this.stops.Insert(index, item);
+			return this.stops.Insert(index, item);
 		}
 		public override GradientStop Remove()
 		{

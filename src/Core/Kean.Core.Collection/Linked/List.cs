@@ -52,13 +52,14 @@ namespace Kean.Core.Collection.Linked
 			Collection.Extension.ListExtension.Add(this, items);
 		}
 		#endregion
-		public override void Add(T element)
+		public override Collection.IList<T> Add(T element)
 		{
 			this.Last = new L()
 			{
 				Head = element,
 				Tail = this.Last,
 			};
+			return this;
 		}
 		public override T Remove()
 		{
@@ -76,9 +77,10 @@ namespace Kean.Core.Collection.Linked
 			this.Last = this.Last.Remove(this.Count - index - 1, out result);
 			return result;
 		}
-        public override void Insert(int index, T element)
+		public override Collection.IList<T> Insert(int index, T element)
 		{
 			this.Last = this.Last.Insert(this.Count - index, element);
+			return this;
 		}
 	}
 }

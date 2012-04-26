@@ -50,10 +50,10 @@ namespace Kean.Core.Collection.Synchronized
 		{
 			get { lock (this.Lock) return this.data.Count; }
 		}
-		public void Enqueue(T item)
+		public Collection.IQueue<T> Enqueue(T item)
 		{
 			lock (this.Lock)
-				this.data.Enqueue(item);
+				return this.data.Enqueue(item);
 		}
 		public T Peek()
 		{

@@ -36,17 +36,17 @@ namespace Kean.Core.Collection.Wrap
 		}
 		#endregion
 		#region IList<T> Members
-		public void Add(T item)
+		public Collection.IList<T> Add(T item)
 		{
-			this.data.Add(item);
+			return this.data.Add(item);
 		}
 		public T Remove()
 		{
 			return this.data.Remove();
 		}
-		public void Insert(int index, T item)
+		public Collection.IList<T> Insert(int index, T item)
 		{
-			this.data.Insert(index, item);
+			return this.data.Insert(index, item);
 		}
 		public T Remove(int index)
 		{

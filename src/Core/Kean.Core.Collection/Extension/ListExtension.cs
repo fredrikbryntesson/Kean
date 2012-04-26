@@ -24,15 +24,17 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class ListExtension
 	{
-		public static void Add<T>(this IList<T> me, params T[] items)
+		public static IList<T> Add<T>(this IList<T> me, params T[] items)
 		{
 			foreach (T item in items)
 				me.Add(item);
+			return me;
 		}
-		public static void Add<T>(this IList<T> me, System.Collections.Generic.IEnumerable<T> items)
+		public static IList<T> Add<T>(this IList<T> me, System.Collections.Generic.IEnumerable<T> items)
 		{
 			foreach (T item in items)
 				me.Add(item);
+			return me;
 		}
 		public static bool Remove<T>(this IList<T> me, Func<T, bool> predicate)
 		{
@@ -48,10 +50,11 @@ namespace Kean.Core.Collection.Extension
 			}
 			return result;
 		}
-		public static void Clear<T>(this IList<T> me)
+		public static IList<T> Clear<T>(this IList<T> me)
 		{
 			while (me.Count > 0)
 				me.Remove();
+			return me;
 		}
 	}
 }

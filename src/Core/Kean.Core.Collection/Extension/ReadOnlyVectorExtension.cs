@@ -24,10 +24,11 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class ReadOnlyVectorExtension
 	{
-		public static void Apply<T>(this IReadOnlyVector<T> me, Action<T> function)
+		public static IReadOnlyVector<T> Apply<T>(this IReadOnlyVector<T> me, Action<T> function)
 		{
 			foreach (T element in me)
 				function(element);
+			return me;
 		}
 		public static void Map<T, S>(this IReadOnlyVector<T> me, IVector<S> output, Func<T, S> function)
 		{

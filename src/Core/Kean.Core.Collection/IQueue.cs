@@ -27,7 +27,7 @@ namespace Kean.Core.Collection
 	{
 		bool Empty { get; }
 		int Count { get; }
-		void Enqueue(T item);
+		IQueue<T> Enqueue(T item);
 		T Peek();
 		T Dequeue();
 	}

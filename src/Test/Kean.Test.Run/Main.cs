@@ -28,10 +28,8 @@ namespace Kean.Test.Run
 		{
             // CPU dependent tests
             //Kean.Draw.Jpeg.Test.All.Test();
-			Xml.Dom.Test.All.Test();
             
             //Any CPU tests
-			Xml.Dom.Test.All.Test();
 			Draw.Net.Test.All.Test();
             Math.Test.All.Test();
             Core.Reflect.Test.All.Test();
@@ -52,6 +50,7 @@ namespace Kean.Test.Run
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
 			Xml.Serialize.Test.All.Test();
+			Xml.Dom.Test.All.Test();
 			
 		}
 	}

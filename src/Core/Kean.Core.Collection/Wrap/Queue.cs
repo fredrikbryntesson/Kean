@@ -42,9 +42,9 @@ namespace Kean.Core.Collection.Wrap
 		{
 			get { return this.data.Count; }
 		}
-		public void Enqueue(T item)
+		public Collection.IQueue<T> Enqueue(T item)
 		{
-			this.data.Enqueue(item);
+			return this.data.Enqueue(item);
 		}
 		public T Peek()
 		{

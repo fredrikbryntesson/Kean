@@ -26,7 +26,7 @@ namespace Kean.Core.Collection
 	public interface IStack<T>
 	{
 		bool Empty { get; }
-		void Push(T item);
+		IStack<T> Push(T item);
 		T Pop();
 		T Peek();
 	}

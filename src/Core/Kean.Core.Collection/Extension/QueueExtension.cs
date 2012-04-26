@@ -25,20 +25,23 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class QueueExtension
 	{
-		public static void Enqueue<T>(this IQueue<T> me, System.Collections.Generic.IEnumerable<T> items)
+		public static IQueue<T> Enqueue<T>(this IQueue<T> me, System.Collections.Generic.IEnumerable<T> items)
 		{
 			foreach (T item in items)
 				me.Enqueue(item);
+			return me;
 		}
-		public static void Enqueue<T>(this IQueue<T> me, IQueue<T> source)
+		public static IQueue<T> Enqueue<T>(this IQueue<T> me, IQueue<T> source)
 		{
 			while (!source.Empty)
 				me.Enqueue(source.Dequeue());
+			return me;
 		}
-        public static void Clear<T>(this IQueue<T> me)
+		public static IQueue<T> Clear<T>(this IQueue<T> me)
         {
             while (!me.Empty)
                 me.Dequeue();
-        }
+			return me;
+		}
 	}
 }

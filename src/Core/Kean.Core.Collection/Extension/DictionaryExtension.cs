@@ -25,16 +25,17 @@ namespace Kean.Core.Collection.Extension
 {
 	public static class DictionaryExtension
 	{
-		public static void Update<TKey, TValue>(this IDictionary<TKey, TValue> me, System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> items)
+		public static IDictionary<TKey, TValue> Update<TKey, TValue>(this IDictionary<TKey, TValue> me, System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> items)
 			where TKey : IEquatable<TKey>
 		{
 			foreach (KeyValue<TKey, TValue> item in items)
 				me[item.Key] = item.Value;
+			return me;
 		}
-		public static void Update<TKey, TValue>(this IDictionary<TKey, TValue> me, params KeyValue<TKey, TValue>[] items)
+		public static IDictionary<TKey, TValue> Update<TKey, TValue>(this IDictionary<TKey, TValue> me, params KeyValue<TKey, TValue>[] items)
 			where TKey : IEquatable<TKey>
 		{
-			me.Update<TKey, TValue>((System.Collections.Generic.IEnumerable<KeyValue<TKey,TValue>>) items);
+			return me.Update<TKey, TValue>((System.Collections.Generic.IEnumerable<KeyValue<TKey,TValue>>) items);
 		}
 	}
 }

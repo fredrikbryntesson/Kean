@@ -2,9 +2,9 @@
 //  IList.cs
 //  
 //  Author:
-//       smika <${AuthorEmail}>
+//       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 smika
+//  Copyright (c) 2010 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -26,9 +26,9 @@ namespace Kean.Core.Collection
 	public interface IList<T> :
 		IVector<T>
 	{
-		void Add(T item);
+		IList<T> Add(T item);
 		T Remove();
-		void Insert (int index, T item);
+		IList<T> Insert(int index, T item);
         T Remove(int index);
 	}
 }

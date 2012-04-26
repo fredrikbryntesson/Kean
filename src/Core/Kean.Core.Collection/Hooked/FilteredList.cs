@@ -84,17 +84,19 @@ namespace Kean.Core.Collection.Hooked
 		}
 		#endregion
 		#region IList<T> Members
-		public override void Add(T item)
+		public override Collection.IList<T> Add(T item)
 		{
 			this.filter.Add(item);
+			return this;
 		}
 		public override T Remove()
 		{
 			return this.filter.Remove();
 		}
-		public override void Insert(int index, T item)
+		public override Collection.IList<T> Insert(int index, T item)
 		{
 			this.filter.Insert(index, item);
+			return this;
 		}
 		public override T Remove(int index)
 		{

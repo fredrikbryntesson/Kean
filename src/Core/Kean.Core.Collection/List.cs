@@ -47,9 +47,9 @@ namespace Kean.Core.Collection
 			get { return this.data[index]; }
 			set { this.data[index] = value; }
 		}
-		public void Add(T item)
+		public Collection.IList<T> Add(T item)
 		{
-			this.data.Add(item);
+			return this.data.Add(item);
 		}
 		public T Remove()
 		{
@@ -59,9 +59,9 @@ namespace Kean.Core.Collection
 		{
 			return this.data.Remove(index);
 		}
-        public void Insert(int index, T item)
+		public Collection.IList<T> Insert(int index, T item)
 		{
-			this.data.Insert(index, item);
+			return this.data.Insert(index, item);
 		}
 		#endregion
 		#region System.Collections.IEnumerable

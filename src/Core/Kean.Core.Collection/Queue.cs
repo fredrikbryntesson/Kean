@@ -42,9 +42,9 @@ namespace Kean.Core.Collection
 		{
 			get { return this.data.Count; }
 		}
-		public void Enqueue(T item)
+		public IQueue<T> Enqueue(T item)
 		{
-			this.data.Enqueue(item);
+			return this.data.Enqueue(item);
 		}
 		public T Peek()
 		{
