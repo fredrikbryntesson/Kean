@@ -84,13 +84,16 @@ namespace Kean.Xml.Sax
 								string target = this.AccumulateUntilWhiteSpace().Trim();
 								if (target == "xml")
 								{
-									string attribute = this.AccumulateUntil('=').Trim();
-									if (attribute != "version")
+									if (this.AccumulateUntil('=').Trim() != "version")
 										return false;
 									this.AccumulateUntil('"');
                                     float version = float.Parse(this.AccumulateUntil('"'), System.Globalization.CultureInfo.InvariantCulture);
+									if (this.AccumulateUntil('=').Trim() != "encoding")
+										return false;
+									this.AccumulateUntil('"');
+									string encoding = this.AccumulateUntil('"');
 									this.AccumulateUntil("?>").Trim();
-									this.OnDeclaration.Call(version, null, null, mark);
+									this.OnDeclaration.Call(version, encoding, null, mark);
 								}
 								else
 									this.OnProccessingInstruction.Call(target, this.AccumulateUntil("?>").Trim(), mark);

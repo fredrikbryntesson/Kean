@@ -32,6 +32,9 @@ namespace Kean.Xml.Serialize
 	public class Storage : 
 		Core.Serialize.Storage
 	{
+		public Storage() :
+			base()
+		{ }
 		public Storage(Core.Serialize.IRebuilder rebuilder, params Core.Serialize.ISerializer[] serializers) :
 			base(rebuilder, serializers)
 		{ }
@@ -88,6 +91,14 @@ namespace Kean.Xml.Serialize
 				}
 			}
 			return result;
+		}
+		public static T Open<T>(Uri.Locator resource)
+		{
+			return new Storage().Load<T>(resource);
+		}
+		public static bool Save<T>(T value, Uri.Locator resource)
+		{
+			return new Storage().Store<T>(value, resource);
 		}
 	}
 }

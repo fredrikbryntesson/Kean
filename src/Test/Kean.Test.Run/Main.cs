@@ -30,7 +30,7 @@ namespace Kean.Test.Run
             //Kean.Draw.Jpeg.Test.All.Test();
             
             //Any CPU tests
-			Draw.Net.Test.All.Test();
+			//Draw.Net.Test.All.Test();
             Math.Test.All.Test();
             Core.Reflect.Test.All.Test();
 			Core.Test.All.Test();

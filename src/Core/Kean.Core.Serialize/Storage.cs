@@ -34,6 +34,9 @@ namespace Kean.Core.Serialize
 		IRebuilder rebuilder;
 		public Resolver Resolver { get; private set; }
 
+		protected Storage() :
+			this(new Rebuilder.Default(), new Serializer.Default())
+		{ }
 		protected Storage(params ISerializer[] serializers) :
 			this(new Resolver(), new Rebuilder.Default(), serializers)
 		{ }

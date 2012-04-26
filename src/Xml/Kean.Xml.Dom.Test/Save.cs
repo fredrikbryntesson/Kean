@@ -22,6 +22,7 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+using Uri = Kean.Core.Uri;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
@@ -32,7 +33,7 @@ namespace Kean.Xml.Dom.Test
 	{
 		protected override void Verify(string name)
 		{
-			//this.Create(name).Save(this.Filename(name));
+			this.Create(name).Save(Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(name + ".xml")));
 		}
 	}
 }

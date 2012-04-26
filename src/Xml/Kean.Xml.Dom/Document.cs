@@ -54,7 +54,7 @@ namespace Kean.Xml.Dom
 		public Document()
 		{
 			this.Version = 1.0f;
-			this.Encoding = "UTF-8";
+			this.Encoding = "utf-8";
 		}
 		public Document(Element root) :
 			this()

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <List type="Kean.Xml.Serialize.Test:Data.List">
 	<Classes type="Kean.Xml.Serialize.Test:Data.ComplexClass">
 		<Boolean>true</Boolean>

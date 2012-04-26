@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Class type="Kean.Xml.Serialize.Test:Data.Class">
 	<Boolean>true</Boolean>
 	<Enumerator>Second</Enumerator>
