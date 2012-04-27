@@ -131,6 +131,15 @@ namespace Kean.IO
 					case "file":
 						result = new ByteDevice(System.IO.File.Open(resource.Path.PlattformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
 						break;
+					case "http":
+					case "https":
+						if (mode == System.IO.FileMode.Open)
+						{
+							using (System.Net.WebClient client = new System.Net.WebClient())
+							using (System.IO.Stream stream = new System.IO.MemoryStream(client.DownloadData(resource)))
+								result = new ByteDevice(stream) { Resource = resource };
+						}
+						break;
 				}
 			return result;
 		}
