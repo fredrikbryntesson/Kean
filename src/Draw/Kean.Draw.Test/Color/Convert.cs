@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  Convert.cs
 //  
 //  Author:
@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -30,50 +29,55 @@ namespace Kean.Draw.Test.Color
 		Kean.Test.Fixture<Convert>
 	{
 		string prefix = "Kean.Draw.Color.Test.";
-		protected override void Run()
+
+		protected override void Run ()
 		{
-			this.Run(
+			this.Run (
 				this.FromBgr, 
 				this.FromBgra,
 				this.FromY,
 				this.FromYuv
 				);
 		}
+
 		[Test]
-		public void FromBgr()
+		public void FromBgr ()
 		{
-			Target.Bgr value = new Target.Bgr(120, 100, 80);
-			Expect(value.Convert<Target.Y>(), Is.EqualTo(new Target.Y(95)), this.prefix + "FromBgr.0");
-			Expect(value.Convert<Target.Yuv>(), Is.EqualTo(new Target.Yuv(95, 141, 116)), this.prefix + "FromBgr.1");
-			Expect(value.Convert<Target.Bgr>(), Is.EqualTo(new Target.Bgr(120, 100, 80)), this.prefix + "FromBgr.2");
-			Expect(value.Convert<Target.Bgra>(), Is.EqualTo(new Target.Bgra(120, 100, 80, 255)), this.prefix + "FromBgr.3");
+			Target.Bgr value = new Target.Bgr (120, 100, 80);
+			Expect (value.Convert<Target.Y> (), Is.EqualTo (new Target.Y (95)), this.prefix + "FromBgr.0");
+			Expect (value.Convert<Target.Yuv> (), Is.EqualTo (new Target.Yuv (95, 141, 116)), this.prefix + "FromBgr.1");
+			Expect (value.Convert<Target.Bgr> (), Is.EqualTo (new Target.Bgr (120, 100, 80)), this.prefix + "FromBgr.2");
+			Expect (value.Convert<Target.Bgra> (), Is.EqualTo (new Target.Bgra (120, 100, 80, 255)), this.prefix + "FromBgr.3");
 		}
+
 		[Test]
-		public void FromBgra()
+		public void FromBgra ()
 		{
-			Target.Bgra value = new Target.Bgra(120, 100, 80, 60);
-			Expect(value.Convert<Target.Y>(), Is.EqualTo(new Target.Y(95)), this.prefix + "FromBgra.0");
-			Expect(value.Convert<Target.Yuv>(), Is.EqualTo(new Target.Yuv(95, 141, 116)), this.prefix + "FromBgra.1");
-			Expect(value.Convert<Target.Bgr>(), Is.EqualTo(new Target.Bgr(120, 100, 80)), this.prefix + "FromBgra.2");
-			Expect(value.Convert<Target.Bgra>(), Is.EqualTo(new Target.Bgra(120, 100, 80, 60)), this.prefix + "FromBgra.3");
+			Target.Bgra value = new Target.Bgra (120, 100, 80, 60);
+			Expect (value.Convert<Target.Y> (), Is.EqualTo (new Target.Y (95)), this.prefix + "FromBgra.0");
+			Expect (value.Convert<Target.Yuv> (), Is.EqualTo (new Target.Yuv (95, 141, 116)), this.prefix + "FromBgra.1");
+			Expect (value.Convert<Target.Bgr> (), Is.EqualTo (new Target.Bgr (120, 100, 80)), this.prefix + "FromBgra.2");
+			Expect (value.Convert<Target.Bgra> (), Is.EqualTo (new Target.Bgra (120, 100, 80, 60)), this.prefix + "FromBgra.3");
 		}
+
 		[Test]
-		public void FromY()
+		public void FromY ()
 		{
-			Target.Y value = new Target.Y(95);
-			Expect(value.Convert<Target.Y>(), Is.EqualTo(new Target.Y(95)), this.prefix + "FromY.0");
-			Expect(value.Convert<Target.Yuv>(), Is.EqualTo(new Target.Yuv(95, 128, 128)), this.prefix + "FromY.1");
-			Expect(value.Convert<Target.Bgr>(), Is.EqualTo(new Target.Bgr(95, 95, 95)), this.prefix + "FromY.2");
-			Expect(value.Convert<Target.Bgra>(), Is.EqualTo(new Target.Bgra(95, 95, 95, 255)), this.prefix + "FromY.3");
+			Target.Y value = new Target.Y (95);
+			Expect (value.Convert<Target.Y> (), Is.EqualTo (new Target.Y (95)), this.prefix + "FromY.0");
+			Expect (value.Convert<Target.Yuv> (), Is.EqualTo (new Target.Yuv (95, 128, 128)), this.prefix + "FromY.1");
+			Expect (value.Convert<Target.Bgr> (), Is.EqualTo (new Target.Bgr (95, 95, 95)), this.prefix + "FromY.2");
+			Expect (value.Convert<Target.Bgra> (), Is.EqualTo (new Target.Bgra (95, 95, 95, 255)), this.prefix + "FromY.3");
 		}
+
 		[Test]
-		public void FromYuv()
+		public void FromYuv ()
 		{
-			Target.Yuv value = new Target.Yuv(95, 141, 116);
-			Expect(value.Convert<Target.Y>(), Is.EqualTo(new Target.Y(95)), this.prefix + "FromYuv.0");
-			Expect(value.Convert<Target.Yuv>(), Is.EqualTo(new Target.Yuv(95, 141, 116)), this.prefix + "FromYuv.1");
-			Expect(value.Convert<Target.Bgr>(), Is.EqualTo(new Target.Bgr(118, 99, 78)), this.prefix + "FromYuv.2");
-			Expect(value.Convert<Target.Bgra>(), Is.EqualTo(new Target.Bgra(118, 99, 78, 255)), this.prefix + "FromYuv.3");
+			Target.Yuv value = new Target.Yuv (95, 141, 116);
+			Expect (value.Convert<Target.Y> (), Is.EqualTo (new Target.Y (95)), this.prefix + "FromYuv.0");
+			Expect (value.Convert<Target.Yuv> (), Is.EqualTo (new Target.Yuv (95, 141, 116)), this.prefix + "FromYuv.1");
+			Expect (value.Convert<Target.Bgr> (), Is.EqualTo (new Target.Bgr (118, 99, 78)), this.prefix + "FromYuv.2");
+			Expect (value.Convert<Target.Bgra> (), Is.EqualTo (new Target.Bgra (118, 99, 78, 255)), this.prefix + "FromYuv.3");
 		}
 	}
 }
