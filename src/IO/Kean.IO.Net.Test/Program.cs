@@ -103,8 +103,8 @@ namespace Kean.IO.Net.Test
 		}
 		static void Terminal()
 		{
-			ICharacterDevice connection = new CharacterDevice(Tcp.Connection.Connect("127.0.0.1:23"));
-            ICharacterWriter writer = new CharacterWriter(connection);
+			ICharacterDevice connection = CharacterDevice.Open(Tcp.Connection.Connect("127.0.0.1:23"));
+            ICharacterWriter writer = CharacterWriter.Open(connection);
             Parallel.Thread receiver = Parallel.Thread.Start(() =>
             {
                 char? incomming;
@@ -125,8 +125,8 @@ namespace Kean.IO.Net.Test
 		{
 			new Kean.IO.Net.Tcp.Server(c =>
 			{
-				ICharacterDevice connection = new CharacterDevice(c);
-				while (connection.Opened)
+				ICharacterDevice connection = CharacterDevice.Open(c);
+				while (connection.NotNull() && connection.Opened)
 				{
 					char? value = connection.Read();
 					if (value.HasValue)

@@ -39,23 +39,12 @@ namespace Kean.Xml.Sax
         public event Action<string, string, IO.Text.Region> OnProccessingInstruction;
         public event Action<string, IO.Text.Region> OnComment;
 
-		IO.CharacterReader reader;
+		IO.ICharacterReader reader;
 
 		public Uri.Locator Resource { get { return this.reader.Resource; } }
 		public IO.Text.Position Position { get { return new IO.Text.Position(this.reader); } }
 
-		public Parser(System.Reflection.Assembly assembly, Uri.Path path) :
-			this(IO.ByteDevice.Open(assembly, path)) { }
-		public Parser(System.IO.Stream stream) :
-			this(new IO.ByteDevice(stream)) { }
-
-		public Parser(Uri.Locator resource) :
-			this(IO.ByteDevice.Open(resource)) { }
-		public Parser(IO.IByteDevice device) :
-			this(new IO.CharacterDevice(device)) { }
-		public Parser(IO.ICharacterDevice device) :
-			this(new IO.CharacterReader(device)) { }
-		public Parser(IO.CharacterReader reader)
+		Parser(IO.ICharacterReader reader)
 		{
 			this.reader = reader;
 		}
@@ -197,5 +186,16 @@ namespace Kean.Xml.Sax
 					result.Append(this.reader.Last);
 			return result.ToString();
 		}
+		#region Static Open
+		public static Parser Open(System.Reflection.Assembly assembly, Uri.Path path) { return Parser.Open(IO.ByteDevice.Open(assembly, path)); }
+		public static Parser Open(System.IO.Stream stream) { return Parser.Open(IO.ByteDevice.Open(stream)); }
+		public static Parser Open(Uri.Locator resource) { return Parser.Open(IO.ByteDevice.Open(resource)); }
+		public static Parser Open(IO.IByteDevice device) { return Parser.Open(IO.CharacterDevice.Open(device)); }
+		public static Parser Open(IO.ICharacterInDevice device) { return Parser.Open(IO.CharacterReader.Open(device)); }
+		public static Parser Open(IO.ICharacterReader reader)
+		{
+			return reader.NotNull() ? new Parser(reader) : null;
+		}
+		#endregion
 	}
 }

@@ -82,24 +82,28 @@ namespace Kean.Xml.Dom
 		}
 		public static explicit operator Document(string data)
 		{
-			return Document.Open(new Sax.Parser(new IO.Text.Reader(data)));
+			return Document.Open(Sax.Parser.Open(new IO.Text.Reader(data)));
 		}
 		#region Static Open
 		public static Document Open(Sax.Parser parser)
 		{
-			Document result = new Document();
-			parser.OnDeclaration += (version, encoding, standalone, region) =>
+			Document result = null;
+			if (parser.NotNull())
 			{
-				result.Version = version;
-				result.Encoding = encoding;
-				result.Standalone = standalone;
-			};
-			result.Root = Element.Open(parser);
+				result = new Document();
+				parser.OnDeclaration += (version, encoding, standalone, region) =>
+				{
+					result.Version = version;
+					result.Encoding = encoding;
+					result.Standalone = standalone;
+				};
+				result.Root = Element.Open(parser);
+			}
 			return result;
 		}
 		public static Document OpenResource(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return Document.Open(new Sax.Parser(assembly, resource));
+			return Document.Open(Sax.Parser.Open(assembly, resource));
 		}
 		public static Document OpenResource(Uri.Path resource)
 		{
@@ -121,11 +125,11 @@ namespace Kean.Xml.Dom
 		}
 		public static Document Open(System.IO.Stream stream)
 		{
-			return Document.Open(new Sax.Parser(stream));
+			return Document.Open(Sax.Parser.Open(stream));
 		}
 		public static Document Open(Uri.Locator resource)
 		{
-			return Document.Open(new Sax.Parser(resource));
+			return Document.Open(Sax.Parser.Open(resource));
 		}
 		#endregion
 		#region Object Overrides

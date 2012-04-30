@@ -41,14 +41,9 @@ namespace Kean.IO.Filter
 		}
 
 		#region Constructors
-		public CharacterInDevice(ICharacterInDevice backend)
+		protected CharacterInDevice(ICharacterInDevice backend)
 		{
 			this.backend = backend;
-		}
-		public CharacterInDevice(ICharacterInDevice backend, Func<Func<char?>, char[]> filter) :
-			this(backend)
-		{
-			this.Filter = filter;
 		}
 		~CharacterInDevice() { this.Close(); }
 		#endregion
@@ -92,6 +87,16 @@ namespace Kean.IO.Filter
 		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose() { this.Close(); }
+		#endregion
+		#region Static Open
+		public static ICharacterInDevice Open(ICharacterInDevice backend) 
+		{ 
+			return backend.NotNull() ? new CharacterInDevice(backend) : null; 
+		}
+		public static ICharacterInDevice Open(ICharacterInDevice backend, Func<Func<char?>, char[]> filter) 
+		{ 
+			return backend.NotNull() ? new CharacterInDevice(backend) { Filter = filter } : null; 
+		}
 		#endregion
 
 	}

@@ -148,13 +148,21 @@ namespace Kean.Platform.Settings
 			switch (resource.Scheme)
 			{
 				case "file":
-					((Editor)(result = new Editor(root, new Cli.Terminal(IO.ByteDevice.Open(resource, null))))).Read();
+					((Editor)(result = new Editor(root, Cli.Terminal.Open(IO.ByteDevice.Open(resource, null))))).Read();
 					break;
 				case "telnet":
 					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
 					break;
 				case "tcp":
-					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.Terminal(connection) { NewLine = new char[] { '\r', '\n' } }).Read(), resource.Authority.Endpoint);
+					result = new IO.Net.Tcp.Server(connection =>
+					{
+						Cli.Terminal terminal = Cli.Terminal.Open(connection);
+						if (terminal.NotNull())
+						{
+							terminal.NewLine = new char[] { '\r', '\n' };
+							new Editor(root, terminal).Read();
+						}
+					}, resource.Authority.Endpoint);
 					break;
 				case "console":
 					result = Parallel.Thread.Start("console", () => new Editor(root, new Cli.ConsoleTerminal()).Read());

@@ -124,7 +124,7 @@ namespace Kean.Xml.Dom
 		}
 		public static explicit operator Fragment(string data)
 		{
-			return Fragment.Open(new Sax.Parser(new IO.Text.Reader(data)));
+			return Fragment.Open(Sax.Parser.Open(new IO.Text.Reader(data)));
 		}
 		#endregion
 		#region Static Open
@@ -157,7 +157,7 @@ namespace Kean.Xml.Dom
 		}
 		public static Fragment OpenResource(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return Fragment.Open(new Sax.Parser(assembly, resource));
+			return Fragment.Open(Sax.Parser.Open(assembly, resource));
 		}
 		public static Fragment OpenResource(Uri.Path resource)
 		{
@@ -179,11 +179,11 @@ namespace Kean.Xml.Dom
 		}
 		public static Fragment Open(System.IO.Stream stream)
 		{
-			return Fragment.Open(new Sax.Parser(stream));
+			return Fragment.Open(Sax.Parser.Open(stream));
 		}
 		public static Fragment Open(Uri.Locator resource)
 		{
-			return Fragment.Open(new Sax.Parser(resource));
+			return Fragment.Open(Sax.Parser.Open(resource));
 		}
 		#endregion
 	}

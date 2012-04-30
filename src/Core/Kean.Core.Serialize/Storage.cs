@@ -60,7 +60,8 @@ namespace Kean.Core.Serialize
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)
 		{
-			return (T)(this.Resolver[locator] ?? this.Deserialize(this.rebuilder.Load(this, this.Load(locator).DefaultType(typeof(T)).UpdateLocators(locator))));
+			Data.Node node;
+			return (T)(this.Resolver[locator] ?? ((node = this.Load(locator)).NotNull() ? this.Deserialize(this.rebuilder.Load(this, node.DefaultType(typeof(T)).UpdateLocators(locator))) : null));
 		}
 
 		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)

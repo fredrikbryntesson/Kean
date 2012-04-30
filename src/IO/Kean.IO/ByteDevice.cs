@@ -35,7 +35,7 @@ namespace Kean.IO
 		System.IO.Stream stream;
 
 		#region Constructors
-		public ByteDevice(System.IO.Stream stream)
+		protected ByteDevice(System.IO.Stream stream)
 		{
 			this.stream = stream;
 		}
@@ -107,13 +107,17 @@ namespace Kean.IO
 		}
 		#endregion
 		#region Static Open & Create
+		public static IByteDevice Open(System.IO.Stream stream)
+		{
+			return stream.NotNull() ? new ByteDevice(stream) : null;
+		}
 		public static IByteDevice Open(Uri.Locator resource)
 		{
 			return ByteDevice.Open(resource, System.IO.FileMode.Open);
 		}
 		public static IByteDevice Open(Uri.Locator input, Uri.Locator output)
 		{
-			return new ByteDeviceSplitter(ByteDevice.Open(input), ByteDevice.Create(output));
+			return ByteDeviceSplitter.Open(ByteDevice.Open(input), ByteDevice.Create(output));
 		}
 		public static IByteDevice Create(Uri.Locator resource)
 		{
@@ -129,15 +133,26 @@ namespace Kean.IO
 						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
 						break;
 					case "file":
-						result = new ByteDevice(System.IO.File.Open(resource.Path.PlattformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) { Resource = resource };
+						try 
+						{
+							System.IO.FileStream stream = System.IO.File.Open(resource.Path.PlattformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
+							if (stream.NotNull())
+								result = new ByteDevice(stream) { Resource = resource }; 
+						}
+						catch (System.IO.DirectoryNotFoundException) { result = null; }
+						catch (System.IO.FileNotFoundException) { result = null; }
 						break;
 					case "http":
 					case "https":
 						if (mode == System.IO.FileMode.Open)
 						{
-							using (System.Net.WebClient client = new System.Net.WebClient())
-							using (System.IO.Stream stream = new System.IO.MemoryStream(client.DownloadData(resource)))
-								result = new ByteDevice(stream) { Resource = resource };
+							try
+							{
+								using (System.Net.WebClient client = new System.Net.WebClient())
+								using (System.IO.Stream stream = new System.IO.MemoryStream(client.DownloadData(resource)))
+									result = new ByteDevice(stream) { Resource = resource };
+							}
+							catch (System.Net.WebException) { result = null; }
 						}
 						break;
 				}

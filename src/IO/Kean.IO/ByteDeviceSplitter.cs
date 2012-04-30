@@ -35,10 +35,10 @@ namespace Kean.IO
 		IByteOutDevice outDevice;
 
 		#region Constructors
-		public ByteDeviceSplitter(IByteInDevice inDevice) :
+		protected ByteDeviceSplitter(IByteInDevice inDevice) :
 			this(inDevice, null)
 		{ }
-		public ByteDeviceSplitter(IByteInDevice inDevice, IByteOutDevice outDevice)
+		protected ByteDeviceSplitter(IByteInDevice inDevice, IByteOutDevice outDevice)
 		{
 			this.inDevice = inDevice;
 			this.outDevice = outDevice;
@@ -92,6 +92,10 @@ namespace Kean.IO
 		{
 			this.Close();
 		}
+		#endregion
+		#region Static Open
+		public static IByteDevice Open(IByteInDevice inDevice) { return ByteDeviceSplitter.Open(inDevice, null); }
+		public static IByteDevice Open(IByteInDevice inDevice, IByteOutDevice outDevice) { return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceSplitter(inDevice, outDevice) : null; }
 		#endregion
 	}
 }

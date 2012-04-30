@@ -40,7 +40,8 @@ namespace Kean.Xml.Serialize
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
-			return this.Convert(Dom.Document.Open(resource).Root);
+			Dom.Document document = Dom.Document.Open(resource);
+			return document.NotNull() ? this.Convert(document.Root) : null;
 		}
 		string GetTextContent(Dom.Element element)
 		{
@@ -49,20 +50,23 @@ namespace Kean.Xml.Serialize
 		Core.Serialize.Data.Node Convert(Dom.Element element)
 		{
 			Core.Serialize.Data.Node result = null;
-			Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
-			if (type.NotNull() && type.Value == "link")
-				result = new Core.Serialize.Data.Link(this.GetTextContent(element)) { Name = element.Name };
-			else if (element.All(n => !(n is Dom.Element)))
-				result = new Core.Serialize.Data.String(this.GetTextContent(element)) { Name = element.Name };
-			else
+			if (element.NotNull())
 			{
-				result = new Core.Serialize.Data.Branch() { Name = element.Name };
-				foreach (Dom.Node node in element)
-					if (node is Dom.Element)
-						(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));
+				Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
+				if (type.NotNull() && type.Value == "link")
+					result = new Core.Serialize.Data.Link(this.GetTextContent(element)) { Name = element.Name };
+				else if (element.All(n => !(n is Dom.Element)))
+					result = new Core.Serialize.Data.String(this.GetTextContent(element)) { Name = element.Name };
+				else
+				{
+					result = new Core.Serialize.Data.Branch() { Name = element.Name };
+					foreach (Dom.Node node in element)
+						if (node is Dom.Element)
+							(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));
+				}
+				if (type.NotNull())
+					result.Type = type.Value;
 			}
-			if (type.NotNull())
-				result.Type = type.Value;
 			return result;
 		}
 		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator resource)

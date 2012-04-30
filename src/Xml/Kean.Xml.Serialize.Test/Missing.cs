@@ -1,5 +1,5 @@
 ﻿// 
-//  All.cs
+//  Missing.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,18 +20,41 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using NUnit.Framework;
+using Kean.Core;
+using Kean.Core.Extension;
+using Uri = Kean.Core.Uri;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Xml.Serialize.Test
 {
-	public static class All
+	public class Missing :
+		Kean.Test.Fixture<Missing>
 	{
-		public static void Test()
+		Serialize.Storage storage;
+		void Test(Uri.Locator locator)
 		{
-			Serialize.Test.CoreTypes.Test();
-			Serialize.Test.CollectionTypes.Test();
-			Serialize.Test.BasicTypes.Test();
-			Serialize.Test.SystemTypes.Test();
-			Serialize.Test.Missing.Test();
+			Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
+			Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Deserialize Missing {0}", locator);
 		}
+		public override void Setup()
+		{
+			storage = new Storage();
+			base.Setup();
+		}
+
+		protected override void Run()
+		{
+			this.Run(
+				this.Disk,
+				this.Web
+				);
+		}
+
+		[Test]
+		public void Disk() { this.Test("file:///missing/missing.xml"); }
+		[Test]
+		public void Web() { this.Test("http://kean.hx.se/dev/missing.xml"); }
 	}
 }

@@ -56,12 +56,12 @@ namespace Kean.Core.Uri
 					result.AppendFormat("{0}://", this.Scheme);
 				if (this.Authority.NotNull())
 					result.Append(this.Authority);
-				result.Append(this.Path.String.Replace(" ", "+"));
+				result.Append(this.Path.String.Replace(" ", "%20"));
 				if (!this.Query.Empty)
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment.NotNull())
-					result.AppendFormat("#{0}", this.Fragment);
-				return result.ToString().Replace(' ', '+');
+					result.AppendFormat("#{0}", this.Fragment.Replace(" ", "%20"));
+				return result.ToString();
 			}
 			set
 			{
@@ -78,7 +78,7 @@ namespace Kean.Core.Uri
 					string[] splitted = value.Split(new string[] { "://" }, 2, StringSplitOptions.RemoveEmptyEntries);
 					if (splitted.Length > 1) // has scheme
 						this.Scheme = splitted[0];
-					value = splitted.Last().Replace('+', ' ');
+					value = splitted.Last();
 					if (!value.StartsWith("/"))
 					{
 						splitted = value.Split(new char[] { '/', '#', '?' }, 2);
@@ -102,7 +102,7 @@ namespace Kean.Core.Uri
 								splitted = value.Split(new char[] { '#' }, 2, StringSplitOptions.RemoveEmptyEntries);
 								if (splitted.Length > 1)
 								{
-									this.Fragment = splitted[1];
+									this.Fragment = splitted[1].Replace("%20", " ");
 									value = splitted[0];
 								}
 							}
@@ -115,7 +115,7 @@ namespace Kean.Core.Uri
 									splitted = splitted[0].Split(new char[] { '?' }, 2, StringSplitOptions.RemoveEmptyEntries);
 									if (splitted.Length > 1)
 										this.Query = splitted[1];
-									this.Path = splitted[0].Replace('+', ' ');
+									this.Path = splitted[0].Replace("%20", " ");
 								}
 							}
 						}
@@ -214,6 +214,18 @@ namespace Kean.Core.Uri
 		public static Locator FromPlattformPath(string path)
 		{
 			return path.NotEmpty() ? new Locator("file", Path.FromPlattformPath(path)) : null;
+		}
+		public static Locator FromPlattformPath(string path, params string[] folders)
+		{
+			Locator result = Locator.FromPlattformPath(path);
+			if (result.NotNull())
+				foreach (string folder in folders)
+					result.Path.Add(folder);
+			return result;
+		}
+		public static Locator FromPlattformPath(Environment.SpecialFolder folder, params string[] folders)
+		{
+			return Locator.FromPlattformPath(Environment.GetFolderPath(folder), folders);
 		}
 		public static implicit operator Locator(System.IO.DirectoryInfo directory)
 		{

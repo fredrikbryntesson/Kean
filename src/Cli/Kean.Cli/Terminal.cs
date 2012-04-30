@@ -38,19 +38,19 @@ namespace Kean.Cli
 			set { this.Out.NewLine = value; }
 		}
 		#region Constructors
-		public Terminal(IO.IByteDevice device) :
-			this(new IO.CharacterDevice(device))
+		protected Terminal(IO.IByteDevice device) :
+			this(IO.CharacterDevice.Open(device))
 		{ }
-		public Terminal(IO.ICharacterDevice device) :
+		protected Terminal(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
-		public Terminal(IO.IByteInDevice read, IO.IByteOutDevice write) :
-			this(new IO.CharacterDevice(new IO.ByteDeviceSplitter(read, write)))
+		protected Terminal(IO.IByteInDevice read, IO.IByteOutDevice write) :
+			this(IO.CharacterDevice.Open(IO.ByteDeviceSplitter.Open(read, write)))
 		{ }
-		public Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
+		protected Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
-			this.In = new IO.CharacterReader(new IO.Filter.CharacterInDevice(inDevice, this.FilterInput));
-			this.Out = new IO.CharacterWriter(outDevice);
+			this.In = IO.CharacterReader.Open(IO.Filter.CharacterInDevice.Open(inDevice, this.FilterInput));
+			this.Out = IO.CharacterWriter.Open(outDevice);
 		}
 		#endregion
 		#region IDevice Members
@@ -98,5 +98,14 @@ namespace Kean.Cli
 				}
 			return buffer.ToArray();
 		}
+		#region Static Open
+		public static Terminal Open(IO.IByteDevice device) { return Terminal.Open(IO.CharacterDevice.Open(device)); }
+		public static Terminal Open(IO.ICharacterDevice device) { return Terminal.Open(device, device); }
+		public static Terminal Open(IO.IByteInDevice read, IO.IByteOutDevice write) { return Terminal.Open(IO.CharacterDevice.Open(IO.ByteDeviceSplitter.Open(read, write))); }
+		public static Terminal Open(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
+		{
+			return inDevice.NotNull() || outDevice.NotNull() ? new Terminal(inDevice, outDevice) : null;
+		}
+		#endregion
 	}
 }

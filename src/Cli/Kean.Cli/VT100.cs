@@ -47,13 +47,13 @@ namespace Kean.Cli
 			this.Out.Write('\x1b', '[', 'c'); // Request Identification string
 		}
 		VT100(IO.IByteDevice device) :
-			this(new IO.CharacterDevice(device))
+			this(IO.CharacterDevice.Open(device))
 		{ }
 		VT100(IO.ICharacterDevice device) :
 			this(device, device)
 		{ }
 		VT100(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
-			this(new IO.Filter.CharacterInDevice(inDevice), outDevice)
+			this(IO.Filter.CharacterInDevice.Open(inDevice) as IO.Filter.CharacterInDevice, outDevice)
 		{ }
 		VT100(IO.Filter.CharacterInDevice inDevice, IO.ICharacterOutDevice outDevice) :
 			base(inDevice, outDevice)

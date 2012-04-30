@@ -37,7 +37,7 @@ namespace Kean.IO
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 
-		public CharacterWriter(ICharacterOutDevice backend)
+		protected CharacterWriter(ICharacterOutDevice backend)
 		{
 			this.backend = backend;
 			this.NewLine = new char[] { '\n' };
@@ -166,11 +166,15 @@ namespace Kean.IO
 		#region Static Open & Create
 		public static ICharacterWriter Open(Uri.Locator resource)
 		{
-			return new CharacterWriter(CharacterDevice.Open(resource));
+			return CharacterWriter.Open(CharacterDevice.Open(resource));
 		}
 		public static ICharacterWriter Create(Uri.Locator resource)
 		{
-			return new CharacterWriter(CharacterDevice.Create(resource));
+			return CharacterWriter.Open(CharacterDevice.Create(resource));
+		}
+		public static ICharacterWriter Open(ICharacterOutDevice backend)
+		{
+			return backend.NotNull() ? new CharacterWriter(backend) : null;
 		}
 		#endregion
 	}

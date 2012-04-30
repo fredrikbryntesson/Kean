@@ -38,7 +38,7 @@ namespace Kean.IO
 		public bool Empty { get { return this.backend.NotNull() && this.backend.Empty; } }
 		public char Last { get; private set; }
 
-		public CharacterReader(ICharacterInDevice backend)
+		protected CharacterReader(ICharacterInDevice backend)
 		{
 			this.backend = backend;
 			this.Row = 1;
@@ -88,9 +88,13 @@ namespace Kean.IO
 		}
 		#endregion
 		#region Static Open
+		public static ICharacterReader Open(ICharacterInDevice backend)
+		{
+			return backend.NotNull() ? new CharacterReader(backend) : null;
+		}
 		public static ICharacterReader Open(Uri.Locator resource)
 		{
-			return new CharacterReader(CharacterDevice.Open(resource));
+			return CharacterReader.Open(CharacterDevice.Open(resource));
 		}
 		#endregion
 	}

@@ -36,13 +36,7 @@ namespace Kean.IO
 		System.Text.Encoding encoding;
 
 		#region Constructors
-		public CharacterDevice(System.IO.Stream stream) :
-			this(new ByteDevice(stream))
-		{ }
-		public CharacterDevice(IByteDevice backend) :
-			this(backend, System.Text.Encoding.UTF8)
-		{ }
-		public CharacterDevice(IByteDevice backend, System.Text.Encoding encoding)
+		CharacterDevice(IByteDevice backend, System.Text.Encoding encoding)
 		{
 			this.backend = backend;
 			this.decoder = new Decoder(this.backend, encoding);
@@ -97,13 +91,19 @@ namespace Kean.IO
 		}
 		#endregion
 		#region Static Open & Create
+		public static ICharacterDevice Open(System.IO.Stream stream) { return CharacterDevice.Open(ByteDevice.Open(stream)); }
+		public static ICharacterDevice Open(IByteDevice backend) { return CharacterDevice.Open(backend, System.Text.Encoding.UTF8); }
+		public static ICharacterDevice Open(IByteDevice backend, System.Text.Encoding encoding)
+		{
+			return backend.NotNull() ? new CharacterDevice(backend, encoding) : null;
+		}
 		public static ICharacterDevice Open(Uri.Locator resource)
 		{
-			return new CharacterDevice(ByteDevice.Open(resource));
+			return CharacterDevice.Open(ByteDevice.Open(resource));
 		}
 		public static ICharacterDevice Create(Uri.Locator resource)
 		{
-			return new CharacterDevice(ByteDevice.Create(resource));
+			return CharacterDevice.Open(ByteDevice.Create(resource));
 		}
 		#endregion
 
