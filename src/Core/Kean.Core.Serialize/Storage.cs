@@ -55,7 +55,14 @@ namespace Kean.Core.Serialize
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)
 		{
-			return this.Store(this.rebuilder.Store(this, this.Serialize(typeof(T), value, locator)), locator);
+			return this.Store<T>(value, locator, null);
+		}
+		public bool Store<T>(T value, Uri.Locator locator, string name)
+		{
+			Data.Node data = this.Serialize(typeof(T), value, locator);
+			if (name.NotEmpty() && data.NotNull())
+				data.Name = name;
+			return this.Store(this.rebuilder.Store(this, data), locator);
 		}
 		protected abstract Data.Node Load(Uri.Locator locator);
 		public T Load<T>(Uri.Locator locator)

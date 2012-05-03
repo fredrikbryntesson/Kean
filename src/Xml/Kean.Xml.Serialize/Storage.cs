@@ -104,5 +104,9 @@ namespace Kean.Xml.Serialize
 		{
 			return new Storage().Store<T>(value, resource);
 		}
+		public static bool Save<T>(T value, Uri.Locator resource, string name)
+		{
+			return new Storage().Store<T>(value, resource, name);
+		}
 	}
 }

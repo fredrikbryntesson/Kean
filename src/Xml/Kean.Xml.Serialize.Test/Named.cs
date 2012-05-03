@@ -1,10 +1,10 @@
 ﻿// 
-//  Missing.cs
+//  Named.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,40 +21,44 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Reflect = Kean.Core.Reflect;
 
 namespace Kean.Xml.Serialize.Test
 {
-	public class Missing :
-		Kean.Test.Fixture<Missing>
+	public class Named :
+		Factory<Named>
 	{
-		Serialize.Storage storage;
-		void Test(Uri.Locator locator)
+		protected override void Test(Reflect.Type type)
 		{
-			Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
-			Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Serialize Missing {0}", locator);
+			Uri.Locator filename = this.Filename(type);
+			Uri.Locator resource = this.ResourceName(type);
+			this.Storage.Store(this.Create(type), filename, "Name");
+			Named.VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
-		public override void Setup()
+		protected override string Name(Reflect.Type type)
 		{
-			storage = new Storage();
-			base.Setup();
+			return base.Name(type) + "Named";
 		}
-
 		protected override void Run()
 		{
 			this.Run(
-				this.Disk,
-				this.Web
+				this.Byte,
+				this.Structure,
+				this.Class,
+				this.ComplexClass
 				);
 		}
 
 		[Test]
-		public void Disk() { this.Test("file:///missing/missing.xml"); }
+		public void Byte() { this.Test(typeof(byte)); }
 		[Test]
-		public void Web() { this.Test("http://kean.hx.se/dev/missing.xml"); }
+		public void Structure() { this.Test(typeof(Data.Structure)); }
+		[Test]
+		public void Class() { this.Test(typeof(Data.Class)); }
+		[Test]
+		public void ComplexClass() { this.Test(typeof(Data.ComplexClass)); }
 	}
 }

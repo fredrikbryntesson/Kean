@@ -37,14 +37,14 @@ namespace Kean.Xml.Serialize.Test
 		IFactory
 		where T : Kean.Test.Fixture<T>, new()
 	{
-		Serialize.Storage storage;
-		protected void Test(Reflect.Type type)
+		protected Serialize.Storage Storage { get; private set; }
+		protected virtual void Test(Reflect.Type type)
 		{
 			Uri.Locator filename = this.Filename(type);
-			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
-			storage.Store(this.Create(type), filename);
+			Uri.Locator resource = this.ResourceName(type);
+			this.Storage.Store(this.Create(type), filename);
 			Factory<T>.VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
-			this.Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
+			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 
 		byte Byte { get { return 42; } }
@@ -71,15 +71,19 @@ namespace Kean.Xml.Serialize.Test
 		}
 		public override void Setup()
 		{
-			storage = new Storage();
+			Storage = new Storage();
 			base.Setup();
 		}
 
-		string Name(Reflect.Type type)
+		protected virtual string Name(Reflect.Type type)
 		{
 			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",")  + ")" : "");
 		}
-		Uri.Locator Filename(Reflect.Type type)
+		protected Uri.Locator ResourceName(Reflect.Type type)
+		{
+			return "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
+		}
+		protected Uri.Locator Filename(Reflect.Type type)
 		{
 			return Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
 		}

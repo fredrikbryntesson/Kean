@@ -33,6 +33,7 @@ namespace Kean.Xml.Serialize.Test
 			Serialize.Test.SystemTypes.Test();
 			Serialize.Test.Missing.Test();
 			Serialize.Test.NullableTypes.Test();
+			Serialize.Test.Named.Test();
 		}
 	}
 }
