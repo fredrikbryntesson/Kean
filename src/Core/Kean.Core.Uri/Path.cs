@@ -62,18 +62,24 @@ namespace Kean.Core.Uri
 			{
 				string result = "";
 				PathLink tail = this.Last;
-				while (tail.NotNull())
-				{
-					string name = tail.Head ?? "";
-					if (name.EndsWith(":"))
-						name += System.IO.Path.DirectorySeparatorChar;
-					result = System.IO.Path.Combine(name, result);
-					tail = tail.Tail;
-				}
+                if (tail.NotNull())
+                {
+                    string name = tail.Head ?? "";
+                    result = System.IO.Path.Combine(name.EndsWith(":") ? name + System.IO.Path.DirectorySeparatorChar : System.IO.Path.DirectorySeparatorChar + name, result);
+                    tail = tail.Tail;
+                    while (tail.NotNull())
+                    {
+                        name = tail.Head ?? "";
+                        result = System.IO.Path.Combine(name, result);
+                        tail = tail.Tail;
+                    }
+                }
 				return result;
 			}
 			set
 			{
+                if (value.NotEmpty() && (value[0] == System.IO.Path.DirectorySeparatorChar || value[0] == System.IO.Path.AltDirectorySeparatorChar))
+                    value = value.Substring(1);
 				PathLink tail = null;
 				if (value.NotNull())
 					foreach (string folder in value.Split(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar))
