@@ -40,17 +40,20 @@ namespace Kean.Core.Serialize.Serializer
 		public ISerializer Find(Reflect.Type type)
 		{
 			ISerializer result = null;
-			if (this.cache.Contains(type))
-				result = this.cache[type];
-			else
+			if (type.NotNull())
 			{
-				MethodAttribute[] attributes;
-				if (type.Category != Reflect.TypeCategory.Primitive && (attributes = type.GetAttributes<MethodAttribute>()).Length == 1)
-					result = attributes[0].Serializer;
-				else 
-					result = serializer.Find(type);
-				if (result.NotNull())
-					cache[type] = result;
+				if (this.cache.Contains(type))
+					result = this.cache[type];
+				else
+				{
+					MethodAttribute[] attributes;
+					if (type.Category != Reflect.TypeCategory.Primitive && (attributes = type.GetAttributes<MethodAttribute>()).Length == 1)
+						result = attributes[0].Serializer;
+					else
+						result = serializer.Find(type);
+					if (result.NotNull())
+						cache[type] = result;
+				}
 			}
 			return result;
 		}

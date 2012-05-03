@@ -35,11 +35,19 @@ namespace Kean.Core.Reflect.Extension
 		#region Get/Set Properties
 		public static void Set<T>(this object me, string property, T value)
 		{
-			me.GetType().GetProperty(property).SetValue(me, value, null);
+			me.Set(property, value);
 		}
 		public static T Get<T>(this object me, string property)
 		{
-			return (T)me.GetType().GetProperty(property).GetValue(me, null);
+			return (T)me.Get(property);
+		}
+		public static void Set(this object me, string property, object value)
+		{
+			me.GetType().GetProperty(property).SetValue(me, value, null);
+		}
+		public static object Get(this object me, string property)
+		{
+			return me.GetType().GetProperty(property).GetValue(me, null);
 		}
 		#endregion
 		#region Invoke Methods

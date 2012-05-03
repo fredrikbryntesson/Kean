@@ -129,5 +129,18 @@ namespace Kean.Core.Extension
 				initial = function(element, initial);
 			return initial;
 		}
+		public static string Join(this System.Collections.Generic.IEnumerable<string> me, string seperator)
+		{
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			bool first = true;
+			System.Collections.Generic.IEnumerator<string> enumerator = me.GetEnumerator();
+			if (enumerator.MoveNext())
+			{
+				result.Append(enumerator.Current);
+				while (enumerator.MoveNext())
+					result.Append(seperator).Append(enumerator.Current);
+			}
+			return result.ToString();
+		}
 	}
 }

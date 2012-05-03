@@ -27,6 +27,7 @@ using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
 using Collection = Kean.Core.Collection;
 using Reflect = Kean.Core.Reflect;
+using Kean.Core.Reflect.Extension;
 using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Serialize.Test
@@ -42,8 +43,8 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator filename = this.Filename(type);
 			Uri.Locator resource = "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 			storage.Store(this.Create(type), filename);
-			VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
-			Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
+			Factory<T>.VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			this.Verify(storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 
 		byte Byte { get { return 42; } }
@@ -76,8 +77,7 @@ namespace Kean.Xml.Serialize.Test
 
 		string Name(Reflect.Type type)
 		{
-			string[] splitted = ((string)type).Split(':', '.');
-			return splitted[splitted.Length - 1];
+			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",")  + ")" : "");
 		}
 		Uri.Locator Filename(Reflect.Type type)
 		{
@@ -103,6 +103,8 @@ namespace Kean.Xml.Serialize.Test
 				result = type.Create();
 				(result as Data.IData).Initilize(this);
 			}
+			else if (type.Name == "System.Nullable" && type.Arguments.Count == 1)
+				result = type.Create(this.Create(type.Arguments[0]));
 			else if (type == typeof(byte))
 				result = this.Byte;
 			else if (type == typeof(sbyte))

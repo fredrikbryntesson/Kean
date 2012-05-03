@@ -48,7 +48,7 @@ namespace Kean.Core.Serialize.Serializer
 				foreach (Reflect.Property property in data.GetProperties())
 				{
 					ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
-					if (attributes.Length == 1)
+					if (attributes.Length == 1 && property.Data.NotNull())
 					{
 						string name = attributes[0].Name ?? property.Name;
 						l = locator.Copy();
