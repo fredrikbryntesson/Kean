@@ -68,6 +68,8 @@ namespace Kean.Core.Uri
                     while (tail.NotNull())
                     {
                         name = tail.Head ?? "";
+                        if (tail.Tail.IsNull() && name.EndsWith(":"))
+                            name += System.IO.Path.DirectorySeparatorChar;
                         result = System.IO.Path.Combine(name, result);
                         tail = tail.Tail;
                     }

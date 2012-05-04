@@ -205,6 +205,8 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlattformPath.4");
             Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
             Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");
+            Expect((string)locator.Path.PlattformPath, Is.EqualTo("C:\\Windows\\System32\\etc\\hosts"), this.prefix + "FromPlattformPath.7");
+            
         }
 		[Test]
 		public void RelativeResolve()
