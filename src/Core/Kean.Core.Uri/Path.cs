@@ -64,15 +64,15 @@ namespace Kean.Core.Uri
 				PathLink tail = this.Last;
                 if (tail.NotNull())
                 {
-                    string name = tail.Head ?? "";
-                    result = System.IO.Path.Combine(name.EndsWith(":") ? name + System.IO.Path.DirectorySeparatorChar : System.IO.Path.DirectorySeparatorChar + name, result);
-                    tail = tail.Tail;
+                    string name;
                     while (tail.NotNull())
                     {
                         name = tail.Head ?? "";
                         result = System.IO.Path.Combine(name, result);
                         tail = tail.Tail;
                     }
+                    if (System.IO.Path.DirectorySeparatorChar == '/')
+                        result = System.IO.Path.DirectorySeparatorChar + result;
                 }
 				return result;
 			}
@@ -168,7 +168,11 @@ namespace Kean.Core.Uri
 		{
 			return new Path() { PlattformPath = path };
 		}
-		#region static operators
+        public static Path FromRelativePlattformPath(string path)
+        {
+            return new Path() { PlattformPath = System.IO.Path.GetFullPath(path) };
+        }
+        #region static operators
 		#region Casts with System.IO.FileSystemInfo
 		static PathLink Create(System.IO.DirectoryInfo directory)
 		{

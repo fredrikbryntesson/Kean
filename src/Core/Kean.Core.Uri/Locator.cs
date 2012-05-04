@@ -223,7 +223,11 @@ namespace Kean.Core.Uri
 					result.Path.Add(folder);
 			return result;
 		}
-		public static Locator FromPlattformPath(Environment.SpecialFolder folder, params string[] folders)
+        public static Locator FromRelativePlattformPath(string path, params string[] folders)
+        {
+            return Locator.FromPlattformPath(System.IO.Path.GetFullPath(path), folders);
+        }
+        public static Locator FromPlattformPath(Environment.SpecialFolder folder, params string[] folders)
 		{
 			return Locator.FromPlattformPath(Environment.GetFolderPath(folder), folders);
 		}
