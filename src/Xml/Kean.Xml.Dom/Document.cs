@@ -109,20 +109,6 @@ namespace Kean.Xml.Dom
 		{
 			return Document.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource);
 		}
-		public static Document Open(string filename)
-		{
-			Document result;
-			try
-			{
-				using (System.IO.Stream stream = new System.IO.StreamReader(filename).BaseStream)
-					result = Document.Open(stream);
-			}
-			catch (System.IO.IOException)
-			{
-				result = null;
-			}
-			return result;
-		}
 		public static Document Open(System.IO.Stream stream)
 		{
 			return Document.Open(Sax.Parser.Open(stream));

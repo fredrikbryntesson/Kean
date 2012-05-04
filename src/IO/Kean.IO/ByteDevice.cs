@@ -44,6 +44,13 @@ namespace Kean.IO
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
+        byte? RawRead()
+        {
+            byte? result;
+            try { result = this.Convert(this.stream.ReadByte()); }
+            catch (ObjectDisposedException) { result = null;  }
+            return result;
+        }
 		byte? Convert(int value)
 		{
 			return value < 0 ? null : (byte?)value;
@@ -51,18 +58,18 @@ namespace Kean.IO
 		#region IByteInDevice Members
 		public byte? Peek()
 		{
-			return this.peeked.HasValue ? this.peeked : this.peeked = this.Convert(this.stream.ReadByte());
+			return this.peeked.HasValue ? this.peeked : this.peeked = this.RawRead();
 		}
 		public byte? Read()
 		{
 			byte? result;
-			if (this.peeked.HasValue)
-			{
-				result = this.peeked;
-				this.peeked = null;
-			}
-			else
-				result = this.Convert(this.stream.ReadByte());
+            if (this.peeked.HasValue)
+            {
+                result = this.peeked;
+                this.peeked = null;
+            }
+            else
+                result = this.RawRead();
 			return result;
 		}
 		#endregion
@@ -149,8 +156,7 @@ namespace Kean.IO
 							try
 							{
 								using (System.Net.WebClient client = new System.Net.WebClient())
-								using (System.IO.Stream stream = new System.IO.MemoryStream(client.DownloadData(resource)))
-									result = new ByteDevice(stream) { Resource = resource };
+                                    result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
 							}
 							catch (System.Net.WebException) { result = null; }
 						}
