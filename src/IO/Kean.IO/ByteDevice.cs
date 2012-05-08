@@ -128,7 +128,13 @@ namespace Kean.IO
 		}
 		public static IByteDevice Create(Uri.Locator resource)
 		{
-			return ByteDevice.Open(resource, System.IO.FileMode.Create);
+			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
+			if (result.IsNull())
+			{
+				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlattformPath);
+				result = ByteDevice.Open(resource, System.IO.FileMode.Create);
+			}
+			return result;
 		}
 		static IByteDevice Open(Uri.Locator resource, System.IO.FileMode mode)
 		{
