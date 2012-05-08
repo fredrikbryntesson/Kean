@@ -172,7 +172,7 @@ namespace Kean.Core.Uri
 		}
         public static Path FromRelativePlattformPath(string path)
         {
-            return new Path() { PlattformPath = System.IO.Path.GetFullPath(path) };
+            return Path.FromPlattformPath(System.IO.Path.GetFullPath(path));
         }
         #region static operators
 		#region Casts with System.IO.FileSystemInfo
