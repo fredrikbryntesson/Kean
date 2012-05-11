@@ -29,6 +29,29 @@ namespace Kean.Test
 		AssertionHelper
 		where T : Fixture<T>, new()
 	{
+		public OperatingSystem OperatingSystem 
+		{
+			get
+			{
+				OperatingSystem result;
+				switch (Environment.OSVersion.Platform)
+        		{
+            		case System.PlatformID.Unix:
+		                if (System.IO.Directory.Exists("/Applications") && System.IO.Directory.Exists("/System") && System.IO.Directory.Exists("/Users") && System.IO.Directory.Exists("/Volumes"))
+		                    result = OperatingSystem.Mac;
+		                else
+		                    result = OperatingSystem.Linux;
+					break;
+            		case PlatformID.MacOSX:
+                		result = OperatingSystem.Mac;
+					break;
+	        		default:
+                		result =  OperatingSystem.Windows;
+					break;
+        		}
+				return result;
+			}
+		}
 		[TestFixtureSetUp]
 		public virtual void Setup()
 		{

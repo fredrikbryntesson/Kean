@@ -212,7 +212,8 @@ namespace Kean.Core.Uri.Test
         [Test]
         public void FromPlattformPath()
         {
-            Target.Locator locator = Target.Locator.FromPlattformPath("C:\\Windows\\System32\\etc\\hosts");
+			string plattformPath = this.OperatingSystem == Kean.Test.OperatingSystem.Windows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
+		    Target.Locator locator = Target.Locator.FromPlattformPath(plattformPath);
             Expect((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlattformPath.0");
             Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlattformPath.1");
             Expect((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.2");
@@ -220,7 +221,7 @@ namespace Kean.Core.Uri.Test
             Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlattformPath.4");
             Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
             Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");
-            Expect((string)locator.Path.PlattformPath, Is.EqualTo("C:\\Windows\\System32\\etc\\hosts"), this.prefix + "FromPlattformPath.7");
+            Expect((string)locator.Path.PlattformPath, Is.EqualTo(plattformPath), this.prefix + "FromPlattformPath.7");
             
         }
 		[Test]

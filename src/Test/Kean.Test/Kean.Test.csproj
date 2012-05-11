@@ -43,6 +43,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+    <Compile Include="OperatingSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
