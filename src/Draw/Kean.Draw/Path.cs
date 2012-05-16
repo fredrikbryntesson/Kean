@@ -62,7 +62,7 @@ namespace Kean.Draw
 		{
 			return this.Append(new PathSegment.CurveTo(first, second, end));
 		}
-		public Path EllipticalArcTo(Geometry2D.Single.Point radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
+		public Path EllipticalArcTo(Geometry2D.Single.Size radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.EllipticalArcTo(radius, angle, largeArc, sweep, end));
 		}
@@ -86,22 +86,22 @@ namespace Kean.Draw
 		}
 		#endregion
 		#region Static Create Methods
-		public static Path CreateRectangle(Geometry2D.Single.Box rectangle)
+		public static Path Rectangle(Geometry2D.Single.Box rectangle)
 		{
 			return new Path().MoveTo(rectangle.LeftTop).LineTo(rectangle.RightTop).LineTo(rectangle.RightBottom).LineTo(rectangle.LeftBottom).Close();
 		}
-		public static Path CreateRectangle(Geometry2D.Single.Box rectangle, Geometry2D.Single.Point radius)
+		public static Path Rectangle(Geometry2D.Single.Box rectangle, Geometry2D.Single.Size radius)
 		{
-			return (radius.X <= 0 || radius.Y <= 0) ? Path.CreateRectangle(rectangle) : new Path()
-				.MoveTo(new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Top))
-				.LineTo(new Geometry2D.Single.Point(rectangle.Right - radius.X, rectangle.Top))
-				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right, rectangle.Top + radius.Y))
-				.LineTo(new Geometry2D.Single.Point(rectangle.Right, rectangle.Bottom - radius.Y))
-				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right - radius.X, rectangle.Bottom))
-				.LineTo(new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Bottom))
-				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left, rectangle.Bottom - radius.Y))
-				.LineTo(new Geometry2D.Single.Point(rectangle.Left, rectangle.Top + radius.Y))
-				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left + radius.X, rectangle.Top))
+			return (radius.Width <= 0 || radius.Height <= 0) ? Path.Rectangle(rectangle) : new Path()
+				.MoveTo(new Geometry2D.Single.Point(rectangle.Left + radius.Width, rectangle.Top))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Right - radius.Width, rectangle.Top))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right, rectangle.Top + radius.Height))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Right, rectangle.Bottom - radius.Height))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Right - radius.Width, rectangle.Bottom))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Left + radius.Width, rectangle.Bottom))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left, rectangle.Bottom - radius.Height))
+				.LineTo(new Geometry2D.Single.Point(rectangle.Left, rectangle.Top + radius.Height))
+				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left + radius.Width, rectangle.Top))
 				.Close();
 		}
 		#endregion

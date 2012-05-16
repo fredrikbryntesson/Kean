@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -102,6 +102,12 @@
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
-    <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
+    <FileUpdate Files="Properties\CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
+  </Target>
+  <Target Name="AfterBuild">
+    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+      <LibraryFiles Include="$(ProjectDir)..\..\..\lib\Cairo\win32\*.dll" />
+    </ItemGroup>
+    <Copy Condition="'$(OS)' == 'Windows_NT'" SourceFiles="@(LibraryFiles)" DestinationFiles="@(LibraryFiles->'$(TargetDir)\%(Filename)%(Extension)')" />
   </Target>
 </Project>

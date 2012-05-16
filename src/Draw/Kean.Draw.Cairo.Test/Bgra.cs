@@ -35,7 +35,8 @@ namespace Kean.Draw.Cairo.Test
 		{
 			this.Run(
 				this.Create,
-				this.Rectangle
+				this.Rectangle,
+				this.RectangleRadius
 				);
 		}
 		[Test]
@@ -45,18 +46,29 @@ namespace Kean.Draw.Cairo.Test
 			using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem))
 			using (Draw.Raster.Image correct = Draw.Raster.Image.OpenResource("Correct.Bgra.Create.png"))
 				Expect(raster.Distance(correct), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Create.0");
-			//raster.Save("Create.png");
 		}
 		[Test]
 		public void Rectangle()
 		{
 			using (Cairo.Raster image = new Cairo.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.CreateRectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100)));
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100)));
 				using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem))
 				using (Draw.Raster.Image correct = Draw.Raster.Image.OpenResource("Correct.Bgra.Rectangle.png"))
+					//raster.Save("Rectangle.png"); 
 					Expect(raster.Distance(correct), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Rectangle.0");
-				//raster.Save("Rectangle.png");
+			}
+		}
+		[Test]
+		public void RectangleRadius()
+		{
+			using (Cairo.Raster image = new Cairo.Bgra(new Geometry2D.Integer.Size(128, 256)))
+			{
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100), new Math.Geometry2D.Single.Size(10, 20)));
+				using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem))
+				using (Draw.Raster.Image correct = Draw.Raster.Image.OpenResource("Correct.Bgra.RectangleRadius.png"))
+					//raster.Save("RectangleRadius.png");
+					Expect(raster.Distance(correct), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Rectangle.0");
 			}
 		}
 	}

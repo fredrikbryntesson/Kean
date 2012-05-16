@@ -28,7 +28,7 @@ namespace Kean.Draw.Cairo.Extension
 		public static global::Cairo.Color ToCairo(this IColor me)
 		{
 			Color.Bgra bgra = me.Convert<Color.Bgra>();
-			return new global::Cairo.Color(bgra.color.red / 255.0, bgra.color.red / 255.0, bgra.color.red / 255.0, bgra.alpha / 255.0);
+			return new global::Cairo.Color(bgra.color.red / 255.0, bgra.color.green / 255.0, bgra.color.blue / 255.0, bgra.alpha / 255.0);
 		}
 		public static IColor FromCairo(this global::Cairo.Color me)
 		{

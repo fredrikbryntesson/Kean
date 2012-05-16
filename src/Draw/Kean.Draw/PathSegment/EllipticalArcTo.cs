@@ -30,12 +30,12 @@ namespace Kean.Draw.PathSegment
 	public class EllipticalArcTo :
 		Abstract
 	{
-		public Geometry2D.Single.Point Radius { get; set; }
+		public Geometry2D.Single.Size Radius { get; set; }
 		public float Angle { get; set; }
 		public bool LargeArc { get; set; }
 		public bool Sweep { get; set; }
 
-		public EllipticalArcTo(Geometry2D.Single.Point radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end) :
+		public EllipticalArcTo(Geometry2D.Single.Size radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end) :
 			base(end)
 		{
 			this.Radius = radius;
@@ -57,13 +57,13 @@ namespace Kean.Draw.PathSegment
 			Collection.List<float> angles = new Collection.List<float>();
 			angles.Add(startAngle);
 			angles.Add(endAngle);
-			this.AnglesAdd(angles, Kean.Math.Single.ArcusTangensExtended(-e1p.X * this.Radius.Y, e1p.Y * this.Radius.X), startAngle, endAngle);
-			this.AnglesAdd(angles, Kean.Math.Single.ArcusTangensExtended(-e2p.X * this.Radius.Y, e2p.Y * this.Radius.X), startAngle, endAngle);
+			this.AnglesAdd(angles, Kean.Math.Single.ArcusTangensExtended(-e1p.X * this.Radius.Height, e1p.Y * this.Radius.Width), startAngle, endAngle);
+			this.AnglesAdd(angles, Kean.Math.Single.ArcusTangensExtended(-e2p.X * this.Radius.Height, e2p.Y * this.Radius.Width), startAngle, endAngle);
 			Geometry2D.Single.Point[] points = new Geometry2D.Single.Point[angles.Count];
 			for (int i = 0; i < points.Length; i++)
 			{
 				float angle = angles[i];
-				points[i] = transform * (new Geometry2D.Single.Point(this.Radius.X * Kean.Math.Single.Cosinus(angle), this.Radius.Y * Kean.Math.Single.Sinus(angle)) + coordinates.Item1);
+				points[i] = transform * (new Geometry2D.Single.Point(this.Radius.Width * Kean.Math.Single.Cosinus(angle), this.Radius.Height * Kean.Math.Single.Sinus(angle)) + coordinates.Item1);
 			}
 			result = Geometry2D.Single.Box.Bounds(points);
 			return result;
@@ -83,8 +83,8 @@ namespace Kean.Draw.PathSegment
 				  y1 = this.Start.Y,
 				  x2 = this.End.X,
 				  y2 = this.End.Y,
-				  rx = this.Radius.X,
-				  ry = this.Radius.Y,
+				  rx = this.Radius.Width,
+				  ry = this.Radius.Height,
 				  phi = this.Angle;
 
 			float cx, cy; // Center point

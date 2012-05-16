@@ -81,7 +81,11 @@ namespace Kean.Draw.Cairo
 		}
 		void Draw(Draw.PathSegment.LineTo segment)
 		{
-			this.backend.LineTo(segment.End.X, segment.End.Y);
+			if (segment is Draw.PathSegment.Close)
+				this.backend.ClosePath();
+			else
+				this.backend.LineTo(segment.End.X, segment.End.Y);
+			
 		}
 		void Draw(Draw.PathSegment.CurveTo segment)
 		{
@@ -96,18 +100,18 @@ namespace Kean.Draw.Cairo
 		void Draw(Draw.PathSegment.EllipticalArcTo arc)
 		{
 			Tuple<Geometry2D.Single.Point, float, float> arcParameters = arc.PlatformctArcCoordinates();
-			if (arc.Radius.X == 0 || arc.Radius.Y == 0 || arcParameters.IsNull())
+			if (arc.Radius.Width == 0 || arc.Radius.Height == 0 || arcParameters.IsNull())
 				// If no solution to the coordinate problem just do:
 				this.backend.LineTo(arc.End.X, arc.End.Y);
 			else
 			{
-				float ratio = arc.Radius.Y / arc.Radius.X;
+				float ratio = arc.Radius.Height / arc.Radius.Width;
 				this.backend.Save();
 				this.backend.Scale(1, ratio);
 				if (arcParameters.Item2 < arcParameters.Item3)
-					this.backend.Arc(arcParameters.Item1.X, arcParameters.Item1.Y / ratio, arc.Radius.X, arcParameters.Item2, arcParameters.Item3);
+					this.backend.Arc(arcParameters.Item1.X, arcParameters.Item1.Y / ratio, arc.Radius.Width, arcParameters.Item2, arcParameters.Item3);
 				else
-					this.backend.ArcNegative(arcParameters.Item1.X, arcParameters.Item1.Y / ratio, arc.Radius.X, arcParameters.Item2, arcParameters.Item3);
+					this.backend.ArcNegative(arcParameters.Item1.X, arcParameters.Item1.Y / ratio, arc.Radius.Width, arcParameters.Item2, arcParameters.Item3);
 				this.backend.Restore();
 			}
 		}
@@ -123,6 +127,8 @@ namespace Kean.Draw.Cairo
 					this.Draw(segment as Draw.PathSegment.CurveTo);
 				else if (segment is Draw.PathSegment.EllipticalArcTo)
 					this.Draw(segment as Draw.PathSegment.EllipticalArcTo);
+				else
+					Console.WriteLine(segment);
 			}
 			if (fill.NotNull())
 			{
