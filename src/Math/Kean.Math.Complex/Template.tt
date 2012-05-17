@@ -1,4 +1,4 @@
-﻿<#@ template language="C#" hostspecific="true" #>
+﻿<#@ template language="C#v3.5" #>
 <#
     GenerateFile("Single", "float");
     SaveOutput("Single.cs");  
