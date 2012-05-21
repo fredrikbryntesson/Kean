@@ -10,9 +10,7 @@ namespace Kean.Math.Complex.Test
         public static void Test()
         {
             Single.Test();
-            Fourier.Single.Test();
             Double.Test();
-            Fourier.Double.Test();
         }
     }
 }
