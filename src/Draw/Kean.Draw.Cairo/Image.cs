@@ -69,5 +69,14 @@ namespace Kean.Draw.Cairo
 		{
 			this.Backend.WriteToPng(filename);
 		}
+		public override void Dispose()
+		{
+			base.Dispose();
+			if (this.canvas.NotNull())
+			{
+				this.canvas.Dispose();
+				this.canvas = null;
+			}
+		}
 	}
 }

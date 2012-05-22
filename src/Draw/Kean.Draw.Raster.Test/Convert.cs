@@ -51,10 +51,10 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Open()
         {
-            Target.Image bitmap = Target.Image.OpenResource("Bitmaps/Convert/original.png");
+            Target.Image bitmap = Target.Image.OpenResource("Correct/Convert/original.png");
             Expect(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.0");
             Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 3), this.prefix + "Open.1");
-            bitmap = Target.Image.OpenResource("Bitmaps/Convert/monochrome.png");
+            bitmap = Target.Image.OpenResource("Correct/Convert/monochrome.png");
             Expect(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)), this.prefix + "Open.2");
             Expect(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 4), this.prefix + "Open.3");
        
@@ -62,14 +62,14 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Equality()
         {
-            Target.Image first = Target.Image.OpenResource("Bitmaps/Convert/original.png");
-            Target.Image second = Target.Image.OpenResource("Bitmaps/Convert/original.png");
+            Target.Image first = Target.Image.OpenResource("Correct/Convert/original.png");
+            Target.Image second = Target.Image.OpenResource("Correct/Convert/original.png");
             Expect(first.Distance(second), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Equality.0");
         }
         [Test]
         public void Save()
         {
-            Target.Image original = Target.Image.OpenResource("Bitmaps/Convert/original.png");
+            Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png");
             original.Save("original.png");
             original.Save("original.bmp");
             Expect(original.Distance(Target.Image.Open("original.png")), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Save.0");
@@ -78,7 +78,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Copy()
         {
-            Target.Image original = Target.Image.OpenResource("Bitmaps/Convert/original.png");
+            Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png");
             Target.Image copy = original.Copy() as Target.Image;
             Expect(original.Pointer,Is.Not.EqualTo(copy.Pointer), this.prefix + "Copy.0");
         }
@@ -87,7 +87,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Bgr()
         {
-            Target.Bgr original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Bgr>();
+            Target.Bgr original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Bgr>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Bgr.0");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(5), this.prefix + "Bgr.2");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(5), this.prefix + "Bgr.3");
@@ -96,7 +96,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Bgra()
         {
-            Target.Bgra original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Bgra>();
+            Target.Bgra original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Bgra>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(this.tolerance), this.prefix + "Bgra.0");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(3), this.prefix + "Bgra.1");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(3), this.prefix + "Bgra.2");
@@ -105,18 +105,18 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Monochrome()
         {
-            Target.Monochrome original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Monochrome>();
+            Target.Monochrome original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Monochrome>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(1), this.prefix + "Monochrome.0");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.1");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.2");
             Expect(original.Convert<Target.Yvu420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Monochrome.3");
-            Target.Monochrome monochrome = Target.Image.OpenResource("Bitmaps/Convert/monochrome.png").Convert<Target.Monochrome>();
+            Target.Monochrome monochrome = Target.Image.OpenResource("Correct/Convert/monochrome.png").Convert<Target.Monochrome>();
             Expect(original.Distance(monochrome), Is.LessThanOrEqualTo(2), this.prefix + "Monochrome.4");
         }
         [Test]
         public void Yuv420()
         {
-            Target.Yuv420 original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Yuv420>();
+            Target.Yuv420 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yuv420>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(1), this.prefix + "Yuv420.0");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Yuv420.1");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Yuv420.2");
@@ -125,7 +125,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Yvu420()
         {
-            Target.Yvu420 original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Yvu420>();
+            Target.Yvu420 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yvu420>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(1), this.prefix + "Yvu420.0");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(0), this.prefix + "Yvu420.1");
             Expect(original.Convert<Target.Yuv422>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(2), this.prefix + "Yvu420.2");
@@ -134,7 +134,7 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Yuv422()
         {
-            Target.Yuv422 original = Target.Image.OpenResource("Bitmaps/Convert/original.png").Convert<Target.Yuv422>();
+            Target.Yuv422 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yuv422>();
             Expect(original.Convert<Target.Bgra>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(1), this.prefix + "Yuv422.0");
             Expect(original.Convert<Target.Monochrome>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(15), this.prefix + "Yuv422.1");
             Expect(original.Convert<Target.Yuv420>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(2), this.prefix + "Yuv422.2");

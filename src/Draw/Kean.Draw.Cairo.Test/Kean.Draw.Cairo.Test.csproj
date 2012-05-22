@@ -60,6 +60,10 @@
       <Project>{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}</Project>
       <Name>Kean.Draw.Cairo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
+      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
+      <Name>Kean.Draw.Raster.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Raster\Kean.Draw.Raster.csproj">
       <Project>{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}</Project>
       <Name>Kean.Draw.Raster</Name>

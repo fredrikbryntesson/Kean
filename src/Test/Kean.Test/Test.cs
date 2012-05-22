@@ -27,11 +27,16 @@ namespace Kean.Test
 {
 	public class Test
 	{
+		public string Name { get; private set; }
 		protected Action Method { get; set; }
-		internal Test(Action method)
+		internal Test(Action method, string name)
 		{
 			this.Method = method;
+			this.Name = name;
 		}
+		Test(Action method) :
+			this(method, method.Method.Name)
+		{ }
 		internal virtual void Run(Action pre, Action post)
 		{
 			pre.Call();
@@ -47,12 +52,9 @@ namespace Kean.Test
 		Test
 		where T : Exception
 	{
-		string name;
 		internal Test(Action method, string name) :
-			base(method)
-		{
-			this.name = name;
-		}
+			base(method, name)
+		{ }
 		internal override void Run(Action pre, Action post)
 		{
 			bool catched = false;
@@ -68,7 +70,7 @@ namespace Kean.Test
 			finally
 			{
 				if (!catched)
-					Assert.Fail("Expected exception \"{0}\" in test \"{1}\" but it was not received.", typeof(T).FullName, this.name);
+					Assert.Fail("Expected exception \"{0}\" in test \"{1}\" but it was not received.", typeof(T).FullName, this.Name);
 				post.Call();
 			}
 		}

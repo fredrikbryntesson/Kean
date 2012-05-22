@@ -23,13 +23,19 @@ using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using Reflect = Kean.Core.Reflect;
+using Kean.Core.Reflect.Extension;
+
 namespace Kean.Test
 {
 	public abstract class Fixture<T> :
 		AssertionHelper
 		where T : Fixture<T>, new()
 	{
-		public OperatingSystem OperatingSystem 
+		protected string Prefix { get; private set; }
+		string currentTestName;
+		int currentTestCounter;
+		protected OperatingSystem OperatingSystem 
 		{
 			get
 			{
@@ -52,6 +58,13 @@ namespace Kean.Test
 				return result;
 			}
 		}
+		protected Fixture() :
+			this(((Reflect.Type)typeof(T)).Name)
+		{ }
+		protected Fixture(string prefix)
+		{
+			this.Prefix = prefix.NotEmpty() ? prefix + "." : "";
+		}
 		[TestFixtureSetUp]
 		public virtual void Setup()
 		{
@@ -71,6 +84,8 @@ namespace Kean.Test
 		protected abstract void Run();
 		protected void Run(Test test)
 		{
+			this.currentTestCounter = 0;
+			this.currentTestName = test.Name;
 			test.Run(this.PreTest, this.PostTest);
             Console.Write(".");
 		}
@@ -86,9 +101,8 @@ namespace Kean.Test
 		}
 		public static void Test()
 		{
-			Type type = typeof(T);
-			Console.Write(type.Namespace + "." + type.Name);
 			T fixture = new T();
+			Console.Write(fixture.Prefix);
 			fixture.Setup();
 			fixture.Run();
 			fixture.TearDown();
@@ -103,6 +117,10 @@ namespace Kean.Test
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)
 		{
 			Expect(actual, constraint, message, arguments);
+		}
+		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint)
+		{
+			Verify(actual, constraint, this.Prefix + this.currentTestName + "." + this.currentTestCounter++);
 		}
 	}
 }

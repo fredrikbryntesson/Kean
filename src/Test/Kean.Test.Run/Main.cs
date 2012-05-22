@@ -38,8 +38,7 @@ namespace Kean.Test.Run
 			Core.Collection.Test.All.Test();
 			Core.Reflect.Test.All.Test();
 			Core.Uri.Test.All.Test();
-			Draw.Raster.Test.Transform.Test();
-            Draw.Raster.Test.Convert.Test();
+			Draw.Raster.Test.All.Test();
 			Draw.Gpu.Test.All.Test();
 			Gui.OpenGL.Test.Window.Test();
 			Math.Test.All.Test();

@@ -26,9 +26,9 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw
 {
-	public abstract class Canvas
+	public abstract class Canvas :
+		IDisposable
 	{
-
 		public Image Image { get; private set; }
 		public Geometry2D.Integer.Size Size { get { return this.Image.Size; } }
 
@@ -159,5 +159,8 @@ namespace Kean.Draw
 		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion
 		#endregion
+		public virtual void Dispose()
+		{
+		}
 	}
 }
