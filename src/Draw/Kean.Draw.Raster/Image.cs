@@ -25,14 +25,26 @@ using Collection = Kean.Core.Collection;
 using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 using Kean.Draw.Raster.Extension;
+using Reflect = Kean.Core.Reflect;
+using Kean.Core.Reflect.Extension;
 
 namespace Kean.Draw.Raster
 {
     public abstract class Image :
         Draw.Image
     {
-        public override Canvas Canvas { get { return null; } }
-        Buffer.Sized buffer;
+		Cairo.Image cairo;
+		Cairo.Image Cairo
+		{
+			get 
+			{
+				if (this.cairo.IsNull())
+					this.cairo = this.CreateCairoImage(this.buffer, this.Size);
+				return this.cairo; 
+			}
+		}
+		public override Canvas Canvas { get { return this.Cairo.Canvas; } }
+		Buffer.Sized buffer;
         public IntPtr Pointer { get { return this.buffer; } }
         public int Length { get { return this.buffer.Size; } }
 
@@ -50,6 +62,10 @@ namespace Kean.Draw.Raster
         {
             this.buffer = buffer;
         }
+		protected virtual Cairo.Image CreateCairoImage(Buffer.Sized buffer, Geometry2D.Integer.Size size)
+		{
+			return null;
+		}
         public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
         {
             Draw.Image result = null;
@@ -123,11 +139,11 @@ namespace Kean.Draw.Raster
         public override T Convert<T>()
         {
             T result = null;
-            Type type = typeof(T);
-            if (type == this.GetType())
+            Reflect.Type type = typeof(T);
+            if (type == this.Type() || type == typeof(Image))
                 result = this.Copy() as T;
-            else
-                if (type.IsSubclassOf(typeof(Packed)))
+            else if (type.Inherits<Image>())
+                if (type.Inherits<Packed>())
                 {
                     if (type == typeof(Bgr))
                         result = new Bgr(this) as T;
@@ -145,6 +161,15 @@ namespace Kean.Draw.Raster
                     else if (type == typeof(Yvu420))
                         result = new Yvu420(this) as T;
                 }
+			else if (type.Inherits<Cairo.Image>())
+			{
+				if (type == typeof(Cairo.Image) || type == this.cairo.GetType())
+					result = this.Cairo as T;
+				else if (type == typeof(Cairo.Bgr))
+					result = this.Convert<Bgr>().Cairo as T;
+				else if (type == typeof(Cairo.Bgra))
+					result = this.Convert<Bgra>().Cairo as T;
+			}
             return result;
         }
         #region Save
@@ -291,6 +316,11 @@ namespace Kean.Draw.Raster
         #region IDisposable Members Override
         public override void Dispose()
         {
+			if (this.cairo.NotNull())
+			{
+				this.cairo.Dispose();
+				this.cairo = null;
+			}
             if (this.buffer.NotNull())
             {
                 this.buffer.Dispose();

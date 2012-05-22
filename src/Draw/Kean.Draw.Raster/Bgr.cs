@@ -65,6 +65,10 @@ namespace Kean.Draw.Raster
 				});
 			}
 		}
+		protected override Draw.Cairo.Image CreateCairoImage(Buffer.Sized buffer, Geometry2D.Integer.Size size)
+		{
+			return new Cairo.Bgr(buffer, size);
+		}
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
 		{
 			return new Bgr(size) { Crop = this.Crop, Wrap = this.Wrap };

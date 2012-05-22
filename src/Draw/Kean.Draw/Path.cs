@@ -104,6 +104,17 @@ namespace Kean.Draw
 				.EllipticalArcTo(radius, 0, false, true, new Geometry2D.Single.Point(rectangle.Left + radius.Width, rectangle.Top))
 				.Close();
 		}
+		public static Path Circle(Geometry2D.Single.Point center, float radius) { return Path.Ellipse(center, new Geometry2D.Single.Size(radius, radius)); }
+		public static Path Ellipse(Geometry2D.Single.Point center, Geometry2D.Single.Size radius)
+		{
+			Geometry2D.Single.Point left = new Geometry2D.Single.Point(center.X + radius.Width, center.Y);
+			Geometry2D.Single.Point right = new Geometry2D.Single.Point(center.X - radius.Width, center.Y);
+			return new Path()
+				.MoveTo(left)
+				.EllipticalArcTo(radius, 0, false, true, right)
+				.EllipticalArcTo(radius, 0, false, true, left)
+				.Close();
+		}
 		#endregion
 	}
 }

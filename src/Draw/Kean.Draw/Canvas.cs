@@ -121,7 +121,10 @@ namespace Kean.Draw
 		{
 			this.Draw(color, (Geometry2D.Single.Size)this.Size);
 		}
-		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
+		public virtual void Draw(IColor color, Geometry2D.Single.Box region)
+		{
+			this.Draw(color, Path.Rectangle(region));
+		}
 		#endregion
 		#region Draw Path
 		public void Draw(Stroke stroke, Path path)

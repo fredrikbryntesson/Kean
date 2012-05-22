@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
 
@@ -51,6 +52,10 @@ namespace Kean.Draw.Raster
 				int* destination = (int*)this.Pointer;
 				original.Apply(color => *((Color.Bgra*)destination++) = new Color.Bgra(color, 255));
 			}
+		}
+		protected override Draw.Cairo.Image CreateCairoImage(Buffer.Sized buffer, Geometry2D.Integer.Size size)
+		{
+			return new Cairo.Bgra(buffer, size);
 		}
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
 		{

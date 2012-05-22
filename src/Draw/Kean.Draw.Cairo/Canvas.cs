@@ -58,20 +58,18 @@ namespace Kean.Draw.Cairo
 		#endregion
 		#region Draw, Blend, Clear
 		#region Draw Image
-		public override void Draw(Draw.Map map, Draw.Image image)
+		public override void Draw(Draw.Image image, Kean.Math.Geometry2D.Single.Point position)
 		{
+			if (image is Cairo.Image)
+				this.backend.SetSourceSurface((image as Cairo.Image).Backend , (int)position.X, (int)position.Y);
+			else
+				using (Cairo.Image cairo = image.Convert<Cairo.Image>())
+					this.backend.SetSourceSurface(cairo.Backend, (int)position.X, (int)position.Y);
+			this.backend.Paint();
 		}
 		public override void Draw(Map map, Kean.Draw.Image image, Kean.Math.Geometry2D.Single.Box source, Kean.Math.Geometry2D.Single.Box destination)
 		{
 			throw new NotImplementedException();
-		}
-		public override void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
-		{
-		}
-		#endregion
-		#region Draw Box
-		public override void Draw(IColor color, Geometry2D.Single.Box region)
-		{
 		}
 		#endregion
 		#region Draw Path
