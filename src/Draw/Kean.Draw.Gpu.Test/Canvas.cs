@@ -27,7 +27,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace Kean.Draw.Gpu.Test
 {
 	public class Canvas :
-		Abstract<Canvas>
+		Fixture<Canvas>
 	{
 		protected override void Run()
 		{

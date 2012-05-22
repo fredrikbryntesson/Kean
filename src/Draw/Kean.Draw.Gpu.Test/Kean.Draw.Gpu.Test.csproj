@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,7 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract.cs" />
+    <Compile Include="Fixture.cs" />
     <Compile Include="All.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
@@ -79,6 +79,10 @@
     <ProjectReference Include="..\Kean.Draw.Gpu\Kean.Draw.Gpu.csproj">
       <Project>{A519A94C-2837-4A3D-B90A-1535704DCC8E}</Project>
       <Name>Kean.Draw.Gpu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
+      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
+      <Name>Kean.Draw.Raster.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Raster\Kean.Draw.Raster.csproj">
       <Project>{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}</Project>

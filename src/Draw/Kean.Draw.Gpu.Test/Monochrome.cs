@@ -27,13 +27,28 @@ using NUnit.Framework.SyntaxHelpers;
 namespace Kean.Draw.Gpu.Test
 {
 	public class Monochrome :
-		Abstract<Monochrome>
+		Fixture<Monochrome>
 	{
+		Gpu.Image image;
+		public Monochrome() :
+			base(0.1f)
+		{ }
+		public override void  Setup()
+		{
+ 			base.Setup();
+			this.image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>());
+		}
+		public override void TearDown()
+		{
+			this.image.Dispose();
+			base.TearDown();
+		}
 		protected override void Run()
 		{
 			this.Run(
 				this.Create,
 				this.Equality,
+				//this.ConvertToRaster,
 				this.CreateFromRaster,
 				this.Copy,
 				this.ResizeTo,
@@ -50,8 +65,8 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Monochrome image = new Gpu.Monochrome(new Geometry2D.Integer.Size(128, 256)))
 			{
-				Expect(image, Is.Not.Null);
-				Expect(image.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
+				Verify(image, Is.Not.Null);
+				Verify(image.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
 			}
 		}
 		[Test]
@@ -60,83 +75,78 @@ namespace Kean.Draw.Gpu.Test
 			using (Gpu.Monochrome a = new Gpu.Monochrome(new Geometry2D.Integer.Size(128, 256)))
 			using (Gpu.Monochrome b = new Gpu.Monochrome(new Geometry2D.Integer.Size(256, 256)))
 			{
-				Expect(a, Is.EqualTo(a));
-				Expect(a, Is.Not.EqualTo(b));
+				Verify(a, Is.EqualTo(a));
+				Verify(a, Is.Not.EqualTo(b));
 			}
 		}
-		/*
 		[Test]
 		public void ConvertToRaster()
 		{
 			using (Gpu.Image image = new Gpu.Monochrome(new Geometry2D.Integer.Size(128, 256)))
-			{
-				Expect(image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.ConvertToRaster.png")));
-			}
-		}*/
+			using (Raster.Monochrome raster = image.Convert<Raster.Monochrome>())
+				//raster.Save("ConvertToRaster.png");
+				Verify(raster, "Correct.Monochrome.ConvertToRaster.png");
+		}
 		[Test]
 		public void CreateFromRaster()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
-			Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.CreateFromRaster.png")));
+			Verify(this.image, "Correct.Monochrome.CreateFromRaster.png");
 		}
 		[Test]
 		public void Copy()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
-				Expect(image.Copy().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.CreateFromRaster.png")));
+			using (Draw.Image image = this.image.Copy())
+				Verify(image, "Correct.Monochrome.CreateFromRaster.png");
 		}
 		[Test]
 		public void ResizeTo()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
-				Expect(image.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.ResizeTo.png")));
+			using (Draw.Image resized = this.image.ResizeTo(new Geometry2D.Integer.Size(100, 100)))
+				Verify(resized, "Correct.Monochrome.ResizeTo.png");
 		}
 		[Test]
 		public void ResizeWithin()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
-				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.ResizeWithin.png")));
+			using (Draw.Image resized = this.image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
+				Verify(resized, "Correct.Monochrome.ResizeWithin.png");
 		}
 		#region Canvas
 		[Test]
 		public void ClearArea()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
-				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.ClearArea.png")));
+				image.Canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
+				Verify(image, "Correct.Monochrome.ClearArea.png");
 			}
 		}
 		[Test]
 		public void DrawColor()
 		{
-			using (Draw.Image monochrome = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Draw.Canvas canvas = monochrome.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(50, 100, 200, 255));
-				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.DrawColor.png")));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(50, 100, 200, 255));
+				Verify(image, "Correct.Monochrome.DrawColor.png");
 			}
 		}
 		[Test]
 		public void DrawColorRegion()
 		{
-			using (Draw.Image monochrome = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Draw.Canvas canvas = monochrome.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
-				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.DrawColorRegion.png")));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
+				Verify(image, "Correct.Monochrome.DrawColorRegion.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnRegion()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Monochrome>())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Kean.Math.Geometry2D.Integer.Size(100, 100)).Convert<Raster.Monochrome>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
-				Expect(canvas.Image.Convert<Raster.Monochrome>().Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Monochrome.DrawImageOnRegion.png")), Is.LessThan(5));
+				image.Canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
+				//image.Convert<Raster.Bgra>().Save("DrawImageOnRegion.png");
+				Verify(image, "Correct.Monochrome.DrawImageOnRegion.png");
 			}
 		}
 		[Test]
@@ -144,11 +154,11 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Draw.Image monochrome = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Monochrome>()))
 			using (Draw.Image bgra = Gpu.Image.Create(Raster.Image.OpenResource("Input.ElephantSeal.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image resized = monochrome.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
 			{
-				Draw.Image resized = monochrome.ResizeWithin(new Geometry2D.Integer.Size(100, 100));
-				Draw.Canvas bgraCanvas = bgra.Canvas;
-				bgraCanvas.Draw(resized);
-				Expect(bgraCanvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Monochrome.DrawImageOnBgra.png").Convert<Raster.Bgra>()));
+				bgra.Canvas.Draw(resized);
+				//bgra.Convert<Raster.Bgra>().Save("DrawImageOnBgra.png");
+				Verify(bgra, "Correct.Monochrome.DrawImageOnBgra.png");
 			}
 		}
 		#endregion

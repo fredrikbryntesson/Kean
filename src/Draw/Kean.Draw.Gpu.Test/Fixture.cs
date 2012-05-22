@@ -1,5 +1,5 @@
 ﻿// 
-//  Abstract.cs
+//  Fixture.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -24,10 +24,15 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Gpu.Test
 {
-	public abstract class Abstract<T> :
-		Kean.Test.Fixture<T>
-		where T : Abstract<T>, new()
+	public abstract class Fixture<T> :
+		Raster.Test.Fixture<T>
+		where T : Fixture<T>, new()
 	{
+		protected Fixture()
+		{ }
+		protected Fixture(float tolerance) : 
+			base(tolerance)
+		{ }
 		Gui.Backend.IWindow window;
 		public override void Setup()
 		{

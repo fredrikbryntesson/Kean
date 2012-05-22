@@ -30,14 +30,36 @@ namespace Kean.Draw.Raster.Test
 		where T : Fixture<T>, new()
 	{
 		public float Tolerance { get; private set; }
+		protected Fixture() :
+			this(0.01f)
+		{ }
 		protected Fixture(float tolerance)
 		{
 			this.Tolerance = tolerance;
 		}
-		public void Verify(Raster.Image image, string resource)
+		public void Verify(Draw.Image image, string resource)
 		{
 			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource))
 				Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+		}
+		public void Verify(Draw.Image image, Raster.Image correct)
+		{
+			if (correct is Raster.Bgr)
+			{
+				if (image is Raster.Bgr)
+					Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				else
+					using (Raster.Bgr i = image.Convert<Raster.Bgr>())
+						Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+			}
+			else if (correct is Raster.Bgra)
+			{
+				if (image is Raster.Bgra)
+					Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				else
+					using (Raster.Bgra i = image.Convert<Raster.Bgra>())
+						Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+			}
 		}
 	}
 }

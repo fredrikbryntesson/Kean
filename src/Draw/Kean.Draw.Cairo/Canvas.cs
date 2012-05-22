@@ -190,5 +190,14 @@ namespace Kean.Draw.Cairo
 		}
 		#endregion
 		#endregion
+		public override void Dispose()
+		{
+			base.Dispose();
+			if (this.backend is IDisposable)
+			{
+				(this.backend as IDisposable).Dispose();
+				this.backend = null;
+			}
+		}
 	}
 }

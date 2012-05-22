@@ -27,7 +27,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace Kean.Draw.Gpu.Test
 {
 	public class Bgra :
-		Abstract<Bgra>
+		Fixture<Bgra>
 	{
 		protected override void Run()
 		{

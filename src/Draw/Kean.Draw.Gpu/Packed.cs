@@ -68,7 +68,9 @@ namespace Kean.Draw.Gpu
 		{
 			float result;
 			if (other.NotNull() && this.Size == other.Size)
-				result = this.Convert<Raster.Bgra>().Distance(other.Convert<Raster.Bgra>());
+				using (Raster.Bgra t = this.Convert<Raster.Bgra>())
+				using (Raster.Bgra o = other.Convert<Raster.Bgra>())
+					result = t.Distance(o);
 			else
 				result = float.MaxValue;
 			return result;
