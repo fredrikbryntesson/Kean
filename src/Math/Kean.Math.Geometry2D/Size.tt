@@ -207,6 +207,48 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return right * left;
         }
+<#= @value1 == "double" ? @"
+        public static " + @name + " operator *(" + @name + @" left, float right)
+        {
+            return new " + @name + @"(left.Width * right, left.Height * right);
+        } 
+        public static " + @name + " operator *(" + @name + @" left, int right)
+        {
+            return new " + @name + @"(left.Width * right, left.Height * right);
+        }
+        public static " + @name + " operator *(float left, " + @name + @" right)
+        {
+           return right * left;
+        } 
+        public static " + @name + " operator *(int left, " + @name + @" right)
+        {
+            return right * left;
+        }
+        public static " + @name + " operator /(" + @name + @" left, float right)
+        {
+            return new " + @name + @"(left.Width / right, left.Height / right);
+        } 
+        public static " + @name + " operator /(" + @name + @" left, int right)
+        {
+            return new " + @name + @"(left.Width / right, left.Height / right);
+        }" 
+: "" 
+#>
+<#= @value1 == "float" ? @"
+        public static " + @name + " operator *(" + @name + @" left, int right)
+        {
+            return new " + @name + @"(left.Width * right, left.Height * right);
+        }
+        public static " + @name + " operator *(int left, " + @name + @" right)
+        {
+            return right * left;
+        }
+        public static " + @name + " operator /(" + @name + @" left, int right)
+        {
+            return new " + @name + @"(left.Width / right, left.Height / right);
+        }" 
+: "" 
+#>
         public static <#= @name #> operator /(<#= @name #> left, <#= @value1 #> right)
         {
             return new <#= @name #>(left.Width / right, left.Height / right);
@@ -293,7 +335,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public static implicit operator string(<#= @name #> value)
         {
-            return value.NotNull() ? value.ToString() : null;
+            return value.ToString();
         }
         public static implicit operator <#= @name #>(string value)
         {

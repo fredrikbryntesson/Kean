@@ -178,6 +178,20 @@ namespace Kean.Math.Geometry2D.Single
         {
             return right * left;
         }
+
+
+        public static SizeValue operator *(SizeValue left, int right)
+        {
+            return new SizeValue(left.Width * right, left.Height * right);
+        }
+        public static SizeValue operator *(int left, SizeValue right)
+        {
+            return right * left;
+        }
+        public static SizeValue operator /(SizeValue left, int right)
+        {
+            return new SizeValue(left.Width / right, left.Height / right);
+        }
         public static SizeValue operator /(SizeValue left, float right)
         {
             return new SizeValue(left.Width / right, left.Height / right);
@@ -264,7 +278,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public static implicit operator string(SizeValue value)
         {
-            return value.NotNull() ? value.ToString() : null;
+            return value.ToString();
         }
         public static implicit operator SizeValue(string value)
         {

@@ -175,6 +175,8 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return right * left;
         }
+
+
         public static PointValue operator /(PointValue left, int right)
         {
             return new PointValue(left.X / right, left.Y / right);
@@ -261,7 +263,7 @@ namespace Kean.Math.Geometry2D.Integer
         }
         public static implicit operator string(PointValue value)
         {
-            return value.NotNull() ? value.ToString() : null;
+            return value.ToString();
         }
         public static implicit operator PointValue(string value)
         {

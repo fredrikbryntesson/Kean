@@ -24,7 +24,8 @@ using Kean.Core.Extension;
 namespace Kean.Math.Geometry2D.Double
 {
     public struct ShellValue :
-        Abstract.IShell<double>
+        Abstract.IShell<double>,
+		IEquatable<ShellValue>
     {
         public double Left;
         public double Right;
@@ -39,13 +40,34 @@ namespace Kean.Math.Geometry2D.Double
         public PointValue LeftTop { get { return new PointValue(this.Left, this.Top); } }
         public SizeValue Size { get { return new SizeValue(this.Left + this.Right, this.Top + this.Bottom); } }
         public PointValue Balance { get { return new PointValue(this.Right - this.Left, this.Bottom - this.Top); } }
-        public ShellValue(double left, double right, double top, double bottom)
+      
+		public ShellValue(double value) : this(value, value) { }
+		public ShellValue(double x, double y) : this(x, x, y, y) { }
+		public ShellValue(double left, double right, double top, double bottom)
         {
             this.Left = left;
             this.Right = right;
             this.Top = top;
             this.Bottom = bottom;
         }
+		#region Increase, Decrease
+		public BoxValue Decrease(Abstract.ISize<double> size)
+		{
+			return new BoxValue(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
+		}
+		public BoxValue Increase(Abstract.ISize<double> size)
+		{
+			return  new BoxValue(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
+		}
+		public BoxValue Decrease(Abstract.IBox<PointValue, SizeValue, double> box)
+		{
+			return new BoxValue(box.LeftTop.X + this.Left, box.LeftTop.Y + this.Top, box.Size.Width - this.Left - this.Right, box.Size.Height - this.Top - this.Bottom);
+		}
+		public BoxValue Increase(Abstract.IBox<PointValue, SizeValue, double> box)
+		{
+			return new BoxValue(box.LeftTop.X - this.Left, box.LeftTop.Y - this.Top, box.Size.Width + this.Left + this.Right, box.Size.Height + this.Top + this.Bottom);
+		}
+		#endregion
         #region Static Operators
         public static SizeValue operator -(SizeValue left, ShellValue right)
         {
@@ -134,6 +156,19 @@ namespace Kean.Math.Geometry2D.Double
         }
         #endregion
         #region Object Overrides
+		public override bool Equals(object other)
+		{
+			return (other is ShellValue) && this.Equals((ShellValue)other);
+		}
+		/// <summary>
+		/// Return true if this object and <paramref name="other">other</paramref> are equal.
+		/// </summary>
+		/// <param name="other">Object to compare with</param>
+		/// <returns>True if this object and <paramref name="other">other</paramref> are equal else false.</returns>
+		public bool Equals(ShellValue other)
+		{
+			return this == other;
+		}
         public override int GetHashCode()
         {
             return 33 * (33 * (33 * this.Left.GetHashCode() ^ this.Right.GetHashCode()) ^ this.Top.GetHashCode()) ^ this.Bottom.GetHashCode();
