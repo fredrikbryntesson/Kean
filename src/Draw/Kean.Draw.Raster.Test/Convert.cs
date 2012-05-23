@@ -26,32 +26,32 @@ using Target = Kean.Draw.Raster;
 using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Raster.Test
 {
-    [TestFixture]
-    public class Convert :
-        Fixture<Convert>
-    {
+	[TestFixture]
+	public class Convert :
+		Fixture<Convert>
+	{
 		public Convert() :
-			base(0.01f)
+			base(5f)
 		{ }
-        protected override void Run()
-        {
-            this.Run(
-                this.Open,
-                this.Equality,
-                this.Save,
-                this.Copy,
-                this.Bgr,
-                this.Bgra,
-                this.Monochrome,
-                this.Yuv420,
-                this.Yvu420,
-                this.Yuv422
-                );
-        }
-        #region Basic Operations
-        [Test]
-        public void Open()
-        {
+		protected override void Run()
+		{
+			this.Run(
+				this.Open,
+				this.Equality,
+				this.Save,
+				this.Copy,
+				this.Bgr,
+				this.Bgra,
+				this.Monochrome,
+				this.Yuv420,
+				this.Yvu420,
+				this.Yuv422
+				);
+		}
+		#region Basic Operations
+		[Test]
+		public void Open()
+		{
 			using (Target.Image bitmap = Target.Image.OpenResource("Correct/Convert/original.png"))
 			{
 				Verify(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)));
@@ -62,17 +62,17 @@ namespace Kean.Draw.Raster.Test
 				Verify(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)));
 				Verify(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 4));
 			}
-       
-        }
-        [Test]
-        public void Equality()
-        {
+
+		}
+		[Test]
+		public void Equality()
+		{
 			using (Target.Image first = Target.Image.OpenResource("Correct/Convert/original.png"))
 				Verify(first, "Correct/Convert/original.png");
-        }
-        [Test]
-        public void Save()
-        {
+		}
+		[Test]
+		public void Save()
+		{
 			using (Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png"))
 			{
 				original.Save("original.png");
@@ -82,73 +82,85 @@ namespace Kean.Draw.Raster.Test
 				using (Raster.Image opened = Target.Image.Open("original.bmp"))
 					Verify(opened, original);
 			}
-        }
-        [Test]
-        public void Copy()
-        {
-            Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png");
-            Target.Image copy = original.Copy() as Target.Image;
-            Expect(original.Pointer,Is.Not.EqualTo(copy.Pointer), this.Prefix + "Copy.0");
-        }
-        #endregion
-        #region Convert
-        [Test]
-        public void Bgr()
-        {
-            Target.Bgr original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Bgr>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(this.Tolerance), this.Prefix + "Bgr.0");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(5), this.Prefix + "Bgr.2");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(5), this.Prefix + "Bgr.3");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Bgr>().Distance(original), Is.LessThanOrEqualTo(5), this.Prefix + "Bgr.4");
-        }
-        [Test]
-        public void Bgra()
-        {
-            Target.Bgra original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Bgra>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(this.Tolerance), this.Prefix + "Bgra.0");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(3), this.Prefix + "Bgra.1");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(3), this.Prefix + "Bgra.2");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Bgra>().Distance(original), Is.LessThanOrEqualTo(3), this.Prefix + "Bgra.3");
-        }
-        [Test]
-        public void Monochrome()
-        {
-            Target.Monochrome original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Monochrome>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(1), this.Prefix + "Monochrome.0");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Monochrome.1");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Monochrome.2");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Monochrome.3");
-            Target.Monochrome monochrome = Target.Image.OpenResource("Correct/Convert/monochrome.png").Convert<Target.Monochrome>();
-            Expect(original.Distance(monochrome), Is.LessThanOrEqualTo(2), this.Prefix + "Monochrome.4");
-        }
-        [Test]
-        public void Yuv420()
-        {
-            Target.Yuv420 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yuv420>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(1), this.Prefix + "Yuv420.0");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yuv420.1");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yuv420.2");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Yuv420>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yuv420.3");
-        }
-        [Test]
-        public void Yvu420()
-        {
-            Target.Yvu420 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yvu420>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(1), this.Prefix + "Yvu420.0");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yvu420.1");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(2), this.Prefix + "Yvu420.2");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Yvu420>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yvu420.4");
-        }
-        [Test]
-        public void Yuv422()
-        {
-            Target.Yuv422 original = Target.Image.OpenResource("Correct/Convert/original.png").Convert<Target.Yuv422>();
-            Expect(original.Convert<Target.Bgra>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(1), this.Prefix + "Yuv422.0");
-            Expect(original.Convert<Target.Monochrome>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(15), this.Prefix + "Yuv422.1");
-            Expect(original.Convert<Target.Yuv420>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(2), this.Prefix + "Yuv422.2");
-            Expect(original.Convert<Target.Yuv422>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(0), this.Prefix + "Yuv422.3");
-            Expect(original.Convert<Target.Yvu420>().Convert<Target.Yuv422>().Distance(original), Is.LessThanOrEqualTo(2), this.Prefix + "Yuv422.4");
-        }
-        #endregion
-    }
+		}
+		[Test]
+		public void Copy()
+		{
+			using (Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png"))
+			using (Target.Image copy = original.Copy() as Target.Image)
+				Verify(original.Pointer, Is.Not.EqualTo(copy.Pointer));
+		}
+		#endregion
+		#region Convert
+		[Test]
+		public void Bgr()
+		{
+			using (Target.Bgr original = Target.Bgr.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Bgr>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Bgr>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Bgr>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Bgr>(), original);
+			}
+		}
+		[Test]
+		public void Bgra()
+		{
+			using (Target.Bgra original = Target.Bgra.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Bgra>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Bgra>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Bgra>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Bgra>(), original);
+			}
+		}
+		[Test]
+		public void Monochrome()
+		{
+			using (Target.Monochrome original = Target.Monochrome.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Monochrome>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
+				using (Target.Monochrome monochrome = Target.Monochrome.OpenResource("Correct/Convert/monochrome.png"))
+					Verify(original, "Correct/Convert/monochrome.png");
+			}
+		}
+		[Test]
+		public void Yuv420()
+		{
+			using (Target.Yuv420 original = Target.Yuv420.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv420>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv420>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuv420>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv420>(), original);
+			}
+		}
+		[Test]
+		public void Yvu420()
+		{
+			using (Target.Yvu420 original = Target.Yvu420.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yvu420>(), original);
+			}
+		}
+		[Test]
+		public void Yuv422()
+		{
+			using (Target.Yuv422 original = Target.Yuv422.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Monochrome>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv422>(), original);
+			}
+		}
+		#endregion
+	}
 }
