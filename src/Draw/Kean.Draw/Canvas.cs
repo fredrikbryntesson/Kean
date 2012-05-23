@@ -103,7 +103,7 @@ namespace Kean.Draw
 		}
 		public virtual void Draw(Draw.Image image, Geometry2D.Single.Point position)
 		{
-			this.Draw(null, image, new Geometry2D.Single.Point());
+			this.Draw(null, image, position);
 		}
 		public virtual void Draw(Map map, Draw.Image image, Geometry2D.Single.Point position)
 		{

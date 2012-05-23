@@ -33,8 +33,8 @@ namespace Kean.Draw.Vector
 		Canvas canvas;
 		public override Draw.Canvas Canvas { get { return this.canvas; } }
 
-		public Image() :
-			base()
+		public Image(Geometry2D.Integer.Size size) :
+			base(size, CoordinateSystem.Default)
 		{
 			this.canvas = new Canvas(this);
 		}
@@ -75,12 +75,11 @@ namespace Kean.Draw.Vector
 		{
 			throw new System.NotImplementedException();
 		}
-
-		public override void Shift(Geometry2D.Integer.Size offset)
+		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
 		{
 			throw new System.NotImplementedException();
 		}
-
+		
 		public override float Distance(Draw.Image other)
 		{
 			using (Raster.Image raster = this.Convert<Raster.Bgra>())

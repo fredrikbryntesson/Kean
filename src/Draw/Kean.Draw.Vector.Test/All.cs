@@ -2,7 +2,7 @@
 //  All.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//       Simon Mika <smika@hx.se>
 //  
 //  Copyright (c) 2011 Simon Mika
 // 
@@ -21,17 +21,13 @@
 
 using System;
 
-namespace Kean.Draw.Test
+namespace Kean.Draw.Vector.Test
 {
 	public static class All
 	{
 		public static void Test()
 		{
-			Color.Convert.Test();
-			Cairo.Test.All.Test();
-			Raster.Test.All.Test();
-			Vector.Test.All.Test();
-			Gpu.Test.All.Test();
+			Image.Test();
 		}
 	}
 }

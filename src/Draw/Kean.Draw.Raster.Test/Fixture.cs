@@ -44,22 +44,31 @@ namespace Kean.Draw.Raster.Test
 		}
 		public void Verify(Draw.Image image, Raster.Image correct)
 		{
-			if (correct is Raster.Bgr)
+			try
 			{
-				if (image is Raster.Bgr)
-					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				else
-					using (Raster.Bgr i = image.Convert<Raster.Bgr>())
-						this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				if (correct is Raster.Bgr)
+				{
+					if (image is Raster.Bgr)
+						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					else
+						using (Raster.Bgr i = image.Convert<Raster.Bgr>())
+							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				}
+				else if (correct is Raster.Bgra)
+				{
+					if (image is Raster.Bgra)
+						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					else
+						using (Raster.Bgra i = image.Convert<Raster.Bgra>())
+							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				}
 			}
-			else if (correct is Raster.Bgra)
+			catch
 			{
-				if (image is Raster.Bgra)
-					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				else
-					using (Raster.Bgra i = image.Convert<Raster.Bgra>())
-						this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-			}
+				using (Raster.Image raster = image.Convert<Raster.Image>())
+					raster.Save(this.CurrentTestStep + ".png");
+				throw;
+			} 
 		}
 	}
 }

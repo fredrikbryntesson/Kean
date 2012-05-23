@@ -1,8 +1,8 @@
 ﻿// 
-//  All.cs
+//  Bgra.cs
 //  
 //  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
+//      Simon Mika <smika@hx.se
 //  
 //  Copyright (c) 2011 Simon Mika
 // 
@@ -20,18 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.Test
+namespace Kean.Draw.Vector.Test
 {
-	public static class All
+	public class Image :
+		Raster.Test.Image<Image>
 	{
-		public static void Test()
+		protected override Draw.Image CreateImage(Geometry2D.Integer.Size size)
 		{
-			Color.Convert.Test();
-			Cairo.Test.All.Test();
-			Raster.Test.All.Test();
-			Vector.Test.All.Test();
-			Gpu.Test.All.Test();
+			return new Vector.Image(size);
 		}
 	}
 }

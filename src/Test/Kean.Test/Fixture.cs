@@ -28,6 +28,7 @@ using Kean.Core.Reflect.Extension;
 
 namespace Kean.Test
 {
+	[TestFixture]
 	public abstract class Fixture<T> :
 		AssertionHelper
 		where T : Fixture<T>, new()
@@ -35,6 +36,7 @@ namespace Kean.Test
 		protected string Prefix { get; private set; }
 		string currentTestName;
 		int currentTestCounter;
+		protected string CurrentTestStep { get { return this.Prefix + this.currentTestName + "." + this.currentTestCounter; } }
 		protected OperatingSystem OperatingSystem 
 		{
 			get
@@ -84,7 +86,7 @@ namespace Kean.Test
 		protected abstract void Run();
 		protected void Run(Test test)
 		{
-			this.currentTestCounter = 0;
+			this.currentTestCounter = -1;
 			this.currentTestName = test.Name;
 			test.Run(this.PreTest, this.PostTest);
             Console.Write(".");
@@ -120,7 +122,8 @@ namespace Kean.Test
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			Verify(actual, constraint, this.Prefix + this.currentTestName + "." + this.currentTestCounter++);
+			this.currentTestCounter++;
+			Verify(actual, constraint, this.CurrentTestStep);
 		}
 	}
 }
