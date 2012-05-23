@@ -122,7 +122,9 @@ namespace Kean.Math.Geometry2D.Double
 
                 try
                 {
-					result = (BoxValue)(Box)value;
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 4)
+                        result = new BoxValue((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
                 }
                 catch
                 {
@@ -134,12 +136,8 @@ namespace Kean.Math.Geometry2D.Double
         #region Object Overrides
 		public override string ToString()
 		{
-			return ((Box)this).ToString();
-		}
-		public string ToString(string format)
-		{
-			return ((Box)this).ToString(format);
-		}
+            return this.LeftTop.ToString() + ", " + this.Size.ToString();
+        }
 		public override int GetHashCode()
         {
             return 33 * this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();

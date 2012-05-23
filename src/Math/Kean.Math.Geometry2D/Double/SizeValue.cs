@@ -38,11 +38,21 @@ namespace Kean.Math.Geometry2D.Double
         #endregion
         public double Area { get { return this.Width * this.Height; } }
         public bool IsEmpty { get { return this.Width == 0 || this.Height == 0; } }
+        public double Norm { get { return Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(this.Width) + Kean.Math.Double.Squared(this.Height)); } }
+        public double Azimuth { get { return Kean.Math.Double.ArcusTangensExtended(this.Height, this.Width); } }
+        #region Static Constants
+        public static SizeValue BasisX { get { return new SizeValue(1,0); } }
+        public static SizeValue BasisY { get { return new SizeValue(0,1); } }
+        #endregion
+        #region Constructors
         public SizeValue(double width, double height)
 		{
 			this.Width = width;
 			this.Height = height;
-		}
+        }
+        #endregion
+        #region Methods
+        #endregion
         #region Static Operators
         public static SizeValue operator -(SizeValue left, SizeValue right)
         {
@@ -127,8 +137,10 @@ namespace Kean.Math.Geometry2D.Double
             {
                 try
                 {
-					result = (SizeValue)(Size)value;
-				}
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 2)
+                        result = new SizeValue(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+                }
                 catch
                 {
                 }
@@ -141,14 +153,10 @@ namespace Kean.Math.Geometry2D.Double
         {
             return 33 * this.Width.GetHashCode() ^ this.Height.GetHashCode();
         }
-		public override string ToString()
-		{
-			return ((Size)this).ToString();
-		}
-		public string ToString(string format)
-		{
-			return ((Size)this).ToString(format);
-		}
-		#endregion
+        public override string ToString()
+        {
+            return Kean.Math.Double.ToString(this.Width) + ", " + Kean.Math.Double.ToString(this.Height);
+        }
+        #endregion
     }
 }
