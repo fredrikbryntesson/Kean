@@ -1,17 +1,17 @@
 ﻿<#@ template language="C#v3.5" hostspecific="True" #>
 <#
-    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
+    GenerateStart("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
     GenerateSingle("SizeValue");
-    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
+    GenerateEnd("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
     SaveOutput("Single/SizeValue.cs");  
     
-    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateStart("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
     GenerateDouble("SizeValue");
-    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateEnd("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
     SaveOutput("Double/SizeValue.cs");   
 
-    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateStart("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateEnd("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
     SaveOutput("Integer/SizeValue.cs");  
 #>
 <#+
@@ -24,7 +24,7 @@
   }
 #>
 <#+
-    void GenerateFile(string @name, string @namespace, string @namespace1, string @value1)
+    void GenerateStart(string @name, string @namespace, string @namespace1, string @value1)
     {
 #>
 // 
@@ -426,7 +426,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
     }  
 #>
 <#+
-    void GenerateFile2(string @name, string @namespace, string @namespace1, string @value1)
+    void GenerateEnd(string @name, string @namespace, string @namespace1, string @value1)
     {
 #>
         public static <#= @name #> Maximum(<#= @name #> left, <#= @name #> right)
