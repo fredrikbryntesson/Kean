@@ -110,20 +110,7 @@ namespace Kean.Math.Geometry2D.Test.Single
             Console.WriteLine("Add previously created struct (static method): Elapsed time " + watch.ElapsedMilliseconds);
             watch.Reset();
             a = new Kean.Math.Geometry2D.Single.PointValue(10, 20);
-            watch.Start();
-            for (int i = 0; i < n; i++)
-                a.Add(c);
-            watch.Stop();
-            Console.WriteLine("Add previously created struct (non-static method, non-reference): Elapsed time " + watch.ElapsedMilliseconds);
-            watch.Reset();
-            /*a = new Kean.Math.Geometry2D.Single.PointValue(10, 20);
-            watch.Start();
-            for (int i = 0; i < n; i++)
-                a.Add(ref c);
-            watch.Stop();
-            Console.WriteLine("Add previously created struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
-             */
-        }
+       	}
         [Test]
         public void PerformanceMultiplication()
         {
@@ -143,19 +130,6 @@ namespace Kean.Math.Geometry2D.Test.Single
                 a = a * x;
             watch.Stop();
             Console.WriteLine("Multiply with static method on struct: Elapsed time " + watch.ElapsedMilliseconds);
-            watch.Reset();
-            watch.Start();
-            for (int i = 0; i < n; i++)
-                a.Multiply(x);
-            watch.Stop();
-            Console.WriteLine("Multiply struct (non-static method, non-reference): Elapsed time " + watch.ElapsedMilliseconds);
-            watch.Reset();
-            /*watch.Start();
-            for (int i = 0; i < n; i++)
-                a.Multiply(ref X);
-            watch.Stop();
-            Console.WriteLine("Multiply struct (non-static method, reference): Elapsed time " + watch.ElapsedMilliseconds);
-            */
         }
         [Test]
         public void PointSize()

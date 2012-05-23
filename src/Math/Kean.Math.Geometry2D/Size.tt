@@ -1,0 +1,403 @@
+﻿<#@ template language="C#v3.5" hostspecific="True" #>
+<#
+    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
+    GenerateSingle("SizeValue");
+    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Single",  "float");
+    SaveOutput("Single/SizeValue.cs");  
+    
+    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateDouble("SizeValue");
+    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Double",  "double");
+    SaveOutput("Double/SizeValue.cs");   
+
+    GenerateFile("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateFile2("SizeValue", "Kean.Math.Geometry2D", "Integer",  "int");
+    SaveOutput("Integer/SizeValue.cs");  
+#>
+<#+
+  void SaveOutput(string outputFileName)
+  {
+      string templateDirectory = System.IO.Path.GetDirectoryName(Host.TemplateFile);
+      string outputFilePath = System.IO.Path.Combine(templateDirectory, outputFileName);
+      System.IO.File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+      this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+  }
+#>
+<#+
+    void GenerateFile(string @name, string @namespace, string @namespace1, string @value1)
+    {
+#>
+// 
+//  <#= @name #>.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2011 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+using Kean.Core.Extension;
+
+namespace <#= @namespace #>.<#= @namespace1 #>
+{
+    public struct <#= @name #> :
+        Abstract.ISize<<#= @value1 #>>, 
+        Abstract.IVector<<#= @value1 #>>,
+        IEquatable<<#= @name #>>
+    {
+        public <#= @value1 #> Width;
+        public <#= @value1 #> Height;
+        #region IPoint<<#= @value1 #>> Members
+        <#= @value1 #> <#= @namespace #>.Abstract.ISize<<#= @value1 #>>.Width { get { return this.Width; } }
+        <#= @value1 #> <#= @namespace #>.Abstract.ISize<<#= @value1 #>>.Height { get { return this.Height; } }
+        #endregion
+        #region IVector<<#= @value1 #>> Members
+        <#= @value1 #> <#= @namespace #>.Abstract.IVector<<#= @value1 #>>.X { get { return this.Width; } }
+        <#= @value1 #> <#= @namespace #>.Abstract.IVector<<#= @value1 #>>.Y { get { return this.Height; } }
+        #endregion
+        public <#= @value1 #> Area { get { return this.Width * this.Height; } }
+        public <#= @value1 #> Length { get { return this.Norm; } }
+        public bool Empty { get { return this.Width == 0 || this.Height == 0; } }
+        public <#= @value1 #> Norm { get { return Kean.Math.<#= @namespace1 #>.SquareRoot(this.ScalarProduct(this)); } }
+        public <#= @value1 #> Azimuth { get { return Kean.Math.<#= @namespace1 #>.ArcusTangensExtended(this.Height, this.Width); } }
+        #region Static Constants
+        public static <#= @name #> BasisX { get { return new <#= @name #>(1, 0); } }
+        public static <#= @name #> BasisY { get { return new <#= @name #>(0, 1); } }
+        #endregion
+        public <#= @name #>(<#= @value1 #> width, <#= @value1 #> height)
+        {
+            this.Width = width;
+            this.Height = height;
+        }
+        public <#= @value1 #> PNorm(<#= @value1 #> p)
+        {
+            <#= @value1 #> result;
+            if (<#= @value1 == "int" ? "p == int.MaxValue" : @value1+".IsPositiveInfinity(p)" #>)
+                result = Kean.Math.<#= @namespace1 #>.Maximum(Kean.Math.<#= @namespace1 #>.Absolute(this.Width), Kean.Math.<#= @namespace1 #>.Absolute(this.Height));
+            else if (p == 1)
+                result = Kean.Math.<#= @namespace1 #>.Absolute(this.Width) + Kean.Math.<#= @namespace1 #>.Absolute(this.Height);
+            else
+                result = Kean.Math.<#= @namespace1 #>.Power(Kean.Math.<#= @namespace1 #>.Power(Kean.Math.<#= @namespace1 #>.Absolute(this.Width), p) + Kean.Math.<#= @namespace1 #>.Power(Kean.Math.<#= @namespace1 #>.Absolute(this.Height), p), 1 / p);
+            return result;
+        }
+        /// <summary>
+        /// Angle from current to other point vector.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>Angle in radians.</returns>
+        public <#= @value1 #> Angle(<#= @name #> other)
+        {
+            <#= @value1 #> result = 0;
+            result = this.ScalarProduct(other) / (this.Norm * other.Norm);
+            <#= @value1 #> sign = this.Width * other.Height - this.Height * other.Width;
+            result = Kean.Math.<#= @namespace1 #>.ArcusCosinus(Kean.Math.<#= @namespace1 #>.Clamp(result, -1, 1));
+            result *= sign < 0 ? -1 : 1;
+            return result;
+        }
+        public <#= @value1 #> ScalarProduct(<#= @name #> other)
+        {
+            return this.Width * other.Width + this.Height * other.Height;
+        }
+        public <#= @value1 #> Distance(<#= @name #> other)
+        {
+            return (this - other).Norm;
+        }
+        #region Utility functions
+        public <#= @name #> Swap()
+        {
+            return new <#= @name #>(this.Height, this.Width);
+        }
+        public <#= @name #> Round()
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Round(this.Width), Kean.Math.<#= @namespace1 #>.Round(this.Height));
+        }
+        public <#= @name #> Ceiling()
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Ceiling(this.Width), Kean.Math.<#= @namespace1 #>.Ceiling(this.Height));
+        }
+        public <#= @name #> Floor()
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Floor(this.Width), Kean.Math.<#= @namespace1 #>.Floor(this.Height));
+        }
+        public <#= @name #> Minimum(Abstract.IVector<<#= @value1 #>> floor)
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Minimum(this.Width, floor.X), Kean.Math.<#= @namespace1 #>.Minimum(this.Height, floor.Y));
+        }
+        public <#= @name #> Maximum(Abstract.IVector<<#= @value1 #>> ceiling)
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Maximum(this.Width, ceiling.X), Kean.Math.<#= @namespace1 #>.Maximum(this.Height, ceiling.Y));
+        }
+        public <#= @name #> Clamp(Abstract.IVector<<#= @value1 #>> floor, Abstract.IVector<<#= @value1 #>> ceiling)
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Clamp(this.Width, floor.X, ceiling.X), Kean.Math.<#= @namespace1 #>.Clamp(this.Height, floor.Y, ceiling.Y));
+        }
+        #endregion
+        #region Arithmetic Vector - Vector Operators
+        public static <#= @name #> operator +(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.Width + right.Width, left.Height + right.Height);
+        }
+        public static <#= @name #> operator +(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        {
+            return new <#= @name #>(left.Width + right.X, left.Height + right.Y);
+        }
+        public static <#= @name #> operator +(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.X + right.Width, left.Y + right.Height);
+        }
+        public static <#= @name #> operator -(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.Width - right.Width, left.Height - right.Height);
+        }
+        public static <#= @name #> operator -(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        {
+            return new <#= @name #>(left.Width - right.X, left.Height - right.Y);
+        }
+        public static <#= @name #> operator -(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.X - right.Width, left.Y - right.Height);
+        }
+        public static <#= @name #> operator -(<#= @name #> vector)
+        {
+            return new <#= @name #>(-vector.Width, -vector.Height);
+        }
+        public static <#= @name #> operator *(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.Width * right.Width, left.Height * right.Height);
+        }
+        public static <#= @name #> operator *(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        {
+            return new <#= @name #>(left.Width * right.X, left.Height * right.Y);
+        }
+        public static <#= @name #> operator *(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.X * right.Width, left.Y * right.Height);
+        }
+        public static <#= @name #> operator /(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.Width / right.Width, left.Height / right.Height);
+        }
+        public static <#= @name #> operator /(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        {
+            return new <#= @name #>(left.Width / right.X, left.Height / right.Y);
+        }
+        public static <#= @name #> operator /(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.X / right.Width, left.Y / right.Height);
+        }
+        #endregion
+        #region Arithmetic Vector and Scalar
+        public static <#= @name #> operator *(<#= @name #> left, <#= @value1 #> right)
+        {
+            return new <#= @name #>(left.Width * right, left.Height * right);
+        }
+        public static <#= @name #> operator *(<#= @value1 #> left, <#= @name #> right)
+        {
+            return right * left;
+        }
+        public static <#= @name #> operator /(<#= @name #> left, <#= @value1 #> right)
+        {
+            return new <#= @name #>(left.Width / right, left.Height / right);
+        }
+        #endregion
+        #region Arithmetic Transform and Vector
+        public static <#= @name #> operator *(TransformValue left, <#= @name #> right)
+        {
+            return new <#= @name #>(left.A * right.Width + left.C * right.Height, left.B * right.Width + left.D * right.Height);
+        }
+        #endregion
+        #region Comparison Operators
+        /// <summary>
+        /// Defines equality.
+        /// </summary>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
+        public static bool operator ==(<#= @name #> left, <#= @name #> right)
+        {
+            return left.Width == right.Width && left.Height == right.Height;
+        }
+        /// <summary>
+        /// Defines inequality.
+        /// </summary>
+        /// <param name="Left">Point Left of operator.</param>
+        /// <param name="Right">Point Right of operator.</param>
+        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
+        public static bool operator !=(<#= @name #> left, <#= @name #> right)
+        {
+            return !(left == right);
+        }
+        public static bool operator <(<#= @name #> left, <#= @name #> right)
+        {
+            return left.Width < right.Width && left.Height < right.Height;
+        }
+        public static bool operator >(<#= @name #> left, <#= @name #> right)
+        {
+            return left.Width > right.Width && left.Height > right.Height;
+        }
+        public static bool operator <=(<#= @name #> left, <#= @name #> right)
+        {
+            return left.Width <= right.Width && left.Height <= right.Height;
+        }
+        public static bool operator >=(<#= @name #> left, <#= @name #> right)
+        {
+            return left.Width >= right.Width && left.Height >= right.Height;
+        }
+        #endregion
+        #region IEquatable<<#= @name #>> Members
+        public bool Equals(<#= @name #> other)
+        {
+            return this == other;
+        }
+        #endregion
+        #region Object Overrides
+        public override bool Equals(object other)
+        {
+            return other is <#= @name #> && this.Equals((<#= @name #>)other);
+        }
+        public override int GetHashCode()
+        {
+            return 33 * this.Width.GetHashCode() ^ this.Height.GetHashCode();
+        }
+		public override string ToString()
+        {
+			return Kean.Math.<#= @namespace1 #>.ToString(this.Width) + ", " + Kean.Math.<#= @namespace1 #>.ToString(this.Height);
+		}
+        #endregion
+        #region Static Creators
+        public static <#= @name #> Polar(<#= @value1 #> radius, <#= @value1 #> azimuth)
+        {
+            return new <#= @name #>(radius * Kean.Math.<#= @namespace1 #>.Cosinus(azimuth), radius * Kean.Math.<#= @namespace1 #>.Sinus(azimuth));
+        }
+        #endregion
+        #region Casts
+        public static explicit operator <#= @value1 #>[](<#= @name #> value)
+        {
+            return new <#= @value1 #>[] { value.Width, value.Height };
+        }
+        public static explicit operator <#= @name #>(<#= @value1 #>[] value)
+        {
+            return new <#= @name #>(value[0], value[1]);
+        }
+        public static implicit operator string(<#= @name #> value)
+        {
+            return value.NotNull() ? value.ToString() : null;
+        }
+        public static implicit operator <#= @name #>(string value)
+        {
+            <#= @name #> result = new <#= @name #>();
+            if (value.NotEmpty())
+            {
+                try
+                {
+                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length == 2)
+                        result = new <#= @name #>(Kean.Math.<#= @namespace1 #>.Parse(values[0]), Kean.Math.<#= @namespace1 #>.Parse(values[1]));
+                }
+                catch
+                {
+                }
+            }
+            return result;
+        }
+<#+
+    }  
+#>
+
+<#+
+    void GenerateDouble(string @name)
+    {
+#>
+        public static implicit operator <#= @name #>(Single.<#= @name #> value)
+        {
+            return new <#= @name #>(value.Width, value.Height);
+        }
+        public static implicit operator <#= @name #>(Integer.<#= @name #> value)
+        {
+            return new <#= @name #>(value.Width, value.Height);
+        }
+        public static explicit operator Single.<#= @name #>(<#= @name #> value)
+        {
+            return new Single.<#= @name #>(Kean.Math.Single.Convert(value.Width), Kean.Math.Single.Convert(value.Height));
+        }
+        public static explicit operator Integer.<#= @name #>(<#= @name #> value)
+        {
+            return new Integer.<#= @name #>(Kean.Math.Integer.Convert(value.Width), Kean.Math.Integer.Convert(value.Height));
+        }
+        #endregion
+        #region Static Operators
+        public static <#= @name #> Ceiling(Geometry2D.Single.<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+        public static <#= @name #> Floor(Geometry2D.Single.<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Floor(other.Width), Kean.Math.Integer.Floor(other.Height));
+        }
+         public static <#= @name #> Floor(<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Floor(other.Width), Kean.Math.Integer.Floor(other.Height));
+        }
+        public static <#= @name #> Ceiling(<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+<#+
+    }  
+#>
+
+<#+
+    void GenerateSingle(string @name)
+    {
+#>
+        public static implicit operator <#= @name #>(Integer.<#= @name #> value)
+        {
+            return new <#= @name #>(value.Width, value.Height);
+        }
+        public static explicit operator Integer.<#= @name #>(<#= @name #> value)
+        {
+            return new Integer.<#= @name #>(Kean.Math.Integer.Convert(value.Width), Kean.Math.Integer.Convert(value.Height));
+        }
+        #endregion
+        #region Static Operators
+        public static <#= @name #> Floor(<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Floor(other.Width), Kean.Math.Integer.Floor(other.Height));
+        }
+        public static <#= @name #> Ceiling(<#= @name #> other)
+        {
+            return new <#= @name #>(Kean.Math.Integer.Ceiling(other.Width), Kean.Math.Integer.Ceiling(other.Height));
+        }
+<#+
+    }  
+#>
+<#+
+    void GenerateFile2(string @name, string @namespace, string @namespace1, string @value1)
+    {
+#>
+        public static <#= @name #> Maximum(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Maximum(left.Width, right.Width), Kean.Math.<#= @namespace1 #>.Maximum(left.Height, right.Height));
+        }
+        public static <#= @name #> Minimum(<#= @name #> left, <#= @name #> right)
+        {
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Minimum(left.Width, right.Width), Kean.Math.<#= @namespace1 #>.Minimum(left.Height, right.Height));
+        }
+        #endregion
+  }
+}
+<#+
+    }  
+#>

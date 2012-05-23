@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,6 +42,16 @@
     <Compile Include="Abstract\IVector.cs" />
     <Compile Include="Abstract\Shell.cs" />
     <Compile Include="Abstract\Transform.cs" />
+    <Compile Include="Box.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Box.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Point.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Point.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Abstract\Vector.cs" />
     <Compile Include="Abstract\Point.cs" />
@@ -66,6 +76,11 @@
     <Compile Include="Integer\SizeValue.cs" />
     <Compile Include="Integer\Transform.cs" />
     <Compile Include="Integer\TransformValue.cs" />
+    <Compile Include="Shell.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Shell.tt</DependentUpon>
+    </Compile>
     <Compile Include="Single\Box.cs" />
     <Compile Include="Single\BoxValue.cs" />
     <Compile Include="Single\Point.cs" />
@@ -77,6 +92,16 @@
     <Compile Include="Single\Transform.cs" />
     <Compile Include="Single\TransformValue.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+    <Compile Include="Size.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Size.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transform.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transform.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
@@ -87,6 +112,31 @@
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Box.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Box.cs</LastGenOutput>
+    </None>
+    <None Include="Point.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Point.cs</LastGenOutput>
+    </None>
+    <None Include="Shell.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Shell.cs</LastGenOutput>
+    </None>
+    <None Include="Size.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Size.cs</LastGenOutput>
+    </None>
+    <None Include="Transform.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transform.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

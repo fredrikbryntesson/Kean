@@ -57,7 +57,7 @@ namespace Kean.Math.Geometry2D.Double
             else if (p == 1)
                 result = Kean.Math.Double.Absolute(this.X) + Kean.Math.Double.Absolute(this.Y);
             else
-                result = Kean.Math.Double.Power(Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.X), p) + Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.Y), p), 1 / p);
+                result = Kean.Math.Double.Power(Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.X), p) + Kean.Math.Double.Power(Kean.Math.Double.Absolute(this.Y), p), 1.0 / p);
             return result;
         }
         /// <summary>
@@ -186,6 +186,32 @@ namespace Kean.Math.Geometry2D.Double
             return new PointValue(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
         }
         #endregion
+        #region Static Operators
+        public static PointValue Floor(Geometry2D.Single.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+        }
+        public static PointValue Ceiling(Geometry2D.Single.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+        }
+        public static PointValue Floor(Geometry2D.Double.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+        }
+        public static PointValue Ceiling(Geometry2D.Double.PointValue other)
+        {
+            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+        }
+        public static PointValue Maximum(PointValue left, PointValue right)
+        {
+            return new PointValue(Kean.Math.Double.Maximum(left.X, right.X), Kean.Math.Double.Maximum(left.Y, right.Y));
+        }
+        public static PointValue Minimum(PointValue left, PointValue right)
+        {
+            return new PointValue(Kean.Math.Double.Minimum(left.X, right.X), Kean.Math.Double.Minimum(left.Y, right.Y));
+        }
+        #endregion
         #region Comparison Operators
         /// <summary>
         /// Defines equality.
@@ -224,32 +250,6 @@ namespace Kean.Math.Geometry2D.Double
             return left.X >= right.X && left.Y >= right.Y;
         }
         #endregion
-        #region IEquatable<PointValue> Members
-        public bool Equals(PointValue other)
-        {
-            return this == other;
-        }
-        #endregion
-        #region Object Overrides
-        public override bool Equals(object other)
-        {
-            return other is PointValue && this.Equals((PointValue)other);
-        }
-        public override int GetHashCode()
-        {
-            return 33 * this.X.GetHashCode() ^ this.Y.GetHashCode();
-        }
-		public override string ToString()
-        {
-			return Kean.Math.Double.ToString(this.X) + ", " + Kean.Math.Double.ToString(this.Y);
-		}
-        #endregion
-        #region Static Creators
-        public static PointValue Polar(double radius, double azimuth)
-        {
-            return new PointValue(radius * Kean.Math.Double.Cosinus(azimuth), radius * Kean.Math.Double.Sinus(azimuth));
-        }
-        #endregion
         #region Casts
         public static explicit operator double[](PointValue value)
         {
@@ -258,6 +258,22 @@ namespace Kean.Math.Geometry2D.Double
         public static explicit operator PointValue(double[] value)
         {
             return new PointValue(value[0], value[1]);
+        }
+        public static implicit operator PointValue(Single.PointValue value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+        public static implicit operator PointValue(Integer.PointValue value)
+        {
+            return new PointValue(value.X, value.Y);
+        }
+        public static explicit operator Single.PointValue(PointValue value)
+        {
+            return new Single.PointValue((Kean.Math.Single)(value.X), (Kean.Math.Single)(value.Y));
+        }
+        public static explicit operator Integer.PointValue(PointValue value)
+        {
+            return new Integer.PointValue((Kean.Math.Integer)(value.X), (Kean.Math.Integer)(value.Y));
         }
         public static implicit operator string(PointValue value)
         {
@@ -288,48 +304,33 @@ namespace Kean.Math.Geometry2D.Double
         {
             return new PointValue(value.Width, value.Height);
         }
-        public static implicit operator PointValue(Single.PointValue value)
+        #endregion
+        #region IEquatable<PointValue> Members
+        public bool Equals(PointValue other)
         {
-            return new PointValue(value.X, value.Y);
-        }
-        public static implicit operator PointValue(Integer.PointValue value)
-        {
-            return new PointValue(value.X, value.Y);
-        }
-        public static explicit operator Single.PointValue(PointValue value)
-        {
-            return new Single.PointValue(Kean.Math.Single.Convert(value.X), Kean.Math.Single.Convert(value.Y));
-        }
-        public static explicit operator Integer.PointValue(PointValue value)
-        {
-            return new Integer.PointValue(Kean.Math.Integer.Convert(value.X), Kean.Math.Integer.Convert(value.Y));
+            return this == other;
         }
         #endregion
-        #region Static Operators
-        public static PointValue Ceiling(Geometry2D.Single.PointValue other)
+        #region Object Overrides
+        public override bool Equals(object other)
         {
-            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+            return other is PointValue && this.Equals((PointValue)other);
         }
-        public static PointValue Floor(Geometry2D.Single.PointValue other)
+        public override int GetHashCode()
         {
-            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+            return 33 * this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
-         public static PointValue Floor(PointValue other)
+		public override string ToString()
         {
-            return new PointValue(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
-        }
-        public static PointValue Ceiling(PointValue other)
+			return Kean.Math.Double.ToString(this.X) + ", " + Kean.Math.Double.ToString(this.Y);
+		}
+        #endregion
+        #region Static Creators
+        public static PointValue Polar(double radius, double azimuth)
         {
-            return new PointValue(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
-        }
-        public static PointValue Maximum(PointValue left, PointValue right)
-        {
-            return new PointValue(Kean.Math.Double.Maximum(left.X, right.X), Kean.Math.Double.Maximum(left.Y, right.Y));
-        }
-        public static PointValue Minimum(PointValue left, PointValue right)
-        {
-            return new PointValue(Kean.Math.Double.Minimum(left.X, right.X), Kean.Math.Double.Minimum(left.Y, right.Y));
+            return new PointValue(radius * Kean.Math.Double.Cosinus(azimuth), radius * Kean.Math.Double.Sinus(azimuth));
         }
         #endregion
-  }
+    }
 }
+
