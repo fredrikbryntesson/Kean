@@ -132,5 +132,23 @@ namespace Kean.Draw.Raster
 		{
 			this.Apply(Color.Convert.FromYuv(action));
 		}
+		#region Static Open
+		public static new Yuv422 OpenResource(System.Reflection.Assembly assembly, string name)
+		{
+			return Image.OpenResource<Yuv422>(assembly, name);
+		}
+		public static new Yuv422 OpenResource(string name)
+		{
+			return Image.OpenResource<Yuv422>(System.Reflection.Assembly.GetCallingAssembly(), name);
+		}
+		public static new Yuv422 Open(string filename)
+		{
+			return Image.Open<Yuv422>(filename);
+		}
+		public static new Yuv422 Open(System.IO.Stream stream)
+		{
+			return Image.Open<Yuv422>(stream);
+		}
+		#endregion
 	}
 }

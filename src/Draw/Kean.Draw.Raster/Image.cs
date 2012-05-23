@@ -45,7 +45,8 @@ namespace Kean.Draw.Raster
 		}
 		public override Canvas Canvas { get { return this.Cairo.Canvas; } }
 		Buffer.Sized buffer;
-        public IntPtr Pointer { get { return this.buffer; } }
+		public Buffer.Sized Buffer { get { return this.buffer; } }
+		public IntPtr Pointer { get { return this.buffer; } }
         public int Length { get { return this.buffer.Size; } }
 
         public abstract void Apply(Action<Color.Bgr> action);
@@ -90,12 +91,7 @@ namespace Kean.Draw.Raster
                 result = resized.Convert<Yvu420>();
             return result;
         }
-        public override void Shift(Geometry2D.Integer.Size offset)
-        {
-            // TODO: implement with memcopy
-            throw new NotImplementedException();
-        }
-        /// <summary>
+		/// <summary>
         /// Copy a specified region of the current image. The transform specifies the part of current image to be copied.
         /// The transform is map which sends a rectangle of size Resolution centered at origo to a transformed (scaled, rotated, translated) one 
         /// in the current image. 
@@ -275,6 +271,10 @@ namespace Kean.Draw.Raster
                 result = Image.Open(stream);
             return result;
         }
+		public static T OpenResource<T>(System.Reflection.Assembly assembly, string name) where T : Raster.Image
+		{
+			return Image.OpenResource(assembly, name).As<T>();
+		}
         public static Image OpenResource(string name)
         {
             string[] splitted = name.Split(new char[] { ':' }, 2);
@@ -285,6 +285,16 @@ namespace Kean.Draw.Raster
                 result = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
             return result;
         }
+		public static T OpenResource<T>(string name) where T : Raster.Image
+		{
+			string[] splitted = name.Split(new char[] { ':' }, 2);
+			T result;
+			if (splitted.Length > 1)
+				result = Image.OpenResource(System.Reflection.Assembly.LoadWithPartialName(splitted[0]), splitted[1]).As<T>();
+			else
+				result = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name).As<T>();
+			return result;
+		}
         public static Image Open(string filename)
         {
             Image result;
@@ -299,6 +309,10 @@ namespace Kean.Draw.Raster
             }
             return result;
         }
+		public static T Open<T>(string filename) where T : Raster.Image
+		{
+			return Image.Open(filename).As<T>();
+		}
         public static Image Open(System.IO.Stream stream)
         {
             Image result;
@@ -312,6 +326,10 @@ namespace Kean.Draw.Raster
             }
             return result;
         }
+		public static T Open<T>(System.IO.Stream stream) where T : Raster.Image
+		{
+			return Image.Open(stream).As<T>();
+		}
         #endregion
         #region IDisposable Members Override
         public override void Dispose()

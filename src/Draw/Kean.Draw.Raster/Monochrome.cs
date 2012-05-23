@@ -96,5 +96,23 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
+		#region Static Open
+		public static new Monochrome OpenResource(System.Reflection.Assembly assembly, string name)
+		{
+			return Image.OpenResource<Monochrome>(assembly, name);
+		}
+		public static new Monochrome OpenResource(string name)
+		{
+			return Image.OpenResource<Monochrome>(System.Reflection.Assembly.GetCallingAssembly(), name);
+		}
+		public static new Monochrome Open(string filename)
+		{
+			return Image.Open<Monochrome>(filename);
+		}
+		public static new Monochrome Open(System.IO.Stream stream)
+		{
+			return Image.Open<Monochrome>(stream);
+		}
+		#endregion
 	}
 }

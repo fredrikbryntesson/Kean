@@ -36,7 +36,13 @@ namespace Kean.Draw.Raster.Test
         protected override void Run()
         {
             this.Run(
-                this.AspectRatio,
+				this.ShiftMonochrome,
+				this.ShiftYuv422,
+				this.ShiftYuv420,
+				this.ShiftYvu420,
+				this.ShiftBgra,
+				this.ShiftBgr,
+				this.AspectRatio,
 				this.Different,
                 this.CutRotate,
                 this.CutScale,
@@ -53,8 +59,53 @@ namespace Kean.Draw.Raster.Test
 			 using (Target.Image b = Target.Image.OpenResource("Correct/Transform/translated.png"))
 				Verify(a.Distance(b), Is.GreaterThan(50));
 		}
-        #region  Cut, resize and copy
-        [Test]
+		#region Shift
+		[Test]
+		public void ShiftMonochrome()
+		{
+			using(Target.Monochrome image = Target.Monochrome.OpenResource("Correct/Transform/original.png"))
+			using (Target.Monochrome shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Monochrome)
+				Verify(shifted, "Correct/Transform/shiftedMonochrome.png");
+		}
+		[Test]
+		public void ShiftBgr()
+		{
+			using (Target.Bgr image = Target.Bgr.OpenResource("Correct/Transform/original.png"))
+			using (Target.Bgr shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Bgr)
+				Verify(shifted, "Correct/Transform/shiftedBgr.png");
+		}
+		[Test]
+		public void ShiftBgra()
+		{
+			using (Target.Bgra image = Target.Bgra.OpenResource("Correct/Transform/original.png"))
+			using (Target.Bgra shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Bgra)
+				Verify(shifted, "Correct/Transform/shiftedBgra.png");
+		}
+		[Test]
+		public void ShiftYuv422()
+		{
+			using (Target.Yuv422 image = Target.Yuv422.OpenResource("Correct/Transform/original.png"))
+			using (Target.Yuv422 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yuv422)
+				Verify(shifted, "Correct/Transform/shiftedYuv422.png");
+		}
+		[Test]
+		public void ShiftYuv420()
+		{
+			using (Target.Yuv420 image = Target.Yuv420.OpenResource("Correct/Transform/original.png"))
+			using (Target.Yuv420 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yuv420)
+				Verify(shifted, "Correct/Transform/shiftedYuv420.png");
+		}
+		[Test]
+		public void ShiftYvu420()
+		{
+
+			using (Target.Yvu420 image = Target.Yvu420.OpenResource("Correct/Transform/original.png"))
+			using (Target.Yvu420 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yvu420)
+				Verify(shifted, "Correct/Transform/shiftedYvu420.png");
+		}
+		#endregion
+		#region  Cut, resize and copy
+		[Test]
         public void CutRotate()
         {
 			using (Target.Image image = Target.Image.OpenResource("Correct/Transform/original.png"))

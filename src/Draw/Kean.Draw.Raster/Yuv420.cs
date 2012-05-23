@@ -120,6 +120,18 @@ namespace Kean.Draw.Raster
 		{
 			return new Yuv420(this);
 		}
+		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
+		{
+			Yuv420 result;
+			Monochrome y = this.Y.Shift(offset) as Monochrome;
+			Monochrome u = this.U.Shift(offset / 2) as Monochrome;
+			Monochrome v = this.V.Shift(offset / 2) as Monochrome;
+			result = new Yuv420(this.Size);
+			result.Buffer.CopyFrom(y.Buffer, 0, 0, y.Length);
+			result.Buffer.CopyFrom(u.Buffer, 0, y.Length, u.Length);
+			result.Buffer.CopyFrom(v.Buffer, 0, y.Length + u.Length, v.Length);
+			return result;
+		}
 		public override void Apply(Action<Color.Bgr> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
@@ -175,5 +187,23 @@ namespace Kean.Draw.Raster
 		{
 			return other is Yuv420 && base.Equals(other);
 		}
+		#region Static Open
+		public static new Yuv420 OpenResource(System.Reflection.Assembly assembly, string name)
+		{
+			return Image.OpenResource<Yuv420>(assembly, name);
+		}
+		public static new Yuv420 OpenResource(string name)
+		{
+			return Image.OpenResource<Yuv420>(System.Reflection.Assembly.GetCallingAssembly(), name);
+		}
+		public static new Yuv420 Open(string filename)
+		{
+			return Image.Open<Yuv420>(filename);
+		}
+		public static new Yuv420 Open(System.IO.Stream stream)
+		{
+			return Image.Open<Yuv420>(stream);
+		}
+		#endregion
 	}
 }

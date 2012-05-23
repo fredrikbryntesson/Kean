@@ -108,6 +108,18 @@ namespace Kean.Draw
 			this.Wrap = wrap;
 		}
 		public abstract T Convert<T>() where T : Image;
+		public T As<T>() where T : Image
+		{
+			T result;
+			if (this is T)
+				result = this as T;
+			else
+			{
+				result = this.Convert<T>();
+				this.Dispose();
+			}
+			return result;
+		}
 		public Draw.Image ResizeWithin(Geometry2D.Integer.Size restriction)
 		{
 			return this.ResizeTo((Geometry2D.Integer.Size)((Geometry2D.Single.Size)this.Size * Math.Single.Minimum((float)restriction.Width / (float)this.Size.Width, (float)restriction.Height / (float)this.Size.Height)));
@@ -116,7 +128,7 @@ namespace Kean.Draw
 		public abstract Image Create(Geometry2D.Integer.Size size);
 		public abstract Image Copy();
 		public abstract Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform);
-		public abstract void Shift(Geometry2D.Integer.Size offset);
+		public abstract Image Shift(Geometry2D.Integer.Size offset);
 
 		public abstract float Distance(Image other);
 		public override bool Equals(object other)

@@ -61,8 +61,9 @@ namespace Kean.Draw.Gpu
 		{
 			return null;
 		}
-		public override void Shift(Geometry2D.Integer.Size offset)
+		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
 		{
+			return null;
 		}
 		public override float Distance(Draw.Image other)
 		{

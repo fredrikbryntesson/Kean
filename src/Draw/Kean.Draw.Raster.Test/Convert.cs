@@ -67,18 +67,21 @@ namespace Kean.Draw.Raster.Test
         [Test]
         public void Equality()
         {
-            Target.Image first = Target.Image.OpenResource("Correct/Convert/original.png");
-            Target.Image second = Target.Image.OpenResource("Correct/Convert/original.png");
-            Expect(first.Distance(second), Is.LessThanOrEqualTo(this.Tolerance), this.Prefix + "Equality.0");
+			using (Target.Image first = Target.Image.OpenResource("Correct/Convert/original.png"))
+				Verify(first, "Correct/Convert/original.png");
         }
         [Test]
         public void Save()
         {
-            Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png");
-            original.Save("original.png");
-            original.Save("original.bmp");
-            Expect(original.Distance(Target.Image.Open("original.png")), Is.LessThanOrEqualTo(this.Tolerance), this.Prefix + "Save.0");
-            Expect(original.Distance(Target.Image.Open("original.bmp")), Is.LessThanOrEqualTo(this.Tolerance), this.Prefix + "Save.1");
+			using (Target.Image original = Target.Image.OpenResource("Correct/Convert/original.png"))
+			{
+				original.Save("original.png");
+				original.Save("original.bmp");
+				using (Raster.Image opened = Target.Image.Open("original.png"))
+					Verify(opened, original);
+				using (Raster.Image opened = Target.Image.Open("original.bmp"))
+					Verify(opened, original);
+			}
         }
         [Test]
         public void Copy()

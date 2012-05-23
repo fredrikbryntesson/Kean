@@ -63,7 +63,10 @@ namespace Kean.Draw.Cairo
 		{
 			return null;
 		}
-		public override void Shift(Geometry2D.Integer.Size offset) { }
+		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
+		{ 
+			return null;
+		}
 		#endregion
 		public void Save(string filename)
 		{

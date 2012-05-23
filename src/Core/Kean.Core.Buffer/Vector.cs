@@ -63,7 +63,19 @@ namespace Kean.Core.Buffer
                 }
             }
         }
-
+		public override void CopyFrom(Sized other, int start, int destination, int length)
+		{
+			if (typeof(T) == typeof(byte))
+				System.Runtime.InteropServices.Marshal.Copy(new IntPtr(((IntPtr)other).ToInt32() + start), this.Data as byte[], destination, length);
+			else if (typeof(T) == typeof(int))
+				System.Runtime.InteropServices.Marshal.Copy(new IntPtr(((IntPtr)other).ToInt32() + start), this.Data as int[], destination, length);
+			else if (typeof(T) == typeof(float))
+				System.Runtime.InteropServices.Marshal.Copy(new IntPtr(((IntPtr)other).ToInt32() + start), this.Data as float[], destination, length);
+			else if (typeof(T) == typeof(double))
+				System.Runtime.InteropServices.Marshal.Copy(new IntPtr(((IntPtr)other).ToInt32() + start), this.Data as double[], destination, length);
+			else
+				base.CopyFrom(other, start, destination, length);
+		}
         #region IVector<T> Members
         T Collection.IVector<T>.this[int index]
         {

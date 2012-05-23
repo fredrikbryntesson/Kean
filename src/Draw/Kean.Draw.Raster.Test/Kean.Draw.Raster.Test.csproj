@@ -132,6 +132,16 @@
   <ItemGroup>
     <EmbeddedResource Include="Correct\Bgra\RoundedRectangle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Transform\shiftedMonochrome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Transform\shiftedBgr.png" />
+    <EmbeddedResource Include="Correct\Transform\shiftedBgra.png" />
+    <EmbeddedResource Include="Correct\Transform\shiftedYuv420.png" />
+    <EmbeddedResource Include="Correct\Transform\shiftedYuv422.png" />
+    <EmbeddedResource Include="Correct\Transform\shiftedYvu420.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(ProjectDir)..\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>

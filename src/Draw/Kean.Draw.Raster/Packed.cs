@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
 
@@ -43,7 +44,28 @@ namespace Kean.Draw.Raster
 		{
 			this.Stride = original.Stride;
 		}
-
+		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
+		{
+			Raster.Image result = null;
+			if (this is Monochrome)
+				result = new Monochrome(this.Size);
+			else if (this is Bgr)
+				result = new Bgr(this.Size);
+			else if (this is Bgra)
+				result = new Bgra(this.Size);
+			else if (this is Yuv422)
+				result = new Yuv422(this.Size);
+			int offsetX = Kean.Math.Integer.Modulo(this is Yuv422 && Kean.Math.Integer.Modulo(offset.Width, 2) != 0 ? offset.Width + 1 : offset.Width, this.Size.Width);
+			int length = (this.Size.Width - offsetX) * this.BytesPerPixel;
+			int line = this.Size.Width * this.BytesPerPixel;
+			for (int y = 0; y < this.Size.Height; y++)
+				{
+					int destination = Kean.Math.Integer.Modulo(y + offset.Height, this.Size.Height) * this.Stride;
+					result.Buffer.CopyFrom(this.Buffer, this.Stride * y, destination + offsetX * this.BytesPerPixel, length);
+					result.Buffer.CopyFrom(this.Buffer, this.Stride * y + length, destination, line - length);
+				}
+			return result;
+		}
 		public override bool Equals(Draw.Image other)
 		{
 			return other is Packed &&

@@ -40,25 +40,25 @@ namespace Kean.Draw.Raster.Test
 		public void Verify(Draw.Image image, string resource)
 		{
 			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource))
-				Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				this.Verify(image, correct);
 		}
 		public void Verify(Draw.Image image, Raster.Image correct)
 		{
 			if (correct is Raster.Bgr)
 			{
 				if (image is Raster.Bgr)
-					Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 				else
 					using (Raster.Bgr i = image.Convert<Raster.Bgr>())
-						Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+						this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 			}
 			else if (correct is Raster.Bgra)
 			{
 				if (image is Raster.Bgra)
-					Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 				else
 					using (Raster.Bgra i = image.Convert<Raster.Bgra>())
-						Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+						this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 			}
 		}
 	}

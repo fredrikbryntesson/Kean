@@ -57,7 +57,18 @@ namespace Kean.Draw.Raster
 		{
 			return new Yvu420(this);
 		}
-
+		public override Kean.Draw.Image Shift(Kean.Math.Geometry2D.Integer.Size offset)
+		{
+			Yvu420 result;
+			Monochrome y = this.Y.Shift(offset) as Monochrome;
+			Monochrome u = this.U.Shift(offset / 2) as Monochrome;
+			Monochrome v = this.V.Shift(offset / 2) as Monochrome;
+			result = new Yvu420(this.Size);
+			result.Buffer.CopyFrom(y.Buffer, 0, 0, y.Length);
+			result.Buffer.CopyFrom(v.Buffer, 0, y.Length, v.Length);
+			result.Buffer.CopyFrom(u.Buffer, 0, y.Length + v.Length, u.Length);
+			return result;
+		}
 		public override float Distance(Draw.Image other)
 		{
 			return other is Yvu420 ? base.Distance(other) : float.MaxValue;
@@ -66,5 +77,23 @@ namespace Kean.Draw.Raster
 		{
 			return other is Yvu420 && base.Equals(other);
 		}
+		#region Static Open
+		public static new Yvu420 OpenResource(System.Reflection.Assembly assembly, string name)
+		{
+			return Image.OpenResource<Yvu420>(assembly, name);
+		}
+		public static new Yvu420 OpenResource(string name)
+		{
+			return Image.OpenResource<Yvu420>(System.Reflection.Assembly.GetCallingAssembly(), name);
+		}
+		public static new Yvu420 Open(string filename)
+		{
+			return Image.Open<Yvu420>(filename);
+		}
+		public static new Yvu420 Open(System.IO.Stream stream)
+		{
+			return Image.Open<Yvu420>(stream);
+		}
+		#endregion
 	}
 }

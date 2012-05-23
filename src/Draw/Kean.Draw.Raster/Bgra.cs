@@ -82,5 +82,23 @@ namespace Kean.Draw.Raster
 		{
 			this.Apply(Color.Convert.FromBgr(action));
 		}
+		#region Static Open
+		public static new Bgra OpenResource(System.Reflection.Assembly assembly, string name)
+		{
+			return Image.OpenResource<Bgra>(assembly, name);
+		}
+		public static new Bgra OpenResource(string name)
+		{
+			return Image.OpenResource<Bgra>(System.Reflection.Assembly.GetCallingAssembly(), name);
+		}
+		public static new Bgra Open(string filename)
+		{
+			return Image.Open<Bgra>(filename);
+		}
+		public static new Bgra Open(System.IO.Stream stream)
+		{
+			return Image.Open<Bgra>(stream);
+		}
+		#endregion
 	}
 }
