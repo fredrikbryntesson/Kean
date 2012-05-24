@@ -36,7 +36,7 @@ namespace Kean.Xml.Serialize.Test
 		void Test(Uri.Locator locator)
 		{
 			Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
-			Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Serialize Missing {0}", locator);
+			Verify(this.storage.Store<object>(new Object(), locator), locator.Scheme == "file" ? Is.True : Is.False, "Serialize Missing {0}", locator);
 		}
 		public override void Setup()
 		{
