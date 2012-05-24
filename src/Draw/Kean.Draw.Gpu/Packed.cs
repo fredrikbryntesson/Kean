@@ -45,9 +45,15 @@ namespace Kean.Draw.Gpu
 			this.Backend.Render(source, destination);
 		}
 		#region Draw.Image Overrides
+		Canvas canvas;
 		public override Draw.Canvas Canvas
 		{
-			get { return new Canvas(this); }
+			get 
+			{ 
+				if (this.canvas.IsNull())
+					this.canvas = new Canvas(this);
+				return this.canvas;
+			}
 		}
 		public override T Convert<T>()
 		{

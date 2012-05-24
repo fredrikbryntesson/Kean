@@ -22,6 +22,8 @@
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Reflect.Extension;
+using Reflect = Kean.Core.Reflect;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.Gpu
 {
@@ -61,17 +63,18 @@ namespace Kean.Draw.Gpu
         public override T Convert<T>()
         {
 			T result = null;
-			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+			Reflect.Type type = typeof(T);
+			if (type.Inherits<Raster.Image>())
 				result = this.Backend.Read().Convert<T>() as T;
 			else
 			{
-				if (typeof(T) == typeof(Gpu.Bgr))
+				if (type == typeof(Gpu.Bgr))
 					result = this.Copy() as T;
-				else if (typeof(T) == typeof(Gpu.Bgra))
+				else if (type == typeof(Gpu.Bgra))
 					result = new Bgra(this) as T;
-				else if (typeof(T) == typeof(Gpu.Monochrome))
+				else if (type == typeof(Gpu.Monochrome))
 					result = new Monochrome(this) as T;
-				else if (typeof(T) == typeof(Gpu.Yuv420))
+				else if (type == typeof(Gpu.Yuv420))
 					result = new Yuv420(this) as T;
 			}
 			return result;

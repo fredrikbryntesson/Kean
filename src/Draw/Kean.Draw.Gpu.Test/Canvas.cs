@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -29,6 +29,18 @@ namespace Kean.Draw.Gpu.Test
 	public class Canvas :
 		Fixture<Canvas>
 	{
+		Gpu.Image image;
+		public override void Setup()
+		{
+			base.Setup();
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+				this.image = Gpu.Image.Create(raster);
+		}
+		public override void TearDown()
+		{
+			base.TearDown();
+			this.image.Dispose();
+		}
 		protected override void Run()
 		{
 			this.Run(
@@ -53,144 +65,139 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			{
-				Draw.Canvas canvas = image.Canvas;
-				Expect(canvas, Is.Not.Null);
-				Expect(canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
+				Verify(image.Canvas, Is.Not.Null);
+				Verify(image.Canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
 			}
 		}
 		[Test]
 		public void CreateFromRaster()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				Expect(canvas.Image, Is.EqualTo(image));
-			}
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+				Verify(this.image.Canvas.Image, raster);
+		}
+		[Test]
+		public void Copy()
+		{
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image copy = this.image.Copy())
+				Verify(copy, raster);
 		}
 		[Test]
 		public void DrawColor()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255));
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawColor.png")));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255));
+				Verify(image, "Correct.Bgra.DrawColor.png");
 			}
 		}
 		[Test]
 		public void DrawColorRegion()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawColorRegion.png")));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
+				Verify(image, "Correct.Bgra.DrawColorRegion.png");
 			}
 		}
 		[Test]
 		public void Clear()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Clear();
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.Clear.png")));
+				image.Canvas.Clear();
+				Verify(image, "Correct.Bgra.Clear.png");
 			}
 		}
 		[Test]
 		public void ClearArea()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ClearArea.png")));
+				image.Canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
+				Verify(image, "Correct.Bgra.ClearArea.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnPosition()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(part, new Geometry2D.Single.Point(500, 200));
-				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnPosition.png")), Is.LessThan(5));
+				image.Canvas.Draw(resized, new Geometry2D.Single.Point(500, 200));
+				Verify(image, "Correct.Bgra.DrawImageOnPosition.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnRegion()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(part, new Geometry2D.Single.Box(0,0,50,100), new Geometry2D.Single.Box(200,200,100,100));
-				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegion.png")), Is.LessThan(5));
+				image.Canvas.Draw(resized, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
+				Verify(image, "Correct.Bgra.DrawImageOnRegion.png");
 			}
 		}
 		[Test]
 		public void Blend()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Blend(0.5f);
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.Blend.png")));
+				image.Canvas.Blend(0.5f);
+				Verify(image, "Correct.Bgra.Blend.png");
 			}
 		}
 		[Test]
 		public void DrawColorRegionWithClipping()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(new Kean.Draw.Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, 100, 400, 100));
-				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
-				canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, 100, 400, 100));
-				canvas.Pop();
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawColorRegionWithClipping.png")));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, 100, 400, 100));
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
+				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, 100, 400, 100));
+				image.Canvas.Pop();
+				Verify(image, "Correct.Bgra.DrawColorRegionWithClipping.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnRegionWithClipping()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
-				canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
-				canvas.Pop();
-				Expect(canvas.Image.Convert<Raster.Bgra>().Distance(Raster.Bgra.OpenResource("Correct.Bgra.DrawImageOnRegionWithClipping.png")), Is.LessThan(5));
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
+				image.Canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
+				image.Canvas.Pop();
+				Verify(image, "Correct.Bgra.DrawImageOnRegionWithClipping.png");
 			}
 		}
 		[Test]
 		public void BlendWithClipping()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
-				Kean.Draw.Image part = Raster.Image.OpenResource("Input.Flower.jpg").ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>();
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
-				canvas.Blend(0.5f);
-				canvas.Pop();
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.BlendWithClipping.png")));
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
+				image.Canvas.Blend(0.5f);
+				image.Canvas.Pop();
+				Verify(image, "Correct.Bgra.BlendWithClipping.png");
 			}
 		}
 		//TODO Need a way to set both clip and transform independently.
 		[Test]
 		public void DrawColorRegionWithTransformAndClipping()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
+			using (Draw.Image image = this.image.Copy())
 			{
-				Kean.Draw.Canvas canvas = image.Canvas;
-				canvas.Draw(new Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
-				canvas.Push(new Geometry2D.Single.Box(0,0, image.Size.Width / 2, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(100,0) * Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45)));
-				canvas.Draw(new Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
-				canvas.Pop();
-				Expect(canvas.Image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.DrawColorRegionWithTransformAndClipping.png")));
+				image.Canvas.Draw(new Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
+				image.Canvas.Push(new Geometry2D.Single.Box(0,0, image.Size.Width / 2, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(100,0) * Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45)));
+				image.Canvas.Draw(new Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
+				image.Canvas.Pop();
+				Verify(image, "Correct.Bgra.DrawColorRegionWithTransformAndClipping.png");
 			}
 		}		
 	}

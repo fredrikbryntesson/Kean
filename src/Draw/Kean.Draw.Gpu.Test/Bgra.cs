@@ -29,6 +29,18 @@ namespace Kean.Draw.Gpu.Test
 	public class Bgra :
 		Fixture<Bgra>
 	{
+		Gpu.Image image;
+		public override void Setup()
+		{
+			base.Setup();
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+				this.image = Gpu.Image.Create(raster);
+		}
+		public override void TearDown()
+		{
+			base.TearDown();
+			this.image.Dispose();
+		}
 		protected override void Run()
 		{
 			this.Run(
@@ -45,8 +57,8 @@ namespace Kean.Draw.Gpu.Test
 		{
 			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			{
-				Expect(image, Is.Not.Null);
-				Expect(image.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
+				Verify(image, Is.Not.Null);
+				Verify(image.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
 			}
 		}
 		[Test]
@@ -55,8 +67,8 @@ namespace Kean.Draw.Gpu.Test
 			using (Gpu.Bgra a = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
 			using (Gpu.Bgra b = new Gpu.Bgra(new Geometry2D.Integer.Size(256, 256)))
 			{
-				Expect(a, Is.EqualTo(a));
-				Expect(a, Is.Not.EqualTo(b));
+				Verify(a, Is.EqualTo(a));
+				Verify(a, Is.Not.EqualTo(b));
 			}
 		}
 		/*
@@ -69,26 +81,25 @@ namespace Kean.Draw.Gpu.Test
 		[Test]
 		public void CreateFromRaster()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.CreateFromRaster.png")));
+			Verify(this.image, "Correct.Bgra.CreateFromRaster.png");
 		}
 		[Test]
 		public void Copy()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-				Expect(image.Copy().Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.CreateFromRaster.png")));
+			using (Draw.Image copy = this.image.Copy())
+				Verify(copy, "Correct.Bgra.CreateFromRaster.png");
 		}
 		[Test]
 		public void ResizeTo()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-				Expect(image.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeTo.png")));
+			using (Draw.Image resized = this.image.ResizeTo(new Geometry2D.Integer.Size(100, 100)))
+				Verify(resized, "Correct.Bgra.ResizeTo.png");
 		}
 		[Test]
 		public void ResizeWithin()
 		{
-			using (Gpu.Image image = Gpu.Image.Create(Raster.Image.OpenResource("Input.Flower.jpg").Convert<Raster.Bgra>()))
-				Expect(image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ResizeWithin.png")));
+			using (Draw.Image resized = this.image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
+				Verify(resized, "Correct.Bgra.ResizeWithin.png");
 		}
 	}
 }

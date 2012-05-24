@@ -40,7 +40,16 @@ namespace Kean.Draw.Gpu
 			this.Channels = original.Channels.Map(c => c.Copy() as Gpu.Packed);
 		}
 		#region Draw.Image Overrides
-		public override Draw.Canvas Canvas { get { return new Canvas(this, this.Channels); } }
+		Canvas canvas;
+		public override Draw.Canvas Canvas
+		{
+			get
+			{
+				if (this.canvas.IsNull())
+					this.canvas = new Canvas(this, this.Channels);
+				return this.canvas;
+			}
+		}
 		public override void Dispose()
 		{
 			if (this.Channels.NotNull())

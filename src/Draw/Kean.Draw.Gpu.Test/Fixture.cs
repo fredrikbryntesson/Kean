@@ -28,7 +28,8 @@ namespace Kean.Draw.Gpu.Test
 		Raster.Test.Fixture<T>
 		where T : Fixture<T>, new()
 	{
-		protected Fixture()
+		protected Fixture() :
+			this(0.2f)
 		{ }
 		protected Fixture(float tolerance) : 
 			base(tolerance)
