@@ -6,6 +6,13 @@ namespace Kean.Math.Geometry2D.Test
     {
         public static void Test()
         {
+            Double.PointValue.Test();
+            Double.SizeValue.Test();
+            Double.BoxValue.Test();
+            Double.TransformValue.Test();
+
+            
+            
             Integer.Point.Test();
             Single.Point.Test();
             Double.Point.Test();
