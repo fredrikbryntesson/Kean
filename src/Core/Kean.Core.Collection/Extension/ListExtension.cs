@@ -50,6 +50,23 @@ namespace Kean.Core.Collection.Extension
 			}
 			return result;
 		}
+		public static T RemoveFirst<T>(this IList<T> me, Func<T, bool> predicate)
+		{
+			T result = default(T);
+			int i = 0;
+			while (i < me.Count)
+			{
+				T item = me[i];
+				if (predicate(item) && (item.NotNull() ? item.Equals(me.Remove(i)) : (me.Remove(i) == null)))
+				{
+					result = item;
+					break;
+				}
+				else
+					i++;
+			}
+			return result;
+		}
 		public static IList<T> Clear<T>(this IList<T> me)
 		{
 			while (me.Count > 0)

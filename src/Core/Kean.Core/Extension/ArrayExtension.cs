@@ -234,5 +234,23 @@ namespace Kean.Core.Extension
 		{
 			return me.NotEmpty() ? me[me.Length - 1] : default(T);
 		}
+		public static T[] Initialize<T>(this T[] me, T value)
+		{
+			for (int i = 0; i < me.Length; i++)
+				me[i] = value;
+			return me;
+		}
+		public static T[] Initialize<T>(this T[] me, Func<T> create)
+		{
+			for (int i = 0; i < me.Length; i++)
+				me[i] = create();
+			return me;
+		}
+		public static T[] Initialize<T>(this T[] me, Func<int, T> create)
+		{
+			for (int i = 0; i < me.Length; i++)
+				me[i] = create(i);
+			return me;
+		}
 	}
 }

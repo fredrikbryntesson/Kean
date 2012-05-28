@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using InteropServices = System.Runtime.InteropServices;
 
 namespace Kean.Core.Buffer
@@ -37,8 +38,8 @@ namespace Kean.Core.Buffer
         }
         bool isPinned = false;
         InteropServices.GCHandle handle;
-        public Vector(int size) : this(new T[size], null) { }
-        public Vector(int size, Action<IntPtr> free) : this(new T[size], free) { }
+        public Vector(int size) : this(size, null) { }
+		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Create(size), free) { }
         public Vector(T[] data) : this(data, null) { }
         public Vector(T[] data, Action<IntPtr> free) :
             this(InteropServices.GCHandle.Alloc(data, InteropServices.GCHandleType.Pinned), InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(data, 0), data.Length * InteropServices.Marshal.SizeOf(typeof(T)), free)
@@ -55,12 +56,17 @@ namespace Kean.Core.Buffer
         {
             lock (this.Lock)
             {
-                base.Dispose(disposing);
-                if (this.isPinned && this.handle.IsAllocated)
-                {
-                    this.handle.Free();
-                    this.isPinned = false;
-                }
+				if (this.Data.NotNull())
+				{
+					base.Dispose(disposing);
+					if (this.isPinned && this.handle.IsAllocated)
+					{
+						this.handle.Free();
+						this.isPinned = false;
+					}
+					Vector<T>.recycle.Recycle(this.Data);
+					this.Data = null;
+				}
             }
         }
 		public override void CopyFrom(Sized other, int start, int destination, int length)
@@ -108,6 +114,7 @@ namespace Kean.Core.Buffer
         public static implicit operator IntPtr(Vector<T> pointer)
         {
             return (IntPtr)(Pointer)pointer;
-        }
-    }
+		}
+		static Recycle.IBin<T> recycle = new Recycle.Bins<T>(10, 10000, 1000000);
+	}
 }
