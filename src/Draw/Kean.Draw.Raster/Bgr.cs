@@ -31,11 +31,11 @@ namespace Kean.Draw.Raster
 	{
 		protected override int BytesPerPixel { get { return 3; } }
 		public Bgr(Geometry2D.Integer.Size size) :
-			base(new byte[Packed.CalculateLength(size, 3)], size) { }
+			this(size, CoordinateSystem.Default) { }
 		public Bgr(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 3)), size, coordinateSystem) { }
 		public Bgr(byte[] data, Geometry2D.Integer.Size size) :
-			base(data, size) { }
+			this(new Buffer.Vector<byte>(data), size) { }
 		public Bgr(IntPtr pointer, Geometry2D.Integer.Size size) :
 			this(new Buffer.Sized(pointer, Packed.CalculateLength(size, 3)), size) { }
 		public Bgr(Buffer.Sized buffer, Geometry2D.Integer.Size size) :

@@ -32,8 +32,6 @@ namespace Kean.Draw.Raster
 
 		public int Stride { get; private set; }
 
-		protected Packed(byte[] data, Geometry2D.Integer.Size size) :
-			this(new Buffer.Vector<byte>(data), size, CoordinateSystem.Default) { }
 		protected Packed(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(buffer, size, coordinateSystem)
 		{

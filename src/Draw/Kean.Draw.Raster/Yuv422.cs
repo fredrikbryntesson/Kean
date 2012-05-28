@@ -38,7 +38,7 @@ namespace Kean.Draw.Raster
 		public Yuv422(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem) { }
 		public Yuv422(byte[] data, Geometry2D.Integer.Size size) :
-			base(data, size) { }
+			this(new Buffer.Vector<byte>(data), size) { }
 		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
 			base(buffer, size, CoordinateSystem.Default) { }
 		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :

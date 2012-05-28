@@ -36,7 +36,7 @@ namespace Kean.Draw.Raster
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1)), size, coordinateSystem) { }
 		public Monochrome(byte[] data, Geometry2D.Integer.Size size) :
-			base(data, size) { }
+			this(new Buffer.Vector<byte>(data), size) { }
 		public Monochrome(IntPtr pointer, Geometry2D.Integer.Size size) :
 			this(new Buffer.Sized(pointer, Packed.CalculateLength(size, 1)), size) { }
 		public Monochrome(Buffer.Sized buffer, Geometry2D.Integer.Size size) :

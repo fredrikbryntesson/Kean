@@ -134,8 +134,7 @@ namespace Kean.Draw.Raster.Test
 			using (Target.Image image = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
-				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateTranslation(100, 100);
-				using(Target.Image copy = image.Copy(size, transform) as Target.Image)
+				using(Target.Image copy = image.Copy(size, Geometry2D.Single.Transform.CreateTranslation(100, 100)) as Target.Image)
 					Verify(copy, "Correct/Transform/translated.png");
 			}
         }

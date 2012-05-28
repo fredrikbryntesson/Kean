@@ -48,7 +48,7 @@ namespace Kean.Core.Buffer.Recycle
 		{
 			if (item.NotEmpty())
 			{
-				item.Initialize();
+				item.Initialize(default(T));
 				while (this.recycled.Count >= this.Capacity)
 					this.recycled.Remove(this.Capacity - 1);
 				this.recycled.Add(item);
