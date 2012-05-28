@@ -38,6 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bgr.cs" />
     <Compile Include="Fixture.cs" />
     <Compile Include="All.cs" />
     <Compile Include="Bgra.cs" />
@@ -142,6 +143,13 @@
     <EmbeddedResource Include="Correct\Transform\shiftedYuv420.png" />
     <EmbeddedResource Include="Correct\Transform\shiftedYuv422.png" />
     <EmbeddedResource Include="Correct\Transform\shiftedYvu420.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgr\Bitmap.png" />
+    <EmbeddedResource Include="Correct\Bgr\Circle.png" />
+    <EmbeddedResource Include="Correct\Bgr\Ellipse.png" />
+    <EmbeddedResource Include="Correct\Bgr\Rectangle.png" />
+    <EmbeddedResource Include="Correct\Bgr\RoundedRectangle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
