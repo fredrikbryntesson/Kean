@@ -29,6 +29,9 @@ namespace Kean.Draw.Vector.Test
 	public class Image :
 		Raster.Test.Image<Image>
 	{
+		public Image() :
+			base("Bgra", 0.01f)
+		{ }
 		protected override Draw.Image CreateImage(Geometry2D.Integer.Size size)
 		{
 			return new Vector.Image(size);

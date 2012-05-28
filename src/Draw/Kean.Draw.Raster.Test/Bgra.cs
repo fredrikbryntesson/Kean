@@ -28,6 +28,9 @@ namespace Kean.Draw.Raster.Test
 	public class Bgra :
 		Image<Bgra>
 	{
+		public Bgra() :
+			base("Bgra", 0.01f)
+		{ }
 		protected override Draw.Image CreateImage(Geometry2D.Integer.Size size)
 		{
 			return new Raster.Bgra(size);

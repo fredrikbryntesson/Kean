@@ -116,22 +116,22 @@
     <EmbeddedResource Include="Correct\Transform\aspect.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\Bitmap.png" />
+    <EmbeddedResource Include="Correct\Bgra\Bitmap.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\Circle.png" />
+    <EmbeddedResource Include="Correct\Bgra\Circle.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\Create.png" />
+    <EmbeddedResource Include="Correct\Bgra\Create.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\Ellipse.png" />
+    <EmbeddedResource Include="Correct\Bgra\Ellipse.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\Rectangle.png" />
+    <EmbeddedResource Include="Correct\Bgra\Rectangle.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Image\RoundedRectangle.png" />
+    <EmbeddedResource Include="Correct\Bgra\RoundedRectangle.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Correct\Transform\shiftedMonochrome.png" />

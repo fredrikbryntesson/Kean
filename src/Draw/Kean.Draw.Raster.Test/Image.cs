@@ -29,12 +29,12 @@ namespace Kean.Draw.Raster.Test
 		Fixture<T>
 		where T : Image<T>, new()
 	{
-		protected Image(float tolerance) :
+		string correctPath; 
+		protected Image(string correct, float tolerance) :
 			base(tolerance)
-		{ }
-		protected Image() :
-			base()
-		{ }
+		{
+			this.correctPath = "Correct." + correct + ".";
+		}
 		protected override void Run()
 		{
 			this.Run(
@@ -52,7 +52,7 @@ namespace Kean.Draw.Raster.Test
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
 				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Geometry2D.Single.Box(10, 10, 100, 100)));
-				Verify(image, "Correct.Image.Rectangle.png");
+				Verify(image, this.correctPath + "Rectangle.png");
 			}
 		}
 		[Test]
@@ -61,7 +61,7 @@ namespace Kean.Draw.Raster.Test
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
 				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100), new Math.Geometry2D.Single.Size(10, 20)));
-				Verify(image, "Correct.Image.RoundedRectangle.png");
+				Verify(image, this.correctPath + "RoundedRectangle.png");
 			}
 		}
 		[Test]
@@ -70,7 +70,7 @@ namespace Kean.Draw.Raster.Test
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
 				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 4), Path.Circle(new Geometry2D.Single.Point(64, 128), 48));
-				Verify(image, "Correct.Image.Circle.png");
+				Verify(image, this.correctPath + "Circle.png");
 			}
 		}
 		[Test]
@@ -79,17 +79,17 @@ namespace Kean.Draw.Raster.Test
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
 				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 8), Path.Ellipse(new Geometry2D.Single.Point(64, 128), new Geometry2D.Single.Size(48, 72)));
-				Verify(image, "Correct.Image.Ellipse.png");
+				Verify(image, this.correctPath + "Ellipse.png");
 			}
 		}
 		[Test]
 		public void Bitmap()
 		{
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(256, 512)))
-			using (Image ellipse = Image.OpenResource("Correct.Image.Ellipse.png"))
+			using (Image ellipse = Image.OpenResource(this.correctPath + "Ellipse.png"))
 			{
 				image.Canvas.Draw(ellipse, new Geometry2D.Single.Point(128, 256));
-				Verify(image, "Correct.Image.Bitmap.png");
+				Verify(image, this.correctPath + "Bitmap.png");
 			}
 		}
 	}
