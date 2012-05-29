@@ -26,9 +26,10 @@ namespace Kean.Draw.Gpu.Backend
 {
 	public interface IFactory
 	{
-		ITexture CreateImage(TextureType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem);
-		ITexture CreateImage(Draw.Raster.Image image);
+		ITexture CreateTexture(TextureType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem);
+		ITexture CreateTexture(Draw.Raster.Image image);
 		IFrameBuffer CreateFrameBuffer(params ITexture[] textures);
+		void FreeRecycled();
 
         IShader ConvertMonochromeToBgr { get; }
         IShader ConvertBgrToMonochrome { get; }

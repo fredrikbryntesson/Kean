@@ -37,11 +37,11 @@ namespace Kean.Core.Recycle
 			get { return this.bins[0].Capacity; }
 			set { this.bins.Apply(bin => bin.Capacity  = value); }
 		}
-		public Bins(int capacity, int categoryCount, Func<T, S, bool> comparer, Func<T, int> recycleIndex, Func<S, int> findIndex)
+		public Bins(int capacity, int categoryCount, Func<T, S, bool> comparer, Action<T> free, Func<T, int> recycleIndex, Func<S, int> findIndex)
 		{
 			this.recycleIndex = recycleIndex;
 			this.findIndex = findIndex;
-			this.bins = new IBin<T, S>[categoryCount].Initialize(() => new Bin<T, S>(capacity, comparer));
+			this.bins = new IBin<T, S>[categoryCount].Initialize(() => new Bin<T, S>(capacity, comparer, free));
 		}
 		public T Find(S specifier)
 		{
@@ -50,6 +50,10 @@ namespace Kean.Core.Recycle
 		public void Recycle(T item)
 		{
 			this.bins[this.recycleIndex(item)].Recycle(item);
+		}
+		public void Free()
+		{
+			this.bins.Apply(bin => bin.Free());
 		}
 	}
 }

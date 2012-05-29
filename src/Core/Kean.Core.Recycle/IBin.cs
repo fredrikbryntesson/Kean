@@ -28,5 +28,6 @@ namespace Kean.Core.Recycle
 		int Capacity { get; set; }
 		T Find(S specifier);
 		void Recycle(T item);
+		void Free();
 	}
 }

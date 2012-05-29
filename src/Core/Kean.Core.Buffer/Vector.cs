@@ -124,6 +124,7 @@ namespace Kean.Core.Buffer
 			10,
 			3,
 			(item, size) => item.Length == size,
+			null,
 			item => Vector<T>.Index(item.Length),
 			size => Vector<T>.Index(size)
 			);

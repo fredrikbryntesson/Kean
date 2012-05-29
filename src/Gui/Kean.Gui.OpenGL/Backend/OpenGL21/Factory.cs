@@ -120,17 +120,25 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
                                 }"); 
 			} 
 		}
-		#endregion
-		#region IFactory Members
-		public override Gpu.Backend.ITexture CreateImage(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
+		protected override Backend.Texture AllocateTexture(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
 		{
 			return new Texture(this, type, size, coordinateSystem);
 		}
-		public override Gpu.Backend.ITexture CreateImage(Raster.Image image)
+		protected override Backend.Texture AllocateTexture(Raster.Image image)
 		{
 			return new Texture(this, image);
 		}
-		public override Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Kean.Draw.Gpu.Backend.ITexture[] textures)
+		protected override Backend.Texture ReuseTexture(Backend.Texture original, Draw.CoordinateSystem coordinateSystem)
+		{
+			return new Texture(original, coordinateSystem);
+		}
+		protected override Backend.Texture ReuseTexture(Backend.Texture original, Raster.Image image)
+		{
+			return new Texture(original, image);
+		}
+		#endregion
+		#region IFactory Members
+		public override Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Gpu.Backend.ITexture[] textures)
 		{
 			return new FrameBuffer(textures);
 		}

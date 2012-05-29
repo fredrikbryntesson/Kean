@@ -45,12 +45,37 @@ namespace Kean.Gui.OpenGL.Backend
 			this.Factory = factory;
 			this.Type = type;
 			this.Size = size;
+			this.CoordinateSystem = coordinateSystem;
 			this.Identifier = this.CreateIdentifier();
 			this.Bind();
 			this.Load(this.Type, this.Size, data);
 			this.SetParameters();
 		}
-
+		protected Texture(Texture original, Draw.CoordinateSystem coordinateSystem) :
+			this(original, coordinateSystem, IntPtr.Zero)
+		{ }
+		protected Texture(Texture original, Draw.CoordinateSystem coordinateSystem, IntPtr data)
+		{
+			this.Factory = original.Factory;
+			this.Type = original.Type;
+			this.Size = original.Size;
+			this.CoordinateSystem = coordinateSystem;
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+			this.Bind();
+			this.Load(this.Type, this.Size, data);
+			this.SetParameters();
+		}
+		internal protected virtual bool Delete()
+		{
+			bool result;
+			if (result = this.Identifier != 0)
+			{
+				GL.DeleteTexture(this.Identifier);
+				this.Identifier = 0;
+			}
+			return result;
+		}
 		#region Implementors interface
 		public uint Identifier { get; private set; }
 		protected virtual Geometry2D.Integer.Size AdaptResolution(Geometry2D.Integer.Size resolution)
@@ -140,6 +165,11 @@ namespace Kean.Gui.OpenGL.Backend
 		#region IDisposable Members
 		public void Dispose()
 		{
+			if (this.Factory is Factory)
+			{
+				(this.Factory as Factory).Recycle(this);
+				this.Factory = null;
+			}
 		}
 		#endregion
 

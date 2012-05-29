@@ -27,29 +27,36 @@ using System;
 namespace Kean.Core.Recycle
 {
 	public class Bin<T, S> :
+		Synchronized,
 		IBin<T, S>
 	{
 		public int Capacity { get; set; }
 		Collection.IList<T> recycled;
 		Func<T, S, bool> comparer;
-		public Bin(int capacity, Func<T, S, bool> comparer)
+		Action<T> free;
+		public Bin(int capacity, Func<T, S, bool> comparer, Action<T> free)
 		{
 			this.Capacity = capacity;
 			this.comparer = comparer;
-			this.recycled = new Collection.Synchronized.List<T>();
+			this.recycled = new Collection.Synchronized.List<T>(new Collection.List<T>(this.Capacity), this.Lock);
 		}
 		public T Find(S specifier)
 		{
-			return this.recycled.RemoveFirst(item => this.comparer(item, specifier));
+			T result = this.recycled.RemoveFirst(item => this.comparer(item, specifier));
+			lock (this.Lock)
+				while (this.recycled.Count >= this.Capacity)
+					this.free.Call(this.recycled.Remove(this.recycled.Count - 1));
+			return result;
 		}
 		public void Recycle(T item)
 		{
 			if (item.NotNull())
-			{
-				while (this.recycled.Count >= this.Capacity)
-					this.recycled.Remove(this.Capacity - 1);
 				this.recycled.Add(item);
-			}
+		}
+		public void Free()
+		{
+			while (this.recycled.Count > 0)
+				this.free.Call(this.recycled.Remove());
 		}
 	}
 }

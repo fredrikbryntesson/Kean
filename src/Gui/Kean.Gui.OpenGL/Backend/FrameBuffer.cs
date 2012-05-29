@@ -232,9 +232,14 @@ namespace Kean.Gui.OpenGL.Backend
 		#endregion
 
 		#region IDisposable Members
+		bool disposed;
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			if (this.disposed)
+			{
+				(this.Factory as Factory).Recycle(this);
+				this.disposed = true;
+			}
 		}
 		#endregion
 	}

@@ -35,11 +35,17 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		OpenGL.Backend.Texture
 	{
 
-		public Texture(Factory factory, Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
+		internal Texture(Factory factory, Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem) :
 			base(factory, type, size, coordinateSystem)
 		{ }
-		public Texture(Factory factory, Raster.Image image) :
+		internal Texture(Factory factory, Raster.Image image) :
 			base(factory, image.GetImageType(), image.Size, image.CoordinateSystem, image.Pointer)
+		{ }
+		internal Texture(Backend.Texture original, Raster.Image image) :
+			base(original, image.CoordinateSystem, image.Pointer)
+		{ }
+		internal Texture(Backend.Texture original, Draw.CoordinateSystem coordinateSystem) :
+			base(original, coordinateSystem)
 		{ }
 
 		protected override Backend.FrameBuffer CreateCanvas()

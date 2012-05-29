@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -90,6 +90,10 @@
     <ProjectReference Include="..\..\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
       <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
       <Name>Kean.Core.Parallel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Recycle\Kean.Core.Recycle.csproj">
+      <Project>{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}</Project>
+      <Name>Kean.Core.Recycle</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj">
       <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>

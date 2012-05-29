@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Error = Kean.Core.Error;
@@ -28,16 +30,35 @@ using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
 using Kean.Gui.OpenGL.Backend.Extension;
+using Recycle = Kean.Core.Recycle;
 
 namespace Kean.Gui.OpenGL.Backend
 {
 	public abstract class Factory :
 		Gpu.Backend.IFactory
 	{
+		Recycle.IBin<Texture, Geometry2D.Integer.Size>[] textures;
 		#region Constructors
 		protected Factory()
 		{
+			Func<int, int> index = area => area < 10000 ? 0 : area < 100000 ? 1 : 2;
+			this.textures = new Recycle.IBin<Texture, Geometry2D.Integer.Size>[Enum.GetValues(typeof(Gpu.Backend.TextureType)).Length].
+				Initialize(() => new Recycle.Bins<Texture, Geometry2D.Integer.Size>(10, 3,
+					(texture, size) => texture.Size == size,
+					texture => texture.Delete(),
+					item => index(item.Size.Area),
+					size => index(size.Area)));
+		}
+		#endregion
 
+		#region Recycle
+		protected internal void Recycle(Texture texture)
+		{
+			if (texture.NotNull())
+				this.textures[(int)texture.Type].Recycle(texture);
+		}
+		protected internal void Recycle(FrameBuffer frameBuffer)
+		{
 		}
 		#endregion
 
@@ -49,11 +70,28 @@ namespace Kean.Gui.OpenGL.Backend
 		protected abstract Shader.Fragment BgrToVFragment { get; }
 		protected abstract Shader.Fragment BgrToYuv420Fragment { get; }
 		protected abstract Shader.Fragment Yuv420ToBgrFragment { get; }
+		protected abstract Texture AllocateTexture(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem);
+		protected abstract Texture AllocateTexture(Raster.Image image);
+		protected abstract Texture ReuseTexture(Texture original, Draw.CoordinateSystem coordinateSystem);
+		protected abstract Texture ReuseTexture(Texture original, Raster.Image image);
 		#endregion
 		#region IFactory Members
-		public abstract Gpu.Backend.ITexture CreateImage(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem);
-		public abstract Gpu.Backend.ITexture CreateImage(Raster.Image image);
+		public Gpu.Backend.ITexture CreateTexture(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
+		{
+			Texture result = this.textures[(int)type].Find(size);
+			return result.NotNull() ? this.ReuseTexture(result, coordinateSystem) : this.AllocateTexture(type, size, coordinateSystem);
+		}
+		public Gpu.Backend.ITexture CreateTexture(Raster.Image image)
+		{
+			Texture result = this.textures[(int)image.GetImageType()].Find(image.Size);
+			return result.NotNull() ? this.ReuseTexture(result, image) : this.AllocateTexture(image);
+		}
 		public abstract Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Gpu.Backend.ITexture[] textures);
+
+		public void FreeRecycled()
+		{
+			this.textures.Apply(bin => bin.Free());
+		}
 
         public Gpu.Backend.IShader ConvertMonochromeToBgr { get { return new Shader.Program(this.DefaultVertex, this.MonochromeToBgrFragment); } }
         public Gpu.Backend.IShader ConvertBgrToMonochrome { get { return new Shader.Program(this.DefaultVertex, this.BgrToMonochromeFragment); } }

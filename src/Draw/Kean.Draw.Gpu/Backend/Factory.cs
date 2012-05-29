@@ -31,11 +31,11 @@ namespace Kean.Draw.Gpu.Backend
 		public static IFactory Implemetation { get; set; }
 		public static ITexture CreateImage(TextureType type, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
 		{
-			return Factory.Implemetation.CreateImage(type, size, coordinateSystem);
+			return Factory.Implemetation.CreateTexture(type, size, coordinateSystem);
 		}
 		public static ITexture CreateImage(Draw.Raster.Image image)
 		{
-			return Factory.Implemetation.CreateImage(image);
+			return Factory.Implemetation.CreateTexture(image);
 		}
         public static IShader ConvertMonochromeToBgr { get { return Factory.Implemetation.ConvertMonochromeToBgr; } }
         public static IShader ConvertBgrToMonochrome { get { return Factory.Implemetation.ConvertBgrToMonochrome; } }
