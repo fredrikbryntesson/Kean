@@ -24,6 +24,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Raster
 {
+	[System.Runtime.InteropServices.ComVisible(true)]
 	public abstract class Planar :
 		Image
 	{

@@ -38,6 +38,7 @@ namespace Kean.Math.Geometry2D.Integer
         int Kean.Math.Geometry2D.Abstract.IVector<int>.X { get { return this.X; } }
         int Kean.Math.Geometry2D.Abstract.IVector<int>.Y { get { return this.Y; } }
         #endregion
+        public int Length { get { return this.Norm; } }
         public int Norm { get { return Kean.Math.Integer.SquareRoot(this.ScalarProduct(this)); } }
         public int Azimuth { get { return Kean.Math.Integer.ArcusTangensExtended(this.Y, this.X); } }
         #region Static Constants

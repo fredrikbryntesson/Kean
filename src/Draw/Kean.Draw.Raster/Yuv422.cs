@@ -28,6 +28,7 @@ namespace Kean.Draw.Raster
 	/// <summary>
 	/// Yuv422 is the format mentioned as YUY2 (see fourcc.org). Order yuyvyuyvyuyv
 	/// </summary>
+	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Yuv422 :
 		Packed
 	{

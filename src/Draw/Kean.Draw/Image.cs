@@ -26,6 +26,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw
 {
+	[System.Runtime.InteropServices.ComVisible(true)]
 	public abstract class Image :
 		IEquatable<Image>,
 		IDisposable

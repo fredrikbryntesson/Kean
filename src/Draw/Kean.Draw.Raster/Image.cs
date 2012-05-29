@@ -30,6 +30,7 @@ using Kean.Core.Reflect.Extension;
 
 namespace Kean.Draw.Raster
 {
+	[System.Runtime.InteropServices.ComVisible(true)]
     public abstract class Image :
         Draw.Image
     {

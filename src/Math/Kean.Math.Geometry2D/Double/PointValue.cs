@@ -38,6 +38,7 @@ namespace Kean.Math.Geometry2D.Double
         double Kean.Math.Geometry2D.Abstract.IVector<double>.X { get { return this.X; } }
         double Kean.Math.Geometry2D.Abstract.IVector<double>.Y { get { return this.Y; } }
         #endregion
+        public double Length { get { return this.Norm; } }
         public double Norm { get { return Kean.Math.Double.SquareRoot(this.ScalarProduct(this)); } }
         public double Azimuth { get { return Kean.Math.Double.ArcusTangensExtended(this.Y, this.X); } }
         #region Static Constants
