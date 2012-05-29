@@ -128,6 +128,10 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		{
 			return new Texture(this, image);
 		}
+		protected override Backend.Texture AllocateDepth(Geometry2D.Integer.Size size)
+		{
+			return new Depth(this, size);
+		}
 		protected override Backend.Texture ReuseTexture(Backend.Texture original, Draw.CoordinateSystem coordinateSystem)
 		{
 			return new Texture(original, coordinateSystem);
@@ -135,6 +139,10 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 		protected override Backend.Texture ReuseTexture(Backend.Texture original, Raster.Image image)
 		{
 			return new Texture(original, image);
+		}
+		protected override Backend.Texture ReuseDepth(Backend.Texture original)
+		{
+			return new Depth(original);
 		}
 		#endregion
 		#region IFactory Members

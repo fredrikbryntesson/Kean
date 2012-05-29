@@ -72,8 +72,10 @@ namespace Kean.Gui.OpenGL.Backend
 		protected abstract Shader.Fragment Yuv420ToBgrFragment { get; }
 		protected abstract Texture AllocateTexture(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem);
 		protected abstract Texture AllocateTexture(Raster.Image image);
+		protected abstract Texture AllocateDepth(Geometry2D.Integer.Size size);
 		protected abstract Texture ReuseTexture(Texture original, Draw.CoordinateSystem coordinateSystem);
 		protected abstract Texture ReuseTexture(Texture original, Raster.Image image);
+		protected abstract Texture ReuseDepth(Backend.Texture original);
 		#endregion
 		#region IFactory Members
 		public Gpu.Backend.ITexture CreateTexture(Gpu.Backend.TextureType type, Geometry2D.Integer.Size size, Draw.CoordinateSystem coordinateSystem)
@@ -85,6 +87,11 @@ namespace Kean.Gui.OpenGL.Backend
 		{
 			Texture result = this.textures[(int)image.GetImageType()].Find(image.Size);
 			return result.NotNull() ? this.ReuseTexture(result, image) : this.AllocateTexture(image);
+		}
+		internal Gpu.Backend.ITexture CreateDepth(Geometry2D.Integer.Size size)
+		{
+			Texture result = this.textures[(int)Gpu.Backend.TextureType.Bgra].Find(size);
+			return result.NotNull() ? this.ReuseDepth(result) : this.AllocateDepth(size);
 		}
 		public abstract Gpu.Backend.IFrameBuffer CreateFrameBuffer(params Gpu.Backend.ITexture[] textures);
 
