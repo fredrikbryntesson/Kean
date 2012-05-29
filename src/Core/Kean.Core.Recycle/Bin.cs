@@ -1,5 +1,5 @@
 ﻿// 
-//  Bins.cs
+//  Bin.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,42 +22,34 @@
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Kean.Core.Extension;
+using System;
 
-namespace Kean.Core.Buffer.Recycle
+namespace Kean.Core.Recycle
 {
-	class Bins<T> : 
-		IBin<T>
-		where T : struct
+	public class Bin<T, S> :
+		IBin<T, S>
 	{
-		int[] thresholds;
-		IBin<T>[] bins;
-		IBin<T> this[int size]
+		public int Capacity { get; set; }
+		Collection.IList<T> recycled;
+		Func<T, S, bool> comparer;
+		public Bin(int capacity, Func<T, S, bool> comparer)
 		{
-			get
+			this.Capacity = capacity;
+			this.comparer = comparer;
+			this.recycled = new Collection.Synchronized.List<T>();
+		}
+		public T Find(S specifier)
+		{
+			return this.recycled.RemoveFirst(item => this.comparer(item, specifier));
+		}
+		public void Recycle(T item)
+		{
+			if (item.NotNull())
 			{
-				int index = this.thresholds.Index(value => size < value);
-				if (index < 0)
-					index = this.thresholds.Length;
-				return this.bins[index];
+				while (this.recycled.Count >= this.Capacity)
+					this.recycled.Remove(this.Capacity - 1);
+				this.recycled.Add(item);
 			}
-		}
-		public int Capacity 
-		{
-			get { return this.bins[0].Capacity; }
-			set { this.bins.Apply(bin => bin.Capacity  = value); }
-		}
-		public Bins(int capacity, params int[] thresholds)
-		{
-			this.thresholds = thresholds;
-			this.bins = new IBin<T>[thresholds.Length + 1].Initialize(() => new Bin<T>(capacity));
-		}
-		public T[] Create(int size)
-		{
-			return this[size].Create(size);
-		}
-		public void Recycle(T[] item)
-		{
-			this[item.Length].Recycle(item);
 		}
 	}
 }

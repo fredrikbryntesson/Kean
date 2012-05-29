@@ -1,33 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AB030D3B-8B47-4545-86BA-48A8D2AFE020}</ProjectGuid>
+    <ProjectGuid>{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Kean.Core.Buffer</RootNamespace>
-    <AssemblyName>Kean.Core.Buffer</AssemblyName>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kean.Core.Recycle</RootNamespace>
+    <AssemblyName>Kean.Core.Recycle</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <OutputPath>..\..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\bin\Release</OutputPath>
+    <OutputPath>..\..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -36,34 +37,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bin.cs" />
+    <Compile Include="Bins.cs" />
+    <Compile Include="IBin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Pointer.cs" />
-    <Compile Include="Sized.cs" />
-    <Compile Include="Vector.cs" />
-    <Compile Include="Exception\Exception.cs" />
-    <Compile Include="Exception\IndexOutOfRange.cs" />
-    <Compile Include="Exception\NullArgument.cs" />
-    <Compile Include="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Recycle\Kean.Core.Recycle.csproj">
-      <Project>{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}</Project>
-      <Name>Kean.Core.Recycle</Name>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
-      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
-      <Name>Kean.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
-    </ProjectReference>
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(ProjectDir)..\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>
   </PropertyGroup>
@@ -73,6 +62,6 @@
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
-    <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
+    <FileUpdate Condition="'$(Revision)' != '-1'" Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
   </Target>
 </Project>

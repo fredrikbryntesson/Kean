@@ -1,5 +1,5 @@
 ﻿// 
-//  Bin.cs
+//  Bins.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -22,37 +22,34 @@
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Kean.Core.Extension;
+using System;
 
-namespace Kean.Core.Buffer.Recycle
+namespace Kean.Core.Recycle
 {
-	class Bin<T> 
-		: IBin<T>
-		where T : struct
+	public class Bins<T, S> : 
+		IBin<T, S>
 	{
-		public int Capacity { get; set; }
-		Collection.IList<T[]> recycled;
-		public Bin(int capacity) :
-			this()
+		Func<T, int> recycleIndex;
+		Func<S, int> findIndex;
+		IBin<T, S>[] bins;
+		public int Capacity 
 		{
-			this.Capacity = capacity;
+			get { return this.bins[0].Capacity; }
+			set { this.bins.Apply(bin => bin.Capacity  = value); }
 		}
-		public Bin()
+		public Bins(int capacity, int categoryCount, Func<T, S, bool> comparer, Func<T, int> recycleIndex, Func<S, int> findIndex)
 		{
-			this.recycled = new Collection.Synchronized.List<T[]>();
+			this.recycleIndex = recycleIndex;
+			this.findIndex = findIndex;
+			this.bins = new IBin<T, S>[categoryCount].Initialize(() => new Bin<T, S>(capacity, comparer));
 		}
-		public T[] Create(int size)
+		public T Find(S specifier)
 		{
-			return this.recycled.RemoveFirst(item => item.Length == size) ?? new T[size];
+			return this.bins[this.findIndex(specifier)].Find(specifier);
 		}
-		public void Recycle(T[] item)
+		public void Recycle(T item)
 		{
-			if (item.NotEmpty())
-			{
-				item.Initialize(default(T));
-				while (this.recycled.Count >= this.Capacity)
-					this.recycled.Remove(this.Capacity - 1);
-				this.recycled.Add(item);
-			}
+			this.bins[this.recycleIndex(item)].Recycle(item);
 		}
 	}
 }

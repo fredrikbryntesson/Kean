@@ -19,13 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Kean.Core.Buffer.Recycle
+using System;
+
+namespace Kean.Core.Recycle
 {
-	interface IBin<T>
-		where T : struct
+	public interface IBin<T, S>
 	{
 		int Capacity { get; set; }
-		T[] Create(int size);
-		void Recycle(T[] item);
+		T Find(S specifier);
+		void Recycle(T item);
 	}
 }

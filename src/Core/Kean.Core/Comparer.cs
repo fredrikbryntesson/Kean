@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,4 +22,5 @@ using System;
 namespace Kean.Core
 {
 	public delegate Order Comparer<T>(T left, T right);
+	public delegate Order Comparer<T1, T2>(T1 left, T2 right);
 }

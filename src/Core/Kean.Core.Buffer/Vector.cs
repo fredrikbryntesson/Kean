@@ -39,7 +39,7 @@ namespace Kean.Core.Buffer
         bool isPinned = false;
         InteropServices.GCHandle handle;
         public Vector(int size) : this(size, null) { }
-		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Create(size), free) { }
+		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Find(size) ?? new T[size], free) { }
         public Vector(T[] data) : this(data, null) { }
         public Vector(T[] data, Action<IntPtr> free) :
             this(InteropServices.GCHandle.Alloc(data, InteropServices.GCHandleType.Pinned), InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(data, 0), data.Length * InteropServices.Marshal.SizeOf(typeof(T)), free)
@@ -64,6 +64,7 @@ namespace Kean.Core.Buffer
 						this.handle.Free();
 						this.isPinned = false;
 					}
+					this.Data.Initialize(default(T));
 					Vector<T>.recycle.Recycle(this.Data);
 					this.Data = null;
 				}
@@ -115,6 +116,16 @@ namespace Kean.Core.Buffer
         {
             return (IntPtr)(Pointer)pointer;
 		}
-		static Recycle.IBin<T> recycle = new Recycle.Bins<T>(10, 10000, 1000000);
+		static int Index(int size)
+		{
+			return size < 10000 ? 0 : size < 100000 ? 1 : 2;
+		}
+		static Recycle.IBin<T[], int> recycle = new Recycle.Bins<T[], int>(
+			10,
+			3,
+			(item, size) => item.Length == size,
+			item => Vector<T>.Index(item.Length),
+			size => Vector<T>.Index(size)
+			);
 	}
 }
