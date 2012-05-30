@@ -86,7 +86,11 @@ namespace Kean.Draw.Gpu
 		{
 			if (this.Backend.NotNull())
 			{
-				this.Backend.Dispose();
+				if (this.canvas.NotNull())
+					this.canvas.Dispose();
+				else
+					this.Backend.Dispose();
+				this.canvas = null;
 				this.Backend = null;
 			}
 		}

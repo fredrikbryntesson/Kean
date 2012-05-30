@@ -1,5 +1,5 @@
 ﻿// 
-//  Framebuffer.cs
+//  Identifier.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

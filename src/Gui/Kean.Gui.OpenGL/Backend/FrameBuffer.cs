@@ -38,14 +38,19 @@ namespace Kean.Gui.OpenGL.Backend
 		Gpu.Backend.IFrameBuffer
 	{
 		Texture depth;
-		protected uint Framebuffer { get; private set; }
+		protected uint Identifier { get; private set; }
 		public Geometry2D.Single.Box Clip { get; set; }
 		public Geometry2D.Single.Transform Transform { get; set; }
 		protected FrameBuffer(params Gpu.Backend.ITexture[] textures)
 		{
+			while (FrameBuffer.usedFrameBuffers.Count > 0)
+			{
+				uint identifier = FrameBuffer.usedFrameBuffers.Remove();
+				GL.Ext.DeleteFramebuffers(1, ref identifier);
+			}
 			this.Textures = new Collection.ReadOnlyVector<Gpu.Backend.ITexture>(textures);
 			this.depth = this.CreateDepth();
-			this.Framebuffer = this.CreateFrameBuffer(textures, this.depth);
+			this.Identifier = this.CreateFrameBuffer(textures, this.depth);
 		}
 
 		#region Inheritors Interface
@@ -235,12 +240,17 @@ namespace Kean.Gui.OpenGL.Backend
 		bool disposed;
 		public void Dispose()
 		{
-			if (this.disposed)
+			if (!this.disposed)
 			{
-				(this.Factory as Factory).Recycle(this);
+				//(this.Factory as Factory).Recycle(this);
+				this.Textures.Apply(texture => texture.Dispose());
+				this.depth.Dispose();
+				FrameBuffer.usedFrameBuffers.Add(this.Identifier);
+				this.Identifier = 0;
 				this.disposed = true;
 			}
 		}
 		#endregion
+		static Collection.IList<uint> usedFrameBuffers = new Collection.Synchronized.List<uint>();
 	}
 }

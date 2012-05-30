@@ -59,6 +59,10 @@ namespace Kean.Gui.OpenGL.Backend
 		}
 		protected internal void Recycle(FrameBuffer frameBuffer)
 		{
+			if (frameBuffer.NotNull())
+			{
+			}
+
 		}
 		#endregion
 

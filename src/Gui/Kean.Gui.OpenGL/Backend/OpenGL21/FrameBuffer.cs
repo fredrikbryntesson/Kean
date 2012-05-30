@@ -76,7 +76,7 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
         }
 		protected override void Bind()
 		{
-			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Framebuffer);
+			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Identifier);
             this.BindTextures(this.Textures.ToArray());
             Exception.Framebuffer.Check();
 		}

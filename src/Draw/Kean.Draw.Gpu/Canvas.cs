@@ -113,5 +113,14 @@ namespace Kean.Draw.Gpu
 		#endregion
 		#endregion
 		#endregion
+		public override void Dispose()
+		{
+			if (this.Backend.NotNull())
+			{
+				this.Backend.Dispose();
+				this.Backend = null;
+			}
+			base.Dispose();
+		}
 	}
 }
