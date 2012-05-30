@@ -56,6 +56,10 @@ namespace Kean.Gui.OpenGL.Backend.OpenGL21
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
 			return result;
 		}
+		protected override void DeleteFrameBuffer(uint identifier)
+		{
+			GL.Ext.DeleteFramebuffers(1, ref identifier);
+		}
         protected override void BindTextures(Gpu.Backend.ITexture[] color)
         {
             GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0Ext, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, (color[0] as Backend.Texture).Identifier, 0);

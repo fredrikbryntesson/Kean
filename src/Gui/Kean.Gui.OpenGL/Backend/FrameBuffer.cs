@@ -44,10 +44,7 @@ namespace Kean.Gui.OpenGL.Backend
 		protected FrameBuffer(params Gpu.Backend.ITexture[] textures)
 		{
 			while (FrameBuffer.usedFrameBuffers.Count > 0)
-			{
-				uint identifier = FrameBuffer.usedFrameBuffers.Remove();
-				GL.Ext.DeleteFramebuffers(1, ref identifier);
-			}
+				this.DeleteFrameBuffer(FrameBuffer.usedFrameBuffers.Remove());
 			this.Textures = new Collection.ReadOnlyVector<Gpu.Backend.ITexture>(textures);
 			this.depth = this.CreateDepth();
 			this.Identifier = this.CreateFrameBuffer(textures, this.depth);
@@ -56,6 +53,7 @@ namespace Kean.Gui.OpenGL.Backend
 		#region Inheritors Interface
 		protected abstract Texture CreateDepth();
 		protected abstract uint CreateFrameBuffer(Gpu.Backend.ITexture[] color, Texture depth);
+		protected abstract void DeleteFrameBuffer(uint identifier);
 		protected abstract void Bind();
 		protected virtual void SetupViewport()
 		{
