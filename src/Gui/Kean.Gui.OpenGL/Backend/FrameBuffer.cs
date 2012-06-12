@@ -242,7 +242,12 @@ namespace Kean.Gui.OpenGL.Backend
 			{
 				//(this.Factory as Factory).Recycle(this);
 				this.Textures.Apply(texture => texture.Dispose());
-				this.depth.Dispose();
+				this.Textures = null;
+				if (this.depth.NotNull())
+				{
+					this.depth.Dispose();
+					this.depth = null;
+				}
 				FrameBuffer.usedFrameBuffers.Add(this.Identifier);
 				this.Identifier = 0;
 				this.disposed = true;

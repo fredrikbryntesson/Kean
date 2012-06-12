@@ -202,6 +202,7 @@ namespace Kean.Draw.Raster
                         }
                         try
                         {
+							System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filename));
                             result.Save(filename, compression.ImageFormat());
                         }
                         catch (System.Runtime.InteropServices.ExternalException)
