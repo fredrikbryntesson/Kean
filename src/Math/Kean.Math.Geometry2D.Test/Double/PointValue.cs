@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  PointValue.cs
 //  
 //  Author:
@@ -41,14 +41,10 @@ namespace Kean.Math.Geometry2D.Test.Double
         {
             return value;
         }
-        double Cast(double value)
-        {
-            return (double)value;
-        }
-        Target.Double.PointValue vector0 = new Target.Double.PointValue(22.221f, -3.1f);
-        Target.Double.PointValue vector1 = new Target.Double.PointValue(12.221f, 13.1f);
-        Target.Double.PointValue vector2 = new Target.Double.PointValue(34.442f, 10.0f);
-        Target.Double.PointValue vector3 = new Target.Double.PointValue(10, 20);
+        Target.Double.PointValue vector0 = new Target.Double.PointValue((double)22.221f, (double)-3.1f);
+        Target.Double.PointValue vector1 = new Target.Double.PointValue((double)12.221f, (double)13.1f);
+        Target.Double.PointValue vector2 = new Target.Double.PointValue((double)34.442f, (double)10.0f);
+        Target.Double.PointValue vector3 = new Target.Double.PointValue((double)10, (double)20);
 
         protected override void Run()
         {
@@ -112,8 +108,8 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void GetValues()
         {
-            Expect(this.vector0.X, Is.EqualTo(this.Cast(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
-            Expect(this.vector0.Y, Is.EqualTo(this.Cast(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+            Expect(this.vector0.X, Is.EqualTo((double)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+            Expect(this.vector0.Y, Is.EqualTo((double)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
         }
         [Test]
         public void Swap()
@@ -177,7 +173,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Polar5()
         {
-            Target.Double.PointValue point = new Target.Double.PointValue(33, -7);
+            Target.Double.PointValue point = new Target.Double.PointValue(-3, 0);
             double radius = point.Norm;
             double azimuth = point.Azimuth;
             Target.Double.PointValue point2 = Target.Double.PointValue.Polar(radius, azimuth);
@@ -203,6 +199,7 @@ namespace Kean.Math.Geometry2D.Test.Double
                 Expect(@double.Y, Is.EqualTo(20));
                 Expect((Target.Integer.PointValue)@double, Is.EqualTo(integer));
             }
+            // single - double
             {
                 Target.Single.PointValue single = new Target.Single.PointValue(10, 20);
                 Target.Double.PointValue @double = single;
@@ -211,14 +208,15 @@ namespace Kean.Math.Geometry2D.Test.Double
                 Expect((Target.Single.PointValue)@double, Is.EqualTo(single));
             }
         }
-        [Test]
+		[Test]
         public void StringCasts()
         {
-            string textFromValue = new Target.Single.PointValue(10, 20);
+            string textFromValue = new Target.Double.PointValue(10, 20);
             Expect(textFromValue, Is.EqualTo("10, 20"));
-            Target.Single.PointValue @integerFromText = "10, 20";
+            Target.Double.PointValue @integerFromText = "10, 20";
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
         }
     }
 }
+

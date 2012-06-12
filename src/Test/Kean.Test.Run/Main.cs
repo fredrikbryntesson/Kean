@@ -26,6 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+            Math.Geometry2D.Test.All.Test();
 			Draw.Cairo.Test.All.Test();
             // CPU dependent tests
             //Kean.Draw.Jpeg.Test.All.Test();
