@@ -26,34 +26,34 @@ using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 
-namespace Kean.Math.Geometry2D.Test.Double
+namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class TransformValue :
         Kean.Test.Fixture<TransformValue>
     {
-        string prefix = "Kean.Math.Geometry2D.Test.Double.TransformValue";
+        string prefix = "Kean.Math.Geometry2D.Test.Single.TransformValue";
         float Precision { get { return 1e-4f; } }
-        Target.Double.TransformValue transform0;
-        Target.Double.TransformValue transform1;
-        Target.Double.TransformValue transform2;
-        Target.Double.TransformValue transform3;
-        Target.Double.TransformValue transform4;
-        Target.Double.PointValue point0;
-        Target.Double.PointValue point1;
-        Target.Double.SizeValue size0;
+        Target.Single.TransformValue transform0;
+        Target.Single.TransformValue transform1;
+        Target.Single.TransformValue transform2;
+        Target.Single.TransformValue transform3;
+        Target.Single.TransformValue transform4;
+        Target.Single.PointValue point0;
+        Target.Single.PointValue point1;
+        Target.Single.SizeValue size0;
 
         [TestFixtureSetUp]
         public override void Setup()
         {
-            this.transform0 = new Target.Double.TransformValue(3, 1, 2, 1, 5, 7);
-            this.transform1 = new Target.Double.TransformValue(7, 4, 2, 5, 7, 6);
-            this.transform2 = new Target.Double.TransformValue(29, 11, 16, 7, 38, 20);
-            this.transform3 = new Target.Double.TransformValue(1, -1, -2, 3, 9, -16);
-            this.transform4 = new Target.Double.TransformValue(10, 20, 30, 40, 50, 60);
-            this.point0 = new Target.Double.PointValue(-7, 3);
-            this.point1 = new Target.Double.PointValue(2, -7);
-            this.size0 = new Target.Double.SizeValue(10, 10);
+            this.transform0 = new Target.Single.TransformValue(3, 1, 2, 1, 5, 7);
+            this.transform1 = new Target.Single.TransformValue(7, 4, 2, 5, 7, 6);
+            this.transform2 = new Target.Single.TransformValue(29, 11, 16, 7, 38, 20);
+            this.transform3 = new Target.Single.TransformValue(1, -1, -2, 3, 9, -16);
+            this.transform4 = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
+            this.point0 = new Target.Single.PointValue(-7, 3);
+            this.point1 = new Target.Single.PointValue(2, -7);
+            this.size0 = new Target.Single.SizeValue(10, 10);
         }
         protected override void Run()
         {
@@ -83,15 +83,15 @@ namespace Kean.Math.Geometry2D.Test.Double
                 this.StringCasts
                 );
         }
-        double Cast(double value)
+        float Cast(double value)
         {
-            return (double)value;
+            return (float)value;
         }
-        Target.Double.TransformValue CastFromString(string value)
+        Target.Single.TransformValue CastFromString(string value)
         {
-            return (Target.Double.TransformValue)value;
+            return (Target.Single.TransformValue)value;
         }
-        string CastToString(Target.Double.TransformValue value)
+        string CastToString(Target.Single.TransformValue value)
         {
             return (string)value;
         }
@@ -99,7 +99,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Equality()
         {
-            Target.Double.TransformValue transform = new Target.Double.TransformValue();
+            Target.Single.TransformValue transform = new Target.Single.TransformValue();
             Expect(this.transform0, Is.EqualTo(this.transform0));
             Expect(this.transform0.Equals(this.transform0 as object), Is.True);
             Expect(this.transform0 == this.transform0, Is.True);
@@ -129,7 +129,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void CreateZeroTransform()
         {
-            Target.Double.TransformValue transform = new Target.Double.TransformValue();
+            Target.Single.TransformValue transform = new Target.Single.TransformValue();
             Expect(transform.A, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.0");
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.1");
             Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.2");
@@ -140,7 +140,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void CreateIdentity()
         {
-            Target.Double.TransformValue transform = Target.Double.TransformValue.Identity;
+            Target.Single.TransformValue transform = Target.Single.TransformValue.Identity;
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.0");
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.1");
             Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.2");
@@ -151,9 +151,9 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Rotatate()
         {
-            Target.Double.TransformValue identity = Target.Double.TransformValue.Identity;
-            double angle = Kean.Math.Double.ToRadians(20);
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateRotation(angle);
+            Target.Single.TransformValue identity = Target.Single.TransformValue.Identity;
+            float angle = Kean.Math.Single.ToRadians(20);
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateRotation(angle);
             transform = transform.Rotate(-angle);
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.0");
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.1");
@@ -165,9 +165,9 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Scale()
         {
-            Target.Double.TransformValue identity = new Target.Double.TransformValue(20, 0, 0, 20, 0, 0);
-            double scale = 20;
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateScaling(scale, scale);
+            Target.Single.TransformValue identity = new Target.Single.TransformValue(20, 0, 0, 20, 0, 0);
+            float scale = 20;
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateScaling(scale, scale);
             transform = transform.Scale(5, 5);
             Expect(transform.A, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.0");
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.1");
@@ -179,9 +179,9 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void Translatate()
         {
-            double xDelta = 40;
-            double yDelta = -40;
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateTranslation(xDelta, yDelta);
+            float xDelta = 40;
+            float yDelta = -40;
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateTranslation(xDelta, yDelta);
             transform = transform.Translate(-xDelta, -yDelta);
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.0");
             Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.1");
@@ -193,20 +193,20 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void CreateRotation()
         {
-            double angle = Kean.Math.Double.ToRadians(20);
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateRotation(angle);
-            Expect(transform.A, Is.EqualTo(Kean.Math.Double.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
-            Expect(transform.B, Is.EqualTo(Kean.Math.Double.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
-            Expect(transform.C, Is.EqualTo(-Kean.Math.Double.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
-            Expect(transform.D, Is.EqualTo(Kean.Math.Double.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
+            float angle = Kean.Math.Single.ToRadians(20);
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateRotation(angle);
+            Expect(transform.A, Is.EqualTo(Kean.Math.Single.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
+            Expect(transform.B, Is.EqualTo(Kean.Math.Single.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
+            Expect(transform.C, Is.EqualTo(-Kean.Math.Single.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
+            Expect(transform.D, Is.EqualTo(Kean.Math.Single.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
             Expect(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
             Expect(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
         }
         [Test]
         public void CreateScale()
         {
-            double scale = 20;
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateScaling(scale, scale);
+            float scale = 20;
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateScaling(scale, scale);
             Expect(transform.A, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.0");
             Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.1");
             Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.2");
@@ -217,9 +217,9 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void CreateTranslation()
         {
-            double xDelta = 40;
-            double yDelta = -40;
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateTranslation(xDelta, yDelta);
+            float xDelta = 40;
+            float yDelta = -40;
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateTranslation(xDelta, yDelta);
             Expect(transform.A, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.0");
             Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.1");
             Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.2");
@@ -230,7 +230,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void GetValueValues()
         {
-            Target.Double.TransformValue transform = this.transform0;
+            Target.Single.TransformValue transform = this.transform0;
             Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.0");
             Expect(transform.B, Is.EqualTo(this.Cast(4)).Within(this.Precision), this.prefix + "GetValueValues.1");
             Expect(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision), this.prefix + "GetValueValues.2");
@@ -241,40 +241,40 @@ namespace Kean.Math.Geometry2D.Test.Double
         [Test]
         public void GetScalingX()
         {
-            double scale = this.transform0.ScalingX;
+            float scale = this.transform0.ScalingX;
             Expect(scale, Is.EqualTo(this.Cast(4.1231)).Within(this.Precision), this.prefix + "GetScalingX.0");
         }
         [Test]
         public void GetScalingY()
         {
-            double scale = this.transform0.ScalingY;
+            float scale = this.transform0.ScalingY;
             Expect(scale, Is.EqualTo(this.Cast(5.38516474f)).Within(this.Precision), this.prefix + "GetScalingY.0");
         }
         [Test]
         public void GetScaling()
         {
-            double scale = this.transform0.Scaling;
+            float scale = this.transform0.Scaling;
             Expect(scale, Is.EqualTo(this.Cast(4.75413513f)).Within(this.Precision), this.prefix + "GetScaling.0");
         }
         [Test]
         public void GetRotation()
         {
-            double angle = Kean.Math.Double.ToRadians(20);
-            Target.Double.TransformValue transform = Target.Double.TransformValue.CreateRotation(angle);
-            double value = Kean.Math.Double.ToDegrees(transform.Rotation);
+            float angle = Kean.Math.Single.ToRadians(20);
+            Target.Single.TransformValue transform = Target.Single.TransformValue.CreateRotation(angle);
+            float value = Kean.Math.Single.ToDegrees(transform.Rotation);
             Expect(value, Is.EqualTo(this.Cast(20)).Within(this.Precision), this.prefix + "GetRotation.0");
         }
         [Test]
         public void GetTranslation()
         {
-            Target.Double.SizeValue translation = this.transform0.Translation;
+            Target.Single.SizeValue translation = this.transform0.Translation;
             Expect(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetTranslation.0");
             Expect(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision), this.prefix + "GetTranslation.1");
         }
         [Test]
         public void CastToArray()
         {
-            double[,] values = (double[,])(Target.Double.TransformValue.Identity);
+            float[,] values = (float[,])(Target.Single.TransformValue.Identity);
             for (int x = 0; x < 3; x++)
                 for (int y = 0; y < 3; y++)
                     Expect(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision), this.prefix + "CastToArray.0");
@@ -294,40 +294,28 @@ namespace Kean.Math.Geometry2D.Test.Double
         }
         #endregion
 
-        [Test]
+		[Test]
         public void Casts()
         {
-            // integer - double
+            // integer - single
             {
                 Target.Integer.TransformValue integer = new Target.Integer.TransformValue(10, 20, 30, 40, 50, 60);
-                Target.Double.TransformValue @double = integer;
-                Expect(@double.A, Is.EqualTo(10));
-                Expect(@double.B, Is.EqualTo(20));
-                Expect(@double.C, Is.EqualTo(30));
-                Expect(@double.D, Is.EqualTo(40));
-                Expect(@double.E, Is.EqualTo(50));
-                Expect(@double.F, Is.EqualTo(60));
-                Expect((Target.Integer.TransformValue)@double, Is.EqualTo(integer));
+                Target.Single.TransformValue @single = integer;
+                Expect(@single.A, Is.EqualTo(10));
+                Expect(@single.B, Is.EqualTo(20));
+                Expect(@single.C, Is.EqualTo(30));
+                Expect(@single.D, Is.EqualTo(40));
+                Expect(@single.E, Is.EqualTo(50));
+                Expect(@single.F, Is.EqualTo(60));
+                Expect((Target.Integer.TransformValue)@single, Is.EqualTo(integer));
             }
-			// single - double
-            {
-                Target.Single.TransformValue integer = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
-                Target.Double.TransformValue @double = integer;
-                Expect(@double.A, Is.EqualTo(10));
-                Expect(@double.B, Is.EqualTo(20));
-                Expect(@double.C, Is.EqualTo(30));
-                Expect(@double.D, Is.EqualTo(40));
-                Expect(@double.E, Is.EqualTo(50));
-                Expect(@double.F, Is.EqualTo(60));
-                Expect((Target.Single.TransformValue)@double, Is.EqualTo(integer));
-            }
-        }
-        [Test]
+		}
+		[Test]
         public void StringCasts()
         {
-            string textFromValue = new Target.Double.TransformValue(10, 20, 30, 40, 50, 60);
+            string textFromValue = new Target.Single.TransformValue(10, 20, 30, 40, 50, 60);
             Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
-            Target.Double.TransformValue @integerFromText = "10 20 30 40 50 60";
+            Target.Single.TransformValue @integerFromText = "10 20 30 40 50 60";
             Expect(@integerFromText.A, Is.EqualTo(10));
             Expect(@integerFromText.B, Is.EqualTo(20));
             Expect(@integerFromText.C, Is.EqualTo(30));
@@ -335,7 +323,6 @@ namespace Kean.Math.Geometry2D.Test.Double
             Expect(@integerFromText.E, Is.EqualTo(50));
             Expect(@integerFromText.F, Is.EqualTo(60));
         }
-
     }
 }
 

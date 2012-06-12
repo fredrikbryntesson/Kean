@@ -1,1 +1,238 @@
-﻿
+﻿<#@ template language="C#v3.5" hostspecific="True" #>
+<#
+	GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Single",  "float");
+    GenerateSingle("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Single/BoxValue.cs");  
+    
+    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Double",  "double");
+    GenerateDouble("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Double/BoxValue.cs");   
+
+    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Integer",  "int");
+    GenerateInteger("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Integer/BoxValue.cs");  
+#>
+<#+
+  void SaveOutput(string outputFileName)
+  {
+      string templateDirectory = System.IO.Path.GetDirectoryName(Host.TemplateFile);
+      string outputFilePath = System.IO.Path.Combine(templateDirectory, outputFileName);
+      System.IO.File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+      this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+  }
+#>
+<#+
+    void GenerateStart(string @name, string @namespace, string @namespace1, string @value1)
+    {
+#>
+// 
+//  <#= @name #>.cs
+//  
+//  Author:
+//       Anders Frisk <andersfrisk77@gmail.com>
+//  
+//  Copyright (c) 2012 Anders Frisk
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+
+namespace <#= @namespace #>.<#= @namespace1 #>
+{
+    [TestFixture]
+    public class <#= @name #> : 
+        Kean.Test.Fixture<<#= @name #>>
+    {
+        string prefix = "<#= @namespace #>.<#= @namespace1 #>.<#= @name #>.";
+        protected override void Run()
+        {
+            this.Run(
+                this.Equality,
+                this.LeftTop,
+                this.Size,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.Hash,
+                this.Casts,
+                this.StringCasts);
+        }
+       Target.<#= @namespace1 #>.<#= @name #> box0 = new Target.<#= @namespace1 #>.<#= @name #>(1, 2, 3, 4);
+       Target.<#= @namespace1 #>.<#= @name #> box1 = new Target.<#= @namespace1 #>.<#= @name #>(4, 3, 2, 1);
+       Target.<#= @namespace1 #>.<#= @name #> box2 = new Target.<#= @namespace1 #>.<#= @name #>(2, 1, 4, 3);
+       #region Equality
+       [Test]
+       public void Equality()
+       {
+          Target.<#= @namespace1 #>.<#= @name #> box = new  Target.<#= @namespace1 #>.<#= @name #>();
+           Expect(this.box0, Is.EqualTo(this.box0));
+           Expect(this.box0.Equals(this.box0 as object), Is.True);
+           Expect(this.box0 == this.box0, Is.True);
+           Expect(this.box0 != this.box1, Is.True);
+           Expect(this.box0 == box, Is.False);
+           Expect(box == box, Is.True);
+           Expect(box == this.box0, Is.False);
+       }
+       #endregion
+       [Test]
+       public void LeftTop()
+       {
+           Target.<#= @namespace1 #>.PointValue leftTop = this.box0.LeftTop;
+           Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+           Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+       }
+       [Test]
+       public void Size()
+       {
+           Target.<#= @namespace1 #>.SizeValue size = this.box0.Size;
+           Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+           Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+       }
+       #region Arithmetic
+       [Test]
+       public void Addition()
+       {
+       }
+       [Test]
+       public void Subtraction()
+       {
+       }
+       [Test]
+       public void ScalarMultitplication()
+       {
+       }
+       #endregion
+       #region Hash Code
+       [Test]
+       public void Hash()
+       {
+           Expect(this.box0.Hash(), Is.Not.EqualTo(0));
+       }
+       #endregion
+<#+
+    }  
+#>
+<#+
+    void GenerateDouble(string @name, string @namespace)
+    {
+#>
+       [Test]
+       public void Casts()
+       {
+           // integer - double
+           {
+               Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40);
+               Target.Double.<#= @name #> @double = integer;
+               Expect(@double.Left, Is.EqualTo(10));
+               Expect(@double.Top, Is.EqualTo(20));
+               Expect(@double.Width, Is.EqualTo(30));
+               Expect(@double.Height, Is.EqualTo(40));
+               Expect((Target.Integer.<#= @name #>)@double, Is.EqualTo(integer));
+           }
+           // single - double
+           {
+               Target.Single.<#= @name #> single = new Target.Single.<#= @name #>(10, 20, 30, 40);
+               Target.Double.<#= @name #> @double = single;
+               Expect(@double.Left, Is.EqualTo(10));
+               Expect(@double.Top, Is.EqualTo(20));
+               Expect(@double.Width, Is.EqualTo(30));
+               Expect(@double.Height, Is.EqualTo(40));
+               Expect((Target.Single.<#= @name #>)@double, Is.EqualTo(single));
+           }
+       }
+       [Test]
+       public void StringCasts()
+       {
+           string textFromValue = new Target.Double.<#= @name #>(10, 20, 30, 40);
+           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Double.<#= @name #> @doubleFromText = "10 20 30 40";
+           Expect(@doubleFromText.Left, Is.EqualTo(10));
+           Expect(@doubleFromText.Top, Is.EqualTo(20));
+           Expect(@doubleFromText.Width, Is.EqualTo(30));
+           Expect(@doubleFromText.Height, Is.EqualTo(40));
+       }
+<#+
+    }  
+#>
+<#+
+    void GenerateSingle(string @name, string @namespace)
+    {
+#>
+	   [Test]
+       public void Casts()
+       {
+           // integer - single
+           {
+               Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40);
+               Target.Single.<#= @name #> @single = integer;
+               Expect(@single.Left, Is.EqualTo(10));
+               Expect(@single.Top, Is.EqualTo(20));
+               Expect(@single.Width, Is.EqualTo(30));
+               Expect(@single.Height, Is.EqualTo(40));
+               Expect((Target.Integer.<#= @name #>)@single, Is.EqualTo(integer));
+           }
+       }
+       [Test]
+       public void StringCasts()
+       {
+           string textFromValue = new Target.Single.<#= @name #>(10, 20, 30, 40);
+           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Single.<#= @name #> @singleFromText = "10 20 30 40";
+           Expect(@singleFromText.Left, Is.EqualTo(10));
+           Expect(@singleFromText.Top, Is.EqualTo(20));
+           Expect(@singleFromText.Width, Is.EqualTo(30));
+           Expect(@singleFromText.Height, Is.EqualTo(40));
+       }
+<#+
+    }  
+#>
+<#+
+    void GenerateInteger(string @name, string @namespace)
+    {
+#>
+[Test]
+       public void Casts()
+       { }
+       [Test]
+       public void StringCasts()
+       {
+           string textFromValue = new Target.Integer.<#= @name #>(10, 20, 30, 40);
+           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Integer.<#= @name #> @integerFromText = "10 20 30 40";
+           Expect(@integerFromText.Left, Is.EqualTo(10));
+           Expect(@integerFromText.Top, Is.EqualTo(20));
+           Expect(@integerFromText.Width, Is.EqualTo(30));
+           Expect(@integerFromText.Height, Is.EqualTo(40));
+       }
+
+<#+
+    }  
+#>
+<#+
+    void GenerateEnd()
+    {
+#>
+    }
+}
+
+<#+
+    }  
+#>

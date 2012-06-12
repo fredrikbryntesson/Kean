@@ -1,1 +1,447 @@
-﻿
+﻿<#@ template language="C#v3.5" hostspecific="True" #>
+<#
+	GenerateStart("TransformValue", "Kean.Math.Geometry2D.Test", "Single",  "float");
+    GenerateSingle("TransformValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Single/TransformValue.cs");  
+    
+    GenerateStart("TransformValue", "Kean.Math.Geometry2D.Test", "Double",  "double");
+    GenerateDouble("TransformValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Double/TransformValue.cs");   
+
+    GenerateStart("TransformValue", "Kean.Math.Geometry2D.Test", "Integer",  "int");
+    GenerateInteger("TransformValue", "Kean.Math.Geometry2D.Test");
+    GenerateEnd();
+    SaveOutput("Integer/TransformValue.cs");  
+#>
+<#+
+  void SaveOutput(string outputFileName)
+  {
+      string templateDirectory = System.IO.Path.GetDirectoryName(Host.TemplateFile);
+      string outputFilePath = System.IO.Path.Combine(templateDirectory, outputFileName);
+      System.IO.File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+      this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+  }
+#>
+<#+
+    void GenerateStart(string @name, string @namespace, string @namespace1, string @value1)
+    {
+#>
+// 
+//  <#= @name #>.cs
+//  
+//  Author:
+//       Anders Frisk <andersfrisk77@gmail.com>
+//  
+//  Copyright (c) 2012 Anders Frisk
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+using System;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using Target = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+
+namespace <#= @namespace #>.<#= @namespace1 #>
+{
+    [TestFixture]
+    public class <#= @name #> :
+        Kean.Test.Fixture<<#= @name #>>
+    {
+        string prefix = "<#= @namespace #>.<#= @namespace1 #>.<#= @name #>";
+        float Precision { get { return 1e-4f; } }
+        Target.<#= @namespace1 #>.<#= @name #> transform0;
+        Target.<#= @namespace1 #>.<#= @name #> transform1;
+        Target.<#= @namespace1 #>.<#= @name #> transform2;
+        Target.<#= @namespace1 #>.<#= @name #> transform3;
+        Target.<#= @namespace1 #>.<#= @name #> transform4;
+        Target.<#= @namespace1 #>.PointValue point0;
+        Target.<#= @namespace1 #>.PointValue point1;
+        Target.<#= @namespace1 #>.SizeValue size0;
+
+        [TestFixtureSetUp]
+        public override void Setup()
+        {
+            this.transform0 = new Target.<#= @namespace1 #>.<#= @name #>(3, 1, 2, 1, 5, 7);
+            this.transform1 = new Target.<#= @namespace1 #>.<#= @name #>(7, 4, 2, 5, 7, 6);
+            this.transform2 = new Target.<#= @namespace1 #>.<#= @name #>(29, 11, 16, 7, 38, 20);
+            this.transform3 = new Target.<#= @namespace1 #>.<#= @name #>(1, -1, -2, 3, 9, -16);
+            this.transform4 = new Target.<#= @namespace1 #>.<#= @name #>(10, 20, 30, 40, 50, 60);
+            this.point0 = new Target.<#= @namespace1 #>.PointValue(-7, 3);
+            this.point1 = new Target.<#= @namespace1 #>.PointValue(2, -7);
+            this.size0 = new Target.<#= @namespace1 #>.SizeValue(10, 10);
+        }
+        protected override void Run()
+        {
+            this.Run(
+                 this.Equality,
+                this.CreateZeroTransform,
+                this.CreateIdentity,
+                this.CreateRotation,
+                this.CreateScale,
+                this.CreateTranslation,
+                this.Rotatate,
+                this.Scale,
+                this.Translatate,
+                this.InverseTransform,
+                this.MultiplicationTransformTransform,
+                this.MultiplicationTransformPoint,
+                this.GetValueValues,
+                this.CastToArray,
+                this.GetTranslation,
+                this.GetScalingX,
+                this.GetScalingY,
+                this.GetScaling,
+                this.GetRotation,
+                this.Casting,
+                this.Hash,
+                this.Casts,
+                this.StringCasts
+                );
+        }
+        <#= @value1 #> Cast(double value)
+        {
+            return (<#= @value1 #>)value;
+        }
+        Target.<#= @namespace1 #>.<#= @name #> CastFromString(string value)
+        {
+            return (Target.<#= @namespace1 #>.<#= @name #>)value;
+        }
+        string CastToString(Target.<#= @namespace1 #>.<#= @name #> value)
+        {
+            return (string)value;
+        }
+        #region Equality
+        [Test]
+        public void Equality()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> transform = new Target.<#= @namespace1 #>.<#= @name #>();
+            Expect(this.transform0, Is.EqualTo(this.transform0));
+            Expect(this.transform0.Equals(this.transform0 as object), Is.True);
+            Expect(this.transform0 == this.transform0, Is.True);
+            Expect(this.transform0 != this.transform1, Is.True);
+            Expect(this.transform0 == transform, Is.False);
+            Expect(transform == transform, Is.True);
+            Expect(transform == this.transform0, Is.False);
+        }
+        #endregion
+        #region Arithmetic
+        [Test]
+        public void InverseTransform()
+        {
+            Expect(this.transform0.Inverse, Is.EqualTo(this.transform3));
+        }
+        [Test]
+        public void MultiplicationTransformTransform()
+        {
+            Expect(this.transform0 * this.transform1, Is.EqualTo(this.transform2));
+        }
+        [Test]
+        public void MultiplicationTransformPoint()
+        {
+            Expect(this.transform0 * this.point0, Is.EqualTo(this.point1));
+        }
+        #endregion
+        [Test]
+        public void CreateZeroTransform()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> transform = new Target.<#= @namespace1 #>.<#= @name #>();
+            Expect(transform.A, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.5");
+        }
+        [Test]
+        public void CreateIdentity()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.Identity;
+            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.5");
+        }
+        [Test]
+        public void Rotatate()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> identity = Target.<#= @namespace1 #>.<#= @name #>.Identity;
+            <#= @value1 #> angle = Kean.Math.<#= @namespace1 #>.ToRadians(20);
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateRotation(angle);
+            transform = transform.Rotate(-angle);
+            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.5");
+        }
+        [Test]
+        public void Scale()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> identity = new Target.<#= @namespace1 #>.<#= @name #>(20, 0, 0, 20, 0, 0);
+            <#= @value1 #> scale = 20;
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateScaling(scale, scale);
+            transform = transform.Scale(5, 5);
+            Expect(transform.A, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.5");
+        }
+        [Test]
+        public void Translatate()
+        {
+            <#= @value1 #> xDelta = 40;
+            <#= @value1 #> yDelta = -40;
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateTranslation(xDelta, yDelta);
+            transform = transform.Translate(-xDelta, -yDelta);
+            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.5");
+        }
+        [Test]
+        public void CreateRotation()
+        {
+            <#= @value1 #> angle = Kean.Math.<#= @namespace1 #>.ToRadians(20);
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateRotation(angle);
+            Expect(transform.A, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
+            Expect(transform.B, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
+            Expect(transform.C, Is.EqualTo(-Kean.Math.<#= @namespace1 #>.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
+            Expect(transform.D, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
+            Expect(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
+            Expect(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
+        }
+        [Test]
+        public void CreateScale()
+        {
+            <#= @value1 #> scale = 20;
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateScaling(scale, scale);
+            Expect(transform.A, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.0");
+            Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.1");
+            Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.2");
+            Expect(transform.D, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.3");
+            Expect(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.4");
+            Expect(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.5");
+        }
+        [Test]
+        public void CreateTranslation()
+        {
+            <#= @value1 #> xDelta = 40;
+            <#= @value1 #> yDelta = -40;
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateTranslation(xDelta, yDelta);
+            Expect(transform.A, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.0");
+            Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.1");
+            Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.2");
+            Expect(transform.D, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.3");
+            Expect(transform.E, Is.EqualTo(xDelta).Within(this.Precision), this.prefix + "CreateTranslation.4");
+            Expect(transform.F, Is.EqualTo(yDelta).Within(this.Precision), this.prefix + "CreateTranslation.5");
+        }
+        [Test]
+        public void GetValueValues()
+        {
+            Target.<#= @namespace1 #>.<#= @name #> transform = this.transform0;
+            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(4)).Within(this.Precision), this.prefix + "GetValueValues.1");
+            Expect(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision), this.prefix + "GetValueValues.2");
+            Expect(transform.D, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetValueValues.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetValueValues.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision), this.prefix + "GetValueValues.5");
+        }
+        [Test]
+        public void GetScalingX()
+        {
+            <#= @value1 #> scale = this.transform0.ScalingX;
+            Expect(scale, Is.EqualTo(this.Cast(4.1231)).Within(this.Precision), this.prefix + "GetScalingX.0");
+        }
+        [Test]
+        public void GetScalingY()
+        {
+            <#= @value1 #> scale = this.transform0.ScalingY;
+            Expect(scale, Is.EqualTo(this.Cast(5.38516474f)).Within(this.Precision), this.prefix + "GetScalingY.0");
+        }
+        [Test]
+        public void GetScaling()
+        {
+            <#= @value1 #> scale = this.transform0.Scaling;
+            Expect(scale, Is.EqualTo(this.Cast(4.75413513f)).Within(this.Precision), this.prefix + "GetScaling.0");
+        }
+        [Test]
+        public void GetRotation()
+        {
+            <#= @value1 #> angle = Kean.Math.<#= @namespace1 #>.ToRadians(20);
+            Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateRotation(angle);
+            <#= @value1 #> value = Kean.Math.<#= @namespace1 #>.ToDegrees(transform.Rotation);
+            Expect(value, Is.EqualTo(this.Cast(20)).Within(this.Precision), this.prefix + "GetRotation.0");
+        }
+        [Test]
+        public void GetTranslation()
+        {
+            Target.<#= @namespace1 #>.SizeValue translation = this.transform0.Translation;
+            Expect(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetTranslation.0");
+            Expect(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision), this.prefix + "GetTranslation.1");
+        }
+        [Test]
+        public void CastToArray()
+        {
+            <#= @value1 #>[,] values = (<#= @value1 #>[,])(Target.<#= @namespace1 #>.<#= @name #>.Identity);
+            for (int x = 0; x < 3; x++)
+                for (int y = 0; y < 3; y++)
+                    Expect(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision), this.prefix + "CastToArray.0");
+        }
+        [Test]
+        public void Casting()
+        {
+            string value = "10, 20, 30, 40, 50, 60";
+            Expect(this.CastToString(this.transform4), Is.EqualTo(value), this.prefix + "Casting.0");
+            Expect(this.CastFromString(value), Is.EqualTo(this.transform4), this.prefix + "Casting.1");
+        }
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.transform0.Hash(), Is.Not.EqualTo(0));
+        }
+        #endregion
+
+<#+
+    }  
+#>
+<#+
+    void GenerateDouble(string @name, string @namespace)
+    {
+#>
+        [Test]
+        public void Casts()
+        {
+            // integer - double
+            {
+                Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40, 50, 60);
+                Target.Double.<#= @name #> @double = integer;
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Integer.<#= @name #>)@double, Is.EqualTo(integer));
+            }
+			// single - double
+            {
+                Target.Single.<#= @name #> integer = new Target.Single.<#= @name #>(10, 20, 30, 40, 50, 60);
+                Target.Double.<#= @name #> @double = integer;
+                Expect(@double.A, Is.EqualTo(10));
+                Expect(@double.B, Is.EqualTo(20));
+                Expect(@double.C, Is.EqualTo(30));
+                Expect(@double.D, Is.EqualTo(40));
+                Expect(@double.E, Is.EqualTo(50));
+                Expect(@double.F, Is.EqualTo(60));
+                Expect((Target.Single.<#= @name #>)@double, Is.EqualTo(integer));
+            }
+        }
+        [Test]
+        public void StringCasts()
+        {
+            string textFromValue = new Target.Double.<#= @name #>(10, 20, 30, 40, 50, 60);
+            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+            Target.Double.<#= @name #> @integerFromText = "10 20 30 40 50 60";
+            Expect(@integerFromText.A, Is.EqualTo(10));
+            Expect(@integerFromText.B, Is.EqualTo(20));
+            Expect(@integerFromText.C, Is.EqualTo(30));
+            Expect(@integerFromText.D, Is.EqualTo(40));
+            Expect(@integerFromText.E, Is.EqualTo(50));
+            Expect(@integerFromText.F, Is.EqualTo(60));
+        }
+
+<#+
+    }  
+#>
+<#+
+    void GenerateSingle(string @name, string @namespace)
+    {
+#>
+		[Test]
+        public void Casts()
+        {
+            // integer - single
+            {
+                Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40, 50, 60);
+                Target.Single.<#= @name #> @single = integer;
+                Expect(@single.A, Is.EqualTo(10));
+                Expect(@single.B, Is.EqualTo(20));
+                Expect(@single.C, Is.EqualTo(30));
+                Expect(@single.D, Is.EqualTo(40));
+                Expect(@single.E, Is.EqualTo(50));
+                Expect(@single.F, Is.EqualTo(60));
+                Expect((Target.Integer.<#= @name #>)@single, Is.EqualTo(integer));
+            }
+		}
+		[Test]
+        public void StringCasts()
+        {
+            string textFromValue = new Target.Single.<#= @name #>(10, 20, 30, 40, 50, 60);
+            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+            Target.Single.<#= @name #> @integerFromText = "10 20 30 40 50 60";
+            Expect(@integerFromText.A, Is.EqualTo(10));
+            Expect(@integerFromText.B, Is.EqualTo(20));
+            Expect(@integerFromText.C, Is.EqualTo(30));
+            Expect(@integerFromText.D, Is.EqualTo(40));
+            Expect(@integerFromText.E, Is.EqualTo(50));
+            Expect(@integerFromText.F, Is.EqualTo(60));
+        }
+<#+
+    }  
+#>
+<#+
+    void GenerateInteger(string @name, string @namespace)
+    {
+#>
+		[Test]
+        public void Casts()
+        { }
+		[Test]
+        public void StringCasts()
+        {
+            string textFromValue = new Target.Integer.<#= @name #>(10, 20, 30, 40, 50, 60);
+            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+            Target.Integer.<#= @name #> @integerFromText = "10 20 30 40 50 60";
+            Expect(@integerFromText.A, Is.EqualTo(10));
+            Expect(@integerFromText.B, Is.EqualTo(20));
+            Expect(@integerFromText.C, Is.EqualTo(30));
+            Expect(@integerFromText.D, Is.EqualTo(40));
+            Expect(@integerFromText.E, Is.EqualTo(50));
+            Expect(@integerFromText.F, Is.EqualTo(60));
+        }
+<#+
+    }  
+#>
+<#+
+    void GenerateEnd()
+    {
+#>
+    }
+}
+
+<#+
+    }  
+#>

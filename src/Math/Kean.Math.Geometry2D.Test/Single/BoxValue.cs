@@ -25,13 +25,13 @@ using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 
-namespace Kean.Math.Geometry2D.Test.Double
+namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
     public class BoxValue : 
         Kean.Test.Fixture<BoxValue>
     {
-        string prefix = "Kean.Math.Geometry2D.Test.Double.BoxValue.";
+        string prefix = "Kean.Math.Geometry2D.Test.Single.BoxValue.";
         protected override void Run()
         {
             this.Run(
@@ -45,14 +45,14 @@ namespace Kean.Math.Geometry2D.Test.Double
                 this.Casts,
                 this.StringCasts);
         }
-       Target.Double.BoxValue box0 = new Target.Double.BoxValue(1, 2, 3, 4);
-       Target.Double.BoxValue box1 = new Target.Double.BoxValue(4, 3, 2, 1);
-       Target.Double.BoxValue box2 = new Target.Double.BoxValue(2, 1, 4, 3);
+       Target.Single.BoxValue box0 = new Target.Single.BoxValue(1, 2, 3, 4);
+       Target.Single.BoxValue box1 = new Target.Single.BoxValue(4, 3, 2, 1);
+       Target.Single.BoxValue box2 = new Target.Single.BoxValue(2, 1, 4, 3);
        #region Equality
        [Test]
        public void Equality()
        {
-          Target.Double.BoxValue box = new  Target.Double.BoxValue();
+          Target.Single.BoxValue box = new  Target.Single.BoxValue();
            Expect(this.box0, Is.EqualTo(this.box0));
            Expect(this.box0.Equals(this.box0 as object), Is.True);
            Expect(this.box0 == this.box0, Is.True);
@@ -65,14 +65,14 @@ namespace Kean.Math.Geometry2D.Test.Double
        [Test]
        public void LeftTop()
        {
-           Target.Double.PointValue leftTop = this.box0.LeftTop;
+           Target.Single.PointValue leftTop = this.box0.LeftTop;
            Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
            Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
        }
        [Test]
        public void Size()
        {
-           Target.Double.SizeValue size = this.box0.Size;
+           Target.Single.SizeValue size = this.box0.Size;
            Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
            Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
        }
@@ -97,40 +97,30 @@ namespace Kean.Math.Geometry2D.Test.Double
            Expect(this.box0.Hash(), Is.Not.EqualTo(0));
        }
        #endregion
-       [Test]
+	   [Test]
        public void Casts()
        {
-           // integer - double
+           // integer - single
            {
                Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40);
-               Target.Double.BoxValue @double = integer;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Integer.BoxValue)@double, Is.EqualTo(integer));
-           }
-           // single - double
-           {
-               Target.Single.BoxValue single = new Target.Single.BoxValue(10, 20, 30, 40);
-               Target.Double.BoxValue @double = single;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Single.BoxValue)@double, Is.EqualTo(single));
+               Target.Single.BoxValue @single = integer;
+               Expect(@single.Left, Is.EqualTo(10));
+               Expect(@single.Top, Is.EqualTo(20));
+               Expect(@single.Width, Is.EqualTo(30));
+               Expect(@single.Height, Is.EqualTo(40));
+               Expect((Target.Integer.BoxValue)@single, Is.EqualTo(integer));
            }
        }
        [Test]
        public void StringCasts()
        {
-           string textFromValue = new Target.Double.BoxValue(10, 20, 30, 40);
+           string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40);
            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Double.BoxValue @doubleFromText = "10 20 30 40";
-           Expect(@doubleFromText.Left, Is.EqualTo(10));
-           Expect(@doubleFromText.Top, Is.EqualTo(20));
-           Expect(@doubleFromText.Width, Is.EqualTo(30));
-           Expect(@doubleFromText.Height, Is.EqualTo(40));
+           Target.Single.BoxValue @singleFromText = "10 20 30 40";
+           Expect(@singleFromText.Left, Is.EqualTo(10));
+           Expect(@singleFromText.Top, Is.EqualTo(20));
+           Expect(@singleFromText.Width, Is.EqualTo(30));
+           Expect(@singleFromText.Height, Is.EqualTo(40));
        }
     }
 }

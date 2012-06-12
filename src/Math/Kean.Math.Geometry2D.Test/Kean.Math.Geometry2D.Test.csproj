@@ -58,11 +58,13 @@
     <Compile Include="Double\Transform.cs" />
     <Compile Include="Double\TransformValue.cs" />
     <Compile Include="Integer\Box.cs" />
+    <Compile Include="Integer\BoxValue.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\PointValue.cs" />
     <Compile Include="Integer\Size.cs" />
     <Compile Include="Integer\SizeValue.cs" />
     <Compile Include="Integer\Transform.cs" />
+    <Compile Include="Integer\TransformValue.cs" />
     <Compile Include="Point.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,12 +72,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Single\Box.cs" />
+    <Compile Include="Single\BoxValue.cs" />
     <Compile Include="Single\Point.cs" />
     <Compile Include="Single\PointValue.cs" />
     <Compile Include="Single\Size.cs" />
     <Compile Include="Single\SizeValue.cs" />
     <Compile Include="Single\Transform.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+    <Compile Include="Single\TransformValue.cs" />
     <Compile Include="Size.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
