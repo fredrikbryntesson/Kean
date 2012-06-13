@@ -106,7 +106,7 @@ namespace Kean.Draw.Color
 		public static Bgra Green { get { return new Bgra(0, 255, 0); } }
 		public static Bgra Red { get { return new Bgra(0, 0, 255); } }
 		public static Bgra Magenta { get { return new Bgra(255, 0, 255); } }
-		public static Bgra Yellow { get { return new Bgra(255, 255, 0); } }
+		public static Bgra Yellow { get { return new Bgra(0, 255, 255); } }
 		public static Bgra Cyan { get { return new Bgra(255, 255, 0); } }
 		#endregion
 	}
