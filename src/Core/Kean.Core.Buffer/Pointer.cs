@@ -26,10 +26,9 @@ namespace Kean.Core.Buffer
     /// Used to handle a memory area for use by unmanaged code so that it can be garbage collected.
     /// </summary>    
     public class Pointer :
+		Synchronized,
         IDisposable
     {
-        object @lock = new object();
-        protected object Lock { get { return this.@lock; } }
         Action<IntPtr> free;
         IntPtr pointer;
 

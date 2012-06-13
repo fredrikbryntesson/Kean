@@ -54,8 +54,8 @@ namespace Kean.Core.Buffer
         }
         protected override void Dispose(bool disposing)
         {
-            lock (this.Lock)
-            {
+			lock (this.Lock ?? new object())
+			{
 				if (this.Data.NotNull())
 				{
 					base.Dispose(disposing);
@@ -68,7 +68,7 @@ namespace Kean.Core.Buffer
 					Vector<T>.recycle.Recycle(this.Data);
 					this.Data = null;
 				}
-            }
+			}
         }
 		public override void CopyFrom(Sized other, int start, int destination, int length)
 		{
