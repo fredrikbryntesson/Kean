@@ -56,7 +56,7 @@ namespace Kean.Core.Buffer
         {
 			lock (this.Lock ?? new object())
 			{
-				if (this.Data.NotNull())
+				if (this.data.NotNull())
 				{
 					base.Dispose(disposing);
 					if (this.isPinned && this.handle.IsAllocated)
@@ -64,9 +64,9 @@ namespace Kean.Core.Buffer
 						this.handle.Free();
 						this.isPinned = false;
 					}
-					this.Data.Initialize(default(T));
-					Vector<T>.recycle.Recycle(this.Data);
-					this.Data = null;
+					this.data.Initialize(default(T));
+					Vector<T>.recycle.Recycle(this.data);
+					this.data = null;
 				}
 			}
         }
