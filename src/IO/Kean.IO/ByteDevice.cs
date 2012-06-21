@@ -129,7 +129,7 @@ namespace Kean.IO
 		public static IByteDevice Create(Uri.Locator resource)
 		{
 			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
-			if (result.IsNull())
+			if (result.IsNull() && resource.NotNull())
 			{
 				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlattformPath);
 				result = ByteDevice.Open(resource, System.IO.FileMode.Create);
