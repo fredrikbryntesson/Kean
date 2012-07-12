@@ -46,6 +46,7 @@ namespace Kean.Draw.Raster.Test
 				this.Yuv420,
 				this.Yvu420,
 				this.Yuv444,
+				this.Yuv422,
 				this.Yuyv
 				);
 		}
@@ -136,7 +137,8 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv420>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv420>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv420>(), original);
-				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yuv420>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuv420>(), original);
 				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv420>(), original);
 			}
 		}
@@ -149,6 +151,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yvu420>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yvu420>(), original);
 				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yvu420>(), original);
 				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yvu420>(), original);
 			}
 		}
@@ -161,7 +164,21 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv444>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv444>(), original);
 				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yuv444>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuv444>(), original);
 				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv444>(), original);
+			}
+		}
+		[Test]
+		public void Yuv422()
+		{
+			using (Target.Yuv422 original = Target.Yuv422.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuv422>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv422>(), original);
 			}
 		}
 		[Test]
@@ -173,6 +190,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Target.Monochrome>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuyv>(), original);
+				Verify(original.Convert<Target.Yuv422>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuyv>(), original);
 			}
 		}

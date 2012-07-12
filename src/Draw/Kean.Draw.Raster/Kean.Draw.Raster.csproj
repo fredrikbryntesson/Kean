@@ -41,6 +41,7 @@
     <Compile Include="Bgr.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Compression.cs" />
+    <Compile Include="Yuv422.cs" />
     <Compile Include="Yuv444.cs" />
     <Compile Include="Extension\GdiExtension.cs" />
     <Compile Include="Image.cs" />

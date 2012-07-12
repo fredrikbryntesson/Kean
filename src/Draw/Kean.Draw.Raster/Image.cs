@@ -86,11 +86,15 @@ namespace Kean.Draw.Raster
                 result = resized.Convert<Bgra>();
             else if (this is Yuv420)
                 result = resized.Convert<Yuv420>();
-            else if (this is Yuyv)
-                result = resized.Convert<Yuyv>();
             else if (this is Yvu420)
                 result = resized.Convert<Yvu420>();
-            return result;
+			else if (this is Yuv444)
+				result = resized.Convert<Yuv444>();
+			else if (this is Yuv422)
+				result = resized.Convert<Yuv422>();
+			else if (this is Yuyv)
+				result = resized.Convert<Yuyv>();
+			return result;
         }
 		/// <summary>
         /// Copy a specified region of the current image. The transform specifies the part of current image to be copied.
@@ -159,6 +163,8 @@ namespace Kean.Draw.Raster
                         result = new Yvu420(this) as T;
 					else if (type == typeof(Yuv444))
 						result = new Yuv444(this) as T;
+					else if (type == typeof(Yuv422))
+						result = new Yuv422(this) as T;
 				}
 			else if (type.Inherits<Cairo.Image>())
 			{
@@ -262,7 +268,11 @@ namespace Kean.Draw.Raster
                     result = new Yuv420(size) as T;
                 else if (type == typeof(Yvu420))
                     result = new Yvu420(size) as T;
-            }
+				else if (type == typeof(Yuv444))
+					result = new Yuv444(size) as T;
+				else if (type == typeof(Yuv422))
+					result = new Yuv422(size) as T;
+			}
             return result;
         }
         #endregion
