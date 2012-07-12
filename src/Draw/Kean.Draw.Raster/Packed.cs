@@ -52,9 +52,9 @@ namespace Kean.Draw.Raster
 				result = new Bgr(this.Size);
 			else if (this is Bgra)
 				result = new Bgra(this.Size);
-			else if (this is Yuv422)
-				result = new Yuv422(this.Size);
-			int offsetX = Kean.Math.Integer.Modulo(this is Yuv422 && Kean.Math.Integer.Modulo(offset.Width, 2) != 0 ? offset.Width + 1 : offset.Width, this.Size.Width);
+			else if (this is Yuyv)
+				result = new Yuyv(this.Size);
+			int offsetX = Kean.Math.Integer.Modulo(this is Yuyv && Kean.Math.Integer.Modulo(offset.Width, 2) != 0 ? offset.Width + 1 : offset.Width, this.Size.Width);
 			int length = (this.Size.Width - offsetX) * this.BytesPerPixel;
 			int line = this.Size.Width * this.BytesPerPixel;
 			for (int y = 0; y < this.Size.Height; y++)

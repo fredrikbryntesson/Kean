@@ -86,8 +86,8 @@ namespace Kean.Draw.Raster
                 result = resized.Convert<Bgra>();
             else if (this is Yuv420)
                 result = resized.Convert<Yuv420>();
-            else if (this is Yuv422)
-                result = resized.Convert<Yuv422>();
+            else if (this is Yuyv)
+                result = resized.Convert<Yuyv>();
             else if (this is Yvu420)
                 result = resized.Convert<Yvu420>();
             return result;
@@ -148,8 +148,8 @@ namespace Kean.Draw.Raster
                         result = new Bgra(this) as T;
                     else if (type == typeof(Monochrome))
                         result = new Monochrome(this) as T;
-                    else if (type == typeof(Yuv422))
-                        result = new Yuv422(this) as T;
+                    else if (type == typeof(Yuyv))
+                        result = new Yuyv(this) as T;
                 }
                 else
                 {
@@ -251,8 +251,8 @@ namespace Kean.Draw.Raster
                     result = new Bgra(size) as T;
                 else if (type == typeof(Monochrome))
                     result = new Monochrome(size) as T;
-                else if (type == typeof(Yuv422))
-                    result = new Yuv422(size) as T;
+                else if (type == typeof(Yuyv))
+                    result = new Yuyv(size) as T;
             }
             else
             {

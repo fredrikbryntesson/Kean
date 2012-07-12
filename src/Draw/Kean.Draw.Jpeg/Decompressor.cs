@@ -96,10 +96,10 @@ namespace Kean.Draw.Jpeg
                 case Sampler.Yuv420:
                     result = new Raster.Yuv420(new Geometry2D.Integer.Size(width, height));
                     break;
-                case Sampler.Yuv422:
-                    result = new Raster.Yuv422(new Geometry2D.Integer.Size(width, height));
+                case Sampler.Yuyv:
+                    result = new Raster.Yuyv(new Geometry2D.Integer.Size(width, height));
                     break;
-                case Sampler.Gray:
+                case Sampler.Monochrome:
                     result = new Raster.Monochrome(new Geometry2D.Integer.Size(width, height));
                     break;
             }

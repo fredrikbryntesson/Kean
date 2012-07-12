@@ -141,7 +141,7 @@
     <EmbeddedResource Include="Correct\Transform\shiftedBgr.png" />
     <EmbeddedResource Include="Correct\Transform\shiftedBgra.png" />
     <EmbeddedResource Include="Correct\Transform\shiftedYuv420.png" />
-    <EmbeddedResource Include="Correct\Transform\shiftedYuv422.png" />
+    <EmbeddedResource Include="Correct\Transform\shiftedYuyv.png" />
     <EmbeddedResource Include="Correct\Transform\shiftedYvu420.png" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿// 
-//  Yuv422.cs
+//  Yuyv.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -26,27 +26,27 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Raster
 {
 	/// <summary>
-	/// Yuv422 is the format mentioned as YUY2 (see fourcc.org). Order yuyvyuyvyuyv
+	/// Yuyv is a packed version of Yuv422 mentioned as YUY2 (see fourcc.org). Order yuyvyuyvyuyv
 	/// </summary>
 	[System.Runtime.InteropServices.ComVisible(true)]
-	public class Yuv422 :
+	public class Yuyv :
 		Packed
 	{
 		protected override int BytesPerPixel { get { return 2; } }
 
-		public Yuv422(Geometry2D.Integer.Size size) :
+		public Yuyv(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
-		public Yuv422(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+		public Yuyv(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem) { }
-		public Yuv422(byte[] data, Geometry2D.Integer.Size size) :
+		public Yuyv(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
-		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
+		public Yuyv(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
 			base(buffer, size, CoordinateSystem.Default) { }
-		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+		public Yuyv(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(buffer, size, coordinateSystem) { }
-		protected Yuv422(Yuv422 original) :
+		protected Yuyv(Yuyv original) :
 			base(original) { }
-		internal Yuv422(Image original) :
+		internal Yuyv(Image original) :
 			this(original.Size, original.CoordinateSystem)
 		{
 			unsafe
@@ -88,11 +88,11 @@ namespace Kean.Draw.Raster
 
 		public override Draw.Image Copy()
 		{
-			return new Yuv422(this);
+			return new Yuyv(this);
 		}
 		public override Draw.Image Create(Geometry2D.Integer.Size size)
 		{
-			return new Yuv422(size) { Crop = this.Crop, Wrap = this.Wrap };
+			return new Yuyv(size) { Crop = this.Crop, Wrap = this.Wrap };
 		}
 		public override void Apply(Action<Color.Bgr> action)
 		{
@@ -134,21 +134,21 @@ namespace Kean.Draw.Raster
 			this.Apply(Color.Convert.FromYuv(action));
 		}
 		#region Static Open
-		public static new Yuv422 OpenResource(System.Reflection.Assembly assembly, string name)
+		public static new Yuyv OpenResource(System.Reflection.Assembly assembly, string name)
 		{
-			return Image.OpenResource<Yuv422>(assembly, name);
+			return Image.OpenResource<Yuyv>(assembly, name);
 		}
-		public static new Yuv422 OpenResource(string name)
+		public static new Yuyv OpenResource(string name)
 		{
-			return Image.OpenResource<Yuv422>(System.Reflection.Assembly.GetCallingAssembly(), name);
+			return Image.OpenResource<Yuyv>(System.Reflection.Assembly.GetCallingAssembly(), name);
 		}
-		public static new Yuv422 Open(string filename)
+		public static new Yuyv Open(string filename)
 		{
-			return Image.Open<Yuv422>(filename);
+			return Image.Open<Yuyv>(filename);
 		}
-		public static new Yuv422 Open(System.IO.Stream stream)
+		public static new Yuyv Open(System.IO.Stream stream)
 		{
-			return Image.Open<Yuv422>(stream);
+			return Image.Open<Yuyv>(stream);
 		}
 		#endregion
 	}

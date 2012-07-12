@@ -26,6 +26,8 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			//new Gui.OpenGL.Test.Window().Create();
+
             Math.Geometry2D.Test.All.Test();
 			Draw.Cairo.Test.All.Test();
             // CPU dependent tests

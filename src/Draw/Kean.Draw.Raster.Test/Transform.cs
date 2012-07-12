@@ -37,7 +37,7 @@ namespace Kean.Draw.Raster.Test
         {
             this.Run(
 				this.ShiftMonochrome,
-				this.ShiftYuv422,
+				this.ShiftYuyv,
 				this.ShiftYuv420,
 				this.ShiftYvu420,
 				this.ShiftBgra,
@@ -82,11 +82,11 @@ namespace Kean.Draw.Raster.Test
 				Verify(shifted, "Correct/Transform/shiftedBgra.png");
 		}
 		[Test]
-		public void ShiftYuv422()
+		public void ShiftYuyv()
 		{
-			using (Target.Yuv422 image = Target.Yuv422.OpenResource("Correct/Transform/original.png"))
-			using (Target.Yuv422 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yuv422)
-				Verify(shifted, "Correct/Transform/shiftedYuv422.png");
+			using (Target.Yuyv image = Target.Yuyv.OpenResource("Correct/Transform/original.png"))
+			using (Target.Yuyv shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yuyv)
+				Verify(shifted, "Correct/Transform/shiftedYuyv.png");
 		}
 		[Test]
 		public void ShiftYuv420()

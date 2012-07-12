@@ -27,9 +27,9 @@ namespace Kean.Draw.Jpeg
         int
     {
         Yuv444,
-        Yuv422,
+        Yuyv,
         Yuv420,
-        Gray,
+        Monochrome,
         Yuv440,
     }
 }
