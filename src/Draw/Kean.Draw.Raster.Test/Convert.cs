@@ -45,6 +45,7 @@ namespace Kean.Draw.Raster.Test
 				this.Monochrome,
 				this.Yuv420,
 				this.Yvu420,
+				this.Yuv444,
 				this.Yuyv
 				);
 		}
@@ -99,8 +100,8 @@ namespace Kean.Draw.Raster.Test
 			{
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Bgr>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Bgr>(), original);
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Bgr>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Bgr>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Bgr>(), original);
 			}
 		}
 		[Test]
@@ -110,8 +111,8 @@ namespace Kean.Draw.Raster.Test
 			{
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Bgra>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Bgra>(), original);
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Bgra>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Bgra>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Bgra>(), original);
 			}
 		}
 		[Test]
@@ -121,8 +122,8 @@ namespace Kean.Draw.Raster.Test
 			{
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Monochrome>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Monochrome>().Distance(original), Is.LessThanOrEqualTo(0));
 				using (Target.Monochrome monochrome = Target.Monochrome.OpenResource("Correct/Convert/monochrome.png"))
 					Verify(original, "Correct/Convert/monochrome.png");
 			}
@@ -134,8 +135,9 @@ namespace Kean.Draw.Raster.Test
 			{
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv420>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv420>(), original);
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv420>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv420>(), original);
+				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv420>(), original);
 			}
 		}
 		[Test]
@@ -145,8 +147,21 @@ namespace Kean.Draw.Raster.Test
 			{
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Yvu420>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yvu420>(), original);
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yvu420>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yvu420>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yvu420>(), original);
+			}
+		}
+		[Test]
+		public void Yuv444()
+		{
+			using (Target.Yuv444 original = Target.Yuv444.OpenResource("Correct/Convert/original.png"))
+			{
+				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuv444>(), original);
+				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuv444>(), original);
+				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuv444>(), original);
+				Verify(original.Convert<Target.Yuv444>().Convert<Target.Yuv444>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuv444>(), original);
 			}
 		}
 		[Test]
@@ -157,8 +172,8 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Target.Bgra>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Monochrome>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Yuv420>().Convert<Target.Yuyv>(), original);
-				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuyv>(), original);
 				Verify(original.Convert<Target.Yvu420>().Convert<Target.Yuyv>(), original);
+				Verify(original.Convert<Target.Yuyv>().Convert<Target.Yuyv>(), original);
 			}
 		}
 		#endregion

@@ -157,7 +157,9 @@ namespace Kean.Draw.Raster
                         result = new Yuv420(this) as T;
                     else if (type == typeof(Yvu420))
                         result = new Yvu420(this) as T;
-                }
+					else if (type == typeof(Yuv444))
+						result = new Yuv444(this) as T;
+				}
 			else if (type.Inherits<Cairo.Image>())
 			{
 				if (type == typeof(Cairo.Image) || type == this.cairo.GetType())
