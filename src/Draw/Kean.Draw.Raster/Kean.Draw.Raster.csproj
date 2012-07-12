@@ -48,6 +48,7 @@
     <Compile Include="Planar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Yuv420.cs" />
+    <Compile Include="YuvPlanar.cs" />
     <Compile Include="Yuyv.cs" />
     <Compile Include="Yvu420.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />

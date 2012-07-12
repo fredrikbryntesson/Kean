@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -27,12 +27,8 @@ namespace Kean.Draw.Raster
 {
 	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Yuv420 :
-		Planar
+		YuvPlanar
 	{
-		public Monochrome Y { get; private set; }
-		public Monochrome U { get; private set; }
-		public Monochrome V { get; private set; }
-
 		public Yuv420(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
 		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
@@ -43,18 +39,10 @@ namespace Kean.Draw.Raster
 			this(buffer, size, CoordinateSystem.Default) { }
 		public Yuv420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(buffer, size, coordinateSystem)
-		{
-			this.Y = this.CreateY();
-			this.U = this.CreateU();
-			this.V = this.CreateV();
-		}
+		{ }
 		protected Yuv420(Yuv420 original) :
 			base(original)
-		{
-			this.Y = this.CreateY();
-			this.U = this.CreateU();
-			this.V = this.CreateV();
-		}
+		{ }
 		internal Yuv420(Image original) :
 			this(original.Size, original.CoordinateSystem)
 		{
@@ -101,15 +89,15 @@ namespace Kean.Draw.Raster
 				});
 			}
 		}
-		protected virtual Monochrome CreateY()
+		protected override Monochrome CreateY()
 		{
 			return new Monochrome(this.Pointer, this.Size);
 		}
-		protected virtual Monochrome CreateU()
+		protected override Monochrome CreateU()
 		{
 			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Size, 1)), this.Size / 2);
 		}
-		protected virtual Monochrome CreateV()
+		protected override Monochrome CreateV()
 		{
 			return new Monochrome(new IntPtr(this.Pointer.ToInt32() + Packed.CalculateLength(this.Size, 1) + Packed.CalculateLength(this.Size / 2, 1)), this.Size / 2);
 		}
