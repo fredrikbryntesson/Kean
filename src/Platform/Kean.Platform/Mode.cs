@@ -2,7 +2,7 @@
 
 namespace Kean.Platform
 {
-	enum Mode
+	public enum Mode
 	{
 		Created,
 		Initialized,

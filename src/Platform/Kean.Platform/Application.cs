@@ -62,6 +62,7 @@ namespace Kean.Platform
 		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
 		public bool CatchErrors { get; set; }
+		public Mode Mode { get; private set; }
 		#endregion
 		#region Events
 		object onIdleLock = new object();
@@ -166,15 +167,19 @@ namespace Kean.Platform
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Created)
 					module.Initialize();
+			this.Mode = Mode.Initialized;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Initialized)
 					module.Start();
 			if (this.Runner.IsNull())
 				this.Runner = new Waiter();
+			this.Mode = Mode.Started;
 			this.Runner.Run();
+			this.Mode = Mode.Stopped;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
 					module.Stop();
+			this.Mode = Mode.Disposed;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Stopped)
 					module.Dispose();
