@@ -28,16 +28,16 @@ using Kean.Core.Collection.Extension;
 
 namespace Kean.Platform.Settings
 {
-	class Root : 
+	public class Root : 
 		Dynamic
 	{
 		Module module;
 
 		internal Object Object { get; set; }
-		public string Title { get; set; }
-		public Xml.Dom.Fragment Header { get; set; }
-        public Uri.Locator HelpFilename { get; set; }
-		public Root(Module module)
+		internal string Title { get; set; }
+		internal Xml.Dom.Fragment Header { get; set; }
+		internal Uri.Locator HelpFilename { get; set; }
+		internal Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;

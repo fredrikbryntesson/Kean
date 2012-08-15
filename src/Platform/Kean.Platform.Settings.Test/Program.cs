@@ -40,14 +40,14 @@ namespace Kean.Platform.Settings.Test
 			else
 			{
 				Application application = new Application();
-				Settings.Module remote = new Settings.Module()
+				Settings.Module settings = new Settings.Module()
 				{
 					Header = "<link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>\n <link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>",
 				};
-				remote.Load("loader", new Loader(remote));
-				remote.Load("old.object", new Object());
-				remote.Load("application", new Command.Application());
-				application.Load(remote);
+				settings.Load("loader", new Loader(settings));
+				settings.Load("old.object", new Object());
+				settings.Load("application", new Command.Application());
+				application.Load(settings);
 				application.Execute();
 			}
 		}

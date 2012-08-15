@@ -34,10 +34,20 @@ namespace Kean.Platform.Settings
 
 		public object this[string name]
 		{
-			get 
+			get
 			{
-				Tuple<string, string, object> member = this.data[name];
-				return member.NotNull() ? member.Item3 : null; 
+				object result;
+				if (name.NotEmpty())
+				{
+					string[] splitted = (name ?? "").Split(new char[] { '.' }, 2);
+					Tuple<string, string, object> member = this.data[splitted[0]];
+					result = member.NotNull() ? member.Item3 : null;
+					if (result is Dynamic && splitted.Length > 1)
+						result = (result as Dynamic)[splitted[1]];
+				}
+				else
+					result = this;
+				return result;
 			}
 			set 
 			{
