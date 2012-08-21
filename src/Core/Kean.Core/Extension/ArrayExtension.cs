@@ -56,9 +56,13 @@ namespace Kean.Core.Extension
 		}
 		public static S[] Map<T, S>(this T[] input, Func<T, S> function)
 		{
-			S[] result = new S[input.Length];
-			for (int i = 0; i < input.Length; i++)
-				result[i] = function(input[i]);
+			S[] result = null;
+			if (input.NotNull())
+			{
+				result = new S[input.Length];
+				for (int i = 0; i < input.Length; i++)
+					result[i] = function(input[i]);
+			}
 			return result;
 		}
 		public static int Index<T>(this T[] me, Func<T, bool> function)
