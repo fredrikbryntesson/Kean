@@ -42,10 +42,13 @@ namespace Kean.Core.Recycle
 		}
 		public T Find(S specifier)
 		{
-			T result = this.recycled.RemoveFirst(item => this.comparer(item, specifier));
+			T result;
 			lock (this.Lock)
+			{
+				result = this.recycled.RemoveFirst(item => this.comparer(item, specifier));
 				while (this.recycled.Count >= this.Capacity)
 					this.free.Call(this.recycled.Remove(this.recycled.Count - 1));
+			}
 			return result;
 		}
 		public void Recycle(T item)
