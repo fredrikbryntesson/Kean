@@ -45,7 +45,7 @@ namespace Kean.Platform.Settings
 		}
 		Cli.LineBuffer.Editor lineBuffer;
 
-		public Editor(object root, Cli.ITerminal terminal)
+		Editor(object root, Cli.ITerminal terminal)
 		{
 			this.lineBuffer = new Cli.LineBuffer.Editor(terminal);
 			this.lineBuffer.Execute = this.Execute;
@@ -142,13 +142,28 @@ namespace Kean.Platform.Settings
 			this.Close();
 		}
 		#endregion
+		public static Editor Create(object root, Cli.ITerminal terminal)
+		{
+			return terminal.NotNull() ? new Editor(root, terminal) : null;
+		}
+		public static Editor Read(object root, Cli.ITerminal terminal)
+		{
+			Editor result = null;
+			if (terminal.NotNull())
+			{
+				result = new Editor(root, terminal);
+				result.Read();
+			}
+			return result;
+		}
+
 		public static IDisposable Listen(object root, Uri.Locator resource)
 		{
 			IDisposable result = null;
 			switch (resource.Scheme)
 			{
 				case "file":
-					((Editor)(result = new Editor(root, Cli.Terminal.Open(IO.ByteDevice.Open(resource, null))))).Read();
+					result = Editor.Read(root, Cli.Terminal.Open(IO.ByteDevice.Open(resource, null)));
 					break;
 				case "telnet":
 					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);

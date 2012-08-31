@@ -28,6 +28,7 @@ using Error = Kean.Core.Error;
 using Argument = Kean.Cli.Argument;
 using Serialize = Kean.Core.Serialize;
 using Kean.Core.Reflect.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Platform
 {
@@ -147,7 +148,13 @@ namespace Kean.Platform
 		}
 		public void Load<T>(string name, T value)
 		{
-			this.Load(new Module<T>(name, value));
+			if (value is Module)
+			{
+				(value as Module).Name = name;
+				this.Load(value as Module);
+			}
+			else
+				this.Load(new Module<T>(name, value));
 		}
 		public void Unload(string name)
 		{
@@ -160,31 +167,41 @@ namespace Kean.Platform
 		}
 		public bool Close()
 		{
-			return this.Runner.NotNull() && this.Runner.Close();
+			return this.Mode == Mode.Started && (this.Runner.NotNull() ? this.Runner.Close() : this.Stop());
 		}
-		void Executer()
+		public bool Start()
 		{
-			foreach (Module module in this.Modules)
-				if (module.Mode == Mode.Created)
-					module.Initialize();
-			this.Mode = Mode.Initialized;
-			foreach (Module module in this.Modules)
-				if (module.Mode == Mode.Initialized)
-					module.Start();
-			if (this.Runner.IsNull())
-				this.Runner = new Waiter();
-			this.Mode = Mode.Started;
-			this.Runner.Run();
-			this.Mode = Mode.Stopped;
-			foreach (Module module in this.Modules)
-				if (module.Mode == Mode.Started)
-					module.Stop();
-			this.Mode = Mode.Disposed;
-			foreach (Module module in this.Modules)
-				if (module.Mode == Mode.Stopped)
-					module.Dispose();
+			bool result;
+			if (result = this.Mode == Mode.Created)
+				if (this.CatchErrors)
+				{
+					try
+					{
+						this.Starter();
+					}
+					catch (Error.Exception e)
+					{
+						this.onError.Call(e);
+						result = false;
+					}
+					catch (System.Exception e)
+					{
+						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						result = false;
+					}
+					finally
+					{
+						this.onClosed.Call();
+					}
+				}
+				else
+				{
+					this.Starter();
+					this.onClosed.Call();
+				}
+			return result;
 		}
-		public void Execute()
+		void Starter()
 		{
 			Argument.Parser parser = new Argument.Parser();
 			parser.Add('v', "version", () =>
@@ -199,30 +216,96 @@ namespace Kean.Platform
 			foreach (Module module in this.Modules)
 				module.AddArguments(parser);
 			parser.Parse(this.CommandLine);
-			if (this.CatchErrors)
-			{
-				try
+
+			foreach (Module module in this.Modules)
+				if (module.Mode == Mode.Created)
+					module.Initialize();
+			this.Mode = Mode.Initialized;
+			foreach (Module module in this.Modules)
+				if (module.Mode == Mode.Initialized)
+					module.Start();
+			this.Mode = Mode.Started;
+		}
+		bool Stop()
+		{
+			bool result;
+			if (result = this.Mode == Mode.Started)
+				if (this.CatchErrors)
+					try
+					{
+						this.Stopper();
+					}
+					catch (Error.Exception e)
+					{
+						this.onError.Call(e);
+						result = false;
+					}
+					catch (System.Exception e)
+					{
+						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						result = false;
+					}
+					finally
+					{
+						this.onClosed.Call();
+					}
+				else
 				{
-					this.Executer();
-				}
-				catch (Error.Exception e)
-				{
-					this.onError.Call(e);
-				}
-				catch (System.Exception e)
-				{
-					this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
-				}
-				finally
-				{
+					this.Stopper();
 					this.onClosed.Call();
 				}
-			}
-			else
-			{
-				this.Executer();
-				this.onClosed.Call();
-			}
+			return result;
+		}
+		void Stopper()
+		{
+			this.Mode = Mode.Stopped;
+			foreach (Module module in this.Modules)
+				if (module.Mode == Mode.Started)
+					module.Stop();
+			this.Mode = Mode.Disposed;
+			foreach (Module module in this.Modules)
+				if (module.Mode == Mode.Stopped)
+					module.Dispose();
+		}
+		void Executer()
+		{
+			this.Starter();
+			if (this.Runner.IsNull())
+				this.Runner = new Waiter();
+			this.Runner.Run();
+			this.Stopper();
+		}
+		public bool Execute()
+		{
+			bool result;
+			if (result = this.Mode == Mode.Created)
+				if (this.CatchErrors)
+				{
+					try
+					{
+						this.Executer();
+					}
+					catch (Error.Exception e)
+					{
+						this.onError.Call(e);
+						result = false;
+					}
+					catch (System.Exception e)
+					{
+						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						result = false;
+					}
+					finally
+					{
+						this.onClosed.Call();
+					}
+				}
+				else
+				{
+					this.Executer();
+					this.onClosed.Call();
+				}
+			return result;
 		}
 		public void Idle()
 		{
@@ -252,5 +335,24 @@ namespace Kean.Platform
 			}
 		}
 		#endregion
-}
+		#region Static Load
+		public static Application Load()
+		{
+			Application result = new Application();
+			Xml.Serialize.Storage storage = new Kean.Xml.Serialize.Storage();
+			result.Load("Storage", storage);
+			// Load from "Modules" folder
+			string path = System.IO.Path.Combine(result.ExecutablePath, "Modules");
+			if (System.IO.Directory.Exists(path))
+				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+			// Load from "Modules/{executable name}" folder
+			path = System.IO.Path.Combine(result.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
+			if (System.IO.Directory.Exists(path))
+				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+			return result;
+		}
+		#endregion
+	}
 }

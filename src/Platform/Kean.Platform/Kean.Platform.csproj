@@ -74,9 +74,17 @@
       <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>
       <Name>Kean.Core.Serialize</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xml\Kean.Xml.Serialize\Kean.Xml.Serialize.csproj">
+      <Project>{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8}</Project>
+      <Name>Kean.Xml.Serialize</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
