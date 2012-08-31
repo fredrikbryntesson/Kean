@@ -117,7 +117,8 @@ namespace Kean.Xml.Sax
                                         string key = this.AccumulateUntil('=').Trim();
                                         this.AccumulateUntil('"');
                                         attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (IO.Text.Region)attributeMark);
-                                    } while (this.reader.Next() && this.reader.Last != '/' && this.reader.Last != '>');
+										while (this.reader.Next() && this.reader.Last == ' ') ;
+									} while (this.reader.Last != '/' && this.reader.Last != '>' && !this.reader.Empty);
 								this.OnElementStart.Call(name, attributes, mark);
 								if (this.reader.Last == '/' && this.Verify(">"))
 								{

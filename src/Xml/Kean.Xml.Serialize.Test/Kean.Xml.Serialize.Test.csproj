@@ -43,6 +43,7 @@
     <Compile Include="All.cs" />
     <Compile Include="BasicTypes.cs" />
     <Compile Include="CollectionTypes.cs" />
+    <Compile Include="Data\EmptyClass.cs" />
     <Compile Include="Named.cs" />
     <Compile Include="Data\Nullable.cs" />
     <Compile Include="NullableTypes.cs" />
@@ -200,6 +201,9 @@
     <EmbeddedResource Include="Xml\ClassNamed.xml" />
     <EmbeddedResource Include="Xml\ComplexClassNamed.xml" />
     <EmbeddedResource Include="Xml\StructureNamed.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\EmptyClass.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

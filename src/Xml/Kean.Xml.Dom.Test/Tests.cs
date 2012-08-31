@@ -67,16 +67,22 @@ namespace Kean.Xml.Dom.Test
         {
 			this.Verify("valid007");
         }
-        protected override void Run()
+		[Test]
+		public void Valid008()
+		{
+			this.Verify("valid008");
+		}
+		protected override void Run()
         {
             this.Run(
-                //this.Valid001,
-                //this.Valid002,
+                this.Valid001,
+                this.Valid002,
                 this.Valid003,
                 this.Valid004,
                 this.Valid005,
                 this.Valid006,
-                this.Valid007
+				this.Valid007,
+				this.Valid008
                 );
         }
     }

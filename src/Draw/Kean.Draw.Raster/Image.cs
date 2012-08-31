@@ -34,6 +34,9 @@ namespace Kean.Draw.Raster
     public abstract class Image :
         Draw.Image
     {
+		public System.Diagnostics.StackTrace create;
+		public System.Diagnostics.StackTrace dispose;
+
 		Cairo.Image cairo;
 		Cairo.Image Cairo
 		{
@@ -57,12 +60,14 @@ namespace Kean.Draw.Raster
         protected Image(Image original) :
             base(original)
         {
+			this.create = new System.Diagnostics.StackTrace(true);
             this.buffer = original.buffer.Copy();
         }
         protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
             base(size, coordinateSystem)
         {
-            this.buffer = buffer;
+			this.create = new System.Diagnostics.StackTrace(true);
+			this.buffer = buffer;
         }
 		protected virtual Cairo.Image CreateCairoImage(Buffer.Sized buffer, Geometry2D.Integer.Size size)
 		{
@@ -355,7 +360,8 @@ namespace Kean.Draw.Raster
 			}
             if (this.buffer.NotNull())
             {
-                this.buffer.Dispose();
+				this.dispose = new System.Diagnostics.StackTrace(true);
+				this.buffer.Dispose();
                 this.buffer = null;
             }
         }

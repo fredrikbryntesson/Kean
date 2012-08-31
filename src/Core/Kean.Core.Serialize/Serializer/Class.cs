@@ -63,14 +63,15 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			object result = data.Type.Create();
 			Reflect.Property[] properties = result.GetProperties();
-			foreach (Data.Node node in (data as Data.Branch).Nodes)
-			{
-				Reflect.Property property = properties.Find(p => {
-					Core.Serialize.ParameterAttribute[] attributes;
-					return p.Name == node.Name || (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name == node.Name;
-				});
-				storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
-			}
+			if (data is Data.Branch)
+				foreach (Data.Node node in (data as Data.Branch).Nodes)
+				{
+					Reflect.Property property = properties.Find(p => {
+						Core.Serialize.ParameterAttribute[] attributes;
+						return p.Name == node.Name || (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name == node.Name;
+					});
+					storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
+				}
 			return result;
 		}
 		#endregion

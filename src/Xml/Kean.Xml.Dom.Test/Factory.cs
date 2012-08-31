@@ -95,7 +95,13 @@ namespace Kean.Xml.Dom.Test
                         result.Root.Add(instruction);
                     }
                     break;
-            }
+				case "valid008":
+					{
+						result = new Document() { Root = new Element("empty") };
+						result.Root.AddAttribute("key", "value");
+					}
+					break;
+			}
             return result;
         }
     }
