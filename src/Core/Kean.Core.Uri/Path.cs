@@ -41,9 +41,11 @@ namespace Kean.Core.Uri
 				PathLink tail = this.Last;
 				while (tail.NotNull())
 				{
-						result = "/" + tail.Head + result;
+					result = "/" + tail.Head + result;
 					tail = tail.Tail;
 				}
+				if (result.StartsWith("/."))
+					result = result.TrimStart('/');
 				return result;
 			}
 			set
@@ -73,7 +75,7 @@ namespace Kean.Core.Uri
                         result = System.IO.Path.Combine(name, result);
                         tail = tail.Tail;
                     }
-                    if (System.IO.Path.DirectorySeparatorChar == '/')
+                    if (System.IO.Path.DirectorySeparatorChar == '/' && !result.StartsWith("."))
                         result = System.IO.Path.DirectorySeparatorChar + result;
                 }
 				return result;
@@ -128,6 +130,21 @@ namespace Kean.Core.Uri
 			Func<PathLink, PathLink> copy = null;
 			copy = link => link.IsNull() ? null : new PathLink(link.Head, copy(link.Tail));
 			return new Path(copy(this.Last));
+		}
+		public Path Resolve(Path absolute)
+		{
+			Path result;
+			switch (this[0])
+			{
+				case ".":
+				case "..":
+					result = absolute.FolderPath + this;
+					break;
+				default:
+					result = this;
+					break;
+			}
+			return result;
 		}
 		#region IEquatable<Path> Members
 		public bool Equals(Path other)

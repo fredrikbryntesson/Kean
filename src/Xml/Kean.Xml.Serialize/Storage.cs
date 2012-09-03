@@ -32,16 +32,20 @@ namespace Kean.Xml.Serialize
 	public class Storage : 
 		Core.Serialize.Storage
 	{
+		Preprocessor preprocessor;
+
 		public Storage() :
 			base()
-		{ }
+		{
+			this.preprocessor = new Preprocessor();
+		}
 		public Storage(Core.Serialize.IRebuilder rebuilder, params Core.Serialize.ISerializer[] serializers) :
 			base(rebuilder, serializers)
 		{ }
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
 		{
 			Dom.Document document = Dom.Document.Open(resource);
-			return document.NotNull() ? this.Convert(document.Root) : null;
+			return document.NotNull() && document.Root.NotNull() ? this.Convert(this.preprocessor.Process(document).Root) : null;
 		}
 		string GetTextContent(Dom.Element element)
 		{

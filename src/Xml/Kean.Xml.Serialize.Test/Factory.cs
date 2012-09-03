@@ -79,7 +79,7 @@ namespace Kean.Xml.Serialize.Test
 		{
 			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",")  + ")" : "");
 		}
-		protected Uri.Locator ResourceName(Reflect.Type type)
+		protected virtual Uri.Locator ResourceName(Reflect.Type type)
 		{
 			return "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
 		}

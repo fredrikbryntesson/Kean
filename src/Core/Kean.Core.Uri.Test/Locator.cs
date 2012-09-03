@@ -142,8 +142,8 @@ namespace Kean.Core.Uri.Test
 		{
 			Target.Locator locator = "./folderA/folderB/file.extension";
 			Expect((string)locator.Scheme, Is.EqualTo(null), this.prefix + "PathRelative.0");
-			Expect((string)locator.Authority, Is.EqualTo("."), this.prefix + "PathRelative.1");
-			Expect((string)locator.Path, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "PathRelative.2");
+			Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "PathRelative.1");
+			Expect((string)locator.Path, Is.EqualTo("./folderA/folderB/file.extension"), this.prefix + "PathRelative.2");
 			Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "PathRelative.3");
 			Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "PathRelative.4");
 			Expect((string)locator, Is.EqualTo("./folderA/folderB/file.extension"), this.prefix + "PathRelative.5");

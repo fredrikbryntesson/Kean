@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Include type="Kean.Xml.Serialize.Test:Data.Include">
+	<?include ./Include/*.xml?>
+	<?include ./DateTime.xml?>
+</Include>

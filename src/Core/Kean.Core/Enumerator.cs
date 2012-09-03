@@ -1,5 +1,5 @@
 ﻿// 
-//  All.cs
+//  Enumerator.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,21 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Generic = System.Collections.Generic;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Core
 {
-	public static class All
+	public static class Enumerator
 	{
-		public static void Test()
-		{
-			Serialize.Test.Preprocessor.Test();
-			Serialize.Test.CoreTypes.Test();
-			Serialize.Test.CollectionTypes.Test();
-			Serialize.Test.BasicTypes.Test();
-			Serialize.Test.SystemTypes.Test();
-			Serialize.Test.Missing.Test();
-			Serialize.Test.NullableTypes.Test();
-			Serialize.Test.Named.Test();
-		}
+		public static Generic.IEnumerator<T> Empty<T>() { return Enumerable.Empty<T>().GetEnumerator(); }
 	}
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -33,6 +33,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerable.cs" />
+    <Compile Include="Enumerator.cs" />
+    <Compile Include="Extension\EnumeratorExtension.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="IBinary.cs" />
     <Compile Include="Extension\EnumerableExtension.cs" />

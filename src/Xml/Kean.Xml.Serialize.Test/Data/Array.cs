@@ -39,7 +39,7 @@ namespace Kean.Xml.Serialize.Test.Data
 		public int[] Empty { get; set; }
 
 		#region IData
-		public  void Initilize(IFactory factory)
+		public virtual void Initilize(IFactory factory)
 		{
 			this.Structures = new Structure[] { factory.Create<Structure>(), factory.Create<Structure>() };
 			this.Classes = new Class[] { factory.Create<ComplexClass>(), factory.Create<Class>() };
@@ -47,7 +47,7 @@ namespace Kean.Xml.Serialize.Test.Data
 			this.Numbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 			this.Empty = new int[0];
 		}
-		public void Verify(IFactory factory, string message, params object[] arguments)
+		public virtual void Verify(IFactory factory, string message, params object[] arguments)
 		{
 			factory.Verify(this.Structures, Has.Length(2), message, arguments);
 			factory.Verify(this.Structures[0], message, arguments);

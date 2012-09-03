@@ -36,7 +36,7 @@ namespace Kean.Xml.Dom
 
 		public string Name { get; set; }
 		public Collection.IList<Attribute> Attributes { get; private set; }
-
+		#region Constructors
 		public Element()
 		{
 			Collection.Hooked.List<Attribute> attributes = new Collection.Hooked.List<Attribute>();
@@ -53,6 +53,11 @@ namespace Kean.Xml.Dom
 		public Element(string name, string text) :
 			this(name, new Xml.Dom.Text(text))
 		{ }
+		internal Element(string name, System.Collections.Generic.IEnumerator<Attribute> attributes) :
+			this(name)
+		{
+			attributes.Apply(attribute => this.Attributes.Add(new Attribute(attribute.Name, attribute.Value) { Region = attribute.Region }));
+		}
 		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>> attributes) :
 			this(name)
 		{
@@ -90,6 +95,7 @@ namespace Kean.Xml.Dom
 		public Element(string name, Node node, KeyValue<string, string> attribute) :
 			this(name, node, new KeyValue<string, string>[] { attribute })
 		{ }
+		#endregion
 		protected override void ChangeDocument(Document document)
 		{
 			base.ChangeDocument(document);

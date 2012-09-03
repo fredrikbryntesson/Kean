@@ -1,5 +1,5 @@
 ﻿// 
-//  All.cs
+//  Array.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,21 +20,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using NUnit.Framework.SyntaxHelpers;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Xml.Serialize.Test.Data
 {
-	public static class All
+	public class Include :
+		Array
 	{
-		public static void Test()
+		[Core.Serialize.Parameter]
+		public DateTime DateTime { get; set; }
+
+		#region IData
+		public override void Initilize(IFactory factory)
 		{
-			Serialize.Test.Preprocessor.Test();
-			Serialize.Test.CoreTypes.Test();
-			Serialize.Test.CollectionTypes.Test();
-			Serialize.Test.BasicTypes.Test();
-			Serialize.Test.SystemTypes.Test();
-			Serialize.Test.Missing.Test();
-			Serialize.Test.NullableTypes.Test();
-			Serialize.Test.Named.Test();
+			this.DateTime = factory.Create<DateTime>();
+			base.Initilize(factory);
 		}
+		public override void Verify(IFactory factory, string message, params object[] arguments)
+		{
+			factory.Verify(this.DateTime, message, arguments);
+			base.Verify(factory, message, arguments);
+		}
+		#endregion
 	}
 }

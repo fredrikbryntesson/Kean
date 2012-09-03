@@ -56,7 +56,10 @@ namespace Kean.Core.Uri
 					result.AppendFormat("{0}://", this.Scheme);
 				if (this.Authority.NotNull())
 					result.Append(this.Authority);
-				result.Append(this.Path.String.Replace(" ", "%20"));
+				string path = this.Path.String.Replace(" ", "%20");
+				if (path.StartsWith(".") && result.Length > 0)
+					result.Append("/");
+				result.Append(path);
 				if (!this.Query.Empty)
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment.NotNull())
@@ -79,7 +82,7 @@ namespace Kean.Core.Uri
 					if (splitted.Length > 1) // has scheme
 						this.Scheme = splitted[0];
 					value = splitted.Last();
-					if (!value.StartsWith("/"))
+					if (!value.StartsWith("/") && !value.StartsWith("./") && !value.StartsWith("../"))
 					{
 						splitted = value.Split(new char[] { '/', '#', '?' }, 2);
 						this.Authority = splitted[0];
@@ -154,12 +157,14 @@ namespace Kean.Core.Uri
 					result = new Locator(absolute.Scheme, this.Authority, this.Path, this.Query, this.Fragment);
 			}
 			else if (!this.Path.Empty)
-				result = new Locator(absolute.Scheme, absolute.Authority, this.Path, this.Query, this.Fragment);
+			{
+				result = new Locator(absolute.Scheme, absolute.Authority, this.Path.Resolve(absolute.Path), this.Query, this.Fragment);
+			}
 			else if (this.Query.NotNull() && !this.Query.Empty)
 				result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path, this.Query, this.Fragment);
 			else if (this.Fragment.NotNull())
 				result = new Locator(absolute.Scheme, absolute.Authority, absolute.Path, absolute.Query, this.Fragment);
-			else 
+			else
 				result = absolute;
 			return result;
 		}
