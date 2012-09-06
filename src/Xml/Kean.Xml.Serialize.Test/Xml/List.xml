@@ -28,6 +28,16 @@
 		<Integer>-1337</Integer>
 		<String>This is Kean.</String>
 	</Classes>
+	<Float>0.1337</Float>
+	<Float>1.1337</Float>
+	<Float>2.1337</Float>
+	<Float>3.1337</Float>
+	<Float>4.1337</Float>
+	<Float>5.1337</Float>
+	<Float>6.1337</Float>
+	<Float>7.1337</Float>
+	<Float>8.1337</Float>
+	<Float>9.1337</Float>
 	<Number>0</Number>
 	<Number>1</Number>
 	<Number>2</Number>

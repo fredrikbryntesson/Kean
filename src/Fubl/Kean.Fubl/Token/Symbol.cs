@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Fubl.Token
 {
@@ -27,10 +28,10 @@ namespace Kean.Fubl.Token
         Abstract
     {
         public string Name { get; set; }
-        public Symbol(char name, IO.Text.Region region) :
+        public Symbol(char name, Uri.Region region) :
             this(new string(name, 1), region)
         { }
-        public Symbol(string name, IO.Text.Region region) :
+        public Symbol(string name, Uri.Region region) :
             base(region)
         {
 

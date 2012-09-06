@@ -26,6 +26,8 @@ namespace Kean.Core.Serialize.Data
 {
 	public abstract class Node
 	{
+		public System.Diagnostics.StackTrace created;
+		public Uri.Region Region { get; set; } 
 		public virtual Uri.Locator Locator { get; set; }
 		string name;
 		public virtual string Name 
@@ -37,6 +39,7 @@ namespace Kean.Core.Serialize.Data
 		public Reflect.Type Type { get; set; }
 		protected Node()
 		{
+			this.created = new System.Diagnostics.StackTrace();
 		}
 		public Node UpdateName(string name)
 		{

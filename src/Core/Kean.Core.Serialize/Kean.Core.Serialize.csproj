@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exception\PropertyNotWritable.cs" />
+    <Compile Include="Exception\PropertyMissing.cs" />
     <Compile Include="IRebuilder.cs" />
     <Compile Include="Data\Binary.cs" />
     <Compile Include="Data\Collection.cs" />

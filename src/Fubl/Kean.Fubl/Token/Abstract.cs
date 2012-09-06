@@ -20,13 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Fubl.Token
 {
     public abstract class Abstract
     {
-        public IO.Text.Region Region { get; private set; }
-        protected Abstract(IO.Text.Region region)
+        public Uri.Region Region { get; private set; }
+        protected Abstract(Uri.Region region)
         {
             this.Region = region;
         }

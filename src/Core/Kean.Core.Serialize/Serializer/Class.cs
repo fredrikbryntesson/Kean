@@ -70,7 +70,12 @@ namespace Kean.Core.Serialize.Serializer
 						Core.Serialize.ParameterAttribute[] attributes;
 						return p.Name == node.Name || (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name == node.Name;
 					});
-					storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
+					if (property.IsNull())
+						new Exception.PropertyMissing(data.Type, node.Name, node.Region).Throw();
+					else if (!property.Writable)
+						new Exception.PropertyNotWriteable(data.Type, node.Name, node.Region).Throw();
+					else
+						storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
 				}
 			return result;
 		}

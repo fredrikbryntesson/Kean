@@ -26,6 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
+			Xml.Serialize.Test.All.Test();
 			//new Gui.OpenGL.Test.Window().Create();
 
             Math.Geometry2D.Test.All.Test();

@@ -1,5 +1,5 @@
 ﻿// 
-//  Position.cs
+//  PropertyNotWriteable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,21 +19,16 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-
-namespace Kean.IO.Text
+namespace Kean.Core.Serialize.Exception
 {
-	public class Position :
-		Uri.Position
+	/// <summary>
+	/// Exception thrown when trying to deserialize a type and the reader is not positioned at an element.
+	/// </summary>
+	public class PropertyNotWriteable :
+		Exception
 	{
-		public Position(int row, int column) :
-			base(row, column)
+		internal PropertyNotWriteable(string type, string node, Uri.Region region) :
+			base(Error.Level.Warning, "Property Not Writable.", "Property in \"{0}\" that corresponds to node \"{1}\"{2} can't be set.", type, node, PropertyNotWriteable.Location(", ", region, ","))
 		{ }
-        public Position(ICharacterReader reader) :
-			this(reader.Row, reader.Column)
-        { }
 	}
 }

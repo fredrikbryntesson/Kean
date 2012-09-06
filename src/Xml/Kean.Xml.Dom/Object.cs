@@ -21,12 +21,13 @@
 
 using System;
 using Kean.Core.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom
 {
 	public abstract class Object
 	{
-        public IO.Text.Region Region { get; internal set; }
+        public Uri.Region Region { get; internal set; }
 
 		Document document;
 		public Document Document

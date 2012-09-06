@@ -19,14 +19,41 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Error = Kean.Core.Error;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Serialize.Exception
 {
 	public class Exception :
 		Error.Exception
 	{
-		internal Exception(Error.Level level, string title, string message, params string[] arguments) : this(null, level, title, message, arguments) { }
-		internal Exception(System.Exception innerException, Error.Level level, string title, string message, params string[] arguments) : base(innerException, level, title, message, arguments) { }
+		internal Exception(Error.Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
+		internal Exception(System.Exception innerException, Error.Level level, string title, string message, params object[] arguments) : base(innerException, level, title, message, arguments) { }
+
+		protected static string Location(string prefix, Uri.Region region)
+		{
+			return Exception.Location(prefix, region, "");
+		}
+		protected static string Location(Uri.Region region, string postfix)
+		{
+			return Exception.Location("", region, postfix);
+		}
+		protected static string Location(string prefix, Uri.Region region, string postfix)
+		{
+			string result = Exception.Location(region);
+			if (result.NotEmpty())
+				result = prefix + result + postfix;
+			return result;
+		}
+		protected static string Location(Uri.Region region)
+		{
+			string result;
+			if (region.IsNull())
+				result = "";
+			else if (region.Start.Row == region.End.Row)
+				result = string.Format("on line {0} between column {1} and {2} in file \"{3}\"", region.Start.Row, region.Start.Column, region.End.Column, region.Resource);
+			else
+				result = string.Format("between line {0} column {1} and line {2} column {3} in file \"{4}\"", region.Start.Row, region.Start.Column, region.End.Row, region.End.Column, region.Resource);
+			return result;
+		}
 	}
 }

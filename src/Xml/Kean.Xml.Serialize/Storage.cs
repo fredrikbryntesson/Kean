@@ -58,12 +58,12 @@ namespace Kean.Xml.Serialize
 			{
 				Dom.Attribute type = element.Attributes.Find(a => a.Name == "type");
 				if (type.NotNull() && type.Value == "link")
-					result = new Core.Serialize.Data.Link(this.GetTextContent(element)) { Name = element.Name };
+					result = new Core.Serialize.Data.Link(this.GetTextContent(element)) { Name = element.Name, Region = element.Region };
 				else if (element.All(n => !(n is Dom.Element)))
-					result = new Core.Serialize.Data.String(this.GetTextContent(element)) { Name = element.Name };
+					result = new Core.Serialize.Data.String(this.GetTextContent(element)) { Name = element.Name, Region = element.Region };
 				else
 				{
-					result = new Core.Serialize.Data.Branch() { Name = element.Name };
+					result = new Core.Serialize.Data.Branch() { Name = element.Name, Region = element.Region };
 					foreach (Dom.Node node in element)
 						if (node is Dom.Element)
 							(result as Core.Serialize.Data.Branch).Nodes.Add(this.Convert(node as Dom.Element));

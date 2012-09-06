@@ -31,18 +31,18 @@ namespace Kean.Xml.Sax
 {
 	public class Parser
 	{
-		public event Action<float, string, bool?, IO.Text.Region> OnDeclaration;
-		public event Action<string, Collection.IDictionary<string, Tuple<string, IO.Text.Region>>, IO.Text.Region> OnElementStart;
-		public event Action<string, IO.Text.Region> OnElementEnd;
-        public event Action<string, IO.Text.Region> OnText;
-        public event Action<string, IO.Text.Region> OnData;
-        public event Action<string, string, IO.Text.Region> OnProccessingInstruction;
-        public event Action<string, IO.Text.Region> OnComment;
+		public event Action<float, string, bool?, Uri.Region> OnDeclaration;
+		public event Action<string, Collection.IDictionary<string, Tuple<string, Uri.Region>>, Uri.Region> OnElementStart;
+		public event Action<string, Uri.Region> OnElementEnd;
+		public event Action<string, Uri.Region> OnText;
+		public event Action<string, Uri.Region> OnData;
+		public event Action<string, string, Uri.Region> OnProccessingInstruction;
+		public event Action<string, Uri.Region> OnComment;
 
 		IO.ICharacterReader reader;
 
 		public Uri.Locator Resource { get { return this.reader.Resource; } }
-		public IO.Text.Position Position { get { return new IO.Text.Position(this.reader); } }
+		public Uri.Position Position { get { return new IO.Text.Position(this.reader); } }
 
 		Parser(IO.ICharacterReader reader)
 		{
@@ -109,14 +109,14 @@ namespace Kean.Xml.Sax
 								break;
 							default: // element name
 								string name = this.reader.Last + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
-								Collection.IDictionary<string, Tuple<string, IO.Text.Region>> attributes = new Collection.Dictionary<string, Tuple<string, IO.Text.Region>>();
+								Collection.IDictionary<string, Tuple<string, Uri.Region>> attributes = new Collection.Dictionary<string, Tuple<string, Uri.Region>>();
                                 if (this.reader.Last != '/' && this.reader.Last != '>')
                                     do
                                     {
                                         IO.Text.Mark attributeMark = this.Mark();
                                         string key = this.AccumulateUntil('=').Trim();
                                         this.AccumulateUntil('"');
-                                        attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (IO.Text.Region)attributeMark);
+                                        attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Uri.Region)attributeMark);
 										while (this.reader.Next() && this.reader.Last == ' ') ;
 									} while (this.reader.Last != '/' && this.reader.Last != '>' && !this.reader.Empty);
 								this.OnElementStart.Call(name, attributes, mark);

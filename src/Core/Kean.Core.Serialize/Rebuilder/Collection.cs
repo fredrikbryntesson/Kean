@@ -63,7 +63,7 @@ namespace Kean.Core.Serialize.Rebuilder
 						(n as Data.Collection).Nodes.Add(child.UpdateLocators(child.Locator + "[" + (n as Data.Collection).Nodes.Count + "]"));
 					else
 					{
-						Data.Collection collection = new Data.Collection() { Name = child.Name, Locator = child.Locator};
+						Data.Collection collection = new Data.Collection() { Name = child.Name, Locator = child.Locator, Region = child.Region }; // TODO: include all children in region
 						collection.Nodes.Add(n.UpdateLocators(n.Locator + "[0]"));
 						collection.Nodes.Add(child.UpdateLocators(child.Locator + "[1]"));
 						nodes[child.Name] = collection;

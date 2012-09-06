@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom
 {
@@ -58,14 +59,14 @@ namespace Kean.Xml.Dom
 		{
 			attributes.Apply(attribute => this.Attributes.Add(new Attribute(attribute.Name, attribute.Value) { Region = attribute.Region }));
 		}
-		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>> attributes) :
+		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Uri.Region>>> attributes) :
 			this(name)
 		{
-            foreach (KeyValue<string, Tuple<string, IO.Text.Region>> attribute in attributes)
+            foreach (KeyValue<string, Tuple<string, Uri.Region>> attribute in attributes)
 				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
 		}
 		public Element(string name, params KeyValue<string, string>[] attributes) :
-			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, IO.Text.Region>>>)attributes.Map(a => KeyValue.Create(a.Key, Tuple.Create(a.Value, (IO.Text.Region)null))))
+			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Uri.Region>>>)attributes.Map(a => KeyValue.Create(a.Key, Tuple.Create(a.Value, (Uri.Region)null))))
 		{ }
 		public Element(string name, KeyValue<string, string> attribute) :
 			this(name, new KeyValue<string, string>[] { attribute })
@@ -216,7 +217,7 @@ namespace Kean.Xml.Dom
 				if (current.Name != name)
 					throw new Exception.EndTagUnmatched(current.Name, current.Region, name, region);
 				if (current.Region.NotNull() && region.NotNull())
-                    current.Region = new IO.Text.Region(current.Region.Resource, current.Region.Start, region.End); 
+                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End); 
 				current = current.Parent;
 			};
 			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };

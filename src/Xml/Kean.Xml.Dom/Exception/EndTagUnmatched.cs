@@ -18,7 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using Error = Kean.Core.Error;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom.Exception
 {
@@ -26,13 +28,13 @@ namespace Kean.Xml.Dom.Exception
         Abstract
     {
 		public string StartName { get; private set; }
-		public IO.Text.Region StartRegion { get; private set; }
+		public Uri.Region StartRegion { get; private set; }
 		public string EndName { get; private set; }
-		public IO.Text.Region EndRegion { get; private set; }
-        internal EndTagUnmatched(string startName, IO.Text.Region startRegion, string endName, IO.Text.Region endRegion) : 
+		public Uri.Region EndRegion { get; private set; }
+		internal EndTagUnmatched(string startName, Uri.Region startRegion, string endName, Uri.Region endRegion) : 
             this(null, startName, startRegion, endName, endRegion) 
 		{ }
-        internal EndTagUnmatched(System.Exception innerException, string startName, IO.Text.Region startRegion, string endName, IO.Text.Region endRegion) :
+		internal EndTagUnmatched(System.Exception innerException, string startName, Uri.Region startRegion, string endName, Uri.Region endRegion) :
 			base(innerException, Error.Level.Recoverable, "XML Tree error", "XML end element \"{5}\" between row {6} column {7} and row {8} column {9} does not match start element \"{0}\" between row {1} column {2} and row {3} column {4} in \"{10}\".", startName, startRegion.Start.Row.ToString(), startRegion.Start.Column.ToString(), startRegion.End.Row.ToString(), startRegion.End.Column.ToString(), endName, endRegion.Start.Row.ToString(), endRegion.Start.Column.ToString(), endRegion.End.Row.ToString(), endRegion.End.Column.ToString(), endRegion.Resource)
 		{
 			this.StartName = startName;
