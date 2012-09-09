@@ -37,7 +37,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Enumeration(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			return data is Data.Enumeration ? (data as Data.Enumeration).Value :
 				data is Data.Binary ? this.Create((data as Data.Binary).Value, data.Type) :

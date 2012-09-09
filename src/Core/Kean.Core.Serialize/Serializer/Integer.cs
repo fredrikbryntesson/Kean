@@ -38,7 +38,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.Integer(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			return data is Data.Integer ? (data as Data.Integer).Value :
 				data is Data.Binary ? BitConverter.ToInt32((data as Data.Binary).Value, 0) :

@@ -40,7 +40,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.String((string)this.GetToStringCast(data.Type()).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture), data, type);
 		}
-		public object Deserialize(Storage storage, Serialize.Data.Node data)
+		public object Deserialize(Storage storage, Serialize.Data.Node data, object result)
 		{
 			return this.GetFromStringCast(data.Type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
 		}

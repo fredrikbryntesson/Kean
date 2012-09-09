@@ -48,10 +48,10 @@ namespace Kean.Core.Serialize.Serializer
 			ISerializer serializer = this.Find(data.Type());
 			return serializer.NotNull() ? serializer.Serialize(storage, type, data, locator) : null;
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			ISerializer serializer = this.Find(data.Type);
-			return serializer.NotNull() ? serializer.Deserialize(storage, data) : null;
+			return serializer.NotNull() ? serializer.Deserialize(storage, data, null) : null;
 		}
 		#endregion
 	}

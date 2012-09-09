@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -36,12 +38,12 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.String((data as IString).String, data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
-			object result;
 			if (data is Data.String)
 			{
-				result = data.Type.Create();
+				if (!(result is IString))
+                    result = data.Type.Create();
 				(result as IString).String = (data as Data.String).Value;
 			}
 			else

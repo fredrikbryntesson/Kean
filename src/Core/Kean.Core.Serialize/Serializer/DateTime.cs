@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.DateTime(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			return data is Data.DateTime ? (data as Data.DateTime).Value :
 				data is Data.Binary ? new System.DateTime(BitConverter.ToInt64((data as Data.Binary).Value, 0)) :

@@ -47,9 +47,9 @@ namespace Kean.Core.Serialize.Serializer
 			}
 			return result;
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
-			object result = data.Type.Create();
+			result = data.Type.Create();
 			Reflect.Field[] fields = result.GetFields();
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{

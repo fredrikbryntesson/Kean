@@ -37,7 +37,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.String(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			return data is Data.String ? (data as Data.String).Value :
 				data is Data.Binary ? System.Text.Encoding.UTF8.GetString((data as Data.Binary).Value) :

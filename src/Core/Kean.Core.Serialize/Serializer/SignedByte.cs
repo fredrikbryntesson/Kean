@@ -36,7 +36,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return new Data.SignedByte(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			return data is Data.SignedByte ? (data as Data.SignedByte).Value :
 				data is Data.Binary ? unchecked((sbyte)(data as Data.Binary).Value[0]) :

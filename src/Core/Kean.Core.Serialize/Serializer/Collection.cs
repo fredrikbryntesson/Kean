@@ -49,7 +49,7 @@ namespace Kean.Core.Serialize.Serializer
 				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
 			return result;
 		}
-		public object Deserialize(Storage storage, Data.Node data)
+		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			Core.Collection.IList<Data.Node> nodes;
 			Reflect.Type type;
@@ -62,12 +62,13 @@ namespace Kean.Core.Serialize.Serializer
 			}
 			else 
 			{ // only one element so it was impossible to know it was a collection
-				nodes = new Kean.Core.Collection.List<Data.Node>(data);
+				nodes = new Core.Collection.List<Data.Node>(data);
 				type = null;
 				elementType = data.Type;
 			}
 
-            object result = this.Create(type, elementType, nodes.Count);
+            if (result.IsNull())
+                result = this.Create(type, elementType, nodes.Count);
 			int i = 0;
 			foreach (Data.Node child in nodes)
 			{

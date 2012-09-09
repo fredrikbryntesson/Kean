@@ -68,7 +68,7 @@ namespace Kean.Core.Serialize
 		public T Load<T>(Uri.Locator locator)
 		{
 			Data.Node node;
-			return (T)(this.Resolver[locator] ?? ((node = this.Load(locator)).NotNull() ? this.Deserialize(this.rebuilder.Load(this, node.DefaultType(typeof(T)).UpdateLocators(locator))) : null));
+			return (T)(this.Resolver[locator] ?? ((node = this.Load(locator)).NotNull() ? this.Deserialize(null, this.rebuilder.Load(this, node.DefaultType(typeof(T)).UpdateLocators(locator))) : null));
 		}
 
 		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
@@ -76,11 +76,15 @@ namespace Kean.Core.Serialize
 			return this.serializer.Serialize(this, type, data, locator);
 		}
 
-		object Deserialize(Serialize.Data.Node node)
+		object Deserialize(object result, Serialize.Data.Node node)
 		{
-			return node.NotNull() ? (this.Resolver[node.Locator] = this.serializer.Deserialize(this, node)) : null;
+			return node.NotNull() ? (this.Resolver[node.Locator] = this.serializer.Deserialize(this, node, result)) : null;
 		}
-		public void Deserialize(Serialize.Data.Node node, Action<object> set)
+        public bool DeserializeContent(Serialize.Data.Node node, object result)
+        {
+            return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
+        }
+        public void Deserialize(Serialize.Data.Node node, Action<object> set)
 		{
 			if (node is Data.Link)
 				this.Resolver.Resolve((node as Data.Link).Target, d =>
@@ -89,7 +93,7 @@ namespace Kean.Core.Serialize
 					set.Call(d);
 				});
 			else
-				set.Call(this.Deserialize(node));
+				set.Call(this.Deserialize(null, node));
 		}
 	}
 }
