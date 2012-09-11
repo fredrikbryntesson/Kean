@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -37,8 +37,9 @@ namespace Kean.Core.Parallel
 		protected Thread()
 		{ }
 		protected Thread(string name, Action task) :
-			this(name, new System.Threading.Thread(() => task.Call()))
+			this(name, new System.Threading.Thread(() => Thread.WrapTask(name, task)))
 		{ }
+
 		protected Thread(string name, System.Threading.Thread backend) :
 			this()
 		{
@@ -78,5 +79,21 @@ namespace Kean.Core.Parallel
 			}
 		}
 		#endregion
+
+		public static bool CatchErrors { get; set; }
+		public static event Action<Error.IError> Log;
+		protected static Action WrapTask(string name, Action task)
+		{
+			return Thread.CatchErrors ? () =>
+			{
+				try { task.Call(); }
+				catch (System.Threading.ThreadInterruptedException) { throw; }
+				catch (System.Exception e)
+				{
+					if (Thread.Log.NotNull())
+						Thread.Log(Error.Entry.Create(Error.Level.Recoverable, string.Format("Thread \"{0}\" Failed.", name), e));
+				}
+			} : (Action)task.Call;
+		}
 	}
 }

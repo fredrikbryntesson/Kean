@@ -47,6 +47,7 @@ namespace Kean.Core.Parallel
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
         public ThreadPool(string name, int workers)
         {
+			this.CatchErrors = true;
 			this.Name = name;
             this.tasks = new Collection.Queue<ITask>();
 			this.MinimumThreadCount = workers;

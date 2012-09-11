@@ -44,11 +44,12 @@ namespace Kean.Core.Parallel
 		RepeatThread(string name, Action task) :
 			base()
 		{
+			task = RepeatThread.WrapTask(name, task);
 			this.Backend = new System.Threading.Thread(() => 
 			{ 
 				this.Running = true;  
 				while (!this.End) 
-					task.Call();
+					task();
 				this.Running = false;
 			});
 			this.Backend.Name = name;
