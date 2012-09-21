@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Error = Kean.Core.Error;
 
 namespace Kean.Platform.Settings.Test
 {
@@ -42,6 +43,11 @@ namespace Kean.Platform.Settings.Test
 		public void Unload(string name)
 		{
 			this.Unload(name);
+		}
+		[Settings.Method("throw")]
+		public void Throw()
+		{
+			Error.Log.Append(Error.Level.Recoverable, "Test Error", new System.ArgumentException("Test error"));
 		}
 	}
 }

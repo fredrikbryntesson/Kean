@@ -37,10 +37,46 @@ namespace Kean.Platform.Settings
 		internal string Title { get; set; }
 		internal Xml.Dom.Fragment Header { get; set; }
 		internal Uri.Locator HelpFilename { get; set; }
+
+		string errorString;
+		[Property("error")]
+		[Notify("OnErrorString")]
+		public string ErrorString
+		{
+			get 
+			{
+				if (this.errorString.IsEmpty() && this.Error.NotNull())
+					this.errorString = string.Format("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
+						this.Error.Time,
+						this.Error.Level,
+						this.Error.Title.Replace("\"", "\"\""),
+						this.Error.Message.Replace("\"", "\"\""),
+						this.Error.AssemblyName,
+						this.Error.AssemblyVersion,
+						this.Error.Type,
+						this.Error.Method,
+						this.Error.Filename,
+						this.Error.Line,
+						this.Error.Column);
+				return this.errorString ?? ""; 
+			}
+		}
+		public event Action<string> OnErrorString;
+
+		public Core.Error.IError Error { get; private set; }
+		public event Action<Core.Error.IError> OnError;
+
 		internal Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;
+			Core.Error.Log.OnAppend += error =>
+			{
+				this.OnError.Call(this.Error = error);
+				this.errorString = null;
+				if (this.OnErrorString.NotNull())
+					this.OnErrorString(this.ErrorString);
+			};
 		}
 
 		[Method("close", "Closes application.", "Shuts down the current application instance.")]
