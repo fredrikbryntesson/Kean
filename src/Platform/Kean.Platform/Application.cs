@@ -181,7 +181,7 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
 						result = false;
 					}
 					finally
@@ -237,7 +237,7 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
 						result = false;
 					}
 					finally
@@ -287,7 +287,7 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
 						result = false;
 					}
 					finally

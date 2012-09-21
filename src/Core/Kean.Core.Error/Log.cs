@@ -71,7 +71,7 @@ namespace Kean.Core.Error
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Entry.Create(Error.Level.Recoverable, title, e));
+					Log.Append(Error.Level.Recoverable, title, e);
 				}
 			} : (Action)task.Call;
 		}
@@ -91,7 +91,7 @@ namespace Kean.Core.Error
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Entry.Create(Error.Level.Recoverable, title, e));
+					Log.Append(Error.Level.Recoverable, title, e);
 				}
 			} : (Action<T>)task.Call;
 		}
@@ -111,7 +111,7 @@ namespace Kean.Core.Error
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Entry.Create(Error.Level.Recoverable, title, e));
+					Log.Append(Error.Level.Recoverable, title, e);
 				}
 			} : (Action<T1, T2>)task.Call;
 		}

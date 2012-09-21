@@ -44,7 +44,7 @@ namespace Kean.Core.Error
 		#endregion
 		public static Error.IError Create(Error.Level level, string title, System.Exception exception)
 		{
-			System.Reflection.MethodBase method = exception.TargetSite;
+			System.Reflection.MethodBase method = exception.TargetSite ?? new System.Diagnostics.StackTrace().GetFrame(2).GetMethod();
 			Type type = method.DeclaringType;
 			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
 			return new Entry()

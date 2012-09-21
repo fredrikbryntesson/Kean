@@ -83,7 +83,7 @@ namespace Kean.Core.Parallel
 									}
 									catch (System.Exception e)
 									{
-										Error.Log.Append(Error.Entry.Create(Error.Level.Recoverable, string.Format("Worker {0} in Thread Pool {1} Failed", this.Name, this.pool.Name), e));
+										Error.Log.Append(Error.Level.Recoverable, string.Format("Worker {0} in Thread Pool {1} Failed", this.Name, this.pool.Name), e);
 									}
 									finally
 									{
