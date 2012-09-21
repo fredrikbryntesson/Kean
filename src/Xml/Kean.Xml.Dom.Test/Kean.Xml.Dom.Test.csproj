@@ -105,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\valid008.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\valid009.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(ProjectDir)..\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>

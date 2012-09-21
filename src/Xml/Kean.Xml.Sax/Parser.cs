@@ -32,7 +32,7 @@ namespace Kean.Xml.Sax
 	public class Parser
 	{
 		public event Action<float, string, bool?, Uri.Region> OnDeclaration;
-		public event Action<string, Collection.IDictionary<string, Tuple<string, Uri.Region>>, Uri.Region> OnElementStart;
+		public event Action<string, Collection.IList<Tuple<string, string, Uri.Region>>, Uri.Region> OnElementStart;
 		public event Action<string, Uri.Region> OnElementEnd;
 		public event Action<string, Uri.Region> OnText;
 		public event Action<string, Uri.Region> OnData;
@@ -109,14 +109,14 @@ namespace Kean.Xml.Sax
 								break;
 							default: // element name
 								string name = this.reader.Last + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
-								Collection.IDictionary<string, Tuple<string, Uri.Region>> attributes = new Collection.Dictionary<string, Tuple<string, Uri.Region>>();
+								Collection.IList<Tuple<string, string, Uri.Region>> attributes = new Collection.List<Tuple<string, string, Uri.Region>>();
                                 if (this.reader.Last != '/' && this.reader.Last != '>')
                                     do
                                     {
                                         IO.Text.Mark attributeMark = this.Mark();
-                                        string key = this.AccumulateUntil('=').Trim();
+                                        string key = (this.reader.Last + this.AccumulateUntil('=')).Trim();
                                         this.AccumulateUntil('"');
-                                        attributes[key] = Tuple.Create(this.AccumulateUntil('"'), (Uri.Region)attributeMark);
+                                        attributes.Add(Tuple.Create(key, this.AccumulateUntil('"'), (Uri.Region)attributeMark));
 										while (this.reader.Next() && this.reader.Last == ' ') ;
 									} while (this.reader.Last != '/' && this.reader.Last != '>' && !this.reader.Empty);
 								this.OnElementStart.Call(name, attributes, mark);

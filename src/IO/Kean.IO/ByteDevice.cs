@@ -47,7 +47,7 @@ namespace Kean.IO
         byte? RawRead()
         {
             byte? result;
-            try { result = this.Convert(this.stream.ReadByte()); }
+            try { result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte()); }
             catch (ObjectDisposedException) { result = null;  }
             return result;
         }

@@ -59,14 +59,14 @@ namespace Kean.Xml.Dom
 		{
 			attributes.Apply(attribute => this.Attributes.Add(new Attribute(attribute.Name, attribute.Value) { Region = attribute.Region }));
 		}
-		public Element(string name, System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Uri.Region>>> attributes) :
+		public Element(string name, System.Collections.Generic.IEnumerable<Tuple<string, string, Uri.Region>> attributes) :
 			this(name)
 		{
-            foreach (KeyValue<string, Tuple<string, Uri.Region>> attribute in attributes)
-				this.Attributes.Add(new Attribute(attribute.Key, attribute.Value.Item1) { Region = attribute.Value.Item2 });
+			foreach (Tuple<string, string, Uri.Region> attribute in attributes)
+				this.Attributes.Add(new Attribute(attribute.Item1, attribute.Item2) { Region = attribute.Item3 });
 		}
 		public Element(string name, params KeyValue<string, string>[] attributes) :
-			this(name, (System.Collections.Generic.IEnumerable<KeyValue<string, Tuple<string, Uri.Region>>>)attributes.Map(a => KeyValue.Create(a.Key, Tuple.Create(a.Value, (Uri.Region)null))))
+			this(name, (System.Collections.Generic.IEnumerable<Tuple<string, string, Uri.Region>>)attributes.Map(a => Tuple.Create(a.Key, a.Value, (Uri.Region)null)))
 		{ }
 		public Element(string name, KeyValue<string, string> attribute) :
 			this(name, new KeyValue<string, string>[] { attribute })
