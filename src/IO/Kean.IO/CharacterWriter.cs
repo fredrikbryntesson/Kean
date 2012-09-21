@@ -24,6 +24,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO
 {
@@ -44,7 +45,7 @@ namespace Kean.IO
 		}
 		~CharacterWriter()
 		{
-			this.Close();
+			Error.Log.Wrap((Func<bool>)this.Close)();
 		}
 		public bool Close()
 		{

@@ -22,6 +22,7 @@
 using System;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO
 {
@@ -45,7 +46,7 @@ namespace Kean.IO
 		}
 		~CharacterReader()
 		{
-			this.Close();
+			Error.Log.Wrap((Func<bool>)this.Close)();
 		}
 		public bool Next()
 		{
@@ -57,7 +58,6 @@ namespace Kean.IO
 			else
 				this.Column++;
 			char? next = this.backend.Read();
-			bool result;
 			if (!next.HasValue)
 				this.Last = '\0';
 			else if (next == '\r' && this.backend.Peek().HasValue && this.backend.Peek() == '\n')

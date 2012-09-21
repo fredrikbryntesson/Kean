@@ -26,6 +26,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 using Parallel = Kean.Core.Parallel;
 using Kean.Gui.OpenGL.Backend.Extension;
 using Gpu = Kean.Draw.Gpu;
+using Error = Kean.Core.Error;
 
 namespace Kean.Gui.OpenGL
 {
@@ -77,7 +78,7 @@ namespace Kean.Gui.OpenGL
 		}
 		~Window()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 
 		#region IWindow Members

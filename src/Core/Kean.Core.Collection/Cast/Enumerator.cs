@@ -38,7 +38,7 @@ namespace Kean.Core.Collection.Cast
 		}
 		~Enumerator()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		#region IEnumerator<S> Members
 		public S Current { get { return this.cast(this.enumerator.Current); } }

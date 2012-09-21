@@ -54,7 +54,7 @@ namespace Kean.Core.Parallel
         }
         ~ThreadPool()
         {
-            this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
         }
         public void Dispose()
         {

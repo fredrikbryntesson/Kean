@@ -24,6 +24,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO.Tap
 {
@@ -47,7 +48,7 @@ namespace Kean.IO.Tap
 		}
 		~CharacterDevice()
 		{
-			this.Close();
+			Error.Log.Wrap((Func<bool>)this.Close)();
 		}
 		#endregion
 		#region ICharacterDevice Members

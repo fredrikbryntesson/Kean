@@ -18,10 +18,12 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Ports = System.IO.Ports;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO.Serial
 {
@@ -42,7 +44,7 @@ namespace Kean.IO.Serial
 		}
 		~Port ()
 		{
-			this.Close();
+			Error.Log.Wrap((Func<bool>)this.Close)();
 		}
 		public bool Open(Settings settings)
 		{

@@ -26,6 +26,7 @@ using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Parallel = Kean.Core.Parallel;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO.Net.Tcp
 {
@@ -69,7 +70,7 @@ namespace Kean.IO.Net.Tcp
 		}
 		~Server()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		#endregion
 		public bool Start(uint port)

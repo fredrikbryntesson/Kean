@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Error = Kean.Core.Error;
 
@@ -32,7 +33,7 @@ namespace Kean.Platform.Log.Writer
 		}
 		~Abstract()
 		{
-			(this as IDisposable).Dispose();
+			Error.Log.Wrap((Action)(this as IDisposable).Dispose)();
 		}
 		#region IDisposable Members
 		void IDisposable.Dispose()

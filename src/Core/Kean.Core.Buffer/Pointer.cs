@@ -45,7 +45,7 @@ namespace Kean.Core.Buffer
         /// </summary>
         ~Pointer()
         {
-            this.Dispose(false);
+			Error.Log.Wrap((Action<bool>)this.Dispose)(false);
         }
         /// <summary>
         /// Disposes Memory object.

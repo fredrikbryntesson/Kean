@@ -25,6 +25,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO.Filter
 {
@@ -45,7 +46,7 @@ namespace Kean.IO.Filter
 		{
 			this.backend = backend;
 		}
-		~CharacterInDevice() { this.Close(); }
+		~CharacterInDevice() { Error.Log.Wrap((Func<bool>)this.Close)(); }
 		#endregion
 		char[] NullFilter(Func<char?> read)
 		{

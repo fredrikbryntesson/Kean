@@ -4,6 +4,7 @@ using Kean.Core.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 using Gpu = Kean.Draw.Gpu;
+using Error = Kean.Core.Error;
 
 namespace Kean.Gui.OpenGL.Backend.Shader
 {
@@ -41,7 +42,7 @@ namespace Kean.Gui.OpenGL.Backend.Shader
 		}
 		~Program()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		public void Dispose()
 		{

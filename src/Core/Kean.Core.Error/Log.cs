@@ -55,6 +55,32 @@ namespace Kean.Core.Error
 			Log.Append(Error.Entry.Create(level, title, message));
 		}
 		#region Wrap
+		public static Func<bool> Wrap(Func<bool> task)
+		{
+			return Log.Wrap("Task failed", task);
+		}
+		public static Func<bool> Wrap(string title, Func<bool> task)
+		{
+			return Log.CatchErrors ? () =>
+			{
+				bool result = false;
+				try 
+				{ 
+					if (!(result = task()))
+						Log.Append(Error.Level.Notification, title, "Wrapped task returned false."); 
+				}
+				catch (System.Threading.ThreadInterruptedException) { throw; }
+				catch (Error.Exception e)
+				{
+					Log.Append(e);
+				}
+				catch (System.Exception e)
+				{
+					Log.Append(Error.Level.Recoverable, title, e);
+				}
+				return result;
+			} : (Func<bool>)task;
+		}
 		public static Action Wrap(Action task)
 		{
 			return Log.Wrap("Task failed", task);

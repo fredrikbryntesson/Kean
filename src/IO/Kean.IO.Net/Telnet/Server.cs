@@ -25,6 +25,7 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO.Net.Telnet
 {
@@ -50,7 +51,7 @@ namespace Kean.IO.Net.Telnet
 		}
 		~Server()
 		{
-			this.Close();	
+			Error.Log.Wrap((Func<bool>)this.Close)();	
 		}
 		void Filter()
 		{

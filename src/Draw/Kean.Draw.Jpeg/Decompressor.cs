@@ -23,6 +23,7 @@ using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using Raster = Kean.Draw.Raster;
 using Buffer = Kean.Core.Buffer;
+using Error = Kean.Core.Error;
 
 namespace Kean.Draw.Jpeg
 {
@@ -36,7 +37,7 @@ namespace Kean.Draw.Jpeg
         }
         ~Decompressor()
         {
-            this.Dispose();
+            Error.Log.Wrap((Action)this.Dispose)();
         }
         #region IDisposable Members
         public void Dispose()

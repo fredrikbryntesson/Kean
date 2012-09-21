@@ -23,6 +23,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Error = Kean.Core.Error;
 
 namespace Kean.Draw
 {
@@ -142,7 +143,7 @@ namespace Kean.Draw
 		}
 		~Image()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		#region IDisposable Members
 		public virtual void Dispose()

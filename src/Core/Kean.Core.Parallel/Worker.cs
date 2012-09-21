@@ -126,7 +126,7 @@ namespace Kean.Core.Parallel
 		}
 		~Worker()
 		{
-			this.Dispose();
+			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		public void Dispose()
 		{

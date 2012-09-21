@@ -318,7 +318,7 @@ namespace Kean.Platform
 		#region IDisposable Members
 		~Application()
 		{
-			(this as IDisposable).Dispose();
+			Error.Log.Wrap((Action)(this as IDisposable).Dispose)();
 		}
 		void  IDisposable.Dispose()
 		{

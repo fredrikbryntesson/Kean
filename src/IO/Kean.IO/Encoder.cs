@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using Error = Kean.Core.Error;
 
 namespace Kean.IO
 {
@@ -41,7 +42,7 @@ namespace Kean.IO
 			this.encoding = encoding;
 			this.queue = new Collection.Queue<byte>();
 		}
-		~Encoder() { this.Dispose(); }
+		~Encoder() { Error.Log.Wrap((Action)this.Dispose)(); }
 		#endregion
 		bool MoveNext(Collection.IList<char> buffer)
 		{

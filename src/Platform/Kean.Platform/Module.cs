@@ -24,6 +24,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Argument = Kean.Cli.Argument;
 using Serialize = Kean.Core.Serialize;
+using Error = Kean.Core.Error;
 
 namespace Kean.Platform
 {
@@ -112,7 +113,7 @@ namespace Kean.Platform
 		#region IDisposable Members
 		~Module()
 		{
-			(this as IDisposable).Dispose();
+			Error.Log.Wrap((Action)(this as IDisposable).Dispose)();
 		}
 		void IDisposable.Dispose()
 		{
