@@ -44,7 +44,7 @@ namespace Kean.Core.Parallel
 		RepeatThread(string name, Action task) :
 			base()
 		{
-			task = RepeatThread.WrapTask(name, task);
+			task = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), task);
 			this.Backend = new System.Threading.Thread(() => 
 			{ 
 				this.Running = true;  

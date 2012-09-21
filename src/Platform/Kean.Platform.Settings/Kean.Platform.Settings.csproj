@@ -130,10 +130,6 @@
       <Project>{6AEA339E-D930-4834-995D-301892768C10}</Project>
       <Name>Kean.Xml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Platform.Log\Kean.Platform.Log.csproj">
-      <Project>{14F02E00-9ED6-4730-BE4D-F0DF96853A21}</Project>
-      <Name>Kean.Platform.Log</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Platform\Kean.Platform.csproj">
       <Project>{ABF16C06-E815-40C8-9194-13D9BE11E019}</Project>
       <Name>Kean.Platform</Name>

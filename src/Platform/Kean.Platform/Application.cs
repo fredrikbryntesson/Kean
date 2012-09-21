@@ -62,8 +62,8 @@ namespace Kean.Platform
 		public string ExecutablePath { get { return System.IO.Path.GetDirectoryName(this.Executable); } }
 		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
-		public bool CatchErrors { get; set; }
-		public Mode Mode { get; private set; }
+		public bool CatchErrors { get { return Error.Log.CatchErrors; } set { Error.Log.CatchErrors = value; } }
+ 		public Mode Mode { get; private set; }
 		#endregion
 		#region Events
 		object onIdleLock = new object();
@@ -87,12 +87,10 @@ namespace Kean.Platform
 			add { lock (this.onClosedLock) this.onClosed += value; }
 			remove { lock (this.onClosedLock) this.onClosed -= value; }
 		}
-		object onErrorLock = new object();
-		Action<Error.IError> onError;
 		public event Action<Error.IError> OnError
 		{
-			add { lock (this.onErrorLock) this.onError += value; }
-			remove { lock (this.onErrorLock) this.onError -= value; }
+			add { Error.Log.OnAppend += value; }
+			remove { Error.Log.OnAppend -= value; }
 		}
 		#endregion
 		#region Constructors
@@ -131,9 +129,6 @@ namespace Kean.Platform
                 this.Description = description.Description;
             // Icon
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(this.Executable);
-#if !DEBUG
-			this.CatchErrors = true;
-#endif
 			#endregion
 
 		}
@@ -181,12 +176,12 @@ namespace Kean.Platform
 					}
 					catch (Error.Exception e)
 					{
-						this.onError.Call(e);
+						Error.Log.Append(e);
 						result = false;
 					}
 					catch (System.Exception e)
 					{
-						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
 						result = false;
 					}
 					finally
@@ -237,12 +232,12 @@ namespace Kean.Platform
 					}
 					catch (Error.Exception e)
 					{
-						this.onError.Call(e);
+						Error.Log.Append(e);
 						result = false;
 					}
 					catch (System.Exception e)
 					{
-						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
 						result = false;
 					}
 					finally
@@ -287,12 +282,12 @@ namespace Kean.Platform
 					}
 					catch (Error.Exception e)
 					{
-						this.onError.Call(e);
+						Error.Log.Append(e);
 						result = false;
 					}
 					catch (System.Exception e)
 					{
-						this.onError.Call(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
+						Error.Log.Append(Error.Entry.Create(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e));
 						result = false;
 					}
 					finally

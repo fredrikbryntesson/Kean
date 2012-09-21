@@ -28,7 +28,6 @@ namespace Kean.Core.Error
 		System.ApplicationException,
 		IError
 	{
-		public static Action<IError> Log { get; set; }
 		static Level threshold = Level.Warning;
 		public static Level Threshold 
 		{
@@ -67,7 +66,7 @@ namespace Kean.Core.Error
 			this.Filename = frame.GetFileName();
 			this.Line = frame.GetFileLineNumber();
 			this.Column = frame.GetFileColumnNumber();
-			Exception.Log.Call(this);
+			Log.Append(this);
 		}
         public void Throw()
         {

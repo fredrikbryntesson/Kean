@@ -72,7 +72,7 @@ namespace Kean.Core.Parallel
 						{
 							if (task.NotNull())
 							{
-								if (this.pool.CatchErrors)
+								if (Error.Log.CatchErrors)
 									try
 									{
 										this.Occupied = true;
@@ -83,7 +83,7 @@ namespace Kean.Core.Parallel
 									}
 									catch (System.Exception e)
 									{
-										this.pool.OnException(e, this);
+										Error.Log.Append(Error.Entry.Create(Error.Level.Recoverable, string.Format("Worker {0} in Thread Pool {1} Failed", this.Name, this.pool.Name), e));
 									}
 									finally
 									{

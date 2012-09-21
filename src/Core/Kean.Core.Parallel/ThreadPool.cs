@@ -30,9 +30,7 @@ namespace Kean.Core.Parallel
     {
 		public int TaskCount { get { return this.tasks.Count; } }
 		public string Name { get; private set; }
-		public event Action<Error.IError> Log;
 		public int QueueMaximum { get; set; }
-		public bool CatchErrors { get; set; }
 		public int ThreadCount { get { return this.workers.Count; } }
 		public int MinimumThreadCount { get; private set; }
 		int maximumThreadCount;
@@ -47,7 +45,6 @@ namespace Kean.Core.Parallel
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
         public ThreadPool(string name, int workers)
         {
-			this.CatchErrors = true;
 			this.Name = name;
             this.tasks = new Collection.Queue<ITask>();
 			this.MinimumThreadCount = workers;
@@ -174,12 +171,6 @@ namespace Kean.Core.Parallel
         {
             lock (this.tasks)
                 return this.tasks.Dequeue();
-        }
-
-        internal void OnException(System.Exception e, Worker worker)
-        {
-			if (this.Log.NotNull())
-				this.Log(Error.Entry.Create(Error.Level.Recoverable, string.Format("Thread Pool Worker {0} Failed.", worker.Name), e));
         }
 
         public void ForEachWorker(Action task)

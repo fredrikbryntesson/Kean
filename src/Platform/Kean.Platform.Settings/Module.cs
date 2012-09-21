@@ -104,11 +104,6 @@ namespace Kean.Platform.Settings
 					try
 					{
 						IDisposable editor = Settings.Editor.Listen(this.root, locator);
-						if (editor is IO.Net.Tcp.Server)
-						{
-							(editor as IO.Net.Tcp.Server).ThreadPool.CatchErrors = this.Application.CatchErrors;
-							this.Application["Log"].WhenLoaded<Log.Module>(l => (editor as IO.Net.Tcp.Server).ThreadPool.Log += l.Append);
-						}
 						this.editors.Add(editor);
 					}
 					catch { }

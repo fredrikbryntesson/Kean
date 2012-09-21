@@ -111,7 +111,6 @@ namespace Kean.Platform.Log
 		{
 			Cache.Log(Error.Entry.Create(level, title, message));
 		}
-
-}	
+	}	
 }
 
