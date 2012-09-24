@@ -72,21 +72,21 @@ namespace Kean.Platform.Log
 		{
 			this.Append(Error.Entry.Create(level, title, message));
 		}
-		public void Append(Error.IError item)
+		public void Append(Error.IError entry)
 		{
 			lock (this.Lock)
 			{
-				if (item.Level >= this.AllThreshold)
+				if (entry.Level >= this.AllThreshold)
 					this.log.Enqueue(this.cache);
 				else if (this.cacheList.Count >= this.CacheSize)
 					this.ReduceCache();
-				this.cache.Enqueue(item);
+				this.cache.Enqueue(entry);
 			}
 		}
 		void ReduceCache()
 		{
 			Error.IError entry = this.cache.Dequeue();
-			if (entry.Level >= this.LogThreshold)
+			if (entry.NotNull() && entry.Level >= this.LogThreshold)
 				this.log.Enqueue(entry);
 		}
 		public void Flush()
