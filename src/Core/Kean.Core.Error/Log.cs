@@ -41,18 +41,30 @@ namespace Kean.Core.Error
 			}
 		}
 		public static event Action<bool> CatchErrorsChanged;
-		public static event Action<Error.IError> OnAppend;
-		public static void Append(Error.IError entry)
+		public static event Action<IError> OnAppend;
+		public static void Append(IError entry)
 		{
-			Log.OnAppend.Call(entry);
+			Action<IError> onAppend = Log.OnAppend;
+			if (onAppend.NotNull())
+			{
+				if (Log.CatchErrors)
+				{
+					foreach (Action<IError> action in onAppend.GetInvocationList().Map(s => s as Action<IError>))
+						if (action.NotNull())
+							try { action(entry); }
+							catch (System.Exception) { }
+				}
+				else
+					onAppend(entry);
+			}
 		}
-		public static void Append(Error.Level level, string title, System.Exception exception)
+		public static void Append(Level level, string title, System.Exception exception)
 		{
-			Log.Append(Error.Entry.Create(level, title, exception));
+			Log.Append(Entry.Create(level, title, exception));
 		}
-		public static void Append(Error.Level level, string title, string message)
+		public static void Append(Level level, string title, string message)
 		{
-			Log.Append(Error.Entry.Create(level, title, message));
+			Log.Append(Entry.Create(level, title, message));
 		}
 		#region Wrap
 		public static Func<bool> Wrap(Func<bool> task)
@@ -70,7 +82,7 @@ namespace Kean.Core.Error
 						Log.Append(Error.Level.Notification, title, "Wrapped task returned false."); 
 				}
 				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Error.Exception e)
+				catch (Exception e)
 				{
 					Log.Append(e);
 				}
@@ -91,13 +103,13 @@ namespace Kean.Core.Error
 			{
 				try { task.Call(); }
 				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Error.Exception e)
+				catch (Exception e)
 				{
 					Log.Append(e);
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Level.Recoverable, title, e);
+					Log.Append(Level.Recoverable, title, e);
 				}
 			} : (Action)task.Call;
 		}
@@ -111,13 +123,13 @@ namespace Kean.Core.Error
 			{
 				try { task.Call(argument); }
 				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Error.Exception e)
+				catch (Exception e)
 				{
 					Log.Append(e);
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Level.Recoverable, title, e);
+					Log.Append(Level.Recoverable, title, e);
 				}
 			} : (Action<T>)task.Call;
 		}
@@ -131,13 +143,13 @@ namespace Kean.Core.Error
 			{
 				try { task.Call(argument1, argument2); }
 				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Error.Exception e)
+				catch (Exception e)
 				{
 					Log.Append(e);
 				}
 				catch (System.Exception e)
 				{
-					Log.Append(Error.Level.Recoverable, title, e);
+					Log.Append(Level.Recoverable, title, e);
 				}
 			} : (Action<T1, T2>)task.Call;
 		}
