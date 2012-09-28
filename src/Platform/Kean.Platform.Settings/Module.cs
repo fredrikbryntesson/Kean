@@ -34,6 +34,7 @@ namespace Kean.Platform.Settings
 	{
 		Collection.IList<IDisposable> editors = new Collection.List<IDisposable>();
 		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<string> settings = new Collection.List<string>();
 		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Core.Uri.Locator>();
 
 		Root root;
@@ -77,6 +78,7 @@ namespace Kean.Platform.Settings
 		protected override void AddArguments(Argument.Parser parser)
 		{
 			parser.Add('c', "config", argument => this.configurations.Add(argument));
+			parser.Add('s', "setting", argument => this.settings.Add(argument));
 			parser.Add('r', "remote", argument => this.remotes.Add(argument));
 			base.AddArguments(parser);
 		}
@@ -98,6 +100,8 @@ namespace Kean.Platform.Settings
 					catch { }
 			}
 			catch { }
+			if (this.settings.NotNull() && this.settings.Count > 0)
+				try { Settings.Editor.Read(this.root, Cli.Terminal.Open(new IO.Text.CharacterInDevice(this.settings.Join("\n")), null)).Close(); } catch { }
 			if (this.remotes.NotNull())
 				foreach (Uri.Locator locator in this.remotes)
 				{

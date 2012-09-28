@@ -38,12 +38,11 @@ namespace Kean.Platform.Settings
 		internal Xml.Dom.Fragment Header { get; set; }
 		internal Uri.Locator HelpFilename { get; set; }
 
-		[Property("version")]
+		[Property("version", "Products version number.", "The version number of the product.")]
 		public string Version { get { return this.module.Application.Version; } }
 
-
 		string errorString;
-		[Property("error")]
+		[Property("error", "Last error message", "The last error message.")]
 		[Notify("OnErrorString")]
 		public string ErrorString
 		{

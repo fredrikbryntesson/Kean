@@ -78,6 +78,10 @@
     <Compile Include="IByteOutDevice.cs" />
     <Compile Include="IByteInDevice.cs" />
     <Compile Include="ByteDeviceSplitter.cs" />
+    <Compile Include="Null\ByteDevice.cs" />
+    <Compile Include="Null\CharacterDevice.cs" />
+    <Compile Include="Null\CharacterReader.cs" />
+    <Compile Include="Null\CharacterWriter.cs" />
     <Compile Include="Text\Builder.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
     <Compile Include="Text\CharacterInDevice.cs" />

@@ -50,7 +50,7 @@ namespace Kean.Cli
 		protected Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
 			this.In = IO.CharacterReader.Open(IO.Filter.CharacterInDevice.Open(inDevice, this.FilterInput));
-			this.Out = IO.CharacterWriter.Open(outDevice);
+			this.Out = IO.CharacterWriter.Open(outDevice) ?? new IO.Null.CharacterWriter();
 		}
 		#endregion
 		#region IDevice Members
