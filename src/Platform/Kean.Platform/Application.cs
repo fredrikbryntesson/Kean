@@ -181,19 +181,12 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0} when Starting.", e.Type().Name), e);
 						result = false;
-					}
-					finally
-					{
-						this.onClosed.Call();
 					}
 				}
 				else
-				{
 					this.Starter();
-					this.onClosed.Call();
-				}
 			return result;
 		}
 		void Starter()
@@ -207,7 +200,6 @@ namespace Kean.Platform
 				Console.WriteLine("Copyright: " + this.Copyright);
 				Console.WriteLine("Description: " + this.Description);
 			});
-			parser.Add('d', "debug", () => this.CatchErrors = false);
 			foreach (Module module in this.Modules)
 				module.AddArguments(parser);
 			parser.Parse(this.CommandLine);
@@ -237,7 +229,7 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0} when Stopping", e.Type().Name), e);
 						result = false;
 					}
 					finally
@@ -287,7 +279,7 @@ namespace Kean.Platform
 					}
 					catch (System.Exception e)
 					{
-						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0}", e.Type().Name), e);
+						Error.Log.Append(Error.Level.Critical, string.Format("Unhandled Error {0} when Executing.", e.Type().Name), e);
 						result = false;
 					}
 					finally

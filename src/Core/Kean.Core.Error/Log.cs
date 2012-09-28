@@ -26,11 +26,7 @@ namespace Kean.Core.Error
 {
 	public static class Log
 	{
-#if DEBUG
-		static bool catchErrors = false;
-#else
 		static bool catchErrors = true;
-#endif
 		public static bool CatchErrors
 		{ 
 			get { return Log.catchErrors; }
@@ -42,6 +38,10 @@ namespace Kean.Core.Error
 		}
 		public static event Action<bool> CatchErrorsChanged;
 		public static event Action<IError> OnAppend;
+		static Log()
+		{
+			Log.catchErrors = !System.Environment.GetCommandLineArgs().Contains("-d", "--debug");
+		}
 		public static void Append(IError entry)
 		{
 			Action<IError> onAppend = Log.OnAppend;
