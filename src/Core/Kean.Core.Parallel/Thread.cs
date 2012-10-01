@@ -43,18 +43,9 @@ namespace Kean.Core.Parallel
 		protected Thread(string name, System.Threading.Thread backend) :
 			this()
 		{
-			try
-			{
-				this.Backend = backend;
-				this.Backend.Name = name;
-				this.Backend.Start();
-
-			}
-			catch (System.Exception e)
-			{
-				
-				throw;
-			}
+			this.Backend = backend;
+			this.Backend.Name = name;
+			this.Backend.Start();
 		}
 		#endregion
 		public virtual bool Join(int timeOut)

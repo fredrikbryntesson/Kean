@@ -163,17 +163,7 @@ namespace Kean.Platform
 		}
 		public bool Close()
 		{
-			//System.Threading.Thread thread = new System.Threading.Thread(() => this.Stop());
-			//thread.Name = "Close Thread";
-			//thread.Start();
-			Parallel.Thread.Start("Close Thread",() => this.Stop());
-			return true;
-
-			//return this.Mode == Mode.Started && (this.Runner.NotNull() ? this.Runner.Close() : Parallel.Thread.Start("Close Thread", () =>
-			//{
-			//    Console.WriteLine("Shuting down.");
-			//    this.Stop();
-			//}).NotNull());
+			return this.Mode == Mode.Started && (this.Runner.NotNull() ? this.Runner.Close() : Parallel.Thread.Start("Close Thread", () => this.Stop()).NotNull());
 		}
 		public bool Start()
 		{
