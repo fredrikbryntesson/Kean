@@ -48,7 +48,11 @@ namespace Kean.Platform.Settings.Test
 				settings.Load("old.object", new Object());
 				settings.Load("application", new Command.Application());
 				application.Load(settings);
-				application.Execute();
+				application.Start();
+				System.Threading.AutoResetEvent wait = new System.Threading.AutoResetEvent(false);
+				application.OnClosed += () => wait.Set();
+				wait.WaitOne();
+				//application.Execute();
 			}
 		}
 	}

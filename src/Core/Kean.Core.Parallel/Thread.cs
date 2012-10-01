@@ -36,16 +36,25 @@ namespace Kean.Core.Parallel
 		#region Constructors
 		protected Thread()
 		{ }
-		protected Thread(string name, Action task) :
-			this(name, new System.Threading.Thread(() => Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), task)))
+		protected Thread(string name, System.Threading.ThreadStart task) :
+			this(name, new System.Threading.Thread(task))
 		{ }
 
 		protected Thread(string name, System.Threading.Thread backend) :
 			this()
 		{
-			this.Backend = backend;
-			this.Backend.Name = name;
-			this.Backend.Start();
+			try
+			{
+				this.Backend = backend;
+				this.Backend.Name = name;
+				this.Backend.Start();
+
+			}
+			catch (System.Exception e)
+			{
+				
+				throw;
+			}
 		}
 		#endregion
 		public virtual bool Join(int timeOut)
@@ -56,7 +65,6 @@ namespace Kean.Core.Parallel
 		{
 			this.Backend.Abort();
 		}
-
 		#region Static Creators
 		static int counter;
 		public static Thread Start(Action task)
@@ -65,7 +73,8 @@ namespace Kean.Core.Parallel
 		}
 		public static Thread Start(string name, Action task)
 		{
-			return new Thread(name, task);
+			task = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), task);
+			return new Thread(name, () => task.Call());
 		}
 		#endregion
 
