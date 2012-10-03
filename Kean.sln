@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 10.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cli", "Cli", "{6FF4E1FC-130B-48EE-976E-9EC6BE20CF7D}"
 EndProject
@@ -162,11 +163,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Kean\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test", "src\Kean\Test\Kean.Test\Kean.Test.csproj", "{B5E16CAE-808E-448A-8D6E-D770EB91868C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kean", "Kean", "{4F0F7296-A14F-4476-920D-36B1B74CAD5B}"
-	ProjectSection(SolutionItems) = preProject
-		src\Kean\Kean\CommonAssemblyInfo.cs = src\Kean\Kean\CommonAssemblyInfo.cs
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fubl", "Fubl", "{003FD32D-8428-4996-8F7B-A93F3241ECC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Fubl", "src\Kean\Fubl\Kean.Fubl\Kean.Fubl.csproj", "{4FCB513D-9EF1-41E7-9DC8-701900BE567F}"
@@ -174,6 +170,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Vector.Test", "src\Kean\Draw\Kean.Draw.Vector.Test\Kean.Draw.Vector.Test.csproj", "{B0457323-DE1A-4E6D-B591-772ADC204B65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Recycle", "src\Kean\Core\Kean.Core.Recycle\Kean.Core.Recycle.csproj", "{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{30ED38B8-F9FB-4B19-856E-03DC069755F8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Kean\CommonAssemblyInfo.cs = src\Kean\CommonAssemblyInfo.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
