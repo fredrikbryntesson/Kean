@@ -1,180 +1,179 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
+﻿Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cli", "Cli", "{6FF4E1FC-130B-48EE-976E-9EC6BE20CF7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Argument", "src\Cli\Kean.Cli.Argument\Kean.Cli.Argument.csproj", "{3B4397D6-2F39-44F6-A200-3AE6454E793C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Argument", "src\Kean\Cli\Kean.Cli.Argument\Kean.Cli.Argument.csproj", "{3B4397D6-2F39-44F6-A200-3AE6454E793C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer", "src\Cli\Kean.Cli.LineBuffer\Kean.Cli.LineBuffer.csproj", "{D3B69E94-AB2C-4144-8DD2-9F6556331188}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer", "src\Kean\Cli\Kean.Cli.LineBuffer\Kean.Cli.LineBuffer.csproj", "{D3B69E94-AB2C-4144-8DD2-9F6556331188}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer.Test", "src\Cli\Kean.Cli.LineBuffer.Test\Kean.Cli.LineBuffer.Test.csproj", "{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer.Test", "src\Kean\Cli\Kean.Cli.LineBuffer.Test\Kean.Cli.LineBuffer.Test.csproj", "{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli", "src\Cli\Kean.Cli\Kean.Cli.csproj", "{67647070-B042-4905-8F92-FF59E094E048}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli", "src\Kean\Cli\Kean.Cli\Kean.Cli.csproj", "{67647070-B042-4905-8F92-FF59E094E048}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E73AD033-19D2-4FF5-8886-B509B04C7380}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Buffer", "src\Core\Kean.Core.Buffer\Kean.Core.Buffer.csproj", "{AB030D3B-8B47-4545-86BA-48A8D2AFE020}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Buffer", "src\Kean\Core\Kean.Core.Buffer\Kean.Core.Buffer.csproj", "{AB030D3B-8B47-4545-86BA-48A8D2AFE020}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection", "src\Core\Kean.Core.Collection\Kean.Core.Collection.csproj", "{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection", "src\Kean\Core\Kean.Core.Collection\Kean.Core.Collection.csproj", "{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection.Test", "src\Core\Kean.Core.Collection.Test\Kean.Core.Collection.Test.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Collection.Test", "src\Kean\Core\Kean.Core.Collection.Test\Kean.Core.Collection.Test.csproj", "{598867CF-A027-46EA-A5C8-0EF7FD21A61C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure", "src\Core\Kean.Core.Configure\Kean.Core.Configure.csproj", "{5E44F980-7706-49A8-96F2-80DF5EF36A4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure", "src\Kean\Core\Kean.Core.Configure\Kean.Core.Configure.csproj", "{5E44F980-7706-49A8-96F2-80DF5EF36A4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure.Test", "src\Core\Kean.Core.Configure.Test\Kean.Core.Configure.Test.csproj", "{EB56B72C-87A6-4C97-9185-A554DB2F352F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Configure.Test", "src\Kean\Core\Kean.Core.Configure.Test\Kean.Core.Configure.Test.csproj", "{EB56B72C-87A6-4C97-9185-A554DB2F352F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error", "src\Core\Kean.Core.Error\Kean.Core.Error.csproj", "{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error", "src\Kean\Core\Kean.Core.Error\Kean.Core.Error.csproj", "{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error.Test", "src\Core\Kean.Core.Error.Test\Kean.Core.Error.Test.csproj", "{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Error.Test", "src\Kean\Core\Kean.Core.Error.Test\Kean.Core.Error.Test.csproj", "{BFF45F8C-EA7D-4B63-9DEB-8196AD061D10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Notify", "src\Core\Kean.Core.Notify\Kean.Core.Notify.csproj", "{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Notify", "src\Kean\Core\Kean.Core.Notify\Kean.Core.Notify.csproj", "{3874FD1C-13EB-4746-99ED-E58DE3BF8BEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Parallel", "src\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj", "{8B708CFE-DABA-40D5-8830-4C0D67DAE732}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Parallel", "src\Kean\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj", "{8B708CFE-DABA-40D5-8830-4C0D67DAE732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect", "src\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj", "{D44CAE32-71EA-4BD9-8A41-8EC84526B596}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect", "src\Kean\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj", "{D44CAE32-71EA-4BD9-8A41-8EC84526B596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Serialize", "src\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj", "{06324516-5008-4A34-9C54-041F30F5A229}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Serialize", "src\Kean\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj", "{06324516-5008-4A34-9C54-041F30F5A229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Test", "src\Core\Kean.Core.Test\Kean.Core.Test.csproj", "{C7D3F01E-01B5-463E-A574-29B5F97E38BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Test", "src\Kean\Core\Kean.Core.Test\Kean.Core.Test.csproj", "{C7D3F01E-01B5-463E-A574-29B5F97E38BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri", "src\Core\Kean.Core.Uri\Kean.Core.Uri.csproj", "{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri", "src\Kean\Core\Kean.Core.Uri\Kean.Core.Uri.csproj", "{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri.Test", "src\Core\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Uri.Test", "src\Kean\Core\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj", "{6D086688-CDFE-4F96-B0FA-13B22F7B0808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect.Test", "src\Core\Kean.Core.Reflect.Test\Kean.Core.Reflect.Test.csproj", "{30A5AE45-568B-48DF-8BE1-163B316A7B0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Reflect.Test", "src\Kean\Core\Kean.Core.Reflect.Test\Kean.Core.Reflect.Test.csproj", "{30A5AE45-568B-48DF-8BE1-163B316A7B0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core", "src\Core\Kean.Core\Kean.Core.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core", "src\Kean\Core\Kean.Core\Kean.Core.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Draw", "Draw", "{6A3BF312-DA4E-4A6A-B26F-D1CFA432F0C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu", "src\Draw\Kean.Draw.Gpu\Kean.Draw.Gpu.csproj", "{A519A94C-2837-4A3D-B90A-1535704DCC8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu", "src\Kean\Draw\Kean.Draw.Gpu\Kean.Draw.Gpu.csproj", "{A519A94C-2837-4A3D-B90A-1535704DCC8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu.Test", "src\Draw\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj", "{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Gpu.Test", "src\Kean\Draw\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj", "{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Raster", "src\Draw\Kean.Draw.Raster\Kean.Draw.Raster.csproj", "{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Raster", "src\Kean\Draw\Kean.Draw.Raster\Kean.Draw.Raster.csproj", "{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Raster.Test", "src\Draw\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj", "{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Raster.Test", "src\Kean\Draw\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj", "{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Vector", "src\Draw\Kean.Draw.Vector\Kean.Draw.Vector.csproj", "{78AC86D7-E801-4A76-9A8F-D167DB08387D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Vector", "src\Kean\Draw\Kean.Draw.Vector\Kean.Draw.Vector.csproj", "{78AC86D7-E801-4A76-9A8F-D167DB08387D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Test", "src\Draw\Kean.Draw.Test\Kean.Draw.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Test", "src\Kean\Draw\Kean.Draw.Test\Kean.Draw.Test.csproj", "{3EFD4052-3FE8-4B58-8833-349550F073E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo", "src\Draw\Kean.Draw.Cairo\Kean.Draw.Cairo.csproj", "{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo", "src\Kean\Draw\Kean.Draw.Cairo\Kean.Draw.Cairo.csproj", "{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo.Test", "src\Draw\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj", "{98BAF538-395F-4E2A-B1FD-29ECC7129C73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Cairo.Test", "src\Kean\Draw\Kean.Draw.Cairo.Test\Kean.Draw.Cairo.Test.csproj", "{98BAF538-395F-4E2A-B1FD-29ECC7129C73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw", "src\Draw\Kean.Draw\Kean.Draw.csproj", "{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw", "src\Kean\Draw\Kean.Draw\Kean.Draw.csproj", "{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net", "src\Draw\Kean.Draw.Net\Kean.Draw.Net.csproj", "{D6D43C31-9C13-4FCA-8C33-1A6B2C43DE93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net", "src\Kean\Draw\Kean.Draw.Net\Kean.Draw.Net.csproj", "{D6D43C31-9C13-4FCA-8C33-1A6B2C43DE93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net.Test", "src\Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj", "{C8BD80C8-2A97-4808-9122-D59E1F5308EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net.Test", "src\Kean\Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj", "{C8BD80C8-2A97-4808-9122-D59E1F5308EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Jpeg", "src\Draw\Kean.Draw.Jpeg\Kean.Draw.Jpeg.csproj", "{62C23FE6-76B5-4F4D-BC54-3A7D2A4BD862}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Jpeg", "src\Kean\Draw\Kean.Draw.Jpeg\Kean.Draw.Jpeg.csproj", "{62C23FE6-76B5-4F4D-BC54-3A7D2A4BD862}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Jpeg.Test", "src\Draw\Kean.Draw.Jpeg.Test\Kean.Draw.Jpeg.Test.csproj", "{8CC95ED7-CD68-4852-8503-F871B4F7389C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Jpeg.Test", "src\Kean\Draw\Kean.Draw.Jpeg.Test\Kean.Draw.Jpeg.Test.csproj", "{8CC95ED7-CD68-4852-8503-F871B4F7389C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gui", "Gui", "{FDAFB3D5-8C71-4CFD-8D09-17292CA3B19F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL", "src\Gui\Kean.Gui.OpenGL\Kean.Gui.OpenGL.csproj", "{6E879B34-5D82-4715-9874-F2483F99AB6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL", "src\Kean\Gui\Kean.Gui.OpenGL\Kean.Gui.OpenGL.csproj", "{6E879B34-5D82-4715-9874-F2483F99AB6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL.Test", "src\Gui\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj", "{BC052502-2E40-4577-B35E-E659B8FCB6B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui.OpenGL.Test", "src\Kean\Gui\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj", "{BC052502-2E40-4577-B35E-E659B8FCB6B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui", "src\Gui\Kean.Gui\Kean.Gui.csproj", "{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Gui", "src\Kean\Gui\Kean.Gui\Kean.Gui.csproj", "{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO", "IO", "{C3EA068D-002A-4957-96A7-9B30BFB77A5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Modem", "src\IO\Kean.IO.Modem\Kean.IO.Modem.csproj", "{5F83E263-8EFC-4EC1-A5BA-3598E7CBD45F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Modem", "src\Kean\IO\Kean.IO.Modem\Kean.IO.Modem.csproj", "{5F83E263-8EFC-4EC1-A5BA-3598E7CBD45F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net", "src\IO\Kean.IO.Net\Kean.IO.Net.csproj", "{485C7018-3CB3-4BEB-A101-91EEE4557AEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net", "src\Kean\IO\Kean.IO.Net\Kean.IO.Net.csproj", "{485C7018-3CB3-4BEB-A101-91EEE4557AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net.Test", "src\IO\Kean.IO.Net.Test\Kean.IO.Net.Test.csproj", "{1C398A0B-ADF3-4DB6-9426-D21F5F7F824F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Net.Test", "src\Kean\IO\Kean.IO.Net.Test\Kean.IO.Net.Test.csproj", "{1C398A0B-ADF3-4DB6-9426-D21F5F7F824F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Serial", "src\IO\Kean.IO.Serial\Kean.IO.Serial.csproj", "{1137D63C-EBEA-4E27-8277-E5299A943059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Serial", "src\Kean\IO\Kean.IO.Serial\Kean.IO.Serial.csproj", "{1137D63C-EBEA-4E27-8277-E5299A943059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.IO.Serial", "src\IO\Kean.IO.Serial.Test\Kean.Test.IO.Serial.csproj", "{E4C7265F-055D-462D-BEF8-265313632219}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.IO.Serial", "src\Kean\IO\Kean.IO.Serial.Test\Kean.Test.IO.Serial.csproj", "{E4C7265F-055D-462D-BEF8-265313632219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms", "src\IO\Kean.IO.Sms\Kean.IO.Sms.csproj", "{65681DE0-A252-46AD-890B-948EFCC7FAE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms", "src\Kean\IO\Kean.IO.Sms\Kean.IO.Sms.csproj", "{65681DE0-A252-46AD-890B-948EFCC7FAE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms.Test", "src\IO\Kean.IO.Sms.Test\Kean.IO.Sms.Test.csproj", "{74D8FF69-5DB2-4765-B506-B16C9CF379DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Sms.Test", "src\Kean\IO\Kean.IO.Sms.Test\Kean.IO.Sms.Test.csproj", "{74D8FF69-5DB2-4765-B506-B16C9CF379DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Tap", "src\IO\Kean.IO.Tap\Kean.IO.Tap.csproj", "{86AD745F-7603-4777-9088-BD418818B833}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO.Tap", "src\Kean\IO\Kean.IO.Tap\Kean.IO.Tap.csproj", "{86AD745F-7603-4777-9088-BD418818B833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO", "src\IO\Kean.IO\Kean.IO.csproj", "{95FD08A5-43C8-4E1D-8291-CC8AFE459000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.IO", "src\Kean\IO\Kean.IO\Kean.IO.csproj", "{95FD08A5-43C8-4E1D-8291-CC8AFE459000}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{1CD12E59-D72B-4596-A6D6-CAADC6673BD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings.Test", "src\Platform\Kean.Platform.Settings.Test\Kean.Platform.Settings.Test.csproj", "{473C25A4-F760-4CE7-8783-554471B6E986}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings.Test", "src\Kean\Platform\Kean.Platform.Settings.Test\Kean.Platform.Settings.Test.csproj", "{473C25A4-F760-4CE7-8783-554471B6E986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Log", "src\Platform\Kean.Platform.Log\Kean.Platform.Log.csproj", "{14F02E00-9ED6-4730-BE4D-F0DF96853A21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Log", "src\Kean\Platform\Kean.Platform.Log\Kean.Platform.Log.csproj", "{14F02E00-9ED6-4730-BE4D-F0DF96853A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Log.Test", "src\Platform\Kean.Platform.Log.Test\Kean.Platform.Log.Test.csproj", "{D2F9493F-95CB-4084-B734-64B2B30B78E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Log.Test", "src\Kean\Platform\Kean.Platform.Log.Test\Kean.Platform.Log.Test.csproj", "{D2F9493F-95CB-4084-B734-64B2B30B78E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform", "src\Platform\Kean.Platform\Kean.Platform.csproj", "{ABF16C06-E815-40C8-9194-13D9BE11E019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform", "src\Kean\Platform\Kean.Platform\Kean.Platform.csproj", "{ABF16C06-E815-40C8-9194-13D9BE11E019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings", "src\Platform\Kean.Platform.Settings\Kean.Platform.Settings.csproj", "{881FABE6-BA89-4242-9686-864E75EC541C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Platform.Settings", "src\Kean\Platform\Kean.Platform.Settings\Kean.Platform.Settings.csproj", "{881FABE6-BA89-4242-9686-864E75EC541C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml", "Xml", "{23C800E5-F8A0-4771-B965-8BF93DDB0664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Dom", "src\Xml\Kean.Xml.Dom\Kean.Xml.Dom.csproj", "{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Dom", "src\Kean\Xml\Kean.Xml.Dom\Kean.Xml.Dom.csproj", "{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Dom.Test", "src\Xml\Kean.Xml.Dom.Test\Kean.Xml.Dom.Test.csproj", "{124712B0-21A1-4AFC-AFAD-211662A8E6C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Dom.Test", "src\Kean\Xml\Kean.Xml.Dom.Test\Kean.Xml.Dom.Test.csproj", "{124712B0-21A1-4AFC-AFAD-211662A8E6C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Sax", "src\Xml\Kean.Xml.Sax\Kean.Xml.Sax.csproj", "{125A7070-AA9F-4A6A-A328-6B744D578885}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Sax", "src\Kean\Xml\Kean.Xml.Sax\Kean.Xml.Sax.csproj", "{125A7070-AA9F-4A6A-A328-6B744D578885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize", "src\Xml\Kean.Xml.Serialize\Kean.Xml.Serialize.csproj", "{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize", "src\Kean\Xml\Kean.Xml.Serialize\Kean.Xml.Serialize.csproj", "{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize.Test", "src\Xml\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj", "{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml.Serialize.Test", "src\Kean\Xml\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj", "{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml", "src\Xml\Kean.Xml\Kean.Xml.csproj", "{6AEA339E-D930-4834-995D-301892768C10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Xml", "src\Kean\Xml\Kean.Xml\Kean.Xml.csproj", "{6AEA339E-D930-4834-995D-301892768C10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{B47FEBF3-1FB4-4396-B2D8-E1811AE49068}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex", "src\Math\Kean.Math.Complex\Kean.Math.Complex.csproj", "{164036F9-3982-4111-9283-5B323EF85579}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex", "src\Kean\Math\Kean.Math.Complex\Kean.Math.Complex.csproj", "{164036F9-3982-4111-9283-5B323EF85579}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex.Test", "src\Math\Kean.Math.Complex.Test\Kean.Math.Complex.Test.csproj", "{A1C3ED29-A096-452D-BB4F-C4AA654C0584}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Complex.Test", "src\Kean\Math\Kean.Math.Complex.Test\Kean.Math.Complex.Test.csproj", "{A1C3ED29-A096-452D-BB4F-C4AA654C0584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D", "src\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj", "{DAF18CA8-78EA-417F-8730-0A76B0DA2563}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D", "src\Kean\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj", "{DAF18CA8-78EA-417F-8730-0A76B0DA2563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D.Test", "src\Math\Kean.Math.Geometry2D.Test\Kean.Math.Geometry2D.Test.csproj", "{D0806771-B1E2-48E8-9AC0-8D841E0252A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry2D.Test", "src\Kean\Math\Kean.Math.Geometry2D.Test\Kean.Math.Geometry2D.Test.csproj", "{D0806771-B1E2-48E8-9AC0-8D841E0252A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D", "src\Math\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj", "{98F827EA-9073-43FD-9131-6B2448461519}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D", "src\Kean\Math\Kean.Math.Geometry3D\Kean.Math.Geometry3D.csproj", "{98F827EA-9073-43FD-9131-6B2448461519}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D.Test", "src\Math\Kean.Math.Geometry3D.Test\Kean.Math.Geometry3D.Test.csproj", "{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Geometry3D.Test", "src\Kean\Math\Kean.Math.Geometry3D.Test\Kean.Math.Geometry3D.Test.csproj", "{04C986CD-C42E-4E28-A0C0-CA0C3F45C75E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix", "src\Math\Kean.Math.Matrix\Kean.Math.Matrix.csproj", "{5CC44E3B-2D32-4DA2-BE7C-34835F41E096}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix", "src\Kean\Math\Kean.Math.Matrix\Kean.Math.Matrix.csproj", "{5CC44E3B-2D32-4DA2-BE7C-34835F41E096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix.Test", "src\Math\Kean.Math.Matrix.Test\Kean.Math.Matrix.Test.csproj", "{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Matrix.Test", "src\Kean\Math\Kean.Math.Matrix.Test\Kean.Math.Matrix.Test.csproj", "{BD991150-B5EC-4B16-B216-D3EFBBEC5A56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random", "src\Math\Kean.Math.Random\Kean.Math.Random.csproj", "{AE692B68-D00E-4298-8CF5-861F537D93C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random", "src\Kean\Math\Kean.Math.Random\Kean.Math.Random.csproj", "{AE692B68-D00E-4298-8CF5-861F537D93C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random.Test", "src\Math\Kean.Math.Random.Test\Kean.Math.Random.Test.csproj", "{B5AE13FE-2A69-488B-8B0E-54611C8D4DC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Random.Test", "src\Kean\Math\Kean.Math.Random.Test\Kean.Math.Random.Test.csproj", "{B5AE13FE-2A69-488B-8B0E-54611C8D4DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression", "src\Math\Kean.Math.Regression\Kean.Math.Regression.csproj", "{13697ABD-61C5-4EB0-B205-D5192E248CF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression", "src\Kean\Math\Kean.Math.Regression\Kean.Math.Regression.csproj", "{13697ABD-61C5-4EB0-B205-D5192E248CF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression.Test", "src\Math\Kean.Math.Regression.Test\Kean.Math.Regression.Test.csproj", "{D6CCD665-26E4-4122-A680-930327FF4B8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Regression.Test", "src\Kean\Math\Kean.Math.Regression.Test\Kean.Math.Regression.Test.csproj", "{D6CCD665-26E4-4122-A680-930327FF4B8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Test", "src\Math\Kean.Math.Test\Kean.Math.Test.csproj", "{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math.Test", "src\Kean\Math\Kean.Math.Test\Kean.Math.Test.csproj", "{F1B6351E-9D97-4242-9DFF-CF0E02D725DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math", "src\Math\Kean.Math\Kean.Math.csproj", "{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Math", "src\Kean\Math\Kean.Math\Kean.Math.csproj", "{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{65C6EC63-EBE0-476E-B854-038F645A33D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Test\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test.Run", "src\Kean\Test\Kean.Test.Run\Kean.Test.Run.csproj", "{5E3AAF21-1E60-493D-B58B-66F1BDA18668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test", "src\Test\Kean.Test\Kean.Test.csproj", "{B5E16CAE-808E-448A-8D6E-D770EB91868C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Test", "src\Kean\Test\Kean.Test\Kean.Test.csproj", "{B5E16CAE-808E-448A-8D6E-D770EB91868C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kean", "Kean", "{4F0F7296-A14F-4476-920D-36B1B74CAD5B}"
 	ProjectSection(SolutionItems) = preProject
-		src\Kean\CommonAssemblyInfo.cs = src\Kean\CommonAssemblyInfo.cs
+		src\Kean\Kean\CommonAssemblyInfo.cs = src\Kean\Kean\CommonAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fubl", "Fubl", "{003FD32D-8428-4996-8F7B-A93F3241ECC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Fubl", "src\Fubl\Kean.Fubl\Kean.Fubl.csproj", "{4FCB513D-9EF1-41E7-9DC8-701900BE567F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Fubl", "src\Kean\Fubl\Kean.Fubl\Kean.Fubl.csproj", "{4FCB513D-9EF1-41E7-9DC8-701900BE567F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Vector.Test", "src\Draw\Kean.Draw.Vector.Test\Kean.Draw.Vector.Test.csproj", "{B0457323-DE1A-4E6D-B591-772ADC204B65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Vector.Test", "src\Kean\Draw\Kean.Draw.Vector.Test\Kean.Draw.Vector.Test.csproj", "{B0457323-DE1A-4E6D-B591-772ADC204B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Recycle", "src\Core\Kean.Core.Recycle\Kean.Core.Recycle.csproj", "{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core.Recycle", "src\Kean\Core\Kean.Core.Recycle\Kean.Core.Recycle.csproj", "{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1460,7 +1459,7 @@ Global
 		{4FCB513D-9EF1-41E7-9DC8-701900BE567F} = {003FD32D-8428-4996-8F7B-A93F3241ECC4}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\Test\Kean.Test.Run\Kean.Test.Run.csproj
+		StartupItem = src\Kean\Test\Kean.Test.Run\Kean.Test.Run.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = Flat
