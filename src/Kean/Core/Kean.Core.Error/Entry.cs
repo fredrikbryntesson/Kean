@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core.Extension;
 using Error = Kean.Core.Error;
 
 namespace Kean.Core.Error
@@ -46,15 +47,15 @@ namespace Kean.Core.Error
 		{
 			System.Reflection.MethodBase method = exception.TargetSite ?? new System.Diagnostics.StackTrace().GetFrame(2).GetMethod();
 			Type type = method.DeclaringType;
-			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
+			System.Reflection.AssemblyName assembly = type.NotNull() ? type.Assembly.GetName() : null;
 			return new Entry()
 			{
 				Time = DateTime.Now,
 				Level = level,
 				Title = title,
 				Message = exception.Message,
-				AssemblyName = assembly.Name,
-				AssemblyVersion = assembly.Version.ToString(),
+				AssemblyName = assembly.NotNull() ? assembly.Name : "",
+				AssemblyVersion = assembly.NotNull() ? assembly.Version.ToString() : "",
 				Type = type.FullName,
 				Method = method.Name,
 			};

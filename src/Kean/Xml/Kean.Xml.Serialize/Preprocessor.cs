@@ -52,12 +52,14 @@ namespace Kean.Xml.Serialize
 		}
 		Generic.IEnumerator<Dom.Node> LoadAll(Uri.Path path)
 		{
-			foreach (string file in System.IO.Directory.GetFiles(path.FolderPath.PlattformPath, path.Last.Head).Sort())
-			{
-				Dom.Document document = Dom.Document.Open(Uri.Locator.FromPlattformPath(file));
-				if (document.NotNull() && document.Root.NotNull())
-					yield return document.Root;
-			}
+			string plattformPath = path.FolderPath.PlattformPath;
+			if (System.IO.Directory.Exists(path))
+				foreach (string file in System.IO.Directory.GetFiles(plattformPath, path.Last.Head).Sort())
+				{
+					Dom.Document document = Dom.Document.Open(Uri.Locator.FromPlattformPath(file));
+					if (document.NotNull() && document.Root.NotNull())
+						yield return document.Root;
+				}
 		}
 		Generic.IEnumerator<Dom.Node> Load(Uri.Locator locator)
 		{
