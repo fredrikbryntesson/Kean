@@ -44,6 +44,7 @@
     <Compile Include="Telnet\Option.cs" />
     <Compile Include="Telnet\Server.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+    <Compile Include="Udp\Sender.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
