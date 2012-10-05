@@ -345,6 +345,15 @@ namespace Kean.Math.Geometry2D.Double
 					result[x, y] = value[x, y];
 			return result;
 		}
+		public static explicit operator byte[](TransformValue value)
+		{
+			int size = sizeof(double);
+			byte[] result = new byte[6 * size];
+			for (int x = 0; x < 3; x++)
+				for (int y = 0; y < 2; y++)
+					Array.Copy(value[x, y].AsBinary(), 0, result, (x + y * 3) * size, size);
+			return result;
+		}
         #endregion
         #region Object Overrides
 		/// <summary>

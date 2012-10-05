@@ -65,6 +65,15 @@ namespace Kean.Math.Geometry3D.Integer
             }
             return result;
         }
-        #endregion
+		public static explicit operator byte[](Transform value)
+		{
+			int size = sizeof(float);
+			byte[] result = new byte[12 * size];
+			for (int x = 0; x < 4; x++)
+				for (int y = 0; y < 3; y++)
+					Array.Copy(value[x, y].AsBinary(), 0, result, (x + y * 4) * size, size);
+			return result;
+		}
+		#endregion
     }
 }

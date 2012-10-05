@@ -1255,5 +1255,13 @@ namespace Kean.Math.Matrix
             return result;
         }
         #endregion
-    }
+		public static explicit operator byte[](Single value)
+		{
+			int elementCount = value.elements.Length;
+			byte[] result = new byte[elementCount * sizeof(float)];
+			for (int i = 0; i < elementCount; i++)
+				Array.Copy(value.elements[i].AsBinary(), 0, result, i * sizeof(float), sizeof(float));
+			return result;
+		}
+	}
 }
