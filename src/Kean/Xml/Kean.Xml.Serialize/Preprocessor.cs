@@ -53,7 +53,7 @@ namespace Kean.Xml.Serialize
 		Generic.IEnumerator<Dom.Node> LoadAll(Uri.Path path)
 		{
 			string plattformPath = path.FolderPath.PlattformPath;
-			if (System.IO.Directory.Exists(path))
+			if (System.IO.Directory.Exists(plattformPath))
 				foreach (string file in System.IO.Directory.GetFiles(plattformPath, path.Last.Head).Sort())
 				{
 					Dom.Document document = Dom.Document.Open(Uri.Locator.FromPlattformPath(file));

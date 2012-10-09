@@ -73,7 +73,7 @@ namespace Kean.Platform
 			this.Name = name;
 		}
 		#endregion
-		#region Implemetors Interface
+		#region Implementors Interface
 		internal protected virtual void AddArguments(Argument.Parser parser)
 		{
 		}
