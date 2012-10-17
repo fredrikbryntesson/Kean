@@ -78,12 +78,13 @@ namespace Kean.Core.Uri
                     if (System.IO.Path.DirectorySeparatorChar == '/' && !result.StartsWith("."))
                         result = System.IO.Path.DirectorySeparatorChar + result;
                 }
-				return result;
+				return Path.ResolveSpecialFolderVariables(result);
 			}
 			set
 			{
                 if (value.NotEmpty() && (value[0] == System.IO.Path.DirectorySeparatorChar || value[0] == System.IO.Path.AltDirectorySeparatorChar))
                     value = value.Substring(1);
+				value = Path.InsertSpecialFoldersVariables(value);
 				PathLink tail = null;
 				if (value.NotNull())
 					foreach (string folder in value.Split(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar))
@@ -190,8 +191,31 @@ namespace Kean.Core.Uri
         public static Path FromRelativePlattformPath(string path)
         {
             return Path.FromPlattformPath(System.IO.Path.GetFullPath(path));
-        }
-        #region static operators
+		}
+		#region Resolve & Insert Special Folders Variables
+		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {
+			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
+			KeyValue.Create("Desktop", System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)),
+			KeyValue.Create("ApplicationPath", System.IO.Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]))
+		};
+		static string ResolveSpecialFolderVariables(string platformPath)
+		{
+			string result = platformPath;
+			if (result.NotEmpty())
+				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
+					result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
+			return result;
+		}
+		static string InsertSpecialFoldersVariables(string platformPath)
+		{
+			string result = platformPath;
+			if (result.NotEmpty())
+				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
+					result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
+			return result;
+		}
+		#endregion
+		#region static operators
 		#region Casts with System.IO.FileSystemInfo
 		static PathLink Create(System.IO.DirectoryInfo directory)
 		{
