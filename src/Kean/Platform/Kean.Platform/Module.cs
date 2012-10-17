@@ -65,7 +65,7 @@ namespace Kean.Platform
 		protected event Action<Application> ApplicationChanged;
 		#endregion
 		#region Events
-		event Action<Module> loaded;
+		internal event Action<Module> loaded;
 		#endregion
 		#region Constructors
 		protected Module(string name)
@@ -94,13 +94,13 @@ namespace Kean.Platform
 			this.Mode = Mode.Disposed;
 		}
 		#endregion
-		public virtual void WhenLoaded<T>(Action<T> loaded) where T : Module
+		public virtual void WhenLoaded<T>(Action<T> loaded) where T : class
 		{
 			if (this is T)
 				loaded.Call(this as T);
 			this.loaded += m =>
 			{
-				if (m is T) 
+				if (m is T)
 					loaded.Call(m as T);
 			};
 		}
@@ -145,6 +145,20 @@ namespace Kean.Platform
 			base(name)
 		{ }
 		#endregion
+		public override void WhenLoaded<T>(Action<T> loaded)
+		{
+			if (this.Value is T)
+				loaded.Call(this.Value as T);
+			else if (this is T)
+				loaded.Call(this as T);
+			this.loaded += m =>
+			{
+				if (m is Module<T>)
+					loaded.Call((m as Module<T>).Value);
+				else if (this is T)
+					loaded.Call(this as T);
+			};
+		}
 		protected internal override void Dispose()
 		{
 			if (this.Value is IDisposable)
