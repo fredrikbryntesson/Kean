@@ -94,13 +94,17 @@ namespace Kean.Platform
 			this.Mode = Mode.Disposed;
 		}
 		#endregion
+		public void WhenLoaded(Action<object> loaded)
+		{
+			this.WhenLoaded<object>(loaded);
+		}
 		public virtual void WhenLoaded<T>(Action<T> loaded) where T : class
 		{
-			if (this is T)
+			if (this is T && !(this is Placeholder))
 				loaded.Call(this as T);
 			this.loaded += m =>
 			{
-				if (m is T)
+				if (m is T && !(m is Placeholder))
 					loaded.Call(m as T);
 			};
 		}
