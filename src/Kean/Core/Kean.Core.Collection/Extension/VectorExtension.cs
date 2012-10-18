@@ -134,5 +134,9 @@ namespace Kean.Core.Collection.Extension
 		{
 			return new Merge<T>(me, other);
 		}
+		public static Merge<T> Merge<T>(this IVector<T> me, T[] other)
+		{
+			return new Merge<T>(me, (Vector<T>)other);
+		}
 	}
 }
