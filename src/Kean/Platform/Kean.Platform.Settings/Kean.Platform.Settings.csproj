@@ -49,6 +49,7 @@
     <Compile Include="ParameterAttribute.cs" />
     <Compile Include="Parameter\Abstract.cs" />
     <Compile Include="Parameter\Boolean.cs" />
+    <Compile Include="Parameter\Long.cs" />
     <Compile Include="Parameter\DateTime.cs" />
     <Compile Include="Parameter\Double.cs" />
     <Compile Include="Parameter\Enumeration.cs" />

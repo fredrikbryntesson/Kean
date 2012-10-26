@@ -82,6 +82,8 @@ namespace Kean.Platform.Settings.Parameter
 				result = new StringCastable(type);
 			else if (type == typeof(int))
 				result = new Integer(type);
+			else if (type == typeof(long))
+				result = new Long(type);
 			else if (type == typeof(float))
 				result = new Single(type);
 			else if (type == typeof(double))
