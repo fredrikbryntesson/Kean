@@ -32,10 +32,13 @@ namespace Kean.Platform.Log.Writer
 		public string Filename { get; set; }
 		public override Action<Error.IError> Open()
 		{
-			this.writer = new System.IO.StreamWriter(this.Filename, this.append);
-			if (!this.append)
-				this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
-			this.append = true;
+			if (this.writer.IsNull())
+			{
+				this.writer = new System.IO.StreamWriter(this.Filename, this.append);
+				if (!this.append)
+					this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
+				this.append = true;
+			}
 			return (Error.IError entry) =>
 			{
 				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
@@ -49,7 +52,7 @@ namespace Kean.Platform.Log.Writer
 				entry.Method,
 				entry.Filename,
 				entry.Line,
-				entry.Column); 
+				entry.Column);
 			};
 		}
 		public override void Close()
