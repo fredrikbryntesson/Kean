@@ -41,24 +41,28 @@ namespace Kean.Platform.Log.Writer
 			}
 			return (Error.IError entry) =>
 			{
-				this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
-				entry.Time,
-				entry.Level,
-				entry.Title.Replace("\"", "\"\""),
-				entry.Message.Replace("\"", "\"\""),
-				entry.AssemblyName,
-				entry.AssemblyVersion,
-				entry.Type,
-				entry.Method,
-				entry.Filename,
-				entry.Line,
-				entry.Column);
+				if (this.writer.NotNull())
+					this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
+					entry.Time,
+					entry.Level,
+					entry.Title.Replace("\"", "\"\""),
+					entry.Message.Replace("\"", "\"\""),
+					entry.AssemblyName,
+					entry.AssemblyVersion,
+					entry.Type,
+					entry.Method,
+					entry.Filename,
+					entry.Line,
+					entry.Column);
 			};
 		}
 		public override void Close()
 		{
-			if (writer.NotNull())
-				writer.Close();
+			if (this.writer.NotNull())
+			{
+				this.writer.Close();
+				this.writer = null;
+			}
 		}
 	}
 }
