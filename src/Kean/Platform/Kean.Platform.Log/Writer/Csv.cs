@@ -34,8 +34,20 @@ namespace Kean.Platform.Log.Writer
 		{
 			if (this.writer.IsNull())
 			{
-				this.writer = new System.IO.StreamWriter(this.Filename, this.append);
-				if (!this.append)
+				string filename = this.Filename;
+				for (int i = 0; i < 10; i++)
+				{
+					try
+					{
+						this.writer = new System.IO.StreamWriter(this.Filename, this.append);
+					}
+					catch (System.IO.IOException)
+					{
+						filename = this.Filename + i;
+					}
+				}
+				this.Filename = filename;
+				if (!this.append && this.writer.NotNull())
 					this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
 				this.append = true;
 			}
