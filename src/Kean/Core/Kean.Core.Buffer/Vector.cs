@@ -128,5 +128,9 @@ namespace Kean.Core.Buffer
 			item => Vector<T>.Index(item.Length),
 			size => Vector<T>.Index(size)
 			);
+		public static void Free()
+		{
+			Vector<T>.recycle.Free();
+		}
 	}
 }
