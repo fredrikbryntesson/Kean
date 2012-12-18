@@ -256,5 +256,21 @@ namespace Kean.Core.Extension
 				me[i] = create(i);
 			return me;
 		}
+		public static T[] Prepend<T>(this T[] me, T value)
+		{
+			int length = me.Length;
+			T[] result = new T[length + 1];
+			Array.Copy(me, 0, result, 1, length);
+			result[0] = value;
+			return result;
+		}
+		public static T[] Append<T>(this T[] me, T value)
+		{
+			int length = me.Length;
+			T[] result = new T[length + 1];
+			Array.Copy(me, result, length);
+			result[me.Length] = value;
+			return result;
+		}
 	}
 }
