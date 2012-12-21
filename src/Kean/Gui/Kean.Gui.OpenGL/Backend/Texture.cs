@@ -25,7 +25,6 @@ using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Error = Kean.Core.Error;
-using Log = Kean.Platform.Log;
 using Draw = Kean.Draw;
 using Gpu = Kean.Draw.Gpu;
 using Raster = Kean.Draw.Raster;
@@ -84,12 +83,12 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.GetInteger(OpenTK.Graphics.OpenGL.GetPName.MaxTextureSize, out maximumTextureSize);
 			if (resolution.Width > maximumTextureSize)
 			{
-				Log.Cache.Log(Error.Level.Warning, "Texture Width Exceeds Limit", string.Format("The requested texture size \"{0}\" is bigger than the maximum texture size \"{1}, {1}\". The textures width will be clamped.", resolution, maximumTextureSize));
+				Error.Log.Append(Error.Level.Warning, "Texture Width Exceeds Limit", string.Format("The requested texture size \"{0}\" is bigger than the maximum texture size \"{1}, {1}\". The textures width will be clamped.", resolution, maximumTextureSize));
 				resolution = new Geometry2D.Integer.Size(maximumTextureSize, resolution.Height);
 			}
 			if (resolution.Height > maximumTextureSize)
 			{
-				Log.Cache.Log(Error.Level.Warning, "Texture Height Exceeds Limit", string.Format("The requested texture size \"{0}\" is bigger than the maximum texture size \"{1}, {1}\". The textures height will be clamped.", resolution, maximumTextureSize));
+                Error.Log.Append(Error.Level.Warning, "Texture Height Exceeds Limit", string.Format("The requested texture size \"{0}\" is bigger than the maximum texture size \"{1}, {1}\". The textures height will be clamped.", resolution, maximumTextureSize));
 				resolution = new Geometry2D.Integer.Size(resolution.Width, maximumTextureSize);
 			}
 			return resolution;
