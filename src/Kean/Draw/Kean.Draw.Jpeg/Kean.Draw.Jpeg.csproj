@@ -97,7 +97,7 @@
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
-    <FileUpdate Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
+    <FileUpdate Condition="'$(Revision)' != '-1'" Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
     <Copy Condition="'$(Platform)' == 'x86' And '$(OS)' == 'Windows_NT'" SourceFiles="$(ProjectDir)..\..\..\..\lib\LibJpeg\win32\*.dll" DestinationFolder="$(TargetDir)" />
     <Copy Condition="'$(Platform)' == 'x64' And '$(OS)' == 'Windows_NT'" SourceFiles="$(ProjectDir)..\..\..\..\lib\LibJpeg\win64\*.dll" DestinationFolder="$(TargetDir)" />
   </Target>
