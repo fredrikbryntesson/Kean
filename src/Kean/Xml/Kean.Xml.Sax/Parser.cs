@@ -26,6 +26,7 @@ using Kean.Core.Extension;
 using Text = System.Text;
 using Uri = Kean.Core.Uri;
 using IO = Kean.IO;
+using Error = Kean.Core.Error;
 
 namespace Kean.Xml.Sax
 {
@@ -53,6 +54,25 @@ namespace Kean.Xml.Sax
 			return new IO.Text.Mark(this.reader);
 		}
 		public bool Parse()
+		{
+			bool result;
+			if (Error.Log.CatchErrors)
+			{
+				try
+				{
+					result = this.ParseHelper();
+				}
+				catch (System.Exception e)
+				{
+					Error.Log.Append(Error.Level.Message, "Error Parsing XML Document", "Failed parsing \"" + this.Resource + "\" on line: " + this.Position.Row + " and column: " + this.Position.Column); 
+					result = false;
+				}
+			}
+			else
+				result = ParseHelper();
+			return result;
+		}
+		bool ParseHelper()
 		{
 			this.reader.Next();
 			while (!this.reader.Empty)

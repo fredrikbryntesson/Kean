@@ -45,7 +45,7 @@ namespace Kean.Platform.Log.Writer
 					}
 					catch (System.IO.IOException)
 					{
-						filename = this.Filename + i;
+						filename = System.IO.Path.GetFileNameWithoutExtension(this.Filename) + i + System.IO.Path.GetExtension(this.Filename);
 					}
 				}
 				if (!this.append && this.writer.NotNull())

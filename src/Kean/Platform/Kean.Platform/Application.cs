@@ -207,11 +207,11 @@ namespace Kean.Platform
 
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Created)
-					module.Initialize();
+					this.Run(module.Initialize, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " initialized.", "Module "  + module.Name + " is initialized."),	exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to initialize.", "Module " + module.Name + " failed to initialization with exception: " + exception.GetType() + " and message: " +  exception.Message));
 			this.Mode = Mode.Initialized;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Initialized)
-					module.Start();
+					this.Run(module.Start, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " started.", "Module " + module.Name + " is started."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to start.", "Module " + module.Name + " failed to start with exception: " + exception.GetType() + " and message: " + exception.Message));
 			this.Mode = Mode.Started;
 		}
 		bool Stop()
@@ -249,11 +249,28 @@ namespace Kean.Platform
 			this.Mode = Mode.Stopped;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
-					module.Stop();
+					this.Run(module.Stop, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " stoped.", "Module " + module.Name + " is stoped."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to stop.", "Module " + module.Name + " failed to stop with exception: " + exception.GetType() + " and message: " + exception.Message));
 			this.Mode = Mode.Disposed;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Stopped)
-					module.Dispose();
+					this.Run(module.Dispose, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " disposed.", "Module " + module.Name + " is disposed."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to dispose.", "Module " + module.Name + " failed to dispose with exception: " + exception.GetType() + " and message: " + exception.Message));
+		}
+		void Run(Action action, Action sucess, Action<System.Exception> failed)
+		{
+			if (Error.Log.CatchErrors)
+			{
+				try
+				{
+					action();
+					sucess.Call();
+				}
+				catch (System.Exception e) { failed.Call(e); }
+			}
+			else
+			{
+				action();
+				sucess.Call();
+			}
 		}
 		void Executer()
 		{
