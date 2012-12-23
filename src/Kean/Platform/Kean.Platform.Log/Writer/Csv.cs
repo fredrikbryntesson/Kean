@@ -29,7 +29,6 @@ namespace Kean.Platform.Log.Writer
 	public class Csv :
 		Abstract
 	{
-		bool append;
 		System.IO.TextWriter writer;
 		public string Filename { get; set; }
 		protected override Func<Error.IError, bool> OpenHelper()
@@ -41,16 +40,15 @@ namespace Kean.Platform.Log.Writer
 				{
 					try
 					{
-						this.writer = new System.IO.StreamWriter(filename, this.append);
+						this.writer = new System.IO.StreamWriter(filename);
 					}
 					catch (System.IO.IOException)
 					{
 						filename = System.IO.Path.GetFileNameWithoutExtension(this.Filename) + i + System.IO.Path.GetExtension(this.Filename);
 					}
 				}
-				if (!this.append && this.writer.NotNull())
+				if (this.writer.NotNull())
 					this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
-				this.append = true;
 			}
 			return (Error.IError entry) =>
 			{

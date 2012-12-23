@@ -27,6 +27,7 @@ using Error = Kean.Core.Error;
 namespace Kean.Platform.Log.Writer
 {
 	public abstract class Abstract :
+		Synchronized,
 		IDisposable
 	{
 		Func<Error.IError, bool> append;
@@ -51,10 +52,13 @@ namespace Kean.Platform.Log.Writer
 		protected abstract Func<Error.IError, bool> OpenHelper();
 		public bool Close()
 		{
-			bool result;
-			if (result = this.Opened && Abstract.Call<bool>(this.CloseHelper))
-				this.append = null;
-			return result;
+			lock (this.Lock)
+			{
+				bool result;
+				if (result = this.Opened && Abstract.Call<bool>(this.CloseHelper))
+					this.append = null;
+				return result;
+			}
 		}
 		protected abstract bool CloseHelper();
 		public bool Append(Error.IError error)
@@ -79,7 +83,7 @@ namespace Kean.Platform.Log.Writer
 			T result;
 			if (Error.Log.CatchErrors)
 				try { result = call(); }
-				catch { result = default(T); }
+				catch (System.Exception e) { result = default(T); }
 			else
 				result = call();
 			return result;

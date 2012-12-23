@@ -76,20 +76,6 @@ namespace Kean.Platform.Log
 				this.LogThreshold = this.AllThreshold = Error.Exception.Threshold = Error.Level.Warning;
 			});
 		}
-		protected override void Initialize()
-		{
-			this.Application.OnError += error => 
-			{
-				this.Append(error);
-				this.cache.Flush(); 
-			};
-			this.Application.OnClosed += () =>
-			{
-				if (this.SaveLog)
-					this.cache.Flush();
-			};
-			base.Initialize();
-		}
 		protected override void Start()
 		{
 			this.Append(Error.Level.Message, "Product", this.Application.Product);
@@ -122,5 +108,16 @@ namespace Kean.Platform.Log
 			this.cache.Flush();
 		}
 		#endregion
+		protected override void Dispose()
+		{
+			if (this.cache.NotNull())
+			{
+				if (this.SaveLog)
+					this.Flush();
+				this.cache.Dispose();
+				this.cache = null;
+			}
+			base.Dispose();
+		}
 	}
 }

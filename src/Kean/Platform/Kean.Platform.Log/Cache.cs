@@ -61,8 +61,12 @@ namespace Kean.Platform.Log
 		#region IDisposable Members
 		public void Dispose()
 		{
-			Cache.append -= this.Append;
-			this.Writers.Apply(writer => writer.Close());
+			if (this.Writers.NotNull())
+			{
+				Cache.append -= this.Append;
+				this.Writers.Apply(writer => writer.Close());
+				this.Writers = null;
+			}
 		}
 		#endregion
 		public void Append(Error.Level level, string title, System.Exception exception)
@@ -79,9 +83,12 @@ namespace Kean.Platform.Log
 			{
 				if (entry.Level >= this.AllThreshold)
 					this.log.Enqueue(this.cache);
-				else if (this.cacheList.Count >= this.CacheSize)
-					this.ReduceCache();
-				this.cache.Enqueue(entry);
+				else
+				{
+					if (this.cacheList.Count >= this.CacheSize)
+						this.ReduceCache();
+					this.cache.Enqueue(entry);
+				}
 			}
 		}
 		void ReduceCache()
@@ -98,7 +105,7 @@ namespace Kean.Platform.Log
 				while (!this.cache.Empty)
 					this.ReduceCache();
 				while (!this.log.Empty)
-					save.TrueExists(this.log.Dequeue());
+					save(this.log.Dequeue());
 				this.Writers.Apply(w => w.Flush());
 			}
 		}
