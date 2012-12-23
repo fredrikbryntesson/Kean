@@ -48,6 +48,54 @@ namespace Kean.Core.Uri
 			if (this.Head.NotNull())
 				this.Head = this.Head.Keep(keys);
 		}
+		public int Get(string key, int @default)
+		{
+			int result;
+			if (!int.TryParse(this[key] ?? "", out result))
+				result = @default;
+			return result;
+		}
+		public float Get(string key, float @default)
+		{
+			float result;
+			if (!float.TryParse(this[key] ?? "", out result))
+				result = @default;
+			return result;
+		}
+		public double Get(string key, double @default)
+		{
+			double result;
+			if (!double.TryParse(this[key] ?? "", out result))
+				result = @default;
+			return result;
+		}
+		public bool Get(string key, bool @default)
+		{
+			bool result;
+			if (!bool.TryParse(this[key] ?? "", out result))
+				result = @default;
+			return result;
+		}
+		public bool NotFalse(string key)
+		{
+			bool result;
+			if (!bool.TryParse(this[key] ?? "", out result))
+				result = true;
+			return result;
+		}
+		public T GetEnumeration<T>(string key, T @default) where T : struct
+		{
+			T result;
+			try
+			{
+				result = (T)(Enum.Parse(typeof(T), this[key] ?? @default.ToString(), true) ?? @default);
+			}
+			catch (Exception e)
+			{
+				result = @default;
+			}
+			return result;
+		}
 
 		#region IString Members
 		public string String
