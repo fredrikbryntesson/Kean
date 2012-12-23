@@ -20,20 +20,23 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 using Error = Kean.Core.Error;
 
 namespace Kean.Platform.Log.Writer
 {
 	public abstract class Abstract :
-		IWriter,
 		IDisposable
 	{
+		Func<Error.IError, bool> append;
+		public bool Opened { get { return this.append.NotNull(); } }
 		protected Abstract()
 		{
 		}
 		~Abstract()
 		{
-			Error.Log.Wrap((Action)(this as IDisposable).Dispose)();
+			(this as IDisposable).Dispose();
 		}
 		#region IDisposable Members
 		void IDisposable.Dispose()
@@ -41,8 +44,45 @@ namespace Kean.Platform.Log.Writer
 			this.Close();
 		}
 		#endregion
-
-		public abstract Action<Error.IError> Open();
-		public abstract void Close();
+		public bool Open()
+		{
+			return !this.Opened && (this.append = Abstract.Call<Func<Error.IError, bool>>(this.OpenHelper)).NotNull();
+		}
+		protected abstract Func<Error.IError, bool> OpenHelper();
+		public bool Close()
+		{
+			bool result;
+			if (result = this.Opened && Abstract.Call<bool>(this.CloseHelper))
+				this.append = null;
+			return result;
+		}
+		protected abstract bool CloseHelper();
+		public bool Append(Error.IError error)
+		{
+			return this.Opened ? Abstract.Call<bool>(() => this.append(error)) : this.Open() && Abstract.Call(() => this.append(error));
+		}
+		public bool Flush()
+		{
+			return Abstract.Call<bool>(this.FlushHelper);
+		}
+		protected abstract bool FlushHelper();
+		static void Call(Action action)
+		{
+			if (Error.Log.CatchErrors)
+				try { action(); }
+				catch { }
+			else
+				action();
+		}
+		static T Call<T>(Func<T> call)
+		{
+			T result;
+			if (Error.Log.CatchErrors)
+				try { result = call(); }
+				catch { result = default(T); }
+			else
+				result = call();
+			return result;
+		}
 	}
 }

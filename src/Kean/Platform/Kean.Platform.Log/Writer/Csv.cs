@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,9 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core;
 using Kean.Core.Extension;
 using Error = Kean.Core.Error;
 
@@ -30,7 +32,7 @@ namespace Kean.Platform.Log.Writer
 		bool append;
 		System.IO.TextWriter writer;
 		public string Filename { get; set; }
-		public override Action<Error.IError> Open()
+		protected override Func<Error.IError, bool> OpenHelper()
 		{
 			if (this.writer.IsNull())
 			{
@@ -39,26 +41,26 @@ namespace Kean.Platform.Log.Writer
 				{
 					try
 					{
-						this.writer = new System.IO.StreamWriter(this.Filename, this.append);
+						this.writer = new System.IO.StreamWriter(filename, this.append);
 					}
 					catch (System.IO.IOException)
 					{
 						filename = this.Filename + i;
 					}
 				}
-				this.Filename = filename;
 				if (!this.append && this.writer.NotNull())
 					this.writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", "Time", "Level", "Title", "Message", "Assembly", "Version", "Class", "Method", "Source", "Line", "Column");
 				this.append = true;
 			}
 			return (Error.IError entry) =>
 			{
-				if (this.writer.NotNull())
+				bool result;
+				if (result = this.writer.NotNull())
 					this.writer.WriteLine("{0},{1},\"{2}\",\"{3}\",\"{4}\",{5},{6},{7},{8},{9},{10}",
 					entry.Time,
 					entry.Level,
-					entry.Title.Replace("\"", "\"\""),
-					entry.Message.Replace("\"", "\"\""),
+					entry.Title.NotEmpty() ? entry.Title.Replace("\"", "\"\"") : entry.Title,
+					entry.Message.NotEmpty() ? entry.Message.Replace("\"", "\"\"") : entry.Message,
 					entry.AssemblyName,
 					entry.AssemblyVersion,
 					entry.Type,
@@ -66,15 +68,25 @@ namespace Kean.Platform.Log.Writer
 					entry.Filename,
 					entry.Line,
 					entry.Column);
+				return result;
 			};
 		}
-		public override void Close()
+		protected override bool CloseHelper()
 		{
-			if (this.writer.NotNull())
+			bool result;
+			if (result = this.writer.NotNull())
 			{
 				this.writer.Close();
 				this.writer = null;
 			}
+			return result;
+		}
+		protected override bool FlushHelper()
+		{
+			bool result;
+			if (result = this.writer.NotNull())
+				this.writer.Flush();
+			return result;
 		}
 	}
 }

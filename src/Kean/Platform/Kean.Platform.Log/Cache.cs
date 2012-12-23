@@ -36,7 +36,7 @@ namespace Kean.Platform.Log
 		Collection.IQueue<Error.IError> cache;
 		public Error.Level LogThreshold { get; set; }
 		public Error.Level AllThreshold { get; set; }
-		public Collection.IList<IWriter> Writers { get; private set; }
+		public Collection.IList<Writer.Abstract> Writers { get; private set; }
 		public int CacheSize 
 		{
 			get { lock(this.Lock) return this.cacheList.Capacity;}
@@ -48,20 +48,21 @@ namespace Kean.Platform.Log
 						this.ReduceCache();
 					this.cacheList.Capacity = value;
 				}
-			} 
+			}
 		}
 		public Cache()
 		{
 			this.LogThreshold = Kean.Core.Error.Level.Message;
 			this.AllThreshold = Kean.Core.Error.Level.Critical;
 			this.cache = new Collection.Wrap.ListQueue<Error.IError>(this.cacheList);
-			this.Writers = new Kean.Core.Collection.List<IWriter>();
+			this.Writers = new Kean.Core.Collection.List<Writer.Abstract>();
 			Cache.append += this.Append;
 		}
 		#region IDisposable Members
 		public void Dispose()
 		{
 			Cache.append -= this.Append;
+			this.Writers.Apply(writer => writer.Close());
 		}
 		#endregion
 		public void Append(Error.Level level, string title, System.Exception exception)
@@ -91,12 +92,15 @@ namespace Kean.Platform.Log
 		}
 		public void Flush()
 		{
-			Action<Error.IError> save = this.Writers.Fold((w, a) => a += w.Open(), (Action<Error.IError>)null);
-			while (!this.cache.Empty)
-				this.ReduceCache();
-			while (!this.log.Empty)
-				save.Call(this.log.Dequeue());
-			this.Writers.Apply(w => w.Close());
+			lock (this.Lock)
+			{
+				Func<Error.IError, bool> save = this.Writers.Fold((w, a) => a += w.Append, (Func<Error.IError, bool>)null);
+				while (!this.cache.Empty)
+					this.ReduceCache();
+				while (!this.log.Empty)
+					save.TrueExists(this.log.Dequeue());
+				this.Writers.Apply(w => w.Flush());
+			}
 		}
 		static event Action<Error.IError> append;
 		public static void Log(Error.IError entry)
