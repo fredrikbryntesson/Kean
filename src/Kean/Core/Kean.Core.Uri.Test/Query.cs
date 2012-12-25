@@ -91,7 +91,7 @@ namespace Kean.Core.Uri.Test
 			query["keyB"] = "valueB";
 			Expect((string)query, Is.EqualTo("keyB=valueB&keyA=valueA"), this.prefix + "AddQuery.0");
 			query = new Target.Query();
-			string a = query.ToString();
+			query.ToString();
 			query["keyB"] = "valueB";
 			query["keyC"] = "valueC";
 			Expect((string)query, Is.EqualTo("keyC=valueC&keyB=valueB"), this.prefix + "AddQuery.1");

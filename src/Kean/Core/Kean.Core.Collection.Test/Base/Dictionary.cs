@@ -32,8 +32,17 @@ namespace Kean.Core.Collection.Test.Base
         where D : Target.IDictionary<string, int>
 	{
 		public string[] Correct { get; private set; }
-		public string Prefix { get; set; }
 		protected Dictionary()
+		{
+			this.Initialize();
+		}
+		public Dictionary (string prefix) :
+			base(prefix)
+		{
+			this.Initialize();
+		}
+
+		void Initialize()
 		{
 			this.Correct = new string[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen" };
 		}

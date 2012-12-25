@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.IO.Text
 {
@@ -37,9 +38,9 @@ namespace Kean.IO.Text
 		{
             this.end = new Position(this.reader);
 		}
-		public static implicit operator Region(Mark mark)
+		public static implicit operator Uri.Region(Mark mark)
 		{
-            return new Region(mark.reader.Resource, mark.start, mark.end ?? new Position(mark.reader));
+            return new Uri.Region(mark.reader.Resource, mark.start, mark.end ?? new Position(mark.reader));
 		}
 	}
 }

@@ -30,10 +30,9 @@ namespace Kean.Core.Collection.Test.Linked
 	public class Dictionary :
 		Base.Dictionary<Dictionary, Target.Linked.Dictionary<string, int>>
 	{
-		public Dictionary()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.Linked.Dictionary.";
-		}
+		public Dictionary() :
+			base("Kean.Core.Collection.Test.Linked.Dictionary.")
+		{ }
 		protected override Target.Linked.Dictionary<string, int> Create (int size)
 		{
 			return new Target.Linked.Dictionary<string, int>();

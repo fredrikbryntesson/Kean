@@ -132,7 +132,6 @@ namespace Kean.Core.Extension
 		public static string Join(this System.Collections.Generic.IEnumerable<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
-			bool first = true;
 			System.Collections.Generic.IEnumerator<string> enumerator = me.GetEnumerator();
 			if (enumerator.MoveNext())
 			{

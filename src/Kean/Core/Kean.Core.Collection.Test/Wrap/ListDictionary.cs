@@ -30,10 +30,9 @@ namespace Kean.Core.Collection.Test.Wrap
 	public class ListDictionary :
 		Base.Dictionary<ListDictionary, Target.Wrap.ListDictionary<string, int>>
 	{
-		public ListDictionary()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.Wrap.Dictionary.";
-		}
+		public ListDictionary() :
+			base("Kean.Core.Collection.Test.Wrap.Dictionary.")
+		{ }
 		protected override Target.Wrap.ListDictionary<string, int> Create (int size)
 		{
 			return new Target.Wrap.ListDictionary<string, int>(size);

@@ -73,7 +73,8 @@ namespace Kean.Core.Error
 		}
 		public static Func<bool> Wrap(string title, Func<bool> task)
 		{
-			return Log.CatchErrors ? () =>
+			if (Log.CatchErrors)
+				task = () =>
 			{
 				bool result = false;
 				try 
@@ -91,7 +92,8 @@ namespace Kean.Core.Error
 					Log.Append(Error.Level.Recoverable, title, e);
 				}
 				return result;
-			} : (Func<bool>)task;
+			};
+			return task;
 		}
 		public static Action Wrap(Action task)
 		{
@@ -99,19 +101,23 @@ namespace Kean.Core.Error
 		}
 		public static Action Wrap(string title, Action task)
 		{
-			return Log.CatchErrors ? () =>
-			{
-				try { task.Call(); }
-				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Exception e)
+			if (Log.CatchErrors)
+				task = () =>
 				{
-					Log.Append(e);
-				}
-				catch (System.Exception e)
-				{
-					Log.Append(Level.Recoverable, title, e);
-				}
-			} : (Action)task.Call;
+					try { task.Call(); }
+					catch (System.Threading.ThreadInterruptedException) { throw; }
+					catch (Exception e)
+					{
+						Log.Append(e);
+					}
+					catch (System.Exception e)
+					{
+						Log.Append(Level.Recoverable, title, e);
+					}
+				};
+			else
+				task = task.Call;
+			return task;
 		}
 		public static Action<T> Wrap<T>(Action<T> task)
 		{
@@ -119,19 +125,23 @@ namespace Kean.Core.Error
 		}
 		public static Action<T> Wrap<T>(string title, Action<T> task)
 		{
-			return Log.CatchErrors ? (argument) =>
-			{
-				try { task.Call(argument); }
-				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Exception e)
+			if (Log.CatchErrors)
+				task = argument =>
 				{
-					Log.Append(e);
-				}
-				catch (System.Exception e)
-				{
-					Log.Append(Level.Recoverable, title, e);
-				}
-			} : (Action<T>)task.Call;
+					try { task.Call(argument); }
+					catch (System.Threading.ThreadInterruptedException) { throw; }
+					catch (Exception e)
+					{
+						Log.Append(e);
+					}
+					catch (System.Exception e)
+					{
+						Log.Append(Level.Recoverable, title, e);
+					}
+				};
+			else
+				task = task.Call;
+			return task;
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(Action<T1, T2> task)
 		{
@@ -139,19 +149,23 @@ namespace Kean.Core.Error
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(string title, Action<T1, T2> task)
 		{
-			return Log.CatchErrors ? (argument1, argument2) =>
-			{
-				try { task.Call(argument1, argument2); }
-				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Exception e)
+			if (Log.CatchErrors)
+				task = (argument1, argument2) =>
 				{
-					Log.Append(e);
-				}
-				catch (System.Exception e)
-				{
-					Log.Append(Level.Recoverable, title, e);
-				}
-			} : (Action<T1, T2>)task.Call;
+					try { task.Call(argument1, argument2); }
+					catch (System.Threading.ThreadInterruptedException) { throw; }
+					catch (Exception e)
+					{
+						Log.Append(e);
+					}
+					catch (System.Exception e)
+					{
+						Log.Append(Level.Recoverable, title, e);
+					}
+				};
+			else
+				task = task.Call;
+			return task;
 		}
 		#endregion
 	}

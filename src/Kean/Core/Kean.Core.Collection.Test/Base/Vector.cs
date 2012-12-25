@@ -32,9 +32,11 @@ namespace Kean.Core.Collection.Test.Base
 		where A : Target.IVector<int>
 	{
 		public A ZeroToNine { get; set; }
-        public string Prefix { get; set; }
 
 		protected Vector ()
+		{ }
+		protected Vector (string prefix) :
+			base(prefix)
 		{ }
 
 		public abstract A Create(int count);

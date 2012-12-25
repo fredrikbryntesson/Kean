@@ -54,7 +54,7 @@ namespace Kean.Draw.Net.Test
                 //    image.Save("frames/test" + (counter++).ToString("0000") + ".png");
                     Console.Write(".");
 				};
-				bool starting = jpeg.Play();
+				jpeg.Play();
                 DateTime now = DateTime.Now;
                 while (counter < 20 && (DateTime.Now - now).Duration().TotalSeconds < 10)
 					System.Threading.Thread.Sleep(10);

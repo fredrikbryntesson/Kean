@@ -139,7 +139,6 @@ namespace Kean.Core.Extension
 		public static string Join(this Generic.IEnumerator<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
-			bool first = true;
 			if (me.MoveNext())
 			{
 				result.Append(me.Current);

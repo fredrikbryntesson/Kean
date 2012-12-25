@@ -144,7 +144,7 @@ namespace Kean.Math.Complex
         }
         public static Double RootOfUnity(int n, int k)
         {
-            return Double.Exponential(new Double(0, 2 * k * Kean.Math.Double.Pi / n));
+            return Double.Exponential(new Double(0, 2 * k * Kean.Math.Double.PI / n));
         }
         #endregion
         #region Object overides and IEquatable<Double>

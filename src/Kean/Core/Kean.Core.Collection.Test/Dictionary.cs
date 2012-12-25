@@ -29,10 +29,9 @@ namespace Kean.Core.Collection.Test
 	public class Dictionary :
 		Base.Dictionary<Dictionary, Target.Dictionary<string, int>>
 	{
-		public Dictionary()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.Dictionary.";
-		}
+		public Dictionary() :
+			base("Kean.Core.Collection.Test.Dictionary.")
+		{ }
 		protected override Target.Dictionary<string, int> Create (int size)
 		{
 			return new Target.Dictionary<string, int>(size);

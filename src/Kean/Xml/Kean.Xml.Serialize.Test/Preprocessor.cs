@@ -20,7 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using NUnit.Framework;
 using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
@@ -33,10 +32,8 @@ namespace Kean.Xml.Serialize.Test
 	public class Preprocessor :
 		Factory<Preprocessor>
 	{
-		Serialize.Storage storage;
 		protected override void Test(Reflect.Type type)
 		{
-			Uri.Locator filename = this.Filename(type);
 			Uri.Locator resource = this.ResourceName(type);
 			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
@@ -46,7 +43,6 @@ namespace Kean.Xml.Serialize.Test
 		}
 		public override void Setup()
 		{
-			storage = new Storage();
 			base.Setup();
 		}
 

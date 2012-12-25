@@ -57,16 +57,6 @@ namespace Kean.Core.Parallel
 		}
 		#endregion
 
-		#region IDisposable Members
-		public void Dispose()
-		{
-			if (this.Backend.NotNull())
-			{
-				this.Abort();
-				this.Backend = null;
-			}
-		}
-		#endregion
 		public bool Stop()
 		{
 			return this.Join(100);
@@ -83,11 +73,11 @@ namespace Kean.Core.Parallel
 		}
 		#region Static Creators
 		static int counter;
-		public static RepeatThread Start(Action task)
+		public static new RepeatThread Start(Action task)
 		{
 			return RepeatThread.Start("RepeatThread" + RepeatThread.counter++, task);
 		}
-		public static RepeatThread Start(string name, Action task)
+		public static new RepeatThread Start(string name, Action task)
 		{
 			return new RepeatThread(name, task);
 		}

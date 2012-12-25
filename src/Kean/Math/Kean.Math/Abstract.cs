@@ -39,7 +39,7 @@ namespace Kean.Math
         public static R Zero { get { return new R().ZeroHelper; } }
         public static R One { get { return new R().OneHelper; } }
         public static R Two { get { return new R().TwoHelper; } }
-        public static R Pi { get { return new R().PiHelper; } }
+        public static R PI { get { return new R().PiHelper; } }
         public static R Precision { get { return new R().EpsilonHelper; } }
         #endregion
         #region Constructors

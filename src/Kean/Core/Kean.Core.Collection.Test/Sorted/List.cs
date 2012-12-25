@@ -28,11 +28,9 @@ namespace Kean.Core.Collection.Test.Sorted
     public class List :
         Kean.Test.Fixture<List>
     {
-        public string Prefix { get; set; }
-        public List()
-        {
-            this.Prefix = "Kean.Core.Collection.Test.Sorted.List.";
-        }
+        public List() :
+			base("Kean.Core.Collection.Test.Sorted.List.")
+        { }
         protected override void  Run()
         {
             this.Run(

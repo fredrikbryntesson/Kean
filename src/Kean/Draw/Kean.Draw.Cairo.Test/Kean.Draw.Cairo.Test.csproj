@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -60,10 +60,6 @@
       <Project>{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}</Project>
       <Name>Kean.Draw.Cairo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
-      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
-      <Name>Kean.Draw.Raster.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Raster\Kean.Draw.Raster.csproj">
       <Project>{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}</Project>
       <Name>Kean.Draw.Raster</Name>
@@ -83,6 +79,10 @@
     <ProjectReference Include="..\..\Test\Kean.Test\Kean.Test.csproj">
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
+      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
+      <Name>Kean.Draw.Raster.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

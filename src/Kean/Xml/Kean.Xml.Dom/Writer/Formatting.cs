@@ -111,11 +111,10 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(Element element)
 		{
-			bool noNewlines;
 			return element.IsNull() || (this.Write("<") && this.Write(element.Name) && 
 				element.Attributes.Fold((attribute, result) => result && this.Write(attribute), true) &&
 				element.Count > 0 ?
-				this.Write(">") && (noNewlines = !element.Exists(n => n is Element) || this.WriteLine()) && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
+				this.Write(">") && (!element.Exists(n => n is Element) || this.WriteLine()) && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
 				this.WriteLine(" />"));
 		}
 		public bool Write(Fragment fragment)

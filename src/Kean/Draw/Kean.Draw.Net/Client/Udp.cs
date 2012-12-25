@@ -44,7 +44,7 @@ namespace Kean.Draw.Net.Client
                 this.client.Client.Bind(this.endPoint);
                 result = true;
             }
-            catch (Exception e)
+            catch (Exception)
             { }
             return result;
         }

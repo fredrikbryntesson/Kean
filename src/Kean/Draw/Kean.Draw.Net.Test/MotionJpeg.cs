@@ -30,7 +30,9 @@ namespace Kean.Draw.Net.Test
     public class MotionJpeg :
         Kean.Test.Fixture<MotionJpeg>
     {
-        string prefix = "Kean.Draw.Net.MotionJpeg.";
+		public MotionJpeg () : 
+			base("Kean.Draw.Net.MotionJpeg.")
+		{ }
         protected override void Run()
         {
             this.Run(

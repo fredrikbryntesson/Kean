@@ -79,7 +79,7 @@ namespace Kean.Draw.Net.Http
                             request.Abort();
                         }
                     }
-                    catch (System.Exception e)
+                    catch (System.Exception)
                     { }
                 } while (attempt++ < this.attempts);
             });
@@ -87,8 +87,16 @@ namespace Kean.Draw.Net.Http
         }
         public bool Stop()
         {
-            this.stopped = true;
-            return true;
+			bool result;
+			if (result = this.thread.NotNull())
+			{
+				this.thread.Abort();
+				this.thread.Join(100);
+				this.thread.Dispose();
+				this.thread = null;
+            	this.stopped = true;
+			}
+            return result;
         }
         protected abstract void StreamParser(System.Net.WebResponse response, byte[] buffer, int readSize);
         protected virtual void Initialize()

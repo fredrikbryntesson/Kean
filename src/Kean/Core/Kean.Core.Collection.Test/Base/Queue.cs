@@ -31,7 +31,11 @@ namespace Kean.Core.Collection.Test.Base
         where T : Kean.Test.Fixture<T>, new()
         where Q : Target.IQueue<int>, new()
 	{
-		public string Prefix { get; set; }
+		protected Queue ()
+		{ }
+		protected Queue (string prefix) :
+			base(prefix)
+		{ }
 
         protected override void Run()
 		{

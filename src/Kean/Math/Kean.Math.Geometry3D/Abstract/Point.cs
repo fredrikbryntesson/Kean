@@ -33,9 +33,9 @@ namespace Kean.Math.Geometry3D.Abstract
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
 	{
-		public V X { get { return base.X; } }
-		public V Y { get { return base.Y; } }
-        public V Z { get { return base.Z; } }
+		public new V X { get { return base.X; } }
+		public new V Y { get { return base.Y; } }
+        public new V Z { get { return base.Z; } }
 		#region IPoint<V> Members
 		V IPoint<V>.X { get { return this.X; } }
 		V IPoint<V>.Y { get { return this.Y; } }

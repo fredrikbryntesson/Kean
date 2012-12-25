@@ -130,14 +130,14 @@ namespace Kean.Platform
 			return this.Name;
 		}
 	}
-	public class Module<T> :
+	public class Module<V> :
 		Module
 	{
 		[Serialize.Parameter("Value")]
-		public T Value { get; set; }
+		public V Value { get; set; }
 
 		#region Constructors
-		public Module(string name, T value) :
+		public Module(string name, V value) :
 			this(name)
 		{
 			this.Value = value;
@@ -168,7 +168,7 @@ namespace Kean.Platform
 			if (this.Value is IDisposable)
 			{
 				(this.Value as IDisposable).Dispose();
-				this.Value = default(T);
+				this.Value = default(V);
 			}
 			base.Dispose();
 		}

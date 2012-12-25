@@ -30,7 +30,6 @@ namespace Kean.Core.Serialize.Data
 	public class Enumeration :
 		Leaf<object>
 	{
-		Reflect.Type type;
 		public override string Text { get { return this.Value.ToString(); } }
 		public override byte[] Raw 
 		{ 
@@ -54,8 +53,6 @@ namespace Kean.Core.Serialize.Data
 		}
 		public Enumeration(object value, Reflect.Type type) :
 			base(value, type)
-		{
-			this.type = type;
-		}
+		{ }
 	}
 }

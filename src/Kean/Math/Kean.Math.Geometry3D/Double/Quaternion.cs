@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  Quaternion.cs
 //  
 //  Author:
@@ -74,7 +74,7 @@ namespace Kean.Math.Geometry3D.Double
                 if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - 0.5) > 1e-5)
                     result = Kean.Math.Double.ArcusSinus(Kean.Math.Double.Clamp(2 * (this.X * this.Z - this.W * this.Y), -1, 1));
                 else
-                    result = Kean.Math.Double.Sign(value) * Kean.Math.Double.Pi / 2;
+                    result = Kean.Math.Double.Sign(value) * Kean.Math.Double.PI / 2;
                 return result;
 
             }

@@ -28,7 +28,7 @@ namespace Kean.Math
     {
         #region Abtract Properties
         protected override Double EpsilonHelper { get { return Double.Epsilon; } }
-        protected override Double PiHelper { get { return Double.Pi; } }
+        protected override Double PiHelper { get { return Double.PI; } }
         #endregion
         #region Constructors
         public Double() :
@@ -72,11 +72,11 @@ namespace Kean.Math
         #region Trigonometric Helpers
         public override Double ToRadians()
         {
-            return Double.Pi / 180 * this;
+            return Double.PI / 180 * this;
         }
         public override Double ToDegrees()
         {
-            return 180 / Double.Pi * this;
+            return 180 / Double.PI * this;
         }
         #endregion
 		#region Utility Functions

@@ -31,7 +31,7 @@ namespace Kean.Math
         public static double Epsilon { get { return double.Epsilon; } }
         public static double MinimumValue { get { return double.MinValue; } }
         public static double MaximumValue { get { return double.MaxValue; } }
-        public static double Pi { get { return System.Math.PI; } }
+        public static new double PI { get { return System.Math.PI; } }
         public static double E { get { return System.Math.E; } }
         #endregion
         #region Convert Functions
@@ -129,11 +129,11 @@ namespace Kean.Math
         #region Trigonometric Functions
         public static double ToRadians(double angle)
         {
-            return Double.Pi / 180 * angle;
+            return Double.PI / 180 * angle;
         }
         public static double ToDegrees(double angle)
         {
-            return 180 / Double.Pi * angle;
+            return 180 / Double.PI * angle;
         }
         /// <summary>
         /// Convert arbitrary angle in radians to angle in interval [0, 2 * Pi] (i.e. calculate the remainder modulo 2 * Pi).  
@@ -142,7 +142,7 @@ namespace Kean.Math
         /// <returns>Angle <paramref name="radians"/>converted to remainder.</returns>
         public static double ModuloTwoPi(double value)
         {
-            return Double.Modulo(value, 2 * Double.Pi);
+            return Double.Modulo(value, 2 * Double.PI);
         }
         /// <summary>
         /// Convert angle in the interval [0, 2 * Pi] to the interval [- Pi, Pi].
@@ -152,7 +152,7 @@ namespace Kean.Math
         public static double MinusPiToPi(double value)
         {
             value = Double.ModuloTwoPi(value);
-            return (value <= Double.Pi) ? value : (value - 2 * Double.Pi);
+            return (value <= Double.PI) ? value : (value - 2 * Double.PI);
         }
         public static double Sinus(double value)
         {

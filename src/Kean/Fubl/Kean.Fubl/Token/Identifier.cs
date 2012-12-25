@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Fubl.Token
 {
@@ -27,7 +28,7 @@ namespace Kean.Fubl.Token
         Abstract
     {
         public string Name { get; private set; }
-        public Identifier(string name, IO.Text.Region region) :
+        public Identifier(string name, Uri.Region region) :
             base(region)
         {
             this.Name = name;

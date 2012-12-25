@@ -37,14 +37,17 @@ namespace Kean.Xml.Serialize
 		{ }
 		protected override Generic.IEnumerator<Dom.Node> Process(Dom.ProcessingInstruction instruction)
 		{
+			Generic.IEnumerator<Dom.Node> result;
 			switch (instruction.Target)
 			{
 				case "include":
-					return this.Process(this.LoadAll(((Uri.Locator)instruction.Value).Resolve((Uri.Locator)instruction.Region.Resource)));
+					result = this.Process(this.LoadAll(((Uri.Locator)instruction.Value).Resolve((Uri.Locator)instruction.Region.Resource)));
 					break;
 				default:
-					return base.Process(instruction);
+					result = base.Process(instruction);
+					break;
 			}
+			return result;
 		}
 		Generic.IEnumerator<Dom.Node> LoadAll(Uri.Locator locator)
 		{

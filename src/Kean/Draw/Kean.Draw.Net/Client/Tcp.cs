@@ -41,7 +41,7 @@ namespace Kean.Draw.Net.Client
                 this.client.Connect(locator.Authority.Endpoint.Host.ToString(), locator.Authority.Endpoint.Port.HasValue ? (int)locator.Authority.Endpoint.Port.Value : 554);
                 result = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {}
             return result;
         }

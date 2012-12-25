@@ -31,8 +31,11 @@ namespace Kean.Core.Collection.Test.Base
         where T : Kean.Test.Fixture<T>, new()
 		where S : Target.IStack<int>, new()
 	{
-		public string Prefix { get; set; }
-
+		protected Stack ()
+		{ }
+		protected Stack (string prefix) :
+			base(prefix)
+		{ }
 		protected override void Run()
 		{
             this.Run(

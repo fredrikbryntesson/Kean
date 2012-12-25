@@ -29,9 +29,9 @@ namespace Kean.Core.Collection.Test.Array
 	public class List :
 		Base.List<List, Target.List<int>>
 	{
-		public List ()
+		public List () :
+			base("Kean.Core.Collection.Test.Array.List.")
 		{
-			this.Prefix = "Kean.Core.Collection.Test.Array.List.";
 			this.ZeroToNine = new Target.List<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}
 		public override Target.List<int> Create(int count)

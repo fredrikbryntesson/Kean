@@ -31,6 +31,12 @@ namespace Kean.Core.Collection.Test.Base
 		where T : Kean.Test.Fixture<T>, new()
 		where L : Target.IList<int>, new()
 	{
+		protected List ()
+		{ }
+		protected List (string prefix) :
+			base(prefix)
+		{ }
+
 		protected override void Run()
 		{
 			base.Run();

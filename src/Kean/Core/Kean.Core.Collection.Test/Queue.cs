@@ -29,10 +29,9 @@ namespace Kean.Core.Collection.Test
 	public class Queue :
 		Base.Queue<Queue, Target.Queue<int>>
 	{
-		public Queue()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.";
-		}
+		public Queue() :
+			base("Kean.Core.Collection.Test.")
+		{ }
 	}
 }
 

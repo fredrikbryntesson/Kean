@@ -29,9 +29,9 @@ namespace Kean.Core.Collection.Test.Array
 	public class Stack :
 		Base.Stack<Stack, Target.Stack<int>>
 	{
-		public Stack()
+		public Stack() :
+			base("Kean.Core.Collection.Test.Array.Stack.")
 		{
-			this.Prefix = "Kean.Core.Collection.Test.Array.Stack.";
 		}
 	}
 }

@@ -30,7 +30,9 @@ namespace Kean.Draw.Net.Test
     public class Jpeg :
         Kean.Test.Fixture<Jpeg>
     {
-        string prefix = "Kean.Draw.Net.Single.";
+        public Jpeg() :
+			base("Kean.Draw.Net.Single.")
+		{ }
         protected override void Run()
         {
             this.Run(

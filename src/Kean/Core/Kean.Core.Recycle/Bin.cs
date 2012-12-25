@@ -38,6 +38,7 @@ namespace Kean.Core.Recycle
 		{
 			this.Capacity = capacity;
 			this.comparer = comparer;
+			this.free = free;
 			this.recycled = new Collection.Synchronized.List<T>(new Collection.List<T>(this.Capacity), this.Lock);
 		}
 		public T Find(S specifier)

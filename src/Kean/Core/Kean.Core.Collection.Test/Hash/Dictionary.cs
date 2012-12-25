@@ -30,10 +30,9 @@ namespace Kean.Core.Collection.Test.Hash
 	public class Dictionary :
 		Base.Dictionary<Dictionary, Target.Hash.Dictionary<string, int>>
 	{
-		public Dictionary()
-		{
-			this.Prefix = "Kean.Core.Collection.Test.Hash.Dictionary.";
-		}
+		public Dictionary() :
+			base("Kean.Core.Collection.Test.Hash.Dictionary.")
+		{ }
 		protected override Target.Hash.Dictionary<string, int> Create (int size)
 		{
 			return new Target.Hash.Dictionary<string, int>(size);

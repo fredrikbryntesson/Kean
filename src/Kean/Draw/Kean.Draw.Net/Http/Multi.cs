@@ -68,14 +68,13 @@ namespace Kean.Draw.Net.Http
         }
         string Parse(byte[] buffer, int start, int length)
         {
-            string result = null;
             byte[] selection = new byte[length];
             Array.Copy(buffer, start, selection, 0, length);
-            System.Text.StringBuilder b = new System.Text.StringBuilder();
+            System.Text.StringBuilder result = new System.Text.StringBuilder();
             char[] chars = new System.Text.ASCIIEncoding().GetChars(selection);
             foreach (char v in chars)
-                b.Append(v);
-            return b.ToString();
+                result.Append(v);
+            return result.ToString();
         }
         protected override void StreamParser(System.Net.WebResponse response, byte[] buffer, int readSize)
         {

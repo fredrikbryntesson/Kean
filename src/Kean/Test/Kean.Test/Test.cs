@@ -63,7 +63,7 @@ namespace Kean.Test
 			{
 				this.Method.Call();
 			}
-			catch (T e)
+			catch (T)
 			{
 				catched = true;
 			}

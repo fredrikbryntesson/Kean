@@ -143,7 +143,7 @@ namespace Kean.IO
 				switch (resource.Scheme)
 				{
 					case "assembly":
-						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.LoadWithPartialName(resource.Authority), resource.Path);
+						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(resource.Authority)), resource.Path);
 						break;
 					case "file":
 						try 

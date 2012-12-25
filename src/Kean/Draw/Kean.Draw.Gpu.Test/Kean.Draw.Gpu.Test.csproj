@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -56,14 +56,6 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Gui\Kean.Gui.OpenGL\Kean.Gui.OpenGL.csproj">
-      <Project>{6E879B34-5D82-4715-9874-F2483F99AB6D}</Project>
-      <Name>Kean.Gui.OpenGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Gui\Kean.Gui\Kean.Gui.csproj">
-      <Project>{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}</Project>
-      <Name>Kean.Gui</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>
@@ -80,10 +72,6 @@
       <Project>{A519A94C-2837-4A3D-B90A-1535704DCC8E}</Project>
       <Name>Kean.Draw.Gpu</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
-      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
-      <Name>Kean.Draw.Raster.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Raster\Kean.Draw.Raster.csproj">
       <Project>{AB4E5E08-6B2A-4A9F-ABB3-A8F4CE73FB53}</Project>
       <Name>Kean.Draw.Raster</Name>
@@ -91,6 +79,18 @@
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>
       <Name>Kean.Draw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
+      <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
+      <Name>Kean.Draw.Raster.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Kean.Gui\Kean.Gui.csproj">
+      <Project>{CC0C0814-9A6B-4B45-B595-043BC79AC6BE}</Project>
+      <Name>Kean.Gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Kean.Gui.OpenGL\Kean.Gui.OpenGL.csproj">
+      <Project>{6E879B34-5D82-4715-9874-F2483F99AB6D}</Project>
+      <Name>Kean.Gui.OpenGL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -35,7 +35,7 @@ namespace Kean.IO.Net.Test
 		}
 		static void Proxy()
 		{
-			System.Net.Sockets.TcpListener server = new System.Net.Sockets.TcpListener(23);
+			System.Net.Sockets.TcpListener server = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Any, 23);
 			server.Start();
 			while (true)
 			{
@@ -46,7 +46,7 @@ namespace Kean.IO.Net.Test
 				System.Net.Sockets.TcpClient clientConnection = new System.Net.Sockets.TcpClient("192.168.1.101", 23);
 				System.Net.Sockets.NetworkStream clientStream = clientConnection.GetStream();
 
-				Parallel.Thread send = Parallel.Thread.Start(() =>
+				Parallel.Thread.Start(() =>
 				{
 					while (serverConnection.Connected && clientConnection.Connected)
 					{

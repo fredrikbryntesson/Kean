@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -114,10 +114,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
-      <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
-      <Name>Kean.Core.Uri</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
@@ -133,6 +129,10 @@
     <ProjectReference Include="..\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
       <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
       <Name>Kean.Core.Reflect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
+      <Name>Kean.Core.Uri</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

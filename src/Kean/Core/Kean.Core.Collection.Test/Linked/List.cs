@@ -29,9 +29,9 @@ namespace Kean.Core.Collection.Test.Linked
 	public class List :
 		Base.List<List, Target.List<int>>
 	{
-		public List ()
+		public List () :
+			base("Kean.Core.Collection.Test.Linked.List.")
 		{
-			this.Prefix = "Kean.Core.Collection.Test.Linked.List.";
 			this.ZeroToNine = new Target.List<int>();
 			Kean.Core.Collection.Extension.ListExtension.Add(this.ZeroToNine, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}

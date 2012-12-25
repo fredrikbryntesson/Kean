@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -83,10 +83,6 @@
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
       <Name>Kean.IO.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IO\Kean.IO.Tap\Kean.IO.Tap.csproj">
-      <Project>{86AD745F-7603-4777-9088-BD418818B833}</Project>
-      <Name>Kean.IO.Tap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
@@ -110,6 +106,10 @@
     <ProjectReference Include="..\Kean.Platform\Kean.Platform.csproj">
       <Project>{ABF16C06-E815-40C8-9194-13D9BE11E019}</Project>
       <Name>Kean.Platform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO.Tap\Kean.IO.Tap.csproj">
+      <Project>{86AD745F-7603-4777-9088-BD418818B833}</Project>
+      <Name>Kean.IO.Tap</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

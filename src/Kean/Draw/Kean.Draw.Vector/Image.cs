@@ -46,7 +46,6 @@ namespace Kean.Draw.Vector
 		public override T Convert<T>()
 		{
 			T result = null;
-			Reflect.Type type = typeof(T);
 			if (((Reflect.Type)typeof(Raster.Bgra)).Inherits<T>())
 				result = new Raster.Bgra(this.Size) as T;
 			if (result.NotNull() && result.Canvas.NotNull())
