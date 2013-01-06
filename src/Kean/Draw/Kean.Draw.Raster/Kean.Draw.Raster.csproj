@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -77,6 +77,10 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Draw.Cairo\Kean.Draw.Cairo.csproj">
+      <Project>{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}</Project>
+      <Name>Kean.Draw.Cairo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>
       <Name>Kean.Draw</Name>
@@ -88,10 +92,6 @@
     <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Cairo\Kean.Draw.Cairo.csproj">
-      <Project>{B28F1997-DB42-4C6C-BAB6-0DAB9CF2F32D}</Project>
-      <Name>Kean.Draw.Cairo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

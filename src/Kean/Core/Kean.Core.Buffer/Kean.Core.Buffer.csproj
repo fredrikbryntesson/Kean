@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -53,6 +53,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Kean.Core.Recycle\Kean.Core.Recycle.csproj">
+      <Project>{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}</Project>
+      <Name>Kean.Core.Recycle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
@@ -64,10 +68,6 @@
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Recycle\Kean.Core.Recycle.csproj">
-      <Project>{B08CBCC8-D079-43E3-B9CC-19A5AC76E107}</Project>
-      <Name>Kean.Core.Recycle</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
