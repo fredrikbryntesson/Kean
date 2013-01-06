@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test
@@ -34,7 +34,7 @@ namespace Kean.Core.Collection.Test
             Expect(vector1, Is.Not.EqualTo(vector3), this.prefix + "Equality.1");
         }
         [Test]
-        public void Count()
+        public new void Count()
         {
             Target.ReadOnlyVector<int> vector = new ReadOnlyVector<int>();
             Expect(vector.Count, Is.EqualTo(0), this.prefix + "Count.0");

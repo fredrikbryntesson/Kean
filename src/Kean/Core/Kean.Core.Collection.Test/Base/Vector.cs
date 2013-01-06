@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
 using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base
@@ -56,7 +55,7 @@ namespace Kean.Core.Collection.Test.Base
         }
         
 		[Test]
-		public void Count()
+		public new void Count()
 		{
 			Expect(this.ZeroToNine.Count, EqualTo(10), this.Prefix + "Count.0");
 		}

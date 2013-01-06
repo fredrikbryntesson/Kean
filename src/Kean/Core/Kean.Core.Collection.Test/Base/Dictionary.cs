@@ -21,6 +21,7 @@
 
 using System;
 using NUnit.Framework;
+
 using Target = Kean.Core.Collection;
 
 namespace Kean.Core.Collection.Test.Base

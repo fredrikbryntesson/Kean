@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
+
 using Target = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 
