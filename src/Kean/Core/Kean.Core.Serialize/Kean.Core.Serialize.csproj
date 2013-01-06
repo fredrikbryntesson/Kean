@@ -10,11 +10,6 @@
     <RootNamespace>Kean.Core.Serialize</RootNamespace>
     <AssemblyName>Kean.Core.Serialize</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
