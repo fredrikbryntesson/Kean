@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\CharacterWriter.cs" />
     <Compile Include="CharacterDevice.cs" />
     <Compile Include="CharacterWriter.cs" />
     <Compile Include="ICharacterDevice.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Text\Builder.cs" />
     <Compile Include="Text\CharacterOutDevice.cs" />
     <Compile Include="Text\CharacterInDevice.cs" />
+    <Compile Include="Text\Indenter.cs" />
     <Compile Include="Text\Position.cs" />
     <Compile Include="Text\Reader.cs" />
     <Compile Include="Text\Mark.cs" />
