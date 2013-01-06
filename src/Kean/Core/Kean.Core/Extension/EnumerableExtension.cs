@@ -123,6 +123,22 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
+		public static bool All<T>(this System.Collections.Generic.IEnumerable<T> me, Func<T, bool, bool> function)
+		{
+			bool result = true;
+			System.Collections.Generic.IEnumerator<T> enumerator = me.GetEnumerator();
+			bool notLast = enumerator.MoveNext();
+			while (notLast)
+			{
+				T current = enumerator.Current;
+				if (!function(current, !(notLast = enumerator.MoveNext())))
+				{
+					result = false;
+					break;
+				}
+			}
+			return result;
+		}
 		public static S Fold<T, S>(this System.Collections.Generic.IEnumerable<T> me, Func<T, S, S> function, S initial)
 		{
 			foreach (T element in me)
