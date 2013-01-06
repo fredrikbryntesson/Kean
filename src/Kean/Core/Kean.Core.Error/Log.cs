@@ -75,7 +75,7 @@ namespace Kean.Core.Error
 		{
             Func<bool> result = task;
 			if (Log.CatchErrors)
-                result = () =>
+				result = () =>
 			{
 				bool r = false;
 				try 
@@ -94,7 +94,7 @@ namespace Kean.Core.Error
 				}
 				return r;
 			};
-            return result;
+			return result;
 		}
 		public static Action Wrap(Action task)
 		{
@@ -129,7 +129,7 @@ namespace Kean.Core.Error
 		{
             Action<T> result;
 			if (Log.CatchErrors)
-                result = argument =>
+				result = argument =>
 				{
 					try { task.Call(argument); }
 					catch (System.Threading.ThreadInterruptedException) { throw; }
@@ -143,8 +143,8 @@ namespace Kean.Core.Error
 					}
 				};
 			else
-                result = task.Call;
-            return result;
+				result = task.Call;
+			return result;
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(Action<T1, T2> task)
 		{
@@ -152,8 +152,9 @@ namespace Kean.Core.Error
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(string title, Action<T1, T2> task)
 		{
+            Action<T1, T2> result;
 			if (Log.CatchErrors)
-				task = (argument1, argument2) =>
+				result = (argument1, argument2) =>
 				{
 					try { task.Call(argument1, argument2); }
 					catch (System.Threading.ThreadInterruptedException) { throw; }
@@ -167,8 +168,8 @@ namespace Kean.Core.Error
 					}
 				};
 			else
-				task = task.Call;
-			return task;
+				result = task.Call;
+			return result;
 		}
 		#endregion
 	}
