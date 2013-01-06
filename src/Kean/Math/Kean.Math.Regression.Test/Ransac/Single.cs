@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Kean.Core.Extension;
 using Target = Kean.Math.Regression.Ransac;
 using Geometry2D = Kean.Math.Geometry2D;

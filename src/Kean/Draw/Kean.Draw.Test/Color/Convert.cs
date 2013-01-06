@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
+
 using Target = Kean.Draw.Color;
 
 namespace Kean.Draw.Test.Color

@@ -21,7 +21,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Cairo.Test
 {

@@ -22,7 +22,7 @@
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Reflect = Kean.Core.Reflect;
 
 namespace Kean.Draw.Raster.Test

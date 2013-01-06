@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Target = Kean.Math.Geometry3D;
 
 namespace Kean.Math.Geometry3D.Test.Single

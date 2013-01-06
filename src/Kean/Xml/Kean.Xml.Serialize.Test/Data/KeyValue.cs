@@ -21,7 +21,6 @@
 
 using System;
 using Kean.Core;
-using NUnit.Framework;
 
 namespace Kean.Xml.Serialize.Test.Data
 {

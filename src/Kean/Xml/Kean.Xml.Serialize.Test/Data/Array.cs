@@ -53,17 +53,17 @@ namespace Kean.Xml.Serialize.Test.Data
 			factory.Verify(this.Structures[0], message, arguments);
 			factory.Verify(this.Structures[1], message, arguments);
 
-            factory.Verify(this.Classes.Length, Is.EqualTo(2), message, arguments);
+			factory.Verify(this.Classes.Length, Is.EqualTo(2), message, arguments);
 			factory.Verify(this.Classes[0] as ComplexClass, message, arguments);
 			factory.Verify(this.Classes[1], message, arguments);
 
-            factory.Verify(this.Objects.Length, Is.EqualTo(4), message, arguments);
+			factory.Verify(this.Objects.Length, Is.EqualTo(4), message, arguments);
 			factory.Verify(this.Objects[0] as ComplexClass, message, arguments);
 			factory.Verify(this.Objects[1] as Class, message, arguments);
 			factory.Verify((bool)this.Objects[2], message, arguments);
 			factory.Verify((DateTime)this.Objects[3], message, arguments);
 
-            factory.Verify(this.Numbers.Length, Is.EqualTo(10), message, arguments);
+			factory.Verify(this.Numbers.Length, Is.EqualTo(10), message, arguments);
 			for (int i = 0; i < 10; i++)
 				factory.Verify(this.Numbers[i], Is.EqualTo(i), message, arguments);
 

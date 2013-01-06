@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Kean.Core.Extension;
 using Target = Kean.Math.Complex.Single;
 namespace Kean.Math.Complex.Test

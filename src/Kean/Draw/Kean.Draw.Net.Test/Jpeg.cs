@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
 using Target = Kean.Draw.Net.Http;
 
 namespace Kean.Draw.Net.Test

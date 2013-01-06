@@ -24,7 +24,6 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using NUnit.Framework;
-using NUnit.Framework;
 
 namespace Kean.Xml.Dom.Test
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Test.Abstract

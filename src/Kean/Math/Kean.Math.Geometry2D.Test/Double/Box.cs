@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 using Target = Kean.Math.Geometry2D;
 
 namespace Kean.Math.Geometry2D.Test.Double

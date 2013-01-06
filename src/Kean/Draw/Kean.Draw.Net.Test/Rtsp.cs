@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
 using Target = Kean.Draw.Net.Rtsp;
 
 namespace Kean.Draw.Net.Test

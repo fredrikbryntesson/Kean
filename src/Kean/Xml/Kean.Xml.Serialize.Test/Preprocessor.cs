@@ -25,7 +25,7 @@ using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using Reflect = Kean.Core.Reflect;
 using NUnit.Framework;
-using NUnit.Framework;
+
 
 namespace Kean.Xml.Serialize.Test
 {

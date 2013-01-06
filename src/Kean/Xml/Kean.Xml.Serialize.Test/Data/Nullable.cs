@@ -22,7 +22,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework;
+
 
 namespace Kean.Xml.Serialize.Test.Data
 {

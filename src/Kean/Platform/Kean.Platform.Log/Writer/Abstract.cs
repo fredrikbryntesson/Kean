@@ -83,7 +83,7 @@ namespace Kean.Platform.Log.Writer
 			T result;
 			if (Error.Log.CatchErrors)
 				try { result = call(); }
-				catch (System.Exception e) { result = default(T); }
+				catch (System.Exception) { result = default(T); }
 			else
 				result = call();
 			return result;

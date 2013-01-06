@@ -22,7 +22,6 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
-using NUnit.Framework;
 using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
 

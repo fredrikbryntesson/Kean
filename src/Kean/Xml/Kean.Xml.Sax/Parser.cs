@@ -62,7 +62,7 @@ namespace Kean.Xml.Sax
 				{
 					result = this.ParseHelper();
 				}
-				catch (System.Exception e)
+				catch (System.Exception)
 				{
 					Error.Log.Append(Error.Level.Message, "Error Parsing XML Document", "Failed parsing \"" + this.Resource + "\" on line: " + this.Position.Row + " and column: " + this.Position.Column); 
 					result = false;
