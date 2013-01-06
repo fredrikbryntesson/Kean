@@ -30,63 +30,21 @@ namespace Kean.Xml.Dom.Writer
 	public class Formatting : 
 		IWriter
 	{
-		bool lineIndented;
-		string indention = "";
-		public bool Indent { get; set; }
-		IO.ICharacterWriter writer;
-		public Formatting(IO.ICharacterWriter writer)
+		IO.Text.Indenter writer;
+		public bool Indent 
+		{ 
+			get { return this.writer.Format; }
+			set { this.writer.Format = value; } 
+		}
+		public Formatting(IO.ICharacterWriter backend)
 		{
+			this.writer = new IO.Text.Indenter(backend);
 			this.Indent = true;
-			this.writer = writer;
-		}
-		protected bool AddIndent()
-		{
-			return (this.indention += "\t").NotEmpty();
-		}
-		protected bool RemoveIndent()
-		{
-			return (this.indention = this.indention.Substring(1)).NotNull();
-		}
-		protected virtual bool Write(string value)
-		{
-			return (this.lineIndented || (this.lineIndented = this.writer.Write(this.indention))) && this.writer.Write(value);
-		}
-		protected virtual bool WriteLine()
-		{
-			return !(this.lineIndented = !(!this.Indent || this.Write("\n")));
-		}
-		protected virtual bool WriteLine(string value)
-		{
-			return this.Write(value) && this.WriteLine();
-		}
-		protected virtual bool Write(string format, object argument)
-		{
-			return this.Write(string.Format(format, argument));
-		}
-		protected virtual bool Write(string format, object argument0, object argument1)
-		{
-			return this.Write(string.Format(format, argument0, argument1));
-		}
-		protected virtual bool Write(string format, params object[] arguments)
-		{
-			return this.Write(string.Format(format, arguments));
-		}
-		protected virtual bool WriteLine(string format, object argument)
-		{
-			return this.WriteLine(string.Format(format, argument));
-		}
-		protected virtual bool WriteLine(string format, object argument0, object argument1)
-		{
-			return this.WriteLine(string.Format(format, argument0, argument1));
-		}
-		protected virtual bool WriteLine(string format, params object[] arguments)
-		{
-			return this.WriteLine(string.Format(format, arguments));
 		}
 		#region IWriter Members
 		public bool Write(Document document)
 		{
-			return this.WriteLine("<?xml version=\"{0}\" encoding=\"{1}\" ?>", document.Version.ToString("#.0", System.Globalization.CultureInfo.InvariantCulture), document.Encoding) && this.Write(document.Root);
+			return this.writer.WriteLine("<?xml version=\"{0}\" encoding=\"{1}\" ?>", document.Version.ToString("#.0", System.Globalization.CultureInfo.InvariantCulture), document.Encoding) && this.Write(document.Root);
 		}
 		public bool Write(Node node)
 		{
@@ -99,23 +57,23 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(Attribute attribute)
 		{
-			return this.Write(" {0}=\"{1}\"", attribute.Name, attribute.Value);
+			return this.writer.Write(" {0}=\"{1}\"", attribute.Name, attribute.Value);
 		}
 		public bool Write(Comment comment)
 		{
-			return this.Write("<!--") && this.Write(comment.Value) && this.Write("-->");
+			return this.writer.Write("<!--") && this.writer.Write(comment.Value) && this.writer.Write("-->");
 		}
 		public bool Write(Data data)
 		{
-			return this.Write("<![CDATA[") && this.Write(data.Value) && this.Write("]]>");
+			return this.writer.Write("<![CDATA[") && this.writer.Write(data.Value) && this.writer.Write("]]>");
 		}
 		public bool Write(Element element)
 		{
-			return element.IsNull() || (this.Write("<") && this.Write(element.Name) && 
+			return element.IsNull() || (this.writer.Write("<") && this.writer.Write(element.Name) && 
 				element.Attributes.Fold((attribute, result) => result && this.Write(attribute), true) &&
 				element.Count > 0 ?
-				this.Write(">") && (!element.Exists(n => n is Element) || this.WriteLine()) && this.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.RemoveIndent() && this.WriteLine("</{0}>", element.Name) : 
-				this.WriteLine(" />"));
+				this.writer.Write(">") && (!element.Exists(n => n is Element) || this.writer.WriteLine()) && this.writer.AddIndent() && element.Fold((child, result) => result && this.Write(child), true) && this.writer.RemoveIndent() && this.writer.WriteLine("</{0}>", element.Name) : 
+				this.writer.WriteLine(" />"));
 		}
 		public bool Write(Fragment fragment)
 		{
@@ -123,12 +81,12 @@ namespace Kean.Xml.Dom.Writer
 		}
 		public bool Write(ProcessingInstruction processingInstruction)
 		{
-			return this.Write("<?") && this.Write(processingInstruction.Target) && this.Write(" ") && this.AddIndent() &&
-				this.Write(processingInstruction.Value) && this.RemoveIndent() && this.WriteLine(" ?>");
+			return this.writer.Write("<?") && this.writer.Write(processingInstruction.Target) && this.writer.Write(" ") && this.writer.AddIndent() &&
+				this.writer.Write(processingInstruction.Value) && this.writer.RemoveIndent() && this.writer.WriteLine(" ?>");
 		}
 		public bool Write(Text text)
 		{
-			return this.Write(text.Value);
+			return this.writer.Write(text.Value);
 		}
 		#endregion
 	}
