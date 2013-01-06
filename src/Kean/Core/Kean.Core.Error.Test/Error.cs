@@ -94,10 +94,10 @@ namespace Kean.Core.Error.Test
 		}
 		public static void Test()
 		{
-			Error fixture = new Error();
-			fixture.MetaDataImmediateThrow();
-			fixture.MetaDataFilteredThrow();
-			fixture.MetaDataIndirectThrow();
+			//Error fixture = new Error();
+			//fixture.MetaDataImmediateThrow();
+			//fixture.MetaDataFilteredThrow();
+			//fixture.MetaDataIndirectThrow();
 		}
 	}
 }

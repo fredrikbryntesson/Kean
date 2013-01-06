@@ -21,8 +21,6 @@
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
-using Error = Kean.Core.Error;
-
 namespace Kean.Math.Matrix
 {
     public class Single :
@@ -431,7 +429,7 @@ namespace Kean.Math.Matrix
                     for (int x = y + 1; x < order; x++)
                         result[x, y] = 0;
             }
-            catch (Error.Exception)
+            catch (Kean.Core.Error.Exception e)
             {
                 result = null;
             }
@@ -466,7 +464,7 @@ namespace Kean.Math.Matrix
                     result = z.BackwardSubstitution(lower.Transpose());
                 }
             }
-            catch (Error.Exception)
+            catch (Kean.Core.Error.Exception e)
             {
             }
             return result;
@@ -503,7 +501,7 @@ namespace Kean.Math.Matrix
                     result = (q.Transpose() * y).BackwardSubstitution(r);
                 }
             }
-            catch (Error.Exception)
+            catch (Kean.Core.Error.Exception e)
             {
             }
             return result;
@@ -1012,7 +1010,7 @@ namespace Kean.Math.Matrix
                         result = (lup[2] * transpose * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
                     }
                 }
-                catch (Error.Exception)
+                catch (Kean.Core.Error.Exception e)
                 {
                 }
             return result;
@@ -1040,7 +1038,7 @@ namespace Kean.Math.Matrix
             {
                 result = (lup[2] * Single.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             }
-            catch (Error.Exception)
+            catch (Kean.Core.Error.Exception e)
             {
             }
             return result;
@@ -1257,13 +1255,5 @@ namespace Kean.Math.Matrix
             return result;
         }
         #endregion
-		public static explicit operator byte[](Single value)
-		{
-			int elementCount = value.elements.Length;
-			byte[] result = new byte[elementCount * sizeof(float)];
-			for (int i = 0; i < elementCount; i++)
-				Array.Copy(value.elements[i].AsBinary(), 0, result, i * sizeof(float), sizeof(float));
-			return result;
-		}
-	}
+    }
 }

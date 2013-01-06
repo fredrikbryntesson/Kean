@@ -73,13 +73,14 @@ namespace Kean.Core.Error
 		}
 		public static Func<bool> Wrap(string title, Func<bool> task)
 		{
+            Func<bool> result = task;
 			if (Log.CatchErrors)
-				task = () =>
+                result = () =>
 			{
-				bool result = false;
+				bool r = false;
 				try 
 				{ 
-					if (!(result = task()))
+					if (!(r = task()))
 						Log.Append(Error.Level.Notification, title, "Wrapped task returned false."); 
 				}
 				catch (System.Threading.ThreadInterruptedException) { throw; }
@@ -91,9 +92,9 @@ namespace Kean.Core.Error
 				{
 					Log.Append(Error.Level.Recoverable, title, e);
 				}
-				return result;
+				return r;
 			};
-			return task;
+            return result;
 		}
 		public static Action Wrap(Action task)
 		{
@@ -101,8 +102,9 @@ namespace Kean.Core.Error
 		}
 		public static Action Wrap(string title, Action task)
 		{
+            Action result;
 			if (Log.CatchErrors)
-				task = () =>
+				result = () =>
 				{
 					try { task.Call(); }
 					catch (System.Threading.ThreadInterruptedException) { throw; }
@@ -116,8 +118,8 @@ namespace Kean.Core.Error
 					}
 				};
 			else
-				task = task.Call;
-			return task;
+				result = task.Call;
+			return result;
 		}
 		public static Action<T> Wrap<T>(Action<T> task)
 		{
@@ -125,8 +127,9 @@ namespace Kean.Core.Error
 		}
 		public static Action<T> Wrap<T>(string title, Action<T> task)
 		{
+            Action<T> result;
 			if (Log.CatchErrors)
-				task = argument =>
+                result = argument =>
 				{
 					try { task.Call(argument); }
 					catch (System.Threading.ThreadInterruptedException) { throw; }
@@ -140,8 +143,8 @@ namespace Kean.Core.Error
 					}
 				};
 			else
-				task = task.Call;
-			return task;
+                result = task.Call;
+            return result;
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(Action<T1, T2> task)
 		{
