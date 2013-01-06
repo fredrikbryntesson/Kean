@@ -21,7 +21,7 @@
 using System;
 using Target = Kean.Core.Error;
 using NUnit.Framework;
-using NUnit.Framework;
+
 namespace Kean.Core.Error.Test
 {
 	[TestFixture]
@@ -94,10 +94,10 @@ namespace Kean.Core.Error.Test
 		}
 		public static void Test()
 		{
-			//Error fixture = new Error();
-			//fixture.MetaDataImmediateThrow();
-			//fixture.MetaDataFilteredThrow();
-			//fixture.MetaDataIndirectThrow();
+			Error fixture = new Error();
+			fixture.MetaDataImmediateThrow();
+			fixture.MetaDataFilteredThrow();
+			fixture.MetaDataIndirectThrow();
 		}
 	}
 }
