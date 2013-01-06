@@ -27,18 +27,18 @@ namespace Kean.Core.Collection.Test
             List.Test();
             Queue.Test();
             Stack.Test();
-            Dictionary.Test();
+            //Dictionary.Test();
             Linked.List.Test();
             Linked.Queue.Test();
             Linked.Stack.Test();
-			Linked.Dictionary.Test();
+			//Linked.Dictionary.Test();
             Array.Vector.Test();
             Array.List.Test();
             Array.Queue.Test();
             Array.Stack.Test();
             Sorted.List.Test();
-			Hash.Dictionary.Test();
-			Wrap.ListDictionary.Test();
+			//Hash.Dictionary.Test();
+			//Wrap.ListDictionary.Test();
         }
     }
 }
