@@ -29,82 +29,30 @@ using Error = Kean.Core.Error;
 namespace Kean.IO
 {
 	public class CharacterWriter :
-		ICharacterWriter
+		Abstract.CharacterWriter
 	{
 		ICharacterOutDevice backend;
 
-		public char[] NewLine { get; set; }
-
-		public Uri.Locator Resource { get { return this.backend.Resource; } }
-		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
+		public override Uri.Locator Resource { get { return this.backend.Resource; } }
+		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 
 		protected CharacterWriter(ICharacterOutDevice backend)
 		{
 			this.backend = backend;
 			this.NewLine = new char[] { '\n' };
 		}
-		~CharacterWriter()
-		{
-			Error.Log.Wrap((Func<bool>)this.Close)();
-		}
-		public bool Close()
+		public override bool Close()
 		{
 			bool result;
 			if (result = this.backend.NotNull() && this.backend.Close())
 				this.backend = null;
 			return result;
 		}
-		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			this.Close();
-		}
-		#endregion
 
-		#region ICharacterWriter Members
-		public bool Write(params char[] buffer)
-		{
-			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer);
-		}
-		public bool Write(string value)
-		{
-			return value.IsNull() || this.Write(value.ToCharArray());
-		}
-		public bool Write<T>(T value) where T : IConvertible
-		{
-			return this.Write(value.ToString((IFormatProvider)System.Globalization.CultureInfo.InvariantCulture.GetFormat(typeof(T))));
-		}
-		public bool Write(string format, params object[] arguments)
-		{
-			return this.Write(string.Format(format, arguments));
-		}
-		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
+		#region implemented abstract members of Kean.IO.Abstract.CharacterWriter
+		public override bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			return this.backend.Write(new Collection.Enumerable<char>(() => new NewLineConverter(buffer.GetEnumerator(), this.NewLine)));
-		}
-		public bool WriteLine()
-		{
-			return this.Write(new char[] { '\n' });
-		}
-		public bool WriteLine(params char[] buffer)
-		{
-			return this.Write((System.Collections.Generic.IEnumerable<char>) buffer.Merge(new char[] {'\n'}));
-		}
-		public bool WriteLine(string value)
-		{
-			return this.Write(value + "\n");
-		}
-		public bool WriteLine<T>(T value) where T : IConvertible
-		{
-			return this.WriteLine(value.ToString((IFormatProvider)System.Globalization.CultureInfo.InvariantCulture.GetFormat(typeof(T))));
-		}
-		public bool WriteLine(string format, params object[] arguments)
-		{
-			return this.WriteLine(string.Format(format, arguments));
-		}
-		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer)
-		{
-			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer) && this.WriteLine();
 		}
 		#endregion
 		#region NewLineConverter Class
