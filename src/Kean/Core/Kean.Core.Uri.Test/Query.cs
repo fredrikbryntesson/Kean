@@ -21,7 +21,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Target = Kean.Core.Uri;
 using Kean.Core.Collection.Linked.Extension;
 using Kean.Core;

@@ -21,7 +21,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Kean.Core.Extension;
 
 namespace Kean.Core.Test

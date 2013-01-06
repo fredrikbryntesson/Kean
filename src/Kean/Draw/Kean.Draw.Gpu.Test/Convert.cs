@@ -22,7 +22,7 @@
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 
 namespace Kean.Draw.Gpu.Test
 {

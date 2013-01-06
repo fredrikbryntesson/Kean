@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Kean.Core.Extension;
 using Target = Kean.Math.Regression.Minimization.LevenbergMarquardt;
 using Geometry2D = Kean.Math.Geometry2D;

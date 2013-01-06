@@ -20,7 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Core.Collection.Array;
 using Kean.Core.Collection.Extension;
 

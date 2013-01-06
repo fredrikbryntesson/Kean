@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Target = Kean.Core;
 
 namespace Kean.Core.Test

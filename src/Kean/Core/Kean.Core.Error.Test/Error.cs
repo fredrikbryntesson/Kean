@@ -21,7 +21,7 @@
 using System;
 using Target = Kean.Core.Error;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 namespace Kean.Core.Error.Test
 {
 	[TestFixture]

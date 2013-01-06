@@ -22,7 +22,7 @@
 using System;
 using Kean.Core;
 using Collection = Kean.Core.Collection;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 
 namespace Kean.Xml.Serialize.Test.Data
 {

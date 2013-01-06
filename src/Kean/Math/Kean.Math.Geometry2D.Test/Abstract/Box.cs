@@ -1,7 +1,7 @@
 ﻿using System;
 using Kean.Core.Extension;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 
 namespace Kean.Math.Geometry2D.Test.Abstract
 {

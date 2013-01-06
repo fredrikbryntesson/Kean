@@ -21,7 +21,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Target = Kean.Core.Uri;
 
 namespace Kean.Core.Uri.Test

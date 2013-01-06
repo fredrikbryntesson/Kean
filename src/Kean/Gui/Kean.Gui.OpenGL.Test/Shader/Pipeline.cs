@@ -24,7 +24,7 @@ using Target = Kean.Gui.OpenGL;
 using Raster = Kean.Draw.Raster;
 using Geometry2D = Kean.Math.Geometry2D;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Gpu = Kean.Draw.Gpu;
 
 namespace Kean.Gui.OpenGL.Test.Shader

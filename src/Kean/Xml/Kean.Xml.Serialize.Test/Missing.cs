@@ -24,7 +24,6 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace Kean.Xml.Serialize.Test
 {
@@ -35,8 +34,11 @@ namespace Kean.Xml.Serialize.Test
 		void Test(Uri.Locator locator)
 		{
 			Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
-			Verify(this.storage.Store<object>(new Object(), locator), locator.Scheme == "file" ? Is.True : Is.False, "Serialize Missing {0}", locator);
-		}
+            if (locator.Scheme == "file")
+    			Verify(this.storage.Store<object>(new Object(), locator),  Is.True, "Serialize Missing {0}", locator);
+            else
+                Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Serialize Missing {0}", locator);
+        }
 		public override void Setup()
 		{
 			storage = new Storage();

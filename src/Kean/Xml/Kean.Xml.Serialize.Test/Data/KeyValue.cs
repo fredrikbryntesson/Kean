@@ -21,7 +21,7 @@
 
 using System;
 using Kean.Core;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 
 namespace Kean.Xml.Serialize.Test.Data
 {

@@ -23,7 +23,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework;
 using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom.Test
