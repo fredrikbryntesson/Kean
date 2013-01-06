@@ -95,7 +95,84 @@ namespace Kean.Core.Reflect
 				return this.category.Value;
 			}
 		}
-
+		#region Members
+		Collection.IReadOnlyVector<FieldInformation> fields;
+		public Collection.IReadOnlyVector<FieldInformation> Fields 
+		{
+			get
+			{
+				if (this.fields.IsNull())
+				{
+					Collection.IList<FieldInformation> result = new Collection.Sorted.List<FieldInformation>();
+					foreach (System.Reflection.FieldInfo member in ((System.Type)this).GetFields())
+					{
+						FieldInformation f = new FieldInformation(this, member);
+						if (f.NotNull())
+							result.Add(f);
+					}
+					this.fields = new Collection.Wrap.ReadOnlyVector<FieldInformation>(result);
+				}
+				return this.fields;
+			}
+		}
+		Collection.IReadOnlyVector<PropertyInformation> properties;
+		public Collection.IReadOnlyVector<PropertyInformation> Properties 
+		{
+			get
+			{
+				if (this.properties.IsNull())
+				{
+					Collection.IList<PropertyInformation> result = new Collection.Sorted.List<PropertyInformation>();
+					foreach (System.Reflection.PropertyInfo member in ((System.Type)this).GetProperties())
+					{
+						PropertyInformation p = new PropertyInformation(this, member);
+						if (p.NotNull())
+							result.Add(p);
+					}
+					this.properties = new Collection.Wrap.ReadOnlyVector<PropertyInformation>(result);
+				}
+				return this.properties;
+			}
+		}
+		Collection.IReadOnlyVector<EventInformation> events;
+		public Collection.IReadOnlyVector<EventInformation> Events 
+		{
+			get
+			{
+				if (this.events.IsNull())
+				{
+					Collection.IList<EventInformation> result = new Collection.Sorted.List<EventInformation>();
+					foreach (System.Reflection.EventInfo member in ((System.Type)this).GetEvents())
+					{
+						EventInformation e = new EventInformation(this, member);
+						if (e.NotNull())
+							result.Add(e);
+					}
+					this.events = new Collection.Wrap.ReadOnlyVector<EventInformation>(result);
+				}
+				return this.events;
+			}
+		}
+		Collection.IReadOnlyVector<MethodInformation> methods;
+		public Collection.IReadOnlyVector<MethodInformation> Methods 
+		{
+			get
+			{
+				if (this.methods.IsNull())
+				{
+					Collection.IList<MethodInformation> result = new Collection.Sorted.List<MethodInformation>();
+					foreach (System.Reflection.MethodInfo member in ((System.Type)this).GetMethods())
+					{
+						MethodInformation m = new MethodInformation(this, member);
+						if (m.NotNull())
+							result.Add(m);
+					}
+					this.methods = new Collection.Wrap.ReadOnlyVector<MethodInformation>(result);
+				}
+				return this.methods;
+			}
+		}
+		#endregion
 		System.Type type;
 		#region Constructors
 		Type()

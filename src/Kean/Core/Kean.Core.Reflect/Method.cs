@@ -25,28 +25,18 @@ using Kean.Core.Collection.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Method :
-		Member,
+		MethodInformation,
 		IComparable<Method>
 	{
-		Parameter[] parameters;
-		public Parameter[] Parameters
-		{
-			get
-			{
-				if (this.parameters.IsNull())
-					this.parameters = this.Information.GetParameters().Map(parameter => new Parameter(this, parameter));
-				return this.parameters;
-			}
-		}
-		protected System.Reflection.MethodInfo Information { get; private set; }
+		protected object Parent { get; private set; }
 		public object Call(params object[] parameters)
 		{
 			return this.Information.Invoke(this.Parent, parameters);
 		}
 		internal Method(object parent, Type parentType, System.Reflection.MethodInfo information) :
-			base(parent, parentType, information)
+			base(parentType, information)
 		{
-			this.Information = information;
+			this.Parent = parent;
 		}
 		public Action<T> AsAction<T>() { return new Action<T>(this.Parent, this.ParentType, this.Information); }
 		public Action<T1, T2> AsAction<T1, T2>() { return new Action<T1, T2>(this.Parent, this.ParentType, this.Information); }

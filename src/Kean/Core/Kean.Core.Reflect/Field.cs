@@ -25,20 +25,19 @@ using Kean.Core.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Field :
-		Member,
+		FieldInformation,
 		IComparable<Field>
 	{
-		protected System.Reflection.FieldInfo Information { get; private set; }
+		protected object Parent { get; private set; }
 		public object Data
 		{
 			get { return this.Information.GetValue(this.Parent); }
 			set { this.Information.SetValue(this.Parent, value); }
 		}
-		public Type Type { get { return this.Information.FieldType; } }
 		internal Field(object parent, Type parentType, System.Reflection.FieldInfo information) :
-			base(parent, parentType, information)
+			base( parentType, information)
 		{
-			this.Information = information;
+			this.Parent = parent;
 		}
 		public Field<T> Convert<T>()
 		{

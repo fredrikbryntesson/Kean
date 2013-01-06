@@ -25,23 +25,20 @@ using Kean.Core.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Property : 
-		Member,
+		PropertyInformation,
 		IComparable<Property>
 	{
-		protected System.Reflection.PropertyInfo Information { get; private set; }
+		protected object Parent { get; private set; }
 		public object Data
 		{
 			get { return this.Information.GetValue(this.Parent, null); }
 			set { this.Information.SetValue(this.Parent, value, null); }
 		}
-		public bool Readable { get { return this.Information.CanRead; } }
-		public bool Writable { get { return this.Information.CanWrite; } }
-		public Type Type { get { return this.Information.PropertyType; } }
 
 		protected Property(object parent, Type parentType, System.Reflection.PropertyInfo information) :
-			base(parent, parentType, information)
+			base(parentType, information)
 		{
-			this.Information = information;
+			this.Parent = parent;
 		}
 		public Property<T> Convert<T>()
 		{

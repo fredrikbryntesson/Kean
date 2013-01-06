@@ -24,14 +24,14 @@ using Kean.Core.Extension;
 namespace Kean.Core.Reflect
 {
 	public class Event : 
-		Member,
+		EventInformation,
 		IComparable<Event>
 	{
-		protected System.Reflection.EventInfo Information { get; private set; }
+		protected object Parent { get; private set; }
 		Event(object parent, Type parentType, System.Reflection.EventInfo information) :
-			base(parent, parentType, information)
+			base(parentType, information)
 		{
-			this.Information = information;
+			this.Parent = parent;
 		}
 		public void Add(System.Delegate handler)
 		{

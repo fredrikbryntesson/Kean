@@ -31,7 +31,7 @@ namespace Kean.Core.Reflect
 		public string Name { get { return this.information.Name; } }
 		public Type Type { get { return this.information.ParameterType; } }
 		System.Reflection.ParameterInfo information;
-		internal Parameter(Method method, System.Reflection.ParameterInfo information)
+		internal Parameter(System.Reflection.ParameterInfo information)
 		{
 			this.information = information;
 		}

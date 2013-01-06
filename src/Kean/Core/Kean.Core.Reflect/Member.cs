@@ -29,7 +29,6 @@ namespace Kean.Core.Reflect
 	public abstract class Member :
 		IComparable<Member>
 	{
-		protected object Parent { get; private set; }
 		protected Type ParentType { get; private set; }
 		System.Reflection.MemberInfo information;
 		public string Name { get; private set; }
@@ -43,9 +42,8 @@ namespace Kean.Core.Reflect
 				return this.attributes;
 			}
 		}
-		internal Member(object parent, Type parentType, System.Reflection.MemberInfo information)
+		internal Member(Type parentType, System.Reflection.MemberInfo information)
 		{
-			this.Parent = parent;
 			this.ParentType = parentType;
 			this.information = information;
 			this.Name = information.Name;
