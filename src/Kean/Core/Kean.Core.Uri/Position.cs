@@ -64,6 +64,14 @@ namespace Kean.Core.Uri
 		{
 			return !(left == right);
 		}
+		public static bool operator <(Position left, Position right)
+		{
+			return left.Row < right.Row || left.Row == right.Row && left.Column < right.Column;
+		}
+		public static bool operator >(Position left, Position right)
+		{
+			return left.Row > right.Row || left.Row == right.Row && left.Column > right.Column;
+		}
 		#endregion
 	}
 }

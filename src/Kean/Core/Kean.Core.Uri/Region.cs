@@ -65,6 +65,10 @@ namespace Kean.Core.Uri
 		{
 			return !(left == right);
 		}
+		public static Region operator +(Region left, Region right)
+		{
+			return left.NotNull() && right.NotNull() && left.Resource == right.Resource ? new Region(left.Resource, left.Start < right.Start ? left.Start : right.Start, left.End > right.End ? left.End : right.End) : null;
+		}
 		#endregion
 	}
 }

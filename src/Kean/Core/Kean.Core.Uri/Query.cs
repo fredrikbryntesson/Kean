@@ -90,7 +90,7 @@ namespace Kean.Core.Uri
 			{
 				result = (T)(Enum.Parse(typeof(T), this[key] ?? @default.ToString(), true) ?? @default);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				result = @default;
 			}
