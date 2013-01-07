@@ -1,5 +1,10 @@
-﻿//  
-//  Copyright (c) 2011 Simon Mika
+﻿// 
+//  All.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,29 +21,15 @@
 
 using System;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Json.Dom.Test
 {
-    public static class All
-    {
-        public static void Test()
-        {
-            ReadOnly.Test();
-            Vector.Test();
-            List.Test();
-            Queue.Test();
-            Stack.Test();
-            Dictionary.Test();
-            Linked.List.Test();
-            Linked.Queue.Test();
-            Linked.Stack.Test();
-			Linked.Dictionary.Test();
-            Array.Vector.Test();
-            Array.List.Test();
-            Array.Queue.Test();
-            Array.Stack.Test();
-            Sorted.List.Test();
-			Hash.Dictionary.Test();
-			Wrap.ListDictionary.Test();
-        }
-    }
+	public static class All
+	{
+		public static void Test()
+		{
+            Dom.Test.Equality.Test();
+            Dom.Test.Save.Test();
+			Dom.Test.Open.Test();
+		}
+	}
 }

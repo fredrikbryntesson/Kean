@@ -95,6 +95,10 @@
       <Project>{1C398A0B-ADF3-4DB6-9426-D21F5F7F824F}</Project>
       <Name>Kean.IO.Net.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Json\Kean.Json.Dom.Test\Kean.Json.Dom.Test.csproj">
+      <Project>{67ff48f7-dbc0-478d-9743-cf90fbaf15cf}</Project>
+      <Name>Kean.Json.Dom.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
       <Name>Kean.Math.Geometry2D</Name>

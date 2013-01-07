@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 Simon Mika
+//  Copyright (c) 2009-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 // 
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 
 namespace Kean.Test.Run
@@ -26,7 +27,8 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			Xml.Serialize.Test.All.Test();
+			Core.Error.Log.CatchErrors = false;
+            //Json.Serialize.Test.All.Test();
 			//new Gui.OpenGL.Test.Window().Create();
 
             Math.Geometry2D.Test.All.Test();
@@ -54,7 +56,7 @@ namespace Kean.Test.Run
             //Core.Error.Test.Error.Test();
 			Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();
-			
+			Json.Dom.Test.All.Test();			
 		}
 	}
 }

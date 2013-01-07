@@ -1,4 +1,9 @@
-﻿//  
+﻿// 
+//  Open.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
 //  Copyright (c) 2011 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
@@ -15,30 +20,23 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Uri = Kean.Core.Uri;
+using NUnit.Framework;
 
-namespace Kean.Core.Collection.Test
+
+namespace Kean.Json.Dom.Test
 {
-    public static class All
-    {
-        public static void Test()
-        {
-            ReadOnly.Test();
-            Vector.Test();
-            List.Test();
-            Queue.Test();
-            Stack.Test();
-            Dictionary.Test();
-            Linked.List.Test();
-            Linked.Queue.Test();
-            Linked.Stack.Test();
-			Linked.Dictionary.Test();
-            Array.Vector.Test();
-            Array.List.Test();
-            Array.Queue.Test();
-            Array.Stack.Test();
-            Sorted.List.Test();
-			Hash.Dictionary.Test();
-			Wrap.ListDictionary.Test();
+	public class Equality :
+		Tests<Equality>
+	{
+		protected override void Verify(string name)
+		{
+			Item left = this.Create(name);
+            Item right = this.Create(name);
+            Verify(left.Equals(right), Is.True);
+            Verify(left == right, Is.True);
         }
-    }
+	}
 }

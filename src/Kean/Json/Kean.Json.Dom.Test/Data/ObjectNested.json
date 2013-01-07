@@ -1,0 +1,7 @@
+{ 
+	"nested": { 
+		"object": { 
+			"string": "Text" 
+		} 
+	} 
+}
