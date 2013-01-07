@@ -182,6 +182,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Json.Serialize", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Json.Dom.Test", "src\Kean\Json\Kean.Json.Dom.Test\Kean.Json.Dom.Test.csproj", "{67FF48F7-DBC0-478D-9743-CF90FBAF15CF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{F1A57237-1A72-42DC-A932-9AF1A0C67C05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.DB", "src\Kean\DB\Kean.DB\Kean.DB.csproj", "{72D14839-A96B-4BF7-B500-B10672ACC39B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.DB.Sql", "src\Kean\DB\Kean.DB.Sql\Kean.DB.Sql.csproj", "{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -704,6 +710,22 @@ Global
 		{6E879B34-5D82-4715-9874-F2483F99AB6D}.Release|x64.Build.0 = Release|Any CPU
 		{6E879B34-5D82-4715-9874-F2483F99AB6D}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E879B34-5D82-4715-9874-F2483F99AB6D}.Release|x86.Build.0 = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|x64.Build.0 = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Debug|x86.Build.0 = Debug|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|x64.ActiveCfg = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|x64.Build.0 = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|x86.ActiveCfg = Release|Any CPU
+		{72D14839-A96B-4BF7-B500-B10672ACC39B}.Release|x86.Build.0 = Release|Any CPU
 		{74D8FF69-5DB2-4765-B506-B16C9CF379DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74D8FF69-5DB2-4765-B506-B16C9CF379DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74D8FF69-5DB2-4765-B506-B16C9CF379DF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -1400,6 +1422,22 @@ Global
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Release|x64.Build.0 = Release|Any CPU
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}.Release|x86.Build.0 = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|x64.Build.0 = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Debug|x86.Build.0 = Debug|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|x64.ActiveCfg = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|x64.Build.0 = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47}.Release|x86.Build.0 = Release|Any CPU
 		{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F608B80A-3195-43CE-B1F7-FBDC2F1050DA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -1495,9 +1533,11 @@ Global
 		{012B3587-F0A8-4905-AB14-359C31F10B75} = {146B25CE-9D56-4A3D-A4B7-2155E7DE7D16}
 		{22349562-CCE4-43BA-BE12-54950CD3FDE6} = {146B25CE-9D56-4A3D-A4B7-2155E7DE7D16}
 		{67FF48F7-DBC0-478D-9743-CF90FBAF15CF} = {146B25CE-9D56-4A3D-A4B7-2155E7DE7D16}
+		{72D14839-A96B-4BF7-B500-B10672ACC39B} = {F1A57237-1A72-42DC-A932-9AF1A0C67C05}
+		{F2AE2A27-677D-46C5-B47B-ACE2CC077C47} = {F1A57237-1A72-42DC-A932-9AF1A0C67C05}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\Kean\Test\Kean.Test.Run\Kean.Test.Run.csproj
+		StartupItem = src\Kean\Cli\Kean.Cli.Argument\Kean.Cli.Argument.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = Flat
