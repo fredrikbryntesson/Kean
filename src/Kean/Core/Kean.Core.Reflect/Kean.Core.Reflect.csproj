@@ -30,10 +30,6 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="EventInformation.cs" />
     <Compile Include="FieldInformation.cs" />

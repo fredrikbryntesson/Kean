@@ -34,10 +34,6 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Canvas.cs" />
     <Compile Include="ClipStack.cs" />
     <Compile Include="Color\Bgr.cs" />

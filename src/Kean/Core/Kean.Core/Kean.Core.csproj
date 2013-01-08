@@ -30,10 +30,6 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Enumerable.cs" />
     <Compile Include="Enumerator.cs" />
     <Compile Include="Extension\EnumeratorExtension.cs" />
@@ -60,6 +56,9 @@
     <Compile Include="Synchronized.cs" />
     <Compile Include="IString.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

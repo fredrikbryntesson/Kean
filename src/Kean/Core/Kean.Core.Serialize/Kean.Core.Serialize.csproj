@@ -31,12 +31,6 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Exception\PropertyNotWritable.cs" />
     <Compile Include="Exception\PropertyMissing.cs" />
     <Compile Include="IRebuilder.cs" />

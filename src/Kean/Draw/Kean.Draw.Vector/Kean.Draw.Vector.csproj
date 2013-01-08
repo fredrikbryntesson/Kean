@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Canvas.cs" />
     <Compile Include="Element\Abstract.cs" />
     <Compile Include="Element\Paintable.cs" />

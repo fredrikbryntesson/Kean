@@ -29,9 +29,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Double.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exception\DivisionByZero.cs" />

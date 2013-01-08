@@ -30,12 +30,6 @@
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Abstract\ListSet.cs" />
     <Compile Include="Array\Set.cs" />
     <Compile Include="Cast\Enumerable.cs" />

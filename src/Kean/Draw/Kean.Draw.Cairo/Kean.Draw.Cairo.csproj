@@ -36,8 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\GLib\glib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="pango-sharp">
       <HintPath>..\..\..\..\lib\Pango\pango-sharp.dll</HintPath>
     </Reference>
@@ -110,6 +108,6 @@
     <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
       <LibraryFiles Include="$(ProjectDir)..\..\..\..\lib\Cairo\win32\*.dll" />
     </ItemGroup>
-    <Copy Condition="'$(OS)' == 'Windows_NT'" SourceFiles="@(LibraryFiles)" DestinationFiles="@(LibraryFiles-&gt;'$(TargetDir)\%(Filename)%(Extension)')" />
+    <Copy Condition="'$(OS)' == 'Windows_NT'" SourceFiles="@(LibraryFiles)" DestinationFiles="@(LibraryFiles->'$(TargetDir)\%(Filename)%(Extension)')" />
   </Target>
 </Project>

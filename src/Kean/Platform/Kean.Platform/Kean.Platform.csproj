@@ -32,11 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Exception\Abstract.cs" />
     <Compile Include="IHasApplication.cs" />
@@ -85,6 +80,9 @@
       <Project>{967D6DB5-DC31-4A7D-8A72-DBCC5A10E5D8}</Project>
       <Name>Kean.Xml.Serialize</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
