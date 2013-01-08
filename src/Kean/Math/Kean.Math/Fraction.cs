@@ -152,15 +152,15 @@ namespace Kean.Math
             result = new int[] { nominator[nominator.Length - 1], denominator[denominator.Length - 1] };
             return result;
         }
-        Kean.Core.Tuple<int[], int> EuclidanAlgorithm()
+        Tuple<int[], int> EuclidanAlgorithm()
         {
-            Kean.Core.Tuple<int[], int> result = null;
+            Tuple<int[], int> result = null;
             int nominator = this.Nominator;
             int denominator = this.Denominator;
             nominator = Kean.Math.Integer.Absolute(nominator);
             denominator = Kean.Math.Integer.Absolute(denominator);
             if (nominator == denominator || nominator == 0)
-                result = Kean.Core.Tuple.Create(new int[] { 1 }, nominator != 0 ? nominator : 1);
+                result = Tuple.Create(new int[] { 1 }, nominator != 0 ? nominator : 1);
             else
             {
                 int a, b;
@@ -187,7 +187,7 @@ namespace Kean.Math
                 int gcd = a;
                 if (quotients.Count > 0)
                     quotients[0] *= Kean.Math.Integer.Sign(this.Nominator) * Kean.Math.Integer.Sign(this.Denominator);
-                result = Kean.Core.Tuple.Create(quotients.ToArray(), gcd);
+                result = Tuple.Create(quotients.ToArray(), gcd);
 
             }
             return result;

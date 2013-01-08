@@ -596,13 +596,13 @@ namespace Kean.Math.Matrix
 
             for (int j = 0; j < n; j++)
             {
-                Kean.Core.Tuple<Single, float> leftHousePair = b.Extract(j, j + 1, j, m).House();
+                Tuple<Single, float> leftHousePair = b.Extract(j, j + 1, j, m).House();
                 Single leftHouseMultiplier = Single.Identity(m - j) - leftHousePair.Item2 * leftHousePair.Item1 * leftHousePair.Item1.Transpose();
                 leftHouseholder[j] = leftHouseMultiplier;
                 b.Set(j, j, leftHouseMultiplier * b.Extract(j, j));
                 if (j < n - 2)
                 {
-                    Kean.Core.Tuple<Single, float> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
+                    Tuple<Single, float> rightHousePair = b.Extract(j + 1, n, j, j + 1).Transpose().House();
                     Single rightHouseMultiplier = Single.Identity(n - j - 1) - rightHousePair.Item2 * rightHousePair.Item1 * rightHousePair.Item1.Transpose();
                     rightHouseholder[j] = rightHouseMultiplier;
                     b.Set(j + 1, j, b.Extract(j + 1, j) * rightHouseMultiplier);
@@ -622,9 +622,9 @@ namespace Kean.Math.Matrix
         /// See Algorithm 5.1.1 (Householder Vector).
         /// </summary>
         /// <returns></returns>
-        Kean.Core.Tuple<Single, float> House()
+        Tuple<Single, float> House()
         {
-            Kean.Core.Tuple<Single, float> result;
+            Tuple<Single, float> result;
             int n = this.Dimensions.Height;
             Single tail = this.Extract(0, 1, 1, n);
             float sigma = (tail.Transpose() * tail)[0, 0];
@@ -644,7 +644,7 @@ namespace Kean.Math.Matrix
                 beta = 2 * nu00Squared / (sigma + nu00Squared);
                 nu /= nu[0, 0];
             }
-            result = Kean.Core.Tuple.Create<Single, float>(nu, beta);
+            result = Tuple.Create<Single, float>(nu, beta);
             return result;
         }
         #endregion

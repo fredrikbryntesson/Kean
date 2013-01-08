@@ -32,9 +32,9 @@ namespace Kean.Math.Regression.Test.Filter
             Collection.List<Geometry2D.Single.Point> estimates = new Collection.List<Kean.Math.Geometry2D.Single.Point>();
             foreach (Geometry2D.Single.Point p in measures)
             {
-                Core.Tuple<Geometry2D.Single.Point, Geometry2D.Single.Size> predict = kalman.Predict();
+                Tuple<Geometry2D.Single.Point, Geometry2D.Single.Size> predict = kalman.Predict();
                 predictions.Add(predict.Item1);
-                Core.Tuple<Geometry2D.Single.Point, Geometry2D.Single.Size> estimate = kalman.Correct(p);
+                Tuple<Geometry2D.Single.Point, Geometry2D.Single.Size> estimate = kalman.Correct(p);
                 estimates.Add(estimate.Item1);
             }
             System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");

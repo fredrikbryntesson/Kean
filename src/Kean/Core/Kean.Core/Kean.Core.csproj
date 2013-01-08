@@ -9,7 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Kean.Core</RootNamespace>
     <AssemblyName>Kean.Core</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -57,10 +58,6 @@
     <Compile Include="Order.cs" />
     <Compile Include="ReferenceCounter.cs" />
     <Compile Include="Synchronized.cs" />
-    <Compile Include="Tuple.cs" />
-    <Compile Include="ITuple.cs" />
-    <Compile Include="Action.cs" />
-    <Compile Include="Func.cs" />
     <Compile Include="IString.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>

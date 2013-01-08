@@ -32,8 +32,7 @@ namespace Kean.Core
 		}
 	}
 	public struct KeyValue<K, V> :
-		IEquatable<KeyValue<K, V>>,
-		ITuple
+		IEquatable<KeyValue<K, V>>
 	{
 		public K Key;
 		public V Value;

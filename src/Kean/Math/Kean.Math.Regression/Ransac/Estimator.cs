@@ -43,14 +43,14 @@ namespace Kean.Math.Regression.Ransac
             this.confidence = confidence;
             this.random = new Random.Integer.Interval();
         }
-        public void Load(Collection.IList<Kean.Core.Tuple<Domain, Range>> data)
+        public void Load(Collection.IList<Tuple<Domain, Range>> data)
         {
             int count = data.Count;
             this.domain = new Domain[count];
             this.range = new Range[count];
             for (int i = 0; i < count; i++)
             {
-                Kean.Core.Tuple<Domain, Range> pair = data[i];
+                Tuple<Domain, Range> pair = data[i];
                 this.domain[i] = pair.Item1;
                 this.range[i] = pair.Item2;
             }
@@ -169,9 +169,9 @@ namespace Kean.Math.Regression.Ransac
             result = -nominator >= -denominator * iterations ? iterations : Kean.Math.Integer.Round(nominator / denominator);
             return result;
         }
-        Collection.IList<Kean.Core.Tuple<Domain, Range>> Select(Collection.IList<Kean.Core.Tuple<Domain, Range>> data, int needed)
+        Collection.IList<Tuple<Domain, Range>> Select(Collection.IList<Tuple<Domain, Range>> data, int needed)
         {
-            Collection.IList<Kean.Core.Tuple<Domain, Range>> result = new Collection.List<Kean.Core.Tuple<Domain, Range>>(data.Count);
+            Collection.IList<Tuple<Domain, Range>> result = new Collection.List<Tuple<Domain, Range>>(data.Count);
             this.random.Ceiling = data.Count - 1;
             int[] indices = this.random.GenerateUnique(needed);
             for (int i = 0; i < indices.Length; i++)

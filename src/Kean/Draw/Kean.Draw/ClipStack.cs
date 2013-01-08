@@ -30,7 +30,7 @@ namespace Kean.Draw
 	class ClipStack
 	{
 		Geometry2D.Single.Size newSize;
-		Collection.IStack<Kean.Core.Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>> clips;
+		Collection.IStack<Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>> clips;
 		System.Action<Geometry2D.Single.Transform, Geometry2D.Single.Box> update;
 		int counter = 0;
 		public Geometry2D.Single.Box Clip { get { return this.clips.Peek().Item1; } }
@@ -42,12 +42,12 @@ namespace Kean.Draw
 			if (size.IsNull())
 				throw new ArgumentNullException("size");
 			this.update = update;
-			this.clips = new Collection.Stack<Kean.Core.Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>>();
-			this.clips.Push(Kean.Core.Tuple.Create(new Geometry2D.Single.Box(0, 0, size.Width, size.Height), Geometry2D.Single.Transform.Identity));
+			this.clips = new Collection.Stack<Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>>();
+			this.clips.Push(Tuple.Create(new Geometry2D.Single.Box(0, 0, size.Width, size.Height), Geometry2D.Single.Transform.Identity));
 		}
 		public void Push(Geometry2D.Single.Box region, Geometry2D.Single.Transform transform)
 		{
-			Kean.Core.Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip = Kean.Core.Tuple.Create(region, this.clips.Peek().Item2 * transform);
+			Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip = Tuple.Create(region, this.clips.Peek().Item2 * transform);
 			this.clips.Push(clip);
 			this.UpdateClip(clip);
 			this.counter++;
@@ -56,16 +56,16 @@ namespace Kean.Draw
 		{
 			this.clips.Pop();
 			this.counter--;
-			Kean.Core.Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip = this.clips.Pop();
+			Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip = this.clips.Pop();
 			if (this.newSize.NotNull() && this.clips.Empty)
 			{
-				clip = Kean.Core.Tuple.Create(new Geometry2D.Single.Box(0, 0, this.newSize.Width, this.newSize.Height), Geometry2D.Single.Transform.Identity);
+				clip = Tuple.Create(new Geometry2D.Single.Box(0, 0, this.newSize.Width, this.newSize.Height), Geometry2D.Single.Transform.Identity);
 				this.newSize = null;
 			}
 			this.clips.Push(clip);
 			this.UpdateClip(clip);
 		}
-		void UpdateClip(Kean.Core.Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip)
+		void UpdateClip(Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip)
 		{
 			this.update(clip.Item2, clip.Item1 + (Geometry2D.Single.Point)clip.Item2.Translation);
 		}

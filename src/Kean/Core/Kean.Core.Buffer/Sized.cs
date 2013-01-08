@@ -127,9 +127,9 @@ namespace Kean.Core.Buffer
 				result = float.MaxValue;
 			return result;
 		}
-		public Core.Tuple<int, float> Discrepance(Sized other)
+		public Tuple<int, float> Discrepance(Sized other)
 		{
-			Core.Tuple<int, float> result;
+			Tuple<int, float> result;
 			float error = 0;
 			int position = -1;
 			if (other.NotNull())

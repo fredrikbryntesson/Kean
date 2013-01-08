@@ -176,8 +176,8 @@ namespace Kean.Math.Regression.Test.Ransac
             };
             Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> estimate =
                 new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single>(model, 20, 0.999);
-            Collection.IList<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
-                new Collection.List<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
+            Collection.IList<Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
+                new Collection.List<Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
             float s = 2;
             float thetaAngle = Kean.Math.Single.ToRadians(5);
             float xTranslation = 7;
@@ -197,9 +197,9 @@ namespace Kean.Math.Regression.Test.Ransac
                 float[] ydd = normal.Generate(2);
                 Geometry2D.Single.PointValue xd = new Kean.Math.Geometry2D.Single.PointValue(xdd[0], xdd[1]);
                 Geometry2D.Single.PointValue yd = new Kean.Math.Geometry2D.Single.PointValue(ydd[0], ydd[1]);
-                previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(x + xd, y + yd));
+                previousCurrentPoints.Add(Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(x + xd, y + yd));
             }
-            previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(130, 130), new Geometry2D.Single.PointValue(720, 70)));
+            previousCurrentPoints.Add(Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(130, 130), new Geometry2D.Single.PointValue(720, 70)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Kean.Math.Matrix.Single> best = estimate.Compute();
             Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosinus(thetaAngle), s * Kean.Math.Single.Sinus(thetaAngle), xTranslation, yTranslation });
@@ -210,7 +210,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("close all;");
                 string before = "";
                 string after = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in previousCurrentPoints)
+                foreach (Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in previousCurrentPoints)
                 {
                     before += point.Item1.ToString() + "; ";
                     after += point.Item2.ToString() + "; ";
@@ -304,8 +304,8 @@ namespace Kean.Math.Regression.Test.Ransac
             };
             Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> estimate =
                 new Target.Estimator<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(model, 20);
-            Collection.IList<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
-                new Collection.List<Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
+            Collection.IList<Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>> previousCurrentPoints =
+                new Collection.List<Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>>();
             Geometry2D.Single.PointValue translation = new Geometry2D.Single.PointValue(7, 10);
             Kean.Math.Random.Single.Normal normal = new Kean.Math.Random.Single.Normal(0, 2);
             Kean.Core.Collection.IList<Geometry2D.Single.PointValue> previousPoints = new Kean.Core.Collection.List<Geometry2D.Single.PointValue>();
@@ -320,9 +320,9 @@ namespace Kean.Math.Regression.Test.Ransac
                 float[] ydd = normal.Generate(2);
                 Geometry2D.Single.PointValue xd = new Kean.Math.Geometry2D.Single.PointValue(xdd[0], xdd[1]);
                 Geometry2D.Single.PointValue yd = new Kean.Math.Geometry2D.Single.PointValue(ydd[0], ydd[1]);
-                previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(x + xd, y + yd));
+                previousCurrentPoints.Add(Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(x + xd, y + yd));
             }
-            previousCurrentPoints.Add(Kean.Core.Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(107, 107), new Geometry2D.Single.PointValue(120, 130)));
+            previousCurrentPoints.Add(Tuple.Create<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue>(new Geometry2D.Single.PointValue(107, 107), new Geometry2D.Single.PointValue(120, 130)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> best = estimate.Compute();
             if (best.NotNull())
@@ -335,7 +335,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("close all;");
                 string before = "";
                 string after = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in previousCurrentPoints)
+                foreach (Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in previousCurrentPoints)
                 {
                     before += point.Item1.ToString() + "; ";
                     after += point.Item2.ToString() + "; ";
@@ -348,7 +348,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
                 string consensus = "";
-                foreach (Kean.Core.Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in best.Inliers)
+                foreach (Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in best.Inliers)
                     consensus += point.Item2.ToString() + "; ";
                 consensus = consensus.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensus + "];");
