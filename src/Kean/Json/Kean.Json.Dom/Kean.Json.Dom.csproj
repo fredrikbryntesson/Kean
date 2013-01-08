@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,7 +15,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -33,7 +33,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="Array.cs" />
     <Compile Include="Boolean.cs" />
@@ -78,7 +79,16 @@
       <Name>Kean.Json.Sax</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Writer\" />
-  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(ProjectDir)..\..\..\..\lib\MSBuildTasks\</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.Targets" />
+  <Target Name="BeforeBuild">
+    <Copy SourceFiles="$(ProjectDir)..\..\CommonAssemblyInfo.cs" DestinationFolder="Properties" />
+    <SvnVersion LocalPath="$(MSBuildProjectDirectory)" Condition="'$(OS)' == 'Windows_NT'">
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </SvnVersion>
+    <FileUpdate Condition="'$(Revision)' != '-1'" Files="Properties/CommonAssemblyInfo.cs" Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)" ReplacementText="$1.$2.$3.$(Revision)" />
+  </Target>
 </Project>

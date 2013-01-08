@@ -30,7 +30,8 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="All.cs" />
     <Compile Include="Equality.cs" />
     <Compile Include="Factory.cs" />
