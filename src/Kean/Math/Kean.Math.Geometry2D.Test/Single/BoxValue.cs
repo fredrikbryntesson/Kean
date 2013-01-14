@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Math.Geometry2D;
 using Kean.Core.Extension;
 

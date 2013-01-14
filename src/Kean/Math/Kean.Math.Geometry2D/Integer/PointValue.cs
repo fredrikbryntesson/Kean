@@ -130,6 +130,10 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return new PointValue(left.X - right.X, left.Y - right.Y);
         }
+        public static PointValue operator -(PointValue left, SizeValue right)
+        {
+            return new PointValue(left.X - right.Width, left.Y - right.Height);
+        }
         public static PointValue operator -(PointValue left, Abstract.IVector<int> right)
         {
             return new PointValue(left.X - right.X, left.Y - right.Y);

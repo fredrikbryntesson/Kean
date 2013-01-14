@@ -159,6 +159,10 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return new <#= @name #>(left.X - right.X, left.Y - right.Y);
         }
+        public static <#= @name #> operator -(<#= @name #> left, SizeValue right)
+        {
+            return new <#= @name #>(left.X - right.Width, left.Y - right.Height);
+        }
         public static <#= @name #> operator -(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
         {
             return new <#= @name #>(left.X - right.X, left.Y - right.Y);

@@ -40,7 +40,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Extension;
 using Target = Kean.Math.Complex.<#= @class #>;
 namespace Kean.Math.Complex.Test

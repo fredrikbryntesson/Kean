@@ -269,6 +269,22 @@ namespace Kean.Math.Geometry2D.Double
         }
         #endregion
 		#region Static Creators
+        public static BoxValue Create(PointValue leftTop, SizeValue size)
+        {
+            return new BoxValue(leftTop, size);
+        }
+        public static BoxValue Create(double left, double top, double width, double height)
+        {
+            return new BoxValue(left, top, width, height);
+        }
+        public static BoxValue CreateAround(PointValue center, SizeValue size)
+        {
+            return new BoxValue(center - size / 2, size);
+        }
+        public static BoxValue CreateAround(double center, double middle, double width, double height)
+        {
+            return new BoxValue(center - width / 2, middle - height / 2, width, height);
+        }
 		public static BoxValue Bounds(double left, double right, double top, double bottom)
 		{
 			return new BoxValue(left, top, right - left, bottom - top);

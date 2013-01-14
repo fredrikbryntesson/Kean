@@ -164,7 +164,7 @@ namespace Kean.Math.Complex
         }
         public static <#= @class #> RootOfUnity(int n, int k)
         {
-            return <#= @class #>.Exponential(new <#= @class #>(0, 2 * k * Kean.Math.<#= @class #>.Pi / n));
+            return <#= @class #>.Exponential(new <#= @class #>(0, 2 * k * Kean.Math.<#= @class #>.PI / n));
         }
         #endregion
         #region Object overides and IEquatable<<#= @class #>>

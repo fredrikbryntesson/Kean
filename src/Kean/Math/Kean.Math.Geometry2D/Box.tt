@@ -1,4 +1,4 @@
-﻿<#@ template language="C#v3.5" hostspecific="True" #>
+﻿<#@ template language="C#v4.0" hostspecific="True" #>
 <#
     GenerateStart("BoxValue", "Kean.Math.Geometry2D", "Single",  "float");
 	GenerateSingle("BoxValue");
@@ -328,6 +328,22 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         #endregion
 		#region Static Creators
+        public static <#= @name #> Create(PointValue leftTop, SizeValue size)
+        {
+            return new <#= @name #>(leftTop, size);
+        }
+        public static <#= @name #> Create(<#= @value1 #> left, <#= @value1 #> top, <#= @value1 #> width, <#= @value1 #> height)
+        {
+            return new <#= @name #>(left, top, width, height);
+        }
+        public static <#= @name #> CreateAround(PointValue center, SizeValue size)
+        {
+            return new <#= @name #>(center - size / 2, size);
+        }
+        public static <#= @name #> CreateAround(<#= @value1 #> center, <#= @value1 #> middle, <#= @value1 #> width, <#= @value1 #> height)
+        {
+            return new <#= @name #>(center - width / 2, middle - height / 2, width, height);
+        }
 		public static <#= @name #> Bounds(<#= @value1 #> left, <#= @value1 #> right, <#= @value1 #> top, <#= @value1 #> bottom)
 		{
 			return new <#= @name #>(left, top, right - left, bottom - top);

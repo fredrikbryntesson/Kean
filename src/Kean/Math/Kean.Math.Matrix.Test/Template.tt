@@ -41,7 +41,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Kean.Core.Extension;
 using Target = Kean.Math.Matrix.<#= @class #>;
 
