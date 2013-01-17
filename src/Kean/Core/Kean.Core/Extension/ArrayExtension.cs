@@ -184,6 +184,29 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
+		public static bool Exists<T>(this T[] me, Func<T, bool> function, int length)
+		{
+			bool result = false;
+			for (int i = 0; i < length; i++)
+				if (function(me[i]))
+				{
+					result = true;
+					break;
+				}
+			return result;
+		}
+		public static bool Exists<T>(this T[] me, Func<T, bool> function, int start, int length)
+		{
+			bool result = false;
+			length += start;
+			for (int i = start; i < length; i++)
+				if (function(me[i]))
+				{
+					result = true;
+					break;
+				}
+			return result;
+		}
 		public static bool All<T>(this T[] me, Func<T, bool> function)
 		{
 			bool result = true;

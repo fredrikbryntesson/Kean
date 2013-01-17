@@ -18,7 +18,10 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Random
 {
@@ -160,13 +163,11 @@ namespace Kean.Math.Random
             T[] result = new T[count];
             for (int i = 0; i < count; i++)
             {
-                result[i] = this.Generate();
-                for (int j = 0; j < i; j++)
-                    if (result[j].Equals(result[i]))
-                        j = --i;
+				do
+					result[i] = this.Generate();
+				while (result.Exists(item => item.Equals(result[i]), i));
             }
             return result;
         }
-
     }
 }

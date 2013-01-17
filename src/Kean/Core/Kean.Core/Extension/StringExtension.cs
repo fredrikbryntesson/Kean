@@ -1,5 +1,5 @@
 // 
-//  String.cs
+//  StringExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

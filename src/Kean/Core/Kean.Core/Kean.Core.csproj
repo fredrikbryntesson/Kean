@@ -33,6 +33,7 @@
     <Compile Include="Enumerable.cs" />
     <Compile Include="Enumerator.cs" />
     <Compile Include="Extension\EnumeratorExtension.cs" />
+    <Compile Include="Extension\SingleExtension.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="IBinary.cs" />
     <Compile Include="Extension\EnumerableExtension.cs" />

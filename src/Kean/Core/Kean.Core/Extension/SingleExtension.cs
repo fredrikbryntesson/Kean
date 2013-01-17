@@ -1,10 +1,10 @@
 ﻿// 
-//  ComparerExtension.cs
+//  SingleExtension.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -23,32 +23,15 @@ using System;
 
 namespace Kean.Core.Extension
 {
-	public static class ComparerExtension
+	public static class SingleExtension
 	{
-		public static Comparison<T> AsComparison<T>(this Comparer<T> me)
+		public static bool NotNumber(this float me)
 		{
-			return (left, right) =>
-			{
-				int result;
-				switch (me(left, right))
-				{
-					default:
-					case Order.GreaterThan: result = 1; break;
-					case Order.Equal: result = 0; break;
-					case Order.LessThan: result = -1; break;
-				}
-				return result;
-			};
+			return me.IsNull() || float.IsNaN(me) || float.IsInfinity(me);
 		}
-		public static Comparer<T> Then<T>(this Comparer<T> me, Comparer<T> secondary)
+		public static bool IsNumber(this float me)
 		{
-			return (left, right) =>
-			{
-				Order result = me(left, right);
-				if (result == Order.Equal)
-					result = secondary(left, right);
-				return result;
-			};
+			return me.NotNull() && !float.IsNaN(me) && !float.IsInfinity(me);
 		}
 	}
 }
