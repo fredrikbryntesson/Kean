@@ -65,8 +65,9 @@ namespace Kean.Core.Buffer
 						this.isPinned = false;
 					}
 					this.data.Initialize(default(T));
-					Vector<T>.recycle.Recycle(this.data);
-					this.data = null;
+					T[] data = this.data;
+					this.data = null; // must set this to null before recycle so that we don't recycle already recycled arrays
+					Vector<T>.recycle.Recycle(data);
 				}
 			}
         }
