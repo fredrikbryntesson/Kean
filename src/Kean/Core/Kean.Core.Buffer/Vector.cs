@@ -40,7 +40,7 @@ namespace Kean.Core.Buffer
 		bool recyclable;
         InteropServices.GCHandle handle;
         public Vector(int size) : this(size, null) { }
-		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Find(size).Initialize(default(T)) ?? new T[size], free) 
+		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.Find(size), free) 
 		{
 			this.recyclable = true;  // only recycle the once we allocate our self is both safer and leads to higher recycle rate
 		}
@@ -124,6 +124,11 @@ namespace Kean.Core.Buffer
 		static int Index(int size)
 		{
 			return size < 10000 ? 0 : size < 100000 ? 1 : 2;
+		}
+		static T[] Find(int size)
+		{
+			T[] result = Vector<T>.recycle.Find(size);
+			return result.NotNull() ? result.Initialize(default(T)) : new T[size];
 		}
 		static Vector()
 		{
