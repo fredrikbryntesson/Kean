@@ -37,9 +37,13 @@ namespace Kean.Core.Buffer
             set { lock (this.Lock) this.data = value; }
         }
         bool isPinned = false;
+		bool recyclable;
         InteropServices.GCHandle handle;
         public Vector(int size) : this(size, null) { }
-		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Find(size) ?? new T[size], free) { }
+		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.recycle.Find(size).Initialize(default(T)) ?? new T[size], free) 
+		{
+			this.recyclable = true;  // only recycle the once we allocate our self is both safer and leads to higher recycle rate
+		}
         public Vector(T[] data) : this(data, null) { }
         public Vector(T[] data, Action<IntPtr> free) :
             this(InteropServices.GCHandle.Alloc(data, InteropServices.GCHandleType.Pinned), InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(data, 0), data.Length * InteropServices.Marshal.SizeOf(typeof(T)), free)
@@ -64,10 +68,10 @@ namespace Kean.Core.Buffer
 						this.handle.Free();
 						this.isPinned = false;
 					}
-					this.data.Initialize(default(T));
 					T[] data = this.data;
 					this.data = null; // must set this to null before recycle so that we don't recycle already recycled arrays
-					Vector<T>.recycle.Recycle(data);
+					if (this.recyclable)
+						Vector<T>.recycle.Recycle(data);
 				}
 			}
         }
@@ -121,6 +125,10 @@ namespace Kean.Core.Buffer
 		{
 			return size < 10000 ? 0 : size < 100000 ? 1 : 2;
 		}
+		static Vector()
+		{
+			Vector.OnFree += Vector<T>.Free;
+		}
 		static Recycle.IBin<T[], int> recycle = new Recycle.Bins<T[], int>(
 			10,
 			3,
@@ -132,6 +140,14 @@ namespace Kean.Core.Buffer
 		public static void Free()
 		{
 			Vector<T>.recycle.Free();
+		}
+	}
+	public class Vector
+	{
+		internal static event Action OnFree;
+		public static void Free()
+		{
+			Vector.OnFree.Call();
 		}
 	}
 }
