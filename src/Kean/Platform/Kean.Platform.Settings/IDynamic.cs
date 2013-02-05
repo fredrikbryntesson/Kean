@@ -26,7 +26,8 @@ using Kean.Core.Extension;
 namespace Kean.Platform.Settings
 {
 	public interface IDynamic :
-		IReload
+		IReload,
+        IDisposable
 	{
 		System.Collections.Generic.IEnumerable<Tuple<string, string, string, object>> GetDynamic();
 	}

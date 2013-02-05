@@ -58,6 +58,11 @@ namespace Kean.Core.Error
 					onAppend(entry);
 			}
 		}
+        public static void Free()
+        {
+            Log.CatchErrorsChanged = null;
+            Log.OnAppend = null;
+        }
 		public static void Append(Level level, string title, System.Exception exception)
 		{
 			Log.Append(Entry.Create(level, title, exception));

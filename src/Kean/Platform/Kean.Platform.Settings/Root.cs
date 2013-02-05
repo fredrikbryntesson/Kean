@@ -73,15 +73,20 @@ namespace Kean.Platform.Settings
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;
-			Core.Error.Log.OnAppend += error =>
-			{
-				this.OnError.Call(this.Error = error);
-				this.errorString = null;
-				if (this.OnErrorString.NotNull())
-					this.OnErrorString(this.ErrorString);
-			};
+            Core.Error.Log.OnAppend += this.OnErrorHelper;
 		}
-
+        void OnErrorHelper(Core.Error.IError error)
+        {
+            this.OnError.Call(this.Error = error);
+            this.errorString = null;
+            if (this.OnErrorString.NotNull())
+                this.OnErrorString(this.ErrorString);
+        }
+        public override void Dispose()
+        {
+            Core.Error.Log.OnAppend -= this.OnErrorHelper;
+            base.Dispose();
+        }
 		[Method("close", "Closes application.", "Shuts down the current application instance.")]
 		public bool Close()
 		{

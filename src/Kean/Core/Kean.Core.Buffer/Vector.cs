@@ -70,7 +70,7 @@ namespace Kean.Core.Buffer
 					}
 					T[] data = this.data;
 					this.data = null; // must set this to null before recycle so that we don't recycle already recycled arrays
-					if (this.recyclable)
+					if (this.recyclable && Vector.Recycle)
 						Vector<T>.recycle.Recycle(data);
 				}
 			}
@@ -149,7 +149,12 @@ namespace Kean.Core.Buffer
 	}
 	public class Vector
 	{
+        public static bool Recycle { get; set; }
 		internal static event Action OnFree;
+        static Vector()
+        {
+            Vector.Recycle = true;
+        }
 		public static void Free()
 		{
 			Vector.OnFree.Call();

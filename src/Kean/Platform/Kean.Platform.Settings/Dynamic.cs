@@ -123,5 +123,17 @@ namespace Kean.Platform.Settings
 			remove { this.reload -= value; }
 		}
 		#endregion
-	}
+
+        public virtual void Dispose()
+        {
+            if (this.data.NotNull())
+            {
+                foreach (KeyValue<string, Tuple<string, string, object>> item in this.data)
+                    if (item.Value.Item3 is IDisposable)
+                        (item.Value.Item3 as IDisposable).Dispose();
+                this.data = null;
+                this.loaded = null;
+            }
+        }
+    }
 }

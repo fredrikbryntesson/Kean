@@ -125,6 +125,11 @@ namespace Kean.Platform.Settings
 				this.editors.Apply(editor => editor.Dispose());
 				this.editors = null;
 			}
+            if (this.root.NotNull())
+            {
+                this.root.Dispose();
+                this.root = null;
+            }
 			base.Dispose();
 		}
 	}
