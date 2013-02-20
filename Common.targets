@@ -30,7 +30,7 @@
     <UsingTask TaskName="GitVersionFile" AssemblyFile=".tools\MSBuildVersioning.dll" />
     <UsingTask TaskName="SvnVersionFile" AssemblyFile=".tools\MSBuildVersioning.dll" />
 	<Target Name="_DownloadFiles">
-        <DownloadFile Locator="https://github.com/simonmika/MSBuildVersioningBinaries/raw/master/MSBuildVersioning.dll" OutputFilename=".tools\MSBuildVersioning.dll" Condition=" !Exists('.tools\MSBuildVersioning.dll')" />
+        <DownloadFile Locator="https://github.com/imintsystems/MSBuildVersioningBinaries/raw/master/MSBuildVersioning.dll" OutputFilename=".tools\MSBuildVersioning.dll" Condition=" !Exists('.tools\MSBuildVersioning.dll')" />
         <DownloadFile Locator="https://nuget.org/nuget.exe" OutputFilename=".nuget\NuGet.exe" Condition=" !Exists('.nuget\NuGet.exe')" />
 	</Target>
     <Target Name="CheckPrerequisites">
