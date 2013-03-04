@@ -39,7 +39,27 @@ namespace Kean.Core.Extension
 		{
 			return new RegularExpressions.Regex("^" + RegularExpressions.Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$", RegularExpressions.RegexOptions.IgnoreCase | RegularExpressions.RegexOptions.Singleline).IsMatch(me);
 		}
-		public static int Index(this string me, string needle)
+        public static void Save(this string me, string path)
+        {
+            System.IO.File.WriteAllText(path, me);
+        }
+        public static string Format(this string me, object argument)
+        {
+            return string.Format(me, argument);
+        }
+        public static string Format(this string me, object argument0, object argument1)
+        {
+            return string.Format(me, argument0, argument1);
+        }
+        public static string Format(this string me, object argument0, object argument1, object argument2)
+        {
+            return string.Format(me, argument0, argument1, argument2);
+        }
+        public static string Format(this string me, params object[] arguments)
+        {
+            return string.Format(me, arguments);
+        }
+        public static int Index(this string me, string needle)
 		{
 			return me.Index(0, needle);
 		}
