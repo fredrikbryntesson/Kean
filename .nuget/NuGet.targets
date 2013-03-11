@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+        <ModuleDir>$(MSBuildThisFileDirectory)\..\</ModuleDir>
         
         <!-- Enable the restore command to run before builds -->
-        <RestorePackages Condition="  '$(RestorePackages)' == '' ">false</RestorePackages>
+        <RestorePackages Condition="  '$(RestorePackages)' == '' ">true</RestorePackages>
 
         <!-- Property that enables building a package from a project -->
         <BuildPackage Condition=" '$(BuildPackage)' == '' ">false</BuildPackage>
 
         <!-- Determines if package restore consent is required to restore packages -->
-        <RequireRestoreConsent Condition=" '$(RequireRestoreConsent)' != 'false' ">true</RequireRestoreConsent>
+        <RequireRestoreConsent Condition=" '$(RequireRestoreConsent)' != 'false' ">false</RequireRestoreConsent>
         
         <!-- Download NuGet.exe if it does not already exist -->
         <DownloadNuGetExe Condition=" '$(DownloadNuGetExe)' == '' ">true</DownloadNuGetExe>
@@ -19,24 +19,22 @@
     <ItemGroup Condition=" '$(PackageSources)' == '' ">
         <!-- Package sources used to restore packages. By default, registered sources under %APPDATA%\NuGet\NuGet.Config will be used -->
         <!-- The official NuGet package source (https://nuget.org/api/v2/) will be excluded if package sources are specified and it does not appear in the list -->
-        <!--
             <PackageSource Include="https://nuget.org/api/v2/" />
-            <PackageSource Include="https://my-nuget-source/nuget/" />
-        -->
+            <PackageSource Include="https://myget.org/F/Kean/" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
         <!-- Windows specific commands -->
-        <NuGetToolsPath>$([System.IO.Path]::Combine($(SolutionDir), ".nuget"))</NuGetToolsPath>
+        <NuGetToolsPath>$([System.IO.Path]::Combine($(ModuleDir), ".nuget"))</NuGetToolsPath>
         <PackagesConfig>$([System.IO.Path]::Combine($(ProjectDir), "packages.config"))</PackagesConfig>
-        <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
+        <PackagesDir>$([System.IO.Path]::Combine($(ModuleDir), "packages"))</PackagesDir>
     </PropertyGroup>
     
     <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
         <!-- We need to launch nuget.exe with the mono command if we're not on windows -->
-        <NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
+        <NuGetToolsPath>$(ModuleDir).nuget</NuGetToolsPath>
         <PackagesConfig>packages.config</PackagesConfig>
-        <PackagesDir>$(SolutionDir)packages</PackagesDir>
+        <PackagesDir>$(ModuleDir)packages</PackagesDir>
     </PropertyGroup>
     
     <PropertyGroup>
