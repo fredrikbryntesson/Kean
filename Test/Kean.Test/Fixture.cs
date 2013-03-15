@@ -112,7 +112,7 @@ namespace Kean.Test
 		public static void VerifyAsResource(string filename, string resource, string message, params object[] arguments)
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open), 
+			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open),
 				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.')), message, arguments);
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)

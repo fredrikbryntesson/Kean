@@ -58,7 +58,9 @@ namespace Kean.Draw.Gpu
 		public override T Convert<T>()
 		{
 			T result = null;
-			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+			if (this is T)
+				result = this.Copy() as T;
+			else if (typeof(T).IsSubclassOf(typeof(Raster.Image)) || typeof(T) == typeof(Raster.Image))
 				result = this.Backend.Read().Convert<T>() as T; 
 			else
 			{
