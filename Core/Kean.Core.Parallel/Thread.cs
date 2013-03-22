@@ -50,10 +50,12 @@ namespace Kean.Core.Parallel
 		#endregion
 		public virtual bool Join(int timeOut)
 		{
+			this.Backend.Interrupt();
 			return this.Backend.Join(timeOut);
 		}
 		public virtual void Abort()
 		{
+			this.Backend.Interrupt();
 			this.Backend.Abort();
 		}
 		#region Static Creators
@@ -65,7 +67,12 @@ namespace Kean.Core.Parallel
 		public static Thread Start(string name, Action task)
 		{
 			task = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), task);
-			return new Thread(name, () => task.Call());
+			return new Thread(name, () =>
+			{
+				try { task.Call(); }
+				catch (System.Threading.ThreadInterruptedException) { }
+				catch (System.Threading.ThreadAbortException) { }
+			});
 		}
 		#endregion
 
@@ -74,7 +81,11 @@ namespace Kean.Core.Parallel
 		{
 			if (this.Backend.NotNull())
 			{
-				this.Abort();
+				if (!this.Join(100))
+				{
+					this.Abort();
+					this.Join(100);
+				}
 				this.Backend = null;
 			}
 		}

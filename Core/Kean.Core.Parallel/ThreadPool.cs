@@ -61,10 +61,10 @@ namespace Kean.Core.Parallel
             if (this.workers.NotNull())
             {
 				foreach (Worker worker in this.workers)
-					if (!worker.Occupied)
+					if (worker.NotNull() && !worker.Occupied)
 						worker.Dispose();
 				foreach (Worker worker in this.workers)
-					if (worker.Occupied)
+					if (worker.NotNull())
 						worker.Dispose();
 				this.workers = null;
             }

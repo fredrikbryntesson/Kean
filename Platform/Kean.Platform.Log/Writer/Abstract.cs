@@ -37,7 +37,7 @@ namespace Kean.Platform.Log.Writer
 		}
 		~Abstract()
 		{
-			(this as IDisposable).Dispose();
+			Error.Log.Wrap((Action)(this as IDisposable).Dispose)();
 		}
 		#region IDisposable Members
 		void IDisposable.Dispose()
