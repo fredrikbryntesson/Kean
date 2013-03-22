@@ -42,7 +42,8 @@ namespace Kean.Draw.Raster.Test
 				this.RoundedRectangle,
 				this.Circle,
 				this.Ellipse,
-				this.Bitmap
+				this.Bitmap,
+				this.Text
 				);
 		}
 		protected abstract Draw.Image CreateImage(Geometry2D.Integer.Size size);
@@ -51,7 +52,7 @@ namespace Kean.Draw.Raster.Test
 		{
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Geometry2D.Single.Box(10, 10, 100, 100)));
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Draw.Path.Rectangle(new Geometry2D.Single.Box(10, 10, 100, 100)));
 				Verify(image, this.correctPath + "Rectangle.png");
 			}
 		}
@@ -60,7 +61,7 @@ namespace Kean.Draw.Raster.Test
 		{
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Path.Rectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100), new Math.Geometry2D.Single.Size(10, 20)));
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 2), Draw.Path.Rectangle(new Kean.Math.Geometry2D.Single.Box(10, 10, 100, 100), new Math.Geometry2D.Single.Size(10, 20)));
 				Verify(image, this.correctPath + "RoundedRectangle.png");
 			}
 		}
@@ -69,7 +70,7 @@ namespace Kean.Draw.Raster.Test
 		{
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 4), Path.Circle(new Geometry2D.Single.Point(64, 128), 48));
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 4), Draw.Path.Circle(new Geometry2D.Single.Point(64, 128), 48));
 				Verify(image, this.correctPath + "Circle.png");
 			}
 		}
@@ -78,7 +79,7 @@ namespace Kean.Draw.Raster.Test
 		{
 			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 			{
-				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 8), Path.Ellipse(new Geometry2D.Single.Point(64, 128), new Geometry2D.Single.Size(48, 72)));
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 8), Draw.Path.Ellipse(new Geometry2D.Single.Point(64, 128), new Geometry2D.Single.Size(48, 72)));
 				Verify(image, this.correctPath + "Ellipse.png");
 			}
 		}
@@ -91,6 +92,15 @@ namespace Kean.Draw.Raster.Test
 				image.Canvas.Draw(ellipse, new Geometry2D.Single.Point(128, 256));
 				Verify(image, this.correctPath + "Bitmap.png");
 			}
+		}
+		[Test]
+		public void Text()
+		{
+			//using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
+			//{
+			//	image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 8), new Text() { Markup = "Kean Toolkit", Font = new Font("Verdana", 12, FontWeight.Normal, FontSlant.Normal) }, new Geometry2D.Single.Point(10, 20));
+			//	Verify(image, this.correctPath + "Text.png");
+			//}
 		}
 	}
 }

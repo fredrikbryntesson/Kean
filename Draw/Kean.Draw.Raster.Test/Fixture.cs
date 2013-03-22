@@ -64,6 +64,32 @@ namespace Kean.Draw.Raster.Test
 						using (Raster.Bgra i = image.Convert<Raster.Bgra>())
 							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 				}
+				else if (correct is Raster.Monochrome)
+				{
+					if (image is Raster.Monochrome)
+						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					else
+						using (Raster.Monochrome i = image.Convert<Raster.Monochrome>())
+							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				}
+				else if (correct is Raster.Yuv420)
+				{
+					if (image is Raster.Yuv420)
+						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					else
+						using (Raster.Yuv420 i = image.Convert<Raster.Yuv420>())
+							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				}
+				else if (correct is Raster.Yuyv)
+				{
+					if (image is Raster.Yuyv)
+						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+					else
+						using (Raster.Yuyv i = image.Convert<Raster.Yuyv>())
+							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				}
+				else
+					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
 			}
 			catch
 			{

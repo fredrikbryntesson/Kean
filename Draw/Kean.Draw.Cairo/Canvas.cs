@@ -176,7 +176,6 @@ namespace Kean.Draw.Cairo
 		#region Draw Text
 		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
 		{
-
 		}
 		#endregion
 		#region Blend

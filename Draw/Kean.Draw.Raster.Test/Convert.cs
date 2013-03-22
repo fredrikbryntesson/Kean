@@ -31,7 +31,7 @@ namespace Kean.Draw.Raster.Test
 		Fixture<Convert>
 	{
 		public Convert() :
-			base(5f)
+			base(16f)
 		{ }
 		protected override void Run()
 		{
