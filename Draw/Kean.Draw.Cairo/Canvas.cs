@@ -131,6 +131,10 @@ namespace Kean.Draw.Cairo
 				else
 					Console.WriteLine(segment);
 			}
+			this.Draw(fill, stroke);
+		}
+		void Draw(IPaint fill, Stroke stroke)
+		{
 			if (fill.NotNull())
 			{
 				//Geometry2D.Single.Transform original = this.Transform;
@@ -176,6 +180,27 @@ namespace Kean.Draw.Cairo
 		#region Draw Text
 		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
 		{
+			if ((stroke.NotNull() || fill.NotNull()) && text.NotNull())
+				using (Pango.Layout layout = text.CreateLayout(this.backend))
+				{
+					float y = position.Y;
+					if (text.BaseLinePosition)
+						y -= (float)(layout.Context.GetMetrics(layout.FontDescription, layout.Context.Language).Ascent / Pango.Scale.PangoScale);
+					this.backend.MoveTo(position.X, y);
+
+					// Pango.CairoHelper.ShowLayout is much faster than Pango.CairoHelper.LayoutPath so only use it when necessary.
+					if (stroke.IsNull())
+					{
+						this.Set(fill);
+						// TODO: Handle AccessViolation (threading issue?)
+						Pango.CairoHelper.ShowLayout(this.backend, layout);
+					}
+					else
+					{
+						Pango.CairoHelper.LayoutPath(this.backend, layout);
+						this.Draw(fill, stroke);
+					}
+				}
 		}
 		#endregion
 		#region Blend

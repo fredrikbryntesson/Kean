@@ -96,11 +96,11 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Text()
 		{
-			//using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
-			//{
-			//	image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 8), new Text() { Markup = "Kean Toolkit", Font = new Font("Verdana", 12, FontWeight.Normal, FontSlant.Normal) }, new Geometry2D.Single.Point(10, 20));
-			//	Verify(image, this.correctPath + "Text.png");
-			//}
+			using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
+			{
+				image.Canvas.Draw(Color.Bgra.Blue, new Stroke(Color.Bgra.Red, 1), new Text() { Markup = "Kean Toolkit", Font = new Font("Verdana", 12, FontWeight.Normal, FontSlant.Normal) }, new Geometry2D.Single.Point(10, 20));
+				Verify(image, this.correctPath + "Text.png");
+			}
 		}
 	}
 }
