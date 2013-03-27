@@ -36,5 +36,18 @@ namespace Kean.Draw
 		{
 			this.Width = -1;
 		}
+		public Text(string markup) :
+			this(markup, null)
+		{ }
+		public Text(string markup, Font font) :
+			this()
+		{
+			this.Markup = markup;
+			this.Font = font ?? new Font("Verdana", 12, FontWeight.Normal, FontSlant.Normal);
+		}
+		public static implicit operator Text(string markup)
+		{
+			return new Text(markup);
+		}
 	}
 }
