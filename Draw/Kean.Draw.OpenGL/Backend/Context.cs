@@ -38,11 +38,23 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract Shader CreateShader(ShaderType type);
 		public abstract Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size);
 
-		static Context context = new Backend.OpenGL21.Context();
+		static Context current;
 		public static Context Current 
 		{
-			get { return Context.context; }
-			protected set { Context.context = value ?? new Backend.OpenGL21.Context(); }
+			get 
+			{
+ 				if (Context.current.IsNull())
+					Context.current =  new Backend.OpenGL21.Context();
+				return Context.current; 
+			}
+			protected set { Context.current = value; }
+		}
+		public static void Free()
+		{
+			FrameBuffer.Free();
+			Shader.Free();
+			Program.Free();
+			Texture.Free();
 		}
 	}
 }
