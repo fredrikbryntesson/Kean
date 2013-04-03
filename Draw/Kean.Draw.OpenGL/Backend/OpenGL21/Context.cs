@@ -77,5 +77,16 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			}
 			return size;
 		}
+		protected internal override TextureType GetTextureType(Raster.Image image)
+		{
+			TextureType result;
+			if (image is Raster.Bgra)
+				result = TextureType.Argb;
+			else if (image is Raster.Bgr)
+				result = TextureType.Rgb;
+			else
+				result = TextureType.Monochrome;
+			return result;
+		}
 	}
 }

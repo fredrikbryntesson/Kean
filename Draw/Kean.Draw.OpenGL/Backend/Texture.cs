@@ -73,13 +73,7 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		public void Load(Raster.Image image, Geometry2D.Integer.Point offset)
 		{
-			TextureType type;
-			if (image is Raster.Bgra)
-				type = TextureType.Argb;
-			else if (image is Raster.Bgr)
-				type = TextureType.Rgb;
-			else
-				type = TextureType.Monochrome;
+			TextureType type = this.Context.GetTextureType(image);
 			this.Use();
 			this.Load(image.Pointer, new Geometry2D.Integer.Box(offset, image.Size), type);
 			this.UnUse();

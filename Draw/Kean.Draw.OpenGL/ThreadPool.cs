@@ -48,7 +48,7 @@ namespace Kean.Draw.OpenGL
 		}
 
 		#region IDisposable Members
-		public void Dispose()
+		public override void Dispose()
 		{
 			if (this.contexts.NotNull())
 			{

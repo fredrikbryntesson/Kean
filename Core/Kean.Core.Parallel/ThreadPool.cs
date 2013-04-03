@@ -56,7 +56,7 @@ namespace Kean.Core.Parallel
         {
 			Error.Log.Wrap((Action)this.Dispose)();
         }
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (this.workers.NotNull())
             {
