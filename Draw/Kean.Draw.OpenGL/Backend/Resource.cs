@@ -33,18 +33,23 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.Context = context;
 		}
+		protected Resource(Resource original)
+		{
+			this.Context = original.Context;
+			original.Context = null;
+		}
 		~Resource()
 		{
 			Error.Log.Wrap((Action<bool>)this.Dispose)(false);
 		}
-		protected virtual void Dispose(bool disposing)
-		{
-			if (this.Context.NotNull())
-				this.Context = null;
-		}
+		protected abstract void Dispose(bool disposing);
 		public void Dispose()
 		{
 			this.Dispose(true);
+		}
+		protected internal virtual void Delete()
+		{
+			this.Context = null;
 		}
 	}
 }

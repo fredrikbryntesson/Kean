@@ -41,9 +41,15 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			get { return this.wrap; }
 			set { this.WrapMode = (wrap = value) ? OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat : OpenTK.Graphics.OpenGL.TextureWrapMode.Clamp; }
 		}
-		internal protected Texture(Context context) :
+		protected internal Texture(Context context) :
 			base(context)
 		{ }
+		protected Texture(Texture original) :
+			base(original)
+		{
+			this.InternalFormat = original.InternalFormat;
+			this.Format = original.Format;
+		}
 		protected override int CreateIdentifier()
 		{
 			return GL.GenTexture();
@@ -120,6 +126,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.TexCoord2(rightBottom.X, rightBottom.Y); GL.Vertex2(rectangle.Right, rectangle.Bottom);
 			GL.TexCoord2(leftBottom.X, leftBottom.Y); GL.Vertex2(rectangle.Left, rectangle.Bottom);
 			GL.End();
+		}
+		protected internal override Backend.Texture Refurbish()
+		{
+			return new Texture(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				GL.DeleteTexture(this.Identifier);
+				base.Delete();
+			}
 		}
 	}
 }

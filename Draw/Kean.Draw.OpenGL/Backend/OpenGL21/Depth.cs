@@ -32,8 +32,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Depth : 
 		Backend.Depth
 	{
-		internal Depth(Context context) :
+		protected internal Depth(Context context) :
 			base(context)
+		{ }
+		protected Depth(Depth original) :
+			base(original)
 		{ }
 		protected override int CreateIdentifier()
 		{
@@ -54,6 +57,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);
+		}
+		protected internal override Backend.Depth Refurbish()
+		{
+			return new Depth(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				GL.DeleteTexture(this.Identifier);
+				base.Delete();
+			}
 		}
 	}
 }

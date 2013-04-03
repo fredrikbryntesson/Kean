@@ -30,8 +30,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Program :
 		Backend.Program
 	{
-		internal Program(Context context) :
+		protected internal Program(Context context) :
 			base(context)
+		{ }
+		protected Program(Program program) :
+			base(program)
 		{ }
 		public override void Use()
 		{
@@ -149,6 +152,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				case 6: result = OpenTK.Graphics.OpenGL.TextureUnit.Texture6; break;
 			}
 			return result;
+		}
+		protected override Backend.Program Refurbish()
+		{
+			return new Program(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				GL.DeleteProgram(this.Identifier);
+				base.Delete();
+			}
 		}
 	}
 }

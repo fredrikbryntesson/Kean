@@ -26,12 +26,14 @@ using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Geometry2D = Kean.Math.Geometry2D;
 using Raster = Kean.Draw.Raster;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Texture :
 		Resource,
-        IData, Kean.Draw.OpenGL.Backend.ITexture
+		ITexture,
+        IData
 	{
 		internal int Identifier { get; private set; }
 		public Geometry2D.Integer.Size Size { get; protected set; }
@@ -40,18 +42,20 @@ namespace Kean.Draw.OpenGL.Backend
 		protected Texture(Context context) :
 			base(context)
 		{
-			Texture.Free();
 			this.Identifier = this.CreateIdentifier();
+		}
+		protected Texture(Texture original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+			this.Size = original.Size;
+			this.Type = original.Type;
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Identifier != 0)
-			{
-				lock (Texture.garbage)
-					Texture.garbage.Add(this.Identifier);
-				this.Identifier = 0;
-			}
-			base.Dispose(disposing);
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
 		public void Create(TextureType type, Geometry2D.Integer.Size size)
 		{
@@ -126,18 +130,11 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract void Create(IntPtr data);
 		protected abstract void Load(IntPtr data, Geometry2D.Integer.Box region, TextureType type);
 		protected abstract void Read(IntPtr data, Geometry2D.Integer.Box region);
-		#endregion
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
+		protected internal abstract Texture Refurbish();
+		protected internal override void Delete()
 		{
-			lock (Texture.garbage)
-			{
-				int[] garbage = Texture.garbage.ToArray();
-				if (garbage.Length > 0)
-					GL.DeleteTextures(garbage.Length, garbage);
-				Texture.garbage.Clear();
-			}
+			this.Identifier = 0;
+			base.Delete();
 		}
 		#endregion
 	}

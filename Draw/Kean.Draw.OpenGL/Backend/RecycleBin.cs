@@ -42,6 +42,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public RecycleBin(Action<T> free) :
 			base(free)
 		{
+			this.On = true;
 			this.monochrome = this.CreateBin();
 			this.argb = this.CreateBin();
 			this.rgb = this.CreateBin();
@@ -108,6 +109,16 @@ namespace Kean.Draw.OpenGL.Backend
 				return pixels < 10000 ? 0 : pixels < 100000 ? 1 : 2;
 			}
 			);
+		}
+		public override void Dispose()
+		{
+			lock (this.Lock)
+			{
+				this.monochrome.Free();
+				this.argb.Free();
+				this.rgb.Free();
+				base.Dispose();
+			}
 		}
 	}
 }

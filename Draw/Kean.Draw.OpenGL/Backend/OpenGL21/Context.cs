@@ -47,23 +47,23 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
-        protected override Backend.Texture NewTexture()
+        protected override Backend.Texture AllocateTexture()
         {
             return new Texture(this);
         }
-		protected override Backend.Composition NewComposition()
+		protected override Backend.Composition AllocateComposition()
         {
             return new Composition(this);
         }
-        public override Backend.Program NewProgram()
+        public override Backend.Program CreateProgram()
         {
             return new Program(this);
         }
-        public override Backend.Shader NewShader(ShaderType type)
+        public override Backend.Shader CreateShader(ShaderType type)
         {
             return new Shader(this, type);
         }
-		public override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
+		protected internal override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
 		{
 			if (size.Width > this.MaximumTextureSize)
 			{

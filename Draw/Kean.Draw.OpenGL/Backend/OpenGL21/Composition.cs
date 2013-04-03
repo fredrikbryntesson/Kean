@@ -32,8 +32,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Composition :
 		Backend.Composition
 	{
-		internal Composition(Context context) :
-			base(new Texture(context), new Depth(context), new FrameBuffer(context))
+		protected internal Composition(Context context) :
+			base(context, new Texture(context), new Depth(context), new FrameBuffer(context))
+		{ }
+		protected Composition(Composition original) :
+			base(original)
 		{ }
 
 		public override void Setup()
@@ -153,6 +156,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Vertex2(region.Right, region.Bottom);
 			GL.Vertex2(region.Left, region.Bottom);
 			GL.End();
+		}
+		protected override Backend.Composition Refurbish()
+		{
+			return new Composition(this);
 		}
 	}
 }

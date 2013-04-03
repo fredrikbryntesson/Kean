@@ -25,11 +25,13 @@ using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
 using Recycle = Kean.Core.Recycle;
+using Error = Kean.Core.Error;
 
 namespace Kean.Draw.OpenGL.Backend
 {
 	class WasteBin<T> :
-		Synchronized
+		Synchronized,
+		IDisposable
 	{
 		Collection.IList<T> content = new Collection.List<T>();
 		Action<T> free;
@@ -52,6 +54,10 @@ namespace Kean.Draw.OpenGL.Backend
 			}
 			foreach (var item in waste)
 				this.free(item);
+		}
+		public virtual void Dispose()
+		{
+			this.Free();
 		}
 	}
 }
