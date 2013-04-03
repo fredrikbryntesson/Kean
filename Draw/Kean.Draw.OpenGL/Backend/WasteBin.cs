@@ -1,5 +1,5 @@
 ﻿//
-//  ITexture.cs
+//  WasteBin.cs
 //
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,13 +19,39 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Geometry2D = Kean.Math.Geometry2D;
+using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+using Recycle = Kean.Core.Recycle;
 
 namespace Kean.Draw.OpenGL.Backend
 {
-	interface ITexture
+	class WasteBin<T> :
+		Synchronized
 	{
-		Geometry2D.Integer.Size Size { get; }
-		TextureType Type { get; }
+		Collection.IList<T> content = new Collection.List<T>();
+		Action<T> free;
+		public WasteBin(Action<T> free)
+		{
+			this.free = free;
+		}
+		public virtual void Add(T item)
+		{
+			lock (this.Lock)
+				this.content.Add(item);
+		}
+		public virtual void Free()
+		{
+			Collection.IList<T> waste;
+			lock (this.Lock)
+			{
+				waste = this.content;
+				this.content = new Collection.List<T>();
+			}
+			foreach (var item in waste)
+				this.free(item);
+		}
 	}
 }

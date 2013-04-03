@@ -31,7 +31,7 @@ namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Texture :
 		Resource,
-        ITexture
+        IData, Kean.Draw.OpenGL.Backend.ITexture
 	{
 		internal int Identifier { get; private set; }
 		public Geometry2D.Integer.Size Size { get; protected set; }

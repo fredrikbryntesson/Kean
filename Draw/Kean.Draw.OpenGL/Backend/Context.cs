@@ -32,12 +32,60 @@ namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Context
 	{
-		public abstract Texture CreateTexture();
-		public abstract Composition CreateComposition();
-		public abstract Program CreateProgram();
-		public abstract Shader CreateShader(ShaderType type);
+		RecycleBin<Texture> textureBin;
+		RecycleBin<Composition> compositionBin;
+		WasteBin<Program> programBin;
+		WasteBin<Shader> shaderBin;
+
+		protected Context()
+		{
+			//this.textureBin = new RecycleBin<Texture>(this.Delete);
+			//this.compositionBin = new RecycleBin<Composition>(this.Delete);
+			//this.programBin = new WasteBin<Program>(this.Delete);
+			//this.shaderBin = new WasteBin<Shader>(this.Delete);
+		}
+
+		public Texture CreateTexture(TextureType type, Geometry2D.Integer.Size size)
+		{
+			Texture result = this.NewTexture();
+			result.Create(type, size);
+			return result;
+		}
+		public Texture CreateTexture(Raster.Image image)
+		{
+			Texture result = this.NewTexture();
+			result.Create(image);
+			return result;
+		}
+		public Composition CreateComposition(TextureType type, Geometry2D.Integer.Size size)
+		{
+			Composition result = this.NewComposition();
+			result.Texture.Create(type, size);
+			result.Create();
+			return result;
+		}
+		public Composition CreateComposition(Raster.Image image)
+		{
+			Composition result = this.NewComposition();
+			result.Texture.Create(image);
+			result.Create();
+			return result;
+		}
+		public abstract Program NewProgram();
+		public abstract Shader NewShader(ShaderType type);
 		public abstract Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size);
 
+		
+
+		protected abstract Texture NewTexture();
+		protected abstract Composition NewComposition();
+
+		//protected abstract void Delete(Texture texture);
+		//protected abstract void Delete(Composition composition);
+		//protected abstract void Delete(Program program);
+		//protected abstract void Delete(Shader shader);
+
+		#region Static
 		static Context current;
 		public static Context Current 
 		{
@@ -56,5 +104,6 @@ namespace Kean.Draw.OpenGL.Backend
 			Program.Free();
 			Texture.Free();
 		}
+		#endregion
 	}
 }

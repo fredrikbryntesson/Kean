@@ -52,7 +52,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void Attach(Shader shader);
 		public abstract void Detach(Shader shader);
 		public abstract void Link();
-		public abstract void SetTexture(string name, int number, ITexture texture);
+		public abstract void SetTexture(string name, int number, IData texture);
 		public abstract void UnSetTexture(int number);
 		public abstract void SetVariable(string name, float[,] values);
 		public abstract void SetVariable(string name, params int[] values);

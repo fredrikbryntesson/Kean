@@ -19,13 +19,20 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Kean.Core.Collection.Extension;
+using System;
+using Collection = Kean.Core.Collection;
+using Error = Kean.Core.Error;
+using GL = OpenTK.Graphics.OpenGL.GL;
 using Geometry2D = Kean.Math.Geometry2D;
+using Raster = Kean.Draw.Raster;
 
 namespace Kean.Draw.OpenGL.Backend
 {
-	interface ITexture
+	public interface IData
 	{
-		Geometry2D.Integer.Size Size { get; }
-		TextureType Type { get; }
+		void Use();
+		void UnUse();
+		void Configure();
 	}
 }

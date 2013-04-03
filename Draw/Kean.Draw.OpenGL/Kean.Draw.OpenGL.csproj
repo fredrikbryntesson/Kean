@@ -53,6 +53,7 @@
     <Compile Include="Backend\Depth.cs" />
     <Compile Include="Backend\Extension\Geometry2D.cs" />
     <Compile Include="Backend\FrameBuffer.cs" />
+    <Compile Include="Backend\IData.cs" />
     <Compile Include="Backend\ITexture.cs" />
     <Compile Include="Backend\OpenGL21\Composition.cs" />
     <Compile Include="Backend\OpenGL21\Context.cs" />
@@ -67,10 +68,12 @@
     <Compile Include="Backend\ShaderType.cs" />
     <Compile Include="Backend\Texture.cs" />
     <Compile Include="Backend\TextureType.cs" />
+    <Compile Include="Backend\WasteBin.cs" />
     <Compile Include="Exception\ContextNotCreatable.cs" />
     <Compile Include="Exception\Exception.cs" />
     <Compile Include="Exception\Framebuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Backend\RecycleBin.cs" />
     <Compile Include="ThreadPool.cs" />
   </ItemGroup>
   <ItemGroup>

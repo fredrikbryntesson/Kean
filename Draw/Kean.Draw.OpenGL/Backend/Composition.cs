@@ -31,9 +31,11 @@ using Color = Kean.Draw.Color;
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Composition :
+		ITexture,
 		IDisposable
 	{
 		public Geometry2D.Integer.Size Size { get { return this.Texture.Size; } }
+		public TextureType Type { get { return this.Texture.Type; } }
 		public Texture Texture { get; private set; }
 		public Depth Depth { get; private set; }
 		public FrameBuffer FrameBuffer { get; private set; }

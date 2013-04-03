@@ -53,7 +53,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			OpenTK.Graphics.OpenGL.GL.LinkProgram(this.Identifier);
 		}
-		public override void SetTexture(string name, int number, Backend.ITexture texture)
+		public override void SetTexture(string name, int number, Backend.IData texture)
 		{
             OpenTK.Graphics.OpenGL.GL.ActiveTexture(this.GetUnit(number));
 			texture.Use();

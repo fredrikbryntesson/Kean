@@ -33,7 +33,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		Backend.Composition
 	{
 		internal Composition(Context context) :
-			base(context.CreateTexture(), new Depth(context), new FrameBuffer(context))
+			base(new Texture(context), new Depth(context), new FrameBuffer(context))
 		{ }
 
 		public override void Setup()

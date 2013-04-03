@@ -47,19 +47,19 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
-        public override Backend.Texture CreateTexture()
+        protected override Backend.Texture NewTexture()
         {
             return new Texture(this);
         }
-        public override Backend.Composition CreateComposition()
+		protected override Backend.Composition NewComposition()
         {
             return new Composition(this);
         }
-        public override Backend.Program CreateProgram()
+        public override Backend.Program NewProgram()
         {
             return new Program(this);
         }
-        public override Backend.Shader CreateShader(ShaderType type)
+        public override Backend.Shader NewShader(ShaderType type)
         {
             return new Shader(this, type);
         }
