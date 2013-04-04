@@ -35,10 +35,25 @@ namespace Kean.Draw.OpenGL.Backend
 		ITexture,
         IData
 	{
-		internal int Identifier { get; private set; }
+		int identifier;
+		internal int Identifier 
+		{
+			get { return this.identifier; }
+			private set
+			{
+				if (value == 0 && this.identifier != 0)
+					lock (Texture.allocated)
+						Texture.allocated.Remove(texture => texture.Same(this));
+				else if (value != 0 && this.identifier == 0)
+					lock (Texture.allocated) 
+						Texture.allocated.Add(this);
+				this.identifier = value;
+			}
+		}
 		public Geometry2D.Integer.Size Size { get; protected set; }
 		public TextureType Type { get; protected set; }
 		public abstract bool Wrap { get; set; }
+		public Composition Composition { get; internal set; }
 		protected Texture(Context context) :
 			base(context)
 		{
@@ -131,5 +146,19 @@ namespace Kean.Draw.OpenGL.Backend
 			base.Delete();
 		}
 		#endregion
+
+		static Collection.List<Texture> allocated = new Collection.List<Texture>();
+		internal static void FreeAllocated()
+		{
+			lock (Texture.allocated)
+				while (Texture.allocated.Count > 0)
+				{
+					Texture texture = Texture.allocated.Remove();
+					if (texture.Composition.NotNull())
+						texture.Composition.Delete();
+					else
+						texture.Delete();
+				}
+		}
 	}
 }

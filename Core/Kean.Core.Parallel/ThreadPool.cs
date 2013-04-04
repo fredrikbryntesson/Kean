@@ -178,7 +178,13 @@ namespace Kean.Core.Parallel
             if(task.NotNull())
                 this.ForEachWorker(new Task(task));
         }
-        public void ForEachWorker<T>(Action<T> task, T argument)
+		public void ForEachWorker(Action<int> task)
+		{
+			lock (this.workers)
+				foreach (Worker worker in this.workers)
+					worker.Enqueue(new Task<int>(task, worker.Number));
+		}
+		public void ForEachWorker<T>(Action<T> task, T argument)
         {
             if (task.NotNull())
                 this.ForEachWorker(new Task<T>(task, argument));

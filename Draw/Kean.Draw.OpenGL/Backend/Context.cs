@@ -142,39 +142,8 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.compositionBin.On = this.textureBin.On = false;
 			this.Free();
+			Texture.FreeAllocated();
 			this.compositionBin.On = this.textureBin.On = true;
-
-
-			//if (this.compositionBin.NotNull())
-			//{
-			//	this.compositionBin.Dispose();
-			//	this.compositionBin = null;
-			//}
-			//if (this.textureBin.NotNull())
-			//{
-			//	this.textureBin.Dispose();
-			//	this.textureBin = null;
-			//}
-			//if (this.depthBin.NotNull())
-			//{
-			//	this.depthBin.Dispose();
-			//	this.depthBin = null;
-			//}
-			//if (this.frameBufferBin.NotNull())
-			//{
-			//	this.frameBufferBin.Dispose();
-			//	this.frameBufferBin = null;
-			//}
-			//if (this.programBin.NotNull())
-			//{
-			//	this.programBin.Dispose();
-			//	this.programBin = null;
-			//}
-			//if (this.shaderBin.NotNull())
-			//{
-			//	this.shaderBin.Dispose();
-			//	this.shaderBin = null;
-			//}
 		}
 
 

@@ -44,6 +44,7 @@ namespace Kean.Draw.OpenGL.Backend
 			base(context)
 		{
 			this.Texture = texture;
+			this.Texture.Composition = this;
 			this.Depth = depth;
 			this.FrameBuffer = frameBuffer;
 		}
@@ -63,6 +64,7 @@ namespace Kean.Draw.OpenGL.Backend
 				this.Context.Recycle(this.Refurbish());
 			else if (this.Texture.NotNull())
 			{
+				this.Texture.Composition = null;
 				this.Texture.Dispose();
 				this.Texture = null;
 			}
@@ -101,6 +103,7 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			if (this.Texture.NotNull())
 			{
+				this.Texture.Composition = null;
 				this.Texture.Delete();
 				this.Texture = null;
 			}
