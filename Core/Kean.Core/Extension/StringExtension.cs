@@ -187,5 +187,99 @@ namespace Kean.Core.Extension
 			parts.CopyTo(result, 0);
 			return result;
 		}
+		public static T Parse<T>(this string me)
+		{
+			T result;
+			System.Type type = typeof(T);
+			if (me is T)
+				result = me.ConvertType<T>();
+			else if (type == typeof(char))
+				result = me.ToString().ConvertType<T>();
+			else if (type == typeof(bool))
+			{
+				bool value;
+				result = (bool.TryParse(me, out value) && value).ConvertType<T>();
+			}
+			else if (type == typeof(byte))
+			{
+				byte value;
+				result = (byte.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(sbyte))
+			{
+				sbyte value;
+				result = (sbyte.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(short))
+			{
+				short value;
+				result = (short.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(int))
+			{
+				int value;
+				result = (int.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(uint))
+			{
+				uint value;
+				result = (uint.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(long))
+			{
+				long value;
+				result = (long.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(ulong))
+			{
+				ulong value;
+				result = (ulong.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(float))
+			{
+				float value;
+				result = (float.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(double))
+			{
+				double value;
+				result = (double.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(decimal))
+			{
+				decimal value;
+				result = (decimal.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(DateTime))
+			{
+				DateTime value;
+				result = (DateTime.TryParse(me, out value) ? value : new DateTime()).ConvertType<T>();
+			}
+			else if (type == typeof(DateTimeOffset))
+			{
+				DateTimeOffset value;
+				result = (DateTimeOffset.TryParse(me, out value) ? value : new DateTimeOffset()).ConvertType<T>();
+			}
+			else if (type == typeof(TimeSpan))
+			{
+				TimeSpan value;
+				result = (TimeSpan.TryParse(me, out value) ? value : new TimeSpan()).ConvertType<T>();
+			}
+			else if (type.GetInterface(typeof(IString).FullName).NotNull())
+			{
+				result = System.Activator.CreateInstance(typeof(T)).ConvertType<T>();
+				(result as IString).String = me;
+			}
+			else
+			{
+				Func<string, object> cast = typeof(T).FromStringCast();
+				if (cast.NotNull())
+					result = cast(me).ConvertType<T>();
+				else
+					result =  me.ConvertType<T>();
+			}
+			return result;
+		}
+
 	}
 }

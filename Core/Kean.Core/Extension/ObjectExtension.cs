@@ -46,6 +46,10 @@ namespace Kean.Core.Extension
 		{
 			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
 		}
+		public static T ConvertType<T>(this object me)
+		{
+			return (T)Convert.ChangeType(me, typeof(T));
+		}
 		public static string AsString(this object me)
 		{
 			string result;
