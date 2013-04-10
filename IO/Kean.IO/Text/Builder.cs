@@ -79,7 +79,7 @@ namespace Kean.IO.Text
         #region Casts
         public static implicit operator string(Builder builder)
         {
-            return builder.data.Fold((item, accumulation) => accumulation + item, "");
+            return builder.NotNull() ? builder.data.Fold((item, accumulation) => accumulation + item, "") : "";
         }
         public static implicit operator Builder(string value)
         {
@@ -89,16 +89,31 @@ namespace Kean.IO.Text
         #region Binary operators
         public static Builder operator +(Builder left, Builder right)
         {
-            return left.Copy().Append(right);
+            return left.NotNull() ? left.Copy().Append(right) : new Builder().Append(right);
         }
         public static Builder operator +(Builder left, string right)
         {
-            return left.Copy().Append(right);
+            return left.NotNull() ? left.Copy().Append(right) : new Builder(right);
         }
         public static Builder operator +(string left, Builder right)
         {
-            return right.Copy().Prepend(left);
+			return right.NotNull() ? right.Copy().Prepend(left) : new Builder(left);
         }
         #endregion
-    }
+
+		#region Object Overrides
+		public override int GetHashCode()
+		{
+			return ((string)this).GetHashCode();
+		}
+		public override bool Equals(object other)
+		{
+			return ((string)this).Equals(other);
+		}
+		public override string ToString()
+		{
+			return this;
+		}
+		#endregion
+	}
 }
