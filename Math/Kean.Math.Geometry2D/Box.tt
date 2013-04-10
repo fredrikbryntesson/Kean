@@ -1,18 +1,18 @@
-﻿<#@ template language="C#v4.0" hostspecific="True" #>
+﻿<#@ template language="C#" hostspecific="True" #>
 <#
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D", "Single",  "float");
-	GenerateSingle("BoxValue");
-    GenerateEnd("BoxValue", "Kean.Math.Geometry2D", "Single",  "float");
-  	SaveOutput("Single/BoxValue.cs");  
+    GenerateStart("Box", "Kean.Math.Geometry2D", "Single",  "float");
+	GenerateSingle("Box");
+    GenerateEnd("Box", "Kean.Math.Geometry2D", "Single",  "float");
+  	SaveOutput("Single/Box.cs");  
     
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D", "Double",  "double");
-    GenerateDouble("BoxValue");
-    GenerateEnd("BoxValue", "Kean.Math.Geometry2D", "Double",  "double");
-    SaveOutput("Double/BoxValue.cs");   
+    GenerateStart("Box", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateDouble("Box");
+    GenerateEnd("Box", "Kean.Math.Geometry2D", "Double",  "double");
+    SaveOutput("Double/Box.cs");   
 
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    GenerateEnd("BoxValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    SaveOutput("Integer/BoxValue.cs");    
+    GenerateStart("Box", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateEnd("Box", "Kean.Math.Geometry2D", "Integer",  "int");
+    SaveOutput("Integer/Box.cs");    
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -54,15 +54,10 @@ using Kean.Core.Extension;
 namespace <#= @namespace #>.<#= @namespace1 #>
 {
     public struct <#= @name #> :
-        Abstract.IBox<PointValue, SizeValue, <#= @value1 #>>,
 		IEquatable<<#= @name #>>
     {
-        public PointValue LeftTop;
-        public SizeValue Size;
-        #region IBox<PointValue,SizeValue,<#= @value1 #>> Members
-        PointValue <#= @namespace #>.Abstract.IBox<PointValue, SizeValue, <#= @value1 #>>.LeftTop {get { return this.LeftTop; }}
-        SizeValue <#= @namespace #>.Abstract.IBox<PointValue, SizeValue, <#= @value1 #>>.Size { get { return this.Size; } }
-        #endregion
+        public Point LeftTop;
+        public Size Size;
 		#region Sizes
 		public <#= @value1 #> Width { get { return this.Size.Width; } }
         public <#= @value1 #> Height { get { return this.Size.Height; } }
@@ -74,19 +69,19 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         public <#= @value1 #> Bottom { get { return this.LeftTop.Y + this.Size.Height; } }
 		#endregion
 		#region All other corners
-		public PointValue RightTop { get { return new PointValue(this.Right, this.Top); } }
-		public PointValue LeftBottom { get { return new PointValue(this.Left, this.Bottom); } }
-		public PointValue RightBottom { get { return this.LeftTop + (Abstract.IVector<<#= @value1 #>>)this.Size; } }
+		public Point RightTop { get { return new Point(this.Right, this.Top); } }
+		public Point LeftBottom { get { return new Point(this.Left, this.Bottom); } }
+		public Point RightBottom { get { return this.LeftTop + this.Size; } }
 		#endregion
-		public PointValue Center { get { return this.LeftTop + (Abstract.IVector<<#= @value1 #>>)(this.Size / 2); } }
+		public Point Center { get { return this.LeftTop + (this.Size / 2); } }
 		public bool Empty { get { return this.Size.Empty; } }
 
 		public <#= @name #>(<#= @value1 #> left, <#= @value1 #> top, <#= @value1 #> width, <#= @value1 #> height)
         {
-            this.LeftTop = new PointValue(left, top);
-            this.Size = new SizeValue(width, height);
+            this.LeftTop = new Point(left, top);
+            this.Size = new Size(width, height);
         }
-        public <#= @name #>(PointValue leftTop, SizeValue size)
+        public <#= @name #>(Point leftTop, Size size)
         {
             this.LeftTop = leftTop;
             this.Size = size;
@@ -100,13 +95,13 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return this.Pad(pad, pad, pad, pad);
 		}
-		public <#= @name #> Pad(SizeValue padding)
+		public <#= @name #> Pad(Size padding)
 		{
 			return this.Pad(padding.Width, padding.Width, padding.Height, padding.Height);
 		}
 		public <#= @name #> Pad(<#= @value1 #> left, <#= @value1 #> right, <#= @value1 #> top, <#= @value1 #> bottom)
 		{
-			return new <#= @name #>(new PointValue(this.Left - left, this.Top - top), new SizeValue(this.Size.Width + left + right, this.Size.Height + top + bottom));
+			return new <#= @name #>(new Point(this.Left - left, this.Top - top), new Size(this.Size.Width + left + right, this.Size.Height + top + bottom));
 		}
 		public <#= @name #> Intersection(<#= @name #> other)
 		{
@@ -124,15 +119,15 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 			<#= @value1 #> height = Kean.Math.<#= @namespace1 #>.Maximum(this.Bottom, other.Bottom) - Kean.Math.<#= @namespace1 #>.Minimum(this.Top, other.Top);
 			return new <#= @name #>(left, top, width, height);
 		}
-        public bool Contains(Integer.PointValue point)
+        public bool Contains(Integer.Point point)
         {
             return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
         }
-        public bool Contains(Single.PointValue point)
+        public bool Contains(Single.Point point)
         {
             return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
         }
-        public bool Contains(Double.PointValue point)
+        public bool Contains(Double.Point point)
         {
             return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
 		}
@@ -146,8 +141,8 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		public <#= @name #> Ceiling()
 		{
-			PointValue leftTop = this.LeftTop.Floor();
-			return new <#= @name #>(leftTop, (SizeValue)(this.RightBottom.Ceiling() - (Abstract.IVector<<#= @value1 #>>)leftTop));
+			Point leftTop = this.LeftTop.Floor();
+			return new <#= @name #>(leftTop, (Size)(this.RightBottom.Ceiling() - leftTop));
 		}
 		public <#= @name #> Floor()
 		{
@@ -186,23 +181,23 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 				result = new <#= @name #>();
 			return result;
 		}
-		public static <#= @name #> operator +(<#= @name #> left, PointValue right)
+		public static <#= @name #> operator +(<#= @name #> left, Point right)
 		{
-			return new <#= @name #>(left.LeftTop + (Abstract.IVector<<#= @value1 #>>)right, left.Size);
+			return new <#= @name #>(left.LeftTop + right, left.Size);
 		}
-		public static <#= @name #> operator -(<#= @name #> left, PointValue right)
+		public static <#= @name #> operator -(<#= @name #> left, Point right)
 		{
 			return new <#= @name #>(left.LeftTop - right, left.Size);
 		}
-		public static <#= @name #> operator +(<#= @name #> left, SizeValue right)
+		public static <#= @name #> operator +(<#= @name #> left, Size right)
 		{
 			return new <#= @name #>(left.LeftTop, left.Size + right);
 		}
-		public static <#= @name #> operator -(<#= @name #> left, SizeValue right)
+		public static <#= @name #> operator -(<#= @name #> left, Size right)
 		{
 			return new <#= @name #>(left.LeftTop, left.Size - right);
 		}
-		public static <#= @name #> operator *(TransformValue left, <#= @name #> right)
+		public static <#= @name #> operator *(Transform left, <#= @name #> right)
 		{
 			return new <#= @name #>(left * right.LeftTop, left * right.Size);
 		}
@@ -231,11 +226,11 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         #endregion
         #region Static Operators
-        public static <#= @name #> operator -(<#= @name #> left, ShellValue right)
+        public static <#= @name #> operator -(<#= @name #> left, Shell right)
         {
             return new <#= @name #>(left.LeftTop + right.LeftTop, left.Size - right.Size);
         }
-        public static <#= @name #> operator +(<#= @name #> left, ShellValue right)
+        public static <#= @name #> operator +(<#= @name #> left, Shell right)
         {
             return new <#= @name #>(left.LeftTop - right.LeftTop, left.Size + right.Size);
         }
@@ -259,11 +254,11 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public static explicit operator Single.<#= @name #>(<#= @name #> value)
         {
-            return new Single.<#= @name #>((Single.PointValue)(value.LeftTop), (Single.SizeValue)(value.Size));
+            return new Single.<#= @name #>((Single.Point)(value.LeftTop), (Single.Size)(value.Size));
         }
         public static explicit operator Integer.<#= @name #>(<#= @name #> value)
         {
-            return new Integer.<#= @name #>((Integer.PointValue)(value.LeftTop), (Integer.SizeValue)(value.Size));
+            return new Integer.<#= @name #>((Integer.Point)(value.LeftTop), (Integer.Size)(value.Size));
         }
 <#+
     }  
@@ -278,7 +273,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public static explicit operator Integer.<#= @name #>(<#= @name #> value)
         {
-            return new Integer.<#= @name #>((Integer.PointValue)(value.LeftTop), (Integer.SizeValue)(value.Size));
+            return new Integer.<#= @name #>((Integer.Point)(value.LeftTop), (Integer.Size)(value.Size));
         }
 <#+
     }  
@@ -301,7 +296,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
                 {
                     string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (values.Length == 4)
-                        result = new <#= @name #>((PointValue)(values[0] + " " + values[1]), (SizeValue)(values[2] + " " + values[3]));
+                        result = new <#= @name #>((Point)(values[0] + " " + values[1]), (Size)(values[2] + " " + values[3]));
                 }
                 catch
                 {
@@ -329,7 +324,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         #endregion
 		#region Static Creators
-        public static <#= @name #> Create(PointValue leftTop, SizeValue size)
+        public static <#= @name #> Create(Point leftTop, Size size)
         {
             return new <#= @name #>(leftTop, size);
         }
@@ -337,7 +332,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return new <#= @name #>(left, top, width, height);
         }
-        public static <#= @name #> CreateAround(PointValue center, SizeValue size)
+        public static <#= @name #> CreateAround(Point center, Size size)
         {
             return new <#= @name #>(center - size / 2, size);
         }
@@ -349,7 +344,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return new <#= @name #>(left, top, right - left, bottom - top);
 		}
-		public static <#= @name #> Bounds(params PointValue[] points)
+		public static <#= @name #> Bounds(params Point[] points)
 		{
 			<#= @name #> result = new <#= @name #>();
 			if (points.Length > 0)
@@ -359,7 +354,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 				<#= @value1 #> yMinimum = xMinimum;
 				<#= @value1 #> yMaximum = xMinimum;
 				bool initilized = false;
-				foreach (PointValue point in points)
+				foreach (Point point in points)
 				{
 					
 						if (!initilized)

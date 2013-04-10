@@ -1,5 +1,5 @@
 // 
-//  SizeValue.cs
+//  Size.cs
 //  
 //  Author:
 //       Anders Frisk <andersfrisk77@gmail.com>
@@ -27,23 +27,23 @@ using Kean.Core.Extension;
 namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
-    public class SizeValue :
-        Kean.Test.Fixture<SizeValue>
+    public class Size :
+        Kean.Test.Fixture<Size>
     {
-        string prefix = "Kean.Math.Geometry2D.Test.Single.SizeValue";
+        string prefix = "Kean.Math.Geometry2D.Test.Single.Size";
         float Precision { get { return 1e-4f; } }
-        Target.Single.SizeValue CastFromString(string value)
+        Target.Single.Size CastFromString(string value)
         {
             return value;
         }
-        string CastToString(Target.Single.SizeValue value)
+        string CastToString(Target.Single.Size value)
         {
             return value;
         }
-        Target.Single.SizeValue vector0 = new Target.Single.SizeValue((float)22.221f, (float)-3.1f);
-        Target.Single.SizeValue vector1 = new Target.Single.SizeValue((float)12.221f, (float)13.1f);
-        Target.Single.SizeValue vector2 = new Target.Single.SizeValue((float)34.442f, (float)10.0f);
-        Target.Single.SizeValue vector3 = new Target.Single.SizeValue((float)10, (float)20);
+        Target.Single.Size vector0 = new Target.Single.Size((float)22.221f, (float)-3.1f);
+        Target.Single.Size vector1 = new Target.Single.Size((float)12.221f, (float)13.1f);
+        Target.Single.Size vector2 = new Target.Single.Size((float)34.442f, (float)10.0f);
+        Target.Single.Size vector3 = new Target.Single.Size((float)10, (float)20);
 
         protected override void Run()
         {
@@ -63,7 +63,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         [Test]
         public void Equality()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue();
+            Target.Single.Size point = new Target.Single.Size();
             Expect(this.vector0, Is.EqualTo(this.vector0));
             Expect(this.vector0.Equals(this.vector0 as object), Is.True);
             Expect(this.vector0 == this.vector0, Is.True);
@@ -83,7 +83,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         [Test]
         public void Subtraction()
         {
-            Expect(this.vector0 - this.vector0, Is.EqualTo(new Target.Single.SizeValue()));
+            Expect(this.vector0 - this.vector0, Is.EqualTo(new Target.Single.Size()));
         }
         [Test]
         public void ScalarMultiplication()
@@ -113,7 +113,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         [Test]
         public void Swap()
         {
-            Target.Single.SizeValue result = this.vector0.Swap();
+            Target.Single.Size result = this.vector0.Swap();
             Expect(result.Width, Is.EqualTo(this.vector0.Height), this.prefix + "Swap.0");
             Expect(result.Height, Is.EqualTo(this.vector0.Width), this.prefix + "Swap.1");
         }
@@ -128,7 +128,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         public void CastingNull()
         {
             string value = null;
-            Target.Single.SizeValue point = null;
+            Target.Single.Size point = null;
             Expect(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
             Expect(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
@@ -137,74 +137,74 @@ namespace Kean.Math.Geometry2D.Test.Single
         [Test]
         public void Polar0()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue();
+            Target.Single.Size point = new Target.Single.Size();
             Expect(point.Norm, Is.EqualTo(0));
             Expect(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar1()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue(1, 0);
+            Target.Single.Size point = new Target.Single.Size(1, 0);
             Expect(point.Norm, Is.EqualTo(1));
             Expect(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar2()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue(0, 1);
+            Target.Single.Size point = new Target.Single.Size(0, 1);
             Expect(point.Norm, Is.EqualTo(1));
             Expect(point.Azimuth, Is.EqualTo(Kean.Math.Single.ToRadians(90)));
         }
         [Test]
         public void Polar3()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue(0, -5);
+            Target.Single.Size point = new Target.Single.Size(0, -5);
             Expect(point.Norm, Is.EqualTo(5));
             Expect(point.Azimuth, Is.EqualTo(Kean.Math.Single.ToRadians(-90)));
         }
         [Test]
         public void Polar4()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue(-1, 0);
+            Target.Single.Size point = new Target.Single.Size(-1, 0);
             Expect(point.Norm, Is.EqualTo(1));
             Expect(point.Azimuth, Is.EqualTo(Kean.Math.Single.ToRadians(180)));
         }
         [Test]
         public void Polar5()
         {
-            Target.Single.SizeValue point = new Target.Single.SizeValue(-3, 0);
+            Target.Single.Size point = new Target.Single.Size(-3, 0);
             float radius = point.Norm;
             float azimuth = point.Azimuth;
-            Target.Single.SizeValue point2 = Target.Single.SizeValue.Polar(radius, azimuth);
+            Target.Single.Size point2 = Target.Single.Size.Polar(radius, azimuth);
             Expect(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
         [Test]
         public void Angles()
         {
-            Expect(Target.Single.SizeValue.BasisX.Angle(Target.Single.SizeValue.BasisX), Is.EqualTo(0).Within(this.Precision));
-            Expect(Target.Single.SizeValue.BasisX.Angle(Target.Single.SizeValue.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.SizeValue.BasisX.Angle(-Target.Single.SizeValue.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.SizeValue.BasisX.Angle(-Target.Single.SizeValue.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+            Expect(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisX), Is.EqualTo(0).Within(this.Precision));
+            Expect(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()
         {
             // integer - single
             {
-                Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20);
-                Target.Single.SizeValue @single = integer;
+                Target.Integer.Size integer = new Target.Integer.Size(10, 20);
+                Target.Single.Size @single = integer;
                 Expect(@single.Width, Is.EqualTo(10));
                 Expect(@single.Height, Is.EqualTo(20));
-                Expect((Target.Integer.SizeValue)@single, Is.EqualTo(integer));
+                Expect((Target.Integer.Size)@single, Is.EqualTo(integer));
             }
         }
         [Test]
         public void StringCasts()
         {
-            string textFromValue = new Target.Single.SizeValue(10, 20);
+            string textFromValue = new Target.Single.Size(10, 20);
             Expect(textFromValue, Is.EqualTo("10, 20"));
-            Target.Single.SizeValue @integerFromText = "10, 20";
+            Target.Single.Size @integerFromText = "10, 20";
             Expect(@integerFromText.Width, Is.EqualTo(10));
             Expect(@integerFromText.Height, Is.EqualTo(20));
         }

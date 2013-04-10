@@ -1,19 +1,19 @@
 ﻿<#@ template language="C#v3.5" hostspecific="True" #>
 <#
-	GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Single",  "float");
-    GenerateSingle("BoxValue", "Kean.Math.Geometry2D.Test");
+	GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Single",  "float");
+    GenerateSingle("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Single/BoxValue.cs");  
+    SaveOutput("Single/Box.cs");  
     
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Double",  "double");
-    GenerateDouble("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Double",  "double");
+    GenerateDouble("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Double/BoxValue.cs");   
+    SaveOutput("Double/Box.cs");   
 
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Integer",  "int");
-    GenerateInteger("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Integer",  "int");
+    GenerateInteger("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Integer/BoxValue.cs");  
+    SaveOutput("Integer/Box.cs");  
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -94,14 +94,14 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        [Test]
        public void LeftTop()
        {
-           Target.<#= @namespace1 #>.PointValue leftTop = this.box0.LeftTop;
+           Target.<#= @namespace1 #>.Point leftTop = this.box0.LeftTop;
            Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
            Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
        }
        [Test]
        public void Size()
        {
-           Target.<#= @namespace1 #>.SizeValue size = this.box0.Size;
+           Target.<#= @namespace1 #>.Size size = this.box0.Size;
            Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
            Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
        }

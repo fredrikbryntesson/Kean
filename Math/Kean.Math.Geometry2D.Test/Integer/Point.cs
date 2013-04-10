@@ -1,49 +1,204 @@
-﻿using System;
-using NUnit.Framework;
+// 
+//  Point.cs
+//  
+//  Author:
+//       Anders Frisk <andersfrisk77@gmail.com>
+//  
+//  Copyright (c) 2011 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using NUnit.Framework;
 using Target = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Test.Integer
 {
     [TestFixture]
     public class Point :
-        Kean.Math.Geometry2D.Test.Abstract.Point<Point, Target.Integer.Transform, Target.Integer.TransformValue, Target.Integer.Shell, Target.Integer.ShellValue, Target.Integer.Box, Target.Integer.BoxValue, Target.Integer.Point, Target.Integer.PointValue, Target.Integer.Size, Target.Integer.SizeValue, Kean.Math.Integer, int>
+        Kean.Test.Fixture<Point>
     {
-        protected override Kean.Math.Geometry2D.Integer.Point CastFromString(string value)
+        string prefix = "Kean.Math.Geometry2D.Test.Integer.Point";
+        float Precision { get { return 1e-4f; } }
+        Target.Integer.Point CastFromString(string value)
         {
             return value;
         }
-        protected override string CastToString(Kean.Math.Geometry2D.Integer.Point value)
+        string CastToString(Target.Integer.Point value)
         {
             return value;
         }
-        [TestFixtureSetUp]
-        public override void Setup()
-        {
-            base.Setup();
-            this.Vector0 = new Kean.Math.Geometry2D.Integer.Point(22, -3);
-            this.Vector1 = new Kean.Math.Geometry2D.Integer.Point(12, 13);
-            this.Vector2 = new Kean.Math.Geometry2D.Integer.Point(34, 10);
-        }
+        Target.Integer.Point vector0 = new Target.Integer.Point((int)22.221f, (int)-3.1f);
+        Target.Integer.Point vector1 = new Target.Integer.Point((int)12.221f, (int)13.1f);
+        Target.Integer.Point vector2 = new Target.Integer.Point((int)34.442f, (int)10.0f);
+        Target.Integer.Point vector3 = new Target.Integer.Point((int)10, (int)20);
+
         protected override void Run()
         {
-            base.Run();
             this.Run(
-                this.ValueStringCasts
+                this.Polar0,
+                this.Polar1,
+                this.Polar2,
+                this.Polar3,
+                this.Polar4,
+                this.Polar5,
+                this.Angles,
+                this.Casts,
+                this.StringCasts
                 );
         }
-        protected override int Cast(double value)
+        #region Equality
+        [Test]
+        public void Equality()
         {
-            return (int)value;
+            Target.Integer.Point point = new Target.Integer.Point();
+            Expect(this.vector0, Is.EqualTo(this.vector0));
+            Expect(this.vector0.Equals(this.vector0 as object), Is.True);
+            Expect(this.vector0 == this.vector0, Is.True);
+            Expect(this.vector0 != this.vector1, Is.True);
+            Expect(this.vector0 == point, Is.False);
+            Expect(point == point, Is.True);
+            Expect(point == this.vector0, Is.False);
+        }
+        #endregion
+        #region Arithmetic
+        [Test]
+        public void Addition()
+        {
+            Expect((this.vector0 + this.vector1).X, Is.EqualTo(this.vector2.X).Within(this.Precision));
+            Expect((this.vector0 + this.vector1).Y, Is.EqualTo(this.vector2.Y).Within(this.Precision));
         }
         [Test]
-        public void ValueStringCasts()
+        public void Subtraction()
         {
-            string textFromValue = new Target.Integer.PointValue(10, 20);
+            Expect(this.vector0 - this.vector0, Is.EqualTo(new Target.Integer.Point()));
+        }
+        [Test]
+        public void ScalarMultiplication()
+        {
+            Expect((-1) * this.vector0, Is.EqualTo(-this.vector0));
+        }
+        [Test]
+        public void ScalarDivision()
+        {
+            Expect(this.vector0 / (-1), Is.EqualTo(-this.vector0));
+        }
+        #endregion
+        #region Hash Code
+        [Test]
+        public void Hash()
+        {
+            Expect(this.vector0.Hash(), Is.Not.EqualTo(0));
+        }
+        #endregion
+
+        [Test]
+        public void GetValues()
+        {
+            Expect(this.vector0.X, Is.EqualTo((int)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+            Expect(this.vector0.Y, Is.EqualTo((int)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+        }
+        [Test]
+        public void Swap()
+        {
+            Target.Integer.Point result = this.vector0.Swap();
+            Expect(result.X, Is.EqualTo(this.vector0.Y), this.prefix + "Swap.0");
+            Expect(result.Y, Is.EqualTo(this.vector0.X), this.prefix + "Swap.1");
+        }
+        [Test]
+        public void Casting()
+        {
+            string value = "10, 20";
+            Expect(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
+            Expect(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
+        }
+        [Test]
+        public void CastingNull()
+        {
+            string value = null;
+            Target.Integer.Point point = null;
+            Expect(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
+            Expect(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
+        }
+
+        #region Polar Representation
+        [Test]
+        public void Polar0()
+        {
+            Target.Integer.Point point = new Target.Integer.Point();
+            Expect(point.Norm, Is.EqualTo(0));
+            Expect(point.Azimuth, Is.EqualTo(0));
+        }
+        [Test]
+        public void Polar1()
+        {
+            Target.Integer.Point point = new Target.Integer.Point(1, 0);
+            Expect(point.Norm, Is.EqualTo(1));
+            Expect(point.Azimuth, Is.EqualTo(0));
+        }
+        [Test]
+        public void Polar2()
+        {
+            Target.Integer.Point point = new Target.Integer.Point(0, 1);
+            Expect(point.Norm, Is.EqualTo(1));
+            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(90)));
+        }
+        [Test]
+        public void Polar3()
+        {
+            Target.Integer.Point point = new Target.Integer.Point(0, -5);
+            Expect(point.Norm, Is.EqualTo(5));
+            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(-90)));
+        }
+        [Test]
+        public void Polar4()
+        {
+            Target.Integer.Point point = new Target.Integer.Point(-1, 0);
+            Expect(point.Norm, Is.EqualTo(1));
+            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(180)));
+        }
+        [Test]
+        public void Polar5()
+        {
+            Target.Integer.Point point = new Target.Integer.Point(-3, 0);
+            int radius = point.Norm;
+            int azimuth = point.Azimuth;
+            Target.Integer.Point point2 = Target.Integer.Point.Polar(radius, azimuth);
+            Expect(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
+        }
+        #endregion
+        [Test]
+        public void Angles()
+        {
+            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX), Is.EqualTo(0).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+        }
+        [Test]
+        public void Casts()
+        { }
+		[Test]
+        public void StringCasts()
+        {
+            string textFromValue = new Target.Integer.Point(10, 20);
             Expect(textFromValue, Is.EqualTo("10, 20"));
-            Target.Integer.PointValue @integerFromText = "10, 20";
+            Target.Integer.Point @integerFromText = "10, 20";
             Expect(@integerFromText.X, Is.EqualTo(10));
             Expect(@integerFromText.Y, Is.EqualTo(20));
         }
     }
 }
+

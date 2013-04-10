@@ -1,19 +1,19 @@
 ﻿<#@ template language="C#v3.5" hostspecific="True" #>
 <#
-	GenerateStart("SizeValue", "Kean.Math.Geometry2D.Test", "Single",  "float");
-    GenerateSingle("SizeValue", "Kean.Math.Geometry2D.Test");
+	GenerateStart("Size", "Kean.Math.Geometry2D.Test", "Single",  "float");
+    GenerateSingle("Size", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Single/SizeValue.cs");  
+    SaveOutput("Single/Size.cs");  
     
-    GenerateStart("SizeValue", "Kean.Math.Geometry2D.Test", "Double",  "double");
-    GenerateDouble("SizeValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Size", "Kean.Math.Geometry2D.Test", "Double",  "double");
+    GenerateDouble("Size", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Double/SizeValue.cs");   
+    SaveOutput("Double/Size.cs");   
 
-    GenerateStart("SizeValue", "Kean.Math.Geometry2D.Test", "Integer",  "int");
-    GenerateInteger("SizeValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Size", "Kean.Math.Geometry2D.Test", "Integer",  "int");
+    GenerateInteger("Size", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Integer/SizeValue.cs");  
+    SaveOutput("Integer/Size.cs");  
 #>
 <#+
   void SaveOutput(string outputFileName)

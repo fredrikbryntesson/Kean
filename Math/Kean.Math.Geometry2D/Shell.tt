@@ -1,18 +1,18 @@
-﻿<#@ template language="C#v3.5" hostspecific="True" #>
+﻿<#@ template language="C#" hostspecific="True" #>
 <#
-    GenerateStart("ShellValue", "Kean.Math.Geometry2D", "Single",  "float");
-	GenerateSingle("ShellValue");
-    GenerateEnd("ShellValue", "Kean.Math.Geometry2D", "Single",  "float");
-  	SaveOutput("Single/ShellValue.cs");  
+    GenerateStart("Shell", "Kean.Math.Geometry2D", "Single",  "float");
+	GenerateSingle("Shell");
+    GenerateEnd("Shell", "Kean.Math.Geometry2D", "Single",  "float");
+  	SaveOutput("Single/Shell.cs");  
     
-    GenerateStart("ShellValue", "Kean.Math.Geometry2D", "Double",  "double");
-    GenerateDouble("ShellValue");
-    GenerateEnd("ShellValue", "Kean.Math.Geometry2D", "Double",  "double");
-    SaveOutput("Double/ShellValue.cs");   
+    GenerateStart("Shell", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateDouble("Shell");
+    GenerateEnd("Shell", "Kean.Math.Geometry2D", "Double",  "double");
+    SaveOutput("Double/Shell.cs");   
 
-    GenerateStart("ShellValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    GenerateEnd("ShellValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    SaveOutput("Integer/ShellValue.cs");    
+    GenerateStart("Shell", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateEnd("Shell", "Kean.Math.Geometry2D", "Integer",  "int");
+    SaveOutput("Integer/Shell.cs");    
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -47,28 +47,22 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 
 namespace <#= @namespace #>.<#= @namespace1 #>
 {
     public struct <#= @name #> :
-        Abstract.IShell<<#= @value1 #>>,
 		IEquatable<<#= @name #>>
     {
         public <#= @value1 #> Left;
         public <#= @value1 #> Right;
         public <#= @value1 #> Top;
         public <#= @value1 #> Bottom;
-        #region IShell<<#= @value1 #>> Members
-        <#= @value1 #> <#= @namespace #>.Abstract.IShell<<#= @value1 #>>.Left { get { return this.Left; } }
-        <#= @value1 #> <#= @namespace #>.Abstract.IShell<<#= @value1 #>>.Right { get { return this.Right; } }
-        <#= @value1 #> <#= @namespace #>.Abstract.IShell<<#= @value1 #>>.Top { get { return this.Top; } }
-        <#= @value1 #> <#= @namespace #>.Abstract.IShell<<#= @value1 #>>.Bottom { get { return this.Bottom; } }
-        #endregion
-        public PointValue LeftTop { get { return new PointValue(this.Left, this.Top); } }
-        public SizeValue Size { get { return new SizeValue(this.Left + this.Right, this.Top + this.Bottom); } }
-        public PointValue Balance { get { return new PointValue(this.Right - this.Left, this.Bottom - this.Top); } }
+        public Point LeftTop { get { return new Point(this.Left, this.Top); } }
+        public Size Size { get { return new Size(this.Left + this.Right, this.Top + this.Bottom); } }
+        public Point Balance { get { return new Point(this.Right - this.Left, this.Bottom - this.Top); } }
       
 		public <#= @name #>(<#= @value1 #> value) : this(value, value) { }
 		public <#= @name #>(<#= @value1 #> x, <#= @value1 #> y) : this(x, x, y, y) { }
@@ -80,31 +74,31 @@ namespace <#= @namespace #>.<#= @namespace1 #>
             this.Bottom = bottom;
         }
 		#region Increase, Decrease
-		public BoxValue Decrease(Abstract.ISize<<#= @value1 #>> size)
+		public Box Decrease(Size size)
 		{
-			return new BoxValue(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
+			return new Box(this.Left, this.Top, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom);
 		}
-		public BoxValue Increase(Abstract.ISize<<#= @value1 #>> size)
+		public Box Increase(Size size)
 		{
-			return  new BoxValue(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
+			return  new Box(-this.Left, -this.Right, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom);
 		}
-		public BoxValue Decrease(Abstract.IBox<PointValue, SizeValue, <#= @value1 #>> box)
+		public Box Decrease(Box  box)
 		{
-			return new BoxValue(box.LeftTop.X + this.Left, box.LeftTop.Y + this.Top, box.Size.Width - this.Left - this.Right, box.Size.Height - this.Top - this.Bottom);
+			return new Box(box.LeftTop.X + this.Left, box.LeftTop.Y + this.Top, box.Size.Width - this.Left - this.Right, box.Size.Height - this.Top - this.Bottom);
 		}
-		public BoxValue Increase(Abstract.IBox<PointValue, SizeValue, <#= @value1 #>> box)
+		public Box Increase(Box box)
 		{
-			return new BoxValue(box.LeftTop.X - this.Left, box.LeftTop.Y - this.Top, box.Size.Width + this.Left + this.Right, box.Size.Height + this.Top + this.Bottom);
+			return new Box(box.LeftTop.X - this.Left, box.LeftTop.Y - this.Top, box.Size.Width + this.Left + this.Right, box.Size.Height + this.Top + this.Bottom);
 		}
 		#endregion
         #region Static Operators
-        public static SizeValue operator -(SizeValue left, <#= @name #> right)
+        public static Size operator -(Size left, <#= @name #> right)
         {
-            return new SizeValue(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom);
+            return new Size(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom);
         }
-        public static SizeValue operator +(SizeValue left, <#= @name #> right)
+        public static Size operator +(Size left, <#= @name #> right)
         {
-            return new SizeValue(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom);
+            return new Size(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom);
         }
         public static <#= @name #> operator +(<#= @name #> left, <#= @name #> right)
         {

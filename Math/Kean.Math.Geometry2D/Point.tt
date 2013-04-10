@@ -1,18 +1,18 @@
-﻿<#@ template language="C#v3.5" hostspecific="True" #>
+﻿<#@ template language="C#" hostspecific="True" #>
 <#
-    GenerateStart("PointValue", "Kean.Math.Geometry2D", "Single",  "float");
-    GenerateSingle("PointValue");
-    GenerateEnd("PointValue", "Kean.Math.Geometry2D", "Single",  "float");
-    SaveOutput("Single/PointValue.cs");  
+    GenerateStart("Point", "Kean.Math.Geometry2D", "Single",  "float");
+    GenerateSingle("Point");
+    GenerateEnd("Point", "Kean.Math.Geometry2D", "Single",  "float");
+    SaveOutput("Single/Point.cs");  
     
-    GenerateStart("PointValue", "Kean.Math.Geometry2D", "Double",  "double");
-    GenerateDouble("PointValue");
-    GenerateEnd("PointValue", "Kean.Math.Geometry2D", "Double",  "double");
-    SaveOutput("Double/PointValue.cs");   
+    GenerateStart("Point", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateDouble("Point");
+    GenerateEnd("Point", "Kean.Math.Geometry2D", "Double",  "double");
+    SaveOutput("Double/Point.cs");   
 
-    GenerateStart("PointValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    GenerateEnd("PointValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    SaveOutput("Integer/PointValue.cs");  
+    GenerateStart("Point", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateEnd("Point", "Kean.Math.Geometry2D", "Integer",  "int");
+    SaveOutput("Integer/Point.cs");  
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -33,7 +33,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -47,26 +47,17 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 
 namespace <#= @namespace #>.<#= @namespace1 #>
 {
     public struct <#= @name #> :
-        Abstract.IPoint<<#= @value1 #>>, 
-        Abstract.IVector<<#= @value1 #>>,
         IEquatable<<#= @name #>>
     {
         public <#= @value1 #> X;
         public <#= @value1 #> Y;
-        #region IPoint<<#= @value1 #>> Members
-        <#= @value1 #> <#= @namespace #>.Abstract.IPoint<<#= @value1 #>>.X { get { return this.X; } }
-        <#= @value1 #> <#= @namespace #>.Abstract.IPoint<<#= @value1 #>>.Y { get { return this.Y; } }
-        #endregion
-        #region IVector<<#= @value1 #>> Members
-        <#= @value1 #> <#= @namespace #>.Abstract.IVector<<#= @value1 #>>.X { get { return this.X; } }
-        <#= @value1 #> <#= @namespace #>.Abstract.IVector<<#= @value1 #>>.Y { get { return this.Y; } }
-        #endregion
         public <#= @value1 #> Length { get { return this.Norm; } }
         public <#= @value1 #> Norm { get { return Kean.Math.<#= @namespace1 #>.SquareRoot(this.ScalarProduct(this)); } }
         public <#= @value1 #> Azimuth { get { return Kean.Math.<#= @namespace1 #>.ArcusTangensExtended(this.Y, this.X); } }
@@ -129,17 +120,17 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Floor(this.X), Kean.Math.<#= @namespace1 #>.Floor(this.Y));
         }
-        public <#= @name #> Minimum(Abstract.IVector<<#= @value1 #>> floor)
+        public <#= @name #> Minimum(Size floor)
         {
-            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Minimum(this.X, floor.X), Kean.Math.<#= @namespace1 #>.Minimum(this.Y, floor.Y));
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Minimum(this.X, floor.Width), Kean.Math.<#= @namespace1 #>.Minimum(this.Y, floor.Height));
         }
-        public <#= @name #> Maximum(Abstract.IVector<<#= @value1 #>> ceiling)
+        public <#= @name #> Maximum(Size ceiling)
         {
-            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Maximum(this.X, ceiling.X), Kean.Math.<#= @namespace1 #>.Maximum(this.Y, ceiling.Y));
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Maximum(this.X, ceiling.Width), Kean.Math.<#= @namespace1 #>.Maximum(this.Y, ceiling.Height));
         }
-        public <#= @name #> Clamp(Abstract.IVector<<#= @value1 #>> floor, Abstract.IVector<<#= @value1 #>> ceiling)
+        public <#= @name #> Clamp(Size floor, Size ceiling)
         {
-            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Clamp(this.X, floor.X, ceiling.X), Kean.Math.<#= @namespace1 #>.Clamp(this.Y, floor.Y, ceiling.Y));
+            return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Clamp(this.X, floor.Width, ceiling.Width), Kean.Math.<#= @namespace1 #>.Clamp(this.Y, floor.Height, ceiling.Height));
         }
         #endregion
         #region Arithmetic Vector - Vector Operators
@@ -147,29 +138,25 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return new <#= @name #>(left.X + right.X, left.Y + right.Y);
         }
-        public static <#= @name #> operator +(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        public static <#= @name #> operator +(<#= @name #> left, Size right)
         {
-            return new <#= @name #>(left.X + right.X, left.Y + right.Y);
+            return new <#= @name #>(left.X + right.Width, left.Y + right.Height);
         }
-        public static <#= @name #> operator +(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        public static <#= @name #> operator +(Size left, <#= @name #> right)
         {
-            return new <#= @name #>(left.X + right.X, left.Y + right.Y);
+            return new <#= @name #>(left.Width + right.X, left.Height + right.Y);
         }
         public static <#= @name #> operator -(<#= @name #> left, <#= @name #> right)
         {
             return new <#= @name #>(left.X - right.X, left.Y - right.Y);
         }
-        public static <#= @name #> operator -(<#= @name #> left, SizeValue right)
+        public static <#= @name #> operator -(<#= @name #> left, Size right)
         {
             return new <#= @name #>(left.X - right.Width, left.Y - right.Height);
         }
-        public static <#= @name #> operator -(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        public static <#= @name #> operator -(Size left, <#= @name #> right)
         {
-            return new <#= @name #>(left.X - right.X, left.Y - right.Y);
-        }
-        public static <#= @name #> operator -(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
-        {
-            return new <#= @name #>(left.X - right.X, left.Y - right.Y);
+            return new <#= @name #>(left.Width - right.X, left.Height - right.Y);
         }
         public static <#= @name #> operator -(<#= @name #> vector)
         {
@@ -179,25 +166,25 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return new <#= @name #>(left.X * right.X, left.Y * right.Y);
         }
-        public static <#= @name #> operator *(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        public static <#= @name #> operator *(<#= @name #> left, Size right)
         {
-            return new <#= @name #>(left.X * right.X, left.Y * right.Y);
+            return new <#= @name #>(left.X * right.Width, left.Y * right.Height);
         }
-        public static <#= @name #> operator *(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        public static <#= @name #> operator *(Size left, <#= @name #> right)
         {
-            return new <#= @name #>(left.X * right.X, left.Y * right.Y);
+            return new <#= @name #>(left.Width * right.X, left.Height * right.Y);
         }
         public static <#= @name #> operator /(<#= @name #> left, <#= @name #> right)
         {
             return new <#= @name #>(left.X / right.X, left.Y / right.Y);
         }
-        public static <#= @name #> operator /(<#= @name #> left, Abstract.IVector<<#= @value1 #>> right)
+        public static <#= @name #> operator /(<#= @name #> left, Size right)
         {
-            return new <#= @name #>(left.X / right.X, left.Y / right.Y);
+            return new <#= @name #>(left.X / right.Width, left.Y / right.Height);
         }
-        public static <#= @name #> operator /(Abstract.IVector<<#= @value1 #>> left, <#= @name #> right)
+        public static <#= @name #> operator /(Size left, <#= @name #> right)
         {
-            return new <#= @name #>(left.X / right.X, left.Y / right.Y);
+            return new <#= @name #>(left.Width / right.X, left.Height / right.Y);
         }
         #endregion
         #region Arithmetic Vector and Scalar
@@ -257,7 +244,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         #endregion
         #region Arithmetic Transform and Vector
-        public static <#= @name #> operator *(TransformValue left, <#= @name #> right)
+        public static <#= @name #> operator *(Transform left, <#= @name #> right)
         {
             return new <#= @name #>(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
         }
@@ -356,11 +343,11 @@ namespace <#= @namespace #>.<#= @namespace1 #>
             }
             return result;
         }
-        public static explicit operator SizeValue(<#= @name #> value)
+        public static explicit operator Size(<#= @name #> value)
         {
-            return new SizeValue(value.X, value.Y);
+            return new Size(value.X, value.Y);
         }
-        public static explicit operator <#= @name #>(SizeValue value)
+        public static explicit operator <#= @name #>(Size value)
         {
             return new <#= @name #>(value.Width, value.Height);
         }
