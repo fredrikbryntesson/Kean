@@ -194,8 +194,11 @@ namespace Kean.Core.Uri
 		}
 		#region Resolve & Insert Special Folders Variables
 		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {
-			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
 			KeyValue.Create("Desktop", System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)),
+			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
+			KeyValue.Create("Videos", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyVideos)),
+			KeyValue.Create("Pictures", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures)),
+			KeyValue.Create("Music", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic)),
 			KeyValue.Create("ApplicationPath", System.IO.Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]))
 		};
 		static string ResolveSpecialFolderVariables(string platformPath)
