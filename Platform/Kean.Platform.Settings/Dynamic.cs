@@ -27,12 +27,22 @@ using Collection = Kean.Core.Collection;
 namespace Kean.Platform.Settings
 {
 	public class Dynamic :
-		IDynamic
+		Dynamic<object>
 	{
-		Collection.Dictionary<string, Tuple<string, string, object>> data = new Collection.Dictionary<string, Tuple<string, string, object>>();
+		public Dynamic()
+		{ }
+	}
+	public class Dynamic<T> :
+		Collection.Abstract.ReadOnlyDictionary<string, T>,
+		IDynamic
+		where T : class
+	{
+		Collection.Dictionary<string, Tuple<string, string, T>> data = new Collection.Dictionary<string, Tuple<string, string, T>>();
 		Action<string, object> loaded;
 
-		public object this[string name]
+		public override T this[string name] { get { return this.data[name].Item3; } }
+
+		object IDynamic.this[string name]
 		{
 			get
 			{
@@ -40,10 +50,10 @@ namespace Kean.Platform.Settings
 				if (name.NotEmpty())
 				{
 					string[] splitted = (name ?? "").Split(new char[] { '.' }, 2);
-					Tuple<string, string, object> member = this.data[splitted[0]];
-					result = member.NotNull() ? member.Item3 : null;
-					if (result is Dynamic && splitted.Length > 1)
-						result = (result as Dynamic)[splitted[1]];
+					Tuple<string, string, T> member = this.data[splitted[0]];
+					result = member.NotNull() ? (object)member.Item3 : null;
+					if (result is IDynamic && splitted.Length > 1)
+						result = (result as IDynamic)[splitted[1]];
 				}
 				else
 					result = this;
@@ -74,14 +84,14 @@ namespace Kean.Platform.Settings
             string[] path = name.Split(new char[] { '.' }, 2);
             if (path.Length > 1)
             {
-                Dynamic next = this[path[0]] as Dynamic;
+                IDynamic next = (this as IDynamic)[path[0]] as IDynamic;
                 if (next.IsNull())
                     this.Load(path[0], next = new Dynamic());
                 next.Load(name.Substring(path[0].Length + 1), description, usage, value);
             }
-            else
+            else if (value is T)
             {
-                this.data[name] = Tuple.Create(description, usage, value);
+                this.data[name] = Tuple.Create(description, usage, value as T);
                 this.loaded.Call(name, value);
                 this.Reload();
             }
@@ -93,7 +103,7 @@ namespace Kean.Platform.Settings
 		}
 		public void WhenLoaded<T>(string name, Action<T> loaded)
 		{
-			object member = this[name];
+			object member = (this as IDynamic)[name];
 			if (member is T)
 				loaded.Call((T)member);
 			this.loaded += (n, m) =>
@@ -103,18 +113,27 @@ namespace Kean.Platform.Settings
 			};
 		}
 
+		public override bool Contains(string key)
+		{
+			return this.data.Contains(key);
+		}
+
+		public override System.Collections.Generic.IEnumerator<KeyValue<string, T>> GetEnumerator()
+		{
+			foreach (KeyValue<string, Tuple<string, string, T>> member in this.data)
+				yield return KeyValue.Create(member.Key, member.Value.Item3);
+		}
+
 		void Reload()
 		{
 			this.reload.Call();
 		}
 
-		#region IDynamic Members
 		System.Collections.Generic.IEnumerable<Tuple<string, string, string, object>> IDynamic.GetDynamic()
 		{
-			foreach (KeyValue<string, Tuple<string, string, object>> member in this.data)
-				yield return Tuple.Create(member.Key, member.Value.Item1, member.Value.Item2, member.Value.Item3);
+			foreach (KeyValue<string, Tuple<string, string, T>> member in this.data)
+				yield return Tuple.Create(member.Key, member.Value.Item1, member.Value.Item2, (object)member.Value.Item3);
 		}
-		#endregion
 		#region IReload Members
 		event Action reload;
 		event Action IReload.Reload
@@ -128,12 +147,12 @@ namespace Kean.Platform.Settings
         {
             if (this.data.NotNull())
             {
-                foreach (KeyValue<string, Tuple<string, string, object>> item in this.data)
+                foreach (KeyValue<string, Tuple<string, string, T>> item in this.data)
                     if (item.Value.Item3 is IDisposable)
                         (item.Value.Item3 as IDisposable).Dispose();
                 this.data = null;
                 this.loaded = null;
             }
         }
-    }
+	}
 }

@@ -44,7 +44,7 @@ namespace Kean.Platform.Settings
         [Serialize.Parameter]
         public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
 
-		public object this[string name] { get { return this.root[name]; } set { this.root[name] = value; } }
+		public object this[string name] { get { return (this.root as IDynamic)[name]; } set { (this.root as IDynamic)[name] = value; } }
 
 		public Module() :
 			base("Settings")
