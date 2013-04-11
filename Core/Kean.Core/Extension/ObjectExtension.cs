@@ -89,6 +89,8 @@ namespace Kean.Core.Extension
 				result = ((DateTimeOffset)me).ToString("o");
 			else if (me is TimeSpan)
 				result = ((TimeSpan)me).ToString();
+			else if (me is Enum)
+				result = Enum.GetName(me.GetType(), me).ToLower();
 			else if (me is IString)
 				result = (me as IString).String;
 			else

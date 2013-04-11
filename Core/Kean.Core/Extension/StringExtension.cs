@@ -265,6 +265,11 @@ namespace Kean.Core.Extension
 				TimeSpan value;
 				result = (TimeSpan.TryParse(me, out value) ? value : new TimeSpan()).ConvertType<T>();
 			}
+			else if (type.IsEnum)
+			{
+				object value = Enum.Parse(type, me, true);
+				result = (value.NotNull() && value.GetType() == typeof(T)) ? value.ConvertType<T>() : default(T);
+			}
 			else if (type.GetInterface(typeof(IString).FullName).NotNull())
 			{
 				result = System.Activator.CreateInstance(typeof(T)).ConvertType<T>();
@@ -276,7 +281,7 @@ namespace Kean.Core.Extension
 				if (cast.NotNull())
 					result = cast(me).ConvertType<T>();
 				else
-					result =  me.ConvertType<T>();
+					result = me.ConvertType<T>();
 			}
 			return result;
 		}
