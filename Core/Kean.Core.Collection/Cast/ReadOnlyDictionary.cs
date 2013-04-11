@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2012-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -23,39 +23,30 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 
-namespace Kean.Core.Collection
+namespace Kean.Core.Collection.Cast
 {
-	public class ReadOnlyDictionary<TKey, TValue> :
-		Abstract.ReadOnlyDictionary<TKey, TValue>
+	public class ReadOnlyDictionary<TKey, T, S> :
+		Abstract.ReadOnlyDictionary<TKey, S>
 	{
-		IDictionary<TKey, TValue> data;
+		Func<T, S> cast;
+		IReadOnlyDictionary<TKey, T> data;
 		#region Constructors
-		public ReadOnlyDictionary(IDictionary<TKey, TValue> data)
+		public ReadOnlyDictionary(Func<T, S> cast, IReadOnlyDictionary<TKey, T> data)
 		{
+			this.cast = cast;
 			this.data = data;
 		}
-		public ReadOnlyDictionary() :
-			this(new Dictionary<TKey, TValue>())
-		{ }
-		public ReadOnlyDictionary(System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> data) :
-			this()
-		{
-			foreach (KeyValue<TKey, TValue> element in data)
-				this.data[element.Key] = element.Value;
-		}
-		public ReadOnlyDictionary(params KeyValue<TKey, TValue>[] data) :
-			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)
-		{ }
 		#endregion
 
 		#region IReadOnlyDictionary<TKey,TValue> Members
-		public override TValue this[TKey key] { get { return this.data[key]; } }
+		public override S this[TKey key] { get { return this.cast(this.data[key]); } }
 		public override bool Contains(TKey key) { return this.data.Contains(key); }
 		#endregion
 		#region IEnumerable<KeyValue<TKey,TValue>> Members
-		public override System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> GetEnumerator()
+		public override System.Collections.Generic.IEnumerator<KeyValue<TKey, S>> GetEnumerator()
 		{
-			return this.data.GetEnumerator();
+			foreach (KeyValue<TKey, T> item in this.data)
+				yield return KeyValue.Create(item.Key, this.cast(item.Value));
 		}
 		#endregion
 	}
