@@ -17,9 +17,10 @@ namespace Kean.Platform.Settings
 		IO.ICharacterWriter writer;
 		Parallel.RepeatThread thread;
 
-		Remote(IO.ICharacterDevice backend)
+		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
-			this.reader = IO.CharacterReader.Open(backend);
+			this.reader = reader;
+			this.writer = writer;
 
 			IO.Text.Builder line = null;
 			while (this.reader.Next() && this.reader.Last != '\n')
@@ -30,7 +31,6 @@ namespace Kean.Platform.Settings
 					line += this.reader.Last;
 			}
 			this.thread = Parallel.RepeatThread.Start("RemoteClient", this.Receive);
-			this.writer = IO.CharacterWriter.Open(backend);
 		}
 		public bool Exists(string @object)
 		{
@@ -155,7 +155,19 @@ namespace Kean.Platform.Settings
 					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority.Endpoint));
 					break;
 			}
-			return result.NotNull() ? new Remote(result) : null;
+			return Remote.Open(result);
+		}
+		public static Remote Open(IO.ICharacterDevice characterDevice)
+		{
+			return Remote.Open(IO.CharacterReader.Open(characterDevice), IO.CharacterWriter.Open(characterDevice));
+		}
+		public static Remote Open(IO.ICharacterInDevice characterInDevice, IO.ICharacterOutDevice characterOutDevice)
+		{
+			return new Remote(IO.CharacterReader.Open(characterInDevice), IO.CharacterWriter.Open(characterOutDevice));
+		}
+		public static Remote Open(IO.ICharacterReader reader, IO.ICharacterWriter writer)
+		{
+			return reader.NotNull() && writer.NotNull() ? new Remote(reader, writer) : null;
 		}
 	}
 }

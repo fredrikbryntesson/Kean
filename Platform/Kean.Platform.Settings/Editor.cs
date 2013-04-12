@@ -182,6 +182,9 @@ namespace Kean.Platform.Settings
 				case "console":
 					result = Parallel.Thread.Start("console", () => new Editor(root, new Cli.ConsoleTerminal()).Read());
 					break;
+				case "stdio":
+					result = Parallel.Thread.Start("stdio", () => new Editor(root, Cli.Terminal.Open(IO.ByteDevice.Open(Console.OpenStandardInput()), IO.ByteDevice.Open(Console.OpenStandardOutput()))).Read());
+					break;
 			}
 			return result;
 		}
