@@ -35,6 +35,7 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Remote.cs" />
     <Compile Include="Dynamic.cs" />
     <Compile Include="IReload.cs" />
     <Compile Include="Editor.cs" />
