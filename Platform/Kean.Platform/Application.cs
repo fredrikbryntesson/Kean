@@ -64,7 +64,54 @@ namespace Kean.Platform
 		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
 		public bool CatchErrors { get { return Error.Log.CatchErrors; } set { Error.Log.CatchErrors = value; } }
- 		public Mode Mode { get; private set; }
+
+		#region State
+		Mode mode;
+		public Mode Mode
+		{
+			get { return this.mode; }
+			private set
+			{
+				switch (this.mode)
+				{
+					case Mode.Created:
+						if (value == Mode.Initialized)
+						{
+							this.mode = Mode.Initialized;
+							lock (this.onInitializedLock)
+								this.onInitialized.Call();
+						}
+						else if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Initialized:
+						if (value == Mode.Started)
+						{
+							this.mode = Mode.Started;
+							lock (this.onStartedLock)
+								this.onStarted.Call();
+						}
+						else if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Started:
+						if (value == Mode.Stopped)
+						{
+							this.mode = Mode.Stopped;
+							lock (this.onStoppedLock)
+								this.onStopped.Call();
+						}
+						break;
+					case Mode.Stopped:
+						if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Disposed:
+						break;
+				}
+			}
+		}
+		#endregion
 		#endregion
 		#region Events
 		object onIdleLock = new object();
@@ -80,6 +127,27 @@ namespace Kean.Platform
 		{
 			add { lock (this.onNextIdleLock) this.onNextIdle += value; }
 			remove { lock (this.onNextIdleLock) this.onNextIdle -= value; }
+		}
+		object onInitializedLock = new object();
+		Action onInitialized;
+		public event Action OnInitialized
+		{
+			add { lock (this.onInitializedLock) this.onInitialized += value; }
+			remove { lock (this.onInitializedLock) this.onInitialized -= value; }
+		}
+		object onStartedLock = new object();
+		Action onStarted;
+		public event Action OnStarted
+		{
+			add { lock (this.onStartedLock) this.onStarted += value; }
+			remove { lock (this.onStartedLock) this.onStarted -= value; }
+		}
+		object onStoppedLock = new object();
+		Action onStopped;
+		public event Action OnStopped
+		{
+			add { lock (this.onStoppedLock) this.onStopped += value; }
+			remove { lock (this.onStoppedLock) this.onStopped -= value; }
 		}
 		object onClosedLock = new object();
 		Action onClosed;
@@ -235,12 +303,14 @@ namespace Kean.Platform
 					}
 					finally
 					{
-						this.onClosed.Call();
+						lock (this.onClosedLock)
+							this.onClosed.Call();
 					}
 				else
 				{
 					this.Stopper();
-					this.onClosed.Call();
+					lock (this.onClosedLock)
+						this.onClosed.Call();
 				}
 			return result;
 		}
@@ -302,13 +372,15 @@ namespace Kean.Platform
 					}
 					finally
 					{
-						this.onClosed.Call();
+						lock (this.onClosedLock)
+							this.onClosed.Call();
 					}
 				}
 				else
 				{
 					this.Executer();
-					this.onClosed.Call();
+					lock (this.onClosedLock)
+						this.onClosed.Call();
 				}
 			return result;
 		}
