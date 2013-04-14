@@ -206,7 +206,8 @@ namespace Kean.Core.Uri
 			string result = platformPath;
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
-					result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
+					if (specialFolder.Value.NotEmpty())
+						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
 			return result;
 		}
 		static string InsertSpecialFoldersVariables(string platformPath)
@@ -214,7 +215,8 @@ namespace Kean.Core.Uri
 			string result = platformPath;
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
-					result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
+					if (specialFolder.Value.NotEmpty())
+						result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
 			return result;
 		}
 		#endregion
