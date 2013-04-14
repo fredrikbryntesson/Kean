@@ -81,5 +81,29 @@ namespace Kean.Core.Error
 				Column = frame.GetFileColumnNumber(),
 			};
 		}
+		public static Error.IError Parse(string error)
+		{
+			IError result = null;
+			if (error.NotEmpty())
+			{
+				string[] splitted = error.SplitAt(',');
+				if (splitted.Length == 11)
+					result = new Entry()
+					{
+						Time = splitted[0].Parse<DateTime>(),
+						Level = splitted[1].Parse<Error.Level>(),
+						Title = splitted[2],
+						Message = splitted[3],
+						AssemblyName = splitted[4],
+						AssemblyVersion = splitted[5],
+						Type = splitted[6],
+						Method = splitted[7],
+						Filename = splitted[8],
+						Line = splitted[9].Parse<int>(),
+						Column = splitted[10].Parse<int>(),
+					};
+			}
+			return result;
+		}
 	}
 }

@@ -94,7 +94,7 @@ namespace Kean.Platform.Settings
 							member = next;
 					}
 			if (splitted.Length > 1)
-				parameters.Add(splitted[1].Splitter());
+				parameters.Add(splitted[1].SplitAt());
 			return Tuple.Create(prefix, member, parameters.ToArray());
 		}
 		bool Execute(string line)

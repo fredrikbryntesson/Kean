@@ -131,7 +131,11 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
-		public static string[] Splitter(this string me)
+		public static string[] SplitAt(this string me)
+		{
+			return me.SplitAt(' ');
+		}
+		public static string[] SplitAt(this string me, params char[] separators)
 		{
 			string[] result = null;
 			System.Collections.Generic.IList<string> parts = new System.Collections.Generic.List<string>();
@@ -143,39 +147,40 @@ namespace Kean.Core.Extension
 				char unit = me[index];
 				switch (unit)
 				{
-					case ' ':
-						if (current.Length > 0)
-						{
-							parts.Add(current.ToString());
-							current = new System.Text.StringBuilder();
-						}
-						break;
-						case '\\':
+					case '\\':
 						if (++index < me.Length)
-						switch(me[index])
-						{
-							case 'r':
-								current.Append('\r');
-								break;
-							case 'n':
-								current.Append('\n');
-								break;
-							case 't':
-								current.Append('\t');
-								break;
-							case 'b':
-								current.Append('\b');
-								break;
-							case '\\':
-								current.Append('\\');
-								break;
-						}
+							switch (me[index])
+							{
+								case 'r':
+									current.Append('\r');
+									break;
+								case 'n':
+									current.Append('\n');
+									break;
+								case 't':
+									current.Append('\t');
+									break;
+								case 'b':
+									current.Append('\b');
+									break;
+								case '\\':
+									current.Append('\\');
+									break;
+								case '"':
+									current.Append('"');
+									break;
+							}
 						break;
 					case '"':
 						while (++index < me.Length && (unit = me[index]) != '"')
 							current.Append(unit);
 						break;
 					default:
+						if (separators.Contains(unit) && current.Length > 0)
+						{
+							parts.Add(current.ToString());
+							current = new System.Text.StringBuilder();
+						}
 						current.Append(unit);
 						break;
 				}
