@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Kean.Draw.OpenGL.Backend.Extension;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
@@ -111,6 +112,22 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				(offset.Height < 0) ? (-offset.Height) : 0,
 				this.Size.Width - Kean.Math.Integer.Absolute(offset.Width),
 				this.Size.Height - Kean.Math.Integer.Absolute(offset.Height));
+		}
+		public override void Read(IntPtr pointer, Geometry2D.Integer.Box region)
+		{
+			switch (this.Type)
+			{
+				default:
+				case TextureType.Argb:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Rgb:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Monochrome:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+			}
 		}
 		public override void Clear()
 		{

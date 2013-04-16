@@ -93,6 +93,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void SetClip(Geometry2D.Single.Box region);
 		public abstract void CopyToTexture();
 		public abstract void CopyToTexture(Geometry2D.Integer.Size offset);
+		public abstract void Read(IntPtr pointer, Geometry2D.Integer.Box region);
 
 		public abstract void Clear();
 		public abstract void Clear(Geometry2D.Single.Box region);
