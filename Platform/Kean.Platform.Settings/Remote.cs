@@ -13,6 +13,7 @@ namespace Kean.Platform.Settings
 		Synchronized,
 		IDisposable
 	{
+		public bool Debug { get; set; }
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		object onResponseLock = new object();
@@ -145,7 +146,8 @@ namespace Kean.Platform.Settings
 						else if (!char.IsControl(this.reader.Last))
 							line += this.reader.Last;
 				}
-				Console.WriteLine("< " + line);
+				if (this.Debug)
+					Console.WriteLine("< " + line);
 				string[] splitted = ((string)line).Split(new char[] { ' ' }, 3);
 				if (splitted.Length > 1)
 				{
@@ -188,7 +190,8 @@ namespace Kean.Platform.Settings
 			IO.Text.Builder builder = new IO.Text.Builder(message);
 			foreach (object argument in arguments)
 				builder += " \"" + argument.AsString() + "\"";
-			Console.WriteLine("> " + (string)builder);
+			if (this.Debug)
+				Console.WriteLine("> " + (string)builder);
 			this.writer.WriteLine((string)builder);
 		}
 
