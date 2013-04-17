@@ -77,8 +77,6 @@ namespace Kean.Draw.OpenGL.Backend
 				result.Texture.Create(type, size);
 				result.Create();
 			}
-			else
-				result.Clear();
 			return result;
 		}
 		public Composition CreateComposition(Raster.Image image)
