@@ -176,12 +176,13 @@ namespace Kean.Core.Extension
 							current.Append(unit);
 						break;
 					default:
-						if (separators.Contains(unit) && current.Length > 0)
+						if (separators.Contains(unit))
 						{
 							parts.Add(current.ToString());
 							current = new System.Text.StringBuilder();
 						}
-						current.Append(unit);
+						else
+							current.Append(unit);
 						break;
 				}
 				index++;

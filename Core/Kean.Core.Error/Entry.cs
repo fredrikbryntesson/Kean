@@ -43,6 +43,10 @@ namespace Kean.Core.Error
 		public int Line { get; internal set; }
 		public int Column { get; internal set; }
 		#endregion
+		public override string ToString()
+		{
+			return Extension.ErrorExtension.AsCsv(this);
+		}
 		public static Error.IError Create(Error.Level level, string title, System.Exception exception)
 		{
 			System.Reflection.MethodBase method = exception.TargetSite ?? new System.Diagnostics.StackTrace().GetFrame(2).GetMethod();
