@@ -71,6 +71,10 @@ namespace Kean.Core.Error
 		{
 			Log.Append(Entry.Create(level, title, message));
 		}
+		public static void Append(Level level, string title, string message, params object[] arguments)
+		{
+			Log.Append(Entry.Create(level, title, message.Format(arguments)));
+		}
 		#region Wrap
 		public static Func<bool> Wrap(Func<bool> task)
 		{

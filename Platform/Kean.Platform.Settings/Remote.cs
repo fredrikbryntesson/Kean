@@ -78,13 +78,15 @@ namespace Kean.Platform.Settings
 				previous.Call(value);
 			};
 			this.OnResponse += onResponse;
-			this.Send(method, arguments);
+			string sent = this.Send(method, arguments);
 			if (this.thread.IsCurrent)
 				this.Receive();
 			else
 				lock (@lock)
-					while (!done)
-						System.Threading.Monitor.Wait(@lock, 500);
+					for (int i = 0; i < 5 && !done; i++)
+						System.Threading.Monitor.Wait(@lock, 200);
+			if (!done)
+				Error.Log.Append(Error.Level.Recoverable, "Remote Method Call Timed Out.", "Timed out while waiting for response when calling \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
 		}
 		public T Get<T>(string property)
@@ -100,7 +102,7 @@ namespace Kean.Platform.Settings
 			this.Send(property + " notify");
 			this.notifications[property] = value => callback(value.Parse<T>());
 		}
-		T Receive<T>(string property, Action send)
+		T Receive<T>(string property, Func<string> send)
 		{
 			object @lock = new object();
 			bool done = false;
@@ -120,13 +122,15 @@ namespace Kean.Platform.Settings
 				this.values.Remove(property);
 				previous.Call(value);
 			};
-			send();
+			string sent = send();
 			if (this.thread.IsCurrent)
 				this.Receive();
 			else
 				lock (@lock)
-					while (!done)
-						System.Threading.Monitor.Wait(@lock, 500);
+					for (int i = 0; i < 5 && !done; i++)
+						System.Threading.Monitor.Wait(@lock, 200);
+			if (!done)
+				Error.Log.Append(Error.Level.Recoverable, "Remote Property Read Timed Out.", "Timed out while waiting for response when requesting property \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
 		}
 
@@ -185,14 +189,16 @@ namespace Kean.Platform.Settings
 			onResponse.Call(success);
 		}
 
-		void Send(string message, params object[] arguments)
+		string Send(string message, params object[] arguments)
 		{
 			IO.Text.Builder builder = new IO.Text.Builder(message);
 			foreach (object argument in arguments)
 				builder += " \"" + argument.AsString() + "\"";
+			string result = builder;
 			if (this.Debug)
-				Console.WriteLine("> " + (string)builder);
-			this.writer.WriteLine((string)builder);
+				Console.WriteLine("> " + result);
+			this.writer.WriteLine(result);
+			return result;
 		}
 
 		public void Dispose()
