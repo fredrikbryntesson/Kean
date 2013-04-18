@@ -84,7 +84,7 @@ namespace Kean.Platform.Settings
 			else
 				lock (@lock)
 					for (int i = 0; i < 5 && !done; i++)
-						System.Threading.Monitor.Wait(@lock, 200);
+						System.Threading.Monitor.Wait(@lock, 1000);
 			if (!done)
 				Error.Log.Append(Error.Level.Recoverable, "Remote Method Call Timed Out.", "Timed out while waiting for response when calling \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
@@ -128,7 +128,7 @@ namespace Kean.Platform.Settings
 			else
 				lock (@lock)
 					for (int i = 0; i < 5 && !done; i++)
-						System.Threading.Monitor.Wait(@lock, 200);
+						System.Threading.Monitor.Wait(@lock, 1000);
 			if (!done)
 				Error.Log.Append(Error.Level.Recoverable, "Remote Property Read Timed Out.", "Timed out while waiting for response when requesting property \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
