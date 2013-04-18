@@ -41,6 +41,7 @@ namespace Kean.Cli.LineBuffer
 		public Func<string, string> Complete { get; set; }
 		public Func<string, string> Help { get; set; }
 		public Func<string, string> Error { get; set; }
+		public Func<string, bool> RequestType { get; set; }
 		public string Prompt { get; set; }
 		public Editor(ITerminal terminal)
 		{
@@ -103,8 +104,14 @@ namespace Kean.Cli.LineBuffer
 						if (this.terminal.Echo)
 							this.terminal.Out.WriteLine();
 
-						if (this.Execute.NotNull())
-							this.Execute(this.history.Current.ToString());
+						string line = this.history.Current.ToString();
+						if (line.StartsWith("?"))
+						{
+							if (this.RequestType.NotNull())
+								this.RequestType(line.Substring(1));
+						}
+						else if (this.Execute.NotNull())
+								this.Execute(line);
 
 						if (this.history.Current.ToString().NotEmpty())
 							this.history.Add();

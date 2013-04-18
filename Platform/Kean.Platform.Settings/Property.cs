@@ -113,5 +113,19 @@ namespace Kean.Platform.Settings
 		{
 			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n";
 		}
+		public override bool RequestType(Editor editor)
+		{
+			editor.TypeResponse(this, "property " + this.ModeString + " : " + this.backend.Type);
+			return true;
+		}
+		string ModeString
+		{
+			get
+			{
+				return (this.Mode.HasFlag(PropertyMode.Read) ? "r" : "-") +
+					(this.Mode.HasFlag(PropertyMode.Write) ? "w" : "-") +
+					(this.Mode.HasFlag(PropertyMode.Notify) ? "n" : "-");
+			}
+		}
 	}
 }

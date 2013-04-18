@@ -28,6 +28,7 @@ namespace Kean.Core.Reflect
 		MethodInformation,
 		IComparable<Method>
 	{
+		public Reflect.Type ReturnType { get { return this.Information.ReturnType; } }
 		protected object Parent { get; private set; }
 		public object Call(params object[] parameters)
 		{

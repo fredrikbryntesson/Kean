@@ -160,6 +160,14 @@ namespace Kean.Platform.Settings
 					results.Add(Tuple.Create(member.Name, member.Description));
 			return results.Fold((m, r) => r + m.Item1 + "\t" + m.Item2 + "\n", "");
 		}
+		public override bool RequestType(Editor editor)
+		{
+			Collection.List<string> results = new Collection.List<string>();
+			foreach (Member member in this)
+					results.Add(member.Name);
+			editor.TypeResponse(this, "object : (" + results.Join(", ") + ")");
+			return true;
+		}
 		#region IEnumerable<Member> Members
 		public System.Collections.Generic.IEnumerator<Member> GetEnumerator()
 		{

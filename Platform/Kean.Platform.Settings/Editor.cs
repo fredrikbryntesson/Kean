@@ -51,6 +51,7 @@ namespace Kean.Platform.Settings
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;
+			this.lineBuffer.RequestType = this.RequestType;
 			this.lineBuffer.Error = line => "! " + line;
 
 			this.Current = this.Root = new Object(root);
@@ -81,6 +82,7 @@ namespace Kean.Platform.Settings
 			string[] splitted = line.Split(new char[] {' '}, 2, StringSplitOptions.RemoveEmptyEntries);
 			Collection.List<string> parameters = new Collection.List<string>();
 			if (splitted.Length > 0)
+			{
 				foreach (string name in splitted[0].Split(new char[] { '.' }))
 					if (member is Object)
 					{
@@ -93,8 +95,9 @@ namespace Kean.Platform.Settings
 						else
 							member = next;
 					}
-			if (splitted.Length > 1)
-				parameters.Add(splitted[1].SplitAt());
+				if (splitted.Length > 1)
+					parameters.Add(splitted[1].SplitAt());
+			}
 			return Tuple.Create(prefix, member, parameters.ToArray());
 		}
 		bool Execute(string line)
@@ -111,6 +114,11 @@ namespace Kean.Platform.Settings
 		{
 			Tuple<string, Member, string[]> parsed = this.Parse(line);
 			return parsed.Item2.Help(parsed.Item3);
+		}
+		bool RequestType(string line)
+		{
+			Tuple<string, Member, string[]> parsed = this.Parse(line);
+			return parsed.Item2.RequestType(this);
 		}
 		public void Read()
 		{
@@ -134,7 +142,11 @@ namespace Kean.Platform.Settings
 		}
 		internal void Error(Member member, string message, params string[] parameters)
 		{
-			this.lineBuffer.WriteLine("! " + member + "> " + message + " " + string.Join(" ", parameters));
+			this.lineBuffer.WriteLine("! " + member + " " + message + " " + string.Join(" ", parameters));
+		}
+		internal void TypeResponse(Member member, string message)
+		{
+			this.lineBuffer.WriteLine("? " + member + " " + message);
 		}
 		#region IDisposable Members
 		void IDisposable.Dispose()

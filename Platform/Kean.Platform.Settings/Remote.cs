@@ -16,6 +16,7 @@ namespace Kean.Platform.Settings
 		public bool Debug { get; set; }
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
+		Collection.IDictionary<string, Action<string>> types = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		object onResponseLock = new object();
 		Action<bool> onResponse;
 		event Action<bool> OnResponse
@@ -29,6 +30,8 @@ namespace Kean.Platform.Settings
 
 		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
+			this.Debug = true;
+
 			this.reader = reader;
 			this.writer = writer;
 
@@ -44,7 +47,8 @@ namespace Kean.Platform.Settings
 		}
 		public bool Exists(string @object)
 		{
-			return true;
+			string result = this.GetType(@object);
+			return result.NotNull() && result.StartsWith("object");
 		}
 		public bool Call(string method, params object[] arguments)
 		{
@@ -133,6 +137,35 @@ namespace Kean.Platform.Settings
 				Error.Log.Append(Error.Level.Recoverable, "Remote Property Read Timed Out.", "Timed out while waiting for response when requesting property \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
 		}
+		public string GetType(string name)
+		{
+			object @lock = new object();
+			bool done = false;
+			string result = null;
+			Action<string> previous = this.types[name];
+			this.types[name] = value =>
+			{
+				lock (@lock)
+				{
+					result = value;
+					done = true;
+					System.Threading.Monitor.PulseAll(@lock);
+				}
+				this.values.Remove(name);
+				previous.Call(value);
+			};
+			string sent = this.Send("?" + name);
+			if (this.thread.IsCurrent)
+				this.Receive();
+			else
+				lock (@lock)
+					for (int i = 0; i < 5 && !done; i++)
+						System.Threading.Monitor.Wait(@lock, 1000);
+			if (!done)
+				Error.Log.Append(Error.Level.Recoverable, "Remote Type Request Read Timed Out.", "Timed out while waiting for response when requesting type of \"{0}\" over \"{1}\".", sent, this.writer.Resource);
+			return result;
+		}
+
 
 		void Receive()
 		{
@@ -169,6 +202,9 @@ namespace Kean.Platform.Settings
 								this.notifications[splitted[1]].Call(splitted[2]);
 							break;
 						default:
+						case "?": // error
+							this.types[splitted[1]].Call(splitted[2]);
+							break;
 						case "!": // error
 							this.OnResponseCall(false);
 							System.Diagnostics.Debug.WriteLine(line);
