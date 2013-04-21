@@ -117,8 +117,14 @@ namespace Kean.Platform.Settings
 		}
 		bool RequestType(string line)
 		{
+			line = line.Trim();
 			Tuple<string, Member, string[]> parsed = this.Parse(line);
-			return parsed.Item2.RequestType(this);
+			bool result = false;
+			if (parsed.Item2.ToString() != line)
+				this.TypeResponse(line, "");
+			else
+				result = parsed.Item2.RequestType(this);
+			return result;
 		}
 		public void Read()
 		{
@@ -144,9 +150,13 @@ namespace Kean.Platform.Settings
 		{
 			this.lineBuffer.WriteLine("! " + member + " " + message + " " + string.Join(" ", parameters));
 		}
-		internal void TypeResponse(Member member, string message)
+		internal void TypeResponse(string member, string message)
 		{
 			this.lineBuffer.WriteLine("? " + member + " " + message);
+		}
+		internal void TypeResponse(Member member, string message)
+		{
+			this.TypeResponse(member.ToString(), message);
 		}
 		#region IDisposable Members
 		void IDisposable.Dispose()

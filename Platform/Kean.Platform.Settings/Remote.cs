@@ -13,6 +13,7 @@ namespace Kean.Platform.Settings
 		Synchronized,
 		IDisposable
 	{
+		public Asynchronous Asynchronous { get; set; }
 		public bool Debug { get; set; }
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -52,45 +53,54 @@ namespace Kean.Platform.Settings
 		}
 		public bool Call(string method, params object[] arguments)
 		{
-			object @lock = new object();
-			bool done = false;
+			return this.Call(method, this.Asynchronous.HasFlag(Settings.Asynchronous.MethodCall), arguments);
+		}
+		public bool Call(string method, bool asynchronous, params object[] arguments)
+		{
 			bool result = false;
-			Action<string> previous = this.values[method];
-			Action<bool> onResponse = success =>
+			if (asynchronous)
+				this.Send(method, arguments);
+			else
 			{
-				lock (@lock)
+				object @lock = new object();
+				bool done = false;
+				Action<string> previous = this.values[method];
+				Action<bool> onResponse = success =>
 				{
-					result = success;
-					done = true;
-					this.values[method] = previous;
-					System.Threading.Monitor.PulseAll(@lock);
-				}
-			};
-			this.values[method] = value =>
-			{
-				lock (@lock)
-				{
-					if (value == "failed")
+					lock (@lock)
 					{
-						result = false;
-						this.OnResponse -= onResponse;
+						result = success;
 						done = true;
+						this.values[method] = previous;
 						System.Threading.Monitor.PulseAll(@lock);
 					}
-				}
-				this.values.Remove(method);
-				previous.Call(value);
-			};
-			this.OnResponse += onResponse;
-			string sent = this.Send(method, arguments);
-			if (this.thread.IsCurrent)
-				this.Receive();
-			else
-				lock (@lock)
-					for (int i = 0; i < 5 && !done; i++)
-						System.Threading.Monitor.Wait(@lock, 1000);
-			if (!done)
-				Error.Log.Append(Error.Level.Recoverable, "Remote Method Call Timed Out.", "Timed out while waiting for response when calling \"{0}\" over \"{1}\".", sent, this.writer.Resource);
+				};
+				this.values[method] = value =>
+				{
+					lock (@lock)
+					{
+						if (value == "failed")
+						{
+							result = false;
+							this.OnResponse -= onResponse;
+							done = true;
+							System.Threading.Monitor.PulseAll(@lock);
+						}
+					}
+					this.values.Remove(method);
+					previous.Call(value);
+				};
+				this.OnResponse += onResponse;
+				string sent = this.Send(method, arguments);
+				if (this.thread.IsCurrent)
+					this.Receive();
+				else
+					lock (@lock)
+						for (int i = 0; i < 5 && !done; i++)
+							System.Threading.Monitor.Wait(@lock, 1000);
+				if (!done)
+					Error.Log.Append(Error.Level.Recoverable, "Remote Method Call Timed Out.", "Timed out while waiting for response when calling \"{0}\" over \"{1}\".", sent, this.writer.Resource);
+			}
 			return result;
 		}
 		public T Get<T>(string property)
@@ -99,7 +109,19 @@ namespace Kean.Platform.Settings
 		}
 		public T Set<T>(string property, T value)
 		{
-			return this.Receive<T>(property, () => this.Send(property, value));
+			return this.Set(property, value, this.Asynchronous.HasFlag(Settings.Asynchronous.PropretySet));
+		}
+		public T Set<T>(string property, T value, bool asynchronous)
+		{
+			T result;
+			if (asynchronous)
+			{
+				this.Send(property, value);
+				result = value;
+			}
+			else
+				result = this.Receive<T>(property, () => this.Send(property, value));
+			return result;
 		}
 		public void Listen<T>(string property, Action<T> callback)
 		{
@@ -154,7 +176,7 @@ namespace Kean.Platform.Settings
 				this.values.Remove(name);
 				previous.Call(value);
 			};
-			string sent = this.Send("?" + name);
+			string sent = this.Send("? " + name);
 			if (this.thread.IsCurrent)
 				this.Receive();
 			else

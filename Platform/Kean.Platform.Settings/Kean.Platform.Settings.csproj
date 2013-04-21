@@ -64,6 +64,7 @@
     <Compile Include="Property.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="PropertyMode.cs" />
+    <Compile Include="Asynchronous.cs" />
     <Compile Include="Root.cs" />
     <None Include="Kean.Platform.Settings.nuspec" />
   </ItemGroup>
