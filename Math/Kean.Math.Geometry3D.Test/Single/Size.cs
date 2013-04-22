@@ -45,10 +45,10 @@ namespace Kean.Math.Geometry3D.Test.Single
             // integer - single
             Target.Integer.Size integer = new Target.Integer.Size(10, 20, 30);
             Target.Single.Size single = integer;
-            Expect(single.Width, Is.EqualTo(10));
-            Expect(single.Height, Is.EqualTo(20));
-            Expect(single.Depth, Is.EqualTo(30));
-            Expect((Target.Integer.Size)single, Is.EqualTo(integer));
+            Verify(single.Width, Is.EqualTo(10));
+            Verify(single.Height, Is.EqualTo(20));
+            Verify(single.Depth, Is.EqualTo(30));
+            Verify((Target.Integer.Size)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -56,20 +56,20 @@ namespace Kean.Math.Geometry3D.Test.Single
             // integer - single
             Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20, 30);
             Target.Single.SizeValue single = integer;
-            Expect(single.Width, Is.EqualTo(10));
-            Expect(single.Height, Is.EqualTo(20));
-            Expect(single.Depth, Is.EqualTo(30));
-            Expect((Target.Integer.SizeValue)single, Is.EqualTo(integer));
+            Verify(single.Width, Is.EqualTo(10));
+            Verify(single.Height, Is.EqualTo(20));
+            Verify(single.Depth, Is.EqualTo(30));
+            Verify((Target.Integer.SizeValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20, 30);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30"));
+            Verify(textFromValue, Is.EqualTo("10, 20, 30"));
             Target.Single.SizeValue @integerFromText = "10 20 30";
-            Expect(@integerFromText.Width, Is.EqualTo(10));
-            Expect(@integerFromText.Height, Is.EqualTo(20));
-            Expect(@integerFromText.Depth, Is.EqualTo(30));
+            Verify(@integerFromText.Width, Is.EqualTo(10));
+            Verify(@integerFromText.Height, Is.EqualTo(20));
+            Verify(@integerFromText.Depth, Is.EqualTo(30));
         }
     }
 }

@@ -65,13 +65,13 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         public void Equality()
         {
             TransformType transform = null;
-            Expect(this.Transform0, Is.EqualTo(this.Transform0));
-            Expect(this.Transform0.Equals(this.Transform0 as object), Is.True);
-            Expect(this.Transform0 == this.Transform0, Is.True);
-            Expect(this.Transform0 != this.Transform1, Is.True);
-            Expect(this.Transform0 == transform, Is.False);
-            Expect(transform == transform, Is.True);
-            Expect(transform == this.Transform0, Is.False);
+			Verify(this.Transform0, Is.EqualTo(this.Transform0));
+			Verify(this.Transform0.Equals(this.Transform0 as object), Is.True);
+			Verify(this.Transform0 == this.Transform0, Is.True);
+			Verify(this.Transform0 != this.Transform1, Is.True);
+			Verify(this.Transform0 == transform, Is.False);
+			Verify(transform == transform, Is.True);
+			Verify(transform == this.Transform0, Is.False);
         }
         #endregion
         #region Arithmetic
@@ -80,63 +80,63 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         {
             TransformType transform = this.Transform0.Inverse;
             TransformType correct = this.Transform3;
-            Expect(transform.A.Value, Is.EqualTo(correct.A.Value).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(correct.B.Value).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(correct.C.Value).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(correct.D.Value).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(correct.E.Value).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(correct.F.Value).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(correct.G.Value).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(correct.H.Value).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(correct.I.Value).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(correct.J.Value).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(correct.K.Value).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(correct.L.Value).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(correct.A.Value).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(correct.B.Value).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(correct.C.Value).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(correct.D.Value).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(correct.E.Value).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(correct.F.Value).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(correct.G.Value).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(correct.H.Value).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(correct.I.Value).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(correct.J.Value).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(correct.K.Value).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(correct.L.Value).Within(this.Precision));
         }
         [Test]
         public void MultiplicationTransformTransform()
         {
-            Expect(this.Transform0 * this.Transform1, Is.EqualTo(this.Transform2));
+			Verify(this.Transform0 * this.Transform1, Is.EqualTo(this.Transform2));
         }
         [Test]
         public void MultiplicationTransformPoint()
         {
-            Expect(this.Transform0 * this.Point0, Is.EqualTo(this.Point1));
+			Verify(this.Transform0 * this.Point0, Is.EqualTo(this.Point1));
         }
         #endregion
         [Test]
         public void CreateZeroTransform()
         {
             TransformType transform = new TransformType();
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateIdentity()
         {
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void Rotatate()
@@ -145,18 +145,18 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R angle = new R().CreateConstant(20).ToRadians();
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
             transform = transform.RotateX(-angle);
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void Scale()
@@ -165,18 +165,18 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R scale = new R().CreateConstant(20);
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale, scale);
             transform = transform.Scale(scale.Invert(), scale.Invert(), scale.Invert());
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void Translatate()
@@ -186,54 +186,54 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R zDelta = new R().CreateConstant(30);
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
             transform = transform.Translate(xDelta.Negate(), yDelta.Negate(), zDelta.Negate());
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateRotation()
         {
             R angle = new R().CreateConstant(20).ToRadians();
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
-            Expect(transform.F, Is.EqualTo(angle.Sinus()).Within(this.Precision));
-            Expect(transform.H, Is.EqualTo(-angle.Sinus()).Within(this.Precision));
-            Expect(transform.I, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
+			Verify(transform.F, Is.EqualTo(angle.Sinus()).Within(this.Precision));
+			Verify(transform.H, Is.EqualTo(-angle.Sinus()).Within(this.Precision));
+			Verify(transform.I, Is.EqualTo(angle.Cosinus()).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateScale()
         {
             R scale = new R().CreateConstant(20);
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale, scale);
-            Expect(transform.A, Is.EqualTo(scale).Within(this.Precision));
-            Expect(transform.E, Is.EqualTo(scale).Within(this.Precision));
-            Expect(transform.I, Is.EqualTo(scale).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.A, Is.EqualTo(scale).Within(this.Precision));
+			Verify(transform.E, Is.EqualTo(scale).Within(this.Precision));
+			Verify(transform.I, Is.EqualTo(scale).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.J.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.K.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.L.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
         }
         [Test]
         public void CreateTranslation()
@@ -242,67 +242,67 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R yDelta = new R().CreateConstant(-40);
             R zDelta = new R().CreateConstant(30);
             TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
-            Expect(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
-            Expect(transform.J, Is.EqualTo(xDelta).Within(this.Precision));
-            Expect(transform.K, Is.EqualTo(yDelta).Within(this.Precision));
-            Expect(transform.L, Is.EqualTo(zDelta).Within(this.Precision));
+			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.D.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.E.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.F.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.G.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.H.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(transform.I.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
+			Verify(transform.J, Is.EqualTo(xDelta).Within(this.Precision));
+			Verify(transform.K, Is.EqualTo(yDelta).Within(this.Precision));
+			Verify(transform.L, Is.EqualTo(zDelta).Within(this.Precision));
         }
         [Test]
         public void GetValueValues()
         {
             TransformValue transform = this.Transform0.Value;
-            Expect(transform.A, Is.EqualTo(this.Cast(-1)).Within(this.Precision));
-            Expect(transform.B, Is.EqualTo(this.Cast(2)).Within(this.Precision));
-            Expect(transform.C, Is.EqualTo(this.Cast(3)).Within(this.Precision));
-            Expect(transform.D, Is.EqualTo(this.Cast(4)).Within(this.Precision));
-            Expect(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision));
-            Expect(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision));
-            Expect(transform.G, Is.EqualTo(this.Cast(7)).Within(this.Precision));
-            Expect(transform.H, Is.EqualTo(this.Cast(8)).Within(this.Precision));
-            Expect(transform.I, Is.EqualTo(this.Cast(9)).Within(this.Precision));
-            Expect(transform.J, Is.EqualTo(this.Cast(10)).Within(this.Precision));
-            Expect(transform.K, Is.EqualTo(this.Cast(11)).Within(this.Precision));
-            Expect(transform.L, Is.EqualTo(this.Cast(12)).Within(this.Precision));
+			Verify(transform.A, Is.EqualTo(this.Cast(-1)).Within(this.Precision));
+			Verify(transform.B, Is.EqualTo(this.Cast(2)).Within(this.Precision));
+			Verify(transform.C, Is.EqualTo(this.Cast(3)).Within(this.Precision));
+			Verify(transform.D, Is.EqualTo(this.Cast(4)).Within(this.Precision));
+			Verify(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision));
+			Verify(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision));
+			Verify(transform.G, Is.EqualTo(this.Cast(7)).Within(this.Precision));
+			Verify(transform.H, Is.EqualTo(this.Cast(8)).Within(this.Precision));
+			Verify(transform.I, Is.EqualTo(this.Cast(9)).Within(this.Precision));
+			Verify(transform.J, Is.EqualTo(this.Cast(10)).Within(this.Precision));
+			Verify(transform.K, Is.EqualTo(this.Cast(11)).Within(this.Precision));
+			Verify(transform.L, Is.EqualTo(this.Cast(12)).Within(this.Precision));
         }
         [Test]
         public void GetScalingX()
         {
             V scale = this.Transform0.ScalingX;
-            Expect(scale, Is.EqualTo(this.Cast(3.7416575f)).Within(this.Precision));
+			Verify(scale, Is.EqualTo(this.Cast(3.7416575f)).Within(this.Precision));
         }
         [Test]
         public void GetScalingY()
         {
             V scale = this.Transform0.ScalingY;
-            Expect(scale, Is.EqualTo(this.Cast(8.77496433f)).Within(this.Precision));
+			Verify(scale, Is.EqualTo(this.Cast(8.77496433f)).Within(this.Precision));
         }
         [Test]
         public void GetScalingZ()
         {
             V scale = this.Transform0.ScalingZ;
-            Expect(scale, Is.EqualTo(this.Cast(13.9283886f)).Within(this.Precision));
+			Verify(scale, Is.EqualTo(this.Cast(13.9283886f)).Within(this.Precision));
         }
         [Test]
         public void GetScaling()
         {
             V scale = this.Transform0.Scaling;
-            Expect(scale, Is.EqualTo(this.Cast(8.8150)).Within(this.Precision));
+			Verify(scale, Is.EqualTo(this.Cast(8.8150)).Within(this.Precision));
         }
         [Test]
         public void GetTranslation()
         {
             SizeType translation = this.Transform0.Translation;
-            Expect(translation.Width, Is.EqualTo(this.Cast(10)).Within(this.Precision));
-            Expect(translation.Height, Is.EqualTo(this.Cast(11)).Within(this.Precision));
-            Expect(translation.Depth, Is.EqualTo(this.Cast(12)).Within(this.Precision));
+			Verify(translation.Width, Is.EqualTo(this.Cast(10)).Within(this.Precision));
+			Verify(translation.Height, Is.EqualTo(this.Cast(11)).Within(this.Precision));
+			Verify(translation.Depth, Is.EqualTo(this.Cast(12)).Within(this.Precision));
         }
         [Test]
         public void CastToArray()
@@ -310,28 +310,28 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             V[,] values = (V[,])((Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity);
             for (int x = 0; x < 4; x++)
                 for (int y = 0; y < 4; y++)
-                    Expect(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
+					Verify(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120";
-            Expect(this.CastToString(this.Transform4), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(this.Transform4));
+			Verify(this.CastToString(this.Transform4), Is.EqualTo(value));
+			Verify(this.CastFromString(value), Is.EqualTo(this.Transform4));
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             TransformType tranform = null;
-            Expect(this.CastToString(tranform), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(tranform));
+			Verify(this.CastToString(tranform), Is.EqualTo(value));
+			Verify(this.CastFromString(value), Is.EqualTo(tranform));
         }
         #region Hash Code
         [Test]
         public void Hash()
         {
-            Expect(this.Transform0.Hash(), Is.Not.EqualTo(0));
+			Verify(this.Transform0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
     }

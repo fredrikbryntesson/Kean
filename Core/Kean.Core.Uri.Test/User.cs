@@ -39,45 +39,45 @@ namespace Kean.Core.Uri.Test
         public void EqualityNull()
         {
             Target.User user = null;
-            Expect(user, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Expect(user == null, "user == null", this.prefix + "EqualityNull.1");
+            Verify(user, Is.EqualTo(null), this.prefix + "EqualityNull.0");
+			Verify(user == null, Is.True, this.prefix + "EqualityNull.1");
         }
         [Test]
         public void Equality()
         {
             Target.User user = "name:password";
-            Expect(user, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Expect(user != null, "user != null", this.prefix + "Equality.1");
-            Expect(user.Name, Is.EqualTo("name"), this.prefix + "Equality.2");
-            Expect(user.Password, Is.EqualTo("password"), this.prefix + "Equality.3");
-            Expect((string)user, Is.EqualTo("name:password"), this.prefix + "Equality.4");
-            Expect(user == "name:password", "user == \"name:password\"", this.prefix + "Equality.5");
-            Expect(user != "name", "user != \"name\"", this.prefix + "Equality.6");
+            Verify(user, Is.Not.EqualTo(null), this.prefix + "Equality.0");
+			Verify(user != null, Is.True, this.prefix + "Equality.1");
+            Verify(user.Name, Is.EqualTo("name"), this.prefix + "Equality.2");
+            Verify(user.Password, Is.EqualTo("password"), this.prefix + "Equality.3");
+            Verify((string)user, Is.EqualTo("name:password"), this.prefix + "Equality.4");
+			Verify(user == "name:password", Is.True, this.prefix + "Equality.5");
+			Verify(user != "name", Is.True, this.prefix + "Equality.6");
         }
         [Test]
         public void EqualityNameOnly()
         {
             Target.User user = "name";
-            Expect(user, Is.Not.EqualTo(null), this.prefix + "EqualityNameOnly.0");
-            Expect(user != null, "user != null", this.prefix + "EqualityNameOnly.1");
-            Expect(user.Name, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.2");
-            Expect(user.Password, Is.EqualTo(null), this.prefix + "EqualityNameOnly.3");
-            Expect((string)user, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.4");
-            Expect(user == "name", "user == \"name\"", this.prefix + "EqualityNameOnly.5");
-            Expect(user != "name:", "user == \"name:\"", this.prefix + "EqualityNameOnly.6");
-            Expect(user != "name:password", "user != \"name:password\"", this.prefix + "EqualityNameOnly.7");
+            Verify(user, Is.Not.EqualTo(null), this.prefix + "EqualityNameOnly.0");
+			Verify(user != null, Is.True, this.prefix + "EqualityNameOnly.1");
+            Verify(user.Name, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.2");
+            Verify(user.Password, Is.EqualTo(null), this.prefix + "EqualityNameOnly.3");
+            Verify((string)user, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.4");
+			Verify(user == "name", Is.True, this.prefix + "EqualityNameOnly.5");
+			Verify(user != "name:", Is.True, this.prefix + "EqualityNameOnly.6");
+			Verify(user != "name:password", Is.True, this.prefix + "EqualityNameOnly.7");
         }
         [Test]
         public void EqualityPasswordOnly()
         {
             Target.User user = ":password";
-            Expect(user, Is.Not.EqualTo(null), this.prefix + "EqualityPasswordOnly.0");
-            Expect(user != null, "user != null", this.prefix + "EqualityPasswordOnly.1");
-            Expect(user.Name, Is.EqualTo(""), this.prefix + "EqualityPasswordOnly.2");
-            Expect(user.Password, Is.EqualTo("password"), this.prefix + "EqualityPasswordOnly.3");
-            Expect((string)user, Is.EqualTo(":password"), this.prefix + "EqualityPasswordOnly.4");
-            Expect(user == ":password", "user == \":password\"", this.prefix + "EqualityPasswordOnly.5");
-            Expect(user != "name:password", "user != \"name:password\"", this.prefix + "EqualityPasswordOnly.6");
+            Verify(user, Is.Not.EqualTo(null), this.prefix + "EqualityPasswordOnly.0");
+			Verify(user != null, Is.True, this.prefix + "EqualityPasswordOnly.1");
+            Verify(user.Name, Is.EqualTo(""), this.prefix + "EqualityPasswordOnly.2");
+            Verify(user.Password, Is.EqualTo("password"), this.prefix + "EqualityPasswordOnly.3");
+            Verify((string)user, Is.EqualTo(":password"), this.prefix + "EqualityPasswordOnly.4");
+            Verify(user == ":password", Is.True, this.prefix + "EqualityPasswordOnly.5");
+			Verify(user != "name:password", Is.True, this.prefix + "EqualityPasswordOnly.6");
         }
     }
 }

@@ -50,14 +50,14 @@ namespace Kean.Core.Collection.Test.Base
 		public void EmptyStack()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "EmptyQueue.0");
+			Verify(target.Empty, Is.True);
 		}
 		[Test]
 		[ExpectedException(typeof(Target.Exception.Empty))]
 		public void PopEmpty()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "PopEmpty.0");
+			Verify(target.Empty, Is.True);
 			target.Pop();
 		}
 		[Test]
@@ -65,62 +65,62 @@ namespace Kean.Core.Collection.Test.Base
 		public void PeekEmpty()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "PopEmpty.0");
+			Verify(target.Empty, Is.True);
 			target.Peek();
 		}
 		[Test]
 		public void PushPeekPop()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "PushPeekPop.0");
+			Verify(target.Empty,Is.True);
 			target.Push(42);
-			Expect(target.Peek(), EqualTo(42), this.Prefix + "PushPeekPop.1");
-			Expect(target.Pop(), EqualTo(42), this.Prefix + "PushPeekPop.2");
-			Expect(target.Empty, this.Prefix + "PushPeekPop.3");
+			Verify(target.Peek(), EqualTo(42), this.Prefix + "PushPeekPop.1");
+			Verify(target.Pop(), EqualTo(42), this.Prefix + "PushPeekPop.2");
+			Verify(target.Empty, Is.True);
 		}
 		[Test]
 		public void PushPeekPopTen()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "PushPeekPopTen.0");
+			Verify(target.Empty, Is.True);
 			for (int i = 0; i < 10; i++)
 			{
 				target.Push(i);
-				Expect(target.Peek(), EqualTo(i), this.Prefix + "PushPeekPopTen." + (1 + i));
+				Verify(target.Peek(), EqualTo(i), this.Prefix + "PushPeekPopTen." + (1 + i));
 			}
 			for (int i = 0; i < 10; i++)
 			{
-				Expect(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (12 + i * 2));
-				Expect(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (13 + i * 2));
+				Verify(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (12 + i * 2));
+				Verify(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (13 + i * 2));
 			}
-			Expect(target.Empty, this.Prefix + "PushPeekPop.24");
+			Verify(target.Empty, Is.True);
 		}
 		[Test]
 		public void PushPopPush()
 		{
 			S target = new S();
-			Expect(target.Empty, this.Prefix + "PushPeekPopTen.0");
+			Verify(target.Empty, Is.True);
 			for (int i = 0; i < 10; i++)
 			{
 				target.Push(i);
-				Expect(target.Peek(), EqualTo(i), this.Prefix + "PushPeekPopTen." + (1 + i));
+				Verify(target.Peek(), EqualTo(i), this.Prefix + "PushPeekPopTen." + (1 + i));
 			}
 			for (int i = 0; i < 5; i++)
 			{
-				Expect(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (16 + i * 2));
-				Expect(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (17 + i * 2));
+				Verify(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (16 + i * 2));
+				Verify(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (17 + i * 2));
 			}
 			for (int i = 0; i < 5; i++)
 			{
 				target.Push(i + 5);
-				Expect(target.Peek(), EqualTo(i + 5), this.Prefix + "PushPeekPopTen." + (28 + i));
+				Verify(target.Peek(), EqualTo(i + 5), this.Prefix + "PushPeekPopTen." + (28 + i));
 			}
 			for (int i = 0; i < 10; i++)
 			{
-				Expect(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (34 + i * 2));
-				Expect(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (35 + i * 2));
+				Verify(target.Peek(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (34 + i * 2));
+				Verify(target.Pop(), EqualTo(9 - i), this.Prefix + "PushPeekPopTen." + (35 + i * 2));
 			}
-			Expect(target.Empty, this.Prefix + "PushPeekPop.54");
+			Verify(target.Empty, Is.True);
 		}
 	}
 }

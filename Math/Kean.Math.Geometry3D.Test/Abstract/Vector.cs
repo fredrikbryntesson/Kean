@@ -33,41 +33,41 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         public void Equality()
         {
             VectorType point = null;
-            Expect(this.Vector0, Is.EqualTo(this.Vector0));
-            Expect(this.Vector0, Is.EqualTo(this.Vector0));
-            Expect(this.Vector0.Equals(this.Vector0), Is.True);
-            Expect(this.Vector0.Equals(this.Vector0 as object), Is.True);
-            Expect(this.Vector0 == this.Vector0, Is.True);
-            Expect(this.Vector0 != this.Vector1, Is.True);
-            Expect(this.Vector0 == point, Is.False);
-            Expect(point == point, Is.True);
-            Expect(point == this.Vector0, Is.False);
+			Verify(this.Vector0, Is.EqualTo(this.Vector0));
+			Verify(this.Vector0, Is.EqualTo(this.Vector0));
+			Verify(this.Vector0.Equals(this.Vector0), Is.True);
+			Verify(this.Vector0.Equals(this.Vector0 as object), Is.True);
+			Verify(this.Vector0 == this.Vector0, Is.True);
+			Verify(this.Vector0 != this.Vector1, Is.True);
+			Verify(this.Vector0 == point, Is.False);
+			Verify(point == point, Is.True);
+			Verify(point == this.Vector0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void Addition()
         {
-            Expect((this.Vector0 + this.Vector1).Value.X, Is.EqualTo(this.Vector2.Value.X).Within(this.Precision));
-            Expect((this.Vector0 + this.Vector1).Value.Y, Is.EqualTo(this.Vector2.Value.Y).Within(this.Precision));
-            Expect((this.Vector0 + this.Vector1).Value.Z, Is.EqualTo(this.Vector2.Value.Z).Within(this.Precision));
+			Verify((this.Vector0 + this.Vector1).Value.X, Is.EqualTo(this.Vector2.Value.X).Within(this.Precision));
+			Verify((this.Vector0 + this.Vector1).Value.Y, Is.EqualTo(this.Vector2.Value.Y).Within(this.Precision));
+			Verify((this.Vector0 + this.Vector1).Value.Z, Is.EqualTo(this.Vector2.Value.Z).Within(this.Precision));
         }
         [Test]
         public void Subtraction()
         {
-            Expect(this.Vector0 - this.Vector0, Is.EqualTo(new VectorType()));
+			Verify(this.Vector0 - this.Vector0, Is.EqualTo(new VectorType()));
         }
         [Test]
         public void ScalarMultitplication()
         {
-            Expect((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
+			Verify((-Kean.Math.Abstract<R, V>.One) * this.Vector0, Is.EqualTo(-this.Vector0));
         }
         #endregion
         #region Hash Code
         [Test]
         public void Hash()
         {
-            Expect(this.Vector0.Hash(), Is.Not.EqualTo(0));
+			Verify(this.Vector0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
     }

@@ -326,7 +326,7 @@ namespace Kean.Math.Regression.Test.Ransac
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.Point, Geometry2D.Single.Point, Geometry2D.Single.Point> best = estimate.Compute();
             if (best.NotNull())
-                Expect(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression.0");
+               Verify(best.Mapping.Distance(translation), Is.EqualTo(0).Within(5), this.prefix + "TranslationRegression.0");
             /*
             if (best.NotNull())
             {

@@ -36,13 +36,13 @@ namespace Kean.Math.Geometry3D.Test.Single
             // integer - single
             Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40, 50, 60);
             Target.Single.Box single = integer;
-            Expect(single.Left, Is.EqualTo(10));
-            Expect(single.Top, Is.EqualTo(20));
-            Expect(single.Front, Is.EqualTo(30));
-            Expect(single.Width, Is.EqualTo(40));
-            Expect(single.Height, Is.EqualTo(50));
-            Expect(single.Depth, Is.EqualTo(60));
-            Expect((Target.Integer.Box)single, Is.EqualTo(integer));
+            Verify(single.Left, Is.EqualTo(10));
+            Verify(single.Top, Is.EqualTo(20));
+            Verify(single.Front, Is.EqualTo(30));
+            Verify(single.Width, Is.EqualTo(40));
+            Verify(single.Height, Is.EqualTo(50));
+            Verify(single.Depth, Is.EqualTo(60));
+            Verify((Target.Integer.Box)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueCasts()
@@ -50,26 +50,26 @@ namespace Kean.Math.Geometry3D.Test.Single
             // integer - float
             Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40, 50, 60);
             Target.Single.BoxValue single = integer;
-            Expect(single.Left, Is.EqualTo(10));
-            Expect(single.Top, Is.EqualTo(20));
-            Expect(single.Front, Is.EqualTo(30));
-            Expect(single.Width, Is.EqualTo(40));
-            Expect(single.Height, Is.EqualTo(50));
-            Expect(single.Depth, Is.EqualTo(60));
-            Expect((Target.Integer.BoxValue)single, Is.EqualTo(integer));
+            Verify(single.Left, Is.EqualTo(10));
+            Verify(single.Top, Is.EqualTo(20));
+            Verify(single.Front, Is.EqualTo(30));
+            Verify(single.Width, Is.EqualTo(40));
+            Verify(single.Height, Is.EqualTo(50));
+            Verify(single.Depth, Is.EqualTo(60));
+            Verify((Target.Integer.BoxValue)single, Is.EqualTo(integer));
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40, 50, 60);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
             Target.Single.BoxValue @integerFromText = "10 20 30 40 50 60";
-            Expect(@integerFromText.Left, Is.EqualTo(10));
-            Expect(@integerFromText.Top, Is.EqualTo(20));
-            Expect(@integerFromText.Front, Is.EqualTo(30));
-            Expect(@integerFromText.Width, Is.EqualTo(40));
-            Expect(@integerFromText.Height, Is.EqualTo(50));
-            Expect(@integerFromText.Depth, Is.EqualTo(60));
+            Verify(@integerFromText.Left, Is.EqualTo(10));
+            Verify(@integerFromText.Top, Is.EqualTo(20));
+            Verify(@integerFromText.Front, Is.EqualTo(30));
+            Verify(@integerFromText.Width, Is.EqualTo(40));
+            Verify(@integerFromText.Height, Is.EqualTo(50));
+            Verify(@integerFromText.Depth, Is.EqualTo(60));
         }
     }
 }

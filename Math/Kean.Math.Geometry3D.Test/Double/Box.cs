@@ -39,24 +39,24 @@ namespace Kean.Math.Geometry3D.Test.Double
             {
                 Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40, 50, 60);
                 Target.Double.Box @double = integer;
-                Expect(@double.Left, Is.EqualTo(10));
-                Expect(@double.Top, Is.EqualTo(20));
-                Expect(@double.Front, Is.EqualTo(30));
-                Expect(@double.Width, Is.EqualTo(40));
-                Expect(@double.Height, Is.EqualTo(50));
-                Expect(@double.Depth, Is.EqualTo(60));
-                Expect((Target.Integer.Box)@double, Is.EqualTo(integer));
+				Verify(@double.Left, Is.EqualTo(10));
+				Verify(@double.Top, Is.EqualTo(20));
+				Verify(@double.Front, Is.EqualTo(30));
+				Verify(@double.Width, Is.EqualTo(40));
+				Verify(@double.Height, Is.EqualTo(50));
+				Verify(@double.Depth, Is.EqualTo(60));
+				Verify((Target.Integer.Box)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.Box single = new Target.Single.Box(10, 20, 30, 40, 50, 60);
                 Target.Double.Box @double = single;
-                Expect(@double.Left, Is.EqualTo(10));
-                Expect(@double.Top, Is.EqualTo(20));
-                Expect(@double.Front, Is.EqualTo(30));
-                Expect(@double.Width, Is.EqualTo(40));
-                Expect(@double.Height, Is.EqualTo(50));
-                Expect(@double.Depth, Is.EqualTo(60));
-                Expect((Target.Single.Box)@double, Is.EqualTo(single));
+				Verify(@double.Left, Is.EqualTo(10));
+				Verify(@double.Top, Is.EqualTo(20));
+				Verify(@double.Front, Is.EqualTo(30));
+				Verify(@double.Width, Is.EqualTo(40));
+				Verify(@double.Height, Is.EqualTo(50));
+				Verify(@double.Depth, Is.EqualTo(60));
+				Verify((Target.Single.Box)@double, Is.EqualTo(single));
             }
         }
         [Test]
@@ -66,38 +66,38 @@ namespace Kean.Math.Geometry3D.Test.Double
             {
                 Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40, 50, 60);
                 Target.Double.BoxValue @double = integer;
-                Expect(@double.Left, Is.EqualTo(10));
-                Expect(@double.Top, Is.EqualTo(20));
-                Expect(@double.Front, Is.EqualTo(30));
-                Expect(@double.Width, Is.EqualTo(40));
-                Expect(@double.Height, Is.EqualTo(50));
-                Expect(@double.Depth, Is.EqualTo(60));
-                Expect((Target.Integer.BoxValue)@double, Is.EqualTo(integer));
+				Verify(@double.Left, Is.EqualTo(10));
+				Verify(@double.Top, Is.EqualTo(20));
+				Verify(@double.Front, Is.EqualTo(30));
+				Verify(@double.Width, Is.EqualTo(40));
+				Verify(@double.Height, Is.EqualTo(50));
+				Verify(@double.Depth, Is.EqualTo(60));
+				Verify((Target.Integer.BoxValue)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.BoxValue single = new Target.Single.BoxValue(10, 20, 30, 40, 50, 60);
                 Target.Double.BoxValue @double = single;
-                Expect(@double.Left, Is.EqualTo(10));
-                Expect(@double.Top, Is.EqualTo(20));
-                Expect(@double.Front, Is.EqualTo(30));
-                Expect(@double.Width, Is.EqualTo(40));
-                Expect(@double.Height, Is.EqualTo(50));
-                Expect(@double.Depth, Is.EqualTo(60));
-                Expect((Target.Single.BoxValue)@double, Is.EqualTo(single));
+				Verify(@double.Left, Is.EqualTo(10));
+				Verify(@double.Top, Is.EqualTo(20));
+				Verify(@double.Front, Is.EqualTo(30));
+				Verify(@double.Width, Is.EqualTo(40));
+				Verify(@double.Height, Is.EqualTo(50));
+				Verify(@double.Depth, Is.EqualTo(60));
+				Verify((Target.Single.BoxValue)@double, Is.EqualTo(single));
             }
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Double.BoxValue(10, 20, 30, 40, 50, 60);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
             Target.Double.BoxValue @doubleFromText = "10 20 30 40 50 60";
-            Expect(@doubleFromText.Left, Is.EqualTo(10));
-            Expect(@doubleFromText.Top, Is.EqualTo(20));
-            Expect(@doubleFromText.Front, Is.EqualTo(30));
-            Expect(@doubleFromText.Width, Is.EqualTo(40));
-            Expect(@doubleFromText.Height, Is.EqualTo(50));
-            Expect(@doubleFromText.Depth, Is.EqualTo(60));
+			Verify(@doubleFromText.Left, Is.EqualTo(10));
+			Verify(@doubleFromText.Top, Is.EqualTo(20));
+			Verify(@doubleFromText.Front, Is.EqualTo(30));
+			Verify(@doubleFromText.Width, Is.EqualTo(40));
+			Verify(@doubleFromText.Height, Is.EqualTo(50));
+			Verify(@doubleFromText.Depth, Is.EqualTo(60));
      
         }
     }

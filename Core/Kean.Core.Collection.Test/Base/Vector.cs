@@ -57,13 +57,13 @@ namespace Kean.Core.Collection.Test.Base
 		[Test]
 		public new void Count()
 		{
-			Expect(this.ZeroToNine.Count, EqualTo(10), this.Prefix + "Count.0");
+			Verify(this.ZeroToNine.Count, EqualTo(10), this.Prefix + "Count.0");
 		}
 		[Test]
 		public void Get()
 		{
 			for (int i = 0; i < 10; i++)
-				Expect(this.ZeroToNine[i], EqualTo(i), this.Prefix + "Get." + i);
+				Verify(this.ZeroToNine[i], EqualTo(i), this.Prefix + "Get." + i);
 		}
 		[Test]
 		[ExpectedException(typeof(Target.Exception.InvalidIndex))]
@@ -96,7 +96,7 @@ namespace Kean.Core.Collection.Test.Base
 			test[6] = 3;
 			test[2] = 7;
 			for (int i = 0; i < 10; i++)
-				Expect(test[i], EqualTo(9 - i), this.Prefix + "Set." + i);
+				Verify(test[i], EqualTo(9 - i), this.Prefix + "Set." + i);
 		}
 		[Test]
 		[ExpectedException(typeof(Target.Exception.InvalidIndex))]
@@ -121,14 +121,14 @@ namespace Kean.Core.Collection.Test.Base
                 a[i] = i;
                 b[i] = i;
             }
-            Expect(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
-            Expect(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
-            Expect(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
+           Verify(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
+           Verify(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
+           Verify(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
             b[5] = 33;
-            Expect(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
-            Expect(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
-            Expect(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
-            Expect(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
+           Verify(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
+           Verify(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
+           Verify(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
+           Verify(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
         }      
 	}
 }

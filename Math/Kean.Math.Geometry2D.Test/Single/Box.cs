@@ -52,28 +52,28 @@ namespace Kean.Math.Geometry2D.Test.Single
        public void Equality()
        {
           Target.Single.Box box = new  Target.Single.Box();
-           Expect(this.box0, Is.EqualTo(this.box0));
-           Expect(this.box0.Equals(this.box0 as object), Is.True);
-           Expect(this.box0 == this.box0, Is.True);
-           Expect(this.box0 != this.box1, Is.True);
-           Expect(this.box0 == box, Is.False);
-           Expect(box == box, Is.True);
-           Expect(box == this.box0, Is.False);
+		  Verify(this.box0, Is.EqualTo(this.box0));
+		  Verify(this.box0.Equals(this.box0 as object), Is.True);
+		  Verify(this.box0 == this.box0, Is.True);
+		  Verify(this.box0 != this.box1, Is.True);
+		  Verify(this.box0 == box, Is.False);
+		  Verify(box == box, Is.True);
+		  Verify(box == this.box0, Is.False);
        }
        #endregion
        [Test]
        public void LeftTop()
        {
            Target.Single.Point leftTop = this.box0.LeftTop;
-           Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
-           Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+		   Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+		   Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
        }
        [Test]
        public void Size()
        {
            Target.Single.Size size = this.box0.Size;
-           Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
-           Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+		   Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+		   Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
        }
        #region Arithmetic
        [Test]
@@ -93,7 +93,7 @@ namespace Kean.Math.Geometry2D.Test.Single
        [Test]
        public void Hash()
        {
-           Expect(this.box0.Hash(), Is.Not.EqualTo(0));
+		   Verify(this.box0.Hash(), Is.Not.EqualTo(0));
        }
        #endregion
 	   [Test]
@@ -103,23 +103,23 @@ namespace Kean.Math.Geometry2D.Test.Single
            {
                Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
                Target.Single.Box @single = integer;
-               Expect(@single.Left, Is.EqualTo(10));
-               Expect(@single.Top, Is.EqualTo(20));
-               Expect(@single.Width, Is.EqualTo(30));
-               Expect(@single.Height, Is.EqualTo(40));
-               Expect((Target.Integer.Box)@single, Is.EqualTo(integer));
+			   Verify(@single.Left, Is.EqualTo(10));
+			   Verify(@single.Top, Is.EqualTo(20));
+			   Verify(@single.Width, Is.EqualTo(30));
+			   Verify(@single.Height, Is.EqualTo(40));
+			   Verify((Target.Integer.Box)@single, Is.EqualTo(integer));
            }
        }
        [Test]
        public void StringCasts()
        {
            string textFromValue = new Target.Single.Box(10, 20, 30, 40);
-           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+		   Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
            Target.Single.Box @singleFromText = "10 20 30 40";
-           Expect(@singleFromText.Left, Is.EqualTo(10));
-           Expect(@singleFromText.Top, Is.EqualTo(20));
-           Expect(@singleFromText.Width, Is.EqualTo(30));
-           Expect(@singleFromText.Height, Is.EqualTo(40));
+		   Verify(@singleFromText.Left, Is.EqualTo(10));
+		   Verify(@singleFromText.Top, Is.EqualTo(20));
+		   Verify(@singleFromText.Width, Is.EqualTo(30));
+		   Verify(@singleFromText.Height, Is.EqualTo(40));
        }
     }
 }

@@ -40,11 +40,11 @@ namespace Kean.Math.Geometry3D.Test.Integer
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Integer.PointValue(10, 20, 30);
-            Expect(textFromValue, Is.EqualTo("10 20 30"));
+            Verify(textFromValue, Is.EqualTo("10 20 30"));
             Target.Integer.PointValue @integerFromText = "10 20 30";
-            Expect(@integerFromText.X, Is.EqualTo(10));
-            Expect(@integerFromText.Y, Is.EqualTo(20));
-            Expect(@integerFromText.Z, Is.EqualTo(30));
+            Verify(@integerFromText.X, Is.EqualTo(10));
+            Verify(@integerFromText.Y, Is.EqualTo(20));
+            Verify(@integerFromText.Z, Is.EqualTo(30));
         }
     }
 }

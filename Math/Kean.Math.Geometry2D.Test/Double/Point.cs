@@ -64,73 +64,73 @@ namespace Kean.Math.Geometry2D.Test.Double
         public void Equality()
         {
             Target.Double.Point point = new Target.Double.Point();
-            Expect(this.vector0, Is.EqualTo(this.vector0));
-            Expect(this.vector0.Equals(this.vector0 as object), Is.True);
-            Expect(this.vector0 == this.vector0, Is.True);
-            Expect(this.vector0 != this.vector1, Is.True);
-            Expect(this.vector0 == point, Is.False);
-            Expect(point == point, Is.True);
-            Expect(point == this.vector0, Is.False);
+			Verify(this.vector0, Is.EqualTo(this.vector0));
+			Verify(this.vector0.Equals(this.vector0 as object), Is.True);
+			Verify(this.vector0 == this.vector0, Is.True);
+			Verify(this.vector0 != this.vector1, Is.True);
+			Verify(this.vector0 == point, Is.False);
+			Verify(point == point, Is.True);
+			Verify(point == this.vector0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void Addition()
         {
-            Expect((this.vector0 + this.vector1).X, Is.EqualTo(this.vector2.X).Within(this.Precision));
-            Expect((this.vector0 + this.vector1).Y, Is.EqualTo(this.vector2.Y).Within(this.Precision));
+			Verify((this.vector0 + this.vector1).X, Is.EqualTo(this.vector2.X).Within(this.Precision));
+			Verify((this.vector0 + this.vector1).Y, Is.EqualTo(this.vector2.Y).Within(this.Precision));
         }
         [Test]
         public void Subtraction()
         {
-            Expect(this.vector0 - this.vector0, Is.EqualTo(new Target.Double.Point()));
+			Verify(this.vector0 - this.vector0, Is.EqualTo(new Target.Double.Point()));
         }
         [Test]
         public void ScalarMultiplication()
         {
-            Expect((-1) * this.vector0, Is.EqualTo(-this.vector0));
+			Verify((-1) * this.vector0, Is.EqualTo(-this.vector0));
         }
         [Test]
         public void ScalarDivision()
         {
-            Expect(this.vector0 / (-1), Is.EqualTo(-this.vector0));
+			Verify(this.vector0 / (-1), Is.EqualTo(-this.vector0));
         }
         #endregion
         #region Hash Code
         [Test]
         public void Hash()
         {
-            Expect(this.vector0.Hash(), Is.Not.EqualTo(0));
+			Verify(this.vector0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
 
         [Test]
         public void GetValues()
         {
-            Expect(this.vector0.X, Is.EqualTo((double)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
-            Expect(this.vector0.Y, Is.EqualTo((double)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+			Verify(this.vector0.X, Is.EqualTo((double)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+			Verify(this.vector0.Y, Is.EqualTo((double)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
         }
         [Test]
         public void Swap()
         {
             Target.Double.Point result = this.vector0.Swap();
-            Expect(result.X, Is.EqualTo(this.vector0.Y), this.prefix + "Swap.0");
-            Expect(result.Y, Is.EqualTo(this.vector0.X), this.prefix + "Swap.1");
+			Verify(result.X, Is.EqualTo(this.vector0.Y), this.prefix + "Swap.0");
+			Verify(result.Y, Is.EqualTo(this.vector0.X), this.prefix + "Swap.1");
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20";
-            Expect(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
-            Expect(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
+			Verify(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
+			Verify(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             Target.Double.Point point = null;
-            Expect(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
-            Expect(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
+			Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
+			Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
 
         #region Polar Representation
@@ -138,36 +138,36 @@ namespace Kean.Math.Geometry2D.Test.Double
         public void Polar0()
         {
             Target.Double.Point point = new Target.Double.Point();
-            Expect(point.Norm, Is.EqualTo(0));
-            Expect(point.Azimuth, Is.EqualTo(0));
+			Verify(point.Norm, Is.EqualTo(0));
+			Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar1()
         {
             Target.Double.Point point = new Target.Double.Point(1, 0);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(0));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar2()
         {
             Target.Double.Point point = new Target.Double.Point(0, 1);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(90)));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(90)));
         }
         [Test]
         public void Polar3()
         {
             Target.Double.Point point = new Target.Double.Point(0, -5);
-            Expect(point.Norm, Is.EqualTo(5));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(-90)));
+			Verify(point.Norm, Is.EqualTo(5));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(-90)));
         }
         [Test]
         public void Polar4()
         {
             Target.Double.Point point = new Target.Double.Point(-1, 0);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Double.ToRadians(180)));
         }
         [Test]
         public void Polar5()
@@ -176,16 +176,16 @@ namespace Kean.Math.Geometry2D.Test.Double
             double radius = point.Norm;
             double azimuth = point.Azimuth;
             Target.Double.Point point2 = Target.Double.Point.Polar(radius, azimuth);
-            Expect(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
+			Verify(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
         [Test]
         public void Angles()
         {
-            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX), Is.EqualTo(0).Within(this.Precision));
-            Expect(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+			Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX), Is.EqualTo(0).Within(this.Precision));
+			Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()
@@ -194,27 +194,27 @@ namespace Kean.Math.Geometry2D.Test.Double
             {
                 Target.Integer.Point integer = new Target.Integer.Point(10, 20);
                 Target.Double.Point @double = integer;
-                Expect(@double.X, Is.EqualTo(10));
-                Expect(@double.Y, Is.EqualTo(20));
-                Expect((Target.Integer.Point)@double, Is.EqualTo(integer));
+				Verify(@double.X, Is.EqualTo(10));
+				Verify(@double.Y, Is.EqualTo(20));
+				Verify((Target.Integer.Point)@double, Is.EqualTo(integer));
             }
             // single - double
             {
                 Target.Single.Point single = new Target.Single.Point(10, 20);
                 Target.Double.Point @double = single;
-                Expect(@double.X, Is.EqualTo(10));
-                Expect(@double.Y, Is.EqualTo(20));
-                Expect((Target.Single.Point)@double, Is.EqualTo(single));
+				Verify(@double.X, Is.EqualTo(10));
+				Verify(@double.Y, Is.EqualTo(20));
+				Verify((Target.Single.Point)@double, Is.EqualTo(single));
             }
         }
 		[Test]
         public void StringCasts()
         {
             string textFromValue = new Target.Double.Point(10, 20);
-            Expect(textFromValue, Is.EqualTo("10, 20"));
+			Verify(textFromValue, Is.EqualTo("10, 20"));
             Target.Double.Point @integerFromText = "10, 20";
-            Expect(@integerFromText.X, Is.EqualTo(10));
-            Expect(@integerFromText.Y, Is.EqualTo(20));
+			Verify(@integerFromText.X, Is.EqualTo(10));
+			Verify(@integerFromText.Y, Is.EqualTo(20));
         }
     }
 }

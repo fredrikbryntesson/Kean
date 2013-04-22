@@ -74,15 +74,15 @@ namespace Kean.Math.Geometry3D.Test.Double
         public void Equality()
         {
             Target.Quaternion quaternion = null;
-            Expect(this.q0, Is.EqualTo(this.q0));
-            Expect(this.q0.Copy(), Is.EqualTo(this.q0));
-            Expect(this.q0.Copy().Equals(this.q0), Is.True);
-            Expect(this.q0.Equals(this.q0 as object), Is.True);
-            Expect(this.q0 == this.q0, Is.True);
-            Expect(this.q0 != this.q1, Is.True);
-            Expect(this.q0 == quaternion, Is.False);
-            Expect(quaternion == quaternion, Is.True);
-            Expect(quaternion == this.q0, Is.False);
+            Verify(this.q0, Is.EqualTo(this.q0));
+            Verify(this.q0.Copy(), Is.EqualTo(this.q0));
+            Verify(this.q0.Copy().Equals(this.q0), Is.True);
+            Verify(this.q0.Equals(this.q0 as object), Is.True);
+            Verify(this.q0 == this.q0, Is.True);
+            Verify(this.q0 != this.q1, Is.True);
+            Verify(this.q0 == quaternion, Is.False);
+            Verify(quaternion == quaternion, Is.True);
+            Verify(quaternion == this.q0, Is.False);
         }
         #endregion
 
@@ -90,22 +90,22 @@ namespace Kean.Math.Geometry3D.Test.Double
         [Test]
         public void Addition()
         {
-            Expect(this.q0 + this.q1, Is.EqualTo(this.q2));
+            Verify(this.q0 + this.q1, Is.EqualTo(this.q2));
         }
         [Test]
         public void Subtraction()
         {
-            Expect(this.q0 - this.q0, Is.EqualTo(new Target.Quaternion()));
+            Verify(this.q0 - this.q0, Is.EqualTo(new Target.Quaternion()));
         }
         [Test]
         public void ScalarMultitplication()
         {
-            Expect((-1) * this.q0, Is.EqualTo(-this.q0));
+            Verify((-1) * this.q0, Is.EqualTo(-this.q0));
         }
         [Test]
         public void Multitplication()
         {
-            Expect(this.q0 * this.q1, Is.EqualTo(this.q3));
+            Verify(this.q0 * this.q1, Is.EqualTo(this.q3));
         }
 
         #endregion
@@ -113,10 +113,10 @@ namespace Kean.Math.Geometry3D.Test.Double
         public void GetValues()
         {
             double[] values = (double[])(this.q0);
-            Expect(values[0], Is.EqualTo(33).Within(this.Precision));
-            Expect(values[1], Is.EqualTo(10).Within(this.Precision));
-            Expect(values[2], Is.EqualTo(-12).Within(this.Precision));
-            Expect(values[3], Is.EqualTo(54.5).Within(this.Precision));
+            Verify(values[0], Is.EqualTo(33).Within(this.Precision));
+            Verify(values[1], Is.EqualTo(10).Within(this.Precision));
+            Verify(values[2], Is.EqualTo(-12).Within(this.Precision));
+            Verify(values[3], Is.EqualTo(54.5).Within(this.Precision));
         }
         [Test]
         public void LogarithmExponential()
@@ -125,15 +125,15 @@ namespace Kean.Math.Geometry3D.Test.Double
             double pitch = Kean.Math.Double.ToRadians(-30);
             double yaw = Kean.Math.Double.ToRadians(45);
             Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(yaw) * Target.Quaternion.CreateRotationY(pitch) * Target.Quaternion.CreateRotationX(roll);
-            Expect(quaternion.Exponential().Logarithm().Real, Is.EqualTo(quaternion.Real).Within(this.Precision));
-            Expect(quaternion.Logarithm().Exponential().Real, Is.EqualTo(quaternion.Real).Within(this.Precision));
-            Expect(quaternion.Exponential().Logarithm().Imaginary.Distance(quaternion.Imaginary).Value, Is.EqualTo(0).Within(this.Precision));
-            Expect(quaternion.Logarithm().Exponential().Imaginary.Distance(quaternion.Imaginary).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.Exponential().Logarithm().Real, Is.EqualTo(quaternion.Real).Within(this.Precision));
+            Verify(quaternion.Logarithm().Exponential().Real, Is.EqualTo(quaternion.Real).Within(this.Precision));
+            Verify(quaternion.Exponential().Logarithm().Imaginary.Distance(quaternion.Imaginary).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.Logarithm().Exponential().Imaginary.Distance(quaternion.Imaginary).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void Norm()
         {
-            Expect(this.q0.Norm, Is.EqualTo(this.Cast(65.5991592)).Within(this.Precision));
+            Verify(this.q0.Norm, Is.EqualTo(this.Cast(65.5991592)).Within(this.Precision));
         }
         [Test]
         public void ActionOnVector()
@@ -142,23 +142,23 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Quaternion quaternion = Target.Quaternion.CreateRotation(Kean.Math.Double.ToRadians(120), direction);
             Target.Point point = Target.Point.Create(5, 6, 7);
             Target.Point point2 = Target.Point.Create(7, 5, 6);
-            Expect((quaternion * point).Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify((quaternion * point).Distance(point2).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void Casting()
         {
             string value = "1, 2, 3, 4";
 			Target.Quaternion quaternion = (Target.Quaternion)(1.0) + Target.Quaternion.BasisImaginaryX * 2 + Target.Quaternion.BasisImaginaryY * 3 + Target.Quaternion.BasisImaginaryZ * 4;
-            Expect(this.CastToString(quaternion), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(quaternion));
+            Verify(this.CastToString(quaternion), Is.EqualTo(value));
+            Verify(this.CastFromString(value), Is.EqualTo(quaternion));
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             Target.Quaternion quaternion = null;
-            Expect(this.CastToString(quaternion), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(quaternion));
+            Verify(this.CastToString(quaternion), Is.EqualTo(value));
+            Verify(this.CastFromString(value), Is.EqualTo(quaternion));
         }
         [Test]
         public void InverseMatrix()
@@ -167,7 +167,7 @@ namespace Kean.Math.Geometry3D.Test.Double
             Kean.Math.Matrix.Double matrix = (Kean.Math.Matrix.Double)(double[,])q;
             Kean.Math.Matrix.Double matrixInverse = (Kean.Math.Matrix.Double)(double[,])(q.Inverse);
             Kean.Math.Matrix.Double matrixInverse2 = matrix.Inverse();
-            Expect(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
+            Verify(matrixInverse.Distance(matrixInverse2), Is.LessThan(0.000001));
         }
         [Test]
         public void Action()
@@ -176,9 +176,9 @@ namespace Kean.Math.Geometry3D.Test.Double
             double pitch = Kean.Math.Double.ToRadians(20);
             double yaw = Kean.Math.Double.ToRadians(-45);
             Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(yaw) * Target.Quaternion.CreateRotationY(pitch) * Target.Quaternion.CreateRotationX(roll);
-            Expect(quaternion.RotationX, Is.EqualTo(roll).Within(this.Precision));
-            Expect(quaternion.RotationY, Is.EqualTo(pitch).Within(this.Precision));
-            Expect(quaternion.RotationZ, Is.EqualTo(yaw).Within(this.Precision));
+            Verify(quaternion.RotationX, Is.EqualTo(roll).Within(this.Precision));
+            Verify(quaternion.RotationY, Is.EqualTo(pitch).Within(this.Precision));
+            Verify(quaternion.RotationZ, Is.EqualTo(yaw).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation1()
@@ -187,8 +187,8 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Point direction = new Target.Point(1, 4, 7);
             direction /= direction.Norm;
             Target.Quaternion q = Target.Quaternion.CreateRotation(angle, direction);
-            Expect(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
-            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation2()
@@ -197,8 +197,8 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Point direction = new Target.Point(1, 4, 7);
             direction /= direction.Norm;
             Target.Quaternion q = Target.Quaternion.CreateRotation(angle, direction);
-            Expect(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
-            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation3()
@@ -207,8 +207,8 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Point direction = new Target.Point(0, 0, 5);
             direction /= direction.Norm;
             Target.Quaternion q = Target.Quaternion.CreateRotation(angle, direction);
-            Expect(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
-            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RotationDirectionRepresentation4()
@@ -217,8 +217,8 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Point direction = new Target.Point(0, 0, -5);
             direction /= direction.Norm;
             Target.Quaternion q = Target.Quaternion.CreateRotation(angle, direction);
-            Expect(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
-            Expect(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(q.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(q.Direction.Distance(direction).Value, Is.EqualTo(0).Within(this.Precision));
         }
 
         [Test]
@@ -228,9 +228,9 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Quaternion quaternion = Target.Quaternion.CreateRotationX(angle);
             Target.Transform rotation = (Target.Transform)(quaternion);
             Target.Transform rotation2 = Target.Transform.CreateRotationX(angle);
-            Expect(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
-            Expect(quaternion.RotationX, Is.EqualTo(angle).Within(this.Precision));
-            Expect(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.RotationX, Is.EqualTo(angle).Within(this.Precision));
+            Verify(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
         }
         [Test]
         public void Pitch()
@@ -239,9 +239,9 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Quaternion quaternion = Target.Quaternion.CreateRotationY(angle);
             Target.Transform rotation = (Target.Transform)(quaternion);
             Target.Transform rotation2 = Target.Transform.CreateRotationY(-angle);
-            Expect(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
-            Expect(quaternion.RotationY, Is.EqualTo(angle).Within(this.Precision));
-            Expect(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.RotationY, Is.EqualTo(angle).Within(this.Precision));
+            Verify(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
         }
         [Test]
         public void Yaw()
@@ -250,9 +250,9 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(angle);
             Target.Transform rotation = (Target.Transform)(quaternion);
             Target.Transform rotation2 = Target.Transform.CreateRotationZ(angle);
-            Expect(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
-            Expect(quaternion.RotationZ, Is.EqualTo(angle).Within(this.Precision));
-            Expect(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
+            Verify(((Kean.Math.Matrix.Double)(double[,])(rotation)).Distance((Kean.Math.Matrix.Double)(double[,])rotation2), Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.RotationZ, Is.EqualTo(angle).Within(this.Precision));
+            Verify(quaternion.Rotation, Is.EqualTo(angle).Within(this.Precision));
         }
         [Test]
         public void Action2()
@@ -265,10 +265,10 @@ namespace Kean.Math.Geometry3D.Test.Double
             Kean.Math.Matrix.Double rotation = (Kean.Math.Matrix.Double)(double[,])(quaternion);
             Kean.Math.Matrix.Double rotatedPoint = rotation * (Kean.Math.Matrix.Double)((double[])(this.p0));
             Target.Point rotatedPointRotation = (Target.Point)(double[])(rotatedPoint);
-            Expect(rotatedPointQuaternion.Distance(rotatedPointRotation).Value, Is.EqualTo(0).Within(this.Precision));
-            Expect(quaternion.RotationX, Is.EqualTo(roll).Within(this.Precision));
-            Expect(quaternion.RotationY, Is.EqualTo(pitch).Within(this.Precision));
-            Expect(quaternion.RotationZ, Is.EqualTo(yaw).Within(this.Precision));
+            Verify(rotatedPointQuaternion.Distance(rotatedPointRotation).Value, Is.EqualTo(0).Within(this.Precision));
+            Verify(quaternion.RotationX, Is.EqualTo(roll).Within(this.Precision));
+            Verify(quaternion.RotationY, Is.EqualTo(pitch).Within(this.Precision));
+            Verify(quaternion.RotationZ, Is.EqualTo(yaw).Within(this.Precision));
         }
         [Test]
         public void CastToTransform()
@@ -279,7 +279,7 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Transform transform1 = Target.Transform.CreateRotationX(angle);
             Kean.Math.Matrix.Double matrix0 = (Kean.Math.Matrix.Double)(double[,])(Target.Transform)(transform0);
             Kean.Math.Matrix.Double matrix1 = (Kean.Math.Matrix.Double)(double[,])(Target.Transform)(transform1);
-            Expect(matrix0.Distance(matrix1), Is.EqualTo(0).Within(this.Precision));
+            Verify(matrix0.Distance(matrix1), Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void CastToTransformMultiplication()
@@ -297,7 +297,7 @@ namespace Kean.Math.Geometry3D.Test.Double
             Target.Transform transform = (Target.Transform)(quaternion1 * quaternion2);
             Kean.Math.Matrix.Double matrix12 = (Kean.Math.Matrix.Double)(double[,])(Target.Transform)(transform1 * transform2);
             Kean.Math.Matrix.Double matrix = (Kean.Math.Matrix.Double)(double[,])(Target.Transform)(transform);
-            Expect(matrix12.Distance(matrix), Is.EqualTo(0).Within(this.Precision));
+            Verify(matrix12.Distance(matrix), Is.EqualTo(0).Within(this.Precision));
         }
         [Test]
         public void RollPitchYaw()
@@ -313,12 +313,12 @@ namespace Kean.Math.Geometry3D.Test.Double
                             double yaw = Kean.Math.Double.ToRadians(y);
                             Target.Quaternion quaternion = Target.Quaternion.CreateRotationZ(yaw) * Target.Quaternion.CreateRotationY(pitch) * Target.Quaternion.CreateRotationX(roll);
                             Target.Quaternion quaternion2 = Target.Quaternion.CreateRotationZ(quaternion.RotationZ) * Target.Quaternion.CreateRotationY(quaternion.RotationY) * Target.Quaternion.CreateRotationX(quaternion.RotationX);
-                            Expect(this.AngleDistance(quaternion.RotationX, quaternion2.RotationX), Is.EqualTo(0).Within(this.Precision));
-                            Expect(this.AngleDistance(quaternion.RotationY, quaternion2.RotationY), Is.EqualTo(0).Within(this.Precision));
-                            Expect(this.AngleDistance(quaternion.RotationZ, quaternion2.RotationZ), Is.EqualTo(0).Within(this.Precision));
-                            Expect(this.AngleDistance(quaternion.RotationX, roll), Is.EqualTo(0).Within(this.Precision));
-                            Expect(this.AngleDistance(quaternion.RotationY, pitch), Is.EqualTo(0).Within(this.Precision));
-                            Expect(this.AngleDistance(quaternion.RotationZ, yaw), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationX, quaternion2.RotationX), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationY, quaternion2.RotationY), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationZ, quaternion2.RotationZ), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationX, roll), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationY, pitch), Is.EqualTo(0).Within(this.Precision));
+                            Verify(this.AngleDistance(quaternion.RotationZ, yaw), Is.EqualTo(0).Within(this.Precision));
                         }
                     }
         }
@@ -337,12 +337,12 @@ namespace Kean.Math.Geometry3D.Test.Double
                                     Target.Quaternion temporary = quaternion.Inverse * noRotation;
                                     Target.Quaternion left = Target.Quaternion.CreateRotationZ(Kean.Math.Double.ToRadians(yy)) * Target.Quaternion.CreateRotationY(Kean.Math.Double.ToRadians(pp)) * Target.Quaternion.CreateRotationX(-temporary.RotationX);
                                     Target.Quaternion right = Target.Quaternion.CreateRotationZ(temporary.RotationZ) * Target.Quaternion.CreateRotationY(temporary.RotationY) * Target.Quaternion.CreateRotationX(0);
-                                    //Expect(left.Distance(quaternion * right), Is.EqualTo(0).Within(this.Precision));
-                                    //Expect(noRotation.Distance(quaternion * temporary), Is.EqualTo(0).Within(this.Precision));
+                                    //Verify(left.Distance(quaternion * right), Is.EqualTo(0).Within(this.Precision));
+                                    //Verify(noRotation.Distance(quaternion * temporary), Is.EqualTo(0).Within(this.Precision));
                                     right = quaternion * right;
-                                    Expect(this.AngleDistance(left.RotationX, right.RotationX), Is.EqualTo(0).Within(this.Precision));
-                                    Expect(this.AngleDistance(left.RotationY, right.RotationY), Is.EqualTo(0).Within(this.Precision));
-                                    Expect(this.AngleDistance(left.RotationZ, right.RotationZ), Is.EqualTo(0).Within(this.Precision));
+                                    Verify(this.AngleDistance(left.RotationX, right.RotationX), Is.EqualTo(0).Within(this.Precision));
+                                    Verify(this.AngleDistance(left.RotationY, right.RotationY), Is.EqualTo(0).Within(this.Precision));
+                                    Verify(this.AngleDistance(left.RotationZ, right.RotationZ), Is.EqualTo(0).Within(this.Precision));
                                 
                                 }
         }

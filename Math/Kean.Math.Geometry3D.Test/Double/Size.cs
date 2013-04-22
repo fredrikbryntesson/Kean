@@ -46,18 +46,18 @@ namespace Kean.Math.Geometry3D.Test.Double
             {
                 Target.Integer.Size integer = new Target.Integer.Size(10, 20, 30);
                 Target.Double.Size @double = integer;
-                Expect(@double.Width, Is.EqualTo(10));
-                Expect(@double.Height, Is.EqualTo(20));
-                Expect(@double.Depth, Is.EqualTo(30));
-                Expect((Target.Integer.Size)@double, Is.EqualTo(integer));
+                Verify(@double.Width, Is.EqualTo(10));
+                Verify(@double.Height, Is.EqualTo(20));
+                Verify(@double.Depth, Is.EqualTo(30));
+                Verify((Target.Integer.Size)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.Size single = new Target.Single.Size(10, 20, 30);
                 Target.Double.Size @double = single;
-                Expect(@double.Width, Is.EqualTo(10));
-                Expect(@double.Height, Is.EqualTo(20));
-                Expect(@double.Depth, Is.EqualTo(30));
-                Expect((Target.Single.Size)@double, Is.EqualTo(single));
+                Verify(@double.Width, Is.EqualTo(10));
+                Verify(@double.Height, Is.EqualTo(20));
+                Verify(@double.Depth, Is.EqualTo(30));
+                Verify((Target.Single.Size)@double, Is.EqualTo(single));
             }
         }
         [Test]
@@ -67,29 +67,29 @@ namespace Kean.Math.Geometry3D.Test.Double
             {
                 Target.Integer.SizeValue integer = new Target.Integer.SizeValue(10, 20, 30);
                 Target.Double.SizeValue @double = integer;
-                Expect(@double.Width, Is.EqualTo(10));
-                Expect(@double.Height, Is.EqualTo(20));
-                Expect(@double.Depth, Is.EqualTo(30));
-                Expect((Target.Integer.SizeValue)@double, Is.EqualTo(integer));
+                Verify(@double.Width, Is.EqualTo(10));
+                Verify(@double.Height, Is.EqualTo(20));
+                Verify(@double.Depth, Is.EqualTo(30));
+                Verify((Target.Integer.SizeValue)@double, Is.EqualTo(integer));
             }
             {
                 Target.Single.SizeValue single = new Target.Single.SizeValue(10, 20,30);
                 Target.Double.SizeValue @double = single;
-                Expect(@double.Width, Is.EqualTo(10));
-                Expect(@double.Height, Is.EqualTo(20));
-                Expect(@double.Depth, Is.EqualTo(30));
-                Expect((Target.Single.SizeValue)@double, Is.EqualTo(single));
+                Verify(@double.Width, Is.EqualTo(10));
+                Verify(@double.Height, Is.EqualTo(20));
+                Verify(@double.Depth, Is.EqualTo(30));
+                Verify((Target.Single.SizeValue)@double, Is.EqualTo(single));
             }
         }
         [Test]
         public void ValueStringCasts()
         {
             string textFromValue = new Target.Single.SizeValue(10, 20, 30);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30"));
+            Verify(textFromValue, Is.EqualTo("10, 20, 30"));
             Target.Single.SizeValue @integerFromText = "10 20 30";
-            Expect(@integerFromText.Width, Is.EqualTo(10));
-            Expect(@integerFromText.Height, Is.EqualTo(20));
-            Expect(@integerFromText.Depth, Is.EqualTo(30));
+            Verify(@integerFromText.Width, Is.EqualTo(10));
+            Verify(@integerFromText.Height, Is.EqualTo(20));
+            Verify(@integerFromText.Depth, Is.EqualTo(30));
         }
     }
 }

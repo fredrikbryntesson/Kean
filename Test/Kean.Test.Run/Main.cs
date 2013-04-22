@@ -51,7 +51,7 @@ namespace Kean.Test.Run
             Math.Geometry2D.Test.All.Test();
             Math.Geometry3D.Test.All.Test();
             Math.Matrix.Test.All.Test();
-           // Math.Random.Test.All.Test();
+            Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
 			//Xml.Serialize.Test.All.Test();

@@ -52,28 +52,28 @@ namespace Kean.Math.Geometry2D.Test.Double
        public void Equality()
        {
           Target.Double.Box box = new  Target.Double.Box();
-           Expect(this.box0, Is.EqualTo(this.box0));
-           Expect(this.box0.Equals(this.box0 as object), Is.True);
-           Expect(this.box0 == this.box0, Is.True);
-           Expect(this.box0 != this.box1, Is.True);
-           Expect(this.box0 == box, Is.False);
-           Expect(box == box, Is.True);
-           Expect(box == this.box0, Is.False);
+		  Verify(this.box0, Is.EqualTo(this.box0));
+		  Verify(this.box0.Equals(this.box0 as object), Is.True);
+		  Verify(this.box0 == this.box0, Is.True);
+		  Verify(this.box0 != this.box1, Is.True);
+		  Verify(this.box0 == box, Is.False);
+		  Verify(box == box, Is.True);
+		  Verify(box == this.box0, Is.False);
        }
        #endregion
        [Test]
        public void LeftTop()
        {
            Target.Double.Point leftTop = this.box0.LeftTop;
-           Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
-           Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+		   Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+		   Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
        }
        [Test]
        public void Size()
        {
            Target.Double.Size size = this.box0.Size;
-           Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
-           Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+		   Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+		   Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
        }
        #region Arithmetic
        [Test]
@@ -93,7 +93,7 @@ namespace Kean.Math.Geometry2D.Test.Double
        [Test]
        public void Hash()
        {
-           Expect(this.box0.Hash(), Is.Not.EqualTo(0));
+		   Verify(this.box0.Hash(), Is.Not.EqualTo(0));
        }
        #endregion
        [Test]
@@ -103,33 +103,33 @@ namespace Kean.Math.Geometry2D.Test.Double
            {
                Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
                Target.Double.Box @double = integer;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Integer.Box)@double, Is.EqualTo(integer));
+			   Verify(@double.Left, Is.EqualTo(10));
+			   Verify(@double.Top, Is.EqualTo(20));
+			   Verify(@double.Width, Is.EqualTo(30));
+			   Verify(@double.Height, Is.EqualTo(40));
+			   Verify((Target.Integer.Box)@double, Is.EqualTo(integer));
            }
            // single - double
            {
                Target.Single.Box single = new Target.Single.Box(10, 20, 30, 40);
                Target.Double.Box @double = single;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Single.Box)@double, Is.EqualTo(single));
+			   Verify(@double.Left, Is.EqualTo(10));
+			   Verify(@double.Top, Is.EqualTo(20));
+			   Verify(@double.Width, Is.EqualTo(30));
+			   Verify(@double.Height, Is.EqualTo(40));
+			   Verify((Target.Single.Box)@double, Is.EqualTo(single));
            }
        }
        [Test]
        public void StringCasts()
        {
            string textFromValue = new Target.Double.Box(10, 20, 30, 40);
-           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+          Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
            Target.Double.Box @doubleFromText = "10 20 30 40";
-           Expect(@doubleFromText.Left, Is.EqualTo(10));
-           Expect(@doubleFromText.Top, Is.EqualTo(20));
-           Expect(@doubleFromText.Width, Is.EqualTo(30));
-           Expect(@doubleFromText.Height, Is.EqualTo(40));
+		   Verify(@doubleFromText.Left, Is.EqualTo(10));
+		   Verify(@doubleFromText.Top, Is.EqualTo(20));
+		   Verify(@doubleFromText.Width, Is.EqualTo(30));
+		   Verify(@doubleFromText.Height, Is.EqualTo(40));
        }
     }
 }

@@ -64,73 +64,73 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void Equality()
         {
             Target.Integer.Size point = new Target.Integer.Size();
-            Expect(this.vector0, Is.EqualTo(this.vector0));
-            Expect(this.vector0.Equals(this.vector0 as object), Is.True);
-            Expect(this.vector0 == this.vector0, Is.True);
-            Expect(this.vector0 != this.vector1, Is.True);
-            Expect(this.vector0 == point, Is.False);
-            Expect(point == point, Is.True);
-            Expect(point == this.vector0, Is.False);
+			Verify(this.vector0, Is.EqualTo(this.vector0));
+			Verify(this.vector0.Equals(this.vector0 as object), Is.True);
+			Verify(this.vector0 == this.vector0, Is.True);
+			Verify(this.vector0 != this.vector1, Is.True);
+			Verify(this.vector0 == point, Is.False);
+			Verify(point == point, Is.True);
+			Verify(point == this.vector0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void Addition()
         {
-            Expect((this.vector0 + this.vector1).Width, Is.EqualTo(this.vector2.Width).Within(this.Precision));
-            Expect((this.vector0 + this.vector1).Height, Is.EqualTo(this.vector2.Height).Within(this.Precision));
+			Verify((this.vector0 + this.vector1).Width, Is.EqualTo(this.vector2.Width).Within(this.Precision));
+			Verify((this.vector0 + this.vector1).Height, Is.EqualTo(this.vector2.Height).Within(this.Precision));
         }
         [Test]
         public void Subtraction()
         {
-            Expect(this.vector0 - this.vector0, Is.EqualTo(new Target.Integer.Size()));
+			Verify(this.vector0 - this.vector0, Is.EqualTo(new Target.Integer.Size()));
         }
         [Test]
         public void ScalarMultiplication()
         {
-            Expect((-1) * this.vector0, Is.EqualTo(-this.vector0));
+			Verify((-1) * this.vector0, Is.EqualTo(-this.vector0));
         }
         [Test]
         public void ScalarDivision()
         {
-            Expect(this.vector0 / (-1), Is.EqualTo(-this.vector0));
+			Verify(this.vector0 / (-1), Is.EqualTo(-this.vector0));
         }
         #endregion
         #region Hash Code
         [Test]
         public void Hash()
         {
-            Expect(this.vector0.Hash(), Is.Not.EqualTo(0));
+			Verify(this.vector0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
 
         [Test]
         public void GetValues()
         {
-            Expect(this.vector0.Width, Is.EqualTo((int)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
-            Expect(this.vector0.Height, Is.EqualTo((int)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+			Verify(this.vector0.Width, Is.EqualTo((int)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+			Verify(this.vector0.Height, Is.EqualTo((int)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
         }
         [Test]
         public void Swap()
         {
             Target.Integer.Size result = this.vector0.Swap();
-            Expect(result.Width, Is.EqualTo(this.vector0.Height), this.prefix + "Swap.0");
-            Expect(result.Height, Is.EqualTo(this.vector0.Width), this.prefix + "Swap.1");
+			Verify(result.Width, Is.EqualTo(this.vector0.Height), this.prefix + "Swap.0");
+			Verify(result.Height, Is.EqualTo(this.vector0.Width), this.prefix + "Swap.1");
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20";
-            Expect(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
-            Expect(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
+			Verify(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
+			Verify(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             Target.Integer.Size point = null;
-            Expect(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
-            Expect(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
+			Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
+			Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
 
         #region Polar Representation
@@ -138,36 +138,36 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void Polar0()
         {
             Target.Integer.Size point = new Target.Integer.Size();
-            Expect(point.Norm, Is.EqualTo(0));
-            Expect(point.Azimuth, Is.EqualTo(0));
+			Verify(point.Norm, Is.EqualTo(0));
+			Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar1()
         {
             Target.Integer.Size point = new Target.Integer.Size(1, 0);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(0));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar2()
         {
             Target.Integer.Size point = new Target.Integer.Size(0, 1);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(90)));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(90)));
         }
         [Test]
         public void Polar3()
         {
             Target.Integer.Size point = new Target.Integer.Size(0, -5);
-            Expect(point.Norm, Is.EqualTo(5));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(-90)));
+			Verify(point.Norm, Is.EqualTo(5));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(-90)));
         }
         [Test]
         public void Polar4()
         {
             Target.Integer.Size point = new Target.Integer.Size(-1, 0);
-            Expect(point.Norm, Is.EqualTo(1));
-            Expect(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(180)));
+			Verify(point.Norm, Is.EqualTo(1));
+			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(180)));
         }
         [Test]
         public void Polar5()
@@ -176,16 +176,16 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int radius = point.Norm;
             int azimuth = point.Azimuth;
             Target.Integer.Size point2 = Target.Integer.Size.Polar(radius, azimuth);
-            Expect(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
+			Verify(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
         [Test]
         public void Angles()
         {
-            Expect(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisX), Is.EqualTo(0).Within(this.Precision));
-            Expect(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-            Expect(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+			Verify(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisX), Is.EqualTo(0).Within(this.Precision));
+			Verify(Target.Single.Size.BasisX.Angle(Target.Single.Size.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Verify(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+			Verify(Target.Single.Size.BasisX.Angle(-Target.Single.Size.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()
@@ -194,10 +194,10 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void StringCasts()
         {
             string textFromValue = new Target.Integer.Size(10, 20);
-            Expect(textFromValue, Is.EqualTo("10, 20"));
+			Verify(textFromValue, Is.EqualTo("10, 20"));
             Target.Integer.Size @integerFromText = "10, 20";
-            Expect(@integerFromText.Width, Is.EqualTo(10));
-            Expect(@integerFromText.Height, Is.EqualTo(20));
+			Verify(@integerFromText.Width, Is.EqualTo(10));
+			Verify(@integerFromText.Height, Is.EqualTo(20));
         }
     }
 }

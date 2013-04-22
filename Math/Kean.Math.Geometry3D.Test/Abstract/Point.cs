@@ -35,38 +35,38 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void GetValues()
         {
-            Expect(this.Vector0.X, Is.EqualTo(this.Cast(22)).Within(this.Precision));
-            Expect(this.Vector0.Y, Is.EqualTo(this.Cast(-3)).Within(this.Precision));
-            Expect(this.Vector0.Z, Is.EqualTo(this.Cast(10)).Within(this.Precision));
+			Verify(this.Vector0.X, Is.EqualTo(this.Cast(22)).Within(this.Precision));
+			Verify(this.Vector0.Y, Is.EqualTo(this.Cast(-3)).Within(this.Precision));
+			Verify(this.Vector0.Z, Is.EqualTo(this.Cast(10)).Within(this.Precision));
         }
         [Test]
         public void ScalarProduct()
         {
-            Expect(this.Vector0.ScalarProduct(new PointType()).Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-            Expect(this.Vector0.ScalarProduct(this.Vector1).Value, Is.EqualTo(this.Cast(425)).Within(this.Precision));
+			Verify(this.Vector0.ScalarProduct(new PointType()).Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
+			Verify(this.Vector0.ScalarProduct(this.Vector1).Value, Is.EqualTo(this.Cast(425)).Within(this.Precision));
         }
         [Test]
         public void CrossProduct()
         {
-            Expect(this.Vector0.VectorProduct(this.Vector1), Is.EqualTo(-this.Vector1.VectorProduct(this.Vector0)));
-            Expect((this.Vector0.VectorProduct(this.Vector1)).X, Is.EqualTo(this.Cast(-190)).Within(this.Precision));
-            Expect((this.Vector0.VectorProduct(this.Vector1)).Y, Is.EqualTo(this.Cast(-320)).Within(this.Precision));
-            Expect((this.Vector0.VectorProduct(this.Vector1)).Z, Is.EqualTo(this.Cast(322)).Within(this.Precision));
+			Verify(this.Vector0.VectorProduct(this.Vector1), Is.EqualTo(-this.Vector1.VectorProduct(this.Vector0)));
+			Verify((this.Vector0.VectorProduct(this.Vector1)).X, Is.EqualTo(this.Cast(-190)).Within(this.Precision));
+			Verify((this.Vector0.VectorProduct(this.Vector1)).Y, Is.EqualTo(this.Cast(-320)).Within(this.Precision));
+			Verify((this.Vector0.VectorProduct(this.Vector1)).Z, Is.EqualTo(this.Cast(322)).Within(this.Precision));
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20, 30";
-            Expect(this.CastToString(this.Vector3), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(this.Vector3));
+			Verify(this.CastToString(this.Vector3), Is.EqualTo(value));
+			Verify(this.CastFromString(value), Is.EqualTo(this.Vector3));
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             PointType point = null;
-            Expect(this.CastToString(point), Is.EqualTo(value));
-            Expect(this.CastFromString(value), Is.EqualTo(point));
+			Verify(this.CastToString(point), Is.EqualTo(value));
+			Verify(this.CastFromString(value), Is.EqualTo(point));
         }
     }
 }
