@@ -98,53 +98,53 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void Equality()
         {
             Target.Integer.Transform transform = new Target.Integer.Transform();
-            Expect(this.transform0, Is.EqualTo(this.transform0));
-            Expect(this.transform0.Equals(this.transform0 as object), Is.True);
-            Expect(this.transform0 == this.transform0, Is.True);
-            Expect(this.transform0 != this.transform1, Is.True);
-            Expect(this.transform0 == transform, Is.False);
-            Expect(transform == transform, Is.True);
-            Expect(transform == this.transform0, Is.False);
+            Verify(this.transform0, Is.EqualTo(this.transform0));
+            Verify(this.transform0.Equals(this.transform0 as object), Is.True);
+            Verify(this.transform0 == this.transform0, Is.True);
+            Verify(this.transform0 != this.transform1, Is.True);
+            Verify(this.transform0 == transform, Is.False);
+            Verify(transform == transform, Is.True);
+            Verify(transform == this.transform0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void InverseTransform()
         {
-            Expect(this.transform0.Inverse, Is.EqualTo(this.transform3));
+            Verify(this.transform0.Inverse, Is.EqualTo(this.transform3));
         }
         [Test]
         public void MultiplicationTransformTransform()
         {
-            Expect(this.transform0 * this.transform1, Is.EqualTo(this.transform2));
+            Verify(this.transform0 * this.transform1, Is.EqualTo(this.transform2));
         }
         [Test]
         public void MultiplicationTransformPoint()
         {
-            Expect(this.transform0 * this.point0, Is.EqualTo(this.point1));
+            Verify(this.transform0 * this.point0, Is.EqualTo(this.point1));
         }
         #endregion
         [Test]
         public void CreateZeroTransform()
         {
             Target.Integer.Transform transform = new Target.Integer.Transform();
-            Expect(transform.A, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateZeroTransform.5");
         }
         [Test]
         public void CreateIdentity()
         {
             Target.Integer.Transform transform = Target.Integer.Transform.Identity;
-            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "CreateIdentity.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "CreateIdentity.5");
         }
         [Test]
         public void Rotatate()
@@ -153,12 +153,12 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int angle = Kean.Math.Integer.ToRadians(20);
             Target.Integer.Transform transform = Target.Integer.Transform.CreateRotation(angle);
             transform = transform.Rotate(-angle);
-            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.5");
         }
         [Test]
         public void Scale()
@@ -167,12 +167,12 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int scale = 20;
             Target.Integer.Transform transform = Target.Integer.Transform.CreateScaling(scale, scale);
             transform = transform.Scale(5, 5);
-            Expect(transform.A, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(100)).Within(this.Precision), this.prefix + "Scale.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Scale.5");
         }
         [Test]
         public void Translatate()
@@ -181,36 +181,36 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int yDelta = -40;
             Target.Integer.Transform transform = Target.Integer.Transform.CreateTranslation(xDelta, yDelta);
             transform = transform.Translate(-xDelta, -yDelta);
-            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Translatate.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Translatate.5");
         }
         [Test]
         public void CreateRotation()
         {
             int angle = Kean.Math.Integer.ToRadians(20);
             Target.Integer.Transform transform = Target.Integer.Transform.CreateRotation(angle);
-            Expect(transform.A, Is.EqualTo(Kean.Math.Integer.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
-            Expect(transform.B, Is.EqualTo(Kean.Math.Integer.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
-            Expect(transform.C, Is.EqualTo(-Kean.Math.Integer.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
-            Expect(transform.D, Is.EqualTo(Kean.Math.Integer.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
-            Expect(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
-            Expect(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
+            Verify(transform.A, Is.EqualTo(Kean.Math.Integer.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
+            Verify(transform.B, Is.EqualTo(Kean.Math.Integer.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
+            Verify(transform.C, Is.EqualTo(-Kean.Math.Integer.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
+            Verify(transform.D, Is.EqualTo(Kean.Math.Integer.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
+            Verify(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
+            Verify(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
         }
         [Test]
         public void CreateScale()
         {
             int scale = 20;
             Target.Integer.Transform transform = Target.Integer.Transform.CreateScaling(scale, scale);
-            Expect(transform.A, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.0");
-            Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.1");
-            Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.2");
-            Expect(transform.D, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.3");
-            Expect(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.4");
-            Expect(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.5");
+            Verify(transform.A, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.0");
+            Verify(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.1");
+            Verify(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.2");
+            Verify(transform.D, Is.EqualTo(scale).Within(this.Precision), this.prefix + "CreateScale.3");
+            Verify(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.4");
+            Verify(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateScale.5");
         }
         [Test]
         public void CreateTranslation()
@@ -218,49 +218,49 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int xDelta = 40;
             int yDelta = -40;
             Target.Integer.Transform transform = Target.Integer.Transform.CreateTranslation(xDelta, yDelta);
-            Expect(transform.A, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.0");
-            Expect(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.1");
-            Expect(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.2");
-            Expect(transform.D, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.3");
-            Expect(transform.E, Is.EqualTo(xDelta).Within(this.Precision), this.prefix + "CreateTranslation.4");
-            Expect(transform.F, Is.EqualTo(yDelta).Within(this.Precision), this.prefix + "CreateTranslation.5");
+            Verify(transform.A, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.0");
+            Verify(transform.B, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.1");
+            Verify(transform.C, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateTranslation.2");
+            Verify(transform.D, Is.EqualTo(1).Within(this.Precision), this.prefix + "CreateTranslation.3");
+            Verify(transform.E, Is.EqualTo(xDelta).Within(this.Precision), this.prefix + "CreateTranslation.4");
+            Verify(transform.F, Is.EqualTo(yDelta).Within(this.Precision), this.prefix + "CreateTranslation.5");
         }
         [Test]
         public void GetValueValues()
         {
             Target.Integer.Transform transform = this.transform0;
-            Expect(transform.A, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetValueValues.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.1");
-            Expect(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision), this.prefix + "GetValueValues.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetValueValues.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetValueValues.5");
+            Verify(transform.A, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetValueValues.0");
+            Verify(transform.B, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.1");
+            Verify(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision), this.prefix + "GetValueValues.2");
+            Verify(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.3");
+            Verify(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetValueValues.4");
+            Verify(transform.F, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetValueValues.5");
         }
         [Test]
         public void GetScalingX()
         {
             int scale = this.transform0.ScalingX;
-            Expect(scale, Is.EqualTo(this.Cast(3.162277f)).Within(this.Precision), this.prefix + "GetScalingX.0");
+            Verify(scale, Is.EqualTo(this.Cast(3.162277f)).Within(this.Precision), this.prefix + "GetScalingX.0");
         }
         [Test]
         public void GetScalingY()
         {
             int scale = this.transform0.ScalingY;
-            Expect(scale, Is.EqualTo(this.Cast( 2.23606801f)).Within(this.Precision), this.prefix + "GetScalingY.0");
+            Verify(scale, Is.EqualTo(this.Cast( 2.23606801f)).Within(this.Precision), this.prefix + "GetScalingY.0");
         }
         [Test]
         public void GetScaling()
         {
             int scale = this.transform0.Scaling;
-            Expect(scale, Is.EqualTo(this.Cast(2.69917297f)).Within(this.Precision), this.prefix + "GetScaling.0");
+            Verify(scale, Is.EqualTo(this.Cast(2.69917297f)).Within(this.Precision), this.prefix + "GetScaling.0");
         }
         
         [Test]
         public void GetTranslation()
         {
             Target.Integer.Size translation = this.transform0.Translation;
-            Expect(translation.Width, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetTranslation.0");
-            Expect(translation.Height, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetTranslation.1");
+            Verify(translation.Width, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetTranslation.0");
+            Verify(translation.Height, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetTranslation.1");
         }
         [Test]
         public void CastToArray()
@@ -268,20 +268,20 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int[,] values = (int[,])(Target.Integer.Transform.Identity);
             for (int x = 0; x < 3; x++)
                 for (int y = 0; y < 3; y++)
-                    Expect(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision), this.prefix + "CastToArray.0");
+                    Verify(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision), this.prefix + "CastToArray.0");
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20, 30, 40, 50, 60";
-            Expect(this.CastToString(this.transform4), Is.EqualTo(value), this.prefix + "Casting.0");
-            Expect(this.CastFromString(value), Is.EqualTo(this.transform4), this.prefix + "Casting.1");
+            Verify(this.CastToString(this.transform4), Is.EqualTo(value), this.prefix + "Casting.0");
+            Verify(this.CastFromString(value), Is.EqualTo(this.transform4), this.prefix + "Casting.1");
         }
         #region Hash Code
         [Test]
         public void Hash()
         {
-            Expect(this.transform0.Hash(), Is.Not.EqualTo(0));
+            Verify(this.transform0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
 
@@ -292,14 +292,14 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void StringCasts()
         {
             string textFromValue = new Target.Integer.Transform(10, 20, 30, 40, 50, 60);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
+            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
             Target.Integer.Transform @integerFromText = "10 20 30 40 50 60";
-            Expect(@integerFromText.A, Is.EqualTo(10));
-            Expect(@integerFromText.B, Is.EqualTo(20));
-            Expect(@integerFromText.C, Is.EqualTo(30));
-            Expect(@integerFromText.D, Is.EqualTo(40));
-            Expect(@integerFromText.E, Is.EqualTo(50));
-            Expect(@integerFromText.F, Is.EqualTo(60));
+            Verify(@integerFromText.A, Is.EqualTo(10));
+            Verify(@integerFromText.B, Is.EqualTo(20));
+            Verify(@integerFromText.C, Is.EqualTo(30));
+            Verify(@integerFromText.D, Is.EqualTo(40));
+            Verify(@integerFromText.E, Is.EqualTo(50));
+            Verify(@integerFromText.F, Is.EqualTo(60));
         }
     }
 }

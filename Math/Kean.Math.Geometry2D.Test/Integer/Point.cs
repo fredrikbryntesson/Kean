@@ -64,73 +64,73 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void Equality()
         {
             Target.Integer.Point point = new Target.Integer.Point();
-			Verify(this.vector0, Is.EqualTo(this.vector0));
-			Verify(this.vector0.Equals(this.vector0 as object), Is.True);
-			Verify(this.vector0 == this.vector0, Is.True);
-			Verify(this.vector0 != this.vector1, Is.True);
-			Verify(this.vector0 == point, Is.False);
-			Verify(point == point, Is.True);
-			Verify(point == this.vector0, Is.False);
+            Verify(this.vector0, Is.EqualTo(this.vector0));
+            Verify(this.vector0.Equals(this.vector0 as object), Is.True);
+            Verify(this.vector0 == this.vector0, Is.True);
+            Verify(this.vector0 != this.vector1, Is.True);
+            Verify(this.vector0 == point, Is.False);
+            Verify(point == point, Is.True);
+            Verify(point == this.vector0, Is.False);
         }
         #endregion
         #region Arithmetic
         [Test]
         public void Addition()
         {
-			Verify((this.vector0 + this.vector1).X, Is.EqualTo(this.vector2.X).Within(this.Precision));
-			Verify((this.vector0 + this.vector1).Y, Is.EqualTo(this.vector2.Y).Within(this.Precision));
+            Verify((this.vector0 + this.vector1).X, Is.EqualTo(this.vector2.X).Within(this.Precision));
+            Verify((this.vector0 + this.vector1).Y, Is.EqualTo(this.vector2.Y).Within(this.Precision));
         }
         [Test]
         public void Subtraction()
         {
-			Verify(this.vector0 - this.vector0, Is.EqualTo(new Target.Integer.Point()));
+            Verify(this.vector0 - this.vector0, Is.EqualTo(new Target.Integer.Point()));
         }
         [Test]
         public void ScalarMultiplication()
         {
-			Verify((-1) * this.vector0, Is.EqualTo(-this.vector0));
+            Verify((-1) * this.vector0, Is.EqualTo(-this.vector0));
         }
         [Test]
         public void ScalarDivision()
         {
-			Verify(this.vector0 / (-1), Is.EqualTo(-this.vector0));
+            Verify(this.vector0 / (-1), Is.EqualTo(-this.vector0));
         }
         #endregion
         #region Hash Code
         [Test]
         public void Hash()
         {
-			Verify(this.vector0.Hash(), Is.Not.EqualTo(0));
+            Verify(this.vector0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
 
         [Test]
         public void GetValues()
         {
-			Verify(this.vector0.X, Is.EqualTo((int)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
-			Verify(this.vector0.Y, Is.EqualTo((int)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
+            Verify(this.vector0.X, Is.EqualTo((int)(22.221)).Within(this.Precision), this.prefix + "GetValues.0");
+            Verify(this.vector0.Y, Is.EqualTo((int)(-3.1)).Within(this.Precision), this.prefix + "GetValues.1");
         }
         [Test]
         public void Swap()
         {
             Target.Integer.Point result = this.vector0.Swap();
-			Verify(result.X, Is.EqualTo(this.vector0.Y), this.prefix + "Swap.0");
-			Verify(result.Y, Is.EqualTo(this.vector0.X), this.prefix + "Swap.1");
+            Verify(result.X, Is.EqualTo(this.vector0.Y), this.prefix + "Swap.0");
+            Verify(result.Y, Is.EqualTo(this.vector0.X), this.prefix + "Swap.1");
         }
         [Test]
         public void Casting()
         {
             string value = "10, 20";
-			Verify(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
-			Verify(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
+            Verify(this.CastToString(this.vector3), Is.EqualTo(value), this.prefix + "Casting.0");
+            Verify(this.CastFromString(value), Is.EqualTo(this.vector3), this.prefix + "Casting.1");
         }
         [Test]
         public void CastingNull()
         {
             string value = null;
             Target.Integer.Point point = null;
-			Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
-			Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
+            Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
+            Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
 
         #region Polar Representation
@@ -138,36 +138,36 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void Polar0()
         {
             Target.Integer.Point point = new Target.Integer.Point();
-			Verify(point.Norm, Is.EqualTo(0));
-			Verify(point.Azimuth, Is.EqualTo(0));
+            Verify(point.Norm, Is.EqualTo(0));
+            Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar1()
         {
             Target.Integer.Point point = new Target.Integer.Point(1, 0);
-			Verify(point.Norm, Is.EqualTo(1));
-			Verify(point.Azimuth, Is.EqualTo(0));
+            Verify(point.Norm, Is.EqualTo(1));
+            Verify(point.Azimuth, Is.EqualTo(0));
         }
         [Test]
         public void Polar2()
         {
             Target.Integer.Point point = new Target.Integer.Point(0, 1);
-			Verify(point.Norm, Is.EqualTo(1));
-			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(90)));
+            Verify(point.Norm, Is.EqualTo(1));
+            Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(90)));
         }
         [Test]
         public void Polar3()
         {
             Target.Integer.Point point = new Target.Integer.Point(0, -5);
-			Verify(point.Norm, Is.EqualTo(5));
-			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(-90)));
+            Verify(point.Norm, Is.EqualTo(5));
+            Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(-90)));
         }
         [Test]
         public void Polar4()
         {
             Target.Integer.Point point = new Target.Integer.Point(-1, 0);
-			Verify(point.Norm, Is.EqualTo(1));
-			Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(180)));
+            Verify(point.Norm, Is.EqualTo(1));
+            Verify(point.Azimuth, Is.EqualTo(Kean.Math.Integer.ToRadians(180)));
         }
         [Test]
         public void Polar5()
@@ -176,16 +176,16 @@ namespace Kean.Math.Geometry2D.Test.Integer
             int radius = point.Norm;
             int azimuth = point.Azimuth;
             Target.Integer.Point point2 = Target.Integer.Point.Polar(radius, azimuth);
-			Verify(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
+            Verify(point.Distance(point2), Is.EqualTo(0).Within(this.Precision));
         }
         #endregion
         [Test]
         public void Angles()
         {
-			Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX), Is.EqualTo(0).Within(this.Precision));
-			Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
-			Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
-			Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
+            Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisX), Is.EqualTo(0).Within(this.Precision));
+            Verify(Target.Single.Point.BasisX.Angle(Target.Single.Point.BasisY), Is.EqualTo(Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisY), Is.EqualTo(-Kean.Math.Single.Pi / 2).Within(this.Precision));
+            Verify(Target.Single.Point.BasisX.Angle(-Target.Single.Point.BasisX), Is.EqualTo(Kean.Math.Single.Pi).Within(this.Precision));
         }
         [Test]
         public void Casts()
@@ -194,10 +194,10 @@ namespace Kean.Math.Geometry2D.Test.Integer
         public void StringCasts()
         {
             string textFromValue = new Target.Integer.Point(10, 20);
-			Verify(textFromValue, Is.EqualTo("10, 20"));
+            Verify(textFromValue, Is.EqualTo("10, 20"));
             Target.Integer.Point @integerFromText = "10, 20";
-			Verify(@integerFromText.X, Is.EqualTo(10));
-			Verify(@integerFromText.Y, Is.EqualTo(20));
+            Verify(@integerFromText.X, Is.EqualTo(10));
+            Verify(@integerFromText.Y, Is.EqualTo(20));
         }
     }
 }
