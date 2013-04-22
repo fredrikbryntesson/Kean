@@ -51,7 +51,7 @@ namespace Kean.Math.Geometry2D.Test.Double
             this.transform3 = new Target.Double.Transform(1, -1, -2, 3, 9, -16);
             this.transform4 = new Target.Double.Transform(10, 20, 30, 40, 50, 60);
             this.point0 = new Target.Double.Point(-7, 3);
-            this.point1 = new Target.Double.Point(2, -7);
+            this.point1 = new Target.Double.Point(-10,3);
             this.size0 = new Target.Double.Size(10, 10);
         }
         protected override void Run()
@@ -75,7 +75,6 @@ namespace Kean.Math.Geometry2D.Test.Double
                 this.GetScalingX,
                 this.GetScalingY,
                 this.GetScaling,
-                this.GetRotation,
                 this.Casting,
                 this.Hash,
                 this.Casts,
@@ -230,45 +229,38 @@ namespace Kean.Math.Geometry2D.Test.Double
         public void GetValueValues()
         {
             Target.Double.Transform transform = this.transform0;
-            Expect(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.0");
-            Expect(transform.B, Is.EqualTo(this.Cast(4)).Within(this.Precision), this.prefix + "GetValueValues.1");
+            Expect(transform.A, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetValueValues.0");
+            Expect(transform.B, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.1");
             Expect(transform.C, Is.EqualTo(this.Cast(2)).Within(this.Precision), this.prefix + "GetValueValues.2");
-            Expect(transform.D, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetValueValues.3");
-            Expect(transform.E, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetValueValues.4");
-            Expect(transform.F, Is.EqualTo(this.Cast(6)).Within(this.Precision), this.prefix + "GetValueValues.5");
+            Expect(transform.D, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "GetValueValues.3");
+            Expect(transform.E, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetValueValues.4");
+            Expect(transform.F, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetValueValues.5");
         }
         [Test]
         public void GetScalingX()
         {
             double scale = this.transform0.ScalingX;
-            Expect(scale, Is.EqualTo(this.Cast(4.1231)).Within(this.Precision), this.prefix + "GetScalingX.0");
+            Expect(scale, Is.EqualTo(this.Cast(3.162277f)).Within(this.Precision), this.prefix + "GetScalingX.0");
         }
         [Test]
         public void GetScalingY()
         {
             double scale = this.transform0.ScalingY;
-            Expect(scale, Is.EqualTo(this.Cast(5.38516474f)).Within(this.Precision), this.prefix + "GetScalingY.0");
+            Expect(scale, Is.EqualTo(this.Cast( 2.23606801f)).Within(this.Precision), this.prefix + "GetScalingY.0");
         }
         [Test]
         public void GetScaling()
         {
             double scale = this.transform0.Scaling;
-            Expect(scale, Is.EqualTo(this.Cast(4.75413513f)).Within(this.Precision), this.prefix + "GetScaling.0");
+            Expect(scale, Is.EqualTo(this.Cast(2.69917297f)).Within(this.Precision), this.prefix + "GetScaling.0");
         }
-        [Test]
-        public void GetRotation()
-        {
-            double angle = Kean.Math.Double.ToRadians(20);
-            Target.Double.Transform transform = Target.Double.Transform.CreateRotation(angle);
-            double value = Kean.Math.Double.ToDegrees(transform.Rotation);
-            Expect(value, Is.EqualTo(this.Cast(20)).Within(this.Precision), this.prefix + "GetRotation.0");
-        }
+        
         [Test]
         public void GetTranslation()
         {
             Target.Double.Size translation = this.transform0.Translation;
-            Expect(translation.Width, Is.EqualTo(this.Cast(3)).Within(this.Precision), this.prefix + "GetTranslation.0");
-            Expect(translation.Height, Is.EqualTo(this.Cast(6)).Within(this.Precision), this.prefix + "GetTranslation.1");
+            Expect(translation.Width, Is.EqualTo(this.Cast(5)).Within(this.Precision), this.prefix + "GetTranslation.0");
+            Expect(translation.Height, Is.EqualTo(this.Cast(7)).Within(this.Precision), this.prefix + "GetTranslation.1");
         }
         [Test]
         public void CastToArray()
