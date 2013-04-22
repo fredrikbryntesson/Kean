@@ -63,11 +63,11 @@ namespace Kean.Math.Complex.Test
         public void Constructors()
         {
             Target a = new Target();
-			Verify(a.Real, Is.EqualTo(0), this.prefix + "Constructor.0");
-			Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Constructor.1");
+            Verify(a.Real, Is.EqualTo(0), this.prefix + "Constructor.0");
+            Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Constructor.1");
             a = new Target(1, 2);
-			Verify(a.Real, Is.EqualTo(1), this.prefix + "Constructor.2");
-			Verify(a.Imaginary, Is.EqualTo(2), this.prefix + "Constructor.3");
+            Verify(a.Real, Is.EqualTo(1), this.prefix + "Constructor.2");
+            Verify(a.Imaginary, Is.EqualTo(2), this.prefix + "Constructor.3");
         }
         [Test]
         public void Equality()
@@ -75,16 +75,16 @@ namespace Kean.Math.Complex.Test
             Target a = new Target(1, 2);
             Target b = new Target(2, 3);
             Target c = new Target(1, 2);
-			Verify(a, Is.Not.EqualTo(b), this.prefix + "Equality.0");
-			Verify(b, Is.Not.EqualTo(a), this.prefix + "Equality.1");
-			Verify(a, Is.EqualTo(c), this.prefix + "Equality.2");
-			Verify(c, Is.EqualTo(a), this.prefix + "Equality.3");
+            Verify(a, Is.Not.EqualTo(b), this.prefix + "Equality.0");
+            Verify(b, Is.Not.EqualTo(a), this.prefix + "Equality.1");
+            Verify(a, Is.EqualTo(c), this.prefix + "Equality.2");
+            Verify(c, Is.EqualTo(a), this.prefix + "Equality.3");
         }
         [Test]
         public void BasicFunctions()
         {
-			Verify(new Target(1, 2).Conjugate, Is.EqualTo(new Target(1, -2)), this.prefix + "BasicFunctions.0");
-			Verify(new Target(1, 2).AbsoluteValue, Is.EqualTo(Kean.Math.Double.SquareRoot(5)), this.prefix + "BasicFunctions.1");
+            Verify(new Target(1, 2).Conjugate, Is.EqualTo(new Target(1, -2)), this.prefix + "BasicFunctions.0");
+            Verify(new Target(1, 2).AbsoluteValue, Is.EqualTo(Kean.Math.Double.SquareRoot(5)), this.prefix + "BasicFunctions.1");
         }
         [Test]
         public void Arithmetics()
@@ -95,11 +95,11 @@ namespace Kean.Math.Complex.Test
             Target d = new Target(-1, -1);
             Target e = new Target(-4, 7);
             Target f = new Target(0.615384615384615f, 0.076923076923077f);
-			Verify(a + b, Is.EqualTo(c), this.prefix + "Arithmetics.0");
-			Verify(a - b, Is.EqualTo(d), this.prefix + "Arithmetics.1");
-			Verify(a - a, Is.EqualTo(new Target()), this.prefix + "Arithmetics.2");
-			Verify(a * b, Is.EqualTo(e), this.prefix + "Arithmetics.3");
-			Verify(a / b, Is.EqualTo(f).Comparer(new Comparer(1e-7f)), this.prefix + "Arithmetics.4");
+            Verify(a + b, Is.EqualTo(c), this.prefix + "Arithmetics.0");
+            Verify(a - b, Is.EqualTo(d), this.prefix + "Arithmetics.1");
+            Verify(a - a, Is.EqualTo(new Target()), this.prefix + "Arithmetics.2");
+            Verify(a * b, Is.EqualTo(e), this.prefix + "Arithmetics.3");
+            Verify(a / b, Is.EqualTo(f).Comparer(new Comparer(1e-7f)), this.prefix + "Arithmetics.4");
         }
         [Test]
         public void Functions()
@@ -107,30 +107,30 @@ namespace Kean.Math.Complex.Test
             Target a = new Target(1, 2);
             Target b = new Kean.Math.Complex.Double(-1.131204383756814f, 2.471726672004819f);
             Target c = new Kean.Math.Complex.Double(0.804718956217050f, 1.107148717794090f);
-			Verify(Kean.Math.Complex.Double.Exponential(a), Is.EqualTo(b).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.0");
-			Verify(Kean.Math.Complex.Double.Logarithm(a), Is.EqualTo(c).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.1");
+            Verify(Kean.Math.Complex.Double.Exponential(a), Is.EqualTo(b).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.0");
+            Verify(Kean.Math.Complex.Double.Logarithm(a), Is.EqualTo(c).Comparer(new Comparer(1e-7f)), this.prefix + "Functions.1");
         }
         [Test]
         public void Casts()
         {
             Target a = 33f;
-			Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.0");
-			Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Casts.1");
+            Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.0");
+            Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Casts.1");
             a = "33";
-			Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.2");
-			Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Casts.3");
+            Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.2");
+            Verify(a.Imaginary, Is.EqualTo(0), this.prefix + "Casts.3");
             a = "33 + 22i";
-			Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.4");
-			Verify(a.Imaginary, Is.EqualTo(22), this.prefix + "Casts.5");
+            Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.4");
+            Verify(a.Imaginary, Is.EqualTo(22), this.prefix + "Casts.5");
             a = "-33 -22*i";
-			Verify(a.Real, Is.EqualTo(-33), this.prefix + "Casts.6");
-			Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.7");
+            Verify(a.Real, Is.EqualTo(-33), this.prefix + "Casts.6");
+            Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.7");
             a = "-22*i-33 ";
-			Verify(a.Real, Is.EqualTo(-33), this.prefix + "Casts.8");
-			Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.9");
+            Verify(a.Real, Is.EqualTo(-33), this.prefix + "Casts.8");
+            Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.9");
             a = "-22f*i+33f ";
-			Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.8");
-			Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.9");
+            Verify(a.Real, Is.EqualTo(33), this.prefix + "Casts.8");
+            Verify(a.Imaginary, Is.EqualTo(-22), this.prefix + "Casts.9");
         }
         [Test]
         public void DiscreteTransform()
@@ -145,7 +145,7 @@ namespace Kean.Math.Complex.Test
                 "-4",
                 "-2 - 2i",
                 "-4i"};
-           Verify(Target.DiscreteTransform(input), Is.EqualTo(output).Comparer(new Comparer(1e-5f)), this.prefix + "DiscreteTransform.0");
+            Verify(Target.DiscreteTransform(input), Is.EqualTo(output).Comparer(new Comparer(1e-5f)), this.prefix + "DiscreteTransform.0");
         }
         [Test]
         public void FastTransform()
@@ -160,7 +160,7 @@ namespace Kean.Math.Complex.Test
                 "-4",
                 "-2 - 2i",
                 "-4i"};
-           Verify(Target.FastTransform(input), Is.EqualTo(output).Comparer(new Comparer(1e-5f)), this.prefix + "FastTransform.0");
+            Verify(Target.FastTransform(input), Is.EqualTo(output).Comparer(new Comparer(1e-5f)), this.prefix + "FastTransform.0");
         }
 		/*
         [Test]
@@ -176,14 +176,14 @@ namespace Kean.Math.Complex.Test
             Verify(fast, Is.EqualTo(matlab).Comparer(new Comparer(1e-9f)), this.prefix + "DiscreteFastCompare.0");
             Verify(discrete, Is.EqualTo(matlab).Comparer(new Comparer(1e-6f)), this.prefix + "DiscreteFastCompare.0");
         }*/
-		[Test]
+        [Test]
         public void InverseDiscreteTransform()
         {
             Target[] input = new Target[16];
             for (int i = 0; i < input.Length; i++)
                 input[i] = new Target(i - 33.5f, 77.33f * i + 251);
             Target[] output = Target.InverseDiscreteTransform(Target.DiscreteTransform(input));
-			Verify(input, Is.EqualTo(output).Comparer(new Comparer(1e-2f)), this.prefix + "InverseDiscreteTransform.0");
+            Verify(input, Is.EqualTo(output).Comparer(new Comparer(1e-2f)), this.prefix + "InverseDiscreteTransform.0");
         }
         [Test]
         public void InverseFastTransform()
@@ -192,7 +192,7 @@ namespace Kean.Math.Complex.Test
             for (int i = 0; i < input.Length; i++)
                 input[i] = new Target(i - 33.5f, 77.33f * i + 251);
             Target[] output = Target.InverseFastTransform(Target.FastTransform(input));
-			Verify(input, Is.EqualTo(output).Comparer(new Comparer(1e-3f)), this.prefix + "InverseFastTransform.0");
+            Verify(input, Is.EqualTo(output).Comparer(new Comparer(1e-3f)), this.prefix + "InverseFastTransform.0");
         }
         [Test]
         public void SpeedCompare()
