@@ -36,10 +36,10 @@
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\OpenTK.1.1.704.2230\lib\OpenTK.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\OpenTK.1.1.704.2230\lib\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
-      <HintPath>..\..\packages\OpenTK.1.1.704.2230\lib\OpenTK.GLControl.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\OpenTK.1.1.704.2230\lib\OpenTK.GLControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

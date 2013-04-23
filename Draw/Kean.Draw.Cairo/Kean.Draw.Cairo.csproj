@@ -53,15 +53,15 @@
   <ItemGroup>
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>True</Private>
-      <HintPath>..\..\packages\GLib.2.28.1\lib\glib-sharp.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\GLib.2.28.1\lib\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\packages\Cairo.2.0.0.0\lib\Mono.Cairo.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\Cairo.2.0.0.0\lib\Mono.Cairo.dll</HintPath>
     </Reference>
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>True</Private>
-      <HintPath>..\..\packages\Pango.1.28.3\lib\pango-sharp.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\Pango.1.28.3\lib\pango-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
