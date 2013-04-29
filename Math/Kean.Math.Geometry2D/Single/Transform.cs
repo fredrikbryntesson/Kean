@@ -210,10 +210,6 @@ namespace Kean.Math.Geometry2D.Single
 		{
 			return Transform.CreateTranslation(delta.Width, delta.Height);
 		}
-		public static Transform CreateTranslation(Point delta)
-		{
-			return Transform.CreateTranslation(delta.X, delta.Y);
-		}
 		public static Transform CreateTranslation(float xDelta, float yDelta)
 		{
 			return new Transform(1,0,0,1, xDelta, yDelta);

@@ -81,7 +81,7 @@ namespace Kean.Draw
 		}
 		public void PushAndTranslate(Geometry2D.Single.Box clip)
 		{
-			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation(clip.LeftTop));
+			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)clip.LeftTop));
 		}
 		public void Pop()
 		{

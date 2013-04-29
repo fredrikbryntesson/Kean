@@ -27,6 +27,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected override void Run()
         {
             this.Run(
+				this.Equality,
                 this.LeftTop,
                 this.Size,
                 this.Hash);
