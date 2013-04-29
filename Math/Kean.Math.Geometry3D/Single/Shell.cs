@@ -24,7 +24,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public struct Shell 
+    public struct Shell :
+	  IEquatable<Shell>
     {
 		public float Left;
 		public float Right;
@@ -49,13 +50,21 @@ namespace Kean.Math.Geometry3D.Single
 				this.Back = back;
 		    }
         public Box Decrease(Size size)
-          {
-              return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);
-          }
-          public Box Increase(Size size)
-          {
-              return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
-          }
+        {
+          return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);
+        }
+        public Box Increase(Size size)
+        {
+          return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
+        }
+		public Box Decrease(Box  box)
+		{
+		   return new Box(box.LeftTopFront.X + this.Left, box.LeftTopFront.Y + this.Top, box.LeftTopFront.Z + this.Front, box.Size.Width - this.Left - this.Right, box.Size.Height - this.Top - this.Bottom, box.Size.Depth - this.Front - this.Back);
+		}
+		public Box Increase(Box box)
+		{
+		  return new Box(box.LeftTopFront.X - this.Left, box.LeftTopFront.Y - this.Top, box.LeftTopFront.Z - this.Front, box.Size.Width + this.Left + this.Right, box.Size.Height + this.Top + this.Bottom, box.Size.Depth + this.Front + this.Back);
+		}
 		  #region Comparison Operators
 		  public static bool operator ==(Shell left, Shell right)
 		  {
@@ -70,6 +79,32 @@ namespace Kean.Math.Geometry3D.Single
 
 
 		  }
+		   #region Static Operators
+        public static Size operator -(Size left, Shell right)
+        {
+            return new Size(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom, left.Depth - right.Front - right.Back);
+        }
+        public static Size operator +(Size left, Shell right)
+        {
+            return new Size(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom, left.Depth + right.Front + right.Back);
+        }
+        public static Shell operator +(Shell left, Shell right)
+        {
+            return new Shell(left.Left + right.Left, left.Right + right.Right, left.Top + right.Top, left.Bottom + right.Bottom, left.Front + right.Front, left.Back + right.Back);
+        }
+        public static Shell operator -(Shell left, Shell right)
+        {
+            return new Shell(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom, left.Front - right.Front, left.Back - right.Back);
+        }
+        public static Shell Maximum(Shell left, Shell right)
+        {
+            return new Shell(Kean.Math.Single.Maximum(left.Left, right.Left), Kean.Math.Single.Maximum(left.Right, right.Right), Kean.Math.Single.Maximum(left.Top, right.Top), Kean.Math.Single.Maximum(left.Bottom, right.Bottom), Kean.Math.Single.Maximum(left.Front, right.Front),  Kean.Math.Single.Maximum(left.Back, right.Back));
+        }
+        public static Shell Minimum(Shell left, Shell right)
+        {
+            return new Shell(Kean.Math.Single.Minimum(left.Left, right.Left), Kean.Math.Single.Minimum(left.Right, right.Right), Kean.Math.Single.Minimum(left.Top, right.Top), Kean.Math.Single.Minimum(left.Bottom, right.Bottom), Kean.Math.Single.Minimum(left.Front, right.Front),  Kean.Math.Single.Minimum(left.Back, right.Back));
+        }
+        #endregion
 		  public static bool operator !=(Shell left, Shell right)
 		  {
 			  return !(left == right);

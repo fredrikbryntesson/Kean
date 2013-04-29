@@ -24,9 +24,9 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public struct Box
+    public struct Box:
+	IEquatable<Box>
     {
-
 		public Point LeftTopFront;
 		public Size Size;
 		#region Sizes
@@ -42,6 +42,7 @@ namespace Kean.Math.Geometry3D.Single
 		public float Front { get { return this.LeftTopFront.Z; } }
 		public float Back { get { return this.LeftTopFront.Z + this.Size.Depth; } }
 		#endregion
+	    public bool Empty { get { return this.Size.Empty; } }
 		public Box(Point leftTopFront, Size size)
 		{
 			this.LeftTopFront = leftTopFront;
@@ -69,6 +70,39 @@ namespace Kean.Math.Geometry3D.Single
             return new Box(left, top, width, height, front, depth);
         }
 		#region Arithmetic operators
+		public static Box operator +(Box left, Box right)
+		{
+			Box result;
+			if (left.Empty)
+				result = right;
+			else if (right.Empty)
+				result = left;
+			else
+				result = new Box(Kean.Math.Single.Minimum(left.Left, right.Left), Kean.Math.Single.Minimum(left.Top, right.Top), Kean.Math.Single.Minimum(left.Front, right.Front), Kean.Math.Single.Maximum(left.Right, right.Right) - Kean.Math.Single.Minimum(left.Left, right.Left), Kean.Math.Single.Maximum(left.Bottom, right.Bottom) - Kean.Math.Single.Minimum(left.Top, right.Top), Kean.Math.Single.Maximum(left.Back, right.Back) - Kean.Math.Single.Minimum(left.Front, right.Front));
+			return result;
+		}
+		public static Box operator -(Box left, Box right)
+		{
+			Box result;
+			if (!left.Empty && !right.Empty)
+			{
+				 float l = Kean.Math.Single.Maximum(left.Left, right.Left);
+				 float r = Kean.Math.Single.Minimum(left.Right, right.Right);
+				 float t = Kean.Math.Single.Maximum(left.Top, right.Top);
+				 float b = Kean.Math.Single.Minimum(left.Bottom, right.Bottom);
+				 float u = Kean.Math.Single.Maximum(left.Front, right.Front);
+				 float v = Kean.Math.Single.Minimum(left.Back, right.Back);
+				if (l < r && t < b && u < v)
+				{
+					result = new Box(l, t, u, r - l, b - t, v - u);
+				}
+				else
+					result = new Box();
+			}
+			else
+				result = new Box();
+			return result;
+		}
 		public static Box operator +(Box left, Point right)
 		{
 			return new Box(left.LeftTopFront + right, left.Size);

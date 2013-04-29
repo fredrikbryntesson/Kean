@@ -24,7 +24,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Single
 {
-    public struct Transform 
+    public struct Transform :
+		IEquatable<Transform>
     {
 		public float A;
 		public float B;
@@ -189,17 +190,15 @@ namespace Kean.Math.Geometry3D.Single
 			return Transform.CreateReflectionZ() * this;
 		}
 		#endregion
-		#region Comparison Operators
-		  public static bool operator ==(Transform left, Transform right)
-        {
-            return left.A == right.A && left.B == right.B && left.C == right.C && left.D == right.D && left.E == right.E && left.F == right.F && left.G == right.G && left.H == right.H && left.I == right.I && left.J == right.J && left.K == right.K && left.L == right.L;
-        }
-		 public static bool operator !=(Transform left, Transform right)
-        {
-            return !(left == right);
-        }
-		#endregion
 		#region Object Overrides
+		public override bool Equals(object other)
+		{
+			return (other is Transform) && this.Equals((Transform)other);
+		}
+        public override int GetHashCode()
+        {
+            return (33* (33* (33* (33* (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode())  ^ this.I.GetHashCode())  ^ this.J.GetHashCode()) ^ this.K.GetHashCode()) ^ this.F.GetHashCode() ;
+        }
 		public override string ToString()
 		{
             return
@@ -216,6 +215,22 @@ namespace Kean.Math.Geometry3D.Single
                 Kean.Math.Single.ToString(this.K) + ", " +
                 Kean.Math.Single.ToString(this.L);
 		}
+		#endregion
+		#region IEquatable<Transform> Members
+		public bool Equals(Transform other)
+		{
+			return this.A == other.A && this.B == other.B && this.C == other.C && this.D == other.D && this.E == other.E && this.F == other.F && this.G == other.G && this.H == other.H && this.I == other.I && this.J == other.J && this.K == other.K && this.L == other.L;
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Transform left, Transform right)
+        {
+			return left.Equals(right);
+        }
+		 public static bool operator !=(Transform left, Transform right)
+        {
+            return !(left == right);
+        }
 		#endregion
 		#region Static Creators
 		public static Transform Identity

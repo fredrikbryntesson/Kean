@@ -52,7 +52,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 				this.Equality,
                 this.Addition,
                 this.Subtraction,
-                this.ScalarMultitplication,
+                this.VectorProduct,
                 this.Casting,
                 this.Hash,
 				this.IntegerCast,
@@ -79,7 +79,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(this.Vector0.ScalarProduct(this.Vector1), Is.EqualTo(425).Within(this.Precision));
 		}
 		[Test]
-		public void ScalarMultitplication()
+		public void VectorProduct()
 		{
 			Verify(this.Vector0.VectorProduct(this.Vector1), Is.EqualTo(-this.Vector1.VectorProduct(this.Vector0)));
 			Verify((this.Vector0.VectorProduct(this.Vector1)).Width, Is.EqualTo((-190)).Within(this.Precision));
@@ -116,6 +116,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Target.Single.Size size = null;
 			Verify(this.Vector0 - this.Vector0, Is.EqualTo(size));
 		}
+		
 		#endregion
 		#region Hash Code
 		[Test]

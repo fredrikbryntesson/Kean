@@ -18,12 +18,14 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Double
 {
-    public struct Size
+    public struct Size:
+	 IEquatable<Size>
 
     {
 		public double Width;
@@ -43,6 +45,7 @@ namespace Kean.Math.Geometry3D.Double
 		#region properties
 		public double Norm { get { return Math.Double.SquareRoot((Math.Double.Squared(this.Width) + Math.Double.Squared(this.Height) + Math.Double.Squared(this.Depth))); } }
 		public double Azimuth { get { return Math.Double.ArcusTangensExtended(this.Width, this.Height); } }
+		public bool Empty { get { return this.Width == 0 || this.Height == 0 || this.Depth == 0; } }
 		public double Volume { get { return this.Width * this.Height * this.Depth; } }
 		//public double Elevation
 		//{
@@ -78,10 +81,7 @@ namespace Kean.Math.Geometry3D.Double
 		}
 		#endregion
 		#region Arithmetic Vector - Vector Operators
-		public static Size operator *(Point left, Size right)
-		{
-			return new Size(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
-		}
+		
 		public static Size operator +(Point left, Size right)
 		{
 			return new Size(left.X + right.Width, left.Y + right.Height, left.Z + right.Depth);
@@ -101,6 +101,30 @@ namespace Kean.Math.Geometry3D.Double
 		public static Size operator -(Size left, Size right)
 		{
 			return new Size(left.Width - right.Width, left.Height - right.Height, left.Depth - right.Depth);
+		}
+		public static Size operator *(Size left, Size right)
+        {
+            return new Size(left.Width * right.Width, left.Height * right.Height, left.Depth * right.Depth);
+        }
+        public static Size operator *(Size left,Point right)
+        {
+            return new Size(left.Width * right.X, left.Height * right.Y, left.Depth * right.Z);
+        }
+		public static Size operator *(Point left, Size right)
+		{
+			return new Size(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
+		}
+		public static Size operator /(Size left, Size right)
+        {
+            return new Size(left.Width / right.Width, left.Height / right.Height, left.Depth / right.Depth);
+        }
+        public static Size operator /(Size left,Point right)
+        {
+            return new Size(left.Width / right.X, left.Height / right.Y, left.Depth / right.Z);
+        }
+		public static Size operator /(Point left, Size right)
+		{
+			return new Size(left.X / right.Width, left.Y / right.Height, left.Z / right.Depth);
 		}
 		#endregion
 		#region Arithmetic Vector and Scalar
@@ -139,6 +163,22 @@ namespace Kean.Math.Geometry3D.Double
 		{
 			return !(left == right);
 		}
+		 public static bool operator <(Size left, Size right)
+        {
+            return left.Width < right.Width && left.Height < right.Height && left.Depth < right.Depth;
+        }
+        public static bool operator >(Size left, Size right)
+        {
+            return left.Width > right.Width && left.Height > right.Height && left.Depth > right.Depth;
+        }
+        public static bool operator <=(Size left, Size right)
+        {
+            return left.Width <= right.Width && left.Height <= right.Height && left.Depth <= right.Depth;
+        }
+        public static bool operator >=(Size left, Size right)
+        {
+            return left.Width >= right.Width && left.Height >= right.Height && left.Depth >= right.Depth;
+        }
 		#endregion
 		#region Object overides and IEquatable<VectorType>
 		public override bool Equals(object other)

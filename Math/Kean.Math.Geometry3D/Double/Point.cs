@@ -24,7 +24,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry3D.Double
 {
-    public struct Point
+    public struct Point:
+	  IEquatable<Point>
     {
 		public double X;
 		public double Y;
@@ -83,14 +84,18 @@ namespace Kean.Math.Geometry3D.Double
 		}
 		#endregion
 		#region Arithmetic Vector - Vector Operators
-		public static Point operator *(Point left, Size right)
-		{
-			return new Point(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
-		}
+		 public static Point operator +(Point left, Point right)
+        {
+            return new Point(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+        }
 		public static Point operator +(Point left, Size right)
 		{
 			return new Point(left.X + right.Width, left.Y + right.Height, left.Z + right.Depth);
 		}
+		 public static Point operator +(Size left, Point right)
+        {
+            return new Point(left.Width + right.X, left.Height + right.Y, left.Depth + right.Z);
+        }
 		public static Point operator -(Point vector)
 		{
 			return new Point(-vector.X, -vector.Y, -vector.Z);
@@ -103,6 +108,34 @@ namespace Kean.Math.Geometry3D.Double
 		{
 			return new Size(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
 		}
+		public static Point operator -(Size left, Point right)
+        {
+            return new Point(left.Width - right.X, left.Height - right.Y, left.Depth - right.Z);
+        }
+		public static Point operator *(Point left, Point right)
+        {
+            return new Point(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+        }
+		public static Point operator *(Point left, Size right)
+		{
+			return new Point(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
+		}
+		public static Point operator *(Size left, Point right)
+        {
+            return new Point(left.Width * right.X, left.Height * right.Y,left.Depth * right.Z);
+        }
+		public static Point operator /(Point left, Point right)
+        {
+            return new Point(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
+        }
+		public static Point operator /(Point left, Size right)
+		{
+			return new Point(left.X / right.Width, left.Y / right.Height, left.Z / right.Depth);
+		}
+		public static Point operator /(Size left, Point right)
+        {
+            return new Point(left.Width / right.X, left.Height / right.Y,left.Depth / right.Z);
+        }
 		#endregion
 		#region Arithmetic Vector and Scalar
 		public static Point operator *(Point left, double right)
@@ -140,6 +173,22 @@ namespace Kean.Math.Geometry3D.Double
 		{
 			return !(left == right);
 		}
+		 public static bool operator <(Point left, Point right)
+        {
+            return left.X < right.X && left.Y < right.Y && left.Z < right.Z;
+        }
+        public static bool operator >(Point left, Point right)
+        {
+            return left.X > right.X && left.Y > right.Y && left.Z > right.Z;
+        }
+        public static bool operator <=(Point left, Point right)
+        {
+            return left.X <= right.X && left.Y <= right.Y && left.Z <= right.Z;
+        }
+        public static bool operator >=(Point left, Point right)
+        {
+            return left.X >= right.X && left.Y >= right.Y && left.Z >= right.Z;
+        }
 		#endregion
 		#region Object overides and IEquatable<VectorType>
 		public override bool Equals(object other)
