@@ -161,6 +161,40 @@
   <ItemGroup>
     <EmbeddedResource Include="Correct\Bgr\Text.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\TextFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\TextStroke.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\RectangleFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\RectangleFillOnly.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\RoundedRectangleStroke.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\BitmapRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\BitmapText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\EllipseStroke.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\CircleFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\MoveToLineTo.png" />
+    <EmbeddedResource Include="Correct\Bgra\EllipticalArcTo.png" />
+    <EmbeddedResource Include="Correct\Bgra\CurveTo.png" />
+    <Content Include="Correct\Bgra\RectangleFillStrokePath.png" />
+    <EmbeddedResource Include="Correct\Bgra\Triangle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
 </Project>
