@@ -58,7 +58,7 @@ namespace Kean.Core.Uri
 			}
 		}
 		#endregion
-		public string PlattformPath
+		public string PlatformPath
 		{
 			get
 			{
@@ -184,13 +184,13 @@ namespace Kean.Core.Uri
 			return this.String;
 		}
 		#endregion
-		public static Path FromPlattformPath(string path)
+		public static Path FromPlatformPath(string path)
 		{
-			return new Path() { PlattformPath = path };
+			return new Path() { PlatformPath = path };
 		}
-        public static Path FromRelativePlattformPath(string path)
+        public static Path FromRelativePlatformPath(string path)
         {
-            return Path.FromPlattformPath(System.IO.Path.GetFullPath(path));
+            return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
 		}
 		#region Resolve & Insert Special Folders Variables
 		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {
@@ -237,7 +237,7 @@ namespace Kean.Core.Uri
 		}
 		public static explicit operator System.IO.DirectoryInfo(Path path)
 		{
-			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlattformPath) : null;
+			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlatformPath) : null;
 		}
 		#endregion
 		#endregion

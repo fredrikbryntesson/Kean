@@ -42,7 +42,7 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator filename = this.Filename(type);
 			Uri.Locator resource = this.ResourceName(type);
 			this.Storage.Store(this.Create(type), filename);
-			Factory<T>.VerifyAsResource(filename.Path.PlattformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			Factory<T>.VerifyAsResource(filename.Path.PlatformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
 			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 
@@ -84,7 +84,7 @@ namespace Kean.Xml.Serialize.Test
 		}
 		protected Uri.Locator Filename(Reflect.Type type)
 		{
-			return Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
+			return Uri.Locator.FromPlatformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
 		}
 		string ReferencePath(string filename)
 		{

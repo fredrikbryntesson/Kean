@@ -66,7 +66,7 @@ namespace Kean.Xml.Dom.Test
 		[Test]
 		public void Save()
 		{
-			this.Create("fragment001").Save(Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath("fragment001.xml")));
+			this.Create("fragment001").Save(Uri.Locator.FromPlatformPath(System.IO.Path.GetFullPath("fragment001.xml")));
 		}
 		protected override void Run()
 		{

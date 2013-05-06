@@ -31,28 +31,28 @@ namespace Kean.Test.Run
             //Json.Serialize.Test.All.Test();
 			//new Gui.OpenGL.Test.Window().Create();
 
-            Math.Geometry2D.Test.All.Test();
-			Draw.Cairo.Test.All.Test();
+			//Math.Geometry2D.Test.All.Test();
+			//Draw.Cairo.Test.All.Test();
             // CPU dependent tests
             //Kean.Draw.Jpeg.Test.All.Test();
             
             //Any CPU tests
 			//Draw.Net.Test.All.Test();
-            Math.Test.All.Test();
-            Core.Reflect.Test.All.Test();
-			Core.Test.All.Test();
-			Core.Collection.Test.All.Test();
-			Core.Reflect.Test.All.Test();
-			Core.Uri.Test.All.Test();
-			Draw.Test.All.Test();
-			Gui.OpenGL.Test.Window.Test();
-			Math.Test.All.Test();
-            Math.Complex.Test.All.Test();
-            Math.Geometry2D.Test.All.Test();
-            Math.Geometry3D.Test.All.Test();
-            Math.Matrix.Test.All.Test();
-            Math.Random.Test.All.Test();
-            Math.Regression.Test.All.Test();
+			//Math.Test.All.Test();
+			//Core.Reflect.Test.All.Test();
+			//Core.Test.All.Test();
+			//Core.Collection.Test.All.Test();
+			//Core.Reflect.Test.All.Test();
+			//Core.Uri.Test.All.Test();
+			//Draw.Test.All.Test();
+			//Gui.OpenGL.Test.Window.Test();
+			//Math.Test.All.Test();
+			//Math.Complex.Test.All.Test();
+			//Math.Geometry2D.Test.All.Test();
+			//Math.Geometry3D.Test.All.Test();
+			//Math.Matrix.Test.All.Test();
+			//Math.Random.Test.All.Test();
+			//Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
 			Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();

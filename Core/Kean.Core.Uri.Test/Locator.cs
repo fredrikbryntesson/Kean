@@ -44,7 +44,7 @@ namespace Kean.Core.Uri.Test
                 this.RootPathWithQuery,
                 this.NoPathWithQueryAndFragment,
                 this.NoPathAndQueryWithFragment,
-			    this.FromPlattformPath,
+			    this.FromPlatformPath,
 				this.SpaceEscaped,
 				this.SpaceSpace,
 				this.Plus,
@@ -210,18 +210,18 @@ namespace Kean.Core.Uri.Test
             Expect(locator == "schemeA+schemeB://name:password@example.com:80#fragment", "locator == \"schemeA+schemeB://name:password@example.com:80#fragment\"", this.prefix + "NoPathAndQueryWithFragment.6");
         }
         [Test]
-        public void FromPlattformPath()
+        public void FromPlatformPath()
         {
-			string plattformPath = this.OperatingSystem == Kean.Test.OperatingSystem.Windows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
-		    Target.Locator locator = Target.Locator.FromPlattformPath(plattformPath);
-            Expect((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlattformPath.0");
-            Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlattformPath.1");
-            Expect((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.2");
-            Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "FromPlattformPath.3");
-            Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlattformPath.4");
-            Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
-            Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlattformPath.6");
-            Expect((string)locator.Path.PlattformPath, Is.EqualTo(plattformPath), this.prefix + "FromPlattformPath.7");
+			string PlatformPath = this.OperatingSystem == Kean.Test.OperatingSystem.Windows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
+		    Target.Locator locator = Target.Locator.FromPlatformPath(PlatformPath);
+            Expect((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlatformPath.0");
+            Expect((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlatformPath.1");
+            Expect((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlatformPath.2");
+            Expect((string)locator.Query, Is.EqualTo(""), this.prefix + "FromPlatformPath.3");
+            Expect((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlatformPath.4");
+            Expect((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlatformPath.5");
+            Expect(locator == "file:///C:/Windows/System32/etc/hosts", "locator == \"file:///C:/Windows/System32/etc/hosts\"", this.prefix + "FromPlatformPath.6");
+            Expect((string)locator.Path.PlatformPath, Is.EqualTo(PlatformPath), this.prefix + "FromPlatformPath.7");
             
         }
 		[Test]

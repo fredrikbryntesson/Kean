@@ -55,11 +55,11 @@ namespace Kean.Xml.Serialize
 		}
 		Generic.IEnumerator<Dom.Node> LoadAll(Uri.Path path)
 		{
-			string plattformPath = path.FolderPath.PlattformPath;
-			if (System.IO.Directory.Exists(plattformPath))
-				foreach (string file in System.IO.Directory.GetFiles(plattformPath, path.Last.Head).Sort())
+			string PlatformPath = path.FolderPath.PlatformPath;
+			if (System.IO.Directory.Exists(PlatformPath))
+				foreach (string file in System.IO.Directory.GetFiles(PlatformPath, path.Last.Head).Sort())
 				{
-					Dom.Document document = Dom.Document.Open(Uri.Locator.FromPlattformPath(file));
+					Dom.Document document = Dom.Document.Open(Uri.Locator.FromPlatformPath(file));
 					if (document.NotNull() && document.Root.NotNull())
 						yield return document.Root;
 				}

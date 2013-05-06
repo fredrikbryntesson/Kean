@@ -54,7 +54,7 @@ namespace Kean.Platform.Settings
         protected override void Initialize()
         {
             base.Initialize();
-            this.root.HelpFilename = Uri.Locator.FromPlattformPath(this.Application.ExecutablePath);
+            this.root.HelpFilename = Uri.Locator.FromPlatformPath(this.Application.ExecutablePath);
             this.root.HelpFilename.Path.Add("settings.html");
         }
 
@@ -84,15 +84,15 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Start()
 		{
-			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
+			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
 			catch { }
 			try
 			{
 				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
-					try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(file)).Dispose(); } catch { } 
+					try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(file)).Dispose(); } catch { } 
 			}
 			catch { }
-			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlattformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
+			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
 			try
 			{
 				foreach (Uri.Locator locator in this.configurations)

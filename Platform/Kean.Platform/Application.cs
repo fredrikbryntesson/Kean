@@ -422,12 +422,12 @@ namespace Kean.Platform
 			string path = System.IO.Path.Combine(result.ExecutablePath, "Modules");
 			if (System.IO.Directory.Exists(path))
 				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
 			// Load from "Modules/{executable name}" folder
 			path = System.IO.Path.Combine(result.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
 			if (System.IO.Directory.Exists(path))
 				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
 			return result;
 		}
 		#endregion
