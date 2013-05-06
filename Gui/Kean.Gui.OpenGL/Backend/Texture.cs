@@ -246,10 +246,10 @@ namespace Kean.Gui.OpenGL.Backend
 		public void Render(Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
 			this.Bind();
-			Geometry2D.Single.PointValue leftTop = new Geometry2D.Single.PointValue(source.Left / this.Size.Width, source.Top / this.Size.Height);
-			Geometry2D.Single.PointValue rightTop = new Geometry2D.Single.PointValue(source.Right / this.Size.Width, source.Top / this.Size.Height);
-			Geometry2D.Single.PointValue leftBottom = new Geometry2D.Single.PointValue(source.Left / this.Size.Width, source.Bottom / this.Size.Height);
-			Geometry2D.Single.PointValue rightBottom = new Geometry2D.Single.PointValue(source.Right / this.Size.Width, source.Bottom / this.Size.Height);
+			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Top / this.Size.Height);
+			Geometry2D.Single.Point rightTop = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Top / this.Size.Height);
+			Geometry2D.Single.Point leftBottom = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Bottom / this.Size.Height);
+			Geometry2D.Single.Point rightBottom = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Bottom / this.Size.Height);
            	GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);

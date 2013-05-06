@@ -39,23 +39,23 @@ namespace Kean.Core.Uri.Test
         public void EqualityNull()
         {
             Target.Domain domain = null;
-            Expect(domain, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Expect(domain == null, "domain == null", this.prefix + "EqualityNull.1");
+            Verify(domain, Is.EqualTo(null), this.prefix + "EqualityNull.0");
+            Verify(domain == null, Is.True, this.prefix + "EqualityNull.1");
         }
         [Test]
         public void Equality()
         {
             Target.Domain domain = "www.example.com";
-            Expect(domain, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Expect(domain != null, "domain != null", this.prefix + "Equality.1");
-            Expect((string)domain, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
-            Expect(domain == "www.example.com", "domain == \"www.example.com\"", this.prefix + "Equality.3");
-            Expect(domain.Head, Is.EqualTo("www"), this.prefix + "Equality.4");
-            Expect((string)domain.Tail, Is.EqualTo("example.com"), this.prefix + "Equality.5");
-            Expect(domain.Tail == "example.com", "domain.Tail == \"example.com\"", this.prefix + "Equality.6");
-            Expect(domain.Tail.Head, Is.EqualTo("example"), this.prefix + "Equality.7");
-            Expect((string)domain.Tail.Tail, Is.EqualTo("com"), this.prefix + "Equality.8");
-            Expect(domain.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Equality.9");
+            Verify(domain, Is.Not.EqualTo(null), this.prefix + "Equality.0");
+            Verify(domain != null,Is.True, this.prefix + "Equality.1");
+            Verify((string)domain, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
+            Verify(domain == "www.example.com", Is.True, this.prefix + "Equality.3");
+            Verify(domain.Head, Is.EqualTo("www"), this.prefix + "Equality.4");
+            Verify((string)domain.Tail, Is.EqualTo("example.com"), this.prefix + "Equality.5");
+            Verify(domain.Tail == "example.com", Is.True, this.prefix + "Equality.6");
+            Verify(domain.Tail.Head, Is.EqualTo("example"), this.prefix + "Equality.7");
+            Verify((string)domain.Tail.Tail, Is.EqualTo("com"), this.prefix + "Equality.8");
+            Verify(domain.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Equality.9");
         }
     }
 }

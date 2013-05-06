@@ -29,7 +29,7 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Single guess = new Matrix.Single(1, 3, new float[] { 1, 1, 1 });
             Matrix.Single result = this.Estimate(a, b, guess);
             Matrix.Single correct = new Matrix.Single(1, 3, new float[] { 1, -2, -2 });
-            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
+            Verify(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
         }
         Matrix.Single Estimate(Matrix.Single a, Matrix.Single b, Matrix.Single guess)
         {
@@ -53,8 +53,8 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Single correct = new Matrix.Single(1, 5, new float[] { -70, 231, -296, 172, -38 });
             Matrix.Single luApproximation = aa.Solve(yy);
             Matrix.Single iterative = this.Estimate(aa, yy, new Kean.Math.Matrix.Single(1, 5, new float[] { 1, 1, 1, 1, 1 }));
-            Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(7f), this.prefix + "LevenbergMarquardt2.0");
-            Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
+            Verify(luApproximation.Distance(correct), Is.EqualTo(0).Within(7f), this.prefix + "LevenbergMarquardt2.0");
+            Verify(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
         }
         [Test]
         public void LevenbergMarquardt3()

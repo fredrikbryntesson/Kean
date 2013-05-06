@@ -1,18 +1,18 @@
-﻿<#@ template language="C#v3.5" hostspecific="True" #>
+﻿<#@ template language="C#" hostspecific="True" #>
 <#
-    GenerateStart("TransformValue", "Kean.Math.Geometry2D", "Single",  "float");
-	GenerateSingle("TransformValue");
-    GenerateEnd("TransformValue", "Kean.Math.Geometry2D", "Single",  "float");
-  	SaveOutput("Single/TransformValue.cs");  
+    GenerateStart("Transform", "Kean.Math.Geometry2D", "Single",  "float");
+	GenerateSingle("Transform");
+    GenerateEnd("Transform", "Kean.Math.Geometry2D", "Single",  "float");
+  	SaveOutput("Single/Transform.cs");  
     
-    GenerateStart("TransformValue", "Kean.Math.Geometry2D", "Double",  "double");
-    GenerateDouble("TransformValue");
-    GenerateEnd("TransformValue", "Kean.Math.Geometry2D", "Double",  "double");
-    SaveOutput("Double/TransformValue.cs");   
+    GenerateStart("Transform", "Kean.Math.Geometry2D", "Double",  "double");
+    GenerateDouble("Transform");
+    GenerateEnd("Transform", "Kean.Math.Geometry2D", "Double",  "double");
+    SaveOutput("Double/Transform.cs");   
 
-    GenerateStart("TransformValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    GenerateEnd("TransformValue", "Kean.Math.Geometry2D", "Integer",  "int");
-    SaveOutput("Integer/TransformValue.cs");    
+    GenerateStart("Transform", "Kean.Math.Geometry2D", "Integer",  "int");
+    GenerateEnd("Transform", "Kean.Math.Geometry2D", "Integer",  "int");
+    SaveOutput("Integer/Transform.cs");    
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -53,7 +53,6 @@ using Kean.Core.Extension;
 namespace <#= @namespace #>.<#= @namespace1 #>
 {
     public struct <#= @name #> :
-        Abstract.ITransform<<#= @value1 #>>,
 		IEquatable<<#= @name #>>
     {
         <#= @value1 #> a;
@@ -132,7 +131,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 			}
 		}
 		#region Properties
-		public SizeValue Translation { get { return new SizeValue(this.E, this.F); }}
+		public Size Translation { get { return new Size(this.E, this.F); }}
         public <#= @value1 #> Scaling { get { return (this.ScalingX + this.ScalingY) / 2; } }
 		public <#= @value1 #> ScalingX { get { return Kean.Math.<#= @namespace1 #>.SquareRoot(Kean.Math.<#= @namespace1 #>.Squared(this.A) + Kean.Math.<#= @namespace1 #>.Squared(this.B)); } }
 		public <#= @value1 #> ScalingY { get { return Kean.Math.<#= @namespace1 #>.SquareRoot(Kean.Math.<#= @namespace1 #>.Squared(this.C) + Kean.Math.<#= @namespace1 #>.Squared(this.D)); } }
@@ -163,7 +162,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
             this.f = f;
         }
 		#region Absolute Manipulations
-		public <#= @name #> SetTranslation(SizeValue translation)
+		public <#= @name #> SetTranslation(Size translation)
 		{
 			return this.Translate(translation - this.Translation);
 		}
@@ -189,9 +188,13 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return this.Translate(delta, delta);
         }
-        public <#= @name #> Translate(Abstract.IVector<<#= @value1 #>> delta)
+        public <#= @name #> Translate(Point delta)
         {
             return this.Translate(delta.X, delta.Y);
+        }
+        public <#= @name #> Translate(Size delta)
+        {
+            return this.Translate(delta.Width, delta.Height);
         }
         public <#= @name #> Translate(<#= @value1 #> xDelta, <#= @value1 #> yDelta)
         {
@@ -201,9 +204,9 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return this.Scale(factor, factor);
         }
-		public <#= @name #> Scale(Abstract.IVector<<#= @value1 #>> factor)
+		public <#= @name #> Scale(Size factor)
         {
-            return this.Scale(factor.X, factor.Y);
+            return this.Scale(factor.Width, factor.Height);
         }
 		public <#= @name #> Scale(<#= @value1 #> xFactor, <#= @value1 #> yFactor)
         {
@@ -236,7 +239,11 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return <#= @name #>.CreateTranslation(delta, delta);
 		}
-		public static <#= @name #> CreateTranslation(Abstract.IVector<<#= @value1 #>> delta)
+		public static <#= @name #> CreateTranslation(Size delta)
+		{
+			return <#= @name #>.CreateTranslation(delta.Width, delta.Height);
+		}
+		public static <#= @name #> CreateTranslation(Point delta)
 		{
 			return <#= @name #>.CreateTranslation(delta.X, delta.Y);
 		}
@@ -256,7 +263,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Cosinus(angle), Kean.Math.<#= @namespace1 #>.Sinus(angle), -Kean.Math.<#= @namespace1 #>.Sinus(angle), Kean.Math.<#= @namespace1 #>.Cosinus(angle), 0, 0);
 		}
-		public static <#= @name #> CreateRotation(<#= @value1 #> angle, Abstract.IPoint<<#= @value1 #>> pivot)
+		public static <#= @name #> CreateRotation(<#= @value1 #> angle, Point pivot)
 		{
 			<#= @value1 #> one = 1;
 			<#= @value1 #> sine = Kean.Math.<#= @namespace1 #>.Sinus(angle);
@@ -281,7 +288,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		#endregion
 		#region Arithmetic Operators
-		public static <#= @name #> operator *(<#= @name #> left, Abstract.ITransform<<#= @value1 #>> right)
+		public static <#= @name #> operator *(<#= @name #> left, <#= @name #> right)
 		{
 			return new <#= @name #>(
 				left.A * right.A + left.C * right.B,
@@ -291,14 +298,6 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 				left.A * right.E + left.C * right.F + left.E,
 				left.B * right.E + left.D * right.F + left.F);
 		}
-		#endregion
-		#region ITransform<<#= @value1 #>> Members
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.A { get { return this.A; } }
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.B { get { return this.B; } }
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.C { get { return this.C; } }
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.D { get { return this.D; } }
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.E { get { return this.E; } }
-		<#= @value1 #> Abstract.ITransform<<#= @value1 #>>.F { get { return this.F; } }
 		#endregion
         #region Comparison Operators
         /// <summary>
@@ -380,7 +379,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return value.NotNull() ? value.ToString() : null;
         }
-        public static implicit operator <#= @name #>(string value)
+        public static explicit operator <#= @name #>(string value)
         {
             <#= @name #> result = new <#= @name #>();
             if (value.NotEmpty())
@@ -405,7 +404,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 					result[x, y] = value[x, y];
 			return result;
 		}
-		public static explicit operator byte[](<#= @name #> value)
+		public static implicit operator byte[](<#= @name #> value)
 		{
 			int size = sizeof(<#= @value1 #>);
 			byte[] result = new byte[6 * size];
@@ -435,17 +434,21 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public override string ToString()
         {
-            return
-                Kean.Math.<#= @namespace1 #>.ToString(this.A) + ", " +
-                Kean.Math.<#= @namespace1 #>.ToString(this.B) + ", " +
-                Kean.Math.<#= @namespace1 #>.ToString(this.C) + ", " +
-                Kean.Math.<#= @namespace1 #>.ToString(this.D) + ", " +
-                Kean.Math.<#= @namespace1 #>.ToString(this.E) + ", " +
-                Kean.Math.<#= @namespace1 #>.ToString(this.F); 
-        }
+			return this.ToString("{0}, {1}, {2}, {4}, {5}, {6}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, 
+			Kean.Math.<#= @namespace1 #>.ToString(this.A), 
+			Kean.Math.<#= @namespace1 #>.ToString(this.B), 
+			Kean.Math.<#= @namespace1 #>.ToString(this.C), 
+			Kean.Math.<#= @namespace1 #>.ToString(this.D), 
+			Kean.Math.<#= @namespace1 #>.ToString(this.E), 
+			Kean.Math.<#= @namespace1 #>.ToString(this.F));
+		}
         public string ToMatlabString()
         {
-            return string.Format("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1", Kean.Math.<#= @namespace1 #>.ToString(this.A), Kean.Math.<#= @namespace1 #>.ToString(this.B), Kean.Math.<#= @namespace1 #>.ToString(this.C), Kean.Math.<#= @namespace1 #>.ToString(this.D), Kean.Math.<#= @namespace1 #>.ToString(this.E), Kean.Math.<#= @namespace1 #>.ToString(this.F));
+            return this.ToString("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1");
         }
 		#endregion
     }

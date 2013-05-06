@@ -36,7 +36,7 @@ namespace Kean.Math.Random.Test
                         different &= values[i] != values[j];
                         break;
                     }
-                Expect(different, Is.True, this.prefix + "ArraysIntegerUnique.0");
+               Verify(different, Is.True, this.prefix + "ArraysIntegerUnique.0");
             }
         }
         [Test]
@@ -146,8 +146,8 @@ namespace Kean.Math.Random.Test
                 sigma += Kean.Math.Double.Squared(values[i] - mu);
             sigma /= values.Length;
             sigma = Kean.Math.Double.SquareRoot(sigma);
-            Expect(mu, Is.EqualTo(g.Mean).Within(0.1), this.prefix + "NormalDouble.0");
-            Expect(sigma, Is.EqualTo(g.Deviation).Within(0.1), this.prefix + "NormalDouble.1");
+           Verify(mu, Is.EqualTo(g.Mean).Within(0.1), this.prefix + "NormalDouble.0");
+           Verify(sigma, Is.EqualTo(g.Deviation).Within(0.1), this.prefix + "NormalDouble.1");
             /* // Matlab test
                string valuesString = "";
                for (int i = 0; i < n; i++)

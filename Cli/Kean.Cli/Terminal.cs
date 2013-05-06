@@ -67,7 +67,7 @@ namespace Kean.Cli
 		public IO.ICharacterWriter Out { get; private set; }
 		public virtual bool Echo { get; set; }
 		public event Action<EditCommand> Command;
-		public virtual Geometry2D.Integer.Point CursorPosition { get { return null; } set { ; } }
+		public virtual Geometry2D.Integer.Point CursorPosition { get { return new Geometry2D.Integer.Point(); } set { ; } }
 		public virtual bool MoveCursor(Geometry2D.Integer.Size delta) { return false; }
 		public virtual bool Clear() { return false; }
 		#endregion

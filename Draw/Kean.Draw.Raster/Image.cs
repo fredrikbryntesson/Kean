@@ -245,7 +245,7 @@ namespace Kean.Draw.Raster
         }
         public override string ToString()
         {
-            return "<" + this.Size + ">";
+            return "<" + this.Size.ToString() + ">";
         }
         #endregion
         #region Static Create

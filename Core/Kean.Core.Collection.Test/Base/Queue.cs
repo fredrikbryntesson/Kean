@@ -57,100 +57,100 @@ namespace Kean.Core.Collection.Test.Base
             target.Clear();
             for (int i = 0; i < 10; i++)
                 target.Enqueue(i);
-            Expect(target.Count, EqualTo(10), this.Prefix + "AddAfterEmptyQueue.0");
+           Verify(target.Count, EqualTo(10));
         }
         [Test]
 		public void EmptyQueue()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "EmptyQueue.0");
-            Expect(target.Count, EqualTo(0), this.Prefix + "EmptyQueue.1");
+			Verify(target.Empty,Is.True);
+            Verify(target.Count, EqualTo(0));
         }
 		[Test]
 		public void DequeueEmpty()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "DequeueEmpty.0");
-			Expect(target.Dequeue(), EqualTo(0), this.Prefix + "DequeueEmpty.1");
+			Verify(target.Empty, Is.True);
+			Verify(target.Dequeue(), EqualTo(0));
 		}
 		[Test]
 		public void PeekEmpty()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "PeekEmpty.0");
-			Expect(target.Peek(), EqualTo(0), this.Prefix + "PeekEmpty.0");
+			Verify(target.Empty, Is.True);
+			Verify(target.Peek(), EqualTo(0));
 		}
 		[Test]
 		public void EnqueuePeekDequeue()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "EnqueuePeekDequeue.0");
-            Expect(target.Count, EqualTo(0), this.Prefix + "EnqueuePeekDequeue.1");
-            target.Enqueue(42);
-            Expect(target.Count, EqualTo(1), this.Prefix + "EnqueuePeekDequeue.2");
-            Expect(target.Peek(), EqualTo(42), this.Prefix + "EnqueuePeekDequeue.3");
-            Expect(target.Count, EqualTo(1), this.Prefix + "EnqueuePeekDequeue.4");
-            Expect(target.Dequeue(), EqualTo(42), this.Prefix + "EnqueuePeekDequeue.5");
-            Expect(target.Count, EqualTo(0), this.Prefix + "EnqueuePeekDequeue.6");
-            Expect(target.Empty, this.Prefix + "EnqueuePeekDequeue.7");
+		   Verify(target.Empty, Is.True);
+           Verify(target.Count, EqualTo(0));
+           target.Enqueue(42);
+           Verify(target.Count, EqualTo(1));
+           Verify(target.Peek(), EqualTo(42));
+           Verify(target.Count, EqualTo(1));
+           Verify(target.Dequeue(), EqualTo(42));
+           Verify(target.Count, EqualTo(0));
+		   Verify(target.Empty, Is.True);
 		}
 		[Test]
 		public void EnqueuePeekDequeueTen()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "EnqueuePeekDequeueTen.0");
-            Expect(target.Count, EqualTo(0), this.Prefix + "EnqueuePeekDequeueTen.1");
+			Verify(target.Empty, Is.True);
+            Verify(target.Count, EqualTo(0));
             for (int i = 0; i < 10; i++)
 			{
 				target.Enqueue(i);
-				Expect(target.Peek(), EqualTo(0), this.Prefix + "EnqueuePeekDequeueTen." + (2 * i + 0 + 2));
-                Expect(target.Count, EqualTo(i+1), this.Prefix + "EnqueuePeekDequeueTen." + (2 * i + 1 + 2));
+			   Verify(target.Peek(), EqualTo(0));
+               Verify(target.Count, EqualTo(i+1));
             }
 			for (int i = 0; i < 10; i++)
 			{
-                Expect(target.Peek(), EqualTo(i), this.Prefix + "EnqueuePeekDequeueTen." + (4 * i + 0 + 22));
-                Expect(target.Count, EqualTo(10 - i), this.Prefix + "EnqueuePeekDequeueTen." + (4 * i + 1 + 22));
-                Expect(target.Dequeue(), EqualTo(i), this.Prefix + "EnqueuePeekDequeueTen." + (4 * i + 2 + 22));
-                Expect(target.Count, EqualTo(10 - i - 1), this.Prefix + "EnqueuePeekDequeueTen." + (4 * i + 3 + 2));
+               Verify(target.Peek(), EqualTo(i));
+               Verify(target.Count, EqualTo(10 - i));
+               Verify(target.Dequeue(), EqualTo(i));
+               Verify(target.Count, EqualTo(10 - i - 1));
             }
-			Expect(target.Empty, this.Prefix + "EnqueuePeekDequeue.24");
+			Verify(target.Empty,Is.True);
 		}
 		[Test]
 		public void EnqueueDequeueEnqueue()
 		{
 			Q target = new Q();
-			Expect(target.Empty, this.Prefix + "EnqueuePeekDequeueTen.0");
+			Verify(target.Empty, Is.True);
 			for (int i = 0; i < 10; i++)
 			{
 				target.Enqueue(i);
-				Expect(target.Peek(), EqualTo(0), this.Prefix + "EnqueuePeekDequeueTen." + (2 * i + 0 + 1));
-                Expect(target.Count, EqualTo(i + 1), this.Prefix + "EnqueuePeekDequeueTen." + (2 * i + 1 + 1));
+				Verify(target.Peek(), EqualTo(0));
+               Verify(target.Count, EqualTo(i + 1));
             }
 			for (int i = 0; i < 5; i++)
 			{
-                Expect(target.Count, EqualTo(10-i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 0 + 21));
-                Expect(target.Peek(), EqualTo(i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 1 + 21));
-                Expect(target.Count, EqualTo(10 - i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 2 + 21));
-                Expect(target.Dequeue(), EqualTo(i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 3 + 21));
-                Expect(target.Count, EqualTo(10 - i - 1), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 4 + 21));
+               Verify(target.Count, EqualTo(10-i));
+               Verify(target.Peek(), EqualTo(i));
+               Verify(target.Count, EqualTo(10 - i));
+               Verify(target.Dequeue(), EqualTo(i));
+               Verify(target.Count, EqualTo(10 - i - 1));
             }
 			for (int i = 0; i < 5; i++)
 			{
 				target.Enqueue(i + 10);
-                Expect(target.Count, EqualTo(5 + 1 + i), this.Prefix + "EnqueuePeekDequeueTen." + (3 * i + 0 + 46));
-                Expect(target.Peek(), EqualTo(5), this.Prefix + "EnqueuePeekDequeueTen." + (3 * i + 1 + 46));
-                Expect(target.Count, EqualTo(5 + 1 + i), this.Prefix + "EnqueuePeekDequeueTen." + (3 * i + 2 + 46));
+               Verify(target.Count, EqualTo(5 + 1 + i));
+               Verify(target.Peek(), EqualTo(5));
+               Verify(target.Count, EqualTo(5 + 1 + i));
             }
 			for (int i = 0; i < 10; i++)
 			{
-                Expect(target.Count, EqualTo(10 - i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 0 + 61));
-                Expect(target.Peek(), EqualTo(i + 5), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 1 + 61));
-                Expect(target.Count, EqualTo(10 - i), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 2 + 61));
-                Expect(target.Dequeue(), EqualTo(i + 5), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 3 + 61));
-                Expect(target.Count, EqualTo(10 - i - 1), this.Prefix + "EnqueuePeekDequeueTen." + (5 * i + 4 + 61));
+               Verify(target.Count, EqualTo(10 - i));
+               Verify(target.Peek(), EqualTo(i + 5));
+               Verify(target.Count, EqualTo(10 - i));
+               Verify(target.Dequeue(), EqualTo(i + 5));
+               Verify(target.Count, EqualTo(10 - i - 1));
             }
-			Expect(target.Empty, this.Prefix + "EnqueuePeekDequeue.112");
-            Expect(target.Count, EqualTo(0), this.Prefix + "EnqueuePeekDequeue.113");
+			Verify(target.Empty, Is.True);
+			Verify(target.Count, Is.EqualTo(0));
         }
 	}
 }

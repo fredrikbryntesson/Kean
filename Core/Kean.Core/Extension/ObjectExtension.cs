@@ -50,6 +50,14 @@ namespace Kean.Core.Extension
 		{
 			return (T)Convert.ChangeType(me, typeof(T));
 		}
+		public static T As<T>(this object me, T @default)
+		{
+			return me is T ? (T)me : @default;
+		}
+		public static T As<T>(this object me)
+		{
+			return me.As(default(T));
+		}
 		public static string AsString(this object me)
 		{
 			string result;

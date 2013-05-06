@@ -127,7 +127,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Format, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 		}
-		public override void Render(Geometry2D.Single.PointValue leftTop, Geometry2D.Single.PointValue rightTop, Geometry2D.Single.PointValue leftBottom, Geometry2D.Single.PointValue rightBottom, Geometry2D.Single.Box rectangle)
+		public override void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle)
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)this.WrapMode);

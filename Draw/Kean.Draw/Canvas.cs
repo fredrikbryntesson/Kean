@@ -81,7 +81,7 @@ namespace Kean.Draw
 		}
 		public void PushAndTranslate(Geometry2D.Single.Box clip)
 		{
-			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation(clip.LeftTop));
+			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)clip.LeftTop));
 		}
 		public void Pop()
 		{
@@ -107,7 +107,7 @@ namespace Kean.Draw
 		}
 		public virtual void Draw(Map map, Draw.Image image, Geometry2D.Single.Point position)
 		{
-			Geometry2D.Single.Box region = image.Crop.Decrease((Kean.Math.Geometry2D.Abstract.ISize<float>)(Geometry2D.Single.Size)image.Size);
+			Geometry2D.Single.Box region = image.Crop.Decrease((Geometry2D.Single.Size)image.Size);
 			this.Draw(map, image, region, new Geometry2D.Single.Box(position, region.Size));
 		}
 		public virtual void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
@@ -119,7 +119,7 @@ namespace Kean.Draw
 		#region Draw Box
 		public virtual void Draw(IColor color)
 		{
-			this.Draw(color, (Geometry2D.Single.Size)this.Size);
+			this.Draw(color, new Geometry2D.Single.Box((Geometry2D.Single.Size)this.Size));
 		}
 		public virtual void Draw(IColor color, Geometry2D.Single.Box region)
 		{
@@ -154,7 +154,7 @@ namespace Kean.Draw
 		#region Clear
 		public virtual void Clear()
 		{
-			this.Clear((Geometry2D.Single.Size)this.Size);
+			this.Clear(new Geometry2D.Single.Box((Geometry2D.Single.Size)this.Size));
 		}
 		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion

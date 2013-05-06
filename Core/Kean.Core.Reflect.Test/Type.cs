@@ -37,25 +37,25 @@ namespace Kean.Core.Reflect.Test
 			string parentName = "Kean.Core.Reflect.Test:Data.ParentClass";
 			string name = parentName + "+NestedClass";
 			Reflect.Type type1 = name;
-			Expect((string)type1.Parent, EqualTo(parentName), this.prefix + "NestedClass.0");
-			Expect((string)type1, EqualTo(name), this.prefix + "NestedClass.1");
+			Verify((string)type1.Parent, EqualTo(parentName), this.prefix + "NestedClass.0");
+			Verify((string)type1, EqualTo(name), this.prefix + "NestedClass.1");
 			Reflect.Type type0 = new Data.ParentClass.NestedClass().Type();
-			Expect((string)type0.Parent, EqualTo(parentName), this.prefix + "NestedClass.2");
-			Expect((string)type0, EqualTo(name), this.prefix + "NestedClass.3");
-			Expect(type0, EqualTo(type1), this.prefix + "NestedClass.4");
+			Verify((string)type0.Parent, EqualTo(parentName), this.prefix + "NestedClass.2");
+			Verify((string)type0, EqualTo(name), this.prefix + "NestedClass.3");
+			Verify(type0, EqualTo(type1), this.prefix + "NestedClass.4");
 		}
 		[Test]
 		public void GenericStructure()
 		{
 			string name = "Kean.Core:KeyValue<string,object>";
 			Reflect.Type type = name;
-			Expect(type.Assembly, EqualTo("Kean.Core"), this.prefix + "GenericStructure.0");
-			Expect(type.Name, EqualTo("Kean.Core.KeyValue"), this.prefix + "GenericStructure.1");
+			Verify(type.Assembly, EqualTo("Kean.Core"), this.prefix + "GenericStructure.0");
+			Verify(type.Name, EqualTo("Kean.Core.KeyValue"), this.prefix + "GenericStructure.1");
 			//Expect(type.Arguments.Count, EqualTo(2), this.prefix + "GenericStructure.2");
 			//Expect((string)type.Arguments[0], EqualTo("string"), this.prefix + "GenericStructure.3");
 			//Expect((string)type.Arguments[1], EqualTo("object"), this.prefix + "GenericStructure.4");
-			Expect((string)type, EqualTo(name), this.prefix + "GenericStructure.5");
-			Expect(type.Category, EqualTo(TypeCategory.Structure), this.prefix + "GenericStructure.6");
+			Verify((string)type, EqualTo(name), this.prefix + "GenericStructure.5");
+			Verify(type.Category, EqualTo(TypeCategory.Structure), this.prefix + "GenericStructure.6");
 		}
 
 		protected override void Run()
