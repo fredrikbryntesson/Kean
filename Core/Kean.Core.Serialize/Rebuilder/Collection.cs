@@ -56,8 +56,8 @@ namespace Kean.Core.Serialize.Rebuilder
 				Core.Collection.IDictionary<string, Data.Node> nodes = new Core.Collection.Dictionary<string, Data.Node>((data as Data.Branch).Nodes.Count);
 				foreach (Data.Node child in (data as Data.Branch).Nodes)
 				{
-					Data.Node n;
-					if ((n = nodes[child.Name]).IsNull())
+					Data.Node n = nodes[child.Name];
+					if (n.IsNull())
 						nodes[child.Name] = child;
 					else if (n is Data.Collection)
 						(n as Data.Collection).Nodes.Add(child.UpdateLocators(child.Locator + "[" + (n as Data.Collection).Nodes.Count + "]"));

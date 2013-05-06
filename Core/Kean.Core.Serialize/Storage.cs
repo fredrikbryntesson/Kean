@@ -84,8 +84,9 @@ namespace Kean.Core.Serialize
         {
             return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
         }
-        public void Deserialize(Serialize.Data.Node node, Action<object> set)
+        public void Deserialize(Serialize.Data.Node node, Reflect.Type type, Action<object> set)
 		{
+			node = node.DefaultType(type);
 			if (node is Data.Link)
 				this.Resolver.Resolve((node as Data.Link).Target, d =>
 				{

@@ -81,7 +81,7 @@ namespace Kean.Core.Serialize.Serializer
                             new Exception.PropertyNotWriteable(data.Type, node.Name, node.Region).Throw();
                     }
                     else
-                        storage.Deserialize(node.DefaultType(property.Type), d => property.Data = d);
+						storage.Deserialize(node, property.Type, d => property.Data = d);
 				}
 			return result;
 		}
