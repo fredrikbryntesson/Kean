@@ -374,7 +374,7 @@ namespace Kean.Math.Geometry2D.Double
         }
         public override string ToString()
         {
-			return this.ToString("{0}, {1}, {2}, {4}, {5}, {6}");
+			return this.ToString("{0}, {1}, {2}, {3}, {4}, {5}");
 		}
 		public string ToString(string format)
 		{
