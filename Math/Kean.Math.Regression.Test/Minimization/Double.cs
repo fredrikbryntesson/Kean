@@ -28,7 +28,7 @@ namespace Kean.Math.Regression.Test.Minimization
             Matrix.Double guess = new Matrix.Double(1, 3, new double[] { 1, 1, 1 });
             Matrix.Double result = this.Estimate(a, b, guess);
             Matrix.Double correct = new Matrix.Double(1, 3, new double[] { 1, -2, -2 });
-            Expect(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
+            Verify(result.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt1.0");
         }
         Matrix.Double Estimate(Matrix.Double a, Matrix.Double b, Matrix.Double guess)
         {
@@ -51,9 +51,9 @@ namespace Kean.Math.Regression.Test.Minimization
                 yy = yy.Paste(0, 5 * i, y);
             Matrix.Double correct = new Matrix.Double(1, 5, new double[] { -70, 231, -296, 172, -38 });
             Matrix.Double luApproximation = aa.Solve(yy);
-            Expect(luApproximation.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.0");
+            Verify(luApproximation.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.0");
             Matrix.Double iterative = this.Estimate(aa, yy, new Matrix.Double(1, 5, new double[] { 1, 1, 1, 1, 1 }));
-            Expect(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
+            Verify(iterative.Distance(correct), Is.EqualTo(0).Within(0.5f), this.prefix + "LevenbergMarquardt2.1");
 
         }
     }

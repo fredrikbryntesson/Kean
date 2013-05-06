@@ -5,17 +5,17 @@ using NUnit.Framework;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Box<T, TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+    public abstract class Box<T, TransformType, Transform, BoxType, Box, PointType, Point, SizeType, Size, R, V> :
         Kean.Test.Fixture<T>
         where T : Kean.Test.Fixture<T>, new()
-        where BoxType : Kean.Math.Geometry3D.Abstract.Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where BoxValue : struct, Kean.Math.Geometry3D.Abstract.IBox<PointValue, SizeValue, V>
-        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
-        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where PointValue : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
-        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where SizeValue : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where BoxType : Kean.Math.Geometry3D.Abstract.Box<TransformType, Transform, BoxType, Box, PointType, Point, SizeType, Size, R, V>, new()
+        where Box : struct, Kean.Math.Geometry3D.Abstract.IBox<Point, Size, V>
+        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Transform : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
+        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, Transform, PointType, Point, SizeType, Size, R, V>, new()
+        where Point : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Size : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -27,6 +27,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected override void Run()
         {
             this.Run(
+				this.Equality,
                 this.LeftTop,
                 this.Size,
                 this.Hash);
@@ -36,30 +37,30 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         public void Equality()
         {
             BoxType box = null;
-            Expect(this.Box0, Is.EqualTo(this.Box0));
-            Expect(this.Box0.Equals(this.Box0 as object), Is.True);
-            Expect(this.Box0 == this.Box0, Is.True);
-            Expect(this.Box0 != this.Box1, Is.True);
-            Expect(this.Box0 == box, Is.False);
-            Expect(box == box, Is.True);
-            Expect(box == this.Box0, Is.False);
+			Verify(this.Box0, Is.EqualTo(this.Box0));
+			Verify(this.Box0.Equals(this.Box0 as object), Is.True);
+			Verify(this.Box0 == this.Box0, Is.True);
+			Verify(this.Box0 != this.Box1, Is.True);
+			Verify(this.Box0 == box, Is.False);
+			Verify(box == box, Is.True);
+			Verify(box == this.Box0, Is.False);
         }
         #endregion
         [Test]
         public void LeftTop()
         {
             PointType leftTop = this.Box0.LeftTopFront;
-            Expect(leftTop.X, Is.EqualTo(1));
-            Expect(leftTop.Y, Is.EqualTo(2));
-            Expect(leftTop.Z, Is.EqualTo(3));
+			Verify(leftTop.X, Is.EqualTo(1));
+			Verify(leftTop.Y, Is.EqualTo(2));
+			Verify(leftTop.Z, Is.EqualTo(3));
         }
         [Test]
         public void Size()
         {
             SizeType size = this.Box0.Size;
-            Expect(size.Width, Is.EqualTo(4));
-            Expect(size.Height, Is.EqualTo(5));
-            Expect(size.Depth, Is.EqualTo(6));
+			Verify(size.Width, Is.EqualTo(4));
+			Verify(size.Height, Is.EqualTo(5));
+			Verify(size.Depth, Is.EqualTo(6));
         }
         #region Arithmetic
         [Test]
@@ -79,7 +80,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void Hash()
         {
-            Expect(this.Box0.Hash(), Is.Not.EqualTo(0));
+			Verify(this.Box0.Hash(), Is.Not.EqualTo(0));
         }
         #endregion
     }

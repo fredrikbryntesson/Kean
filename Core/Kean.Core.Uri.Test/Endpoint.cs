@@ -43,45 +43,45 @@ namespace Kean.Core.Uri.Test
         public void EqualityNull()
         {
             Target.Endpoint endpoint = null;
-            Expect(endpoint, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Expect(endpoint == null, "endpoint == null", this.prefix + "EqualityNull.1");
+            Verify(endpoint, Is.EqualTo(null), this.prefix + "EqualityNull.0");
+            Verify(endpoint == null, Is.True , this.prefix + "EqualityNull.1");
         }
         [Test]
         public void Equality()
         {
             Target.Endpoint endpoint = "www.example.com:80";
-            Expect(endpoint, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Expect(endpoint != null, "endpoint != null", this.prefix + "Equality.1");
-            Expect((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
-            Expect(endpoint.Port, Is.EqualTo(80), this.prefix + "Equality.3");
-            Expect((string)endpoint, Is.EqualTo("www.example.com:80"), this.prefix + "Equality.4");
-            Expect(endpoint == "www.example.com:80", "endpoint == \"www.example.com:80\"", this.prefix + "Equality.5");
-            Expect(endpoint != "www.example.com", "endpoint != \"www.example.com\"", this.prefix + "Equality.6");
+            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "Equality.0");
+            Verify(endpoint != null, Is.True, this.prefix + "Equality.1");
+            Verify((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
+            Verify(endpoint.Port, Is.EqualTo(80), this.prefix + "Equality.3");
+            Verify((string)endpoint, Is.EqualTo("www.example.com:80"), this.prefix + "Equality.4");
+            Verify(endpoint == "www.example.com:80", Is.True, this.prefix + "Equality.5");
+			Verify(endpoint != "www.example.com", Is.True, this.prefix + "Equality.6");
         }
         [Test]
         public void EqualityHostOnly()
         {
             Target.Endpoint endpoint = "www.example.com";
-            Expect(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityHostOnly.0");
-            Expect(endpoint != null, "endpoint != null", this.prefix + "EqualityHostOnly.1");
-            Expect((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.2");
-            Expect(endpoint.Port, Is.EqualTo(null), this.prefix + "EqualityHostOnly.3");
-            Expect((string)endpoint, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.4");
-            Expect(endpoint == "www.example.com", "endpoint == \"www.example.com\"", this.prefix + "EqualityHostOnly.5");
-            Expect(endpoint == "www.example.com:", "endpoint == \"www.example.com:\"", this.prefix + "EqualityHostOnly.6");
-            Expect(endpoint != "www.example.com:80", "endpoint != \"www.example.com:80\"", this.prefix + "EqualityHostOnly.7");
+            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityHostOnly.0");
+			Verify(endpoint != null, Is.True, this.prefix + "EqualityHostOnly.1");
+            Verify((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.2");
+            Verify(endpoint.Port, Is.EqualTo(null), this.prefix + "EqualityHostOnly.3");
+            Verify((string)endpoint, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.4");
+			Verify(endpoint == "www.example.com", Is.True, this.prefix + "EqualityHostOnly.5");
+			Verify(endpoint == "www.example.com:", Is.True, this.prefix + "EqualityHostOnly.6");
+			Verify(endpoint != "www.example.com:80", Is.True, this.prefix + "EqualityHostOnly.7");
         }
         [Test]
         public void EqualityPortOnly()
         {
             Target.Endpoint endpoint = ":80";
-            Expect(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityPortOnly.0");
-            Expect(endpoint != null, "endpoint != null", this.prefix + "EqualityPortOnly.1");
-            Expect((string)endpoint.Host, Is.EqualTo(""), this.prefix + "EqualityPortOnly.2");
-            Expect(endpoint.Port, Is.EqualTo(80), this.prefix + "EqualityPortOnly.3");
-            Expect((string)endpoint, Is.EqualTo(":80"), this.prefix + "EqualityPortOnly.4");
-            Expect(endpoint == ":80", "endpoint == \":80\"", this.prefix + "EqualityPortOnly.5");
-            Expect(endpoint != "wwww.example.com:80", "endpoint != \"www.example.com:80\"", this.prefix + "EqualityPortOnly.6");
+            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityPortOnly.0");
+			Verify(endpoint != null, Is.True, this.prefix + "EqualityPortOnly.1");
+            Verify((string)endpoint.Host, Is.EqualTo(""), this.prefix + "EqualityPortOnly.2");
+            Verify(endpoint.Port, Is.EqualTo(80), this.prefix + "EqualityPortOnly.3");
+            Verify((string)endpoint, Is.EqualTo(":80"), this.prefix + "EqualityPortOnly.4");
+			Verify(endpoint == ":80", Is.True, this.prefix + "EqualityPortOnly.5");
+			Verify(endpoint != "wwww.example.com:80", Is.True, this.prefix + "EqualityPortOnly.6");
         }
     }
 }

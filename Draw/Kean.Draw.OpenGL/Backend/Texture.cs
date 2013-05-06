@@ -112,7 +112,7 @@ namespace Kean.Draw.OpenGL.Backend
 			this.Read(result.Pointer, new Geometry2D.Integer.Box(0, 0, this.Size.Width, this.Size.Height));
 			return result;
 		}
-		public abstract void Render(Geometry2D.Single.PointValue leftTop, Geometry2D.Single.PointValue rightTop, Geometry2D.Single.PointValue leftBottom, Geometry2D.Single.PointValue rightBottom, Geometry2D.Single.Box rectangle);
+		public abstract void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle);
 		public override string ToString()
 		{
 			return this.Identifier.ToString();

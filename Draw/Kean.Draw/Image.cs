@@ -62,7 +62,7 @@ namespace Kean.Draw
 		[Notify("CropChanged")]
 		public Geometry2D.Single.Shell Crop 
 		{
-			get { return this.crop ?? new Geometry2D.Single.Shell(); }
+			get { return this.crop; }
 			set
 			{
 				if (this.crop != value)

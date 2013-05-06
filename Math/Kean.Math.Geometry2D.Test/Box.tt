@@ -1,19 +1,19 @@
 ﻿<#@ template language="C#v3.5" hostspecific="True" #>
 <#
-	GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Single",  "float");
-    GenerateSingle("BoxValue", "Kean.Math.Geometry2D.Test");
+	GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Single",  "float");
+    GenerateSingle("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Single/BoxValue.cs");  
+    SaveOutput("Single/Box.cs");  
     
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Double",  "double");
-    GenerateDouble("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Double",  "double");
+    GenerateDouble("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Double/BoxValue.cs");   
+    SaveOutput("Double/Box.cs");   
 
-    GenerateStart("BoxValue", "Kean.Math.Geometry2D.Test", "Integer",  "int");
-    GenerateInteger("BoxValue", "Kean.Math.Geometry2D.Test");
+    GenerateStart("Box", "Kean.Math.Geometry2D.Test", "Integer",  "int");
+    GenerateInteger("Box", "Kean.Math.Geometry2D.Test");
     GenerateEnd();
-    SaveOutput("Integer/BoxValue.cs");  
+    SaveOutput("Integer/Box.cs");  
 #>
 <#+
   void SaveOutput(string outputFileName)
@@ -82,28 +82,28 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        public void Equality()
        {
           Target.<#= @namespace1 #>.<#= @name #> box = new  Target.<#= @namespace1 #>.<#= @name #>();
-           Expect(this.box0, Is.EqualTo(this.box0));
-           Expect(this.box0.Equals(this.box0 as object), Is.True);
-           Expect(this.box0 == this.box0, Is.True);
-           Expect(this.box0 != this.box1, Is.True);
-           Expect(this.box0 == box, Is.False);
-           Expect(box == box, Is.True);
-           Expect(box == this.box0, Is.False);
+           Verify(this.box0, Is.EqualTo(this.box0));
+           Verify(this.box0.Equals(this.box0 as object), Is.True);
+           Verify(this.box0 == this.box0, Is.True);
+           Verify(this.box0 != this.box1, Is.True);
+           Verify(this.box0 == box, Is.False);
+           Verify(box == box, Is.True);
+           Verify(box == this.box0, Is.False);
        }
        #endregion
        [Test]
        public void LeftTop()
        {
-           Target.<#= @namespace1 #>.PointValue leftTop = this.box0.LeftTop;
-           Expect(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
-           Expect(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+           Target.<#= @namespace1 #>.Point leftTop = this.box0.LeftTop;
+           Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+           Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
        }
        [Test]
        public void Size()
        {
-           Target.<#= @namespace1 #>.SizeValue size = this.box0.Size;
-           Expect(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
-           Expect(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+           Target.<#= @namespace1 #>.Size size = this.box0.Size;
+           Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+           Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
        }
        #region Arithmetic
        [Test]
@@ -123,7 +123,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        [Test]
        public void Hash()
        {
-           Expect(this.box0.Hash(), Is.Not.EqualTo(0));
+           Verify(this.box0.Hash(), Is.Not.EqualTo(0));
        }
        #endregion
 <#+
@@ -140,33 +140,33 @@ namespace <#= @namespace #>.<#= @namespace1 #>
            {
                Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40);
                Target.Double.<#= @name #> @double = integer;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Integer.<#= @name #>)@double, Is.EqualTo(integer));
+               Verify(@double.Left, Is.EqualTo(10));
+               Verify(@double.Top, Is.EqualTo(20));
+               Verify(@double.Width, Is.EqualTo(30));
+               Verify(@double.Height, Is.EqualTo(40));
+               Verify((Target.Integer.<#= @name #>)@double, Is.EqualTo(integer));
            }
            // single - double
            {
                Target.Single.<#= @name #> single = new Target.Single.<#= @name #>(10, 20, 30, 40);
                Target.Double.<#= @name #> @double = single;
-               Expect(@double.Left, Is.EqualTo(10));
-               Expect(@double.Top, Is.EqualTo(20));
-               Expect(@double.Width, Is.EqualTo(30));
-               Expect(@double.Height, Is.EqualTo(40));
-               Expect((Target.Single.<#= @name #>)@double, Is.EqualTo(single));
+               Verify(@double.Left, Is.EqualTo(10));
+               Verify(@double.Top, Is.EqualTo(20));
+               Verify(@double.Width, Is.EqualTo(30));
+               Verify(@double.Height, Is.EqualTo(40));
+               Verify((Target.Single.<#= @name #>)@double, Is.EqualTo(single));
            }
        }
        [Test]
        public void StringCasts()
        {
            string textFromValue = new Target.Double.<#= @name #>(10, 20, 30, 40);
-           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Double.<#= @name #> @doubleFromText = "10 20 30 40";
-           Expect(@doubleFromText.Left, Is.EqualTo(10));
-           Expect(@doubleFromText.Top, Is.EqualTo(20));
-           Expect(@doubleFromText.Width, Is.EqualTo(30));
-           Expect(@doubleFromText.Height, Is.EqualTo(40));
+           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Double.<#= @name #> @doubleFromText = (Target.Double.<#= @name #>)"10 20 30 40";
+           Verify(@doubleFromText.Left, Is.EqualTo(10));
+           Verify(@doubleFromText.Top, Is.EqualTo(20));
+           Verify(@doubleFromText.Width, Is.EqualTo(30));
+           Verify(@doubleFromText.Height, Is.EqualTo(40));
        }
 <#+
     }  
@@ -182,23 +182,23 @@ namespace <#= @namespace #>.<#= @namespace1 #>
            {
                Target.Integer.<#= @name #> integer = new Target.Integer.<#= @name #>(10, 20, 30, 40);
                Target.Single.<#= @name #> @single = integer;
-               Expect(@single.Left, Is.EqualTo(10));
-               Expect(@single.Top, Is.EqualTo(20));
-               Expect(@single.Width, Is.EqualTo(30));
-               Expect(@single.Height, Is.EqualTo(40));
-               Expect((Target.Integer.<#= @name #>)@single, Is.EqualTo(integer));
+               Verify(@single.Left, Is.EqualTo(10));
+               Verify(@single.Top, Is.EqualTo(20));
+               Verify(@single.Width, Is.EqualTo(30));
+               Verify(@single.Height, Is.EqualTo(40));
+               Verify((Target.Integer.<#= @name #>)@single, Is.EqualTo(integer));
            }
        }
        [Test]
        public void StringCasts()
        {
            string textFromValue = new Target.Single.<#= @name #>(10, 20, 30, 40);
-           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Single.<#= @name #> @singleFromText = "10 20 30 40";
-           Expect(@singleFromText.Left, Is.EqualTo(10));
-           Expect(@singleFromText.Top, Is.EqualTo(20));
-           Expect(@singleFromText.Width, Is.EqualTo(30));
-           Expect(@singleFromText.Height, Is.EqualTo(40));
+           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Single.<#= @name #> @singleFromText = (Target.Single.<#= @name #>)"10 20 30 40";
+           Verify(@singleFromText.Left, Is.EqualTo(10));
+           Verify(@singleFromText.Top, Is.EqualTo(20));
+           Verify(@singleFromText.Width, Is.EqualTo(30));
+           Verify(@singleFromText.Height, Is.EqualTo(40));
        }
 <#+
     }  
@@ -214,12 +214,12 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        public void StringCasts()
        {
            string textFromValue = new Target.Integer.<#= @name #>(10, 20, 30, 40);
-           Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Integer.<#= @name #> @integerFromText = "10 20 30 40";
-           Expect(@integerFromText.Left, Is.EqualTo(10));
-           Expect(@integerFromText.Top, Is.EqualTo(20));
-           Expect(@integerFromText.Width, Is.EqualTo(30));
-           Expect(@integerFromText.Height, Is.EqualTo(40));
+           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Integer.<#= @name #> @integerFromText = (Target.Integer.<#= @name #>)"10 20 30 40";
+           Verify(@integerFromText.Left, Is.EqualTo(10));
+           Verify(@integerFromText.Top, Is.EqualTo(20));
+           Verify(@integerFromText.Width, Is.EqualTo(30));
+           Verify(@integerFromText.Height, Is.EqualTo(40));
        }
 
 <#+

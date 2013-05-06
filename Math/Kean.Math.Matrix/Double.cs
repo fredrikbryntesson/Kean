@@ -27,8 +27,8 @@ namespace Kean.Math.Matrix
         System.IEquatable<Double>
     {
         #region Properties
-        Geometry2D.Integer.SizeValue dimensions;
-        public Geometry2D.Integer.SizeValue Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
+        Geometry2D.Integer.Size dimensions;
+        public Geometry2D.Integer.Size Dimensions { get { return this.dimensions; } private set { this.dimensions = value; } }
         // Matrix elements are supposed to be in column major order 
         /// <summary>
         /// True if the matrix is a square matrix.
@@ -122,10 +122,10 @@ namespace Kean.Math.Matrix
         #region Constructors
         public Double() : this(0) { }
         public Double(int order) : this(order, order) { }
-        public Double(int width, int height) : this(new Geometry2D.Integer.SizeValue(width, height)) { }
-        public Double(Geometry2D.Integer.SizeValue dimensions) : this(dimensions, new double[dimensions.Area]) { }
-        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.SizeValue(width, height), elements) { }
-        public Double(Geometry2D.Integer.SizeValue dimensions, double[] elements)
+        public Double(int width, int height) : this(new Geometry2D.Integer.Size(width, height)) { }
+        public Double(Geometry2D.Integer.Size dimensions) : this(dimensions, new double[dimensions.Area]) { }
+        public Double(int width, int height, double[] elements) : this(new Geometry2D.Integer.Size(width, height), elements) { }
+        public Double(Geometry2D.Integer.Size dimensions, double[] elements)
         {
             this.Dimensions = dimensions;
             int minimum = Kean.Math.Integer.Minimum(elements.Length, this.Dimensions.Area);

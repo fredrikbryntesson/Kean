@@ -1,78 +1,126 @@
-﻿using System;
-using NUnit.Framework;
+// 
+//  Box.cs
+//  
+//  Author:
+//       Anders Frisk <andersfrisk77@gmail.com>
+//  
+//  Copyright (c) 2012 Anders Frisk
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using NUnit.Framework;
 using Target = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
 
 namespace Kean.Math.Geometry2D.Test.Single
 {
     [TestFixture]
-    public class Box :
-		Kean.Math.Geometry2D.Test.Abstract.Box<Box, Target.Single.Transform, Target.Single.TransformValue, Target.Single.Shell, Target.Single.ShellValue, Target.Single.Box, Target.Single.BoxValue, Target.Single.Point, Target.Single.PointValue, Target.Single.Size, Target.Single.SizeValue, Kean.Math.Single, float>
+    public class Box : 
+        Kean.Test.Fixture<Box>
     {
-        string prefix = "Kean.Math.Geometry2D.Test.Single.";
-        [TestFixtureSetUp]
-        public override void  Setup()
-        {
-            base.Setup(); 
-            this.Box0 = new Target.Single.Box(1, 2, 3, 4);
-            this.Box1 = new Target.Single.Box(4, 3, 2, 1);
-            this.Box2 = new Target.Single.Box(2, 1, 4, 3);
-        }
+        string prefix = "Kean.Math.Geometry2D.Test.Single.Box.";
         protected override void Run()
         {
-            base.Run();
             this.Run(
+                this.Equality,
+                this.LeftTop,
+                this.Size,
+                this.Addition,
+                this.Subtraction,
+                this.ScalarMultitplication,
+                this.Hash,
                 this.Casts,
-                this.ValueCasts,
-                this.ValueStringCasts,
-                this.StringCast
-                );
+                this.StringCasts);
         }
-        protected override float Cast(double value)
-        {
-            return (float)value;
-        }
-        [Test]
-        public void Casts()
-        {
-            // integer - single
-            Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
-            Target.Single.Box single = integer;
-            Expect(single.Left, Is.EqualTo(10), this.prefix + "Casts.0");
-            Expect(single.Top, Is.EqualTo(20), this.prefix + "Casts.1");
-            Expect(single.Width, Is.EqualTo(30), this.prefix + "Casts.2");
-            Expect(single.Height, Is.EqualTo(40), this.prefix + "Casts.3");
-            Expect((Target.Integer.Box)single, Is.EqualTo(integer), this.prefix + "Casts.4");
-        }
-        [Test]
-        public void ValueCasts()
-        {
-            // integer - float
-            Target.Integer.BoxValue integer = new Target.Integer.BoxValue(10, 20, 30, 40);
-            Target.Single.BoxValue single = integer;
-            Expect(single.Left, Is.EqualTo(10), this.prefix + "ValueCasts.0");
-            Expect(single.Top, Is.EqualTo(20), this.prefix + "ValueCasts.1");
-            Expect(single.Width, Is.EqualTo(30), this.prefix + "ValueCasts.2");
-            Expect(single.Height, Is.EqualTo(40), this.prefix + "ValueCasts.3");
-            Expect((Target.Integer.BoxValue)single, Is.EqualTo(integer), this.prefix + "ValueCasts.4");
-        }
-        [Test]
-        public void ValueStringCasts()
-        {
-            string textFromValue = new Target.Single.BoxValue(10, 20, 30, 40);
-            Expect(textFromValue, Is.EqualTo("10, 20, 30, 40"), this.prefix + "ValueStringCasts.0");
-            Target.Single.BoxValue @integerFromText = "10 20 30 40";
-            Expect(@integerFromText.Left, Is.EqualTo(10), this.prefix + "ValueStringCasts.1");
-            Expect(@integerFromText.Top, Is.EqualTo(20), this.prefix + "ValueStringCasts.2");
-            Expect(@integerFromText.Width, Is.EqualTo(30), this.prefix + "ValueStringCasts.3");
-            Expect(@integerFromText.Height, Is.EqualTo(40), this.prefix + "ValueStringCasts.4");
-        }
-        [Test]
-        public void StringCast()
-        {
-            string values = "0.05, 0.05 0.90, 0.90";
-            Target.Single.Box box = values;
-            Expect(box, Is.EqualTo(new Target.Single.Box(0.05f, 0.05f, 0.90f, 0.90f)), this.prefix + "StringCast.0"); 
-        }
+       Target.Single.Box box0 = new Target.Single.Box(1, 2, 3, 4);
+       Target.Single.Box box1 = new Target.Single.Box(4, 3, 2, 1);
+       Target.Single.Box box2 = new Target.Single.Box(2, 1, 4, 3);
+       #region Equality
+       [Test]
+       public void Equality()
+       {
+          Target.Single.Box box = new  Target.Single.Box();
+           Verify(this.box0, Is.EqualTo(this.box0));
+           Verify(this.box0.Equals(this.box0 as object), Is.True);
+           Verify(this.box0 == this.box0, Is.True);
+           Verify(this.box0 != this.box1, Is.True);
+           Verify(this.box0 == box, Is.False);
+           Verify(box == box, Is.True);
+           Verify(box == this.box0, Is.False);
+       }
+       #endregion
+       [Test]
+       public void LeftTop()
+       {
+           Target.Single.Point leftTop = this.box0.LeftTop;
+           Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+           Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+       }
+       [Test]
+       public void Size()
+       {
+           Target.Single.Size size = this.box0.Size;
+           Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+           Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+       }
+       #region Arithmetic
+       [Test]
+       public void Addition()
+       {
+       }
+       [Test]
+       public void Subtraction()
+       {
+       }
+       [Test]
+       public void ScalarMultitplication()
+       {
+       }
+       #endregion
+       #region Hash Code
+       [Test]
+       public void Hash()
+       {
+           Verify(this.box0.Hash(), Is.Not.EqualTo(0));
+       }
+       #endregion
+	   [Test]
+       public void Casts()
+       {
+           // integer - single
+           {
+               Target.Integer.Box integer = new Target.Integer.Box(10, 20, 30, 40);
+               Target.Single.Box @single = integer;
+               Verify(@single.Left, Is.EqualTo(10));
+               Verify(@single.Top, Is.EqualTo(20));
+               Verify(@single.Width, Is.EqualTo(30));
+               Verify(@single.Height, Is.EqualTo(40));
+               Verify((Target.Integer.Box)@single, Is.EqualTo(integer));
+           }
+       }
+       [Test]
+       public void StringCasts()
+       {
+           string textFromValue = new Target.Single.Box(10, 20, 30, 40);
+           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+           Target.Single.Box @singleFromText = (Target.Single.Box)"10 20 30 40";
+           Verify(@singleFromText.Left, Is.EqualTo(10));
+           Verify(@singleFromText.Top, Is.EqualTo(20));
+           Verify(@singleFromText.Width, Is.EqualTo(30));
+           Verify(@singleFromText.Height, Is.EqualTo(40));
+       }
     }
 }
+

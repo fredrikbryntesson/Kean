@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="All.cs" />
     <Compile Include="Filter\Kalman.cs" />
-    <Compile Include="Interpolation\Splines\PointValue.cs" />
+    <Compile Include="Interpolation\Splines\Point.cs" />
     <Compile Include="Minimization\Double.cs" />
     <Compile Include="Minimization\Single.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

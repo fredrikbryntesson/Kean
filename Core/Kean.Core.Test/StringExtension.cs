@@ -36,13 +36,13 @@ namespace Kean.Core.Test
 		[Test]
 		public void Split()
 		{
-			Expect("hello\"good bye".SplitAt(), Is.EqualTo(new string[] { "hellogood bye" }));
-			Expect("\"hello goodbye\"".SplitAt(), Is.EqualTo(new string[] { "hello goodbye" }));
-			Expect("hello goodbye".SplitAt(), Is.EqualTo(new string[] { "hello", "goodbye" }));
-			Expect("hello\\tgoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\tgoodbye" }));
-			Expect("hello\\r\\ngoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\r\ngoodbye" }));
-			Expect("hello\\bgoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\bgoodbye" }));
-			Expect("hello\" hello\"goodbye".SplitAt(), Is.EqualTo(new string[] { "hello hellogoodbye" }));
+			Verify("hello\"good bye".SplitAt(), Is.EqualTo(new string[] { "hellogood bye" }));
+			Verify("\"hello goodbye\"".SplitAt(), Is.EqualTo(new string[] { "hello goodbye" }));
+			Verify("hello goodbye".SplitAt(), Is.EqualTo(new string[] { "hello", "goodbye" }));
+			Verify("hello\\tgoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\tgoodbye" }));
+			Verify("hello\\r\\ngoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\r\ngoodbye" }));
+			Verify("hello\\bgoodbye".SplitAt(), Is.EqualTo(new string[] { "hello\bgoodbye" }));
+			Verify("hello\" hello\"goodbye".SplitAt(), Is.EqualTo(new string[] { "hello hellogoodbye" }));
 		}
 	}
 }

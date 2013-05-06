@@ -31,7 +31,7 @@ namespace Kean.Xml.Dom.Test
 	{
 		protected override void Verify(string name)
 		{
-			Expect(this.Open(name), Is.EqualTo(this.Create(name)));
+			Verify(this.Open(name), Is.EqualTo(this.Create(name)));
 		}
 	}
 }

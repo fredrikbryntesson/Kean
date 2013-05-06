@@ -69,7 +69,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		public override void SetClip(Geometry2D.Single.Box region)
 		{
-			if (region.NotNull())
+			if (!region.Empty)
 			{
 				double[] left = new double[] { 1.0, 0.0, 0.0, -region.Left };
 				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
