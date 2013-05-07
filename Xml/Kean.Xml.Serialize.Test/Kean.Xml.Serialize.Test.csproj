@@ -43,6 +43,8 @@
     <Compile Include="All.cs" />
     <Compile Include="BasicTypes.cs" />
     <Compile Include="CollectionTypes.cs" />
+    <Compile Include="Data\ListInterface.cs" />
+    <Compile Include="Data\ListExisting.cs" />
     <Compile Include="Preprocessor.cs" />
     <Compile Include="Data\Include.cs" />
     <Compile Include="Data\EmptyClass.cs" />
@@ -306,6 +308,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\ListExisting.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\ListInterface.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
