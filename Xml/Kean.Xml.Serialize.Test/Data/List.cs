@@ -43,9 +43,8 @@ namespace Kean.Xml.Serialize.Test.Data
         public Collection.List<int> Empty { get; set; }
 		[Core.Serialize.Parameter]
 		public Collection.List<int> Single { get; set; }
-		Collection.List<object> singleObject = new Collection.List<object>();
 		[Core.Serialize.Parameter]
-		public Collection.List<object> SingleObject { get { return this.singleObject; } }
+		public Collection.List<object> SingleObject { get; set; }
 
 		public List()
 		{
@@ -62,7 +61,7 @@ namespace Kean.Xml.Serialize.Test.Data
 			this.Empty = new Collection.List<int>();
 			this.Single = new Collection.List<int>();
 			this.Single.Add(1337);
-			this.SingleObject.Add(factory.Create<Class>());
+			this.SingleObject = new Collection.List<object>(factory.Create<Class>());
 		}
 		public void Verify(IFactory factory, string message, params object[] arguments)
 		{
@@ -94,7 +93,7 @@ namespace Kean.Xml.Serialize.Test.Data
 			factory.Verify(this.Single[0], Is.EqualTo(1337), message, arguments);
 
 			factory.Verify(this.SingleObject.Count, Is.EqualTo(1), message, arguments);
-			factory.Verify(this.SingleObject[0] as ComplexClass, message, arguments);
+			factory.Verify(this.SingleObject[0] as Class, message, arguments);
 		}
 		#endregion
 	}

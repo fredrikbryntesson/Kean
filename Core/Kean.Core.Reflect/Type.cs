@@ -285,15 +285,17 @@ namespace Kean.Core.Reflect
 		#region Implemented Interfaces
 		public bool Implements(Type type)
 		{
-			return this.GetImplementation(type).NotNull();
+			return type.Category == TypeCategory.Interface && this.GetImplementation(type).NotNull() || this.Inherits(type);
 		}
 		public bool Implements<T>()
 		{
-			return this.GetImplementation<T>().NotNull();
+			return this.Implements(typeof(T));
 		}
 		public Type GetImplementation(Type type)
 		{
-			return ((System.Type)this).GetInterface(((System.Type)type).Name);
+			System.Type me = (System.Type)this;
+			System.Type t = (System.Type)type;
+			return me.NotNull() && t.NotNull() ? me.GetInterface(t.Name) : null;
 		}
 		public Type GetImplementation<T>()
 		{
@@ -308,7 +310,7 @@ namespace Kean.Core.Reflect
 		}
 		public bool Inherits(Type type)
 		{
-			return this == type || ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits(type);
+			return this == type || ((System.Type)this).NotNull() && ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits(type);
 		}
 		#endregion
 		#region Get Attributes

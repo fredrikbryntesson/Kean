@@ -54,7 +54,7 @@ namespace Kean.Test.Run
            // Math.Random.Test.All.Test();
             Math.Regression.Test.All.Test();
             //Core.Error.Test.Error.Test();
-			//Xml.Serialize.Test.All.Test();
+			Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();
 			//Json.Dom.Test.All.Test();			
 		}

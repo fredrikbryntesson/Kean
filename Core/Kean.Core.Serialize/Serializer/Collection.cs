@@ -61,7 +61,7 @@ namespace Kean.Core.Serialize.Serializer
 			else 
 			{ // only one element so it was impossible to know it was a collection
 				nodes = new Core.Collection.List<Data.Node>(data);
-				data.Type = elementType;
+				data.Type = data.OriginalType ?? elementType;
 				Uri.Locator locator = data.Locator.Copy();
 				locator.Fragment += "[0]";
 				data.Locator = locator;

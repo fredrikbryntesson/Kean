@@ -37,6 +37,7 @@ namespace Kean.Core.Serialize.Data
 		}
 		public virtual ParameterAttribute Attribute { get; set; }
 		public Reflect.Type Type { get; set; }
+		public Reflect.Type OriginalType { get; set; }
 		protected Node()
 		{
 			this.created = new System.Diagnostics.StackTrace();
@@ -53,7 +54,15 @@ namespace Kean.Core.Serialize.Data
 		}
 		public Node DefaultType(Reflect.Type type)
 		{
-			if (this.Type.IsNull())
+			this.OriginalType = this.Type;
+			if (type.Name == "System.Nullable")
+			{
+				if (this.Type.IsNull())
+					this.Type = type.Arguments[0];
+				else if (!this.Type.Implements(type.Arguments[0]))
+					this.Type = type;
+			}
+			else if (this.Type.IsNull() || type != typeof(object) && !this.Type.Implements(type))
 				this.Type = type;
 			return this;
 		}
