@@ -69,7 +69,7 @@ namespace Kean.Core.Serialize.Serializer
 				{
 					Reflect.Property property = properties.Find(p => {
 						Core.Serialize.ParameterAttribute[] attributes;
-						return p.Name == node.Name || (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name == node.Name;
+						return (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name.NotEmpty() ? attributes[0].Name == node.Name : p.Name == node.Name;
 					});
 					if (property.IsNull())
 						new Exception.PropertyMissing(data.Type, node.Name, node.Region).Throw();
