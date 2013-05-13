@@ -230,7 +230,7 @@ namespace Kean.Core.Uri
 		}
         public static Locator FromRelativePlatformPath(string path, params string[] folders)
         {
-            return Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders);
+            return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
         }
         public static Locator FromPlatformPath(Environment.SpecialFolder folder, params string[] folders)
 		{
