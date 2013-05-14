@@ -244,32 +244,32 @@ namespace Kean.Core.Extension
 			else if (type == typeof(float))
 			{
 				float value;
-				result = (float.TryParse(me, out value) ? value : 0).ConvertType<T>();
+				result = (float.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
 			}
 			else if (type == typeof(double))
 			{
 				double value;
-				result = (double.TryParse(me, out value) ? value : 0).ConvertType<T>();
+				result = (double.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
 			}
 			else if (type == typeof(decimal))
 			{
 				decimal value;
-				result = (decimal.TryParse(me, out value) ? value : 0).ConvertType<T>();
+				result = (decimal.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
 			}
 			else if (type == typeof(DateTime))
 			{
 				DateTime value;
-				result = (DateTime.TryParse(me, out value) ? value : new DateTime()).ConvertType<T>();
+				result = (DateTime.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeLocal, out value) ? value : new DateTime()).ConvertType<T>();
 			}
 			else if (type == typeof(DateTimeOffset))
 			{
 				DateTimeOffset value;
-				result = (DateTimeOffset.TryParse(me, out value) ? value : new DateTimeOffset()).ConvertType<T>();
+				result = (DateTimeOffset.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeLocal, out value) ? value : new DateTimeOffset()).ConvertType<T>();
 			}
 			else if (type == typeof(TimeSpan))
 			{
 				TimeSpan value;
-				result = (TimeSpan.TryParse(me, out value) ? value : new TimeSpan()).ConvertType<T>();
+				result = (TimeSpan.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, out value) ? value : new TimeSpan()).ConvertType<T>();
 			}
 			else if (type.IsEnum)
 			{
