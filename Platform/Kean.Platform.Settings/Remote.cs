@@ -31,8 +31,6 @@ namespace Kean.Platform.Settings
 
 		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
-			this.Debug = true;
-
 			this.reader = reader;
 			this.writer = writer;
 
@@ -261,15 +259,15 @@ namespace Kean.Platform.Settings
 
 		public void Dispose()
 		{
-			if (this.writer.NotNull())
-			{
-				this.writer.Dispose();
-				this.writer = null;
-			}
 			if (this.thread.NotNull())
 			{
 				this.thread.Dispose();
 				this.thread = null;
+			}
+			if (this.writer.NotNull())
+			{
+				this.writer.Dispose();
+				this.writer = null;
 			}
 			if (this.reader.NotNull())
 			{
