@@ -14,7 +14,7 @@ namespace Kean.Platform.Settings
 		IDisposable
 	{
 		public Asynchronous Asynchronous { get; set; }
-		public bool Debug { get; set; }
+		public event Action<bool, string> OnDebug;
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> types = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -137,6 +137,7 @@ namespace Kean.Platform.Settings
 				lock (@lock)
 				{
 					try { result = value.Parse<T>(); }
+					catch { Error.Log.Append(Error.Level.Recoverable, "Remote failed parsing.", "Failed parsing result of {0} with value {1} of type {2}.", property, value, typeof(T)); }
 					finally
 					{
 						done = true;
@@ -203,8 +204,7 @@ namespace Kean.Platform.Settings
 						else if (!char.IsControl(this.reader.Last))
 							line += this.reader.Last;
 				}
-				if (this.Debug)
-					Console.WriteLine("< " + line);
+				this.OnDebug.Call(false, (string)line);
 				string[] splitted = ((string)line).Split(new char[] { ' ' }, 3);
 				if (splitted.Length > 1)
 				{
@@ -251,8 +251,7 @@ namespace Kean.Platform.Settings
 			foreach (object argument in arguments)
 				builder += " \"" + argument.AsString() + "\"";
 			string result = builder;
-			if (this.Debug)
-				Console.WriteLine("> " + result);
+			this.OnDebug.Call(true, result);
 			this.writer.WriteLine(result);
 			return result;
 		}
