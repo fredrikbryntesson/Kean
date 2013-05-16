@@ -107,7 +107,7 @@ namespace Kean.Platform.Settings
 		}
 		public T Set<T>(string property, T value)
 		{
-			return this.Set(property, value, this.Asynchronous.HasFlag(Settings.Asynchronous.PropretySet));
+			return this.Set(property, value, this.Asynchronous.HasFlag(Settings.Asynchronous.PropertySet));
 		}
 		public T Set<T>(string property, T value, bool asynchronous)
 		{
