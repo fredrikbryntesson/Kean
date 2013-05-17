@@ -27,9 +27,9 @@ namespace Kean.Cli.LineBuffer.Buffer
     class Edit : 
 		Abstract
     {
-		Action<string> write;
-        int cursor = 0;
-        StringBuilder line = new StringBuilder();
+		protected Action<string> write;
+        protected int cursor = 0;
+        protected StringBuilder line = new StringBuilder();
 		protected override string Value { get { return this.line.ToString(); } }
         public Edit(Action<string> write)
         {
@@ -129,7 +129,7 @@ namespace Kean.Cli.LineBuffer.Buffer
             this.write(this.line.ToString());
             this.cursor = this.line.Length;
         }
-        void RemoveAndDelete()
+        public void RemoveAndDelete()
         {
             this.MoveCursorEnd();
             while (this.line.Length > 0)
@@ -144,6 +144,8 @@ namespace Kean.Cli.LineBuffer.Buffer
                 this.MoveCursorLeftAndNotDelete();
             this.cursor = 0;
         }
+		public override void Next() { }
+		public override void Previous() { }
         public override Abstract Copy()
         {
             Edit result = new Edit(this.write);
@@ -151,5 +153,6 @@ namespace Kean.Cli.LineBuffer.Buffer
             result.line = new StringBuilder(this.ToString());
             return result;
         }
+		public override void AddNewCommand() { }
     }
 }

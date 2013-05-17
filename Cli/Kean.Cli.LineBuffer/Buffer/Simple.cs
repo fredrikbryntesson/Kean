@@ -56,11 +56,14 @@ namespace Kean.Cli.LineBuffer.Buffer
 			this.line = line;
         }
 		public override void MoveCursor(int steps) { }
+		public override void Next()	{ }
+		public override void Previous() { }
 		public override void RemoveAndNotDelete() { }
 		public override void Write() { }
         public override Abstract Copy()
         {
             return new Simple(this);
         }
+		public override void AddNewCommand() { }
     }
 }

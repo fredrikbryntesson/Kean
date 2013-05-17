@@ -48,8 +48,8 @@ namespace Kean.Cli.LineBuffer
 		{
 			this.terminal = terminal;
 			this.terminal.Command += this.OnCommand;
-			this.current = new Buffer.Simple();
-//			this.current = new Buffer.Edit(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
+//			this.current = new Buffer.Simple();
+			this.current = new Buffer.EditWithHistory(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
 		}
 		void OnCommand(EditCommand command)
 		{
@@ -106,6 +106,7 @@ namespace Kean.Cli.LineBuffer
 						if (this.terminal.Echo)
 							this.terminal.Out.WriteLine();
 
+						this.current.AddNewCommand();
 						string line = this.current.ToString();
 						if (line.StartsWith("?"))
 						{
@@ -128,13 +129,11 @@ namespace Kean.Cli.LineBuffer
 					}
 					break;
 				case EditCommand.DownArrow:
-
-					//if (!this.history.Empty)
-					//	this.history.Next();
+					current.Next();
+					
 					break;
 				case EditCommand.UpArrow:
-					//if (!this.history.Empty)
-					//	this.history.Previous();
+					current.Previous();
 					break;
 				case EditCommand.Paste:
 					break;

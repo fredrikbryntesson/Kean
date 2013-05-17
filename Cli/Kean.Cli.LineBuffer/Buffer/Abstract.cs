@@ -40,6 +40,9 @@ namespace Kean.Cli.LineBuffer.Buffer
 		public abstract void Insert(string value);
 		public abstract void Renew(string line);
 		public abstract void MoveCursor(int steps);
+		public abstract void Next();
+		public abstract void Previous();
+		public abstract void AddNewCommand();
 		public abstract void RemoveAndNotDelete();
 		public abstract void Write();
 		public abstract Abstract Copy();
