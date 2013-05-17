@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -34,7 +34,7 @@ namespace Kean.Cli.LineBuffer
 		object @lock = new object();
 		bool executing;
 		ITerminal terminal;
-		History history;
+		Buffer.Abstract current;
 		bool help = false;
 		bool exit = false;
 		int oldmessage = 0;
@@ -48,7 +48,8 @@ namespace Kean.Cli.LineBuffer
 		{
 			this.terminal = terminal;
 			this.terminal.Command += this.OnCommand;
-			this.history = new History(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
+			this.current = new Buffer.Simple();
+//			this.current = new Buffer.Edit(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
 		}
 		void OnCommand(EditCommand command)
 		{
@@ -57,10 +58,10 @@ namespace Kean.Cli.LineBuffer
 				case EditCommand.None:
 					break;
 				case EditCommand.Home:
-					this.history.Current.MoveCursorHome();
+					this.current.MoveCursorHome();
 					break;
 				case EditCommand.LeftArrow:
-					this.history.Current.MoveCursorLeft();
+					this.current.MoveCursorLeft();
 					break;
 				case EditCommand.Copy:
 					break;
@@ -69,32 +70,32 @@ namespace Kean.Cli.LineBuffer
 					this.Close();
 					break;
 				case EditCommand.End:
-					this.history.Current.MoveCursorEnd();
+					this.current.MoveCursorEnd();
 					break;
 				case EditCommand.RightArrow:
-					this.history.Current.MoveCursorRight();
+					this.current.MoveCursorRight();
 					break;
 				// 7
 				case EditCommand.Backspace:
-					this.history.Current.DeletePreviousCharacter();
+					this.current.DeletePreviousCharacter();
 					break;
 				case EditCommand.Tab: // Tab
 					if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
 					{
 						this.terminal.Out.WriteLine();
-						this.terminal.Out.Write(this.Help(this.history.Current.ToString()));
+						this.terminal.Out.Write(this.Help(this.current.ToString()));
 						this.terminal.Out.Write(this.Prompt);
-						this.history.Current.Write();
+						this.current.Write();
 						this.help = false;
 					}
 					else if (this.Complete.NotNull())
 					{
-						string old = this.history.Current.ToString();
+						string old = this.current.ToString();
 						string result = this.Complete(old);
 						if (result == old)
 							this.help = true;
 						else
-							this.history.Current.Renew(result);
+							this.current.Renew(result);
 					}
 					break;
 				case EditCommand.Quit:
@@ -105,7 +106,7 @@ namespace Kean.Cli.LineBuffer
 						if (this.terminal.Echo)
 							this.terminal.Out.WriteLine();
 
-						string line = this.history.Current.ToString();
+						string line = this.current.ToString();
 						if (line.StartsWith("?"))
 						{
 							if (this.RequestType.NotNull())
@@ -114,10 +115,12 @@ namespace Kean.Cli.LineBuffer
 						else if (this.Execute.NotNull())
 								this.Execute(line);
 
-						if (this.history.Current.ToString().NotEmpty())
-							this.history.Add();
-						else
-							this.history.ClearCurrent();
+						//if (this.history.Current.ToString().NotEmpty())
+						//	this.history.Add();
+						//else
+						//	this.history.ClearCurrent();
+						this.current.Renew("");
+
 						this.terminal.Out.Write(this.Prompt);
 						
 						lock (this.@lock)
@@ -126,12 +129,12 @@ namespace Kean.Cli.LineBuffer
 					break;
 				case EditCommand.DownArrow:
 
-					if (!this.history.Empty)
-						this.history.Next();
+					//if (!this.history.Empty)
+					//	this.history.Next();
 					break;
 				case EditCommand.UpArrow:
-					if (!this.history.Empty)
-						this.history.Previous();
+					//if (!this.history.Empty)
+					//	this.history.Previous();
 					break;
 				case EditCommand.Paste:
 					break;
@@ -142,7 +145,7 @@ namespace Kean.Cli.LineBuffer
 				case EditCommand.Undo:
 					break;
 				case EditCommand.Delete:
-					this.history.Current.DeleteCurrentCharacter();
+					this.current.DeleteCurrentCharacter();
 					break;
 			}
 		}
@@ -151,7 +154,7 @@ namespace Kean.Cli.LineBuffer
 			this.terminal.Out.Write(this.Prompt);
 			while (this.terminal.In.Next() && !this.exit)
 			{
-				this.history.Current.Insert(this.terminal.In.Last);
+				this.current.Insert(this.terminal.In.Last);
 				this.help = false;
 			}
 		}
@@ -171,7 +174,7 @@ namespace Kean.Cli.LineBuffer
                     this.terminal.Out.WriteLine(value);
                     this.oldmessage = value.Length;
                     this.terminal.Out.Write(this.Prompt);
-                    this.history.Current.Write();
+                    this.current.Write();
                 }
 			}
 		}

@@ -35,8 +35,10 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Buffer\Simple.cs" />
+    <Compile Include="Buffer\Abstract.cs" />
     <Compile Include="Editor.cs" />
-    <Compile Include="Buffer.cs" />
+    <Compile Include="Buffer\Edit.cs" />
     <Compile Include="History.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Kean.Cli.LineBuffer.nuspec" />
@@ -58,6 +60,9 @@
       <Project>{67647070-B042-4905-8F92-FF59E094E048}</Project>
       <Name>Kean.Cli</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />

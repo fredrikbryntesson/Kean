@@ -28,7 +28,7 @@ namespace Kean.Cli.LineBuffer.Test
 	{
 		static void Main(string[] args)
 		{
-            Editor editor = new Editor(new ConsoleTerminal()) { Prompt = ":>" };
+			Editor editor = new Editor(new ConsoleTerminal()) { Prompt = ":>" };
             Tuple<string, string>[] completionDescription = new Tuple<string, string>[] 
             {
                 Tuple.Create<string, string>("fish", "Fishes are a paraphyletic group of organisms."),

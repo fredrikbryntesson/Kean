@@ -29,19 +29,19 @@ namespace Kean.Cli.LineBuffer
     class History
     {
         int position = 0;
-        Kean.Core.Collection.IList<Buffer> buffers = new Kean.Core.Collection.List<Buffer>();
-		public Buffer Current { get { return this.buffers[this.position]; } private set { this.buffers[this.position] = value; } }
+		Kean.Core.Collection.IList<Buffer.Abstract> buffers = new Kean.Core.Collection.List<Buffer.Abstract>();
+		public Buffer.Abstract Current { get { return this.buffers[this.position]; } private set { this.buffers[this.position] = value; } }
         public int Count { get { return this.buffers.Count; } }
         public bool Empty { get { return this.buffers.Count == 0; } }
         public Action<string> Writer { get; set; }
         public History(Action<string> writer)
         {
             this.Writer = writer;
-            this.buffers.Add(new Buffer(this.Writer));
+			this.buffers.Add(new Buffer.Edit(this.Writer));
         }
         public void Add()
         {
-            this.buffers.Add(new Buffer(this.Writer));
+			this.buffers.Add(new Buffer.Edit(this.Writer));
             this.position = this.buffers.Count - 1;
         }
         public void End()
@@ -51,7 +51,7 @@ namespace Kean.Cli.LineBuffer
         }
         public void Previous()
         {
-            this.Current.RemoveAndNotDelete();
+//            this.Current.RemoveAndNotDelete();
             this.position--;
             if (this.position < 0)
                 this.position = 0;
@@ -59,7 +59,7 @@ namespace Kean.Cli.LineBuffer
         }
         public void Next()
         {
-            this.Current.RemoveAndNotDelete();
+//            this.Current.RemoveAndNotDelete();
             this.position++;
             if (this.position >= this.buffers.Count)
                 this.position = this.buffers.Count - 1;
@@ -67,11 +67,11 @@ namespace Kean.Cli.LineBuffer
         }
 		public void ClearCurrent()
 		{
-			this.Current = new Buffer(this.Writer);
+			this.Current = new Buffer.Edit(this.Writer);
 		}
         public void Clear()
         {
-            this.buffers = new Kean.Core.Collection.List<Buffer>();
+			this.buffers = new Kean.Core.Collection.List<Buffer.Abstract>();
         }
     }
 }
