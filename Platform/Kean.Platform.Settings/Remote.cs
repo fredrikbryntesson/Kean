@@ -299,5 +299,18 @@ namespace Kean.Platform.Settings
 		{
 			return reader.NotNull() && writer.NotNull() ? new Remote(reader, writer) : null;
 		}
+
+		public static Remote Open(System.IO.Stream input, System.IO.Stream output)
+		{
+			return Remote.Open(IO.ByteDevice.Open(input), IO.ByteDevice.Open(output));
+		}
+		public static Remote Open(IO.IByteInDevice input, IO.IByteOutDevice output)
+		{
+			return Remote.Open(IO.ByteDeviceSplitter.Open(input, output));
+		}
+		public static Remote Open(IO.IByteDevice device)
+		{
+			return Remote.Open(IO.CharacterDevice.Open(IO.BufferingByteDevice.Open(device)));
+		}
 	}
 }

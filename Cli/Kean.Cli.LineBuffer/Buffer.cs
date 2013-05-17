@@ -1,16 +1,37 @@
-﻿using System;
+﻿// 
+//  Editor.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2011 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Text;
 
 namespace Kean.Cli.LineBuffer
 {
     class Buffer
     {
-        public Action<string> Writer { get; set; }
+		Action<string> write;
         int cursor = 0;
         StringBuilder line = new StringBuilder();
-        public Buffer(Action<string> writer)
+        public Buffer(Action<string> write)
         {
-            this.Writer = writer;
+            this.write = write;
         }
         public void MoveCursorHome()
         {
@@ -44,9 +65,9 @@ namespace Kean.Cli.LineBuffer
             {
                 this.line.Remove(this.cursor - 1, 1);
                 this.cursor--;
-                this.Writer((char)8 + " " + (char)8);
-                this.Writer(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
-                this.Writer(" " + (char)8);
+                this.write((char)8 + " " + (char)8);
+                this.write(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
+                this.write(" " + (char)8);
                 this.MoveCursor(this.cursor - this.line.Length);
             }
         }
@@ -55,7 +76,7 @@ namespace Kean.Cli.LineBuffer
             if (this.cursor > 0)
             {
                 this.cursor--;
-                this.Writer((char)8 + " " + (char)8);
+                this.write((char)8 + " " + (char)8);
             }
         }
 		public void DeleteCurrentCharacter()
@@ -63,22 +84,22 @@ namespace Kean.Cli.LineBuffer
 			if (this.cursor >= 0 && this.cursor < this.line.Length)
 			{
 				this.line.Remove(this.cursor, 1);
-				this.Writer(" " + (char)8);
-				this.Writer(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
-				this.Writer(" " + (char)8);
+				this.write(" " + (char)8);
+				this.write(this.line.ToString().Substring(this.cursor, this.line.Length - this.cursor));
+				this.write(" " + (char)8);
 				this.MoveCursor(this.cursor - this.line.Length);
 			}
 		}
         public void Insert(char value)
         {
             this.line.Insert(this.cursor, value);
-            this.Writer(this.line.ToString().Substring(this.cursor++));
+            this.write(this.line.ToString().Substring(this.cursor++));
             this.MoveCursor(this.cursor - this.line.Length);
         }
         public void Insert(string value)
         {
             this.line.Insert(this.cursor, value);
-            this.Writer(this.line.ToString().Substring(this.cursor));
+            this.write(this.line.ToString().Substring(this.cursor));
             this.cursor += value.Length;
             this.MoveCursor(this.cursor - this.line.Length);
         }
@@ -96,14 +117,14 @@ namespace Kean.Cli.LineBuffer
                 char[] buffer = new char[-steps];
                 while (steps < 0)
                     buffer[-++steps] = (char)8;
-                this.Writer(new String(buffer));
+                this.write(new String(buffer));
             }
             else if (steps > 0)
-                this.Writer(this.line.ToString().Substring(this.cursor, steps));
+                this.write(this.line.ToString().Substring(this.cursor, steps));
         }
         public void Write()
         {
-            this.Writer(this.line.ToString());
+            this.write(this.line.ToString());
             this.cursor = this.line.Length;
         }
         void RemoveAndDelete()
@@ -123,7 +144,7 @@ namespace Kean.Cli.LineBuffer
         }
         public Buffer Copy()
         {
-            Buffer result = new Buffer(this.Writer);
+            Buffer result = new Buffer(this.write);
             result.cursor = this.cursor;
             result.line = new StringBuilder(this.ToString());
             return result;

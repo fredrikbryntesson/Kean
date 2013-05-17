@@ -35,7 +35,9 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Wrap\ByteDevice.cs" />
     <Compile Include="Abstract\CharacterWriter.cs" />
+    <Compile Include="BufferingByteDevice.cs" />
     <Compile Include="CharacterDevice.cs" />
     <Compile Include="CharacterWriter.cs" />
     <Compile Include="ICharacterDevice.cs" />
