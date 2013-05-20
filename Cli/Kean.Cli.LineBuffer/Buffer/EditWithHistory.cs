@@ -30,21 +30,21 @@ namespace Kean.Cli.LineBuffer.Buffer
     {
 		int position = 0;
 		int last = 0;
-		int size = 5;
+		int size = 50;
 		int first = 0;
-		string[] buffers;
+		string[] history;
 
 		public EditWithHistory(Action<string> write) :
 			base(write)
 		{
-			this.buffers = new string[this.size];
+			this.history = new string[this.size];
 		}
 		public override void Next() 
 		{
 			if (this.position != this.last)
 			{
 				this.position = Integer.Modulo(this.position + 1, this.size);
-				this.Renew(this.buffers[this.position]);
+				this.Renew(this.history[this.position]);
 			}
 		}
 		public override void Previous()
@@ -53,18 +53,17 @@ namespace Kean.Cli.LineBuffer.Buffer
 			{
 				if (this.position == this.last)
 				{
-					this.buffers[this.position] = this.Value;
+					this.history[this.position] = this.Value;
 				}
 				this.position = Integer.Modulo(this.position - 1, this.size);
-				this.Renew(this.buffers[this.position]);
-				//this.write(this.line.ToString());
+				this.Renew(this.history[this.position]);
 			}
 		}
 		public override void AddNewCommand()
 		{
-			if (this.line.ToString() != this.buffers[Integer.Modulo(this.last - 1, this.size)])
+			if (this.Value != "" && this.Value != this.history[Integer.Modulo(this.last - 1, this.size)])
 			{
-				this.buffers[this.last] = this.Value;
+				this.history[this.last] = this.Value;
 				this.last = (this.last + 1) % this.size;
 				if (this.last == this.first)
 					this.first = (this.first + 1) % this.size;

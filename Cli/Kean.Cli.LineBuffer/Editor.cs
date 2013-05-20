@@ -116,10 +116,6 @@ namespace Kean.Cli.LineBuffer
 						else if (this.Execute.NotNull())
 								this.Execute(line);
 
-						//if (this.history.Current.ToString().NotEmpty())
-						//	this.history.Add();
-						//else
-						//	this.history.ClearCurrent();
 						this.current.Renew("");
 
 						this.terminal.Out.Write(this.Prompt);
