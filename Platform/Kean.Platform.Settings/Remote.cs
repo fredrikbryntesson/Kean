@@ -222,8 +222,8 @@ namespace Kean.Platform.Settings
 								this.notifications[splitted[1]].Call(splitted[2]);
 							break;
 						default:
-						case "?": // error
-							this.types[splitted[1]].Call(splitted[2]);
+						case "?": // type
+							this.types[splitted[1]].Call(splitted.Length > 2 ? splitted[2] : "");
 							break;
 						case "!": // error
 							this.OnResponseCall(false);
@@ -310,6 +310,7 @@ namespace Kean.Platform.Settings
 		}
 		public static Remote Open(IO.IByteDevice device)
 		{
+			//device = IO.Tap.ByteDevice.Open(device, b => System.Diagnostics.Debug.Write(b == 10 ? "\n" : "s{0:X2}".Format(b)), b => System.Diagnostics.Debug.Write(b == 10 ? "\n" : "c{0:X2}".Format(b)));
 			return Remote.Open(IO.CharacterDevice.Open(IO.BufferingByteDevice.Open(device)));
 		}
 	}

@@ -27,6 +27,7 @@ namespace Kean.Cli
 	public class ConsoleTerminal :
 		Terminal
 	{
+		bool noValidHandle;
 		ConsoleDevice device;
 		#region Constructors
 		public ConsoleTerminal() :
@@ -51,12 +52,33 @@ namespace Kean.Cli
 		}
 		public override bool MoveCursor(Geometry2D.Integer.Size delta)
 		{
-			this.CursorPosition += delta;
-			return true;
+			if (!this.noValidHandle)
+				try { this.CursorPosition += delta; }
+				catch (System.IO.IOException) { this.noValidHandle = true; }
+			return !this.noValidHandle;
+		}
+		public override bool MoveCursor(int delta)
+		{
+			if (!this.noValidHandle)
+				try { Console.CursorLeft += delta; }
+				catch (System.IO.IOException) { this.noValidHandle = true; }
+			return !this.noValidHandle;
 		}
 		public override bool Clear()
 		{
 			Console.Clear();
+			return true;
+		}
+		public override bool ClearLine()
+		{
+			return ReplaceLine("");
+		}
+		public override bool ReplaceLine(string value)
+		{
+			Console.CursorLeft = 0;
+			Console.Write(value);
+			Console.Write(new String(' ', Console.BufferWidth-value.Length));
+			this.MoveCursor(new Geometry2D.Integer.Size(value.Length, -1));
 			return true;
 		}
 	}

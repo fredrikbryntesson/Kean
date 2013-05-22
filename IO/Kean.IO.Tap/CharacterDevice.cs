@@ -105,7 +105,7 @@ namespace Kean.IO.Tap
 			if (result.NotNull())
 			{
 				result.OnRead += onRead;
-				result.OnWrite -= onWrite;
+				result.OnWrite += onWrite;
 			}
 			return result;
 		}

@@ -62,6 +62,33 @@ namespace Kean.Cli
 			this.NewLine = new char[] { '\r', '\n' };
 		}
 		#endregion
+		public override Geometry2D.Integer.Point CursorPosition
+		{
+			get { return base.CursorPosition; }
+			set { this.Out.Write("\x1b[{0};{1}H", CursorPosition.X, CursorPosition.Y); }
+		}
+		public override bool MoveCursor(Geometry2D.Integer.Size delta)
+		{
+			IO.Text.Builder result = new IO.Text.Builder();
+			if (delta.Width > 0)
+				result.Append("\x1b[{0}C", delta.Width);
+			else if (delta.Width < 0)
+				result.Append("\x1b[{0}D", -delta.Width);
+			if (delta.Height > 0)
+				result.Append("\x1b[{0}B", delta.Height);
+			else if (delta.Height < 0)
+				result.Append("\x1b[{0}A", -delta.Height);
+			return this.Out.Write((string)result);
+		}
+		public override bool MoveCursor(int delta)
+		{
+			IO.Text.Builder result = new IO.Text.Builder();
+			if (delta > 0)
+				result.Append("\x1b[{0}C", delta);
+			else if (delta < 0)
+				result.Append("\x1b[{0}D", -delta);
+			return this.Out.Write((string)result);
+		}
 		public override bool Echo
 		{
 			get { return this.server.NotNull() ? this.server.Echo : base.Echo; }
@@ -73,10 +100,17 @@ namespace Kean.Cli
 					base.Echo = value; 
 			}
 		}
-		public override bool Clear()
+		public override bool Clear() { return this.Out.Write('\x1b', '[', '2', 'J'); }
+		public override bool ClearLine() { return this.Out.Write('\x1b', '[', '2', 'K'); }
+		public override bool ReplaceLine(string value)
 		{
-			return this.Out.Write('\x1b', '[', '2', 'J');
+			Console.CursorLeft = 0;
+			Console.Write(value);
+			Console.Write(new String(' ', Console.BufferWidth - value.Length));
+			this.MoveCursor(new Geometry2D.Integer.Size(value.Length, -1));
+			return true;
 		}
+
 		char[] FilterInput(Func<char?> read)
 		{
 			Collection.IList<char> buffer = new Collection.List<char>();

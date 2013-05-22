@@ -22,182 +22,131 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using IO = Kean.IO;
 
 namespace Kean.Cli.LineBuffer
 {
 	public class Editor :
-		IDisposable
+		Abstract
 	{
-		object @lock = new object();
-		bool executing;
-		ITerminal terminal;
-		Buffer.Abstract current;
-		bool help = false;
-		bool exit = false;
-		int oldmessage = 0;
-		public Func<string, bool> Execute { get; set; }
-		public Func<string, string> Complete { get; set; }
-		public Func<string, string> Help { get; set; }
-		public Func<string, string> Error { get; set; }
-		public Func<string, bool> RequestType { get; set; }
-		public string Prompt { get; set; }
-		public Editor(ITerminal terminal)
+		internal Buffer buffer = new Buffer();
+		protected int cursor;
+		protected int length;
+		protected bool help;
+
+		public Editor(ITerminal terminal) :
+			base(terminal)
+		{ }
+
+		protected override string Current { get { return this.buffer.ToString(); } }
+
+		protected override int CurrentLength { get { return this.length; } }
+
+		protected override void Insert(char c)
 		{
-			this.terminal = terminal;
-			this.terminal.Command += this.OnCommand;
-//			this.current = new Buffer.Simple();
-			this.current = new Buffer.EditWithHistory(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
-		}
-		void OnCommand(EditCommand command)
-		{
-			switch (command)
+			if (this.cursor == this.length)
 			{
-				case EditCommand.None:
-					break;
-				case EditCommand.Home:
-					this.current.MoveCursorHome();
-					break;
-				case EditCommand.LeftArrow:
-					this.current.MoveCursorLeft();
-					break;
-				case EditCommand.Copy:
-					break;
-				case EditCommand.Exit:
-					this.exit = true;
-					this.Close();
-					break;
-				case EditCommand.End:
-					this.current.MoveCursorEnd();
-					break;
-				case EditCommand.RightArrow:
-					this.current.MoveCursorRight();
-					break;
-				// 7
-				case EditCommand.Backspace:
-					this.current.DeletePreviousCharacter();
-					break;
-				case EditCommand.Tab: // Tab
-					if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
-					{
-						this.terminal.Out.WriteLine();
-						this.terminal.Out.Write(this.Help(this.current.ToString()));
-						this.terminal.Out.Write(this.Prompt);
-						this.current.Write();
-						this.help = false;
-					}
-					else if (this.Complete.NotNull())
-					{
-						string old = this.current.ToString();
-						string result = this.Complete(old);
-						if (result == old)
-							this.help = true;
-						else
-							this.current.Renew(result);
-					}
-					break;
-				case EditCommand.Quit:
-				case EditCommand.Enter:
-					{
-						lock (this.@lock)
-							this.executing = true;
-						if (this.terminal.Echo)
-							this.terminal.Out.WriteLine();
-
-						this.current.AddNewCommand();
-						string line = this.current.ToString();
-						if (line.StartsWith("?"))
-						{
-							if (this.RequestType.NotNull())
-								this.RequestType(line.Substring(1));
-						}
-						else if (this.Execute.NotNull())
-								this.Execute(line);
-
-						this.current.Renew("");
-
-						this.terminal.Out.Write(this.Prompt);
-						
-						lock (this.@lock)
-							this.executing = false;
-					}
-					break;
-				case EditCommand.DownArrow:
-					current.Next();
-					
-					break;
-				case EditCommand.UpArrow:
-					current.Previous();
-					break;
-				case EditCommand.Paste:
-					break;
-				case EditCommand.Cut:
-					break;
-				case EditCommand.Redo:
-					break;
-				case EditCommand.Undo:
-					break;
-				case EditCommand.Delete:
-					this.current.DeleteCurrentCharacter();
-					break;
+				this.buffer.Append(c);
+				this.length++;
+				this.terminal.Out.Write(c);
+				this.cursor++;
+			}
+			else
+			{
+				this.buffer.Insert(this.cursor, c);
+				this.length++;
+				this.terminal.Out.Write(this.buffer.Substring(cursor));
+				this.cursor++;
+				this.MoveCursor(this.cursor - this.length);
 			}
 		}
-		public void Read()
+
+		protected override void OnDelete()
 		{
-			this.terminal.Out.Write(this.Prompt);
-			while (this.terminal.In.Next() && !this.exit)
+			if (this.cursor < this.length)
 			{
-				this.current.Insert(this.terminal.In.Last);
+				this.buffer.Delete(this.cursor);
+				this.terminal.Out.Write(this.buffer.Substring(cursor) + " ");
+				this.MoveCursor(this.cursor - this.length);
+				this.length--;
+			}
+		}
+
+		protected override void OnBackspace()
+		{
+			if (this.cursor > 0)
+			{
+				this.cursor--;
+				this.buffer.Delete(this.cursor);
+				this.MoveCursor(-1);
+				this.terminal.Out.Write(this.buffer.Substring(cursor) + " ");
+				this.MoveCursor(this.cursor - this.length);
+				this.length--;
+			}
+		}
+
+		protected override void OnLeft()
+		{
+			if (this.cursor > 0)
+			{
+				this.cursor--;
+				this.MoveCursor(-1);
+			}
+		}
+
+		protected override void OnRight()
+		{
+			if (this.cursor < this.length)
+			{
+				this.cursor++;
+				this.MoveCursor(1);
+			}
+		}
+
+		protected override void OnEnd()
+		{
+			this.MoveCursor(this.length - this.cursor);
+			this.cursor = this.length;
+		}
+
+		protected override void OnHome()
+		{
+			this.MoveCursor(-this.cursor);
+			this.cursor = 0;
+		}
+
+		protected override void ClearCurrent()
+		{
+			this.buffer.Clear();
+			this.cursor = 0;
+			this.length = 0;
+		}
+
+		protected override void OnTab()
+		{
+			if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
+			{
+				this.terminal.Out.WriteLine();
+				this.terminal.Out.Write(this.Help(this.Current));
+				this.terminal.Out.Write(this.Prompt);
+				this.terminal.Out.Write(this.Current);
 				this.help = false;
 			}
-		}
-		public void WriteLine(string value)
-		{
-			lock (this.@lock)
+			else if (this.Complete.NotNull())
 			{
-                if (this.executing)
-                {
-                    this.terminal.Out.WriteLine(value);
-                    this.oldmessage = value.Length;
-                }
-                else
-                {
-                    //this.Remove(-this.oldmessage - this.Prompt.Length - this.history.Current.ToString().Length);
-                    this.Remove(-this.Prompt.Length);
-                    this.terminal.Out.WriteLine(value);
-                    this.oldmessage = value.Length;
-                    this.terminal.Out.Write(this.Prompt);
-                    this.current.Write();
-                }
+				string result = this.Complete(this.Current);
+				if (result == this.Current)
+					this.help = true;
+				else
+				{
+					this.buffer.Set(result);
+					this.cursor = result.Length;
+					this.length = cursor;
+				}
 			}
 		}
-		void Remove(int steps)
+		protected virtual bool MoveCursor(int delta)
 		{
-			if (steps < 0)
-				while (steps++ != 0)
-					this.terminal.Out.Write((char)8 + " " + (char)8);
-			else
-				while (steps-- != 0)
-					this.terminal.Out.Write(" ");
+			return delta == 0 || this.terminal.MoveCursor(delta) || this.terminal.Out.Write(delta > 0 ? this.buffer.Substring(this.cursor - 1, delta) : new string('\b', -delta));
 		}
-
-		public void Close()
-		{
-			lock (this.@lock)
-				if (this.terminal.NotNull())
-				{
-					this.terminal.Close();
-					this.terminal = null;
-				}
-		}
-
-		#region IDisposable Members
-		void IDisposable.Dispose()
-		{
-			this.Close();
-		}
-		#endregion
 	}
 }

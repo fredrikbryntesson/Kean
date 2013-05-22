@@ -43,10 +43,11 @@ namespace Kean.Platform.Settings
 				this.lineBuffer.Prompt = string.Format("# {0}> ", this.current);
 			}
 		}
-		Cli.LineBuffer.Editor lineBuffer;
+		Cli.LineBuffer.Abstract lineBuffer;
 
 		Editor(object root, Cli.ITerminal terminal)
 		{
+			//this.lineBuffer = new Cli.LineBuffer.Simple(terminal);
 			this.lineBuffer = new Cli.LineBuffer.Editor(terminal);
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;

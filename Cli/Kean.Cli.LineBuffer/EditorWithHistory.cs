@@ -1,10 +1,10 @@
 ﻿// 
-//  EditWithHistory.cs
+//  EditorWithHistory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,56 +20,71 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Text;
+using Kean.Core;
+using Kean.Core.Extension;
 using Integer = Kean.Math.Integer;
 
-namespace Kean.Cli.LineBuffer.Buffer
+namespace Kean.Cli.LineBuffer
 {
-    class EditWithHistory : 
-		Edit
-    {
+	public class EditorWithHistory :
+		Editor
+	{
 		int position = 0;
+		int Position
+		{
+			get { return position; }
+			set { this.position = Integer.Modulo(value, this.size); }
+		}
 		int last = 0;
 		int size = 50;
 		int first = 0;
 		string[] history;
 
-		public EditWithHistory(Action<string> write) :
-			base(write)
+		public EditorWithHistory(ITerminal terminal) :
+			base(terminal)
 		{
 			this.history = new string[this.size];
 		}
-		public override void Next() 
-		{
-			if (this.position != this.last)
-			{
-				this.position = Integer.Modulo(this.position + 1, this.size);
-				this.Renew(this.history[this.position]);
-			}
-		}
-		public override void Previous()
+
+		protected override void OnUp()
 		{
 			if (this.position != this.first)
 			{
 				if (this.position == this.last)
-				{
-					this.history[this.position] = this.Value;
-				}
-				this.position = Integer.Modulo(this.position - 1, this.size);
-				this.Renew(this.history[this.position]);
+					this.history[this.position] = this.Current;
+				this.Position--;
+				this.ReplaceLine();
 			}
 		}
-		public override void AddNewCommand()
+
+		protected override void OnDown()
 		{
-			if (this.Value != "" && this.Value != this.history[Integer.Modulo(this.last - 1, this.size)])
+			if (this.position != this.last)
 			{
-				this.history[this.last] = this.Value;
+				this.Position++;
+				this.ReplaceLine();
+			}
+		}
+
+		void ReplaceLine()
+		{
+			this.ClearCurrent();
+			this.buffer.Set(this.history[this.position]);
+			this.cursor = this.length = this.history[this.position].Length;
+			this.terminal.ReplaceLine(this.Prompt + this.Current);
+		}
+
+		protected override void OnEnter()
+		{
+			if (this.Current.NotEmpty() && this.Current != this.history[Integer.Modulo(this.last - 1, this.size)])
+			{
+				this.history[this.last] = this.Current;
 				this.last = (this.last + 1) % this.size;
 				if (this.last == this.first)
 					this.first = (this.first + 1) % this.size;
 			}
 			this.position = this.last;
-			this.write(this.Value);
+			base.OnEnter();
 		}
-    }
+	}
 }

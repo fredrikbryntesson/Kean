@@ -35,12 +35,12 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buffer\EditWithHistory.cs" />
-    <Compile Include="Buffer\Simple.cs" />
-    <Compile Include="Buffer\Abstract.cs" />
+    <Compile Include="Abstract.cs" />
+    <Compile Include="Buffer.cs" />
+    <Compile Include="EditorWithHistory.cs" />
     <Compile Include="Editor.cs" />
-    <Compile Include="Buffer\Edit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simple.cs" />
     <None Include="Kean.Cli.LineBuffer.nuspec" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +55,10 @@
     <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{daf18ca8-78ea-417f-8730-0a76b0da2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
       <Project>{96b4c4b4-5177-4717-9b2f-c74a0c2df7d5}</Project>

@@ -113,6 +113,10 @@
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
       <Name>Kean.IO.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO.Tap\Kean.IO.Tap.csproj">
+      <Project>{86ad745f-7603-4777-9088-bd418818b833}</Project>
+      <Name>Kean.IO.Tap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
@@ -148,5 +152,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
-	<Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
