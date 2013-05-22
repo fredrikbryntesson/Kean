@@ -35,6 +35,13 @@ namespace Kean.Cli.LineBuffer
 		protected override string Line { get { return this.Buffer.ToString(); } }
 		protected override int LineLength { get { return this.Buffer.Length; } }
 
+		bool executing;
+		protected bool Executing
+		{
+			get { lock (this.Lock) return this.executing; }
+			set { lock (this.Lock) this.executing = value; }
+		}
+
 		public Editor(ITerminal terminal) :
 			base(terminal)
 		{
@@ -110,6 +117,20 @@ namespace Kean.Cli.LineBuffer
 					this.terminal.Out.Write(delta + this.Buffer.RightOfCursor);
 					this.MoveCursor(-this.Buffer.CursorToEnd);
 					this.Buffer.Insert(delta);
+				}
+			}
+		}
+		public override void WriteLine(string value)
+		{
+			lock (this.Lock)
+			{
+				if (this.Executing)
+					this.terminal.Out.WriteLine(value);
+				else
+				{
+					this.OnHome();
+					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.LineLength));
+					this.terminal.Out.Write(this.Prompt + this.Line);
 				}
 			}
 		}

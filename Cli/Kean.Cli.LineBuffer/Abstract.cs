@@ -30,12 +30,6 @@ namespace Kean.Cli.LineBuffer
 		IDisposable
 	{
 		protected ITerminal terminal;
-		bool executing;
-		bool Executing
-		{
-			get { lock (this.Lock) return this.executing; }
-			set { lock (this.Lock) this.executing = value; }
-		}
 		bool exit = false;
 
 		public Func<string, bool> Execute { get; set; }
@@ -127,8 +121,6 @@ namespace Kean.Cli.LineBuffer
 		{
 			if (this.terminal.Echo)
 				this.terminal.Out.WriteLine();
-			this.Executing = true;
-
 			string line = this.Line;
 			if (line.StartsWith("?"))
 			{
@@ -140,7 +132,6 @@ namespace Kean.Cli.LineBuffer
 
 			this.ClearCurrent();
 			this.terminal.Out.Write(this.Prompt);
-			this.Executing = false;
 		}
 		protected virtual void OnDown() { }
 		protected virtual void OnUp() { }
@@ -156,18 +147,10 @@ namespace Kean.Cli.LineBuffer
 		protected abstract void ClearCurrent();
 		#endregion
 		#region Output
-		public void WriteLine(string value)
+		public virtual void WriteLine(string value)
 		{
 			lock (this.Lock)
-			{
-				if (this.Executing)
-					this.terminal.Out.WriteLine(value);
-				else
-				{
-					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.LineLength));
-					this.terminal.Out.WriteLine(this.Prompt + this.Line);
-				}
-			}
+				this.terminal.Out.WriteLine(value);
 		}
 		#endregion
 		#region Close & Dispose
