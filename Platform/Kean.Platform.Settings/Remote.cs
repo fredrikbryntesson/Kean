@@ -13,8 +13,8 @@ namespace Kean.Platform.Settings
 		Synchronized,
 		IDisposable
 	{
-		public Asynchronous Asynchronous { get; set; }
-		public event Action<bool, string> OnDebug;
+		public RemoteConfiguration Configuration { get; set; }
+
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> types = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -31,6 +31,8 @@ namespace Kean.Platform.Settings
 
 		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
+			this.Configuration = new RemoteConfiguration();
+
 			this.reader = reader;
 			this.writer = writer;
 
@@ -51,7 +53,7 @@ namespace Kean.Platform.Settings
 		}
 		public bool Call(string method, params object[] arguments)
 		{
-			return this.Call(method, this.Asynchronous.HasFlag(Settings.Asynchronous.MethodCall), arguments);
+			return this.Call(method, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.MethodCall), arguments);
 		}
 		public bool Call(string method, bool asynchronous, params object[] arguments)
 		{
@@ -107,7 +109,7 @@ namespace Kean.Platform.Settings
 		}
 		public T Set<T>(string property, T value)
 		{
-			return this.Set(property, value, this.Asynchronous.HasFlag(Settings.Asynchronous.PropertySet));
+			return this.Set(property, value, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.PropertySet));
 		}
 		public T Set<T>(string property, T value, bool asynchronous)
 		{
@@ -204,7 +206,7 @@ namespace Kean.Platform.Settings
 						else if (!char.IsControl(this.reader.Last))
 							line += this.reader.Last;
 				}
-				this.OnDebug.Call(false, (string)line);
+				this.Configuration.Debug(false, (string)line);
 				string[] splitted = ((string)line).Split(new char[] { ' ' }, 3);
 				if (splitted.Length > 1)
 				{
@@ -251,7 +253,7 @@ namespace Kean.Platform.Settings
 			foreach (object argument in arguments)
 				builder += " \"" + argument.AsString() + "\"";
 			string result = builder;
-			this.OnDebug.Call(true, result);
+			this.Configuration.Debug(true, result);
 			this.writer.WriteLine(result);
 			return result;
 		}
@@ -282,7 +284,7 @@ namespace Kean.Platform.Settings
 			switch (resource.Scheme)
 			{
 				case "tcp":
-					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority.Endpoint));
+					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority == "" ? (Uri.Endpoint)"127.0.0.1" : resource.Authority.Endpoint));
 					break;
 			}
 			return Remote.Open(result);

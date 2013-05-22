@@ -101,7 +101,7 @@ namespace Kean.Platform.Settings
 			}
 			catch { }
 			if (this.settings.NotNull() && this.settings.Count > 0)
-				try { Settings.Editor.Read(this.root, Cli.Terminal.Open(new IO.Text.CharacterInDevice(this.settings.Join("\n")), null)).Close(); } catch { }
+				try { Settings.Editor.Read(this.root, new IO.Text.CharacterInDevice(this.settings.Join("\n"))).Close(); } catch { }
 			if (this.remotes.NotNull())
 				foreach (Uri.Locator locator in this.remotes)
 				{

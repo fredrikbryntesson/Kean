@@ -45,11 +45,9 @@ namespace Kean.Platform.Settings
 		}
 		Cli.LineBuffer.Abstract lineBuffer;
 
-		Editor(object root, Cli.ITerminal terminal)
+		Editor(object root, Cli.LineBuffer.Abstract lineBuffer)
 		{
-			this.lineBuffer = new Cli.LineBuffer.Simple(terminal);
-			//this.lineBuffer = new Cli.LineBuffer.Editor(terminal);
-			//this.lineBuffer = new Cli.LineBuffer.EditorWithHistory(terminal);
+			this.lineBuffer = lineBuffer;
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;
@@ -166,19 +164,19 @@ namespace Kean.Platform.Settings
 			this.Close();
 		}
 		#endregion
-		public static Editor Create(object root, Cli.ITerminal terminal)
-		{
-			return terminal.NotNull() ? new Editor(root, terminal) : null;
-		}
-		public static Editor Read(object root, Cli.ITerminal terminal)
+		public static Editor Read(object root, IO.ICharacterInDevice device)
 		{
 			Editor result = null;
-			if (terminal.NotNull())
+			if (device.NotNull())
 			{
-				result = new Editor(root, terminal);
+				result = new Editor(root, new Cli.LineBuffer.Simple(Cli.Terminal.Open(device, null)));
 				result.Read();
 			}
 			return result;
+		}
+		public static Editor Read(object root, Uri.Locator resource)
+		{
+			return Editor.Read(root, IO.CharacterDevice.Open(IO.ByteDevice.Open(resource, null)));
 		}
 
 		public static IDisposable Listen(object root, Uri.Locator resource)
@@ -187,10 +185,10 @@ namespace Kean.Platform.Settings
 			switch (resource.Scheme)
 			{
 				case "file":
-					result = Editor.Read(root, Cli.Terminal.Open(IO.ByteDevice.Open(resource, null)));
+					result = Editor.Read(root, resource);
 					break;
 				case "telnet":
-					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
+					result = new IO.Net.Tcp.Server(connection => new Editor(root, new Cli.LineBuffer.EditorWithHistory(new Cli.VT100(new IO.Net.Telnet.Server(connection)))).Read(), resource.Authority.Endpoint);
 					break;
 				case "tcp":
 					result = new IO.Net.Tcp.Server(connection =>
@@ -199,15 +197,15 @@ namespace Kean.Platform.Settings
 						if (terminal.NotNull())
 						{
 							terminal.NewLine = new char[] { '\r', '\n' };
-							new Editor(root, terminal).Read();
+							new Editor(root, new Cli.LineBuffer.Simple(terminal)).Read();
 						}
 					}, resource.Authority.Endpoint);
 					break;
 				case "console":
-					result = Parallel.Thread.Start("console", () => new Editor(root, new Cli.ConsoleTerminal()).Read());
+					result = Parallel.Thread.Start("console", () => new Editor(root, new Cli.LineBuffer.EditorWithHistory(new Cli.ConsoleTerminal())).Read());
 					break;
 				case "stdio":
-					result = Parallel.Thread.Start("stdio", () => new Editor(root, Cli.Terminal.Open(IO.ByteDeviceSplitter.Open(Console.OpenStandardInput(), Console.OpenStandardOutput()))).Read());
+					result = Parallel.Thread.Start("stdio", () => new Editor(root, new Cli.LineBuffer.Simple(Cli.Terminal.Open(IO.ByteDeviceSplitter.Open(Console.OpenStandardInput(), Console.OpenStandardOutput())))).Read());
 					break;
 			}
 			return result;
