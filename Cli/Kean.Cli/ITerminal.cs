@@ -31,12 +31,9 @@ namespace Kean.Cli
 		IO.ICharacterWriter Out { get; }
 		bool Echo { get; set; }
 		event Action<EditCommand> Command;
-		Geometry2D.Integer.Point CursorPosition { get; set; }
 		bool MoveCursor(Geometry2D.Integer.Size delta);
 		bool MoveCursor(int delta);
 		bool ClearLine();
-		bool ClearLineFromCursor();
-		bool ReplaceLine(string value);
 		bool Home();
 		bool End();
 		bool Clear();

@@ -36,7 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Abstract.cs" />
-    <Compile Include="Buffer.cs" />
     <Compile Include="EditorWithHistory.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

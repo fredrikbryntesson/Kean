@@ -35,6 +35,7 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Text\Buffer.cs" />
     <Compile Include="Wrap\ByteDevice.cs" />
     <Compile Include="Abstract\CharacterWriter.cs" />
     <Compile Include="BufferingByteDevice.cs" />
@@ -103,5 +104,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
-	<Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

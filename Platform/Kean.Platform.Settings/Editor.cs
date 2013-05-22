@@ -48,7 +48,8 @@ namespace Kean.Platform.Settings
 		Editor(object root, Cli.ITerminal terminal)
 		{
 			//this.lineBuffer = new Cli.LineBuffer.Simple(terminal);
-			this.lineBuffer = new Cli.LineBuffer.Editor(terminal);
+			//this.lineBuffer = new Cli.LineBuffer.Editor(terminal);
+			this.lineBuffer = new Cli.LineBuffer.EditorWithHistory(terminal);
 			this.lineBuffer.Execute = this.Execute;
 			this.lineBuffer.Complete = this.Complete;
 			this.lineBuffer.Help = this.Help;

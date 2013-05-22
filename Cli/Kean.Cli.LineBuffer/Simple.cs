@@ -30,9 +30,9 @@ namespace Kean.Cli.LineBuffer
 		Abstract
 	{
 		IO.Text.Builder builder = "";
-		protected override string Current { get { return this.builder; } }
+		protected override string Line { get { return this.builder; } }
 		int length;
-		protected override int CurrentLength { get { return this.length; } }
+		protected override int LineLength { get { return this.length; } }
 		public Simple(ITerminal terminal) :
 			base(terminal)
 		{ }

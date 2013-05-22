@@ -51,8 +51,8 @@ namespace Kean.Cli.LineBuffer
 		}
 		protected int PromptLength { get; private set; }
 
-		protected abstract string Current { get; }
-		protected abstract int CurrentLength { get; }
+		protected abstract string Line { get; }
+		protected abstract int LineLength { get; }
 
 		protected Abstract(ITerminal terminal)
 		{
@@ -60,7 +60,7 @@ namespace Kean.Cli.LineBuffer
 			this.terminal.Command += this.OnCommand;
 		}
 		#region Input
-		void OnCommand(EditCommand command)
+		protected virtual void OnCommand(EditCommand command)
 		{
 			switch (command)
 			{
@@ -129,7 +129,7 @@ namespace Kean.Cli.LineBuffer
 				this.terminal.Out.WriteLine();
 			this.Executing = true;
 
-			string line = this.Current;
+			string line = this.Line;
 			if (line.StartsWith("?"))
 			{
 				if (this.RequestType.NotNull())
@@ -164,8 +164,8 @@ namespace Kean.Cli.LineBuffer
 					this.terminal.Out.WriteLine(value);
 				else
 				{
-					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.CurrentLength));
-					this.terminal.Out.WriteLine(this.Prompt + this.Current);
+					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.LineLength));
+					this.terminal.Out.WriteLine(this.Prompt + this.Line);
 				}
 			}
 		}

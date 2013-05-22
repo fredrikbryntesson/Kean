@@ -48,37 +48,25 @@ namespace Kean.Cli.LineBuffer
 
 		protected override void OnUp()
 		{
-			if (this.position != this.first)
+			if (this.Position != this.first)
 			{
 				if (this.position == this.last)
-					this.history[this.position] = this.Current;
-				this.Position--;
-				this.ReplaceLine();
+					this.history[this.Position] = this.Line;
+				this.Replace(this.history[--this.Position]);
 			}
 		}
 
 		protected override void OnDown()
 		{
-			if (this.position != this.last)
-			{
-				this.Position++;
-				this.ReplaceLine();
-			}
-		}
-
-		void ReplaceLine()
-		{
-			this.ClearCurrent();
-			this.buffer.Set(this.history[this.position]);
-			this.cursor = this.length = this.history[this.position].Length;
-			this.terminal.ReplaceLine(this.Prompt + this.Current);
+			if (this.Position != this.last)
+				this.Replace(this.history[++this.Position]);
 		}
 
 		protected override void OnEnter()
 		{
-			if (this.Current.NotEmpty() && this.Current != this.history[Integer.Modulo(this.last - 1, this.size)])
+			if (this.Line.NotEmpty() && this.Line != this.history[Integer.Modulo(this.last - 1, this.size)])
 			{
-				this.history[this.last] = this.Current;
+				this.history[this.last] = this.Line;
 				this.last = (this.last + 1) % this.size;
 				if (this.last == this.first)
 					this.first = (this.first + 1) % this.size;

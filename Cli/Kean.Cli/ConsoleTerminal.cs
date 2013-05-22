@@ -45,15 +45,13 @@ namespace Kean.Cli
 			get { return this.device.LocalEcho; }
 			set { this.device.LocalEcho = value; }
 		}
-		public override Geometry2D.Integer.Point CursorPosition
-		{
-			get { return new Geometry2D.Integer.Point(Console.CursorLeft, Console.CursorTop); }
-			set { Console.SetCursorPosition(value.X, value.Y); }
-		}
 		public override bool MoveCursor(Geometry2D.Integer.Size delta)
 		{
 			if (!this.noValidHandle)
-				try { this.CursorPosition += delta; }
+				try {
+					Console.CursorLeft += delta.Width;
+					Console.CursorTop += delta.Height;
+				}
 				catch (System.IO.IOException) { this.noValidHandle = true; }
 			return !this.noValidHandle;
 		}
@@ -67,18 +65,6 @@ namespace Kean.Cli
 		public override bool Clear()
 		{
 			Console.Clear();
-			return true;
-		}
-		public override bool ClearLine()
-		{
-			return ReplaceLine("");
-		}
-		public override bool ReplaceLine(string value)
-		{
-			Console.CursorLeft = 0;
-			Console.Write(value);
-			Console.Write(new String(' ', Console.BufferWidth-value.Length));
-			this.MoveCursor(new Geometry2D.Integer.Size(value.Length, -1));
 			return true;
 		}
 	}

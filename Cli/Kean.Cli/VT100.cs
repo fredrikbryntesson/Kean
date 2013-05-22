@@ -62,11 +62,6 @@ namespace Kean.Cli
 			this.NewLine = new char[] { '\r', '\n' };
 		}
 		#endregion
-		public override Geometry2D.Integer.Point CursorPosition
-		{
-			get { return base.CursorPosition; }
-			set { this.Out.Write("\x1b[{0};{1}H", CursorPosition.X, CursorPosition.Y); }
-		}
 		public override bool MoveCursor(Geometry2D.Integer.Size delta)
 		{
 			IO.Text.Builder result = new IO.Text.Builder();
@@ -102,15 +97,6 @@ namespace Kean.Cli
 		}
 		public override bool Clear() { return this.Out.Write('\x1b', '[', '2', 'J'); }
 		public override bool ClearLine() { return this.Out.Write('\x1b', '[', '2', 'K'); }
-		public override bool ReplaceLine(string value)
-		{
-			Console.CursorLeft = 0;
-			Console.Write(value);
-			Console.Write(new String(' ', Console.BufferWidth - value.Length));
-			this.MoveCursor(new Geometry2D.Integer.Size(value.Length, -1));
-			return true;
-		}
-
 		char[] FilterInput(Func<char?> read)
 		{
 			Collection.IList<char> buffer = new Collection.List<char>();

@@ -67,13 +67,11 @@ namespace Kean.Cli
 		public IO.ICharacterWriter Out { get; private set; }
 		public virtual bool Echo { get; set; }
 		public event Action<EditCommand> Command;
-		public virtual Geometry2D.Integer.Point CursorPosition { get { return new Geometry2D.Integer.Point(); } set { ; } }
 		public virtual bool MoveCursor(Geometry2D.Integer.Size delta) { return false; }
 		public virtual bool MoveCursor(int delta) { return false; }
 		public virtual bool ClearLine() { return false; }
 		public virtual bool ClearLineFromCursor() { return false; }
-		public virtual bool ReplaceLine(string value) { return false; }
-		public virtual bool Home() { return false; }
+		public virtual bool Home() { this.Out.Write('\r'); return true; }
 		public virtual bool End() { return false; }
 		public virtual bool Clear() { return false; }
 		#endregion
