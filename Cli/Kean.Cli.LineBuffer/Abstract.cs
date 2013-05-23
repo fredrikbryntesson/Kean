@@ -119,9 +119,10 @@ namespace Kean.Cli.LineBuffer
 		protected virtual void OnTab() { }
 		protected virtual void OnEnter() 
 		{
+			string line = this.Line;
+			this.ClearLine();
 			if (this.terminal.Echo)
 				this.terminal.Out.WriteLine();
-			string line = this.Line;
 			if (line.StartsWith("?"))
 			{
 				if (this.RequestType.NotNull())
@@ -130,7 +131,6 @@ namespace Kean.Cli.LineBuffer
 			else if (this.Execute.NotNull())
 				this.Execute(line);
 
-			this.ClearCurrent();
 			this.terminal.Out.Write(this.Prompt);
 		}
 		protected virtual void OnDown() { }
@@ -144,7 +144,7 @@ namespace Kean.Cli.LineBuffer
 				this.Insert(this.terminal.In.Last);
 		}
 		protected abstract void Insert(char c);
-		protected abstract void ClearCurrent();
+		protected abstract void ClearLine();
 		#endregion
 		#region Output
 		public virtual void WriteLine(string value)

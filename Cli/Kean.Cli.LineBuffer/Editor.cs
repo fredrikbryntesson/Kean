@@ -92,7 +92,7 @@ namespace Kean.Cli.LineBuffer
 		{
 			this.MoveCursor(this.Buffer.MoveCursorEnd());
 		}
-		protected override void ClearCurrent()
+		protected override void ClearLine()
 		{
 			this.Buffer.Clear();
 		}

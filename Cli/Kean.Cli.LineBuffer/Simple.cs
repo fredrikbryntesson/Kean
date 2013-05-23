@@ -42,7 +42,7 @@ namespace Kean.Cli.LineBuffer
 			this.length++;
 			this.builder.Append(c);
 		}
-		protected override void ClearCurrent()
+		protected override void ClearLine()
 		{
 			this.length = 0;
 			this.builder = "";
