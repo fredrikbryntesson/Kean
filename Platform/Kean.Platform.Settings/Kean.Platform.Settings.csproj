@@ -39,7 +39,7 @@
     <Compile Include="Remote.cs" />
     <Compile Include="Dynamic.cs" />
     <Compile Include="IReload.cs" />
-    <Compile Include="Editor.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="IDynamic.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="MemberAttribute.cs" />
