@@ -319,7 +319,7 @@ namespace Kean.Platform
 			this.Mode = Mode.Stopped;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
-					this.Run(module.Stop, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " stoped.", "Module " + module.Name + " is stoped."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to stop.", "Module " + module.Name + " failed to stop with exception: " + exception.GetType() + " and message: " + exception.Message));
+					this.Run(module.Stop, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " stopped.", "Module " + module.Name + " is stopped."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to stop.", "Module " + module.Name + " failed to stop with exception: " + exception.GetType() + " and message: " + exception.Message));
 			this.Mode = Mode.Disposed;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Stopped)
