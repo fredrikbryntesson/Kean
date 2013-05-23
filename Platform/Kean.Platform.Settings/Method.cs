@@ -60,7 +60,7 @@ namespace Kean.Platform.Settings
 		{
 			this.backend = backend;
 		}
-		public override bool Execute(Editor editor, string[] parameters)
+		public override bool Execute(Parser editor, string[] parameters)
 		{
 			bool result;
 			object methodResult = null;
@@ -108,7 +108,7 @@ namespace Kean.Platform.Settings
 			}
 			return result;
 		}
-		public override bool RequestType(Editor editor)
+		public override bool RequestType(Parser editor)
 		{
 			Collection.List<string> results = new Collection.List<string>();
 			foreach (Parameter.Abstract parameter in this.Parameters)

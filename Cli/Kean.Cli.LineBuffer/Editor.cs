@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,187 +18,139 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using IO = Kean.IO;
+using Text = Kean.IO.Text;
 
 namespace Kean.Cli.LineBuffer
 {
 	public class Editor :
-		IDisposable
+		Abstract
 	{
-		object @lock = new object();
+		protected Text.Buffer Buffer { get; set; }
+		bool help;
+
+		protected override string Line { get { return this.Buffer.ToString(); } }
+		protected override int LineLength { get { return this.Buffer.Length; } }
+
 		bool executing;
-		ITerminal terminal;
-		History history;
-		bool help = false;
-		bool exit = false;
-		int oldmessage = 0;
-		public Func<string, bool> Execute { get; set; }
-		public Func<string, string> Complete { get; set; }
-		public Func<string, string> Help { get; set; }
-		public Func<string, string> Error { get; set; }
-		public Func<string, bool> RequestType { get; set; }
-		public string Prompt { get; set; }
-		public Editor(ITerminal terminal)
+		protected bool Executing
 		{
-			this.terminal = terminal;
-			this.terminal.Command += this.OnCommand;
-			this.history = new History(c => { if (this.terminal.Echo) this.terminal.Out.Write(c); });
+			get { lock (this.Lock) return this.executing; }
+			set { lock (this.Lock) this.executing = value; }
 		}
-		void OnCommand(EditCommand command)
+
+		public Editor(ITerminal terminal) :
+			base(terminal)
 		{
-			switch (command)
+			this.Buffer = new Text.Buffer();
+		}
+		protected override void Insert(char c)
+		{
+			this.help = false;
+			this.terminal.Out.Write(c);
+			if (!this.Buffer.Insert(c))
+				this.ReplaceFromCursor(this.Buffer.Substring(this.Buffer.Cursor));
+		}
+		protected override void OnCommand(EditCommand command)
+		{
+			if (command != EditCommand.Tab)
+				this.help = false;
+			base.OnCommand(command);
+		}
+		protected override void OnDelete()
+		{
+			if (this.Buffer.Delete())
+				this.ReplaceFromCursor(this.Buffer.Substring(this.Buffer.Cursor) + " ");
+		}
+
+		protected override void OnBackspace()
+		{
+			if (this.Buffer.Backspace())
 			{
-				case EditCommand.None:
-					break;
-				case EditCommand.Home:
-					this.history.Current.MoveCursorHome();
-					break;
-				case EditCommand.LeftArrow:
-					this.history.Current.MoveCursorLeft();
-					break;
-				case EditCommand.Copy:
-					break;
-				case EditCommand.Exit:
-					this.exit = true;
-					this.Close();
-					break;
-				case EditCommand.End:
-					this.history.Current.MoveCursorEnd();
-					break;
-				case EditCommand.RightArrow:
-					this.history.Current.MoveCursorRight();
-					break;
-				// 7
-				case EditCommand.Backspace:
-					this.history.Current.DeletePreviousCharacter();
-					break;
-				case EditCommand.Tab: // Tab
-					if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
-					{
-						this.terminal.Out.WriteLine();
-						this.terminal.Out.Write(this.Help(this.history.Current.ToString()));
-						this.terminal.Out.Write(this.Prompt);
-						this.history.Current.Write();
-						this.help = false;
-					}
-					else if (this.Complete.NotNull())
-					{
-						string old = this.history.Current.ToString();
-						string result = this.Complete(old);
-						if (result == old)
-							this.help = true;
-						else
-							this.history.Current.Renew(result);
-					}
-					break;
-				case EditCommand.Quit:
-				case EditCommand.Enter:
-					{
-						lock (this.@lock)
-							this.executing = true;
-						if (this.terminal.Echo)
-							this.terminal.Out.WriteLine();
-
-						string line = this.history.Current.ToString();
-						if (line.StartsWith("?"))
-						{
-							if (this.RequestType.NotNull())
-								this.RequestType(line.Substring(1));
-						}
-						else if (this.Execute.NotNull())
-								this.Execute(line);
-
-						if (this.history.Current.ToString().NotEmpty())
-							this.history.Add();
-						else
-							this.history.ClearCurrent();
-						this.terminal.Out.Write(this.Prompt);
-						
-						lock (this.@lock)
-							this.executing = false;
-					}
-					break;
-				case EditCommand.DownArrow:
-
-					if (!this.history.Empty)
-						this.history.Next();
-					break;
-				case EditCommand.UpArrow:
-					if (!this.history.Empty)
-						this.history.Previous();
-					break;
-				case EditCommand.Paste:
-					break;
-				case EditCommand.Cut:
-					break;
-				case EditCommand.Redo:
-					break;
-				case EditCommand.Undo:
-					break;
-				case EditCommand.Delete:
-					this.history.Current.DeleteCurrentCharacter();
-					break;
+				this.MoveCursor(-1);
+				this.ReplaceFromCursor(this.Buffer.Substring(this.Buffer.Cursor) + " ");
 			}
 		}
-		public void Read()
+		protected override void OnLeft()
 		{
-			this.terminal.Out.Write(this.Prompt);
-			while (this.terminal.In.Next() && !this.exit)
+			if (this.Buffer.MoveCursorLeft())
+				this.MoveCursor(-1);
+		}
+		protected override void OnRight()
+		{
+			if (this.Buffer.MoveCursorRight())
+				this.MoveCursor(1);
+		}
+		protected override void OnHome()
+		{
+			this.MoveCursor(this.Buffer.MoveCursorHome());
+		}
+		protected override void OnEnd()
+		{
+			this.MoveCursor(this.Buffer.MoveCursorEnd());
+		}
+		protected override void ClearLine()
+		{
+			this.Buffer.Clear();
+		}
+		protected override void OnTab()
+		{
+			string leftOfCursor = this.Buffer.LeftOfCursor;
+			if ((this.help || this.Complete.IsNull()) && this.Help.NotNull())
 			{
-				this.history.Current.Insert(this.terminal.In.Last);
+				this.terminal.Out.WriteLine();
+				this.terminal.Out.Write(this.Help(leftOfCursor) + this.Prompt + this.Line);
+				this.MoveCursor(-this.Buffer.CursorToEnd);
 				this.help = false;
 			}
-		}
-		public void WriteLine(string value)
-		{
-			lock (this.@lock)
+			else if (this.Complete.NotNull())
 			{
-                if (this.executing)
-                {
-                    this.terminal.Out.WriteLine(value);
-                    this.oldmessage = value.Length;
-                }
-                else
-                {
-                    //this.Remove(-this.oldmessage - this.Prompt.Length - this.history.Current.ToString().Length);
-                    this.Remove(-this.Prompt.Length);
-                    this.terminal.Out.WriteLine(value);
-                    this.oldmessage = value.Length;
-                    this.terminal.Out.Write(this.Prompt);
-                    this.history.Current.Write();
-                }
+				string result = this.Complete(leftOfCursor);
+				if (result == leftOfCursor)
+					this.help = true;
+				else if (result.StartsWith(leftOfCursor))
+				{
+					string delta = result.Substring(leftOfCursor.Length);
+					this.terminal.Out.Write(delta + this.Buffer.RightOfCursor);
+					this.MoveCursor(-this.Buffer.CursorToEnd);
+					this.Buffer.Insert(delta);
+				}
 			}
 		}
-		void Remove(int steps)
+		public override void WriteLine(string value)
 		{
-			if (steps < 0)
-				while (steps++ != 0)
-					this.terminal.Out.Write((char)8 + " " + (char)8);
-			else
-				while (steps-- != 0)
-					this.terminal.Out.Write(" ");
-		}
-
-		public void Close()
-		{
-			lock (this.@lock)
-				if (this.terminal.NotNull())
+			lock (this.Lock)
+			{
+				if (this.Executing)
+					this.terminal.Out.WriteLine(value);
+				else
 				{
-					this.terminal.Close();
-					this.terminal = null;
+					this.OnHome();
+					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.LineLength));
+					this.terminal.Out.Write(this.Prompt + this.Line);
 				}
+			}
 		}
-
-		#region IDisposable Members
-		void IDisposable.Dispose()
+		protected virtual bool MoveCursor(int delta)
 		{
-			this.Close();
+			return delta == 0 || this.terminal.MoveCursor(delta) || 
+				this.terminal.Out.Write(delta > 0 ? this.Buffer.Substring(this.Buffer.Cursor - delta, delta) : new string('\b', -delta));
 		}
-		#endregion
+		protected virtual bool ReplaceFromCursor(string value)
+		{
+			return this.terminal.Out.Write(value) && this.MoveCursor(-value.Length);
+		}
+		protected virtual void Replace(string line)
+		{
+			int oldLength = this.Buffer.Length;
+			this.OnHome();
+			this.Buffer = line;
+			this.terminal.Out.Write(((string)this.Buffer).PadRight(oldLength));
+			if (oldLength > this.Buffer.Length)
+				this.MoveCursor(this.Buffer.Length - oldLength);
+		}
 	}
 }

@@ -33,6 +33,8 @@ namespace Kean.Platform.Settings
 		Member,
         System.Collections.Generic.IEnumerable<Member>
 	{
+		internal Parser Parser { get; set; }
+
 		protected override char Delimiter { get { return '.'; } }
 		object backend;
 		#region Sorted vectors of members for help
@@ -96,6 +98,8 @@ namespace Kean.Platform.Settings
 									this.members.Add(new Object(attributes[0] as ObjectAttribute, member as Reflect.Property, this));
 							}
 						}
+						if (this.Parser.NotNull())
+							this.members.Add(new Object("settings", "", "", this.Parser, this));
 						if (this.backend is IReload)
 						{
 							(this.backend as IReload).Reload += () => this.members = null;
@@ -130,7 +134,7 @@ namespace Kean.Platform.Settings
 		{
 			return this.backend.GetEvent(name);
 		}
-		public override bool Execute(Editor editor, string[] parameters)
+		public override bool Execute(Parser editor, string[] parameters)
 		{
 			if (parameters.Length == 0 || parameters.Length == 1 && parameters[0].IsEmpty())
 				editor.Current = this;
@@ -160,7 +164,7 @@ namespace Kean.Platform.Settings
 					results.Add(Tuple.Create(member.Name, member.Description));
 			return results.Fold((m, r) => r + m.Item1 + "\t" + m.Item2 + "\n", "");
 		}
-		public override bool RequestType(Editor editor)
+		public override bool RequestType(Parser editor)
 		{
 			Collection.List<string> results = new Collection.List<string>();
 			foreach (Member member in this)

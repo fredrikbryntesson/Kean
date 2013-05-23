@@ -13,8 +13,22 @@ namespace Kean.Platform.Settings
 		Synchronized,
 		IDisposable
 	{
-		public Asynchronous Asynchronous { get; set; }
-		public event Action<bool, string> OnDebug;
+		RemoteConfiguration configuration = new RemoteConfiguration();
+		public RemoteConfiguration Configuration 
+		{
+			get { return this.configuration; }
+			set 
+			{ 
+				this.configuration = value;
+				if (this.configuration.NotNull())
+				{
+					Action<Asynchronous> asynchronousChanged = v => this.Set("settings.asynchronous", v);
+					this.Configuration.AsynchronousChanged += asynchronousChanged;
+					asynchronousChanged(this.Configuration.Asynchronous);
+				}
+			}
+		}
+
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> types = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -43,6 +57,8 @@ namespace Kean.Platform.Settings
 					line += this.reader.Last;
 			}
 			this.thread = Parallel.RepeatThread.Start("RemoteClient", this.Receive);
+			this.Configuration = this.Configuration;
+
 		}
 		public bool Exists(string @object)
 		{
@@ -51,7 +67,7 @@ namespace Kean.Platform.Settings
 		}
 		public bool Call(string method, params object[] arguments)
 		{
-			return this.Call(method, this.Asynchronous.HasFlag(Settings.Asynchronous.MethodCall), arguments);
+			return this.Call(method, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.Call), arguments);
 		}
 		public bool Call(string method, bool asynchronous, params object[] arguments)
 		{
@@ -107,7 +123,7 @@ namespace Kean.Platform.Settings
 		}
 		public T Set<T>(string property, T value)
 		{
-			return this.Set(property, value, this.Asynchronous.HasFlag(Settings.Asynchronous.PropertySet));
+			return this.Set(property, value, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.Set));
 		}
 		public T Set<T>(string property, T value, bool asynchronous)
 		{
@@ -204,7 +220,7 @@ namespace Kean.Platform.Settings
 						else if (!char.IsControl(this.reader.Last))
 							line += this.reader.Last;
 				}
-				this.OnDebug.Call(false, (string)line);
+				this.Configuration.Debug(false, (string)line);
 				string[] splitted = ((string)line).Split(new char[] { ' ' }, 3);
 				if (splitted.Length > 1)
 				{
@@ -222,8 +238,8 @@ namespace Kean.Platform.Settings
 								this.notifications[splitted[1]].Call(splitted[2]);
 							break;
 						default:
-						case "?": // error
-							this.types[splitted[1]].Call(splitted[2]);
+						case "?": // type
+							this.types[splitted[1]].Call(splitted.Length > 2 ? splitted[2] : "");
 							break;
 						case "!": // error
 							this.OnResponseCall(false);
@@ -251,7 +267,7 @@ namespace Kean.Platform.Settings
 			foreach (object argument in arguments)
 				builder += " \"" + argument.AsString() + "\"";
 			string result = builder;
-			this.OnDebug.Call(true, result);
+			this.Configuration.Debug(true, result);
 			this.writer.WriteLine(result);
 			return result;
 		}
@@ -282,7 +298,7 @@ namespace Kean.Platform.Settings
 			switch (resource.Scheme)
 			{
 				case "tcp":
-					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority.Endpoint));
+					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority == "" ? (Uri.Endpoint)"127.0.0.1" : resource.Authority.Endpoint));
 					break;
 			}
 			return Remote.Open(result);
@@ -298,6 +314,20 @@ namespace Kean.Platform.Settings
 		public static Remote Open(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
 			return reader.NotNull() && writer.NotNull() ? new Remote(reader, writer) : null;
+		}
+
+		public static Remote Open(System.IO.Stream input, System.IO.Stream output)
+		{
+			return Remote.Open(IO.ByteDevice.Open(input), IO.ByteDevice.Open(output));
+		}
+		public static Remote Open(IO.IByteInDevice input, IO.IByteOutDevice output)
+		{
+			return Remote.Open(IO.ByteDeviceSplitter.Open(input, output));
+		}
+		public static Remote Open(IO.IByteDevice device)
+		{
+			//device = IO.Tap.ByteDevice.Open(device, b => System.Diagnostics.Debug.Write(b == 10 ? "\n" : "s{0:X2}".Format(b)), b => System.Diagnostics.Debug.Write(b == 10 ? "\n" : "c{0:X2}".Format(b)));
+			return Remote.Open(IO.CharacterDevice.Open(IO.BufferingByteDevice.Open(device)));
 		}
 	}
 }

@@ -74,7 +74,8 @@ namespace Kean.Cli
 		}
 		public char? Peek()
 		{
-			return null;
+			int result = Console.In.Peek();
+			return result > 0 ? (char?)result : null;
 		}
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{

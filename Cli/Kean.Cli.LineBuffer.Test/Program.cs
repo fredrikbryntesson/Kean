@@ -28,10 +28,14 @@ namespace Kean.Cli.LineBuffer.Test
 	{
 		static void Main(string[] args)
 		{
-            Editor editor = new Editor(new ConsoleTerminal()) { Prompt = ":>" };
+			ITerminal terminal = new ConsoleTerminal();
+			//Simple editor = new Simple(terminal);
+			Abstract editor = new Editor(terminal);
+//			Abstract editor = new EditorWithHistory(terminal);
+			editor.Prompt = ":>";
             Tuple<string, string>[] completionDescription = new Tuple<string, string>[] 
             {
-                Tuple.Create<string, string>("fish", "Fishes are a paraphyletic group of organisms."),
+                Tuple.Create<string, string>("fish", "Fish are a paraphyletic group of organisms."),
                 Tuple.Create<string, string>("firefox", "Mozilla Firefox is a free and open source web browser."),
                 Tuple.Create<string, string>("foot", "The foot is an anatomical structure found in many vertebrates."),
             };

@@ -84,30 +84,30 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Start()
 		{
-			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
+			try { Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
 			catch { }
 			try
 			{
 				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
-					try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(file)).Dispose(); } catch { } 
+					try { Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(file)).Dispose(); } catch { } 
 			}
 			catch { }
-			try { Settings.Editor.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
+			try { Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).Dispose(); } catch { }
 			try
 			{
 				foreach (Uri.Locator locator in this.configurations)
-					try { Settings.Editor.Listen(this.root, locator).Dispose(); }
+					try { Settings.Parser.Listen(this.root, locator).Dispose(); }
 					catch { }
 			}
 			catch { }
 			if (this.settings.NotNull() && this.settings.Count > 0)
-				try { Settings.Editor.Read(this.root, Cli.Terminal.Open(new IO.Text.CharacterInDevice(this.settings.Join("\n")), null)).Close(); } catch { }
+				try { Settings.Parser.Read(this.root, new IO.Text.CharacterInDevice(this.settings.Join("\n"))).Close(); } catch { }
 			if (this.remotes.NotNull())
 				foreach (Uri.Locator locator in this.remotes)
 				{
 					try
 					{
-						IDisposable editor = Settings.Editor.Listen(this.root, locator);
+						IDisposable editor = Settings.Parser.Listen(this.root, locator);
 						this.editors.Add(editor);
 					}
 					catch { }

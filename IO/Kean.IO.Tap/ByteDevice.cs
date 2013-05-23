@@ -97,5 +97,21 @@ namespace Kean.IO.Tap
 			this.Close();
 		}
 		#endregion
+		#region Static Creators
+		public static ByteDevice Open(IByteDevice backend)
+		{
+			return backend.NotNull() ? new ByteDevice(backend) : null;
+		}
+		public static ByteDevice Open(IByteDevice backend, Action<byte> onRead, Action<byte> onWrite)
+		{
+			ByteDevice result = ByteDevice.Open(backend);
+			if (result.NotNull())
+			{
+				result.OnRead += onRead;
+				result.OnWrite += onWrite;
+			}
+			return result;
+		}
+		#endregion
 	}
 }

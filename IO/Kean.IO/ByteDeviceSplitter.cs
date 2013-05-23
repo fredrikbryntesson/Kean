@@ -96,6 +96,7 @@ namespace Kean.IO
 		#region Static Open
 		public static IByteDevice Open(IByteInDevice inDevice) { return ByteDeviceSplitter.Open(inDevice, null); }
 		public static IByteDevice Open(IByteInDevice inDevice, IByteOutDevice outDevice) { return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceSplitter(inDevice, outDevice) : null; }
+		public static IByteDevice Open(System.IO.Stream input, System.IO.Stream output) { return ByteDeviceSplitter.Open(ByteDevice.Open(input), ByteDevice.Open(output)); }
 		#endregion
 	}
 }

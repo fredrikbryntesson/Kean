@@ -30,6 +30,7 @@ namespace Kean.IO.Text
     public class Builder
     {
         Collection.IList<string> data;
+		public int Length { get { return this.data.Fold((item, result) => result + item.Length, 0); } }
         public Builder()
         { 
             this.data = new Collection.Linked.List<string>();
@@ -79,7 +80,16 @@ namespace Kean.IO.Text
         #region Casts
         public static implicit operator string(Builder builder)
         {
-            return builder.NotNull() ? builder.data.Fold((item, accumulation) => accumulation + item, "") : "";
+			string result;
+			if (builder.NotNull())
+			{
+				result = builder.data.Fold((item, accumulation) => accumulation + item, "");
+				builder.data = new Collection.Linked.List<string>();
+				builder.Append(result);
+			}
+			else
+				result = "";
+            return result;
         }
         public static implicit operator Builder(string value)
         {

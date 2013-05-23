@@ -145,6 +145,20 @@ namespace Kean.Core.Extension
 				initial = function(element, initial);
 			return initial;
 		}
+		public static System.Collections.Generic.IEnumerable<T> Append<T>(this System.Collections.Generic.IEnumerable<T> me, System.Collections.Generic.IEnumerable<T> other)
+		{
+			foreach (T item in me)
+				yield return item;
+			foreach (T item in other)
+				yield return item;
+		}
+		public static System.Collections.Generic.IEnumerable<T> Prepend<T>(this System.Collections.Generic.IEnumerable<T> me, System.Collections.Generic.IEnumerable<T> other)
+		{
+			foreach (T item in other)
+				yield return item;
+			foreach (T item in me)
+				yield return item;
+		}
 		public static string Join(this System.Collections.Generic.IEnumerable<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
