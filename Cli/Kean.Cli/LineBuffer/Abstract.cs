@@ -121,7 +121,6 @@ namespace Kean.Cli.LineBuffer
 		{
 			string line = this.Line;
 			this.ClearLine();
-			this.terminal.Out.
 			if (this.terminal.Echo)
 				this.terminal.Out.WriteLine();
 			if (line.StartsWith("?"))
@@ -131,8 +130,6 @@ namespace Kean.Cli.LineBuffer
 			}
 			else if (this.Execute.NotNull())
 				this.Execute(line);
-
-			this.terminal.Out.Write(this.Prompt);
 		}
 		protected virtual void OnDown() { }
 		protected virtual void OnUp() { }
