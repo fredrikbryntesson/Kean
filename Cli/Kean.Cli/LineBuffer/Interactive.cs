@@ -128,7 +128,7 @@ namespace Kean.Cli.LineBuffer
 					this.terminal.Out.WriteLine(value);
 				else
 				{
-					this.terminal.Out.Write('\r');
+					this.terminal.Home();
 					this.terminal.Out.WriteLine(value.PadRight(this.PromptLength + this.LineLength));
 					this.terminal.Out.Write(this.Prompt + this.Line);
 				}
