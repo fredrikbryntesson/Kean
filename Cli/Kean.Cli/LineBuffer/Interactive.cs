@@ -1,5 +1,5 @@
 ﻿// 
-//  Editor.cs
+//  Interactive.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

@@ -1,5 +1,5 @@
 ﻿// 
-//  ITerminal.cs
+//  Terminal.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

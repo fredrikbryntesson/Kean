@@ -1,5 +1,5 @@
 ﻿// 
-//  Editor.cs
+//  Parser.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>

@@ -1,5 +1,5 @@
 ﻿// 
-//  EditorWithHistory.cs
+//  InteractiveWithHistory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
