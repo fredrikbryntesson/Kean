@@ -13,7 +13,21 @@ namespace Kean.Platform.Settings
 		Synchronized,
 		IDisposable
 	{
-		public RemoteConfiguration Configuration { get; set; }
+		RemoteConfiguration configuration = new RemoteConfiguration();
+		public RemoteConfiguration Configuration 
+		{
+			get { return this.configuration; }
+			set 
+			{ 
+				this.configuration = value;
+				if (this.configuration.NotNull())
+				{
+					Action<Asynchronous> asynchronousChanged = v => this.Set("settings.asynchronous", v);
+					this.Configuration.AsynchronousChanged += asynchronousChanged;
+					asynchronousChanged(this.Configuration.Asynchronous);
+				}
+			}
+		}
 
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -31,8 +45,6 @@ namespace Kean.Platform.Settings
 
 		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
-			this.Configuration = new RemoteConfiguration();
-
 			this.reader = reader;
 			this.writer = writer;
 
@@ -45,6 +57,8 @@ namespace Kean.Platform.Settings
 					line += this.reader.Last;
 			}
 			this.thread = Parallel.RepeatThread.Start("RemoteClient", this.Receive);
+			this.Configuration = this.Configuration;
+
 		}
 		public bool Exists(string @object)
 		{
@@ -53,7 +67,7 @@ namespace Kean.Platform.Settings
 		}
 		public bool Call(string method, params object[] arguments)
 		{
-			return this.Call(method, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.MethodCall), arguments);
+			return this.Call(method, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.Call), arguments);
 		}
 		public bool Call(string method, bool asynchronous, params object[] arguments)
 		{
@@ -109,7 +123,7 @@ namespace Kean.Platform.Settings
 		}
 		public T Set<T>(string property, T value)
 		{
-			return this.Set(property, value, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.PropertySet));
+			return this.Set(property, value, this.Configuration.Asynchronous.HasFlag(Settings.Asynchronous.Set));
 		}
 		public T Set<T>(string property, T value, bool asynchronous)
 		{

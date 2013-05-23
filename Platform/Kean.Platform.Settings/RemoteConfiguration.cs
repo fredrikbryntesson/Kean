@@ -5,7 +5,18 @@ namespace Kean.Platform.Settings
 {
 	public class RemoteConfiguration
 	{
-		public Asynchronous Asynchronous { get; set; }
+		private Asynchronous asynchronous;
+		public Asynchronous Asynchronous 
+		{
+			get { return this.asynchronous; } 
+			set 
+			{ 
+				if (this.asynchronous != value) 
+					this.AsynchronousChanged.Call(this.asynchronous = value); 
+			} 
+		}
+		public event Action<Asynchronous> AsynchronousChanged;
+
 		public event Action<bool, string> OnDebug;
 
 		public void Debug(bool direction, string message)
