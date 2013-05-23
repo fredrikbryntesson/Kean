@@ -227,7 +227,7 @@ namespace Kean.Platform.Settings
 					result = Parallel.Thread.Start("console", () => new Parser(root, true, new Cli.ConsoleTerminal()).Read());
 					break;
 				case "stdio":
-					result = Parallel.Thread.Start("stdio", () => new Parser(root, false, Cli.Terminal.Open(IO.ByteDeviceSplitter.Open(Console.OpenStandardInput(), Console.OpenStandardOutput()))).Read());
+					result = Parallel.Thread.Start("stdio", () => new Parser(root, false, Cli.Terminal.Open(IO.ByteDeviceCombiner.Open(Console.OpenStandardInput(), Console.OpenStandardOutput()))).Read());
 					break;
 			}
 			return result;

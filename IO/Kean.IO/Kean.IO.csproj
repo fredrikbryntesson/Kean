@@ -83,7 +83,7 @@
     <Compile Include="IByteDevice.cs" />
     <Compile Include="IByteOutDevice.cs" />
     <Compile Include="IByteInDevice.cs" />
-    <Compile Include="ByteDeviceSplitter.cs" />
+    <Compile Include="ByteDeviceCombiner.cs" />
     <Compile Include="Null\ByteDevice.cs" />
     <Compile Include="Null\CharacterDevice.cs" />
     <Compile Include="Null\CharacterReader.cs" />

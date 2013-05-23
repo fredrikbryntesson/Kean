@@ -124,7 +124,7 @@ namespace Kean.IO
 		}
 		public static IByteDevice Open(Uri.Locator input, Uri.Locator output)
 		{
-			return ByteDeviceSplitter.Open(ByteDevice.Open(input), ByteDevice.Create(output));
+			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Create(output));
 		}
 		public static IByteDevice Create(Uri.Locator resource)
 		{

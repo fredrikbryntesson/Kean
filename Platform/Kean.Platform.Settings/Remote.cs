@@ -322,7 +322,7 @@ namespace Kean.Platform.Settings
 		}
 		public static Remote Open(IO.IByteInDevice input, IO.IByteOutDevice output)
 		{
-			return Remote.Open(IO.ByteDeviceSplitter.Open(input, output));
+			return Remote.Open(IO.ByteDeviceCombiner.Open(input, output));
 		}
 		public static Remote Open(IO.IByteDevice device)
 		{
