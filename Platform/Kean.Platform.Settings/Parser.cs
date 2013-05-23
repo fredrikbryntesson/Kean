@@ -68,14 +68,14 @@ namespace Kean.Platform.Settings
 			set
 			{
 				if (value != this.Interactive)
-					this.LineBuffer = value ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.EditorWithHistory(this.terminal) : new Cli.LineBuffer.Simple(this.terminal);
+					this.LineBuffer = value ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.InteractiveWithHistory(this.terminal) : new Cli.LineBuffer.Simple(this.terminal);
 			}
 		}
 
 		Parser(object root, bool interactive, Cli.ITerminal terminal)
 		{
 			this.terminal = terminal;
-			this.LineBuffer = interactive ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.EditorWithHistory(terminal) : new Cli.LineBuffer.Simple(terminal);
+			this.LineBuffer = interactive ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.InteractiveWithHistory(terminal) : new Cli.LineBuffer.Simple(terminal);
 			this.Current = this.Root = new Object(root) { Parser = this };
 		}
 		Tuple<string, Member, string[]> Parse(string line)

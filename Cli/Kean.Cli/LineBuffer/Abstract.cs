@@ -121,6 +121,7 @@ namespace Kean.Cli.LineBuffer
 		{
 			string line = this.Line;
 			this.ClearLine();
+			this.terminal.Out.
 			if (this.terminal.Echo)
 				this.terminal.Out.WriteLine();
 			if (line.StartsWith("?"))
