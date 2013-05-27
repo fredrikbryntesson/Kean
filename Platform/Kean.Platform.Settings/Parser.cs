@@ -1,5 +1,5 @@
 ﻿// 
-//  Editor.cs
+//  Parser.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -68,14 +68,14 @@ namespace Kean.Platform.Settings
 			set
 			{
 				if (value != this.Interactive)
-					this.LineBuffer = value ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.EditorWithHistory(this.terminal) : new Cli.LineBuffer.Simple(this.terminal);
+					this.LineBuffer = value ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.InteractiveWithHistory(this.terminal) : new Cli.LineBuffer.Simple(this.terminal);
 			}
 		}
 
 		Parser(object root, bool interactive, Cli.ITerminal terminal)
 		{
 			this.terminal = terminal;
-			this.LineBuffer = interactive ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.EditorWithHistory(terminal) : new Cli.LineBuffer.Simple(terminal);
+			this.LineBuffer = interactive ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.InteractiveWithHistory(terminal) : new Cli.LineBuffer.Simple(terminal);
 			this.Current = this.Root = new Object(root) { Parser = this };
 		}
 		Tuple<string, Member, string[]> Parse(string line)
@@ -227,7 +227,7 @@ namespace Kean.Platform.Settings
 					result = Parallel.Thread.Start("console", () => new Parser(root, true, new Cli.ConsoleTerminal()).Read());
 					break;
 				case "stdio":
-					result = Parallel.Thread.Start("stdio", () => new Parser(root, false, Cli.Terminal.Open(IO.ByteDeviceSplitter.Open(Console.OpenStandardInput(), Console.OpenStandardOutput()))).Read());
+					result = Parallel.Thread.Start("stdio", () => new Parser(root, false, Cli.Terminal.Open(IO.ByteDeviceCombiner.Open(Console.OpenStandardInput(), Console.OpenStandardOutput()))).Read());
 					break;
 			}
 			return result;

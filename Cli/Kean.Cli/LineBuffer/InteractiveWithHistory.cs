@@ -1,5 +1,5 @@
 ﻿// 
-//  EditorWithHistory.cs
+//  InteractiveWithHistory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -26,8 +26,8 @@ using Integer = Kean.Math.Integer;
 
 namespace Kean.Cli.LineBuffer
 {
-	public class EditorWithHistory :
-		Editor
+	public class InteractiveWithHistory :
+		Interactive
 	{
 		int position = 0;
 		int Position
@@ -40,7 +40,7 @@ namespace Kean.Cli.LineBuffer
 		int first = 0;
 		string[] history;
 
-		public EditorWithHistory(ITerminal terminal) :
+		public InteractiveWithHistory(ITerminal terminal) :
 			base(terminal)
 		{
 			this.history = new string[this.size];

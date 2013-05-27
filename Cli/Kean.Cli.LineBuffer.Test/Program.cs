@@ -22,16 +22,16 @@ using System;
 using IO = Kean.IO;
 using Kean.Core.Extension;
 
-namespace Kean.Cli.LineBuffer.Test
+namespace Kean.Cli.LineBufferTest
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
 			ITerminal terminal = new ConsoleTerminal();
-			//Simple editor = new Simple(terminal);
-			Abstract editor = new Editor(terminal);
-//			Abstract editor = new EditorWithHistory(terminal);
+			//LineBuffer editor = new Simple(terminal);
+			LineBuffer.Abstract editor = new LineBuffer.Interactive(terminal);
+			//LineBuffer editor = new InteractiveWithHistory(terminal);
 			editor.Prompt = ":>";
             Tuple<string, string>[] completionDescription = new Tuple<string, string>[] 
             {

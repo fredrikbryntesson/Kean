@@ -130,8 +130,6 @@ namespace Kean.Cli.LineBuffer
 			}
 			else if (this.Execute.NotNull())
 				this.Execute(line);
-
-			this.terminal.Out.Write(this.Prompt);
 		}
 		protected virtual void OnDown() { }
 		protected virtual void OnUp() { }
