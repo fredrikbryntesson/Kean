@@ -56,7 +56,7 @@ namespace Kean.Core.Collection.Abstract
 		{
 			int result = 0;
 			foreach (T item in this as Generic.IEnumerable<T>)
-				result ^= item.GetHashCode();
+				result = unchecked(result * 31 + item.Hash());
 			return result;
 		}
 		#endregion
