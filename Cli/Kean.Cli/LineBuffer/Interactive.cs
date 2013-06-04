@@ -35,13 +35,6 @@ namespace Kean.Cli.LineBuffer
 		protected override string Line { get { return this.Buffer.ToString(); } }
 		protected override int LineLength { get { return this.Buffer.Length; } }
 
-		bool executing;
-		protected bool Executing
-		{
-			get { lock (this.Lock) return this.executing; }
-			set { lock (this.Lock) this.executing = value; }
-		}
-
 		public Interactive(ITerminal terminal) :
 			base(terminal)
 		{

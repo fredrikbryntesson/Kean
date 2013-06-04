@@ -25,7 +25,7 @@ namespace Kean.Core.Serialize.Exception
 	/// Exception thrown when trying to deserialize a type and the reader is not positioned at an element.
 	/// </summary>
 	public class PropertyNotWriteable :
-		Exception
+		Abstract
 	{
 		internal PropertyNotWriteable(string type, string node, Uri.Region region) :
 			base(Error.Level.Warning, "Property Not Writable.", "Property in \"{0}\" that corresponds to node \"{1}\"{2} can't be set.", type, node, PropertyNotWriteable.Location(", ", region, ","))

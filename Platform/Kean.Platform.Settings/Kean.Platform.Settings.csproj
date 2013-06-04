@@ -67,6 +67,7 @@
     <Compile Include="PropertyMode.cs" />
     <Compile Include="Asynchronous.cs" />
     <Compile Include="Root.cs" />
+    <None Include="Kean.Platform.Settings.targets" />
     <None Include="Kean.Platform.Settings.nuspec" />
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +141,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modules\Settings.xml">
+    <None Include="Modules\Settings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

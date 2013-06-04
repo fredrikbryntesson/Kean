@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-  <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <authors>simonmika</authors>
-    <owners>simonmika</owners>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <dependencies>
-      <dependency id="Kean.Cli.Argument" />
-      <dependency id="Kean.Core" />
-      <dependency id="Kean.Core.Collection" />
-      <dependency id="Kean.Core.Error" />
-      <dependency id="Kean.Core.Serialize" />
-      <dependency id="Kean.Platform" />
-    </dependencies>
-  </metadata>
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<authors>simonmika</authors>
+		<owners>simonmika</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>$description$</description>
+		<dependencies>
+			<dependency id="Kean.Cli.Argument" />
+			<dependency id="Kean.Core" />
+			<dependency id="Kean.Core.Collection" />
+			<dependency id="Kean.Core.Error" />
+			<dependency id="Kean.Core.Serialize" />
+			<dependency id="Kean.Platform" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="Modules\**.xml" target="lib\net40-client\Modules" />
+	</files>
 </package>

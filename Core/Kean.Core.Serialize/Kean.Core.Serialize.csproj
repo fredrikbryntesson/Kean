@@ -34,6 +34,8 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Exception\UnknownType.cs" />
+    <Compile Include="Exception\CreateAbstract.cs" />
     <Compile Include="Exception\PropertyNotWritable.cs" />
     <Compile Include="Exception\PropertyMissing.cs" />
     <Compile Include="IRebuilder.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="Data\Integer.cs" />
     <Compile Include="Data\String.cs" />
     <Compile Include="Exception\DuplicateIdentifier.cs" />
-    <Compile Include="Exception\Exception.cs" />
+    <Compile Include="Exception\Abstract.cs" />
     <Compile Include="ISerializing.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\Branch.cs" />
@@ -134,5 +136,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
-	<Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

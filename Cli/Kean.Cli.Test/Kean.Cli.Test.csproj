@@ -8,8 +8,8 @@
     <ProjectGuid>{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kean.Cli.LineBufferTest</RootNamespace>
-    <AssemblyName>Kean.Cli.LineBufferTest</AssemblyName>
+    <RootNamespace>Kean.Cli.Test</RootNamespace>
+    <AssemblyName>Kean.Cli.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

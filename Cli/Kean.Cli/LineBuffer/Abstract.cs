@@ -31,6 +31,13 @@ namespace Kean.Cli.LineBuffer
 	{
 		protected ITerminal terminal;
 		bool exit = false;
+		bool executing;
+		protected bool Executing
+		{
+			get { lock (this.Lock) return this.executing; }
+			set { lock (this.Lock) this.executing = value; }
+		}
+
 
 		public Func<string, bool> Execute { get; set; }
 		public Func<string, string> Complete { get; set; }
@@ -119,6 +126,7 @@ namespace Kean.Cli.LineBuffer
 		protected virtual void OnTab() { }
 		protected virtual void OnEnter() 
 		{
+			this.Executing = true;
 			string line = this.Line;
 			this.ClearLine();
 			if (this.terminal.Echo)
@@ -130,6 +138,8 @@ namespace Kean.Cli.LineBuffer
 			}
 			else if (this.Execute.NotNull())
 				this.Execute(line);
+			this.Executing = false;
+			this.terminal.Out.Write(this.Prompt);
 		}
 		protected virtual void OnDown() { }
 		protected virtual void OnUp() { }

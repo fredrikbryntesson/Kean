@@ -35,7 +35,7 @@ namespace Kean.Core.Uri
 			this.Row = row;
 			this.Column = column;
 		}
-        #region Object Overrides
+		#region Object Overrides
 		public override bool Equals(object other)
 		{
 			return this.Equals(other as Position);
