@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -50,23 +50,39 @@ namespace Kean.Draw
 				this.first.Append(segment);
 			return this;
 		}
+		public Path MoveTo(float x, float y)
+		{
+			return this.MoveTo(new Geometry2D.Single.Point(x, y));
+		}
 		public Path MoveTo(Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.MoveTo(end));
+		}
+		public Path LineTo(float x, float y)
+		{
+			return this.LineTo(new Geometry2D.Single.Point(x, y));
 		}
 		public Path LineTo(Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.LineTo(end));
 		}
+		public Path CurveTo(float firstX, float firstY, float secondX, float secondY, float endX, float endY)
+		{
+			return this.CurveTo(new Geometry2D.Single.Point(firstX, firstY), new Geometry2D.Single.Point(secondX, secondY), new Geometry2D.Single.Point(endX, endY));
+		}
 		public Path CurveTo(Geometry2D.Single.Point first, Geometry2D.Single.Point second, Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.CurveTo(first, second, end));
+		}
+		public Path EllipticalArcTo(float radiusWidth, float radiusHeight, float angle, bool largeArc, bool sweep, float endX, float endY)
+		{
+			return this.EllipticalArcTo(new Geometry2D.Single.Size(radiusWidth, radiusHeight), angle, largeArc, sweep, new Geometry2D.Single.Point(endX, endY));
 		}
 		public Path EllipticalArcTo(Geometry2D.Single.Size radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.EllipticalArcTo(radius, angle, largeArc, sweep, end));
 		}
- 		public Path Close()
+		public Path Close()
 		{
 			return this.Append(new PathSegment.Close());
 		}
