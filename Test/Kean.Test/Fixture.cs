@@ -42,20 +42,20 @@ namespace Kean.Test
 			{
 				OperatingSystem result;
 				switch (Environment.OSVersion.Platform)
-        		{
-            		case System.PlatformID.Unix:
-		                if (System.IO.Directory.Exists("/Applications") && System.IO.Directory.Exists("/System") && System.IO.Directory.Exists("/Users") && System.IO.Directory.Exists("/Volumes"))
-		                    result = OperatingSystem.Mac;
-		                else
-		                    result = OperatingSystem.Linux;
+				{
+					case System.PlatformID.Unix:
+						if (System.IO.Directory.Exists("/Applications") && System.IO.Directory.Exists("/System") && System.IO.Directory.Exists("/Users") && System.IO.Directory.Exists("/Volumes"))
+							result = OperatingSystem.Mac;
+						else
+							result = OperatingSystem.Linux;
 					break;
-            		case PlatformID.MacOSX:
-                		result = OperatingSystem.Mac;
+					case PlatformID.MacOSX:
+						result = OperatingSystem.Mac;
 					break;
-	        		default:
-                		result =  OperatingSystem.Windows;
+					default:
+						result =  OperatingSystem.Windows;
 					break;
-        		}
+				}
 				return result;
 			}
 		}
@@ -88,7 +88,7 @@ namespace Kean.Test
 			this.currentTestCounter = -1;
 			this.currentTestName = test.Name;
 			test.Run(this.PreTest, this.PostTest);
-            Console.Write(".");
+			Console.Write(".");
 		}
 		protected void Run(params Test[] tests)
 		{

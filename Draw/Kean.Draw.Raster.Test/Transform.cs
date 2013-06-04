@@ -26,16 +26,16 @@ using Target = Kean.Draw.Raster;
 using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Raster.Test
 {
-    [TestFixture]
-    public class Transform : 
-         Fixture<Transform>
-    {
+	[TestFixture]
+	public class Transform : 
+		 Fixture<Transform>
+	{
 		public Transform() :
 			base(1f)
 		{ }
-        protected override void Run()
-        {
-            this.Run(
+		protected override void Run()
+		{
+			this.Run(
 				this.ShiftMonochrome,
 				this.ShiftYuyv,
 				this.ShiftYuv420,
@@ -44,14 +44,14 @@ namespace Kean.Draw.Raster.Test
 				this.ShiftBgr,
 				this.AspectRatio,
 				this.Different,
-                this.CutRotate,
-                this.CutScale,
-                this.CutTranslate,
-                this.CoordinateSystems,
+				this.CutRotate,
+				this.CutScale,
+				this.CutTranslate,
+				this.CoordinateSystems,
 				this.ResizeWithin,
-                this.ResizeTo
-                );
-        }
+				this.ResizeTo
+				);
+		}
 		[Test]
 		public void Different()
 		{
@@ -106,8 +106,8 @@ namespace Kean.Draw.Raster.Test
 		#endregion
 		#region  Cut, resize and copy
 		[Test]
-        public void CutRotate()
-        {
+		public void CutRotate()
+		{
 			using (Target.Image image = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
@@ -115,10 +115,10 @@ namespace Kean.Draw.Raster.Test
 				using (Target.Image copy = image.Copy(size, transform) as Target.Image)
 					Verify(copy, "Correct/Transform/rotated.png");
 			}
-        }
-        [Test]
-        public void CutScale()
-        {
+		}
+		[Test]
+		public void CutScale()
+		{
 			using (Target.Image image = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
@@ -127,21 +127,21 @@ namespace Kean.Draw.Raster.Test
 				using(Target.Bgra correct = Target.Bgra.OpenResource("Correct/Transform/scaled.png"))
 					Verify(copy.Distance(correct), Is.LessThanOrEqualTo(20));
 			}
-        }
-        [Test]
-        public void CutTranslate()
-        {
+		}
+		[Test]
+		public void CutTranslate()
+		{
 			using (Target.Image image = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
 				using(Target.Image copy = image.Copy(size, Geometry2D.Single.Transform.CreateTranslation(100, 100)) as Target.Image)
 					Verify(copy, "Correct/Transform/translated.png");
 			}
-        }
-        [Test]
-        public void CoordinateSystems()
-        {
-            using(Target.Image source = Target.Image.OpenResource("Correct/Transform/original.png"))
+		}
+		[Test]
+		public void CoordinateSystems()
+		{
+			using(Target.Image source = Target.Image.OpenResource("Correct/Transform/original.png"))
 			using (Target.Image image = new Target.Bgr(new Kean.Core.Buffer.Sized(source.Pointer, source.Size.Area * 3), source.Size, CoordinateSystem.XLeftward | CoordinateSystem.YUpward))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
@@ -149,38 +149,36 @@ namespace Kean.Draw.Raster.Test
 				using(Target.Image copy = image.Copy(size, transform) as Target.Image)
 					Verify(copy, "Correct/Transform/coordinateSystem.png");
 			}
-        }
-        [Test]
-        public void ResizeWithin()
-        {
+		}
+		[Test]
+		public void ResizeWithin()
+		{
 			using (Target.Image first = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
-				using (Target.Bgra correct = Target.Bgra.OpenResource("Correct/Transform/resized1.png"))
-					Verify(first.ResizeWithin(size).Convert<Raster.Bgra>().Distance(correct), Is.LessThan(20));
+				Verify(first.ResizeWithin(size).Convert<Raster.Bgra>(), "Correct/Transform/resized1.png");
 			}
-        }
-        [Test]
-        public void ResizeTo()
-        {
+		}
+		[Test]
+		public void ResizeTo()
+		{
 			using (Target.Image first = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(100, 100);
-				using (Target.Bgra correct = Target.Bgra.OpenResource("Correct/Transform/resized2.png"))
-					Verify(first.ResizeTo(size).Convert<Raster.Bgra>().Distance(correct), Is.LessThan(20));
+				Verify(first.ResizeTo(size).Convert<Raster.Bgra>(), "Correct/Transform/resized2.png");
 			}
-        }
-        [Test]
-        public void AspectRatio()
-        {
+		}
+		[Test]
+		public void AspectRatio()
+		{
 			using (Target.Image first = Target.Image.OpenResource("Correct/Transform/original.png"))
 			{
 				float ratio = 3f;
 				Target.Image second = first.Copy(new Geometry2D.Integer.Size(Kean.Math.Integer.Round((ratio != 0 ? ratio : 1) * first.Size.Height), first.Size.Height), Geometry2D.Single.Transform.CreateScaling(first.Size.Width / (float)first.Size.Height / (ratio != 0 ? ratio : 1), 1)) as Target.Image;
 				Verify(second, "Correct/Transform/aspect.png");
 			}
-        }
-        
-        #endregion
-    }
+		}
+		
+		#endregion
+	}
 }

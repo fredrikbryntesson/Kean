@@ -26,78 +26,81 @@ namespace Kean.Core.Error.Test
 {
 	[TestFixture]
 	public class Error :
-		AssertionHelper
+		Kean.Test.Fixture<Error>
 	{
-		string prefix = "Kean.Core.Error.Test.";
 		public Error ()
 		{
 		}
 		[Test]
 		public void MetaDataImmediateThrow()
 		{
-			DateTime now = DateTime.Now;
+			DateTime before = DateTime.Now;
 			try
 			{
 				throw new Exception.Test(Target.Level.Critical, "Title", "Message {0} {1}", "argument0", "argument1");
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataImmediateThrow.0");
-				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataImmediateThrow.1");
-				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataImmediateThrow.2");
-				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataImmediateThrow.3");
-				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataImmediateThrow.4");
-				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataImmediateThrow.5");
-				Expect((e as Target.IError).Type, EqualTo("Kean.Core.Error.Test.Error"), prefix + "MetaDataImmediateThrow.6");
-				Expect((e as Target.IError).Method, EqualTo("MetaDataImmediateThrow"), prefix + "MetaDataImmediateThrow.7");
+				Verify((e as Target.IError).Time, Is.LessThanOrEqualTo(DateTime.Now));
+				Verify((e as Target.IError).Time, Is.GreaterThanOrEqualTo(before));
+				Verify((e as Target.IError).Level, Is.EqualTo(Target.Level.Critical));
+				Verify((e as Target.IError).Title, Is.EqualTo("Title"));
+				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
+				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
+				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataImmediateThrow"));
 			}
 		}
 		[Test]
 		public void MetaDataFilteredThrow()
 		{
-			DateTime now = DateTime.Now;
+			DateTime before = DateTime.Now;
 			try
 			{
 				new Exception.Test(Target.Level.Critical, "Title", "Message {0} {1}", "argument0", "argument1").Throw();
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataFilteredThrow.0");
-				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataFilteredThrow.1");
-				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataFilteredThrow.2");
-				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataFilteredThrow.3");
-				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataFilteredThrow.4");
-				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataFilteredThrow.5");
-				Expect((e as Target.IError).Type, EqualTo("Kean.Core.Error.Test.Error"), prefix + "MetaDataFilteredThrow.6");
-				Expect((e as Target.IError).Method, EqualTo("MetaDataFilteredThrow"), prefix + "MetaDataFilteredThrow.7");
+				Verify((e as Target.IError).Time, Is.LessThanOrEqualTo(DateTime.Now));
+				Verify((e as Target.IError).Time, Is.GreaterThanOrEqualTo(before));
+				Verify((e as Target.IError).Level, Is.EqualTo(Target.Level.Critical));
+				Verify((e as Target.IError).Title, Is.EqualTo("Title"));
+				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
+				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
+				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataFilteredThrow"));
 			}
 		}
 		[Test]
 		public void MetaDataIndirectThrow()
 		{
-			DateTime now = DateTime.Now;
+			DateTime before = DateTime.Now;
 			try
 			{
 				Exception.Test.Check(Target.Level.Critical, "Title", "Message {0} {1}", "argument0", "argument1");
 			}
 			catch (Exception.Abstract e)
 			{
-				Expect((e as Target.IError).Time, EqualTo(now).Within(new DateTime(100000)), prefix + "MetaDataIndirectThrow.0");
-				Expect((e as Target.IError).Level, EqualTo(Target.Level.Critical), prefix + "MetaDataIndirectThrow.1");
-				Expect((e as Target.IError).Title, EqualTo("Title"), prefix + "MetaDataIndirectThrow.2");
-				Expect((e as Target.IError).Message, EqualTo("Message argument0 argument1"), prefix + "MetaDataIndirectThrow.3");
-				Expect((e as Target.IError).AssemblyName, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name), prefix + "MetaDataIndirectThrow.4");
-				Expect((e as Target.IError).AssemblyVersion, EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), prefix + "MetaDataIndirectThrow.5");
-				Expect((e as Target.IError).Type, EqualTo("Kean.Core.Error.Test.Error"), prefix + "MetaDataIndirectThrow.6");
-				Expect((e as Target.IError).Method, EqualTo("MetaDataIndirectThrow"), prefix + "MetaDataIndirectThrow.7");
+				Verify((e as Target.IError).Time, Is.LessThanOrEqualTo(DateTime.Now));
+				Verify((e as Target.IError).Time, Is.GreaterThanOrEqualTo(before));
+				Verify((e as Target.IError).Level, Is.EqualTo(Target.Level.Critical));
+				Verify((e as Target.IError).Title, Is.EqualTo("Title"));
+				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
+				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
+				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataIndirectThrow"));
 			}
 		}
-		public static void Test()
+		protected override void Run()
 		{
-			Error fixture = new Error();
-			fixture.MetaDataImmediateThrow();
-			fixture.MetaDataFilteredThrow();
-			fixture.MetaDataIndirectThrow();
+			this.Run(
+				this.MetaDataImmediateThrow,
+				this.MetaDataFilteredThrow,
+				this.MetaDataIndirectThrow
+			);
 		}
 	}
 }

@@ -1,10 +1,5 @@
-﻿// 
-//  All.cs
-//  
-//  Author:
-//       Anders Frisk <andersfrisk77@gmail.com>
-//  
-//  Copyright (c) 2011 Simon Mika
+﻿//  
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,13 +16,13 @@
 
 using System;
 
-namespace Kean.Draw.Test
+namespace Kean.Core.Error.Test
 {
 	public static class All
 	{
 		public static void Test()
 		{
-			Color.Convert.Test();
+			Error.Test();
 		}
 	}
 }
