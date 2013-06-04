@@ -145,7 +145,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Argument", "Cli\Ke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer", "Cli\Kean.Cli.LineBuffer\Kean.Cli.LineBuffer.csproj", "{D3B69E94-AB2C-4144-8DD2-9F6556331188}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.LineBuffer.Test", "Cli\Kean.Cli.LineBuffer.Test\Kean.Cli.LineBuffer.Test.csproj", "{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Cli.Test", "Cli\Kean.Cli.Test\Kean.Cli.Test.csproj", "{67668BF7-D0C0-45B0-8553-FBF57C5FAA29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.DB", "DB\Kean.DB\Kean.DB.csproj", "{72D14839-A96B-4BF7-B500-B10672ACC39B}"
 EndProject
