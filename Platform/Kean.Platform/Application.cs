@@ -64,7 +64,7 @@ namespace Kean.Platform
 		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
 		public bool CatchErrors { get { return Error.Log.CatchErrors; } set { Error.Log.CatchErrors = value; } }
-
+		public Environment Environment { get { return Environment.Current; } }
 		#region State
 		Mode mode;
 		public Mode Mode
@@ -176,28 +176,28 @@ namespace Kean.Platform
 			this.Modules = modules;
 			#region Initialize Properties
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetCallingAssembly();
-            // Product
-            System.Reflection.AssemblyProductAttribute[] productAttribute = (System.Reflection.AssemblyProductAttribute[])assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyProductAttribute), true);
-            if (productAttribute != null && productAttribute.Length > 0)
-                this.Product = productAttribute[0].Product;
-            // Version
-            System.Reflection.AssemblyFileVersionAttribute version = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyFileVersionAttribute)) as System.Reflection.AssemblyFileVersionAttribute;
-            if (version != null)
-                this.Version = version.Version;
-            // Company
-            System.Reflection.AssemblyCompanyAttribute[] companyAttribute = (System.Reflection.AssemblyCompanyAttribute[]) assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyCompanyAttribute), true);
-            if (companyAttribute != null && companyAttribute.Length > 0)
-                this.Company = companyAttribute[0].Company;
-            // Copyright
-            System.Reflection.AssemblyCopyrightAttribute copyright = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyCopyrightAttribute)) as System.Reflection.AssemblyCopyrightAttribute;
-            if (copyright != null)
-                this.Copyright = copyright.Copyright;
-            // Description
-            System.Reflection.AssemblyDescriptionAttribute description = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyDescriptionAttribute)) as System.Reflection.AssemblyDescriptionAttribute;
-            if (description.NotNull())
-                this.Description = description.Description;
-            // Icon
-            this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(this.Executable);
+			// Product
+			System.Reflection.AssemblyProductAttribute[] productAttribute = (System.Reflection.AssemblyProductAttribute[])assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyProductAttribute), true);
+			if (productAttribute != null && productAttribute.Length > 0)
+				this.Product = productAttribute[0].Product;
+			// Version
+			System.Reflection.AssemblyFileVersionAttribute version = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyFileVersionAttribute)) as System.Reflection.AssemblyFileVersionAttribute;
+			if (version != null)
+				this.Version = version.Version;
+			// Company
+			System.Reflection.AssemblyCompanyAttribute[] companyAttribute = (System.Reflection.AssemblyCompanyAttribute[]) assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyCompanyAttribute), true);
+			if (companyAttribute != null && companyAttribute.Length > 0)
+				this.Company = companyAttribute[0].Company;
+			// Copyright
+			System.Reflection.AssemblyCopyrightAttribute copyright = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyCopyrightAttribute)) as System.Reflection.AssemblyCopyrightAttribute;
+			if (copyright != null)
+				this.Copyright = copyright.Copyright;
+			// Description
+			System.Reflection.AssemblyDescriptionAttribute description = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyDescriptionAttribute)) as System.Reflection.AssemblyDescriptionAttribute;
+			if (description.NotNull())
+				this.Description = description.Description;
+			// Icon
+			this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(this.Executable);
 			#endregion
 
 		}

@@ -27,6 +27,7 @@ using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Management = System.Management;
 
 namespace Kean.Draw.OpenGL.Backend
 {
@@ -40,6 +41,19 @@ namespace Kean.Draw.OpenGL.Backend
 		WasteBin<Program> programBin;
 		WasteBin<Shader> shaderBin;
 
+
+		public string OpenGLVersion { get { return OpenTK.Graphics.OpenGL.GL.GetString(OpenTK.Graphics.OpenGL.StringName.Version); } }
+		public string Hardware { get { return OpenTK.Graphics.OpenGL.GL.GetString(OpenTK.Graphics.OpenGL.StringName.Renderer) + ", " + OpenTK.Graphics.OpenGL.GL.GetString(OpenTK.Graphics.OpenGL.StringName.Vendor); } }
+		public string DriverVersion 
+		{ 
+			get 
+			{
+				string result = "";
+				foreach (Management.ManagementObject share in new Management.ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration").Get())
+					result = (string)share.Properties["DriverVersion"].Value;
+				return result;
+			}
+		}
 		protected Context()
 		{
 			this.compositionBin = new RecycleBin<Composition>(item => item.Delete());

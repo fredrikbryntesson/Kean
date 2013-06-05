@@ -39,7 +39,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		public override void Use()
 		{
 			GL.UseProgram(this.Identifier);
-        }
+		}
 		public override void UnUse()
 		{
 			GL.UseProgram(0);
@@ -58,10 +58,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		public override void SetTexture(string name, int number, Backend.IData texture)
 		{
-            OpenTK.Graphics.OpenGL.GL.ActiveTexture(this.GetUnit(number));
+			OpenTK.Graphics.OpenGL.GL.ActiveTexture(this.GetUnit(number));
 			texture.Use();
 			texture.Configure();
-            this.SetVariable(name, number);
+			this.SetVariable(name, number);
 		}
 		public override void UnSetTexture(int number)
 		{
