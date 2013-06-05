@@ -138,6 +138,10 @@ namespace Kean.Platform.Settings
 			}
 			return result;
 		}
+		public T Call<T>(string method, params object[] arguments)
+		{
+			return this.Receive<T>(method, () => this.Send(method, arguments));
+		}
 		public T Get<T>(string property)
 		{
 			return this.Receive<T>(property, () => this.Send(property));
