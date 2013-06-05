@@ -107,6 +107,8 @@ namespace Kean.Cli.LineBuffer
 				else if (result.StartsWith(leftOfCursor))
 				{
 					string delta = result.Substring(leftOfCursor.Length);
+					if (this.Buffer.RightOfCursor.StartsWith("."))
+						this.Buffer.Delete();
 					this.terminal.Out.Write(delta + this.Buffer.RightOfCursor);
 					this.MoveCursor(-this.Buffer.CursorToEnd);
 					this.Buffer.Insert(delta);

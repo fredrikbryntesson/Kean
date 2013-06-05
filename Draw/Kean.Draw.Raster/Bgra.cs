@@ -23,6 +23,8 @@ using System;
 using Kean.Core.Extension;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Collection = Kean.Core.Collection;
+using Integer = Kean.Math.Integer;
 
 namespace Kean.Draw.Raster
 {
@@ -30,6 +32,41 @@ namespace Kean.Draw.Raster
 	public class Bgra :
 		Packed
 	{
+        public Color.Bgra this[Geometry2D.Integer.Point position]
+        {
+            get { return this[position.X, position.Y]; }
+            set { this[position.X, position.Y] = value; }
+        }
+        public Color.Bgra this[int x, int y] { 
+            get { unsafe { return *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x); } }
+            set { unsafe { *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
+        }
+        public Color.Bgra this[Geometry2D.Single.Point position]
+        {
+            get { return this[position.X, position.Y]; }
+        }
+        public Color.Bgra this[float x, float y]
+        {
+            get
+            {
+                float left = x - Integer.Floor(x);
+                float top = y - Integer.Floor(y);
+
+                Color.Bgra topLeft      = this[Integer.Floor(x), Integer.Floor(y)];
+                Color.Bgra bottomLeft   = this[Integer.Floor(x), Integer.Ceiling(y)];
+                Color.Bgra topRight     = this[Integer.Ceiling(x), Integer.Floor(y)];
+                Color.Bgra bottomRight  = this[Integer.Ceiling(x), Integer.Ceiling(y)];
+                
+                float r, g, b, a;
+                b = top * (left * topLeft.color.blue + (1 - left) * topRight.color.blue) + (1-top) * (left * bottomLeft.color.blue + (1 - left) * bottomRight.color.blue);
+				g = top * (left * topLeft.color.green + (1 - left) * topRight.color.green) + (1-top) * (left * bottomLeft.color.green + (1 - left) * bottomRight.color.green);
+				r = top * (left * topLeft.color.red + (1 - left) * topRight.color.red) + (1-top) * (left * bottomLeft.color.red + (1 - left) * bottomRight.color.red);
+				a = top * (left * topLeft.alpha + (1 - left) * topRight.alpha) + (1-top) * (left * bottomLeft.alpha + (1 - left) * bottomRight.alpha);
+
+                return new Color.Bgra((byte)b, (byte)g, (byte)r, (byte)a);
+            }
+        }
+
 		protected override int BytesPerPixel { get { return 4; } }
 		public Bgra(Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 4)), size) { }

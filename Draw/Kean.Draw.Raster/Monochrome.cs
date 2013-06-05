@@ -30,6 +30,17 @@ namespace Kean.Draw.Raster
 	public class Monochrome :
 		Packed
 	{
+		public Color.Y this[Geometry2D.Integer.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+			set { this[position.X, position.Y] = value; }
+		}
+		public Color.Y this[int x, int y]
+		{
+			get { unsafe { return *((Color.Y*)((byte*)this.Buffer + y * this.Stride) + x); } }
+			set { unsafe { *((Color.Y*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
+		}
+
 		protected override int BytesPerPixel { get { return 1; } }
 
 		public Monochrome(Geometry2D.Integer.Size size) :
