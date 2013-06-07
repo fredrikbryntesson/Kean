@@ -34,6 +34,7 @@ namespace Kean.Draw.PathSegment
 			get { return this.SubpathStart; }
 			set { this.SubpathStart = value; }
 		}
+        public override string String { get { return "Z"; } }
 		public Close() :
 			base(new Geometry2D.Single.Point())
 		{ }

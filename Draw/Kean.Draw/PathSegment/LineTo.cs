@@ -32,6 +32,10 @@ namespace Kean.Draw.PathSegment
 		public LineTo(Geometry2D.Single.Point end) :
 			base(end)
 		{ }
+        public override string String
+        {
+            get { return "L" + this.End.ToString(); }
+        }
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
 			Geometry2D.Single.Point start = transform * this.Start;

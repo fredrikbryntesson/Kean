@@ -34,6 +34,10 @@ namespace Kean.Draw.PathSegment
 			get { return this.End; }
 			set { this.End = value; }
 		}
+        public override string String
+        {
+            get { return "M" + this.End.ToString(); }
+        }
 		public MoveTo(Geometry2D.Single.Point end) :
 			base(end)
 		{ }
