@@ -42,7 +42,7 @@ namespace Kean.IO.Tap
 			this.OnRead = onRead;
 			this.OnWrite = onWrite;
 		}
-		public CharacterDevice(ICharacterDevice backend)
+		protected CharacterDevice(ICharacterDevice backend)
 		{
 			this.backend = backend;
 		}
@@ -94,6 +94,21 @@ namespace Kean.IO.Tap
 			this.Close();
 		}
 		#endregion
-
+		#region Static Creators
+		public static CharacterDevice Open(ICharacterDevice backend)
+		{
+			return backend.NotNull() ? new CharacterDevice(backend) : null;
+		}
+		public static CharacterDevice Open(ICharacterDevice backend, Action<char> onRead, Action<char> onWrite)
+		{
+			CharacterDevice result = CharacterDevice.Open(backend);
+			if (result.NotNull())
+			{
+				result.OnRead += onRead;
+				result.OnWrite += onWrite;
+			}
+			return result;
+		}
+		#endregion
 	}
 }

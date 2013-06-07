@@ -56,14 +56,12 @@ namespace Kean.Platform.Log
 			this.AllThreshold = Kean.Core.Error.Level.Critical;
 			this.cache = new Collection.Wrap.ListQueue<Error.IError>(this.cacheList);
 			this.Writers = new Kean.Core.Collection.List<Writer.Abstract>();
-			Cache.append += this.Append;
 		}
 		#region IDisposable Members
 		public void Dispose()
 		{
 			if (this.Writers.NotNull())
 			{
-				Cache.append -= this.Append;
 				this.Writers.Apply(writer => writer.Close());
 				this.Writers = null;
 			}
@@ -108,19 +106,6 @@ namespace Kean.Platform.Log
 					save(this.log.Dequeue());
 				this.Writers.Apply(w => w.Flush());
 			}
-		}
-		static event Action<Error.IError> append;
-		public static void Log(Error.IError entry)
-		{
-			Cache.append.Call(entry);
-		}
-		public static void Log(Error.Level level, string title, System.Exception exception)
-		{
-			Cache.Log(Error.Entry.Create(level, title, exception));
-		}
-		public static void Log(Error.Level level, string title, string message)
-		{
-			Cache.Log(Error.Entry.Create(level, title, message));
 		}
 	}	
 }

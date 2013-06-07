@@ -5,17 +5,17 @@ using NUnit.Framework;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Box<T, TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+    public abstract class Box<T, TransformType, Transform, BoxType, Box, PointType, Point, SizeType, Size, R, V> :
         Kean.Test.Fixture<T>
         where T : Kean.Test.Fixture<T>, new()
-        where BoxType : Kean.Math.Geometry3D.Abstract.Box<TransformType, TransformValue, BoxType, BoxValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where BoxValue : struct, Kean.Math.Geometry3D.Abstract.IBox<PointValue, SizeValue, V>
-        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
-        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where PointValue : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
-        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where SizeValue : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where BoxType : Kean.Math.Geometry3D.Abstract.Box<TransformType, Transform, BoxType, Box, PointType, Point, SizeType, Size, R, V>, new()
+        where Box : struct, Kean.Math.Geometry3D.Abstract.IBox<Point, Size, V>
+        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Transform : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
+        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, Transform, PointType, Point, SizeType, Size, R, V>, new()
+        where Point : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Size : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {

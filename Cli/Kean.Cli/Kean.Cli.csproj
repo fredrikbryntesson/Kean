@@ -38,8 +38,12 @@
     <Compile Include="ConsoleDevice.cs" />
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="EditCommand.cs" />
+    <Compile Include="LineBuffer\Interactive.cs" />
+    <Compile Include="LineBuffer\InteractiveWithHistory.cs" />
     <Compile Include="ITerminal.cs" />
+    <Compile Include="LineBuffer\Abstract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LineBuffer\Simple.cs" />
     <Compile Include="Terminal.cs" />
     <Compile Include="VT100.cs" />
     <None Include="Kean.Cli.nuspec" />
@@ -76,4 +80,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

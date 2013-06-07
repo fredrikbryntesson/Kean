@@ -30,5 +30,12 @@ namespace Kean.Platform.Settings
         IDisposable
 	{
 		System.Collections.Generic.IEnumerable<Tuple<string, string, string, object>> GetDynamic();
+
+		void Load(string name, object value);
+		void Load(string name, string description, object value);
+		void Load(string name, string description, string usage, object value);
+		object this[string name] { get; set; }
+		void Unload(string name);
+		void WhenLoaded<T>(string name, Action<T> loaded);
 	}
 }

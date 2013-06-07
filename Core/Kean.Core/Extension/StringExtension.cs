@@ -131,7 +131,11 @@ namespace Kean.Core.Extension
 				}
 			return result;
 		}
-		public static string[] Splitter(this string me)
+		public static string[] SplitAt(this string me)
+		{
+			return me.SplitAt(' ');
+		}
+		public static string[] SplitAt(this string me, params char[] separators)
 		{
 			string[] result = null;
 			System.Collections.Generic.IList<string> parts = new System.Collections.Generic.List<string>();
@@ -143,40 +147,42 @@ namespace Kean.Core.Extension
 				char unit = me[index];
 				switch (unit)
 				{
-					case ' ':
-						if (current.Length > 0)
-						{
-							parts.Add(current.ToString());
-							current = new System.Text.StringBuilder();
-						}
-						break;
-						case '\\':
+					case '\\':
 						if (++index < me.Length)
-						switch(me[index])
-						{
-							case 'r':
-								current.Append('\r');
-								break;
-							case 'n':
-								current.Append('\n');
-								break;
-							case 't':
-								current.Append('\t');
-								break;
-							case 'b':
-								current.Append('\b');
-								break;
-							case '\\':
-								current.Append('\\');
-								break;
-						}
+							switch (me[index])
+							{
+								case 'r':
+									current.Append('\r');
+									break;
+								case 'n':
+									current.Append('\n');
+									break;
+								case 't':
+									current.Append('\t');
+									break;
+								case 'b':
+									current.Append('\b');
+									break;
+								case '\\':
+									current.Append('\\');
+									break;
+								case '"':
+									current.Append('"');
+									break;
+							}
 						break;
 					case '"':
 						while (++index < me.Length && (unit = me[index]) != '"')
 							current.Append(unit);
 						break;
 					default:
-						current.Append(unit);
+						if (separators.Contains(unit))
+						{
+							parts.Add(current.ToString());
+							current = new System.Text.StringBuilder();
+						}
+						else
+							current.Append(unit);
 						break;
 				}
 				index++;
@@ -187,5 +193,104 @@ namespace Kean.Core.Extension
 			parts.CopyTo(result, 0);
 			return result;
 		}
+		public static T Parse<T>(this string me)
+		{
+			T result;
+			System.Type type = typeof(T);
+			if (me is T)
+				result = me.ConvertType<T>();
+			else if (type == typeof(char))
+				result = me.ToString().ConvertType<T>();
+			else if (type == typeof(bool))
+			{
+				bool value;
+				result = (bool.TryParse(me, out value) && value).ConvertType<T>();
+			}
+			else if (type == typeof(byte))
+			{
+				byte value;
+				result = (byte.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(sbyte))
+			{
+				sbyte value;
+				result = (sbyte.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(short))
+			{
+				short value;
+				result = (short.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(int))
+			{
+				int value;
+				result = (int.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(uint))
+			{
+				uint value;
+				result = (uint.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(long))
+			{
+				long value;
+				result = (long.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(ulong))
+			{
+				ulong value;
+				result = (ulong.TryParse(me, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(float))
+			{
+				float value;
+				result = (float.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(double))
+			{
+				double value;
+				result = (double.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(decimal))
+			{
+				decimal value;
+				result = (decimal.TryParse(me, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value) ? value : 0).ConvertType<T>();
+			}
+			else if (type == typeof(DateTime))
+			{
+				DateTime value;
+				result = (DateTime.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeLocal, out value) ? value : new DateTime()).ConvertType<T>();
+			}
+			else if (type == typeof(DateTimeOffset))
+			{
+				DateTimeOffset value;
+				result = (DateTimeOffset.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeLocal, out value) ? value : new DateTimeOffset()).ConvertType<T>();
+			}
+			else if (type == typeof(TimeSpan))
+			{
+				TimeSpan value;
+				result = (TimeSpan.TryParse(me, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, out value) ? value : new TimeSpan()).ConvertType<T>();
+			}
+			else if (type.IsEnum)
+			{
+				object value = Enum.Parse(type, me, true);
+				result = (value.NotNull() && value.GetType() == typeof(T)) ? value.ConvertType<T>() : default(T);
+			}
+			else if (type.GetInterface(typeof(IString).FullName).NotNull())
+			{
+				result = System.Activator.CreateInstance(typeof(T)).ConvertType<T>();
+				(result as IString).String = me;
+			}
+			else
+			{
+				Func<string, object> cast = typeof(T).FromStringCast();
+				if (cast.NotNull())
+					result = cast(me).ConvertType<T>();
+				else
+					result = me.ConvertType<T>();
+			}
+			return result;
+		}
+
 	}
 }

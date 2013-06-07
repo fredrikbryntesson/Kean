@@ -64,17 +64,17 @@ namespace Kean.Math.Geometry3D.<#= @namespace #>
 		#region properties
 		public <#= @type #> Norm { get { return Math.<#= @namespace #>.SquareRoot((Math.<#= @namespace #>.Squared(this.X) + Math.<#= @namespace #>.Squared(this.Y) + Math.<#= @namespace #>.Squared(this.Z))); } }
 		public <#= @type #> Azimuth { get { return Math.<#= @namespace #>.ArcusTangensExtended(this.Y, this.X); } }
-		//public <#= @type #> Elevation
-		//{
-		//	get
-		//	{
-		//		<#= @type #> result = new <#= @type #>();
-		//		<#= @type #> r = this.Norm;
-		//		if (r != result)
-		//			result = (this.Z / r) . Math.<#= @namespace #>.Clamp(-1,Math.<#= @namespace #>.ArcusCosinus(1));
-		//		return result;
-		//	}
-		//}
+		public <#= @type #> Elevation
+		{
+			get
+			{
+				<#= @type #> result = new <#= @type #>();
+				<#= @type #> r = this.Norm;
+				if (r != result)
+					result = Math.<#= @namespace #>.Clamp(this.Z / r, -1, Math.<#= @namespace #>.ArcusCosinus(1));
+				return result;
+			}
+		}
 		#endregion
 		#region Static Constants
 		public static Point BasisX { get { return new Point(1, 0, 0); } }

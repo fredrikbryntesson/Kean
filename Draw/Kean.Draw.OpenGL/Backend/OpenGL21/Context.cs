@@ -47,11 +47,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
-        public override Backend.Texture CreateTexture()
+        protected override Backend.Texture AllocateTexture()
         {
             return new Texture(this);
         }
-        public override Backend.Composition CreateComposition()
+		protected override Backend.Composition AllocateComposition()
         {
             return new Composition(this);
         }
@@ -63,7 +63,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
         {
             return new Shader(this, type);
         }
-		public override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
+		protected internal override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
 		{
 			if (size.Width > this.MaximumTextureSize)
 			{
@@ -76,6 +76,17 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				size = new Geometry2D.Integer.Size(size.Width, this.MaximumTextureSize);
 			}
 			return size;
+		}
+		protected internal override TextureType GetTextureType(Raster.Image image)
+		{
+			TextureType result;
+			if (image is Raster.Bgra)
+				result = TextureType.Argb;
+			else if (image is Raster.Bgr)
+				result = TextureType.Rgb;
+			else
+				result = TextureType.Monochrome;
+			return result;
 		}
 	}
 }

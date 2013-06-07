@@ -40,17 +40,17 @@ namespace Kean.Math.Geometry3D.Integer
 		#region properties
 		public int Norm { get { return Math.Integer.SquareRoot((Math.Integer.Squared(this.X) + Math.Integer.Squared(this.Y) + Math.Integer.Squared(this.Z))); } }
 		public int Azimuth { get { return Math.Integer.ArcusTangensExtended(this.Y, this.X); } }
-		//public int Elevation
-		//{
-		//	get
-		//	{
-		//		int result = new int();
-		//		int r = this.Norm;
-		//		if (r != result)
-		//			result = (this.Z / r) . Math.Integer.Clamp(-1,Math.Integer.ArcusCosinus(1));
-		//		return result;
-		//	}
-		//}
+		public int Elevation
+		{
+			get
+			{
+				int result = new int();
+				int r = this.Norm;
+				if (r != result)
+					result = Math.Integer.Clamp(this.Z / r, -1, Math.Integer.ArcusCosinus(1));
+				return result;
+			}
+		}
 		#endregion
 		#region Static Constants
 		public static Point BasisX { get { return new Point(1, 0, 0); } }

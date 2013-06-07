@@ -25,7 +25,7 @@ namespace Kean.Core.Serialize.Exception
 	/// Exception thrown when trying to deserialize a type and the reader is not positioned at an element.
 	/// </summary>
 	public class PropertyMissing :
-		Exception
+		Abstract
 	{
 		internal PropertyMissing(string type, string node, Uri.Region region) :
 			base(Error.Level.Warning, "Property Missing.", "No property exists in \"{0}\" that corresponds to node \"{1}\"{2}.", type, node, PropertyMissing.Location(" ", region))

@@ -71,29 +71,31 @@ namespace Kean.Draw.Raster
         public override Draw.Image ResizeTo(Geometry2D.Integer.Size size)
         {
             Draw.Image result = null;
-            Bgra resized = new Bgra((Geometry2D.Integer.Size)size) { CoordinateSystem = this.CoordinateSystem };
-            using (System.Drawing.Bitmap bitmap = this.Convert<Raster.Bgra>().GdiBitmap())
-            {
-                using (System.Drawing.Bitmap b = resized.GdiBitmap())
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
-                    g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
-            }
-            if (this is Monochrome)
-                result = resized.Convert<Monochrome>();
-            else if (this is Bgr)
-                result = resized.Convert<Bgr>();
-            else if (this is Bgra)
-                result = resized.Convert<Bgra>();
-            else if (this is Yuv420)
-                result = resized.Convert<Yuv420>();
-            else if (this is Yvu420)
-                result = resized.Convert<Yvu420>();
-			else if (this is Yuv444)
-				result = resized.Convert<Yuv444>();
-			else if (this is Yuv422)
-				result = resized.Convert<Yuv422>();
-			else if (this is Yuyv)
-				result = resized.Convert<Yuyv>();
+			using (Bgra resized = new Bgra((Geometry2D.Integer.Size)size) { CoordinateSystem = this.CoordinateSystem })
+			{
+				using (System.Drawing.Bitmap bitmap = this.Convert<Raster.Bgra>().GdiBitmap())
+				{
+					using (System.Drawing.Bitmap b = resized.GdiBitmap())
+					using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
+						g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+				}
+				if (this is Monochrome)
+					result = resized.Convert<Monochrome>();
+				else if (this is Bgr)
+					result = resized.Convert<Bgr>();
+				else if (this is Bgra)
+					result = resized.Convert<Bgra>();
+				else if (this is Yuv420)
+					result = resized.Convert<Yuv420>();
+				else if (this is Yvu420)
+					result = resized.Convert<Yvu420>();
+				else if (this is Yuv444)
+					result = resized.Convert<Yuv444>();
+				else if (this is Yuv422)
+					result = resized.Convert<Yuv422>();
+				else if (this is Yuyv)
+					result = resized.Convert<Yuyv>();
+			}
 			return result;
         }
 		/// <summary>

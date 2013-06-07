@@ -318,7 +318,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         {
             string textFromValue = new Target.Double.Transform(10, 20, 30, 40, 50, 60);
             Verify(textFromValue, Is.EqualTo("10, 20, 30, 40, 50, 60"));
-            Target.Double.Transform @integerFromText = "10 20 30 40 50 60";
+            Target.Double.Transform @integerFromText = (Target.Integer.Transform)"10 20 30 40 50 60";
             Verify(@integerFromText.A, Is.EqualTo(10));
             Verify(@integerFromText.B, Is.EqualTo(20));
             Verify(@integerFromText.C, Is.EqualTo(30));

@@ -104,7 +104,7 @@ namespace Kean.Math.Geometry2D.Test.Integer
        {
            string textFromValue = new Target.Integer.Box(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Integer.Box @integerFromText = "10 20 30 40";
+           Target.Integer.Box @integerFromText = (Target.Integer.Box)"10 20 30 40";
            Verify(@integerFromText.Left, Is.EqualTo(10));
            Verify(@integerFromText.Top, Is.EqualTo(20));
            Verify(@integerFromText.Width, Is.EqualTo(30));

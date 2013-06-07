@@ -5,15 +5,15 @@ using NUnit.Framework;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Vector<T, TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V> :
+    public abstract class Vector<T, TransformType, Transform, VectorType, VectorValue, SizeType, Size, R, V> :
         Kean.Test.Fixture<T>
         where T : Kean.Test.Fixture<T>, new()
-        where VectorType : Kean.Math.Geometry3D.Abstract.Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType,SizeValue, R, V>, new()
+        where VectorType : Kean.Math.Geometry3D.Abstract.Vector<TransformType, Transform, VectorType, VectorValue, SizeType,Size, R, V>, new()
         where VectorValue : struct, Kean.Math.Geometry3D.Abstract.IVector<V>
-        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
-        where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
-        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, Kean.Math.Geometry3D.Abstract.IVector<V>, new()
-        where SizeValue : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>, Kean.Math.Geometry3D.Abstract.ITransform<V>, new()
+        where Transform : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, Transform, SizeType, Size, R, V>, Kean.Math.Geometry3D.Abstract.IVector<V>, new()
+        where Size : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
  
@@ -26,7 +26,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected VectorType Vector0 { get; set; }
         protected VectorType Vector1 { get; set; }
         protected VectorType Vector2 { get; set; }
-        protected VectorType Vector3 { get { return Kean.Math.Geometry3D.Abstract.Vector<TransformType, TransformValue, VectorType, VectorValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30)); } }
+        protected VectorType Vector3 { get { return Kean.Math.Geometry3D.Abstract.Vector<TransformType, Transform, VectorType, VectorValue, SizeType, Size, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30)); } }
        
         #region Equality
         [Test]

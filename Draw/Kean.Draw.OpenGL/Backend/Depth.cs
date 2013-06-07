@@ -26,6 +26,7 @@ using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Geometry2D = Kean.Math.Geometry2D;
 using Raster = Kean.Draw.Raster;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
@@ -37,26 +38,29 @@ namespace Kean.Draw.OpenGL.Backend
 		protected Depth(Context context) :
 			base(context)
 		{
-			Depth.Free();
 			this.Identifier = this.CreateIdentifier();
+		}
+		protected Depth(Depth original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+		}
+		protected override void Dispose(bool disposing)
+		{
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
 		#region Implementors Interface
 		protected abstract int CreateIdentifier();
 		public abstract void Use();
 		public abstract void UnUse();
 		public abstract void Create(Geometry2D.Integer.Size size);
-		#endregion
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
+		protected internal abstract Depth Refurbish();
+		protected internal override void Delete()
 		{
-			lock (Depth.garbage)
-			{
-				int[] garbage = Depth.garbage.ToArray();
-				if (garbage.Length > 0)
-					GL.DeleteTextures(garbage.Length, garbage);
-				Depth.garbage.Clear();
-			}
+			this.Identifier = 0;
+			base.Delete();
 		}
 		#endregion
 	}

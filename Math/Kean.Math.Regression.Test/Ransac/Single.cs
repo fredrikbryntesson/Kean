@@ -335,7 +335,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("close all;");
                 string before = "";
                 string after = "";
-                foreach (Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in previousCurrentPoints)
+                foreach (Tuple<Geometry2D.Single.Point, Geometry2D.Single.Point> point in previousCurrentPoints)
                 {
                     before += point.Item1.ToString() + "; ";
                     after += point.Item2.ToString() + "; ";
@@ -348,7 +348,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 file.WriteLine("hold on;");
                 file.WriteLine("scatter(after(:,1),after(:,2),'r');");
                 string consensus = "";
-                foreach (Tuple<Geometry2D.Single.PointValue, Geometry2D.Single.PointValue> point in best.Inliers)
+                foreach (Tuple<Geometry2D.Single.Point, Geometry2D.Single.Point> point in best.Inliers)
                     consensus += point.Item2.ToString() + "; ";
                 consensus = consensus.TrimEnd(';');
                 file.WriteLine("consensus = [" + consensus + "];");

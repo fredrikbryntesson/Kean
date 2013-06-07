@@ -46,6 +46,18 @@ namespace Kean.Core.Extension
 		{
 			return object.ReferenceEquals(me, null) ? 0 : me.GetHashCode();
 		}
+		public static T ConvertType<T>(this object me)
+		{
+			return (T)Convert.ChangeType(me, typeof(T));
+		}
+		public static T As<T>(this object me, T @default)
+		{
+			return me is T ? (T)me : @default;
+		}
+		public static T As<T>(this object me)
+		{
+			return me.As(default(T));
+		}
 		public static string AsString(this object me)
 		{
 			string result;
@@ -85,6 +97,8 @@ namespace Kean.Core.Extension
 				result = ((DateTimeOffset)me).ToString("o");
 			else if (me is TimeSpan)
 				result = ((TimeSpan)me).ToString();
+			else if (me is Enum)
+				result = Enum.GetName(me.GetType(), me).ToLower();
 			else if (me is IString)
 				result = (me as IString).String;
 			else

@@ -41,25 +41,45 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			get { return this.wrap; }
 			set { this.WrapMode = (wrap = value) ? OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat : OpenTK.Graphics.OpenGL.TextureWrapMode.Clamp; }
 		}
-		internal protected Texture(Context context) :
+		protected internal Texture(Context context) :
 			base(context)
 		{ }
+		protected Texture(Texture original) :
+			base(original)
+		{
+			this.InternalFormat = original.InternalFormat;
+			this.Format = original.Format;
+		}
 		protected override int CreateIdentifier()
 		{
 			return GL.GenTexture();
 		}
 		public override void Use()
 		{
+			GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, this.Identifier);
+
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
+			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+			if (this.Wrap)
+			{
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.Repeat);
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.Repeat);
+			}
+			else
+			{
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
+				GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
+			}
 		}
 		public override void UnUse()
 		{
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
 		public override void Configure()
 		{
-			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
-			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
 		}
 		protected override void SetFormat(TextureType type, Geometry2D.Integer.Size size)
 		{
@@ -120,6 +140,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.TexCoord2(rightBottom.X, rightBottom.Y); GL.Vertex2(rectangle.Right, rectangle.Bottom);
 			GL.TexCoord2(leftBottom.X, leftBottom.Y); GL.Vertex2(rectangle.Left, rectangle.Bottom);
 			GL.End();
+		}
+		protected internal override Backend.Texture Refurbish()
+		{
+			return new Texture(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				GL.DeleteTexture(this.Identifier);
+				base.Delete();
+			}
 		}
 	}
 }

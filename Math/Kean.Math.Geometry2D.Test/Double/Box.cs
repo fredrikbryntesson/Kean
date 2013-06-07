@@ -125,7 +125,7 @@ namespace Kean.Math.Geometry2D.Test.Double
        {
            string textFromValue = new Target.Double.Box(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Double.Box @doubleFromText = "10 20 30 40";
+           Target.Double.Box @doubleFromText = (Target.Double.Box)"10 20 30 40";
            Verify(@doubleFromText.Left, Is.EqualTo(10));
            Verify(@doubleFromText.Top, Is.EqualTo(20));
            Verify(@doubleFromText.Width, Is.EqualTo(30));

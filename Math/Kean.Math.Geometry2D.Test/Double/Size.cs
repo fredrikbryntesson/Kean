@@ -34,7 +34,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         float Precision { get { return 1e-4f; } }
         Target.Double.Size CastFromString(string value)
         {
-            return value;
+            return (Target.Double.Size)value;
         }
         string CastToString(Target.Double.Size value)
         {
@@ -128,7 +128,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         public void CastingNull()
         {
             string value = null;
-            Target.Double.Size point = null;
+            Target.Double.Size point = new Target.Double.Size();
             Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
             Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
@@ -212,7 +212,7 @@ namespace Kean.Math.Geometry2D.Test.Double
         {
             string textFromValue = new Target.Double.Size(10, 20);
             Verify(textFromValue, Is.EqualTo("10, 20"));
-            Target.Double.Size @integerFromText = "10, 20";
+            Target.Double.Size @integerFromText = (Target.Double.Size)"10, 20";
             Verify(@integerFromText.Width, Is.EqualTo(10));
             Verify(@integerFromText.Height, Is.EqualTo(20));
         }

@@ -41,6 +41,10 @@ namespace Kean.Xml.Serialize.Test.Data
 		public Collection.List<float> Floats { get { return this.floats; } }
 		[Core.Serialize.Parameter]
         public Collection.List<int> Empty { get; set; }
+		[Core.Serialize.Parameter]
+		public Collection.List<int> Single { get; set; }
+		[Core.Serialize.Parameter]
+		public Collection.List<object> SingleObject { get; set; }
 
 		public List()
 		{
@@ -55,6 +59,9 @@ namespace Kean.Xml.Serialize.Test.Data
 			this.Numbers = new Collection.List<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 			this.Floats.Add(0.1337f).Add(1.1337f).Add(2.1337f).Add(3.1337f).Add(4.1337f).Add(5.1337f).Add(6.1337f).Add(7.1337f).Add(8.1337f).Add(9.1337f);
 			this.Empty = new Collection.List<int>();
+			this.Single = new Collection.List<int>();
+			this.Single.Add(1337);
+			this.SingleObject = new Collection.List<object>(factory.Create<Class>());
 		}
 		public void Verify(IFactory factory, string message, params object[] arguments)
 		{
@@ -81,6 +88,12 @@ namespace Kean.Xml.Serialize.Test.Data
 				factory.Verify(this.Floats[i], Is.EqualTo(i + 0.1337f), message, arguments);
 
 			factory.Verify(this.Empty, Is.Null, message, arguments);
+
+			factory.Verify(this.Single.Count, Is.EqualTo(1), message, arguments);
+			factory.Verify(this.Single[0], Is.EqualTo(1337), message, arguments);
+
+			factory.Verify(this.SingleObject.Count, Is.EqualTo(1), message, arguments);
+			factory.Verify(this.SingleObject[0] as Class, message, arguments);
 		}
 		#endregion
 	}

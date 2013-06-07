@@ -29,9 +29,9 @@ namespace Kean.Core.Collection.Synchronized
 	{
 		IQueue<T> data;
 		#region Constructors
-		//public Queue() :
-		//    this(new Collection.Queue())
-		//{ }
+		public Queue() :
+			this(new Collection.Queue<T>())
+		{ }
 		public Queue(IQueue<T> data) :
 			this(data, new object())
 		{ }

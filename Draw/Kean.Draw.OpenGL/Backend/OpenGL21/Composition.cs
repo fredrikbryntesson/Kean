@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Kean.Draw.OpenGL.Backend.Extension;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
@@ -32,8 +33,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Composition :
 		Backend.Composition
 	{
-		internal Composition(Context context) :
-			base(context.CreateTexture(), new Depth(context), new FrameBuffer(context))
+		protected internal Composition(Context context) :
+			base(context, new Texture(context), new Depth(context), new FrameBuffer(context))
+		{ }
+		protected Composition(Composition original) :
+			base(original)
 		{ }
 
 		public override void Setup()
@@ -65,7 +69,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		public override void SetClip(Geometry2D.Single.Box region)
 		{
-			if (region.NotNull())
+			if (!region.Empty)
 			{
 				double[] left = new double[] { 1.0, 0.0, 0.0, -region.Left };
 				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
@@ -108,6 +112,22 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				(offset.Height < 0) ? (-offset.Height) : 0,
 				this.Size.Width - Kean.Math.Integer.Absolute(offset.Width),
 				this.Size.Height - Kean.Math.Integer.Absolute(offset.Height));
+		}
+		public override void Read(IntPtr pointer, Geometry2D.Integer.Box region)
+		{
+			switch (this.Type)
+			{
+				default:
+				case TextureType.Argb:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Rgb:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Monochrome:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+			}
 		}
 		public override void Clear()
 		{
@@ -153,6 +173,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Vertex2(region.Right, region.Bottom);
 			GL.Vertex2(region.Left, region.Bottom);
 			GL.End();
+		}
+		protected override Backend.Composition Refurbish()
+		{
+			return new Composition(this);
 		}
 	}
 }

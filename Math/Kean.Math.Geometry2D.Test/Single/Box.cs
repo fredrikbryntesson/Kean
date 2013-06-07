@@ -115,7 +115,7 @@ namespace Kean.Math.Geometry2D.Test.Single
        {
            string textFromValue = new Target.Single.Box(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Single.Box @singleFromText = "10 20 30 40";
+           Target.Single.Box @singleFromText = (Target.Single.Box)"10 20 30 40";
            Verify(@singleFromText.Left, Is.EqualTo(10));
            Verify(@singleFromText.Top, Is.EqualTo(20));
            Verify(@singleFromText.Width, Is.EqualTo(30));

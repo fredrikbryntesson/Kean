@@ -24,6 +24,7 @@ using System;
 using Collection = Kean.Core.Collection;
 using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
@@ -34,40 +35,35 @@ namespace Kean.Draw.OpenGL.Backend
 		protected FrameBuffer(Context context) :
 			base(context)
 		{
-			FrameBuffer.Free();
 			int identifier;
 			GL.Ext.GenFramebuffers(1, out identifier);
 			this.Identifier = identifier;
 		}
+		protected FrameBuffer(FrameBuffer original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Identifier != 0)
-			{
-				lock (FrameBuffer.garbage)
-					FrameBuffer.garbage.Add(this.Identifier);
-				this.Identifier = 0;
-			}
-			base.Dispose(disposing);
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
+		#region Implementors Interface
 		public abstract void Use();
 		public abstract void UnUse();
 		public abstract void Create(Texture texture, Depth depth);
+		protected internal abstract FrameBuffer Refurbish();
+		protected internal override void Delete()
+		{
+			this.Identifier = 0;
+			base.Delete();
+		}
+		#endregion
 		public override string ToString()
 		{
 			return this.Identifier.ToString();
 		}
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
-		{
-			lock (FrameBuffer.garbage)
-			{
-				int[] garbage = FrameBuffer.garbage.ToArray();
-				if (garbage.Length > 0)
-					GL.Ext.DeleteFramebuffers(garbage.Length, garbage);
-				FrameBuffer.garbage.Clear();
-			}
-		}
-		#endregion
 	}
 }

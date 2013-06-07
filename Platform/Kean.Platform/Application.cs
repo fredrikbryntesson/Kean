@@ -64,7 +64,54 @@ namespace Kean.Platform
 		public IRunner Runner { get; set; }
 		[Serialize.Parameter]
 		public bool CatchErrors { get { return Error.Log.CatchErrors; } set { Error.Log.CatchErrors = value; } }
- 		public Mode Mode { get; private set; }
+		public Environment Environment { get { return Environment.Current; } }
+		#region State
+		Mode mode;
+		public Mode Mode
+		{
+			get { return this.mode; }
+			private set
+			{
+				switch (this.mode)
+				{
+					case Mode.Created:
+						if (value == Mode.Initialized)
+						{
+							this.mode = Mode.Initialized;
+							lock (this.onInitializedLock)
+								this.onInitialized.Call();
+						}
+						else if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Initialized:
+						if (value == Mode.Started)
+						{
+							this.mode = Mode.Started;
+							lock (this.onStartedLock)
+								this.onStarted.Call();
+						}
+						else if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Started:
+						if (value == Mode.Stopped)
+						{
+							this.mode = Mode.Stopped;
+							lock (this.onStoppedLock)
+								this.onStopped.Call();
+						}
+						break;
+					case Mode.Stopped:
+						if (value == Mode.Disposed)
+							this.mode = Mode.Disposed;
+						break;
+					case Mode.Disposed:
+						break;
+				}
+			}
+		}
+		#endregion
 		#endregion
 		#region Events
 		object onIdleLock = new object();
@@ -80,6 +127,27 @@ namespace Kean.Platform
 		{
 			add { lock (this.onNextIdleLock) this.onNextIdle += value; }
 			remove { lock (this.onNextIdleLock) this.onNextIdle -= value; }
+		}
+		object onInitializedLock = new object();
+		Action onInitialized;
+		public event Action OnInitialized
+		{
+			add { lock (this.onInitializedLock) this.onInitialized += value; }
+			remove { lock (this.onInitializedLock) this.onInitialized -= value; }
+		}
+		object onStartedLock = new object();
+		Action onStarted;
+		public event Action OnStarted
+		{
+			add { lock (this.onStartedLock) this.onStarted += value; }
+			remove { lock (this.onStartedLock) this.onStarted -= value; }
+		}
+		object onStoppedLock = new object();
+		Action onStopped;
+		public event Action OnStopped
+		{
+			add { lock (this.onStoppedLock) this.onStopped += value; }
+			remove { lock (this.onStoppedLock) this.onStopped -= value; }
 		}
 		object onClosedLock = new object();
 		Action onClosed;
@@ -108,28 +176,28 @@ namespace Kean.Platform
 			this.Modules = modules;
 			#region Initialize Properties
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetCallingAssembly();
-            // Product
-            System.Reflection.AssemblyProductAttribute[] productAttribute = (System.Reflection.AssemblyProductAttribute[])assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyProductAttribute), true);
-            if (productAttribute != null && productAttribute.Length > 0)
-                this.Product = productAttribute[0].Product;
-            // Version
-            System.Reflection.AssemblyFileVersionAttribute version = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyFileVersionAttribute)) as System.Reflection.AssemblyFileVersionAttribute;
-            if (version != null)
-                this.Version = version.Version;
-            // Company
-            System.Reflection.AssemblyCompanyAttribute[] companyAttribute = (System.Reflection.AssemblyCompanyAttribute[]) assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyCompanyAttribute), true);
-            if (companyAttribute != null && companyAttribute.Length > 0)
-                this.Company = companyAttribute[0].Company;
-            // Copyright
-            System.Reflection.AssemblyCopyrightAttribute copyright = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyCopyrightAttribute)) as System.Reflection.AssemblyCopyrightAttribute;
-            if (copyright != null)
-                this.Copyright = copyright.Copyright;
-            // Description
-            System.Reflection.AssemblyDescriptionAttribute description = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyDescriptionAttribute)) as System.Reflection.AssemblyDescriptionAttribute;
-            if (description.NotNull())
-                this.Description = description.Description;
-            // Icon
-            this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(this.Executable);
+			// Product
+			System.Reflection.AssemblyProductAttribute[] productAttribute = (System.Reflection.AssemblyProductAttribute[])assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyProductAttribute), true);
+			if (productAttribute != null && productAttribute.Length > 0)
+				this.Product = productAttribute[0].Product;
+			// Version
+			System.Reflection.AssemblyFileVersionAttribute version = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyFileVersionAttribute)) as System.Reflection.AssemblyFileVersionAttribute;
+			if (version != null)
+				this.Version = version.Version;
+			// Company
+			System.Reflection.AssemblyCompanyAttribute[] companyAttribute = (System.Reflection.AssemblyCompanyAttribute[]) assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyCompanyAttribute), true);
+			if (companyAttribute != null && companyAttribute.Length > 0)
+				this.Company = companyAttribute[0].Company;
+			// Copyright
+			System.Reflection.AssemblyCopyrightAttribute copyright = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyCopyrightAttribute)) as System.Reflection.AssemblyCopyrightAttribute;
+			if (copyright != null)
+				this.Copyright = copyright.Copyright;
+			// Description
+			System.Reflection.AssemblyDescriptionAttribute description = Attribute.GetCustomAttribute(assembly, typeof(System.Reflection.AssemblyDescriptionAttribute)) as System.Reflection.AssemblyDescriptionAttribute;
+			if (description.NotNull())
+				this.Description = description.Description;
+			// Icon
+			this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(this.Executable);
 			#endregion
 
 		}
@@ -235,12 +303,14 @@ namespace Kean.Platform
 					}
 					finally
 					{
-						this.onClosed.Call();
+						lock (this.onClosedLock)
+							this.onClosed.Call();
 					}
 				else
 				{
 					this.Stopper();
-					this.onClosed.Call();
+					lock (this.onClosedLock)
+						this.onClosed.Call();
 				}
 			return result;
 		}
@@ -249,7 +319,7 @@ namespace Kean.Platform
 			this.Mode = Mode.Stopped;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Started)
-					this.Run(module.Stop, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " stoped.", "Module " + module.Name + " is stoped."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to stop.", "Module " + module.Name + " failed to stop with exception: " + exception.GetType() + " and message: " + exception.Message));
+					this.Run(module.Stop, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " stopped.", "Module " + module.Name + " is stopped."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to stop.", "Module " + module.Name + " failed to stop with exception: " + exception.GetType() + " and message: " + exception.Message));
 			this.Mode = Mode.Disposed;
 			foreach (Module module in this.Modules)
 				if (module.Mode == Mode.Stopped)
@@ -302,13 +372,15 @@ namespace Kean.Platform
 					}
 					finally
 					{
-						this.onClosed.Call();
+						lock (this.onClosedLock)
+							this.onClosed.Call();
 					}
 				}
 				else
 				{
 					this.Executer();
-					this.onClosed.Call();
+					lock (this.onClosedLock)
+						this.onClosed.Call();
 				}
 			return result;
 		}
@@ -350,12 +422,12 @@ namespace Kean.Platform
 			string path = System.IO.Path.Combine(result.ExecutablePath, "Modules");
 			if (System.IO.Directory.Exists(path))
 				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
 			// Load from "Modules/{executable name}" folder
 			path = System.IO.Path.Combine(result.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
 			if (System.IO.Directory.Exists(path))
 				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlattformPath(file)));
+					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
 			return result;
 		}
 		#endregion

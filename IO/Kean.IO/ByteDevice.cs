@@ -124,14 +124,14 @@ namespace Kean.IO
 		}
 		public static IByteDevice Open(Uri.Locator input, Uri.Locator output)
 		{
-			return ByteDeviceSplitter.Open(ByteDevice.Open(input), ByteDevice.Create(output));
+			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Create(output));
 		}
 		public static IByteDevice Create(Uri.Locator resource)
 		{
 			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
 			if (result.IsNull() && resource.NotNull())
 			{
-				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlattformPath);
+				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlatformPath);
 				result = ByteDevice.Open(resource, System.IO.FileMode.Create);
 			}
 			return result;
@@ -148,7 +148,7 @@ namespace Kean.IO
 					case "file":
 						try 
 						{
-							System.IO.FileStream stream = System.IO.File.Open(resource.Path.PlattformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
+							System.IO.FileStream stream = System.IO.File.Open(resource.Path.PlatformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
 							if (stream.NotNull())
 								result = new ByteDevice(stream) { Resource = resource }; 
 						}

@@ -40,17 +40,17 @@ namespace Kean.Math.Geometry3D.Double
 		#region properties
 		public double Norm { get { return Math.Double.SquareRoot((Math.Double.Squared(this.X) + Math.Double.Squared(this.Y) + Math.Double.Squared(this.Z))); } }
 		public double Azimuth { get { return Math.Double.ArcusTangensExtended(this.Y, this.X); } }
-		//public double Elevation
-		//{
-		//	get
-		//	{
-		//		double result = new double();
-		//		double r = this.Norm;
-		//		if (r != result)
-		//			result = (this.Z / r) . Math.Double.Clamp(-1,Math.Double.ArcusCosinus(1));
-		//		return result;
-		//	}
-		//}
+		public double Elevation
+		{
+			get
+			{
+				double result = new double();
+				double r = this.Norm;
+				if (r != result)
+					result = Math.Double.Clamp(this.Z / r, -1, Math.Double.ArcusCosinus(1));
+				return result;
+			}
+		}
 		#endregion
 		#region Static Constants
 		public static Point BasisX { get { return new Point(1, 0, 0); } }

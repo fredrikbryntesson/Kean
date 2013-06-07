@@ -302,9 +302,13 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return 33 * this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
-		public override string ToString()
+        public override string ToString()
         {
-			return Kean.Math.<#= @namespace1 #>.ToString(this.X) + ", " + Kean.Math.<#= @namespace1 #>.ToString(this.Y);
+			return this.ToString("{0}, {1}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, Kean.Math.<#= @namespace1 #>.ToString(this.X), Kean.Math.<#= @namespace1 #>.ToString(this.Y));
 		}
         #endregion
         #region Static Creators
@@ -314,7 +318,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         #endregion
         #region Casts
-        public static explicit operator <#= @value1 #>[](<#= @name #> value)
+        public static implicit operator <#= @value1 #>[](<#= @name #> value)
         {
             return new <#= @value1 #>[] { value.X, value.Y };
         }
@@ -326,7 +330,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             return value.ToString();
         }
-        public static implicit operator <#= @name #>(string value)
+        public static explicit operator <#= @name #>(string value)
         {
             <#= @name #> result = new <#= @name #>();
             if (value.NotEmpty())

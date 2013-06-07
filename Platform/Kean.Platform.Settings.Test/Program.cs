@@ -33,9 +33,9 @@ namespace Kean.Platform.Settings.Test
 			if (args.Length == 0)
 			{
 				Command.Application application = new Command.Application();
-				IDisposable telnet = Editor.Listen(application, "telnet://:23");
-				IDisposable tcp = Editor.Listen(application, "tcp://:20");
-				IDisposable console = Editor.Listen(application, "console:///");
+				IDisposable telnet = Parser.Listen(application, "telnet://:23");
+				IDisposable tcp = Parser.Listen(application, "tcp://:20");
+				IDisposable console = Parser.Listen(application, "console:///");
 			}
 			else
 			{

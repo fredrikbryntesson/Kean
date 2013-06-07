@@ -27,6 +27,7 @@ namespace Kean.Core.Parallel
 {
 	internal class Worker
 	{
+		public int Number { get; private set; }
 		public string Name { get; private set; }
 		System.Threading.Thread thread;
 		ThreadPool pool;
@@ -55,7 +56,7 @@ namespace Kean.Core.Parallel
 			set { lock (this.semaphore) this.end = value; }
 		}
 
-		internal Worker(ThreadPool pool, int index)
+		internal Worker(ThreadPool pool, int number)
 		{
 			this.pool = pool;
 			this.wakeUp = new object();
@@ -121,7 +122,8 @@ namespace Kean.Core.Parallel
 				{
 				}
 			})) { IsBackground = true };
-			this.thread.Name = this.Name = pool.Name + ":" + index;
+			this.thread.Name = this.Name = pool.Name + ":" + number;
+			this.Number = number;
 			this.thread.Start();
 		}
 		~Worker()

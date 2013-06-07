@@ -58,7 +58,7 @@ namespace Kean.Core.Uri
 			}
 		}
 		#endregion
-		public string PlattformPath
+		public string PlatformPath
 		{
 			get
 			{
@@ -184,18 +184,21 @@ namespace Kean.Core.Uri
 			return this.String;
 		}
 		#endregion
-		public static Path FromPlattformPath(string path)
+		public static Path FromPlatformPath(string path)
 		{
-			return new Path() { PlattformPath = path };
+			return new Path() { PlatformPath = path };
 		}
-        public static Path FromRelativePlattformPath(string path)
+        public static Path FromRelativePlatformPath(string path)
         {
-            return Path.FromPlattformPath(System.IO.Path.GetFullPath(path));
+            return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
 		}
 		#region Resolve & Insert Special Folders Variables
 		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {
-			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
 			KeyValue.Create("Desktop", System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)),
+			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
+			KeyValue.Create("Videos", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyVideos)),
+			KeyValue.Create("Pictures", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures)),
+			KeyValue.Create("Music", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic)),
 			KeyValue.Create("ApplicationPath", System.IO.Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]))
 		};
 		static string ResolveSpecialFolderVariables(string platformPath)
@@ -203,7 +206,8 @@ namespace Kean.Core.Uri
 			string result = platformPath;
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
-					result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
+					if (specialFolder.Value.NotEmpty())
+						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
 			return result;
 		}
 		static string InsertSpecialFoldersVariables(string platformPath)
@@ -211,7 +215,8 @@ namespace Kean.Core.Uri
 			string result = platformPath;
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
-					result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
+					if (specialFolder.Value.NotEmpty())
+						result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
 			return result;
 		}
 		#endregion
@@ -232,7 +237,7 @@ namespace Kean.Core.Uri
 		}
 		public static explicit operator System.IO.DirectoryInfo(Path path)
 		{
-			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlattformPath) : null;
+			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlatformPath) : null;
 		}
 		#endregion
 		#endregion

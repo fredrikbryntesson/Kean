@@ -131,7 +131,7 @@ namespace Kean.Math
         }
         public static int Round(float value)
         {
-            return Integer.Convert(System.Math.Round(value));
+            return Integer.Convert(Double.Clamp(System.Math.Round(value), int.MinValue, int.MaxValue));
         }
         public static int Round(double value)
         {

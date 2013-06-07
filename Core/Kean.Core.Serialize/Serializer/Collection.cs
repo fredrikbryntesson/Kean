@@ -54,17 +54,17 @@ namespace Kean.Core.Serialize.Serializer
 			Core.Collection.IList<Data.Node> nodes;
 			Reflect.Type type;
 			Reflect.Type elementType;
+			type = data.Type;
+			elementType = this.GetElementType(type);
 			if (data is Data.Collection)
-			{
 				nodes = (data as Data.Collection).Nodes;
-				type = data.Type;
-				elementType = this.GetElementType(type);
-			}
 			else 
 			{ // only one element so it was impossible to know it was a collection
 				nodes = new Core.Collection.List<Data.Node>(data);
-				type = null;
-				elementType = data.Type;
+				data.Type = data.OriginalType ?? elementType;
+				Uri.Locator locator = data.Locator.Copy();
+				locator.Fragment += "[0]";
+				data.Locator = locator;
 			}
 
             if (result.IsNull())
@@ -73,7 +73,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node child in nodes)
 			{
 				int c = i++; // ensure c is unique in every closure of lambda function below
-				storage.Deserialize(child.DefaultType(elementType), d => this.Set(result, d, c));
+				storage.Deserialize(child, elementType, d => this.Set(result, d, c));
 			}
 			return result;
 		}

@@ -30,8 +30,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class FrameBuffer :
 		Backend.FrameBuffer
 	{
-		internal FrameBuffer(Context context) :
+		protected internal FrameBuffer(Context context) :
 			base(context)
+		{ }
+		protected FrameBuffer(FrameBuffer frameBuffer) :
+			base(frameBuffer)
 		{ }
 		public override void Use()
 		{
@@ -47,6 +50,19 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Ext.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, OpenTK.Graphics.OpenGL.FramebufferAttachment.DepthAttachmentExt, OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, depth.Identifier, 0);
 			Exception.Framebuffer.Check();
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
+		}
+		protected internal override Backend.FrameBuffer Refurbish()
+		{
+			return new FrameBuffer(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				int identifier = this.Identifier;
+				GL.DeleteFramebuffers(1, ref identifier);
+				base.Delete();
+			}
 		}
 	}
 }

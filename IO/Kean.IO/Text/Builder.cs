@@ -30,6 +30,7 @@ namespace Kean.IO.Text
     public class Builder
     {
         Collection.IList<string> data;
+		public int Length { get { return this.data.Fold((item, result) => result + item.Length, 0); } }
         public Builder()
         { 
             this.data = new Collection.Linked.List<string>();
@@ -79,7 +80,16 @@ namespace Kean.IO.Text
         #region Casts
         public static implicit operator string(Builder builder)
         {
-            return builder.data.Fold((item, accumulation) => accumulation + item, "");
+			string result;
+			if (builder.NotNull())
+			{
+				result = builder.data.Fold((item, accumulation) => accumulation + item, "");
+				builder.data = new Collection.Linked.List<string>();
+				builder.Append(result);
+			}
+			else
+				result = "";
+            return result;
         }
         public static implicit operator Builder(string value)
         {
@@ -89,16 +99,31 @@ namespace Kean.IO.Text
         #region Binary operators
         public static Builder operator +(Builder left, Builder right)
         {
-            return left.Copy().Append(right);
+            return left.NotNull() ? left.Copy().Append(right) : new Builder().Append(right);
         }
         public static Builder operator +(Builder left, string right)
         {
-            return left.Copy().Append(right);
+            return left.NotNull() ? left.Copy().Append(right) : new Builder(right);
         }
         public static Builder operator +(string left, Builder right)
         {
-            return right.Copy().Prepend(left);
+			return right.NotNull() ? right.Copy().Prepend(left) : new Builder(left);
         }
         #endregion
-    }
+
+		#region Object Overrides
+		public override int GetHashCode()
+		{
+			return ((string)this).GetHashCode();
+		}
+		public override bool Equals(object other)
+		{
+			return ((string)this).Equals(other);
+		}
+		public override string ToString()
+		{
+			return this;
+		}
+		#endregion
+	}
 }

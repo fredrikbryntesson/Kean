@@ -32,7 +32,7 @@ namespace Kean.Core.Parallel
 		protected System.Threading.Thread Backend { get; set; }
 
 		public string Name { get { return this.Backend.Name; } }
-
+		public bool IsCurrent { get { return this.Backend == System.Threading.Thread.CurrentThread; } }
 		#region Constructors
 		protected Thread()
 		{ }

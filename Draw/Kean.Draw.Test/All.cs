@@ -28,10 +28,6 @@ namespace Kean.Draw.Test
 		public static void Test()
 		{
 			Color.Convert.Test();
-			Cairo.Test.All.Test();
-			Raster.Test.All.Test();
-			Vector.Test.All.Test();
-			Gpu.Test.All.Test();
 		}
 	}
 }

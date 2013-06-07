@@ -24,6 +24,7 @@ using System;
 using Collection = Kean.Core.Collection;
 using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
@@ -34,41 +35,41 @@ namespace Kean.Draw.OpenGL.Backend
 		protected Program(Context context) :
 			base(context)
 		{
-			Program.Free();
 			this.Identifier = GL.CreateProgram();
 		}
+		protected Program(Program original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+		}
+
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Identifier != 0)
-			{
-				lock (Program.garbage)
-					Program.garbage.Add(this.Identifier);
-				this.Identifier = 0;
-			}
-			base.Dispose(disposing);
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
+		#region Implementors Interface
 		public abstract void Use();
 		public abstract void UnUse();
 		public abstract void Attach(Shader shader);
 		public abstract void Detach(Shader shader);
 		public abstract void Link();
-		public abstract void SetTexture(string name, int number, ITexture texture);
+		public abstract void SetTexture(string name, int number, IData texture);
 		public abstract void UnSetTexture(int number);
 		public abstract void SetVariable(string name, float[,] values);
 		public abstract void SetVariable(string name, params int[] values);
 		public abstract void SetVariable(string name, params float[] values);
+		protected abstract Program Refurbish();
+		protected internal override void Delete()
+		{
+			this.Identifier = 0;
+			base.Delete();
+		}
+		#endregion
 		public override string ToString()
 		{
 			return this.Identifier.ToString();
 		}
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
-		{
-			lock (Program.garbage)
-				while (Program.garbage.Count > 0)
-					OpenTK.Graphics.OpenGL.GL.DeleteProgram(Program.garbage.Remove());
-		}
-		#endregion
 	}
 }

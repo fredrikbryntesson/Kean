@@ -33,6 +33,8 @@ namespace Kean.Xml.Serialize.Test
 			this.Run(
 				this.Dictionary,
 				this.List,
+				this.ListExisting,
+				this.ListInterface,
 				this.Array
 				);
 		}
@@ -41,6 +43,10 @@ namespace Kean.Xml.Serialize.Test
 		public void Array() { this.Test(typeof(Data.Array)); }
         [Test]
         public void List() { this.Test(typeof(Data.List)); }
+		[Test]
+		public void ListExisting() { this.Test(typeof(Data.ListExisting)); }
+		[Test]
+		public void ListInterface() { this.Test(typeof(Data.ListInterface)); }
 		[Test]
 		public void Dictionary() { this.Test(typeof(Data.Dictionary)); }
 	}

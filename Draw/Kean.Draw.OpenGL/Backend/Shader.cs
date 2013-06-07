@@ -23,31 +23,43 @@ using System;
 using Collection = Kean.Core.Collection;
 using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Shader :
 		Resource
 	{
+		ShaderType type;
 		internal int Identifier { get; private set; }
 		protected Shader(Context context, ShaderType type) :
 			base(context)
 		{
 			Shader.Free();
-			this.Identifier = this.Create(type);
+			this.Identifier = this.Create(this.type = type);
+		}
+		protected Shader(Shader original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			this.type = original.type;
+			original.Identifier = 0;
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Identifier != 0)
-			{
-				lock (Shader.garbage)
-					Shader.garbage.Add(this.Identifier);
-				this.Identifier = 0;
-			}
-			base.Dispose(disposing);
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
+		#region Implementors Interface
 		protected abstract int Create(ShaderType type);
 		public abstract string Compile(string code);
+		protected abstract Shader Refurbish();
+		protected internal override void Delete()
+		{
+			this.Identifier = 0;
+			base.Delete();
+		}
+		#endregion
 		public override string ToString()
 		{
 			return this.Identifier.ToString();

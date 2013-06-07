@@ -123,7 +123,7 @@ namespace Kean.Math.Geometry2D.Single
         {
             return value.NotNull() ? value.ToString() : null;
         }
-        public static implicit operator Shell(string value)
+        public static explicit operator Shell(string value)
         {
             Shell result = new Shell();
             if (value.NotEmpty())
@@ -161,8 +161,12 @@ namespace Kean.Math.Geometry2D.Single
         }
         public override string ToString()
         {
-            return Kean.Math.Single.ToString(this.Left) + ", " + Kean.Math.Single.ToString(this.Right) + ", " + Kean.Math.Single.ToString(this.Top) + ", " + Kean.Math.Single.ToString(this.Bottom);
-        }
+			return this.ToString("{0}, {1}, {2}, {3}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, Kean.Math.Single.ToString(this.Left), Kean.Math.Single.ToString(this.Right), Kean.Math.Single.ToString(this.Top), Kean.Math.Single.ToString(this.Bottom));
+		}
     	#endregion
     }
 }

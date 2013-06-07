@@ -32,7 +32,7 @@ namespace Kean.Xml.Dom.Test
 	{
 		protected override void Verify(string name)
 		{
-			this.Create(name).Save(Uri.Locator.FromPlattformPath(System.IO.Path.GetFullPath(name + ".xml")));
+			this.Create(name).Save(Uri.Locator.FromPlatformPath(System.IO.Path.GetFullPath(name + ".xml")));
 		}
 	}
 }

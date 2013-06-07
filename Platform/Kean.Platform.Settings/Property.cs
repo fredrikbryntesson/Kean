@@ -35,8 +35,8 @@ namespace Kean.Platform.Settings
 		class Notifier
 		{
 			Property property;
-			Editor editor;
-			public Notifier(Property property, Editor editor)
+			Parser editor;
+			public Notifier(Property property, Parser editor)
 			{
 				this.property = property;
 				this.editor = editor;
@@ -76,14 +76,18 @@ namespace Kean.Platform.Settings
 			if (this.backend.Writable)
 				this.Mode |= PropertyMode.Write;
 		}
-		public override bool Execute(Editor editor, string[] parameters)
+		public override bool Execute(Parser parser, string[] parameters)
 		{
 			bool parsed = true;
+			bool respond = this.backend.Readable;
 			if (parameters.Length > 0)
 			{
 				string value = string.Join(" ", parameters).Trim();
-				if (value.ToLower() == "notify" && this.changed.NotNull() && this.backend.Readable)
-					this.changed.Add(Delegate.CreateDelegate(new Kean.Core.Reflect.Type("mscorlib.dll", "System.Action", this.backend.Type), new Notifier(this, editor), typeof(Notifier).GetMethod("Notify").MakeGenericMethod(this.backend.Type)));
+				if (value.ToLower() == "notify" && this.changed.NotNull() && respond)
+				{
+					this.changed.Add(Delegate.CreateDelegate(new Kean.Core.Reflect.Type("mscorlib.dll", "System.Action", this.backend.Type), new Notifier(this, parser), typeof(Notifier).GetMethod("Notify").MakeGenericMethod(this.backend.Type)));
+					respond = !parser.Asynchronous.HasFlag(Asynchronous.Notify);
+				}
 				else
 				{
 					try
@@ -94,17 +98,21 @@ namespace Kean.Platform.Settings
 					{
 						parsed = false;
 					}
+					respond = !parser.Asynchronous.HasFlag(Asynchronous.Set);
 				}
 			}
-			if (parsed && this.backend.Readable)
-				editor.Answer(this, this.Value);
+			if (parsed)
+			{
+				if (respond)
+					parser.Answer(this, this.Value);
+			}
 			else
-				editor.Error(this, "Error Invalid Name:", parameters);
+				parser.Error(this, "Error Invalid Name:", parameters);
 			return true;
 		}
 		public override string Complete(string[] parameters)
 		{
-			string result = this.backend.Writable && parameters.Length > 0 ? this.parameter.Complete(string.Join(" ", parameters)) : "" ;
+			string result = this.backend.Writable && parameters.Length > 0 ? this.parameter.Complete(string.Join(" ", parameters)) : "";
 			if (result.IsEmpty() && this.changed.NotNull() && parameters.Length > 0 && "notify".StartsWith(parameters[0]))
 				result = "notify ";
 			return result;
@@ -112,6 +120,20 @@ namespace Kean.Platform.Settings
 		public override string Help(string[] parameters)
 		{
 			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n";
+		}
+		public override bool RequestType(Parser editor)
+		{
+			editor.TypeResponse(this, "property " + this.ModeString + " : " + this.backend.Type);
+			return true;
+		}
+		string ModeString
+		{
+			get
+			{
+				return (this.Mode.HasFlag(PropertyMode.Read) ? "r" : "-") +
+					(this.Mode.HasFlag(PropertyMode.Write) ? "w" : "-") +
+					(this.Mode.HasFlag(PropertyMode.Notify) ? "n" : "-");
+			}
 		}
 	}
 }

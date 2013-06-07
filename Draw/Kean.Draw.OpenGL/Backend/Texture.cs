@@ -26,32 +26,51 @@ using Error = Kean.Core.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Geometry2D = Kean.Math.Geometry2D;
 using Raster = Kean.Draw.Raster;
+using Kean.Core.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Texture :
 		Resource,
-        ITexture
+		ITexture,
+        IData
 	{
-		internal int Identifier { get; private set; }
+		int identifier;
+		internal int Identifier 
+		{
+			get { return this.identifier; }
+			private set
+			{
+				if (value == 0 && this.identifier != 0)
+					lock (Texture.allocated)
+						Texture.allocated.Remove(texture => texture.Same(this));
+				else if (value != 0 && this.identifier == 0)
+					lock (Texture.allocated) 
+						Texture.allocated.Add(this);
+				this.identifier = value;
+			}
+		}
 		public Geometry2D.Integer.Size Size { get; protected set; }
 		public TextureType Type { get; protected set; }
 		public abstract bool Wrap { get; set; }
+		public Composition Composition { get; internal set; }
 		protected Texture(Context context) :
 			base(context)
 		{
-			Texture.Free();
 			this.Identifier = this.CreateIdentifier();
+		}
+		protected Texture(Texture original) :
+			base(original)
+		{
+			this.Identifier = original.Identifier;
+			original.Identifier = 0;
+			this.Size = original.Size;
+			this.Type = original.Type;
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Identifier != 0)
-			{
-				lock (Texture.garbage)
-					Texture.garbage.Add(this.Identifier);
-				this.Identifier = 0;
-			}
-			base.Dispose(disposing);
+			if (this.Context.NotNull())
+				this.Context.Recycle(this.Refurbish());
 		}
 		public void Create(TextureType type, Geometry2D.Integer.Size size)
 		{
@@ -69,13 +88,7 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		public void Load(Raster.Image image, Geometry2D.Integer.Point offset)
 		{
-			TextureType type;
-			if (image is Raster.Bgra)
-				type = TextureType.Argb;
-			else if (image is Raster.Bgr)
-				type = TextureType.Rgb;
-			else
-				type = TextureType.Monochrome;
+			TextureType type = this.Context.GetTextureType(image);
 			this.Use();
 			this.Load(image.Pointer, new Geometry2D.Integer.Box(offset, image.Size), type);
 			this.UnUse();
@@ -126,19 +139,26 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract void Create(IntPtr data);
 		protected abstract void Load(IntPtr data, Geometry2D.Integer.Box region, TextureType type);
 		protected abstract void Read(IntPtr data, Geometry2D.Integer.Box region);
-		#endregion
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
+		protected internal abstract Texture Refurbish();
+		protected internal override void Delete()
 		{
-			lock (Texture.garbage)
-			{
-				int[] garbage = Texture.garbage.ToArray();
-				if (garbage.Length > 0)
-					GL.DeleteTextures(garbage.Length, garbage);
-				Texture.garbage.Clear();
-			}
+			this.Identifier = 0;
+			base.Delete();
 		}
 		#endregion
+
+		static Collection.List<Texture> allocated = new Collection.List<Texture>();
+		internal static void FreeAllocated()
+		{
+			lock (Texture.allocated)
+				while (Texture.allocated.Count > 0)
+				{
+					Texture texture = Texture.allocated.Remove();
+					if (texture.Composition.NotNull())
+						texture.Composition.Delete();
+					else
+						texture.Delete();
+				}
+		}
 	}
 }

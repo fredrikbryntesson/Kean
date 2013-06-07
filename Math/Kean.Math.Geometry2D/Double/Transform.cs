@@ -159,6 +159,10 @@ namespace Kean.Math.Geometry2D.Double
         {
             return this.Translate(delta, delta);
         }
+        public Transform Translate(Point delta)
+        {
+            return this.Translate(delta.X, delta.Y);
+        }
         public Transform Translate(Size delta)
         {
             return this.Translate(delta.Width, delta.Height);
@@ -209,6 +213,10 @@ namespace Kean.Math.Geometry2D.Double
 		public static Transform CreateTranslation(Size delta)
 		{
 			return Transform.CreateTranslation(delta.Width, delta.Height);
+		}
+		public static Transform CreateTranslation(Point delta)
+		{
+			return Transform.CreateTranslation(delta.X, delta.Y);
 		}
 		public static Transform CreateTranslation(double xDelta, double yDelta)
 		{
@@ -311,7 +319,7 @@ namespace Kean.Math.Geometry2D.Double
         {
             return value.NotNull() ? value.ToString() : null;
         }
-        public static implicit operator Transform(string value)
+        public static explicit operator Transform(string value)
         {
             Transform result = new Transform();
             if (value.NotEmpty())
@@ -336,7 +344,7 @@ namespace Kean.Math.Geometry2D.Double
 					result[x, y] = value[x, y];
 			return result;
 		}
-		public static explicit operator byte[](Transform value)
+		public static implicit operator byte[](Transform value)
 		{
 			int size = sizeof(double);
 			byte[] result = new byte[6 * size];
@@ -366,17 +374,21 @@ namespace Kean.Math.Geometry2D.Double
         }
         public override string ToString()
         {
-            return
-                Kean.Math.Double.ToString(this.A) + ", " +
-                Kean.Math.Double.ToString(this.B) + ", " +
-                Kean.Math.Double.ToString(this.C) + ", " +
-                Kean.Math.Double.ToString(this.D) + ", " +
-                Kean.Math.Double.ToString(this.E) + ", " +
-                Kean.Math.Double.ToString(this.F); 
-        }
+			return this.ToString("{0}, {1}, {2}, {3}, {4}, {5}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, 
+			Kean.Math.Double.ToString(this.A), 
+			Kean.Math.Double.ToString(this.B), 
+			Kean.Math.Double.ToString(this.C), 
+			Kean.Math.Double.ToString(this.D), 
+			Kean.Math.Double.ToString(this.E), 
+			Kean.Math.Double.ToString(this.F));
+		}
         public string ToMatlabString()
         {
-            return string.Format("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1", Kean.Math.Double.ToString(this.A), Kean.Math.Double.ToString(this.B), Kean.Math.Double.ToString(this.C), Kean.Math.Double.ToString(this.D), Kean.Math.Double.ToString(this.E), Kean.Math.Double.ToString(this.F));
+            return this.ToString("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1");
         }
 		#endregion
     }

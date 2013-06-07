@@ -5,15 +5,15 @@ using NUnit.Framework;
 
 namespace Kean.Math.Geometry3D.Test.Abstract
 {
-    public abstract class Transform<T, TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V> :
+    public abstract class Transform<T, TransformType, Transform, PointType, Point, SizeType, Size, R, V> :
         Kean.Test.Fixture<T>
         where T : Kean.Test.Fixture<T>, new()
-        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where TransformValue : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
-        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, TransformValue, PointType, PointValue, SizeType, SizeValue, R, V>, new()
-        where PointValue : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
-        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, TransformValue, SizeType, SizeValue, R, V>, new()
-        where SizeValue : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where TransformType : Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Transform : struct, Kean.Math.Geometry3D.Abstract.ITransform<V>
+        where PointType : Kean.Math.Geometry3D.Abstract.Point<TransformType, Transform, PointType, Point, SizeType, Size, R, V>, new()
+        where Point : struct, Kean.Math.Geometry3D.Abstract.IPoint<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
+        where SizeType : Kean.Math.Geometry3D.Abstract.Size<TransformType, Transform, SizeType, Size, R, V>, new()
+        where Size : struct, Kean.Math.Geometry3D.Abstract.ISize<V>, Kean.Math.Geometry3D.Abstract.IVector<V>
         where R : Kean.Math.Abstract<R, V>, new()
         where V : struct
     {
@@ -25,7 +25,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         protected TransformType Transform1 { get; set; }
         protected TransformType Transform2 { get; set; }
         protected TransformType Transform3 { get; set; }
-        protected TransformType Transform4 { get { return Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60), new R().CreateConstant(70), new R().CreateConstant(80), new R().CreateConstant(90), new R().CreateConstant(100), new R().CreateConstant(110), new R().CreateConstant(120)); } }
+        protected TransformType Transform4 { get { return Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.Create(new R().CreateConstant(10), new R().CreateConstant(20), new R().CreateConstant(30), new R().CreateConstant(40), new R().CreateConstant(50), new R().CreateConstant(60), new R().CreateConstant(70), new R().CreateConstant(80), new R().CreateConstant(90), new R().CreateConstant(100), new R().CreateConstant(110), new R().CreateConstant(120)); } }
         protected PointType Point0 { get; set; }
         protected PointType Point1 { get; set; }
         protected SizeType Size0 { get; set; }
@@ -124,7 +124,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void CreateIdentity()
         {
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.Identity;
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -141,9 +141,9 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void Rotatate()
         {
-            TransformType identity = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType identity = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.Identity;
             R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateRotationX(angle);
             transform = transform.RotateX(-angle);
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -161,9 +161,9 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void Scale()
         {
-            TransformType identity = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity;
+            TransformType identity = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.Identity;
             R scale = new R().CreateConstant(20);
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale, scale);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateScaling(scale, scale, scale);
             transform = transform.Scale(scale.Invert(), scale.Invert(), scale.Invert());
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -184,7 +184,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R xDelta = new R().CreateConstant(40);
             R yDelta = new R().CreateConstant(-40);
             R zDelta = new R().CreateConstant(30);
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
             transform = transform.Translate(xDelta.Negate(), yDelta.Negate(), zDelta.Negate());
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -203,7 +203,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         public void CreateRotation()
         {
             R angle = new R().CreateConstant(20).ToRadians();
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateRotationX(angle);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateRotationX(angle);
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -221,7 +221,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         public void CreateScale()
         {
             R scale = new R().CreateConstant(20);
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateScaling(scale, scale, scale);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateScaling(scale, scale, scale);
 			Verify(transform.A, Is.EqualTo(scale).Within(this.Precision));
 			Verify(transform.E, Is.EqualTo(scale).Within(this.Precision));
 			Verify(transform.I, Is.EqualTo(scale).Within(this.Precision));
@@ -241,7 +241,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
             R xDelta = new R().CreateConstant(40);
             R yDelta = new R().CreateConstant(-40);
             R zDelta = new R().CreateConstant(30);
-            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
+            TransformType transform = Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.CreateTranslation(xDelta, yDelta, zDelta);
 			Verify(transform.A.Value, Is.EqualTo(this.Cast(1)).Within(this.Precision));
 			Verify(transform.B.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.C.Value, Is.EqualTo(this.Cast(0)).Within(this.Precision));
@@ -258,7 +258,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void GetValueValues()
         {
-            TransformValue transform = this.Transform0.Value;
+            Transform transform = this.Transform0.Value;
 			Verify(transform.A, Is.EqualTo(this.Cast(-1)).Within(this.Precision));
 			Verify(transform.B, Is.EqualTo(this.Cast(2)).Within(this.Precision));
 			Verify(transform.C, Is.EqualTo(this.Cast(3)).Within(this.Precision));
@@ -307,7 +307,7 @@ namespace Kean.Math.Geometry3D.Test.Abstract
         [Test]
         public void CastToArray()
         {
-            V[,] values = (V[,])((Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>)Kean.Math.Geometry3D.Abstract.Transform<TransformType, TransformValue, SizeType, SizeValue, R, V>.Identity);
+            V[,] values = (V[,])((Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>)Kean.Math.Geometry3D.Abstract.Transform<TransformType, Transform, SizeType, Size, R, V>.Identity);
             for (int x = 0; x < 4; x++)
                 for (int y = 0; y < 4; y++)
 					Verify(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));

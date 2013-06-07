@@ -130,13 +130,9 @@ namespace Kean.Math.Geometry2D.Single
         {
             return new Size(left.Width * right.Width, left.Height * right.Height);
         }
-        public static Size operator *(Size left,Point right)
+        public static Size operator *(Size left, Point right)
         {
             return new Size(left.Width * right.X, left.Height * right.Y);
-        }
-        public static Size operator *(Point left, Size right)
-        {
-            return new Size(left.X * right.Width, left.Y * right.Height);
         }
         public static Size operator /(Size left, Size right)
         {
@@ -145,10 +141,6 @@ namespace Kean.Math.Geometry2D.Single
         public static Size operator /(Size left, Point right)
         {
             return new Size(left.Width / right.X, left.Height / right.Y);
-        }
-        public static Size operator /(Point left, Size right)
-        {
-            return new Size(left.X / right.Width, left.Y / right.Height);
         }
         #endregion
         #region Arithmetic Vector and Scalar
@@ -238,9 +230,13 @@ namespace Kean.Math.Geometry2D.Single
         {
             return 33 * this.Width.GetHashCode() ^ this.Height.GetHashCode();
         }
-		public override string ToString()
+        public override string ToString()
         {
-			return Kean.Math.Single.ToString(this.Width) + ", " + Kean.Math.Single.ToString(this.Height);
+			return this.ToString("{0}, {1}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, Kean.Math.Single.ToString(this.Width), Kean.Math.Single.ToString(this.Height));
 		}
         #endregion
         #region Static Creators
@@ -250,7 +246,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         #endregion
         #region Casts
-        public static explicit operator float[](Size value)
+        public static implicit operator float[](Size value)
         {
             return new float[] { value.Width, value.Height };
         }
@@ -262,7 +258,7 @@ namespace Kean.Math.Geometry2D.Single
         {
             return value.ToString();
         }
-        public static implicit operator Size(string value)
+        public static explicit operator Size(string value)
         {
             Size result = new Size();
             if (value.NotEmpty())

@@ -34,7 +34,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         float Precision { get { return 1e-4f; } }
         Target.Single.Point CastFromString(string value)
         {
-            return value;
+            return (Target.Single.Point)value;
         }
         string CastToString(Target.Single.Point value)
         {
@@ -128,7 +128,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         public void CastingNull()
         {
             string value = null;
-            Target.Single.Point point = null;
+            Target.Single.Point point = new Target.Single.Point();
             Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
             Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
@@ -204,7 +204,7 @@ namespace Kean.Math.Geometry2D.Test.Single
         {
             string textFromValue = new Target.Single.Point(10, 20);
             Verify(textFromValue, Is.EqualTo("10, 20"));
-            Target.Single.Point @integerFromText = "10, 20";
+            Target.Single.Point @integerFromText = (Target.Single.Point)"10, 20";
             Verify(@integerFromText.X, Is.EqualTo(10));
             Verify(@integerFromText.Y, Is.EqualTo(20));
         }

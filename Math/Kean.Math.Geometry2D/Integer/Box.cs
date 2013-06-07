@@ -47,16 +47,17 @@ namespace Kean.Math.Geometry2D.Integer
 		public Point Center { get { return this.LeftTop + (this.Size / 2); } }
 		public bool Empty { get { return this.Size.Empty; } }
 
-		public Box(int left, int top, int width, int height)
-        {
-            this.LeftTop = new Point(left, top);
-            this.Size = new Size(width, height);
-        }
         public Box(Point leftTop, Size size)
         {
             this.LeftTop = leftTop;
             this.Size = size;
 		}
+		public Box(int left, int top, int width, int height) :
+			this(new Point(left, top), new Size(width, height))
+        { }
+        public Box(Size size) :
+			this(new Point(), size)
+        { }
 		#region Methods
 		public Box Swap()
 		{
@@ -211,7 +212,7 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return value.ToString();
         }
-        public static implicit operator Box(string value)
+        public static explicit operator Box(string value)
         {
             Box result = new Box();
             if (value.NotEmpty())
@@ -239,10 +240,14 @@ namespace Kean.Math.Geometry2D.Integer
 		{
 			return this == other;
 		}
-		public override string ToString()
+        public override string ToString()
+        {
+			return this.ToString("{0}, {1}, {2}, {3}");
+		}
+		public string ToString(string format)
 		{
-            return this.LeftTop.ToString() + ", " + this.Size.ToString();
-        }
+			return String.Format(format, Kean.Math.Integer.ToString(this.Left), Kean.Math.Integer.ToString(this.Top), Kean.Math.Integer.ToString(this.Width), Kean.Math.Integer.ToString(this.Height));
+		}
 		public override int GetHashCode()
         {
             return 33 * this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();

@@ -115,7 +115,7 @@ namespace Kean.Math.Geometry2D.Integer
         {
             return value.NotNull() ? value.ToString() : null;
         }
-        public static implicit operator Shell(string value)
+        public static explicit operator Shell(string value)
         {
             Shell result = new Shell();
             if (value.NotEmpty())
@@ -153,8 +153,12 @@ namespace Kean.Math.Geometry2D.Integer
         }
         public override string ToString()
         {
-            return Kean.Math.Integer.ToString(this.Left) + ", " + Kean.Math.Integer.ToString(this.Right) + ", " + Kean.Math.Integer.ToString(this.Top) + ", " + Kean.Math.Integer.ToString(this.Bottom);
-        }
+			return this.ToString("{0}, {1}, {2}, {3}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, Kean.Math.Integer.ToString(this.Left), Kean.Math.Integer.ToString(this.Right), Kean.Math.Integer.ToString(this.Top), Kean.Math.Integer.ToString(this.Bottom));
+		}
     	#endregion
     }
 }

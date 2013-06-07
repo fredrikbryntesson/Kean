@@ -34,9 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Abstract\ListSet.cs" />
+    <Compile Include="Abstract\ReadOnlyDictionary.cs" />
     <Compile Include="Array\Set.cs" />
     <Compile Include="Cast\Enumerable.cs" />
     <Compile Include="Cast\Enumerator.cs" />
+    <Compile Include="Cast\ReadOnlyDictionary.cs" />
     <Compile Include="Cast\ReadOnlyVector.cs" />
     <Compile Include="Cast\Vector.cs" />
     <Compile Include="Enumerable.cs" />
@@ -139,4 +141,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
+	<Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

@@ -26,13 +26,17 @@ using Kean.Core.Extension;
 namespace Kean.Core.Collection
 {
 	public class ReadOnlyDictionary<TKey, TValue> :
-		IReadOnlyDictionary<TKey, TValue>
+		Abstract.ReadOnlyDictionary<TKey, TValue>
 	{
 		IDictionary<TKey, TValue> data;
-		public ReadOnlyDictionary()
+		#region Constructors
+		public ReadOnlyDictionary(IDictionary<TKey, TValue> data)
 		{
-			this.data = new Dictionary<TKey, TValue>();
+			this.data = data;
 		}
+		public ReadOnlyDictionary() :
+			this(new Dictionary<TKey, TValue>())
+		{ }
 		public ReadOnlyDictionary(System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> data) :
 			this()
 		{
@@ -42,69 +46,16 @@ namespace Kean.Core.Collection
 		public ReadOnlyDictionary(params KeyValue<TKey, TValue>[] data) :
 			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)
 		{ }
+		#endregion
+
 		#region IReadOnlyDictionary<TKey,TValue> Members
-		public TValue this[TKey key] { get { return this.data[key]; } }
-		public bool Contains(TKey key) { return this.data.Contains(key); }
-		public IReadOnlyDictionary<TKey, TValue> Update(TKey key, TValue value)
-		{
-			ReadOnlyDictionary<TKey, TValue> result = new ReadOnlyDictionary<TKey, TValue>(this);
-			result.data[key] = value;
-			return result;
-		}
-		public IReadOnlyDictionary<TKey, TValue> Remove(TKey key)
-		{
-			ReadOnlyDictionary<TKey, TValue> result = new ReadOnlyDictionary<TKey, TValue>(this);
-			if (!result.data.Remove(key))
-				result = this;
-			return result;
-		}
+		public override TValue this[TKey key] { get { return this.data[key]; } }
+		public override bool Contains(TKey key) { return this.data.Contains(key); }
 		#endregion
 		#region IEnumerable<KeyValue<TKey,TValue>> Members
-		public System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> GetEnumerator()
+		public override System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> GetEnumerator()
 		{
 			return this.data.GetEnumerator();
-		}
-		#endregion
-		#region IEnumerable Members
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return this.GetEnumerator();
-		}
-		#endregion
-		#region IEquatable<IDictionary<TKey,TValue>> Members
-		public bool Equals(IDictionary<TKey, TValue> other)
-		{
-			return this.data.Equals(other);
-		}
-		#endregion
-		#region Object Overrides
-		public override bool Equals(object other)
-		{
-			return (other is IDictionary<TKey, TValue>) && this.Equals(other as IDictionary<TKey, TValue>);
-		}
-		public bool Equals(ReadOnlyDictionary<TKey, TValue> other)
-		{
-			return this == other;
-		}
-		public override string ToString()
-		{
-			return this.data.ToString();
-		}
-		public override int GetHashCode()
-		{
-			return this.data.GetHashCode();
-		}
-		#endregion
-		#region Comparison Operators
-		public static bool operator ==(ReadOnlyDictionary<TKey, TValue> left, ReadOnlyDictionary<TKey, TValue> right)
-		{
-			return object.ReferenceEquals(left, right) ||
-				!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null) &&
-				left.data == right.data;
-		}
-		public static bool operator !=(ReadOnlyDictionary<TKey, TValue> left, ReadOnlyDictionary<TKey, TValue> right)
-		{
-			return !(left == right);
 		}
 		#endregion
 	}

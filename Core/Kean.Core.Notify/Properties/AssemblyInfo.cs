@@ -26,5 +26,5 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("Kean.Core.Notify")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Kean classes and interfaces for notification between stuff.")]
 [assembly: AssemblyConfiguration("")]

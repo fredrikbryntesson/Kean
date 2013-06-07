@@ -64,7 +64,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         float Precision { get { return 1e-4f; } }
         Target.<#= @namespace1 #>.<#= @name #> CastFromString(string value)
         {
-            return value;
+            return (Target.<#= @namespace1 #>.<#= @name #>)value;
         }
         string CastToString(Target.<#= @namespace1 #>.<#= @name #> value)
         {
@@ -158,7 +158,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         public void CastingNull()
         {
             string value = null;
-            Target.<#= @namespace1 #>.<#= @name #> point = null;
+            Target.<#= @namespace1 #>.<#= @name #> point = new Target.<#= @namespace1 #>.<#= @name #>();
             Verify(this.CastToString(point), Is.EqualTo(value), this.prefix + "CastingNull.0");
             Verify(this.CastFromString(value), Is.EqualTo(point), this.prefix + "CastingNull.1");
         }
@@ -249,7 +249,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             string textFromValue = new Target.Double.<#= @name #>(10, 20);
             Verify(textFromValue, Is.EqualTo("10, 20"));
-            Target.Double.<#= @name #> @integerFromText = "10, 20";
+            Target.Double.<#= @name #> @integerFromText = (Target.Double.<#= @name #>)"10, 20";
             Verify(@integerFromText.X, Is.EqualTo(10));
             Verify(@integerFromText.Y, Is.EqualTo(20));
         }
@@ -277,7 +277,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             string textFromValue = new Target.Single.<#= @name #>(10, 20);
             Verify(textFromValue, Is.EqualTo("10, 20"));
-            Target.Single.<#= @name #> @integerFromText = "10, 20";
+            Target.Single.<#= @name #> @integerFromText = (Target.Single.<#= @name #>)"10, 20";
             Verify(@integerFromText.X, Is.EqualTo(10));
             Verify(@integerFromText.Y, Is.EqualTo(20));
         }
@@ -296,7 +296,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             string textFromValue = new Target.Integer.<#= @name #>(10, 20);
             Verify(textFromValue, Is.EqualTo("10, 20"));
-            Target.Integer.<#= @name #> @integerFromText = "10, 20";
+            Target.Integer.<#= @name #> @integerFromText = (Target.Integer.<#= @name #>)"10, 20";
             Verify(@integerFromText.X, Is.EqualTo(10));
             Verify(@integerFromText.Y, Is.EqualTo(20));
         }

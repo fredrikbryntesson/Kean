@@ -29,8 +29,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Shader :
 		Backend.Shader
 	{
-		internal Shader(Context context, ShaderType type) :
+		protected internal Shader(Context context, ShaderType type) :
 			base(context, type)
+		{ }
+		protected Shader(Shader original) :
+			base(original)
 		{ }
 		protected override int Create(ShaderType type)
 		{
@@ -59,6 +62,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			int statusCode;
 			OpenTK.Graphics.OpenGL.GL.GetShader(this.Identifier, OpenTK.Graphics.OpenGL.ShaderParameter.CompileStatus, out statusCode);
 			return statusCode != 1 ? compilerMesage : null;
+		}
+		protected override Backend.Shader Refurbish()
+		{
+			return new Shader(this);
+		}
+		protected internal override void Delete()
+		{
+			if (this.Identifier != 0)
+			{
+				GL.DeleteShader(this.Identifier);
+				base.Delete();
+			}
 		}
 	}
 }

@@ -50,7 +50,7 @@ namespace Kean.Draw.PathSegment
         }
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
-			Geometry2D.Single.Box result = null;
+			Geometry2D.Single.Box result = new Geometry2D.Single.Box();
 			Tuple<Geometry2D.Single.Point, float, float> coordinates = this.PlatformctArcCoordinates();
 			float startAngle = coordinates.Item2;
 			float endAngle = coordinates.Item3;

@@ -42,6 +42,16 @@ namespace Kean.Platform.Settings
 				return this.parameters; 
 			}
 		}
+		Reflect.Type returnType;
+		public Reflect.Type ReturnType
+		{
+			get
+			{
+				if (this.returnType.IsNull())
+					this.returnType = this.backend.ReturnType;
+				return this.returnType;
+			}
+		}
 
 		protected override char Delimiter { get { return ' '; } }
 		Reflect.Method backend;
@@ -50,7 +60,7 @@ namespace Kean.Platform.Settings
 		{
 			this.backend = backend;
 		}
-		public override bool Execute(Editor editor, string[] parameters)
+		public override bool Execute(Parser editor, string[] parameters)
 		{
 			bool result;
 			object methodResult = null;
@@ -98,6 +108,15 @@ namespace Kean.Platform.Settings
 			}
 			return result;
 		}
+		public override bool RequestType(Parser editor)
+		{
+			Collection.List<string> results = new Collection.List<string>();
+			foreach (Parameter.Abstract parameter in this.Parameters)
+				results.Add(parameter.Name + " : " + parameter.Type);
+			editor.TypeResponse(this, "method : (" + results.Join(" * ") + ") => " + this.ReturnType);
+			return true;
+		}
+
 		public override string Help(string[] parameters)
 		{
 			return (this.Parameters.Length > 0 && parameters.Length > 0 && parameters.Length <= this.Parameters.Length) ?

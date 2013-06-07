@@ -38,7 +38,7 @@ namespace Kean.Math.Regression.Test.Interpolation.Splines
                Verify(distance, Is.LessThan(0.5f), this.prefix + "Point.0");
             }
             /*
-            Kean.Core.Collection.IList<Kean.Math.Geometry2D.Double.PointValue> points = new Kean.Core.Collection.List<Kean.Math.Geometry2D.Double.PointValue>();
+            Kean.Core.Collection.IList<Kean.Math.Geometry2D.Double.Point> points = new Kean.Core.Collection.List<Kean.Math.Geometry2D.Double.Point>();
             int count = 100;
             for (int i = 0; i <= count; i++)
             {
@@ -49,7 +49,7 @@ namespace Kean.Math.Regression.Test.Interpolation.Splines
             file.WriteLine("clear all;");
             file.WriteLine("close all;");
             string pointsExport = "";
-            foreach (Kean.Math.Geometry2D.Single.PointValue point in points)
+            foreach (Kean.Math.Geometry2D.Single.Point point in points)
                 pointsExport += (string)point + ";";
             pointsExport = pointsExport.TrimEnd(';');
             file.WriteLine("points = [" + pointsExport + "];");

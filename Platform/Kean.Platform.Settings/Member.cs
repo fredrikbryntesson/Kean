@@ -44,9 +44,10 @@ namespace Kean.Platform.Settings
 			this.backend = backend;
 			this.Parent = parent;
 		}
-		public abstract bool Execute(Editor editor, string[] parameters);
+		public abstract bool Execute(Parser editor, string[] parameters);
 		public abstract string Complete(string[] parameters);
 		public abstract string Help(string[] parameters);
+		public abstract bool RequestType(Parser editor);
 
 		#region IComparable<Member> Members
 		public Order Compare(Member other)

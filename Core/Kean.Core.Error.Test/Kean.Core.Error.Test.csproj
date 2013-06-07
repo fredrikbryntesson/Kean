@@ -33,16 +33,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="All.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exception\Abstract.cs" />
     <Compile Include="Exception\Test.cs" />
     <Compile Include="Error.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Test\Kean.Test\Kean.Test.csproj">
+      <Project>{b5e16cae-808e-448a-8d6e-d770eb91868c}</Project>
+      <Name>Kean.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
       <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
       <Name>Kean.Core.Error</Name>
@@ -57,4 +62,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

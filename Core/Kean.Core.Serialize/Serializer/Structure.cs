@@ -54,7 +54,7 @@ namespace Kean.Core.Serialize.Serializer
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
 				Reflect.Field field = fields.Find(f => f.Name == node.Name);
-				storage.Deserialize(node.DefaultType(field.Type), d => field.Data = d);
+				storage.Deserialize(node, field.Type, d => field.Data = d);
 			}
 			return result;
 		}

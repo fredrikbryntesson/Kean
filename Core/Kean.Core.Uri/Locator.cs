@@ -216,25 +216,25 @@ namespace Kean.Core.Uri
 			return this.String;
 		}
 		#endregion
-		public static Locator FromPlattformPath(string path)
+		public static Locator FromPlatformPath(string path)
 		{
-			return path.NotEmpty() ? new Locator("file", Path.FromPlattformPath(path)) : null;
+			return path.NotEmpty() ? new Locator("file", Path.FromPlatformPath(path)) : null;
 		}
-		public static Locator FromPlattformPath(string path, params string[] folders)
+		public static Locator FromPlatformPath(string path, params string[] folders)
 		{
-			Locator result = Locator.FromPlattformPath(path);
+			Locator result = Locator.FromPlatformPath(path);
 			if (result.NotNull())
 				foreach (string folder in folders)
 					result.Path.Add(folder);
 			return result;
 		}
-        public static Locator FromRelativePlattformPath(string path, params string[] folders)
+        public static Locator FromRelativePlatformPath(string path, params string[] folders)
         {
-            return Locator.FromPlattformPath(System.IO.Path.GetFullPath(path), folders);
+            return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
         }
-        public static Locator FromPlattformPath(Environment.SpecialFolder folder, params string[] folders)
+        public static Locator FromPlatformPath(Environment.SpecialFolder folder, params string[] folders)
 		{
-			return Locator.FromPlattformPath(Environment.GetFolderPath(folder), folders);
+			return Locator.FromPlatformPath(Environment.GetFolderPath(folder), folders);
 		}
 		public static implicit operator Locator(System.IO.DirectoryInfo directory)
 		{

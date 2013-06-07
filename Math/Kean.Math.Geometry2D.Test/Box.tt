@@ -162,7 +162,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        {
            string textFromValue = new Target.Double.<#= @name #>(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Double.<#= @name #> @doubleFromText = "10 20 30 40";
+           Target.Double.<#= @name #> @doubleFromText = (Target.Double.<#= @name #>)"10 20 30 40";
            Verify(@doubleFromText.Left, Is.EqualTo(10));
            Verify(@doubleFromText.Top, Is.EqualTo(20));
            Verify(@doubleFromText.Width, Is.EqualTo(30));
@@ -194,7 +194,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        {
            string textFromValue = new Target.Single.<#= @name #>(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Single.<#= @name #> @singleFromText = "10 20 30 40";
+           Target.Single.<#= @name #> @singleFromText = (Target.Single.<#= @name #>)"10 20 30 40";
            Verify(@singleFromText.Left, Is.EqualTo(10));
            Verify(@singleFromText.Top, Is.EqualTo(20));
            Verify(@singleFromText.Width, Is.EqualTo(30));
@@ -215,7 +215,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
        {
            string textFromValue = new Target.Integer.<#= @name #>(10, 20, 30, 40);
            Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Integer.<#= @name #> @integerFromText = "10 20 30 40";
+           Target.Integer.<#= @name #> @integerFromText = (Target.Integer.<#= @name #>)"10 20 30 40";
            Verify(@integerFromText.Left, Is.EqualTo(10));
            Verify(@integerFromText.Top, Is.EqualTo(20));
            Verify(@integerFromText.Width, Is.EqualTo(30));

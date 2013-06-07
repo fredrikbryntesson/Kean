@@ -245,9 +245,13 @@ namespace Kean.Math.Geometry2D.Single
         {
             return 33 * this.X.GetHashCode() ^ this.Y.GetHashCode();
         }
-		public override string ToString()
+        public override string ToString()
         {
-			return Kean.Math.Single.ToString(this.X) + ", " + Kean.Math.Single.ToString(this.Y);
+			return this.ToString("{0}, {1}");
+		}
+		public string ToString(string format)
+		{
+			return String.Format(format, Kean.Math.Single.ToString(this.X), Kean.Math.Single.ToString(this.Y));
 		}
         #endregion
         #region Static Creators
@@ -257,7 +261,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         #endregion
         #region Casts
-        public static explicit operator float[](Point value)
+        public static implicit operator float[](Point value)
         {
             return new float[] { value.X, value.Y };
         }
@@ -269,7 +273,7 @@ namespace Kean.Math.Geometry2D.Single
         {
             return value.ToString();
         }
-        public static implicit operator Point(string value)
+        public static explicit operator Point(string value)
         {
             Point result = new Point();
             if (value.NotEmpty())

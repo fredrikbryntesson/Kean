@@ -57,10 +57,10 @@ namespace Kean.Draw
 			this.clips.Pop();
 			this.counter--;
 			Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform> clip = this.clips.Pop();
-			if (this.newSize.NotNull() && this.clips.Empty)
+			if (!this.newSize.Empty && this.clips.Empty)
 			{
 				clip = Tuple.Create(new Geometry2D.Single.Box(0, 0, this.newSize.Width, this.newSize.Height), Geometry2D.Single.Transform.Identity);
-				this.newSize = null;
+				this.newSize = new Geometry2D.Single.Size();
 			}
 			this.clips.Push(clip);
 			this.UpdateClip(clip);

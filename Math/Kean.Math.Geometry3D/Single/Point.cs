@@ -40,17 +40,17 @@ namespace Kean.Math.Geometry3D.Single
 		#region properties
 		public float Norm { get { return Math.Single.SquareRoot((Math.Single.Squared(this.X) + Math.Single.Squared(this.Y) + Math.Single.Squared(this.Z))); } }
 		public float Azimuth { get { return Math.Single.ArcusTangensExtended(this.Y, this.X); } }
-		//public float Elevation
-		//{
-		//	get
-		//	{
-		//		float result = new float();
-		//		float r = this.Norm;
-		//		if (r != result)
-		//			result = (this.Z / r) . Math.Single.Clamp(-1,Math.Single.ArcusCosinus(1));
-		//		return result;
-		//	}
-		//}
+		public float Elevation
+		{
+			get
+			{
+				float result = new float();
+				float r = this.Norm;
+				if (r != result)
+					result = Math.Single.Clamp(this.Z / r, -1, Math.Single.ArcusCosinus(1));
+				return result;
+			}
+		}
 		#endregion
 		#region Static Constants
 		public static Point BasisX { get { return new Point(1, 0, 0); } }

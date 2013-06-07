@@ -31,35 +31,49 @@ using Color = Kean.Draw.Color;
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Composition :
+		Resource,
+		ITexture,
 		IDisposable
 	{
 		public Geometry2D.Integer.Size Size { get { return this.Texture.Size; } }
+		public TextureType Type { get { return this.Texture.Type; } }
 		public Texture Texture { get; private set; }
 		public Depth Depth { get; private set; }
 		public FrameBuffer FrameBuffer { get; private set; }
-		protected Composition(Texture texture, Depth depth, FrameBuffer frameBuffer)
+		protected Composition(Context context, Texture texture, Depth depth, FrameBuffer frameBuffer) :
+			base(context)
 		{
 			this.Texture = texture;
+			this.Texture.Composition = this;
 			this.Depth = depth;
 			this.FrameBuffer = frameBuffer;
 		}
-		~Composition()
+		protected Composition(Composition original) :
+			base(original)
 		{
-			Error.Log.Wrap((Action)this.Dispose)();
+			this.Texture = original.Texture.Refurbish();
+			original.Texture = null;
+			this.Depth = original.Depth.Refurbish();
+			original.Depth = null;
+			this.FrameBuffer = original.FrameBuffer.Refurbish();
+			original.FrameBuffer = null;
 		}
-		public void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			if (this.Texture.NotNull())
+			if (this.Texture.NotNull() && this.Depth.NotNull() && this.FrameBuffer.NotNull())
+				this.Context.Recycle(this.Refurbish());
+			else if (this.Texture.NotNull())
 			{
+				this.Texture.Composition = null;
 				this.Texture.Dispose();
 				this.Texture = null;
 			}
-			if (this.Depth.NotNull())
+			else if (this.Depth.NotNull())
 			{
 				this.Depth.Dispose();
 				this.Depth = null;
 			}
-			if (this.FrameBuffer.NotNull())
+			else if (this.FrameBuffer.NotNull())
 			{
 				this.FrameBuffer.Dispose();
 				this.FrameBuffer = null;
@@ -79,12 +93,32 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void SetClip(Geometry2D.Single.Box region);
 		public abstract void CopyToTexture();
 		public abstract void CopyToTexture(Geometry2D.Integer.Size offset);
+		public abstract void Read(IntPtr pointer, Geometry2D.Integer.Box region);
 
 		public abstract void Clear();
 		public abstract void Clear(Geometry2D.Single.Box region);
 		public abstract void Blend(float factor);
 		public abstract void Draw(Color.Bgra color, Geometry2D.Single.Box region);
-
+		protected abstract Composition Refurbish();
+		internal void Delete()
+		{
+			if (this.Texture.NotNull())
+			{
+				this.Texture.Composition = null;
+				this.Texture.Delete();
+				this.Texture = null;
+			}
+			if (this.Depth.NotNull())
+			{
+				this.Depth.Delete();
+				this.Depth = null;
+			}
+			if (this.FrameBuffer.NotNull())
+			{
+				this.FrameBuffer.Delete();
+				this.FrameBuffer = null;
+			}
+		}
 		#endregion
 		public override string ToString()
 		{

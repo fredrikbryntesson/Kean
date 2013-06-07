@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -24,7 +24,7 @@ using System;
 namespace Kean.Core.Test
 {
 	public static class All
-    {
+	{
 		public static void Test()
 		{
 			Core.Test.NonNullable.Test();

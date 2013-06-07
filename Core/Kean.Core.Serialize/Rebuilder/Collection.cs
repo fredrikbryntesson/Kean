@@ -45,19 +45,23 @@ namespace Kean.Core.Serialize.Rebuilder
 					else
 						nodes.Add(child);
 				(data as Data.Branch).Nodes.Clear();
-				(data as Data.Branch).Nodes.Add(nodes);
+				foreach (Data.Node node in nodes)
+					(data as Data.Branch).Nodes.Add(this.Store(storage, node));
 			}
 			return data;
 		}
 		public Data.Node Load(Storage storage, Data.Node data)
 		{
-			if (data is Data.Branch)
+			if (data is Data.Collection)
+				for (int i = 0; i < (data as Data.Collection).Nodes.Count; i++)
+					(data as Data.Collection).Nodes[i] = this.Load(storage, (data as Data.Collection).Nodes[i]);
+			else if (data is Data.Branch)
 			{
 				Core.Collection.IDictionary<string, Data.Node> nodes = new Core.Collection.Dictionary<string, Data.Node>((data as Data.Branch).Nodes.Count);
 				foreach (Data.Node child in (data as Data.Branch).Nodes)
 				{
-					Data.Node n;
-					if ((n = nodes[child.Name]).IsNull())
+					Data.Node n = nodes[child.Name];
+					if (n.IsNull())
 						nodes[child.Name] = child;
 					else if (n is Data.Collection)
 						(n as Data.Collection).Nodes.Add(child.UpdateLocators(child.Locator + "[" + (n as Data.Collection).Nodes.Count + "]"));
@@ -71,7 +75,7 @@ namespace Kean.Core.Serialize.Rebuilder
 				}
 				(data as Data.Branch).Nodes.Clear();
 				foreach (KeyValue<string, Data.Node> n in nodes)
-					(data as Data.Branch).Nodes.Add(n.Value);
+					(data as Data.Branch).Nodes.Add(this.Load(storage, n.Value));
 			}
 			return data;
 		}

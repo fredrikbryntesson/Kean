@@ -44,7 +44,7 @@ namespace Kean.Core.Uri.Test
                 this.RootPathWithQuery,
                 this.NoPathWithQueryAndFragment,
                 this.NoPathAndQueryWithFragment,
-			    this.FromPlattformPath,
+			    this.FromPlatformPath,
 				this.SpaceEscaped,
 				this.SpaceSpace,
 				this.Plus,
@@ -210,18 +210,18 @@ namespace Kean.Core.Uri.Test
 			Verify(locator == "schemeA+schemeB://name:password@example.com:80#fragment", Is.True, this.prefix + "NoPathAndQueryWithFragment.6");
         }
         [Test]
-        public void FromPlattformPath()
+        public void FromPlatformPath()
         {
-			string plattformPath = this.OperatingSystem == Kean.Test.OperatingSystem.Windows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
-		    Target.Locator locator = Target.Locator.FromPlattformPath(plattformPath);
-            Verify((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlattformPath.0");
-            Verify((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlattformPath.1");
-            Verify((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.2");
-            Verify((string)locator.Query, Is.EqualTo(""), this.prefix + "FromPlattformPath.3");
-            Verify((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlattformPath.4");
-            Verify((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlattformPath.5");
-			Verify(locator == "file:///C:/Windows/System32/etc/hosts", Is.True, this.prefix + "FromPlattformPath.6");
-            Verify((string)locator.Path.PlattformPath, Is.EqualTo(plattformPath), this.prefix + "FromPlattformPath.7");
+			string platformPath = this.OperatingSystem == Kean.Test.OperatingSystem.Windows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
+		    Target.Locator locator = Target.Locator.FromPlatformPath(platformPath);
+            Verify((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlatformPath.0");
+            Verify((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlatformPath.1");
+            Verify((string)locator.Path, Is.EqualTo("/C:/Windows/System32/etc/hosts"), this.prefix + "FromPlatformPath.2");
+            Verify((string)locator.Query, Is.EqualTo(""), this.prefix + "FromPlatformPath.3");
+            Verify((string)locator.Fragment, Is.EqualTo(null), this.prefix + "FromPlatformPath.4");
+            Verify((string)locator, Is.EqualTo("file:///C:/Windows/System32/etc/hosts"), this.prefix + "FromPlatformPath.5");
+			Verify(locator == "file:///C:/Windows/System32/etc/hosts", Is.True, this.prefix + "FromPlatformPath.6");
+            Verify((string)locator.Path.PlatformPath, Is.EqualTo(platformPath), this.prefix + "FromPlatformPath.7");
             
         }
 		[Test]

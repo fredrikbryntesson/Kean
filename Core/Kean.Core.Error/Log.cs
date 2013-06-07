@@ -58,11 +58,11 @@ namespace Kean.Core.Error
 					onAppend(entry);
 			}
 		}
-        public static void Free()
-        {
-            Log.CatchErrorsChanged = null;
-            Log.OnAppend = null;
-        }
+		public static void Free()
+		{
+			Log.CatchErrorsChanged = null;
+			Log.OnAppend = null;
+		}
 		public static void Append(Level level, string title, System.Exception exception)
 		{
 			Log.Append(Entry.Create(level, title, exception));
@@ -71,6 +71,10 @@ namespace Kean.Core.Error
 		{
 			Log.Append(Entry.Create(level, title, message));
 		}
+		public static void Append(Level level, string title, string message, params object[] arguments)
+		{
+			Log.Append(Entry.Create(level, title, message.Format(arguments)));
+		}
 		#region Wrap
 		public static Func<bool> Wrap(Func<bool> task)
 		{
@@ -78,7 +82,7 @@ namespace Kean.Core.Error
 		}
 		public static Func<bool> Wrap(string title, Func<bool> task)
 		{
-            Func<bool> result = task;
+			Func<bool> result = task;
 			if (Log.CatchErrors)
 				result = () =>
 			{
@@ -107,7 +111,7 @@ namespace Kean.Core.Error
 		}
 		public static Action Wrap(string title, Action task)
 		{
-            Action result;
+			Action result;
 			if (Log.CatchErrors)
 				result = () =>
 				{
@@ -132,7 +136,7 @@ namespace Kean.Core.Error
 		}
 		public static Action<T> Wrap<T>(string title, Action<T> task)
 		{
-            Action<T> result;
+			Action<T> result;
 			if (Log.CatchErrors)
 				result = argument =>
 				{
@@ -157,7 +161,7 @@ namespace Kean.Core.Error
 		}
 		public static Action<T1, T2> Wrap<T1, T2>(string title, Action<T1, T2> task)
 		{
-            Action<T1, T2> result;
+			Action<T1, T2> result;
 			if (Log.CatchErrors)
 				result = (argument1, argument2) =>
 				{

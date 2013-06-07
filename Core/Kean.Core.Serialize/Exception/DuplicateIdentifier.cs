@@ -25,7 +25,7 @@ namespace Kean.Core.Serialize.Exception
 	/// Exception thrown when trying to deserialize a type and the reader is not positioned at an element.
 	/// </summary>
 	public class DuplicateIdentifier :
-		Exception
+		Abstract
 	{
 		public DuplicateIdentifier(string identifier, string resource, int line, int column)
 			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously. Error located at line {2} column {3} in file \"{1}\".", identifier, resource, line.ToString(), column.ToString())

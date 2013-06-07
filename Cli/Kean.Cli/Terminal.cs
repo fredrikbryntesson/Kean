@@ -1,5 +1,5 @@
 ﻿// 
-//  ITerminal.cs
+//  Terminal.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -45,7 +45,7 @@ namespace Kean.Cli
 			this(device, device)
 		{ }
 		protected Terminal(IO.IByteInDevice read, IO.IByteOutDevice write) :
-			this(IO.CharacterDevice.Open(IO.ByteDeviceSplitter.Open(read, write)))
+			this(IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(read, write)))
 		{ }
 		protected Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
@@ -67,8 +67,12 @@ namespace Kean.Cli
 		public IO.ICharacterWriter Out { get; private set; }
 		public virtual bool Echo { get; set; }
 		public event Action<EditCommand> Command;
-		public virtual Geometry2D.Integer.Point CursorPosition { get { return null; } set { ; } }
 		public virtual bool MoveCursor(Geometry2D.Integer.Size delta) { return false; }
+		public virtual bool MoveCursor(int delta) { return false; }
+		public virtual bool ClearLine() { return false; }
+		public virtual bool ClearLineFromCursor() { return false; }
+		public virtual bool Home() { this.Out.Write('\r'); return true; }
+		public virtual bool End() { return false; }
 		public virtual bool Clear() { return false; }
 		#endregion
 		protected virtual void OnCommand(EditCommand action)
@@ -101,7 +105,7 @@ namespace Kean.Cli
 		#region Static Open
 		public static Terminal Open(IO.IByteDevice device) { return Terminal.Open(IO.CharacterDevice.Open(device)); }
 		public static Terminal Open(IO.ICharacterDevice device) { return Terminal.Open(device, device); }
-		public static Terminal Open(IO.IByteInDevice read, IO.IByteOutDevice write) { return Terminal.Open(IO.CharacterDevice.Open(IO.ByteDeviceSplitter.Open(read, write))); }
+		public static Terminal Open(IO.IByteInDevice read, IO.IByteOutDevice write) { return Terminal.Open(IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(read, write))); }
 		public static Terminal Open(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
 			return inDevice.NotNull() || outDevice.NotNull() ? new Terminal(inDevice, outDevice) : null;
