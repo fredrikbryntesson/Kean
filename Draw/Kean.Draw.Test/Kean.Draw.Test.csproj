@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="All.cs" />
     <Compile Include="Color\Convert.cs" />
-    <Compile Include="PathSegment.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,7 @@ namespace Kean.Draw.PathSegment
 		}
         public override string String
         {
-            get { return "C" + this.First.ToString() + this.Second.ToString() + this.End.ToString(); }
+			get { return "C" + this.First.ToString("{0},{1}") + " " + this.Second.ToString("{0},{1}") + " " + this.End.ToString("{0},{1}"); }
         }
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{

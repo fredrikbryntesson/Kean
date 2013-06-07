@@ -101,6 +101,12 @@ namespace Kean.Draw
 			return (this as System.Collections.Generic.IEnumerable<PathSegment.Abstract>).GetEnumerator();
 		}
 		#endregion
+		#region Obejct overrides
+		public override string ToString()
+		{
+			return this.first.NotNull() ? this.first.String : "";
+		}
+		#endregion
 		#region Static Create Methods
 		public static Path Rectangle(Geometry2D.Single.Box rectangle)
 		{

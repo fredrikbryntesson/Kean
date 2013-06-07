@@ -27,6 +27,7 @@ namespace Kean.Draw.Test
 	{
 		public static void Test()
 		{
+			Path.Test();
 			Color.Convert.Test();
 		}
 	}
