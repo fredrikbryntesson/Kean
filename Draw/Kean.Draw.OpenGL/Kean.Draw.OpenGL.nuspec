@@ -18,7 +18,7 @@
 			<dependency id="Kean.Draw.Raster" />
 			<dependency id="Kean.Math" />
 			<dependency id="Kean.Math.Geometry2D" />
-			<dependency id="OpenTK" />
+			<dependency id="OpenTK.GLControl" />
 		</dependencies>
 	</metadata>
 </package>
