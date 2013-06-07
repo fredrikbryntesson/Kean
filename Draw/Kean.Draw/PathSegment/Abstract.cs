@@ -57,7 +57,9 @@ namespace Kean.Draw.PathSegment
 		}
 		public virtual Geometry2D.Single.Point End { get; set; }
 		public Geometry2D.Single.Point Start { get { return this.Previous.NotNull() ? this.Previous.End : new Geometry2D.Single.Point(); } }
-		protected Abstract(Geometry2D.Single.Point end)
+
+        public abstract string String { get; }
+        protected Abstract(Geometry2D.Single.Point end)
 		{
 			this.End = end;
 		}
@@ -78,5 +80,14 @@ namespace Kean.Draw.PathSegment
 			else
 				this.Next.Append(segment);
 		}
-	}
+        public override string ToString()
+        {
+            return this.String + " " + (this.Next.NotNull() ? this.Next.ToString() : "");
+        }
+        public static Abstract Parse(string path)
+        {
+            // TODO: add path parsing here
+            return null;
+        }
+    }
 }
