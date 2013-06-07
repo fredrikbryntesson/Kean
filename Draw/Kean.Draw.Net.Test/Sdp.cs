@@ -28,7 +28,6 @@ namespace Kean.Draw.Net.Test
     public class Sdp :
         Kean.Test.Fixture<Sdp>
     {
-        string prefix = "Kean.Draw.Net.Test.Sdp.";
         protected override void Run()
         {
             this.Run(

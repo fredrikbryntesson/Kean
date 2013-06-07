@@ -40,9 +40,9 @@ namespace Kean.Platform.Settings.Test
 			this.Load(name, new Object());
 		}
 		[Settings.Method("unload")]
-		public void Unload(string name)
+		public new void Unload(string name)
 		{
-			this.Unload(name);
+			base.Unload(name);
 		}
 		[Settings.Method("throw")]
 		public void Throw()

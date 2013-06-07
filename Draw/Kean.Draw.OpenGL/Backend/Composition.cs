@@ -100,7 +100,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void Blend(float factor);
 		public abstract void Draw(Color.Bgra color, Geometry2D.Single.Box region);
 		protected abstract Composition Refurbish();
-		internal void Delete()
+		protected internal override void Delete()
 		{
 			if (this.Texture.NotNull())
 			{

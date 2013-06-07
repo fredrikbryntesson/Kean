@@ -27,7 +27,7 @@ using Uri = Kean.Core.Uri;
 namespace Kean.Json.Dom
 {
 	public abstract class Item :
-        IEquatable<Item>
+		IEquatable<Item>
 	{
 		public Uri.Region Region { get; internal set; }
 		public Collection Parent { get; internal set; }
@@ -69,7 +69,7 @@ namespace Kean.Json.Dom
 			parser.OnObjectEnd += region => 
 			{
 				if (current.Region.NotNull() && region.NotNull())
-                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
+					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
 				current = current.Parent;
 			};
 			parser.OnArrayStart += (label, labelRegion, region) => 
@@ -84,7 +84,7 @@ namespace Kean.Json.Dom
 			parser.OnArrayEnd += region => 
 			{
 				if (current.Region.NotNull() && region.NotNull())
-                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
+					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
 				current = current.Parent;
 			};
 			parser.OnNull += (label, labelRegion, region) => current.Add(label, labelRegion, new Null(region));
@@ -119,23 +119,23 @@ namespace Kean.Json.Dom
 			return result;
 		}
 		#endregion
-        #region Equals
-        public override bool Equals(object other)
-        {
-            return base.Equals(other as Item);
-        }
-        public abstract bool Equals(Item other);
-        public static bool operator ==(Item left, Item right)
-        {
-            return left.NotNull() ? left.Equals(right) : right.IsNull();
-        }
-        public static bool operator !=(Item left, Item right)
-        {
-            return left.NotNull() ? !left.Equals(right) : right.NotNull();
-        }
-        #endregion
-        #region Static Create
-        public static Item Create(object value)
+		#region Equals
+		public override bool Equals(object other)
+		{
+			return base.Equals(other as Item);
+		}
+		public abstract bool Equals(Item other);
+		public static bool operator ==(Item left, Item right)
+		{
+			return left.NotNull() ? left.Equals(right) : right.IsNull();
+		}
+		public static bool operator !=(Item left, Item right)
+		{
+			return left.NotNull() ? !left.Equals(right) : right.NotNull();
+		}
+		#endregion
+		#region Static Create
+		public static Item Create(object value)
 		{
 			Item result = null;
 			if (value.IsNull())
@@ -192,6 +192,6 @@ namespace Kean.Json.Dom
 		}
 		#endregion
 
-    }
+	}
 }
 
