@@ -50,10 +50,18 @@ namespace Kean.Draw
 				this.first.Append(segment);
 			return this;
 		}
-		public Path MoveTo(Geometry2D.Single.Point end)
+        public Path MoveTo(float x, float y)
+        {
+            return this.MoveTo(new Geometry2D.Single.Point(x, y));
+        }
+        public Path MoveTo(Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.MoveTo(end));
 		}
+        public Path LineTo(float x, float y)
+        {
+            return this.LineTo(new Geometry2D.Single.Point(x,y));
+        }
 		public Path LineTo(Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.LineTo(end));
@@ -62,10 +70,18 @@ namespace Kean.Draw
 		{
 			return this.Append(new PathSegment.CurveTo(first, second, end));
 		}
+        public Path CurveTo(float firstX, float firstY, float secondX, float secondY, float endX, float endY)
+        {
+            return this.CurveTo(new Geometry2D.Single.Point(firstX, firstY), new Geometry2D.Single.Point(secondX, secondY), new Geometry2D.Single.Point(endX, endY));
+        }
 		public Path EllipticalArcTo(Geometry2D.Single.Size radius, float angle, bool largeArc, bool sweep, Geometry2D.Single.Point end)
 		{
 			return this.Append(new PathSegment.EllipticalArcTo(radius, angle, largeArc, sweep, end));
 		}
+        public Path EllipticalArcTo(float radiusX, float radiusY, float angle, bool largeArc, bool sweep, float endX, float endY)
+        {
+            return this.EllipticalArcTo(new Geometry2D.Single.Size(radiusX, radiusY), angle, largeArc, sweep, new Geometry2D.Single.Point(endX, endY));
+        }
  		public Path Close()
 		{
 			return this.Append(new PathSegment.Close());
@@ -85,8 +101,24 @@ namespace Kean.Draw
 			return (this as System.Collections.Generic.IEnumerable<PathSegment.Abstract>).GetEnumerator();
 		}
 		#endregion
-		#region Static Create Methods
-		public static Path Rectangle(Geometry2D.Single.Box rectangle)
+        #region Object overrides
+        public override string ToString()
+        {
+            return this.first.ToString();
+        }
+        #endregion
+        #region String Casts
+        public static implicit operator string(Path path)
+        {
+            return path.ToString();
+        }
+        public static explicit operator Path(string path)
+        {
+            return new Path() { first = PathSegment.Abstract.Parse(path) };
+        }
+        #endregion
+        #region Static Create Methods
+        public static Path Rectangle(Geometry2D.Single.Box rectangle)
 		{
 			return new Path().MoveTo(rectangle.LeftTop).LineTo(rectangle.RightTop).LineTo(rectangle.RightBottom).LineTo(rectangle.LeftBottom).Close();
 		}
