@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 
 namespace Kean.Math.Random.Double
@@ -31,16 +32,15 @@ namespace Kean.Math.Random.Double
 		{ }
 		public override double Generate()
 		{
-            double result;
-            ulong x1;
+			ulong x1;
 			do
 				x1 = this.Next();
-            while (x1 == 0);
-            ulong x2;
+			while (x1 == 0);
+			ulong x2;
 			do
 				x2 = this.Next();
-            while (x2 == 0);
-            return this.Mean + this.Deviation * Kean.Math.Double.SquareRoot(-2 * Kean.Math.Double.Logarithm((double) x1 / ulong.MaxValue)) * Kean.Math.Double.Cosinus(2 * Kean.Math.Double.PI * (double) x2 / ulong.MaxValue);
+			while (x2 == 0);
+			return this.Mean + this.Deviation * Kean.Math.Double.SquareRoot(-2 * Kean.Math.Double.Logarithm((double) x1 / ulong.MaxValue)) * Kean.Math.Double.Cosinus(2 * Kean.Math.Double.PI * (double) x2 / ulong.MaxValue);
 		}
-    }
+	}
 }

@@ -81,35 +81,35 @@ namespace Kean.Platform.Settings
 		}
 		public void Load(string name, string description, string usage, object value)
 		{
-            string[] path = name.Split(new char[] { '.' }, 2);
-            if (path.Length > 1)
-            {
-                IDynamic next = (this as IDynamic)[path[0]] as IDynamic;
-                if (next.IsNull())
-                    this.Load(path[0], next = new Dynamic());
-                next.Load(name.Substring(path[0].Length + 1), description, usage, value);
-            }
-            else if (value is T)
-            {
-                this.data[name] = Tuple.Create(description, usage, value as T);
-                this.loaded.Call(name, value);
-                this.Reload();
-            }
+			string[] path = name.Split(new char[] { '.' }, 2);
+			if (path.Length > 1)
+			{
+				IDynamic next = (this as IDynamic)[path[0]] as IDynamic;
+				if (next.IsNull())
+					this.Load(path[0], next = new Dynamic());
+				next.Load(name.Substring(path[0].Length + 1), description, usage, value);
+			}
+			else if (value is T)
+			{
+				this.data[name] = Tuple.Create(description, usage, value as T);
+				this.loaded.Call(name, value);
+				this.Reload();
+			}
 		}
 		public void Unload(string name)
 		{
 			this.data.Remove(name);
 			this.Reload();
 		}
-		public void WhenLoaded<T>(string name, Action<T> loaded)
+		public void WhenLoaded<S>(string name, Action<S> loaded)
 		{
 			object member = (this as IDynamic)[name];
-			if (member is T)
-				loaded.Call((T)member);
+			if (member is S)
+				loaded.Call((S)member);
 			this.loaded += (n, m) =>
 			{
-				if (n == name && m is T)
-					loaded.Call((T) m);
+				if (n == name && m is S)
+					loaded.Call((S) m);
 			};
 		}
 
@@ -143,16 +143,16 @@ namespace Kean.Platform.Settings
 		}
 		#endregion
 
-        public virtual void Dispose()
-        {
-            if (this.data.NotNull())
-            {
-                foreach (KeyValue<string, Tuple<string, string, T>> item in this.data)
-                    if (item.Value.Item3 is IDisposable)
-                        (item.Value.Item3 as IDisposable).Dispose();
-                this.data = null;
-                this.loaded = null;
-            }
-        }
+		public virtual void Dispose()
+		{
+			if (this.data.NotNull())
+			{
+				foreach (KeyValue<string, Tuple<string, string, T>> item in this.data)
+					if (item.Value.Item3 is IDisposable)
+						(item.Value.Item3 as IDisposable).Dispose();
+				this.data = null;
+				this.loaded = null;
+			}
+		}
 	}
 }

@@ -18,7 +18,6 @@ namespace Kean.Math.Regression.Test.Filter
                 this.Point
                 );
         }
-        string prefix = "Kean.Math.Regression.Filter.Kalman.";
         [Test]
         public void Point()
         {

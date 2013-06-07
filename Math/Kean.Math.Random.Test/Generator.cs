@@ -32,10 +32,7 @@ namespace Kean.Math.Random.Test
                 int i, j;
                 for (i = 0; i < n; i++)
                     for (j = i + 1; j < n; j++)
-                    {
                         different &= values[i] != values[j];
-                        break;
-                    }
                Verify(different, Is.True, this.prefix + "ArraysIntegerUnique.0");
             }
         }

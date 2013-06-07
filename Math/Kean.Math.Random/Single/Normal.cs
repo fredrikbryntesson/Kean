@@ -31,16 +31,15 @@ namespace Kean.Math.Random.Single
 		{ }
 		public override float Generate()
 		{
-            float result;
-            ulong x1;
+			ulong x1;
 			do
 				x1 = this.Next();
-            while (x1 == 0);
-            ulong x2;
+			while (x1 == 0);
+			ulong x2;
 			do
 				x2 = this.Next();
-            while (x2 == 0);
-            return this.Mean + this.Deviation * Kean.Math.Single.SquareRoot(-2 * Kean.Math.Single.Logarithm((float) x1 / ulong.MaxValue)) * Kean.Math.Single.Cosinus(2 * Kean.Math.Single.Pi * (float) x2 / ulong.MaxValue);
+			while (x2 == 0);
+			return this.Mean + this.Deviation * Kean.Math.Single.SquareRoot(-2 * Kean.Math.Single.Logarithm((float) x1 / ulong.MaxValue)) * Kean.Math.Single.Cosinus(2 * Kean.Math.Single.Pi * (float) x2 / ulong.MaxValue);
 		}
-    }
+	}
 }

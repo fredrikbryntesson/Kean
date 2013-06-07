@@ -28,7 +28,6 @@ namespace Kean.Draw.Jpeg.Test
     public class Decompressor :
         Kean.Test.Fixture<Decompressor>
     {
-        string prefix = "Kean.Draw.Jpeg.";
         protected override void Run()
         {
             this.Run(

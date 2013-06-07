@@ -51,6 +51,10 @@ namespace Kean.Json.Dom
 		{
 			return this.Equals(other is string ? (Label)(string)other : other as Label);
 		}
+		public override int GetHashCode()
+		{
+			return this.Value.Hash();
+		}
 		public bool Equals (Label other)
 		{
 			return other.NotNull() && this.Value ==  other.Value;
