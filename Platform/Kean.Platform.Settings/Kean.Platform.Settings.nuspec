@@ -26,6 +26,7 @@
 			<dependency id="Kean.Xml.Sax" />
 			<dependency id="Kean.Xml.Serialize" />
 		</dependencies>
+		<minClientVersion>"2.5"</minClientVersion>
 	</metadata>
 	<files>
 		<file src="Modules\**.xml" target="build\Modules" />
