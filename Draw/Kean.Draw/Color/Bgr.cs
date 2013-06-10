@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 
 using System;
+using Kean.Core.Extension;
 using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
@@ -70,7 +71,10 @@ namespace Kean.Draw.Color
 		public float Distance(IColor other)
 		{
 			Bgr c = other.Convert<Bgr>();
-			return Single.SquareRoot((Single.Squared(this.Blue - c.Blue) + Single.Squared(this.Green - c.Green) + Single.Squared(this.Red - c.Red)) / 3);
+			float result = Single.SquareRoot((Single.Squared(this.Blue - c.Blue) + Single.Squared(this.Green - c.Green) + Single.Squared(this.Red - c.Red)) / 3);
+			if (result.NotNumber())
+				Console.WriteLine(this + " " + other);
+			return result;
 		}
 		#endregion
 		#region Object Overides

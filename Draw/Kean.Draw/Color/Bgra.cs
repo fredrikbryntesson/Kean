@@ -71,7 +71,7 @@ namespace Kean.Draw.Color
 		public float Distance(IColor other)
 		{
 			Bgra c = other.Convert<Bgra>();
-			return Single.SquareRoot((Single.Squared(this.Color.Distance(c.Color)) + Single.Squared(this.Alpha - c.Alpha)) / 2);
+			return Single.SquareRoot((3 * Single.Squared(this.Color.Distance(c.Color)) + Single.Squared(this.Alpha - c.Alpha)) / 4);
 		}
 		#endregion
 		#region Object Overides

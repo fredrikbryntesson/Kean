@@ -147,8 +147,8 @@ namespace Kean.Draw.Raster
 					{
 						Color.Bgr pixel = this[x, y];
 						float minimumDistance = float.MaxValue;
-						for (int otherY = Integer.Maximum(0, y - 1); otherY < Integer.Minimum(y + 1, this.Size.Height); otherY++)
-							for (int otherX = Integer.Maximum(0, x - 1); otherX < Integer.Minimum(x + 1, this.Size.Height); otherX++)
+						for (int otherY = Integer.Maximum(0, y - 1); minimumDistance > 0 && otherY < Integer.Minimum(y + 1, this.Size.Height); otherY++)
+							for (int otherX = Integer.Maximum(0, x - 1); minimumDistance > 0 && otherX < Integer.Minimum(x + 1, this.Size.Width); otherX++)
 								minimumDistance = Single.Minimum(minimumDistance, pixel.Distance((other as Bgr)[otherX, otherY]));
 						result += minimumDistance;
 					}
