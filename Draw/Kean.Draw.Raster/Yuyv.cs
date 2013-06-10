@@ -22,6 +22,9 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
@@ -30,9 +33,34 @@ namespace Kean.Draw.Raster
 	/// </summary>
 	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Yuyv :
-		Packed
+		YuvPacked
 	{
 		protected override int BytesPerPixel { get { return 2; } }
+
+		public override Color.Yuv this[int x, int y]
+		{
+			get
+			{
+				unsafe
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					return new Color.Yuv(
+						*(offset + (Integer.Even(x) ? 0 : 2)),
+						*(offset + 1),
+						*(offset + 3));
+				}
+			}
+			set
+			{
+				unsafe
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					*(offset + (Integer.Even(x) ? 0 : 2)) = value.Y;
+					*(offset + 1) = value.U;
+					*(offset + 3) = value.V;
+				}
+			}
+		}
 
 		public Yuyv(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
@@ -129,7 +157,7 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
 		}

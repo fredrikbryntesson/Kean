@@ -22,17 +22,44 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
 	/// <summary>
-	/// Yuyv is a packed version of Yuv422 mentioned as YUY2 (see fourcc.org). Order yuyvyuyvyuyv
+	/// Uyvy is a packed version of Yuv422 mentioned as YUY2 (see fourcc.org). Order uyvyuyvyuyvy
 	/// </summary>
 	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Uyvy :
-		Packed
+		YuvPacked
 	{
 		protected override int BytesPerPixel { get { return 2; } }
+		public override Color.Yuv this[int x, int y]
+		{
+			get
+			{
+				unsafe
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					return new Color.Yuv(
+						*(offset + (Integer.Even(x) ? 1 : 3)),
+						*offset,
+						*(offset + 2));
+				}
+			}
+			set 
+			{ 
+				unsafe 
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					*(offset + (Integer.Even(x) ? 1 : 3)) = value.Y;
+					*offset = value.U;
+					*(offset + 2) = value.V;
+				}
+			}
+		}
 
 		public Uyvy(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
@@ -129,7 +156,7 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
 		}

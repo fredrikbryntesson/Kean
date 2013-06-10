@@ -53,8 +53,8 @@ namespace Kean.Draw.Color
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
-			if (typeof(T) == typeof(Y))
-				Color.Convert.FromBgr((Y v) => result = (T)(IColor)v)(this);
+			if (typeof(T) == typeof(Monochrome))
+				Color.Convert.FromBgr((Monochrome v) => result = (T)(IColor)v)(this);
 			else if (typeof(T) == typeof(Yuv))
 				Color.Convert.FromBgr((Yuv v) => result = (T)(IColor)v)(this);
 			else if (typeof(T) == typeof(Bgr))

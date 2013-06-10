@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2012-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -48,54 +48,14 @@ namespace Kean.Draw.Raster.Test
 		{
 			try
 			{
-				if (correct is Raster.Bgr)
-				{
-					if (image is Raster.Bgr)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Bgr i = image.Convert<Raster.Bgr>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Bgra)
-				{
-					if (image is Raster.Bgra)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Bgra i = image.Convert<Raster.Bgra>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Monochrome)
-				{
-					if (image is Raster.Monochrome)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Monochrome i = image.Convert<Raster.Monochrome>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Yuv420)
-				{
-					if (image is Raster.Yuv420)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Yuv420 i = image.Convert<Raster.Yuv420>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Yuyv)
-				{
-					if (image is Raster.Yuyv)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Yuyv i = image.Convert<Raster.Yuyv>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else
-					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				this.Verify(correct.Distance(image), Is.LessThanOrEqualTo(this.Tolerance));
 			}
 			catch
 			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
 					raster.Save(this.CurrentTestStep + ".png");
-				throw;
+				System.Console.Write("f");
+				//throw;
 			} 
 		}
 	}

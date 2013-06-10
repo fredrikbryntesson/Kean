@@ -55,8 +55,8 @@ namespace Kean.Draw.Gpu
 			this(image.Size, image.CoordinateSystem)
 		{
 			this.Y.Canvas.Draw(image);
-			this.U.Canvas.Draw(new Kean.Draw.Color.Y(128));
-			this.V.Canvas.Draw(new Kean.Draw.Color.Y(128));
+			this.U.Canvas.Draw(new Kean.Draw.Color.Monochrome(128));
+			this.V.Canvas.Draw(new Kean.Draw.Color.Monochrome(128));
 		}
 		public Yuv420(Gpu.Bgr image) :
 			this(image.Size, image.CoordinateSystem)

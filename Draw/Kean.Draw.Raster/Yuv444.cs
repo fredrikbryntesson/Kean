@@ -29,6 +29,16 @@ namespace Kean.Draw.Raster
 	public class Yuv444 :
 		YuvPlanar
 	{
+		public override Color.Yuv this[int x, int y]
+		{
+			get { return new Color.Yuv(this.Y[x, y], this.U[x, y], this.V[x, y]); }
+			set
+			{
+				this.Y[x, y] = value.Y;
+				this.U[x, y] = value.U;
+				this.V[x, y] = value.V;
+			}
+		}
 		public Yuv444(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
 		public Yuv444(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
@@ -147,7 +157,7 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
 		}

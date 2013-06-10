@@ -43,7 +43,7 @@
     <Compile Include="Color\Bgr.cs" />
     <Compile Include="Color\Bgra.cs" />
     <Compile Include="Color\Convert.cs" />
-    <Compile Include="Color\Y.cs" />
+    <Compile Include="Color\Monochrome.cs" />
     <Compile Include="Color\Yuv.cs" />
     <Compile Include="CoordinateSystem.cs" />
     <Compile Include="FontSlant.cs" />

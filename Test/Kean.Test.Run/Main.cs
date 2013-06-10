@@ -65,6 +65,9 @@ namespace Kean.Test.Run
 			//Json.Dom.Test.All.Test();			
 			//Json.Serialize.Test.All.Test();
 			#endregion
+			Console.WriteLine();
+			Console.WriteLine("Press any key to continue");
+			Console.ReadKey(true);
 		}
 	}
 }

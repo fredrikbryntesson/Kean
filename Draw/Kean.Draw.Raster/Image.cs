@@ -52,7 +52,7 @@ namespace Kean.Draw.Raster
 
 		public abstract void Apply(Action<Color.Bgr> action);
 		public abstract void Apply(Action<Color.Yuv> action);
-		public abstract void Apply(Action<Color.Y> action);
+		public abstract void Apply(Action<Color.Monochrome> action);
 
 		protected Image(Image original) :
 			base(original)

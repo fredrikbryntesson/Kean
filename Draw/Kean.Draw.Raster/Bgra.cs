@@ -59,13 +59,11 @@ namespace Kean.Draw.Raster
 				Color.Bgra topRight = this[Integer.Ceiling(x), Integer.Floor(y)];
 				Color.Bgra bottomRight = this[Integer.Ceiling(x), Integer.Ceiling(y)];
 
-				float r, g, b, a;
-				b = top * (left * topLeft.Blue + (1 - left) * topRight.Blue) + (1 - top) * (left * bottomLeft.Blue + (1 - left) * bottomRight.Blue);
-				g = top * (left * topLeft.Green + (1 - left) * topRight.Green) + (1 - top) * (left * bottomLeft.Green + (1 - left) * bottomRight.Green);
-				r = top * (left * topLeft.Red + (1 - left) * topRight.Red) + (1 - top) * (left * bottomLeft.Red + (1 - left) * bottomRight.Red);
-				a = top * (left * topLeft.Alpha + (1 - left) * topRight.Alpha) + (1 - top) * (left * bottomLeft.Alpha + (1 - left) * bottomRight.Alpha);
-
-				return new Color.Bgra((byte)b, (byte)g, (byte)r, (byte)a);
+				return new Color.Bgra(
+					(byte)(top * (left * topLeft.Blue + (1 - left) * topRight.Blue) + (1 - top) * (left * bottomLeft.Blue + (1 - left) * bottomRight.Blue)),
+					(byte)(top * (left * topLeft.Green + (1 - left) * topRight.Green) + (1 - top) * (left * bottomLeft.Green + (1 - left) * bottomRight.Green)),
+					(byte)(top * (left * topLeft.Red + (1 - left) * topRight.Red) + (1 - top) * (left * bottomLeft.Red + (1 - left) * bottomRight.Red)),
+					(byte)(top * (left * topLeft.Alpha + (1 - left) * topRight.Alpha) + (1 - top) * (left * bottomLeft.Alpha + (1 - left) * bottomRight.Alpha)));
 			}
 		}
 
@@ -118,14 +116,22 @@ namespace Kean.Draw.Raster
 		{
 			this.Apply(Color.Convert.FromBgr(action));
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromBgr(action));
 		}
 		public override float Distance(Draw.Image other)
 		{
 			float result = 0;
-			if (other is Bgra && this.Size == other.Size)
+			if (other.IsNull())
+				result = float.MaxValue;
+			else if (!(other is Bgra))
+				using (Bgra o = other.Convert<Bgra>())
+					result = this.Distance(o);
+			else if (this.Size != other.Size)
+				using (Bgra o = other.ResizeTo(this.Size) as Bgra)
+					result = this.Distance(o);
+			else
 			{
 				for (int y = 0; y < this.Size.Height; y++)
 					for (int x = 0; x < this.Size.Width; x++)
@@ -136,8 +142,8 @@ namespace Kean.Draw.Raster
 						{
 							Color.Bgra maximum = o;
 							Color.Bgra minimum = o;
-							for (int otherY = Integer.Maximum(0, y - 1); otherY < Integer.Minimum(y + 2, this.Size.Height); otherY++)
-								for (int otherX = Integer.Maximum(0, x - 1); otherX < Integer.Minimum(x + 2, this.Size.Width); otherX++)
+							for (int otherY = Integer.Maximum(0, y - 2); otherY < Integer.Minimum(y + 3, this.Size.Height); otherY++)
+								for (int otherX = Integer.Maximum(0, x - 2); otherX < Integer.Minimum(x + 3, this.Size.Width); otherX++)
 									if (otherX != x || otherY != y)
 									{
 										Color.Bgra pixel = (other as Bgra)[otherX, otherY];
@@ -180,8 +186,6 @@ namespace Kean.Draw.Raster
 					}
 				result /= this.Size.Length;
 			}
-			else
-				result = float.PositiveInfinity;
 			return result;
 		}
 		#region Static Open

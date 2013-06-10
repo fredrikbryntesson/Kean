@@ -25,63 +25,63 @@ using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
 {
-	public struct Y :
+	public struct Monochrome :
 		IColor,
-		System.IEquatable<Y>
+		System.IEquatable<Monochrome>
 	{
-		public byte Value;
-		public Y(byte y)
+		public byte Y;
+		public Monochrome(byte y)
 		{
-			this.Value = y;
+			this.Y = y;
 		}
-		public Y(float y)
+		public Monochrome(float y)
 		{
-			this.Value = (byte)Math.Single.Clamp(y * 255, 0, 255);
+			this.Y = (byte)Math.Single.Clamp(y * 255, 0, 255);
 		}
-		public Y(double y)
+		public Monochrome(double y)
 		{
-			this.Value = (byte)Math.Double.Clamp(y * 255, 0, 255);
+			this.Y = (byte)Math.Double.Clamp(y * 255, 0, 255);
 		}
 		#region Casts
-		public static implicit operator Y(byte value)
+		public static implicit operator Monochrome(byte value)
 		{
-			unsafe { return *((Y*)&value); }
+			unsafe { return *((Monochrome*)&value); }
 		}
-		public static implicit operator byte(Y value)
+		public static implicit operator byte(Monochrome value)
 		{
 			unsafe { return *((byte*)&value); }
 		}
-		public static implicit operator Y(float value)
+		public static implicit operator Monochrome(float value)
 		{
-			return new Y(value);
+			return new Monochrome(value);
 		}
-		public static implicit operator float(Y value)
+		public static implicit operator float(Monochrome value)
 		{
-			return value.Value / 255.0f;
+			return value.Y / 255.0f;
 		}
-		public static implicit operator Y(double value)
+		public static implicit operator Monochrome(double value)
 		{
-			return new Y(value);
+			return new Monochrome(value);
 		}
-		public static implicit operator double(Y value)
+		public static implicit operator double(Monochrome value)
 		{
-			return value.Value / 255.0;
+			return value.Y / 255.0;
 		}
 		#endregion
 		#region IColor Members
 		public IColor Copy()
 		{
-			return new Y(this.Value);
+			return new Monochrome(this.Y);
 		}
 		public void Set<T>(T color) where T : IColor
 		{
-			Y c = color.Convert<Y>();
-			this.Value = c.Value;
+			Monochrome c = color.Convert<Monochrome>();
+			this.Y = c.Y;
 		}
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
-			if (typeof(T) == typeof(Y))
+			if (typeof(T) == typeof(Monochrome))
 				result = (T)(IColor)this;
 			else if (typeof(T) == typeof(Yuv))
 				Color.Convert.FromY((Yuv v) => result = (T)(IColor)v)(this);
@@ -97,41 +97,41 @@ namespace Kean.Draw.Color
 		}
 		public IColor Blend(float factor, IColor other)
 		{
-			Y c = other.Convert<Y>();
-			return new Y((byte)(this.Value * (1 - factor) + c.Value * factor));
+			Monochrome c = other.Convert<Monochrome>();
+			return new Monochrome((byte)(this.Y * (1 - factor) + c.Y * factor));
 		}
 		public float Distance(IColor other)
 		{
-			Y c = other.Convert<Y>();
-			return Single.SquareRoot(Single.Squared(this.Value - c.Value));
+			Monochrome c = other.Convert<Monochrome>();
+			return Single.SquareRoot(Single.Squared(this.Y - c.Y));
 		}
 		#endregion
 		#region Object Overides
 		public override string ToString()
 		{
-			return this.Value.ToString();
+			return this.Y.ToString();
 		}
 		public override bool Equals(object other)
 		{
-			return other is Y && this.Equals((Y)other);
+			return other is Monochrome && this.Equals((Monochrome)other);
 		}
 		#endregion
 		#region IEquatable<Y> Members
-		public bool Equals(Y other)
+		public bool Equals(Monochrome other)
 		{
-			return this.Value == other.Value;
+			return this.Y == other.Y;
 		}
 		public override int GetHashCode()
 		{
-			return this.Value.GetHashCode();
+			return this.Y.GetHashCode();
 		}
 		#endregion
 		#region Comparison Operators
-		public static bool operator ==(Y left, Y right)
+		public static bool operator ==(Monochrome left, Monochrome right)
 		{
 			return left.Equals(right);
 		}
-		public static bool operator !=(Y left, Y right)
+		public static bool operator !=(Monochrome left, Monochrome right)
 		{
 			return !(left == right);
 		}
