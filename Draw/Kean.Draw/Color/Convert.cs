@@ -55,9 +55,9 @@ namespace Kean.Draw.Color
 		{
 			Convert.YuvToBgrInitialize();
 			return action.IsNull() ? (Action<Yuv>)null : color => action(new Bgr(
-				(byte)(Function.Integer.Clamp((Convert.yuvToBgr[2][color.y] + Convert.yuvToBgr[2][256 + color.u] + Convert.yuvToBgr[2][512 + color.v]) >> 8, 0, 255)),
-                (byte)(Function.Integer.Clamp((Convert.yuvToBgr[1][color.y] + Convert.yuvToBgr[1][256 + color.u] + Convert.yuvToBgr[1][512 + color.v]) >> 8, 0, 255)),
-                (byte)(Function.Integer.Clamp((Convert.yuvToBgr[0][color.y] + Convert.yuvToBgr[0][256 + color.u] + Convert.yuvToBgr[0][512 + color.v]) >> 8, 0, 255))
+				(byte)(Function.Integer.Clamp((Convert.yuvToBgr[2][color.Y] + Convert.yuvToBgr[2][256 + color.U] + Convert.yuvToBgr[2][512 + color.V]) >> 8, 0, 255)),
+                (byte)(Function.Integer.Clamp((Convert.yuvToBgr[1][color.Y] + Convert.yuvToBgr[1][256 + color.U] + Convert.yuvToBgr[1][512 + color.V]) >> 8, 0, 255)),
+                (byte)(Function.Integer.Clamp((Convert.yuvToBgr[0][color.Y] + Convert.yuvToBgr[0][256 + color.U] + Convert.yuvToBgr[0][512 + color.V]) >> 8, 0, 255))
 				));
 		}
 		public static Action<Y> FromY(Action<Bgr> action)
@@ -98,9 +98,9 @@ namespace Kean.Draw.Color
 		{
 			Convert.BgrToYuvInititalize();
 			return action.IsNull() ? (Action<Bgr>)null : color => action(new Yuv(
-				(byte)Function.Integer.Clamp(((Convert.bgrToYuv[0][color.red] + Convert.bgrToYuv[0][256 + color.green] + Convert.bgrToYuv[0][512 + color.blue]) >> 8), 0, 255),
-                (byte)Function.Integer.Clamp(((Convert.bgrToYuv[1][color.red] + Convert.bgrToYuv[1][256 + color.green] + Convert.bgrToYuv[1][512 + color.blue]) >> 8) + 128, 0, 255),
-                (byte)Function.Integer.Clamp(((Convert.bgrToYuv[2][color.red] + Convert.bgrToYuv[2][256 + color.green] + Convert.bgrToYuv[2][512 + color.blue]) >> 8) + 128, 0, 255)
+				(byte)Function.Integer.Clamp(((Convert.bgrToYuv[0][color.Red] + Convert.bgrToYuv[0][256 + color.Green] + Convert.bgrToYuv[0][512 + color.Blue]) >> 8), 0, 255),
+                (byte)Function.Integer.Clamp(((Convert.bgrToYuv[1][color.Red] + Convert.bgrToYuv[1][256 + color.Green] + Convert.bgrToYuv[1][512 + color.Blue]) >> 8) + 128, 0, 255),
+                (byte)Function.Integer.Clamp(((Convert.bgrToYuv[2][color.Red] + Convert.bgrToYuv[2][256 + color.Green] + Convert.bgrToYuv[2][512 + color.Blue]) >> 8) + 128, 0, 255)
 				));
 		}
 		public static Action<Y> FromY(Action<Yuv> action)
@@ -111,11 +111,11 @@ namespace Kean.Draw.Color
 		public static Action<Bgr> FromBgr(Action<Y> action)
 		{
 			Convert.BgrToYuvInititalize();
-			return action.IsNull() ? (Action<Bgr>)null : color => action((Y)(byte)Function.Integer.Clamp(((Convert.bgrToYuv[0][color.red] + Convert.bgrToYuv[0][256 + color.green] + Convert.bgrToYuv[0][512 + color.blue]) >> 8), 0, 255));
+			return action.IsNull() ? (Action<Bgr>)null : color => action((Y)(byte)Function.Integer.Clamp(((Convert.bgrToYuv[0][color.Red] + Convert.bgrToYuv[0][256 + color.Green] + Convert.bgrToYuv[0][512 + color.Blue]) >> 8), 0, 255));
 		}
 		public static Action<Yuv> FromYuv(Action<Y> action)
 		{
-			return action.IsNull() ? (Action<Yuv>)null : color => action(color.y);
+			return action.IsNull() ? (Action<Yuv>)null : color => action(color.Y);
 		}
 	}
 }

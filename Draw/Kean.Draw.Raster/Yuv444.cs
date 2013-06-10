@@ -62,9 +62,9 @@ namespace Kean.Draw.Raster
 
 				original.Apply(color =>
 				{
-					*(yDestination++) = color.y;
-					*(uDestination++) = color.u;
-					*(vDestination++) = color.v;
+					*(yDestination++) = color.Y;
+					*(uDestination++) = color.U;
+					*(vDestination++) = color.V;
 					x++;
 					if (x >= width)
 					{

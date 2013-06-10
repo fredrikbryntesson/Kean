@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,35 +16,37 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+
 using System;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
 {
 	public struct Yuv :
 		IColor,
-        System.IEquatable<Yuv>
+		System.IEquatable<Yuv>
 	{
-		public byte y;
-		public byte u;
-		public byte v;
+		public byte Y;
+		public byte U;
+		public byte V;
 		public Yuv(byte y, byte u, byte v)
 		{
-			this.y = y;
-			this.u = u;
-			this.v = v;
+			this.Y = y;
+			this.U = u;
+			this.V = v;
 		}
 		#region IColor Members
 		public IColor Copy()
 		{
-			return new Yuv(this.y, this.u, this.v);
+			return new Yuv(this.Y, this.U, this.V);
 		}
 		public void Set<T>(T color) where T : IColor
 		{
 			Yuv c = color.Convert<Yuv>();
-			this.y = c.y;
-			this.u = c.u;
-			this.v = c.v;
+			this.Y = c.Y;
+			this.U = c.U;
+			this.V = c.V;
 		}
 		public T Convert<T>() where T : IColor, new()
 		{
@@ -66,43 +68,43 @@ namespace Kean.Draw.Color
 		public IColor Blend(float factor, IColor other)
 		{
 			Yuv c = other.Convert<Yuv>();
-			return new Yuv((byte)(this.y * (1 - factor) + c.y * factor), (byte)(this.u * (1 - factor) + c.u * factor), (byte)(this.v * (1 - factor) + c.v * factor));
+			return new Yuv((byte)(this.Y * (1 - factor) + c.Y * factor), (byte)(this.U * (1 - factor) + c.U * factor), (byte)(this.V * (1 - factor) + c.V * factor));
 		}
 		public float Distance(IColor other)
 		{
 			Yuv c = other.Convert<Yuv>();
-			return Math.Single.SquareRoot((Math.Single.Squared(this.y - c.y) + Math.Single.Squared(this.u - c.u) + Math.Single.Squared(this.v - c.v)) / 3);
+			return Single.SquareRoot((Math.Single.Squared(this.Y - c.Y) + Single.Squared(this.U - c.U) + Single.Squared(this.V - c.V)) / 3);
 		}
 		#endregion
 		#region Object Overides
 		public override string ToString()
 		{
-			return this.y + " " + this.u + " " + this.v;
+			return this.Y + " " + this.U + " " + this.V;
 		}
-        public override bool Equals(object other)
-        {
-            return other is Yuv && this.Equals((Yuv)other);
-        }
-        public override int GetHashCode()
-        {
-            return 33 * (33 * this.y.GetHashCode() ^ this.u.GetHashCode()) ^ this.v.GetHashCode();
-        }
+		public override bool Equals(object other)
+		{
+			return other is Yuv && this.Equals((Yuv)other);
+		}
+		public override int GetHashCode()
+		{
+			return 33 * (33 * this.Y.GetHashCode() ^ this.U.GetHashCode()) ^ this.V.GetHashCode();
+		}
 		#endregion
-        #region IEquatable<Yuv> Members
-        public bool Equals(Yuv other)
-        {
-            return this.y == other.y && this.u == other.u && this.v == other.v;
-        }
-        #endregion
-        #region Comparison Operators
-        public static bool operator ==(Yuv left, Yuv right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Yuv left, Yuv right)
-        {
-            return !(left == right);
-        }
-        #endregion
+		#region IEquatable<Yuv> Members
+		public bool Equals(Yuv other)
+		{
+			return this.Y == other.Y && this.U == other.U && this.V == other.V;
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Yuv left, Yuv right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(Yuv left, Yuv right)
+		{
+			return !(left == right);
+		}
+		#endregion
 	}
 }

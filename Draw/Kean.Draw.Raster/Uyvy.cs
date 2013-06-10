@@ -62,12 +62,12 @@ namespace Kean.Draw.Raster
 
 				original.Apply(color =>
 				{
-					*yDestination = color.y;
+					*yDestination = color.Y;
 					yDestination += 2;
 					if (x % 2 == 0)
 					{
-						*uDestination = color.u;
-						*vDestination = color.v;
+						*uDestination = color.U;
+						*vDestination = color.V;
 						uDestination += 4;
 						vDestination += 4;
 					}

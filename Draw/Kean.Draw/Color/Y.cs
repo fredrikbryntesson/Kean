@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,30 +16,31 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Math = Kean.Math;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
 {
 	public struct Y :
 		IColor,
-        System.IEquatable<Y>
+		System.IEquatable<Y>
 	{
-		public byte y;
+		public byte Value;
 		public Y(byte y)
 		{
-			this.y = y;
+			this.Value = y;
 		}
 		public Y(float y)
 		{
-			this.y = (byte)Math.Single.Clamp(y * 255, 0, 255);
+			this.Value = (byte)Math.Single.Clamp(y * 255, 0, 255);
 		}
 		public Y(double y)
 		{
-			this.y = (byte)Math.Double.Clamp(y * 255, 0, 255);
+			this.Value = (byte)Math.Double.Clamp(y * 255, 0, 255);
 		}
 		#region Casts
 		public static implicit operator Y(byte value)
@@ -56,7 +57,7 @@ namespace Kean.Draw.Color
 		}
 		public static implicit operator float(Y value)
 		{
-			return value.y / 255.0f;
+			return value.Value / 255.0f;
 		}
 		public static implicit operator Y(double value)
 		{
@@ -64,18 +65,18 @@ namespace Kean.Draw.Color
 		}
 		public static implicit operator double(Y value)
 		{
-			return value.y / 255.0;
+			return value.Value / 255.0;
 		}
 		#endregion
 		#region IColor Members
 		public IColor Copy()
 		{
-			return new Y(this.y);
+			return new Y(this.Value);
 		}
 		public void Set<T>(T color) where T : IColor
 		{
 			Y c = color.Convert<Y>();
-			this.y = c.y;
+			this.Value = c.Value;
 		}
 		public T Convert<T>() where T : IColor, new()
 		{
@@ -97,43 +98,43 @@ namespace Kean.Draw.Color
 		public IColor Blend(float factor, IColor other)
 		{
 			Y c = other.Convert<Y>();
-			return new Y((byte)(this.y * (1 - factor) + c.y * factor));
+			return new Y((byte)(this.Value * (1 - factor) + c.Value * factor));
 		}
 		public float Distance(IColor other)
 		{
 			Y c = other.Convert<Y>();
-			return Math.Single.SquareRoot(Math.Single.Squared(this.y - c.y));
+			return Single.SquareRoot(Single.Squared(this.Value - c.Value));
 		}
 		#endregion
 		#region Object Overides
 		public override string ToString()
 		{
-			return this.y.ToString();
+			return this.Value.ToString();
 		}
-        public override bool Equals(object other)
-        {
-            return other is Y && this.Equals((Y)other);
-        }
+		public override bool Equals(object other)
+		{
+			return other is Y && this.Equals((Y)other);
+		}
 		#endregion
-        #region IEquatable<Y> Members
-        public bool Equals(Y other)
-        {
-            return this.y == other.y;
-        }
-        public override int GetHashCode()
-        {
-            return this.y.GetHashCode();
-        }
-        #endregion
-        #region Comparison Operators
-        public static bool operator ==(Y left, Y right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Y left, Y right)
-        {
-            return !(left == right);
-        }
-        #endregion
+		#region IEquatable<Y> Members
+		public bool Equals(Y other)
+		{
+			return this.Value == other.Value;
+		}
+		public override int GetHashCode()
+		{
+			return this.Value.GetHashCode();
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Y left, Y right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(Y left, Y right)
+		{
+			return !(left == right);
+		}
+		#endregion
 	}
 }
