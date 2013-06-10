@@ -1,5 +1,5 @@
 ﻿// 
-//  Yuyv.cs
+//  Uyvy.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -26,7 +26,7 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.Raster
 {
 	/// <summary>
-	/// Yuyv is a packed version of Yuv422 mentioned as YUY2 (see fourcc.org). Order yuyvyuyvyuyv
+	/// Uyvy is a packed version of Yuv422 mentioned as YUY2 (see fourcc.org). Order uyvyuyvyuyvy
 	/// </summary>
 	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Uyvy :
