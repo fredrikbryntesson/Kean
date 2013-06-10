@@ -1,5 +1,5 @@
 ﻿// 
-//  Yuyv.cs
+//  Uyvy.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
