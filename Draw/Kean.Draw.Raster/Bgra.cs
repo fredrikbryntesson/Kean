@@ -130,12 +130,53 @@ namespace Kean.Draw.Raster
 				for (int y = 0; y < this.Size.Height; y++)
 					for (int x = 0; x < this.Size.Width; x++)
 					{
-						Color.Bgra pixel = this[x, y];
-						float minimumDistance = float.MaxValue;
-						for (int otherY = Integer.Maximum(0, y - 1); otherY < Integer.Minimum(y + 1, this.Size.Height); otherY++)
-							for (int otherX = Integer.Maximum(0, x - 1); otherX < Integer.Minimum(x + 1, this.Size.Width); otherX++)
-								minimumDistance = Single.Minimum(minimumDistance, pixel.Distance((other as Bgra)[otherX, otherY]));
-						result += minimumDistance;
+						Color.Bgra c = this[x, y];
+						Color.Bgra o = (other as Bgra)[x, y];
+						if (c.Distance(o) > 0)
+						{
+							Color.Bgra maximum = o;
+							Color.Bgra minimum = o;
+							for (int otherY = Integer.Maximum(0, y - 1); otherY < Integer.Minimum(y + 2, this.Size.Height); otherY++)
+								for (int otherX = Integer.Maximum(0, x - 1); otherX < Integer.Minimum(x + 2, this.Size.Width); otherX++)
+									if (otherX != x || otherY != y)
+									{
+										Color.Bgra pixel = (other as Bgra)[otherX, otherY];
+										if (maximum.Blue < pixel.Blue)
+											maximum.Blue = pixel.Blue;
+										else if (minimum.Blue > pixel.Blue)
+											minimum.Blue = pixel.Blue;
+										if (maximum.Green < pixel.Green)
+											maximum.Green = pixel.Green;
+										else if (minimum.Green > pixel.Green)
+											minimum.Green = pixel.Green;
+										if (maximum.Red < pixel.Red)
+											maximum.Red = pixel.Red;
+										else if (minimum.Red > pixel.Red)
+											minimum.Red = pixel.Red;
+										if (maximum.Alpha < pixel.Alpha)
+											maximum.Alpha = pixel.Alpha;
+										else if (minimum.Alpha > pixel.Alpha)
+											minimum.Alpha = pixel.Alpha;
+									}
+							float distance = 0;
+							if (c.Blue < minimum.Blue)
+								distance += Single.Squared(minimum.Blue - c.Blue);
+							else if (c.Blue > maximum.Blue)
+								distance += Single.Squared(c.Blue - maximum.Blue);
+							if (c.Green < minimum.Green)
+								distance += Single.Squared(minimum.Green - c.Green);
+							else if (c.Green > maximum.Green)
+								distance += Single.Squared(c.Green - maximum.Green);
+							if (c.Red < minimum.Red)
+								distance += Single.Squared(minimum.Red - c.Red);
+							else if (c.Red > maximum.Red)
+								distance += Single.Squared(c.Red - maximum.Red);
+							if (c.Alpha < minimum.Alpha)
+								distance += Single.Squared(minimum.Alpha - c.Alpha);
+							else if (c.Alpha > maximum.Alpha)
+								distance += Single.Squared(c.Alpha - maximum.Alpha);
+							result += Single.SquareRoot(distance) / 4;
+						}
 					}
 				result /= this.Size.Length;
 			}

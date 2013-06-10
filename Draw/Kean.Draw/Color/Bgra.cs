@@ -27,9 +27,9 @@ namespace Kean.Draw.Color
 		IColor, 
 		System.IEquatable<Bgra>
 	{
-		public byte Blue { get { return this.Color.Blue; } }
-		public byte Green { get { return this.Color.Green; } }
-		public byte Red { get { return this.Color.Red; } }
+		public byte Blue { get { return this.Color.Blue; } set { this.Color.Blue = value; } }
+		public byte Green { get { return this.Color.Green; } set { this.Color.Green = value; } }
+		public byte Red { get { return this.Color.Red; } set { this.Color.Red = value; } }
 		public Bgr Color;
 		public byte Alpha;
 		public Bgra(byte blue, byte green, byte red) : this(blue, green, red, 255) { }
