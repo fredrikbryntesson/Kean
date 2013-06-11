@@ -45,7 +45,7 @@ namespace Kean.Draw.Raster.Test
 		}
 		public void Verify(Draw.Image image, string resource, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource))
+			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetAssembly(typeof(T)), resource))
 				this.Verify(image, correct, constraint);
 		}
 		public void Verify(Draw.Image image, Raster.Image correct)
@@ -56,9 +56,10 @@ namespace Kean.Draw.Raster.Test
 		{
 			try
 			{
+				Expect(correct, Is.Not.Null);
 				this.Verify(correct.Distance(image), constraint);
 			}
-			catch
+			catch (NUnit.Framework.AssertionException)
 			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
 					raster.Save(this.CurrentTestStep + ".png");

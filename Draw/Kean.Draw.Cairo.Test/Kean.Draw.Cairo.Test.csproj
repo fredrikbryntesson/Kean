@@ -87,23 +87,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgra\Create.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgra\Rectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgra\RoundedRectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgra\Circle.png" />
-    <EmbeddedResource Include="Correct\Bgra\Ellipse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgra\Bitmap.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Bgra\Create.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />

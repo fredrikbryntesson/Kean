@@ -175,8 +175,6 @@ namespace Kean.Draw.Raster
 			{
 				if (type == typeof(Cairo.Image) || type == this.cairo.GetType())
 					result = this.Cairo as T;
-				else if (type == typeof(Cairo.Bgr))
-					result = this.Convert<Bgr>().Cairo as T;
 				else if (type == typeof(Cairo.Bgra))
 					result = this.Convert<Bgra>().Cairo as T;
 			}

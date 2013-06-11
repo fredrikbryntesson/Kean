@@ -146,20 +146,10 @@
     <EmbeddedResource Include="Correct\Transform\shiftedYvu420.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgr\Bitmap.png" />
-    <EmbeddedResource Include="Correct\Bgr\Circle.png" />
-    <EmbeddedResource Include="Correct\Bgr\Ellipse.png" />
-    <EmbeddedResource Include="Correct\Bgr\Rectangle.png" />
-    <EmbeddedResource Include="Correct\Bgr\RoundedRectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Correct\Bgra\Text.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgr\Text.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Correct\Bgra\TextFill.png" />
@@ -189,24 +179,14 @@
     <EmbeddedResource Include="Correct\Bgra\CircleFill.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Correct\Bgr\BitmapRectangle.png" />
-    <EmbeddedResource Include="Correct\Bgr\BitmapText.png" />
-    <EmbeddedResource Include="Correct\Bgr\CircleFill.png" />
-    <EmbeddedResource Include="Correct\Bgr\CurveTo.png" />
-    <EmbeddedResource Include="Correct\Bgr\EllipseStroke.png" />
-    <EmbeddedResource Include="Correct\Bgr\EllipticalArcTo.png" />
-    <EmbeddedResource Include="Correct\Bgr\MoveToLineTo.png" />
-    <EmbeddedResource Include="Correct\Bgr\RectangleFill.png" />
-    <EmbeddedResource Include="Correct\Bgr\RectangleFillOnly.png" />
-    <EmbeddedResource Include="Correct\Bgr\RoundedRectangleStroke.png" />
-    <EmbeddedResource Include="Correct\Bgr\TextFill.png" />
-    <EmbeddedResource Include="Correct\Bgr\TextStroke.png" />
-    <EmbeddedResource Include="Correct\Bgr\Triangle.png" />
     <EmbeddedResource Include="Correct\Bgra\MoveToLineTo.png" />
     <EmbeddedResource Include="Correct\Bgra\EllipticalArcTo.png" />
     <EmbeddedResource Include="Correct\Bgra\CurveTo.png" />
     <Content Include="Correct\Bgra\RectangleFillStrokePath.png" />
     <EmbeddedResource Include="Correct\Bgra\Triangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Correct\Bgr\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
