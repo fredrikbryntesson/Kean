@@ -83,9 +83,9 @@ namespace Kean.Draw.Raster
 				int width = this.Size.Width;
 
 				byte* row = (byte*)this.Pointer;
-				byte* yDestination = row;
-				byte* uDestination = row + 1;
-				byte* vDestination = row + 3;
+				byte* uDestination = row;
+				byte* yDestination = row + 1;
+				byte* vDestination = row + 2;
 
 				original.Apply(color =>
 				{
@@ -105,9 +105,9 @@ namespace Kean.Draw.Raster
 						y++;
 
 						row += this.Stride;
-						yDestination = row;
-						uDestination = row + 1;
-						vDestination = row + 3;
+						uDestination = row;
+						yDestination = row + 1;
+						vDestination = row + 2;
 					}
 				});
 			}

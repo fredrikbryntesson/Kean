@@ -156,6 +156,8 @@ namespace Kean.Draw.Raster
 						result = new Monochrome(this) as T;
 					else if (type == typeof(Yuyv))
 						result = new Yuyv(this) as T;
+					else if (type == typeof(Uyvy))
+						result = new Uyvy(this) as T;
 				}
 				else
 				{

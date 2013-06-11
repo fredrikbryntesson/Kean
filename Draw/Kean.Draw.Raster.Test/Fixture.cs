@@ -41,21 +41,29 @@ namespace Kean.Draw.Raster.Test
 		}
 		public void Verify(Draw.Image image, string resource)
 		{
+			this.Verify(image, resource, Is.LessThanOrEqualTo(this.Tolerance));
+		}
+		public void Verify(Draw.Image image, string resource, NUnit.Framework.Constraints.Constraint constraint)
+		{
 			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource))
-				this.Verify(image, correct);
+				this.Verify(image, correct, constraint);
 		}
 		public void Verify(Draw.Image image, Raster.Image correct)
 		{
+			this.Verify(image, correct, Is.LessThanOrEqualTo(this.Tolerance));
+		}
+		public void Verify(Draw.Image image, Raster.Image correct, NUnit.Framework.Constraints.Constraint constraint)
+		{
 			try
 			{
-				this.Verify(correct.Distance(image), Is.LessThanOrEqualTo(this.Tolerance));
+				this.Verify(correct.Distance(image), constraint);
 			}
 			catch
 			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
 					raster.Save(this.CurrentTestStep + ".png");
-				System.Console.Write("f");
-				//throw;
+				//System.Console.Write("f");
+				throw;
 			} 
 		}
 	}
