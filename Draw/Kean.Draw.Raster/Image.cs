@@ -34,6 +34,7 @@ namespace Kean.Draw.Raster
 	public abstract class Image :
 		Draw.Image
 	{
+		protected int DistanceRadius { get { return 1; } }
 		Cairo.Image cairo;
 		Cairo.Image Cairo
 		{

@@ -3,8 +3,9 @@
 //  
 //  Author:
 //      Anders Frisk <andersfrisk77@gmail.com>
+//      Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Anders Frisk
+//  Copyright (c) 2013 Simon Mika, 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +31,7 @@ namespace Kean.Draw.Raster.Test
 		Fixture<Convert>
 	{
 		public Convert() :
-			base(16f)
+			base(30f)
 		{ }
 		protected override void Run()
 		{

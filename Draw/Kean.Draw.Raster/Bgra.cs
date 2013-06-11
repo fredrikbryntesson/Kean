@@ -142,8 +142,8 @@ namespace Kean.Draw.Raster
 						{
 							Color.Bgra maximum = o;
 							Color.Bgra minimum = o;
-							for (int otherY = Integer.Maximum(0, y - 2); otherY < Integer.Minimum(y + 3, this.Size.Height); otherY++)
-								for (int otherX = Integer.Maximum(0, x - 2); otherX < Integer.Minimum(x + 3, this.Size.Width); otherX++)
+							for (int otherY = Integer.Maximum(0, y - this.DistanceRadius); otherY < Integer.Minimum(y + 1 + this.DistanceRadius, this.Size.Height); otherY++)
+								for (int otherX = Integer.Maximum(0, x - this.DistanceRadius); otherX < Integer.Minimum(x + 1 + this.DistanceRadius, this.Size.Width); otherX++)
 									if (otherX != x || otherY != y)
 									{
 										Color.Bgra pixel = (other as Bgra)[otherX, otherY];
