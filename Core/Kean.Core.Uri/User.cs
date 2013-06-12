@@ -25,44 +25,44 @@ using Kean.Core.Extension;
 
 namespace Kean.Core.Uri
 {
-    public class User :
-        IString,
-        IEquatable<User>
-    {
-        public string Name { get; set; }
-        public string Password { get; set; }
+	public class User :
+		IString,
+		IEquatable<User>
+	{
+		public string Name { get; set; }
+		public string Password { get; set; }
 
-        #region IString Members
-        public string String
-        {
-            get
-            {
-                System.Text.StringBuilder result = new System.Text.StringBuilder(this.Name);
-                if (this.Password != null)
-                {
-                    result.Append(":");
-                    result.Append(this.Password);
-                }
-                return result.ToString();
-            }
-            set
-            {
-                if (value == null || value == "")
-                {
-                    this.Name = null;
-                    this.Password = null;
-                }
-                else
-                {
-                    string[] splitted = value.Split(new char[] { ':' }, 2);
-                    this.Name = splitted[0];
-                    this.Password = splitted.Length > 1 ? splitted[1] : null;
-                }
-            }
-        }
+		#region IString Members
+		public string String
+		{
+			get
+			{
+				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Name);
+				if (this.Password != null)
+				{
+					result.Append(":");
+					result.Append(this.Password);
+				}
+				return result.ToString();
+			}
+			set
+			{
+				if (value == null || value == "")
+				{
+					this.Name = null;
+					this.Password = null;
+				}
+				else
+				{
+					string[] splitted = value.Split(new char[] { ':' }, 2);
+					this.Name = splitted[0];
+					this.Password = splitted.Length > 1 ? splitted[1] : null;
+				}
+			}
+		}
 
-        #endregion
-    	public User()
+		#endregion
+		public User()
 		{ }
 		public User(string name, string password) :
 			this()
@@ -74,35 +74,35 @@ namespace Kean.Core.Uri
 		{
 			return new User(this.Name, this.Password);
 		}
-        #region IEquatable<User> Members
-        public bool Equals(User other)
-        {
-            return other.NotNull() && this.Name == other.Name && this.Password == other.Password;
-        }
-        #endregion
-        #region Object Overrides
-        public override bool Equals(object other)
-        {
-            return other is User && this.Equals(other as User);
-        }
-        public override int GetHashCode()
-        {
-            return this.Name.Hash() ^ this.Password.Hash();
-        }
-        public override string ToString()
-        {
-            return this.String;
-        }
-        #endregion
-        #region Operators
-        public static bool operator ==(User left, User right)
-        {
-            return left.SameOrEquals(right);
-        }
-        public static bool operator !=(User left, User right)
-        {
-            return !(left == right);
-        }
+		#region IEquatable<User> Members
+		public bool Equals(User other)
+		{
+			return other.NotNull() && this.Name == other.Name && this.Password == other.Password;
+		}
+		#endregion
+		#region Object Overrides
+		public override bool Equals(object other)
+		{
+			return other is User && this.Equals(other as User);
+		}
+		public override int GetHashCode()
+		{
+			return this.Name.Hash() ^ this.Password.Hash();
+		}
+		public override string ToString()
+		{
+			return this.String;
+		}
+		#endregion
+		#region Operators
+		public static bool operator ==(User left, User right)
+		{
+			return left.SameOrEquals(right);
+		}
+		public static bool operator !=(User left, User right)
+		{
+			return !(left == right);
+		}
 		public static implicit operator string(User user)
 		{
 			return user.IsNull() ? null : user.String;
@@ -112,5 +112,5 @@ namespace Kean.Core.Uri
 			return user.IsEmpty() ? null : new User() { String = user };
 		}
 		#endregion
-    }
+	}
 }
