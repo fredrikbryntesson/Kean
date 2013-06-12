@@ -46,7 +46,7 @@ namespace Kean.Draw.PathSegment
 		}
         public override string String
         {
-            get { return "A" + this.Radius.ToString() + "," + this.Angle.ToString() + "," + this.LargeArc.ToString() + "," + this.Sweep.ToString() +","+ this.End.ToString(); }
+            get { return "A" + this.Radius.ToString() + "," + this.Angle.ToString() + " " + (this.LargeArc ? 1 : 0) + "," + (this.Sweep ? 1 : 0) + " "+ this.End.ToString(); }
         }
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
