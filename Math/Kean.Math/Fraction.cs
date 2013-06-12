@@ -25,32 +25,34 @@ using Kean.Core.Extension;
 
 namespace Kean.Math
 {
-	public class Fraction :
+	public struct Fraction :
 		IEquatable<Fraction>
 	{
 		#region Properties
 		public int Nominator { get; private set; }
-		public int Denominator { get; private set; }
-		Tuple<int[], int> quotientsAndGCD;
-		public int GCD { get { return this.quotientsAndGCD.Item2; } }
+		int denominator;
+		public int Denominator { get { return this.denominator != 0 ? this.denominator : 1; } }
+		int greatestCommonDenominator;
+		public int GreatestCommonDenominator { get { return this.greatestCommonDenominator != 0 ? this.greatestCommonDenominator : 1; } }
+		int[] quotients;
 		public string ContinousFraction
 		{
 			get
 			{
 				string result;
-				int[] quotients = this.quotientsAndGCD.Item1;
+				int[] quotients = this.quotients;
 				System.Text.StringBuilder builder = new System.Text.StringBuilder();
 				builder.Append('[');
-				builder.Append(Kean.Math.Integer.ToString(quotients[0]));
+				builder.Append(Integer.ToString(quotients[0]));
 				if (quotients.Length > 1)
 				{
 					builder.Append(';');
 					for (int i = 1; i < quotients.Length - 1; i++)
 					{
-						builder.Append(Kean.Math.Integer.ToString(quotients[i]));
+						builder.Append(Integer.ToString(quotients[i]));
 						builder.Append(',');
 					}
-					builder.Append(Kean.Math.Integer.ToString(quotients[quotients.Length - 1]));
+					builder.Append(Integer.ToString(quotients[quotients.Length - 1]));
 				}
 				builder.Append(']');
 				result = builder.ToString();
@@ -59,23 +61,27 @@ namespace Kean.Math
 		}
 		#endregion
 		#region Contructors
-		public Fraction() : this(0, 1) { }
-		public Fraction(int nominator, int denominator)
+		public Fraction(int nominator, int denominator) :
+			this()
 		{
 			this.Nominator = nominator;
-			this.Denominator = denominator;
-			this.quotientsAndGCD = this.EuclidanAlgorithm();
+			this.denominator = denominator;
+			Tuple<int[], int> quotientsAndGreatestCommonDenominator = this.EuclidanAlgorithm();
+			this.quotients = quotientsAndGreatestCommonDenominator.Item1;
+			this.greatestCommonDenominator = quotientsAndGreatestCommonDenominator.Item2;
+
 		}
-		public Fraction(string value)
+		public Fraction(string value) :
+			this()
 		{
 			if (value.NotEmpty())
 			{
 				if (value.Contains('[', ']'))
 				{
 					string[] splitted = value.Split(new char[] { '[', ']', ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-					int[] nominatorDenominator = this.EvaluateQuotients(splitted.Map<string, int>(s => Kean.Math.Integer.Parse(s)));
+					int[] nominatorDenominator = this.EvaluateQuotients(splitted.Map<string, int>(s => Integer.Parse(s)));
 					this.Nominator = nominatorDenominator[0];
-					this.Denominator = nominatorDenominator[1];
+					this.denominator = nominatorDenominator[1];
 				}
 				else
 				{
@@ -84,8 +90,8 @@ namespace Kean.Math
 						string[] splitted = value.Split(new char[] { ':', '/', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 						if (splitted.Length == 2)
 						{
-							this.Nominator = Kean.Math.Integer.Parse(splitted[0]);
-							this.Denominator = Kean.Math.Integer.Parse(splitted[1]);
+							this.Nominator = Integer.Parse(splitted[0]);
+							this.denominator = Integer.Parse(splitted[1]);
 						}
 					}
 					else
@@ -93,8 +99,8 @@ namespace Kean.Math
 						value = value.Replace(',', '.');
 						if (!value.Contains('.'))
 						{
-							this.Nominator = Kean.Math.Integer.Parse(value);
-							this.Denominator = 1;
+							this.Nominator = Integer.Parse(value);
+							this.denominator = 1;
 						}
 						else
 							this.DecimalToFraction(Kean.Math.Double.Parse(value));
@@ -104,11 +110,14 @@ namespace Kean.Math
 			else
 			{
 				this.Nominator = 0;
-				this.Denominator = 1;
+				this.denominator = 1;
 			}
-			this.quotientsAndGCD = this.EuclidanAlgorithm();
+			Tuple<int[], int> quotientsAndGreatestCommonDenominator = this.EuclidanAlgorithm();
+			this.quotients = quotientsAndGreatestCommonDenominator.Item1;
+			this.greatestCommonDenominator = quotientsAndGreatestCommonDenominator.Item2;
 		}
-		public Fraction(double value)
+		public Fraction(double value) :
+			this()
 		{
 			this.DecimalToFraction(value);
 		}
@@ -116,7 +125,7 @@ namespace Kean.Math
 		#region Methods
 		public Fraction Reduce()
 		{
-			int gcd = this.GCD;
+			int gcd = this.GreatestCommonDenominator;
 			return new Fraction(this.Nominator / gcd, this.Denominator / gcd);
 		}
 		#endregion
@@ -134,8 +143,10 @@ namespace Kean.Math
 				denominator[i] = quotients[i - 2] * denominator[i - 1] + denominator[i - 2];
 			}
 			this.Nominator = nominator[nominator.Length - 1];
-			this.Denominator = denominator[denominator.Length - 1];
-			this.quotientsAndGCD = this.EuclidanAlgorithm();
+			this.denominator = denominator[denominator.Length - 1];
+			Tuple<int[], int> quotientsAndGreatestCommonDenominator = this.EuclidanAlgorithm();
+			this.quotients = quotientsAndGreatestCommonDenominator.Item1;
+			this.greatestCommonDenominator = quotientsAndGreatestCommonDenominator.Item2;
 		}
 		int[] EvaluateQuotients(int[] quotients)
 		{
@@ -157,8 +168,8 @@ namespace Kean.Math
 			Tuple<int[], int> result = null;
 			int nominator = this.Nominator;
 			int denominator = this.Denominator;
-			nominator = Kean.Math.Integer.Absolute(nominator);
-			denominator = Kean.Math.Integer.Absolute(denominator);
+			nominator = Integer.Absolute(nominator);
+			denominator = Integer.Absolute(denominator);
 			if (nominator == denominator || nominator == 0)
 				result = Tuple.Create(new int[] { 1 }, nominator != 0 ? nominator : 1);
 			else
@@ -186,7 +197,7 @@ namespace Kean.Math
 				} while (r != 0);
 				int gcd = a;
 				if (quotients.Count > 0)
-					quotients[0] *= Kean.Math.Integer.Sign(this.Nominator) * Kean.Math.Integer.Sign(this.Denominator);
+					quotients[0] *= Integer.Sign(this.Nominator) * Integer.Sign(this.Denominator);
 				result = Tuple.Create(quotients.ToArray(), gcd);
 
 			}
@@ -196,7 +207,7 @@ namespace Kean.Math
 		{
 			int[] result;
 			int[] quotients = new int[length];
-			int integerPart = Kean.Math.Integer.Floor(value);
+			int integerPart = Integer.Floor(value);
 			int count = 0;
 			while (count < length)
 			{
@@ -207,7 +218,7 @@ namespace Kean.Math
 				else
 				{
 					value = 1 / fraction;
-					integerPart = Kean.Math.Integer.Floor(value);
+					integerPart = Integer.Floor(value);
 				}
 			}
 			if (count < 2 || quotients[count - 1] != 1)
@@ -274,7 +285,7 @@ namespace Kean.Math
 		#region Object Overrides
 		public override bool Equals(object other)
 		{
-			return (other is Fraction) && this.Equals(other as Fraction);
+			return (other is Fraction) && this.Equals((Fraction)other);
 		}
 		public bool Equals(Fraction other)
 		{
@@ -292,7 +303,7 @@ namespace Kean.Math
 		#region Casts
 		public static implicit operator string(Fraction value)
 		{
-			return value.NotNull() ? Kean.Math.Integer.ToString(value.Nominator) + ":" + Kean.Math.Integer.ToString(value.Denominator) : null;
+			return value.NotNull() ? Integer.ToString(value.Nominator) + ":" + Integer.ToString(value.Denominator) : null;
 		}
 		public static implicit operator Fraction(string value)
 		{

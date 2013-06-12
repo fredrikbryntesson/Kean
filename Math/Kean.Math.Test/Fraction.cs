@@ -63,7 +63,7 @@ namespace Kean.Math.Test
 			Expect((float)(Kean.Math.Fraction)(-3.245f), Is.EqualTo(-3.245f), this.prefix + "Casts.3");
 			Expect((double)(Kean.Math.Fraction)(-3.245), Is.EqualTo(-3.245), this.prefix + "Casts.4");
 			Expect((string)(Kean.Math.Fraction)(-3.245), Is.EqualTo("-649:200"), this.prefix + "Casts.5");
-			Expect(((Kean.Math.Fraction)("-1989/867")).GCD, Is.EqualTo(51), this.prefix + "Casts.6");
+			Expect(((Kean.Math.Fraction)("-1989/867")).GreatestCommonDenominator, Is.EqualTo(51), this.prefix + "Casts.6");
 			Expect(((Kean.Math.Fraction)("-1989/867")).ContinousFraction, Is.EqualTo("[-2;3,2,2]"), this.prefix + "Casts.7");
 			Expect(((Kean.Math.Fraction)(Kean.Math.Double.SquareRoot(14))).ContinousFraction, Is.EqualTo("[3;1,2,1,6,1,2,1,7]"), this.prefix + "Casts.8");
 			Expect((float)(Kean.Math.Fraction)("3.5"), Is.EqualTo(3.5f), this.prefix + "Casts.9");
@@ -74,7 +74,7 @@ namespace Kean.Math.Test
 			Expect((float)(Kean.Math.Fraction)(3.245f), Is.EqualTo(3.245f), this.prefix + "Casts.14");
 			Expect((double)(Kean.Math.Fraction)(3.245), Is.EqualTo(3.245), this.prefix + "Casts.15");
 			Expect((string)(Kean.Math.Fraction)(3.245), Is.EqualTo("649:200"), this.prefix + "Casts.16");
-			Expect(((Kean.Math.Fraction)("1989/867")).GCD, Is.EqualTo(51), this.prefix + "Casts.17");
+			Expect(((Kean.Math.Fraction)("1989/867")).GreatestCommonDenominator, Is.EqualTo(51), this.prefix + "Casts.17");
 			Expect(((Kean.Math.Fraction)("1989/867")).ContinousFraction, Is.EqualTo("[2;3,2,2]"), this.prefix + "Casts.18");
 		}
 		[Test]
@@ -87,10 +87,10 @@ namespace Kean.Math.Test
         [Test]
         public void GCD()
         {
-            Expect(new Kean.Math.Fraction().GCD, Is.EqualTo(1), this.prefix + "GCD.0");
-            Expect(new Kean.Math.Fraction(3,5).GCD, Is.EqualTo(1), this.prefix + "GCD.1");
-            Expect(new Kean.Math.Fraction(-3, 5).GCD, Is.EqualTo(1), this.prefix + "GCD.2");
-            Expect(new Kean.Math.Fraction(-3, 15).GCD, Is.EqualTo(3), this.prefix + "GCD.3");
+            Expect(new Kean.Math.Fraction().GreatestCommonDenominator, Is.EqualTo(1), this.prefix + "GCD.0");
+            Expect(new Kean.Math.Fraction(3,5).GreatestCommonDenominator, Is.EqualTo(1), this.prefix + "GCD.1");
+            Expect(new Kean.Math.Fraction(-3, 5).GreatestCommonDenominator, Is.EqualTo(1), this.prefix + "GCD.2");
+            Expect(new Kean.Math.Fraction(-3, 15).GreatestCommonDenominator, Is.EqualTo(3), this.prefix + "GCD.3");
             Expect(((Kean.Math.Fraction)("3:5") / 3).Nominator, Is.EqualTo(1), this.prefix + "GCD.4");
             Expect(((Kean.Math.Fraction)("3:5") / 3).Denominator, Is.EqualTo(5), this.prefix + "GCD.5");
         }
