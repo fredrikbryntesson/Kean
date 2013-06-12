@@ -148,7 +148,7 @@ namespace Kean.IO
 					case "file":
 						try 
 						{
-							System.IO.FileStream stream = System.IO.File.Open(resource.Path.PlatformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
+							System.IO.FileStream stream = System.IO.File.Open(resource.PlatformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
 							if (stream.NotNull())
 								result = new ByteDevice(stream) { Resource = resource }; 
 						}

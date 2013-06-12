@@ -64,26 +64,26 @@ namespace Kean.Core.Uri
 			{
 				string result = "";
 				PathLink tail = this.Last;
-                if (tail.NotNull())
-                {
-                    string name;
-                    while (tail.NotNull())
-                    {
-                        name = tail.Head ?? "";
-                        if (tail.Tail.IsNull() && name.EndsWith(":"))
-                            name += System.IO.Path.DirectorySeparatorChar;
-                        result = System.IO.Path.Combine(name, result);
-                        tail = tail.Tail;
-                    }
-                    if (System.IO.Path.DirectorySeparatorChar == '/' && !result.StartsWith("."))
-                        result = System.IO.Path.DirectorySeparatorChar + result;
-                }
+				if (tail.NotNull())
+				{
+					string name;
+					while (tail.NotNull())
+					{
+						name = tail.Head ?? "";
+						if (tail.Tail.IsNull() && name.EndsWith(":"))
+							name += System.IO.Path.DirectorySeparatorChar;
+						result = System.IO.Path.Combine(name, result);
+						tail = tail.Tail;
+					}
+					if (System.IO.Path.DirectorySeparatorChar == '/' && !result.StartsWith("."))
+						result = System.IO.Path.DirectorySeparatorChar + result;
+				}
 				return Path.ResolveSpecialFolderVariables(result);
 			}
 			set
 			{
-                if (value.NotEmpty() && (value[0] == System.IO.Path.DirectorySeparatorChar || value[0] == System.IO.Path.AltDirectorySeparatorChar))
-                    value = value.Substring(1);
+				if (value.NotEmpty() && (value[0] == System.IO.Path.DirectorySeparatorChar || value[0] == System.IO.Path.AltDirectorySeparatorChar))
+					value = value.Substring(1);
 				value = Path.InsertSpecialFoldersVariables(value);
 				PathLink tail = null;
 				if (value.NotNull())
@@ -188,9 +188,9 @@ namespace Kean.Core.Uri
 		{
 			return new Path() { PlatformPath = path };
 		}
-        public static Path FromRelativePlatformPath(string path)
-        {
-            return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
+		public static Path FromRelativePlatformPath(string path)
+		{
+			return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
 		}
 		#region Resolve & Insert Special Folders Variables
 		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {

@@ -46,6 +46,11 @@ namespace Kean.Core.Uri
 		}
 		public string Fragment { get; set; }
 
+		public string PlatformPath
+		{
+			get { return this.Scheme == "file" ? (this.Authority.IsNull() ? "" : "\\\\" + ((string)this.Authority).ToUpper() + "\\") + this.Path.PlatformPath : ""; }
+		}
+
 		#region IString Members
 		public string String
 		{
@@ -218,7 +223,15 @@ namespace Kean.Core.Uri
 		#endregion
 		public static Locator FromPlatformPath(string path)
 		{
-			return path.NotEmpty() ? new Locator("file", Path.FromPlatformPath(path)) : null;
+			string authority = null;
+			if (path.NotEmpty() && path.StartsWith("\\\\"))
+			{
+				path = path.Substring(2);
+				string[] splitted = path.Split(new char [] { System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar }, 2);
+				authority = splitted[0].ToLower();
+				path = splitted.Length > 1 ? splitted[1] : "";
+			}
+			return path.NotEmpty() ? new Locator("file", authority, Path.FromPlatformPath(path)) : null;
 		}
 		public static Locator FromPlatformPath(string path, params string[] folders)
 		{
@@ -228,11 +241,11 @@ namespace Kean.Core.Uri
 					result.Path.Add(folder);
 			return result;
 		}
-        public static Locator FromRelativePlatformPath(string path, params string[] folders)
-        {
-            return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
-        }
-        public static Locator FromPlatformPath(Environment.SpecialFolder folder, params string[] folders)
+		public static Locator FromRelativePlatformPath(string path, params string[] folders)
+		{
+			return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
+		}
+		public static Locator FromPlatformPath(Environment.SpecialFolder folder, params string[] folders)
 		{
 			return Locator.FromPlatformPath(Environment.GetFolderPath(folder), folders);
 		}
