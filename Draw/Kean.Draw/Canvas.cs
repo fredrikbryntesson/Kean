@@ -37,6 +37,10 @@ namespace Kean.Draw
 			this.Image = image;
 			this.clipStack = new ClipStack(this.Image.Size, (transform, clip) => { this.Transform = this.OnTransformChange(transform); this.Clip = this.OnClipChange(clip); });
 		}
+		~Canvas()
+		{
+			this.Dispose();
+		}
 		#region Text Antialias
 		bool textAntialias;
 		[Notify("TextAntialiasChanged")]
@@ -159,6 +163,13 @@ namespace Kean.Draw
 		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion
 		#endregion
+		public virtual void Flush()
+		{
+		}
+		public virtual bool Finish()
+		{
+			return true;
+		}
 		public virtual void Dispose()
 		{
 		}
