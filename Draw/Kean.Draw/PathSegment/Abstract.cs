@@ -23,6 +23,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Collection = Kean.Core.Collection;
 
 namespace Kean.Draw.PathSegment
 {
@@ -80,14 +81,17 @@ namespace Kean.Draw.PathSegment
 			else
 				this.Next.Append(segment);
 		}
+		public void Append(string path)
+		{
+			this.Append(Abstract.Parse(path));
+		}
         public override string ToString()
         {
             return this.String + " " + (this.Next.NotNull() ? this.Next.ToString() : "");
         }
         public static Abstract Parse(string path)
         {
-            // TODO: add path parsing here
-            return null;
+			return new Parser().Parse(path);
         }
     }
 }
