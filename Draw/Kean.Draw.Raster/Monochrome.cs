@@ -22,7 +22,9 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
-
+using Kean.Core.Extension;
+using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
@@ -30,15 +32,34 @@ namespace Kean.Draw.Raster
 	public class Monochrome :
 		Packed
 	{
-		public Color.Y this[Geometry2D.Integer.Point position]
+		public Color.Monochrome this[Geometry2D.Integer.Point position]
 		{
 			get { return this[position.X, position.Y]; }
 			set { this[position.X, position.Y] = value; }
 		}
-		public Color.Y this[int x, int y]
+		public Color.Monochrome this[int x, int y]
 		{
-			get { unsafe { return *((Color.Y*)((byte*)this.Buffer + y * this.Stride) + x); } }
-			set { unsafe { *((Color.Y*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
+			get { unsafe { return *((Color.Monochrome*)((byte*)this.Buffer + y * this.Stride) + x); } }
+			set { unsafe { *((Color.Monochrome*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
+		}
+		public Color.Monochrome this[Geometry2D.Single.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+		}
+		public Color.Monochrome this[float x, float y]
+		{
+			get
+			{
+				float left = x - Integer.Floor(x);
+				float top = y - Integer.Floor(y);
+
+				Color.Monochrome topLeft = this[Integer.Floor(x), Integer.Floor(y)];
+				Color.Monochrome bottomLeft = this[Integer.Floor(x), Integer.Ceiling(y)];
+				Color.Monochrome topRight = this[Integer.Ceiling(x), Integer.Floor(y)];
+				Color.Monochrome bottomRight = this[Integer.Ceiling(x), Integer.Ceiling(y)];
+
+				return new Color.Monochrome(top * (left * topLeft.Y + (1 - left) * topRight.Y) + (1 - top) * (left * bottomLeft.Y + (1 - left) * bottomRight.Y));
+			}
 		}
 
 		protected override int BytesPerPixel { get { return 1; } }
@@ -94,7 +115,7 @@ namespace Kean.Draw.Raster
 		{
 			this.Apply(Color.Convert.FromY(action));
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			unsafe
 			{
@@ -108,6 +129,51 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
+		public override float Distance(Draw.Image other)
+		{
+			float result = 0;
+			if (other.IsNull())
+				result = float.MaxValue;
+			else if (!(other is Monochrome))
+				using (Monochrome o = other.Convert<Monochrome>())
+					result = this.Distance(o);
+			else if (this.Size != other.Size)
+				using (Monochrome o = other.ResizeTo(this.Size) as Monochrome)
+					result = this.Distance(o);
+			else
+			{
+				for (int y = 0; y < this.Size.Height; y++)
+					for (int x = 0; x < this.Size.Width; x++)
+					{
+						Color.Monochrome c = this[x, y];
+						Color.Monochrome o = (other as Monochrome)[x, y];
+						if (c.Distance(o) > 0)
+						{
+							Color.Monochrome maximum = o;
+							Color.Monochrome minimum = o;
+							for (int otherY = Integer.Maximum(0, y - 2); otherY < Integer.Minimum(y + 3, this.Size.Height); otherY++)
+								for (int otherX = Integer.Maximum(0, x - 2); otherX < Integer.Minimum(x + 3, this.Size.Width); otherX++)
+									if (otherX != x || otherY != y)
+									{
+										Color.Monochrome pixel = (other as Monochrome)[otherX, otherY];
+										if (maximum.Y < pixel.Y)
+											maximum.Y = pixel.Y;
+										else if (minimum.Y > pixel.Y)
+											minimum.Y = pixel.Y;
+									}
+							float distance = 0;
+							if (c.Y < minimum.Y)
+								distance += Single.Squared(minimum.Y - c.Y);
+							else if (c.Y > maximum.Y)
+								distance += Single.Squared(c.Y - maximum.Y);
+							result += Single.SquareRoot(distance);
+						}
+					}
+				result /= this.Size.Length;
+			}
+			return result;
+		}
+
 		#region Static Open
 		public static new Monochrome OpenResource(System.Reflection.Assembly assembly, string name)
 		{

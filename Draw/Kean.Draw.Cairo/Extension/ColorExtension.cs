@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Integer = Kean.Math.Integer;
 
 namespace Kean.Draw.Cairo.Extension
 {
@@ -28,11 +29,11 @@ namespace Kean.Draw.Cairo.Extension
 		public static global::Cairo.Color ToCairo(this IColor me)
 		{
 			Color.Bgra bgra = me.Convert<Color.Bgra>();
-			return new global::Cairo.Color(bgra.color.red / 255.0, bgra.color.green / 255.0, bgra.color.blue / 255.0, bgra.alpha / 255.0);
+			return new global::Cairo.Color(bgra.Red / 255.0, bgra.Green / 255.0, bgra.Blue / 255.0, bgra.Alpha / 255.0);
 		}
 		public static IColor FromCairo(this global::Cairo.Color me)
 		{
-			return new Color.Bgra((byte)Math.Integer.Round(me.B * 255), (byte)Math.Integer.Round(me.G * 255), (byte)Math.Integer.Round(me.R * 255), (byte)Math.Integer.Round(me.A * 255));
+			return new Color.Bgra((byte)Integer.Round(me.B * 255), (byte)Integer.Round(me.G * 255), (byte)Integer.Round(me.R * 255), (byte)Integer.Round(me.A * 255));
 		}
 	}
 }

@@ -22,6 +22,9 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
@@ -30,9 +33,33 @@ namespace Kean.Draw.Raster
 	/// </summary>
 	[System.Runtime.InteropServices.ComVisible(true)]
 	public class Uyvy :
-		Packed
+		YuvPacked
 	{
 		protected override int BytesPerPixel { get { return 2; } }
+		public override Color.Yuv this[int x, int y]
+		{
+			get
+			{
+				unsafe
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					return new Color.Yuv(
+						*(offset + (Integer.Even(x) ? 1 : 3)),
+						*offset,
+						*(offset + 2));
+				}
+			}
+			set 
+			{ 
+				unsafe 
+				{
+					byte* offset = (byte*)this.Buffer + y * this.Stride + x / 2 * 4;
+					*(offset + (Integer.Even(x) ? 1 : 3)) = value.Y;
+					*offset = value.U;
+					*(offset + 2) = value.V;
+				}
+			}
+		}
 
 		public Uyvy(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
@@ -56,18 +83,18 @@ namespace Kean.Draw.Raster
 				int width = this.Size.Width;
 
 				byte* row = (byte*)this.Pointer;
-				byte* yDestination = row;
-				byte* uDestination = row + 1;
-				byte* vDestination = row + 3;
+				byte* uDestination = row;
+				byte* yDestination = row + 1;
+				byte* vDestination = row + 2;
 
 				original.Apply(color =>
 				{
-					*yDestination = color.y;
+					*yDestination = color.Y;
 					yDestination += 2;
 					if (x % 2 == 0)
 					{
-						*uDestination = color.u;
-						*vDestination = color.v;
+						*uDestination = color.U;
+						*vDestination = color.V;
 						uDestination += 4;
 						vDestination += 4;
 					}
@@ -78,9 +105,9 @@ namespace Kean.Draw.Raster
 						y++;
 
 						row += this.Stride;
-						yDestination = row;
-						uDestination = row + 1;
-						vDestination = row + 3;
+						uDestination = row;
+						yDestination = row + 1;
+						vDestination = row + 2;
 					}
 				});
 			}
@@ -129,7 +156,7 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
 		}

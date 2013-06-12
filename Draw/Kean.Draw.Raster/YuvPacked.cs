@@ -1,10 +1,10 @@
 ﻿// 
-//  YuvPlanar.cs
+//  YuvPacked.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -29,8 +29,8 @@ using Single = Kean.Math.Single;
 namespace Kean.Draw.Raster
 {
 	[System.Runtime.InteropServices.ComVisible(true)]
-	public abstract class YuvPlanar :
-		Planar
+	public abstract class YuvPacked :
+		Packed
 	{
 		public Color.Yuv this[Geometry2D.Integer.Point position]
 		{
@@ -61,46 +61,23 @@ namespace Kean.Draw.Raster
 			}
 		}
 
-		public Monochrome Y { get; private set; }
-		public Monochrome U { get; private set; }
-		public Monochrome V { get; private set; }
-
-		protected YuvPlanar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+		protected YuvPacked(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(buffer, size, coordinateSystem)
-		{
-			this.Y = this.CreateY();
-			this.U = this.CreateU();
-			this.V = this.CreateV();
-		}
-		protected YuvPlanar(YuvPlanar original) :
+		{ }
+		protected YuvPacked(Packed original) :
 			base(original)
-		{
-			this.Y = this.CreateY();
-			this.U = this.CreateU();
-			this.V = this.CreateV();
-		}
-		protected abstract Monochrome CreateY();
-		protected abstract Monochrome CreateU();
-		protected abstract Monochrome CreateV();
+		{ }
 
-		public override void Apply(Action<Color.Bgr> action)
-		{
-			this.Apply(Color.Convert.FromYuv(action));
-		}
-		public override void Apply(Action<Color.Monochrome> action)
-		{
-			this.Apply(Color.Convert.FromYuv(action));
-		}
 		public override float Distance(Draw.Image other)
 		{
 			float result = 0;
 			if (other.IsNull())
 				result = float.MaxValue;
-			else if (!(other is YuvPlanar))
-				using (YuvPlanar o = other.Convert<YuvPlanar>())
+			else if (!(other is YuvPacked))
+				using (YuvPacked o = other.Convert<YuvPacked>())
 					result = this.Distance(o);
 			else if (this.Size != other.Size)
-				using (YuvPlanar o = other.ResizeTo(this.Size) as YuvPlanar)
+				using (YuvPacked o = other.ResizeTo(this.Size) as YuvPacked)
 					result = this.Distance(o);
 			else
 			{
@@ -108,7 +85,7 @@ namespace Kean.Draw.Raster
 					for (int x = 0; x < this.Size.Width; x++)
 					{
 						Color.Yuv c = this[x, y];
-						Color.Yuv o = (other as YuvPlanar)[x, y];
+						Color.Yuv o = (other as YuvPacked)[x, y];
 						if (c.Distance(o) > 0)
 						{
 							Color.Yuv maximum = o;
@@ -117,7 +94,7 @@ namespace Kean.Draw.Raster
 								for (int otherX = Integer.Maximum(0, x - this.DistanceRadius); otherX < Integer.Minimum(x + 1 + this.DistanceRadius, this.Size.Width); otherX++)
 									if (otherX != x || otherY != y)
 									{
-										Color.Yuv pixel = (other as YuvPlanar)[otherX, otherY];
+										Color.Yuv pixel = (other as YuvPacked)[otherX, otherY];
 										if (maximum.Y < pixel.Y)
 											maximum.Y = pixel.Y;
 										else if (minimum.Y > pixel.Y)
@@ -151,27 +128,6 @@ namespace Kean.Draw.Raster
 			}
 			return result;
 		}
-		public override bool Equals(Draw.Image other)
-		{
-			return other is YuvPlanar && base.Equals(other);
-		}
-		#region Static Open
-		public static new YuvPlanar OpenResource(System.Reflection.Assembly assembly, string name)
-		{
-			return Image.OpenResource<YuvPlanar>(assembly, name);
-		}
-		public static new YuvPlanar OpenResource(string name)
-		{
-			return Image.OpenResource<YuvPlanar>(System.Reflection.Assembly.GetCallingAssembly(), name);
-		}
-		public static new YuvPlanar Open(string filename)
-		{
-			return Image.Open<YuvPlanar>(filename);
-		}
-		public static new YuvPlanar Open(System.IO.Stream stream)
-		{
-			return Image.Open<YuvPlanar>(stream);
-		}
-		#endregion
+
 	}
 }

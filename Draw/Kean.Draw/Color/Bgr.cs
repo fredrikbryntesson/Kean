@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,42 +16,45 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+
 using System;
+using Kean.Core.Extension;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
 {
 	public struct Bgr :
 		IColor, 
-        System.IEquatable<Bgr>
+		System.IEquatable<Bgr>
 	{
-		public byte blue;
-		public byte green;
-		public byte red;
+		public byte Blue;
+		public byte Green;
+		public byte Red;
 		public Bgr(byte blue, byte green, byte red)
 		{
-			this.blue = blue;
-			this.green = green;
-			this.red = red;
+			this.Blue = blue;
+			this.Green = green;
+			this.Red = red;
 		}
 
 		#region IColor Members
 		public IColor Copy()
 		{
-			return new Bgr(this.blue, this.red, this.green);
+			return new Bgr(this.Blue, this.Red, this.Green);
 		}
 		public void Set<T>(T color) where T : IColor
 		{
 			Bgr c = color.Convert<Bgr>();
-			this.blue = c.blue;
-			this.green = c.green;
-			this.red = c.red;
+			this.Blue = c.Blue;
+			this.Green = c.Green;
+			this.Red = c.Red;
 		}
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
-			if (typeof(T) == typeof(Y))
-				Color.Convert.FromBgr((Y v) => result = (T)(IColor)v)(this);
+			if (typeof(T) == typeof(Monochrome))
+				Color.Convert.FromBgr((Monochrome v) => result = (T)(IColor)v)(this);
 			else if (typeof(T) == typeof(Yuv))
 				Color.Convert.FromBgr((Yuv v) => result = (T)(IColor)v)(this);
 			else if (typeof(T) == typeof(Bgr))
@@ -63,53 +66,46 @@ namespace Kean.Draw.Color
 		public IColor Blend(float factor, IColor other)
 		{
 			Bgr c = other.Convert<Bgr>();
-			return new Bgr((byte)(this.blue * (1 - factor) + c.blue * factor), (byte)(this.green * (1 - factor) + c.green * factor), (byte)(this.red * (1 - factor) + c.red * factor));
+			return new Bgr((byte)(this.Blue * (1 - factor) + c.Blue * factor), (byte)(this.Green * (1 - factor) + c.Green * factor), (byte)(this.Red * (1 - factor) + c.Red * factor));
 		}
 		public float Distance(IColor other)
 		{
 			Bgr c = other.Convert<Bgr>();
-			return Math.Single.SquareRoot((Math.Single.Squared(this.blue - c.blue) + Math.Single.Squared(this.green - c.green) + Math.Single.Squared(this.red - c.red)) / 3);
+			float result = Single.SquareRoot((Single.Squared(this.Blue - c.Blue) + Single.Squared(this.Green - c.Green) + Single.Squared(this.Red - c.Red)) / 3);
+			if (result.NotNumber())
+				Console.WriteLine(this + " " + other);
+			return result;
 		}
 		#endregion
 		#region Object Overides
 		public override string ToString()
 		{
-			return this.blue + " " + this.green + " " + this.red;
+			return this.Blue + " " + this.Green + " " + this.Red;
 		}
-        public override bool Equals(object other)
-        {
-            return other is Bgr && this.Equals((Bgr)other);
-        }
-        public override int GetHashCode()
-        {
-            return 33 * (33 * this.blue.GetHashCode() ^ this.green.GetHashCode()) ^ this.red.GetHashCode();
-        }
+		public override bool Equals(object other)
+		{
+			return other is Bgr && this.Equals((Bgr)other);
+		}
+		public override int GetHashCode()
+		{
+			return 33 * (33 * this.Blue.GetHashCode() ^ this.Green.GetHashCode()) ^ this.Red.GetHashCode();
+		}
 		#endregion
-        #region IEquatable<Bgr> Members
-        public bool Equals(Bgr other)
-        {
-            return this.blue == other.blue && this.green == other.green && this.red == other.red;
-        }
-        #endregion
-        #region Comparison Operators
-        public static bool operator ==(Bgr left, Bgr right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Bgr left, Bgr right)
-        {
-            return !(left == right);
-        }
-        #endregion
-        #region Static Creators
-        public static Bgr White { get { return new Bgr(255, 255, 255); } }
-		public static Bgr Black { get { return new Bgr(0, 0, 0); } }
-		public static Bgr Blue { get { return new Bgr(255, 0, 0); } }
-		public static Bgr Green { get { return new Bgr(0, 255, 0); } }
-		public static Bgr Red { get { return new Bgr(0, 0, 255); } }
-		public static Bgr Magenta { get { return new Bgr(255, 0, 255); } }
-		public static Bgr Yellow { get { return new Bgr(0, 255, 255); } }
-		public static Bgr Cyan { get { return new Bgr(255, 255, 0); } }
+		#region IEquatable<Bgr> Members
+		public bool Equals(Bgr other)
+		{
+			return this.Blue == other.Blue && this.Green == other.Green && this.Red == other.Red;
+		}
 		#endregion
-    }
+		#region Comparison Operators
+		public static bool operator ==(Bgr left, Bgr right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(Bgr left, Bgr right)
+		{
+			return !(left == right);
+		}
+		#endregion
+	}
 }
