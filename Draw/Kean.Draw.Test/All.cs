@@ -28,6 +28,7 @@ namespace Kean.Draw.Test
 		public static void Test()
 		{
 			Path.Test();
+			Parser.Test();
 			Color.Convert.Test();
 		}
 	}

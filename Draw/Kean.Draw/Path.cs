@@ -33,6 +33,11 @@ namespace Kean.Draw
 
 		public Path()
 		{ }
+		public Path(PathSegment.Abstract first) :
+			this()
+		{
+			this.first = first;
+		}
 		public Geometry2D.Single.Box Bounds()
 		{
 			return this.Bounds(Geometry2D.Single.Transform.Identity);
@@ -136,6 +141,18 @@ namespace Kean.Draw
 				.EllipticalArcTo(radius, 0, false, true, right)
 				.EllipticalArcTo(radius, 0, false, true, left)
 				.Close();
+		}
+		#endregion
+		#region Casts
+		public static explicit operator Path(string path)
+		{
+			PathSegment.Abstract first = PathSegment.Abstract.Parse(path);
+			string p = new Path(first);
+			return first.NotNull() ? new Path(first) : null;
+		}
+		public static implicit operator string(Path path)
+		{
+			return path.NotNull() ? path.ToString() : "";
 		}
 		#endregion
 	}

@@ -27,7 +27,7 @@ using Collection = Kean.Core.Collection;
 
 namespace Kean.Draw.PathSegment
 {
-	class Parser 
+	public class Parser 
 	{
 		public Parser()
 		{
@@ -61,7 +61,7 @@ namespace Kean.Draw.PathSegment
 					case 'A':
 						this.Append(new EllipticalArcTo(
 							new Geometry2D.Single.Size((float)arguments.Dequeue(), (float)arguments.Dequeue()),
-							(float)arguments.Dequeue(), (bool)arguments.Dequeue(), (bool)arguments.Dequeue(),
+							(float)arguments.Dequeue(), (float)arguments.Dequeue() == 1, (float)arguments.Dequeue() == 1,
 							new Geometry2D.Single.Point((float)arguments.Dequeue(), (float)arguments.Dequeue())));
 						break;
 				}
@@ -94,10 +94,10 @@ namespace Kean.Draw.PathSegment
 						this.arguments.Enqueue(c);
 					}
 					else
-					{
 						this.AddArgument();
-					}
+
 				}
+				this.AddArgument();
 				return this.arguments;
 			}
 			void AddArgument()
