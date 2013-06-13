@@ -90,6 +90,8 @@ namespace Kean.Platform.Settings.Parameter
 				result = new Double(type);
 			else if (type.Implements<IString>())
 				result = new StringInterface(type);
+			else if (type == typeof(IntPtr))
+				result = new Pointer(type);
 			return result;
 		}
 	}
