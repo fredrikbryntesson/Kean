@@ -307,7 +307,7 @@ namespace Kean.Math
 		}
 		public static implicit operator Fraction(string value)
 		{
-			return value.NotEmpty() ? new Fraction(value) : null;
+			return new Fraction(value);
 		}
 		public static explicit operator float(Fraction value)
 		{
