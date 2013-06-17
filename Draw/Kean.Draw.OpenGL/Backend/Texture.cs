@@ -33,7 +33,7 @@ namespace Kean.Draw.OpenGL.Backend
 	public abstract class Texture :
 		Resource,
 		ITexture,
-        IData
+		IData
 	{
 		int identifier;
 		internal int Identifier 

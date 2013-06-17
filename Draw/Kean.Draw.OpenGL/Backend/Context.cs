@@ -109,6 +109,7 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 
 		public abstract Program CreateProgram();
+		public abstract Program CreateProgram(Programs program);
 		public abstract Shader CreateShader(ShaderType type);
 		protected abstract Texture AllocateTexture();
 		protected abstract Composition AllocateComposition();

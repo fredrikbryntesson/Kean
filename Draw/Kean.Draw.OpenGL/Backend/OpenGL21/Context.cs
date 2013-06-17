@@ -30,14 +30,14 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw.OpenGL.Backend.OpenGL21
 {
 	public class Context :
-        Backend.Context
+		Backend.Context
 	{
 		int maximumTextureSize;
 		int MaximumTextureSize
 		{
 			get 
 			{
- 				if (this.maximumTextureSize == 0)
+				if (this.maximumTextureSize == 0)
 					GL.GetInteger(OpenTK.Graphics.OpenGL.GetPName.MaxTextureSize, out this.maximumTextureSize);
 				return maximumTextureSize; 
 			}
@@ -47,22 +47,99 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
-        protected override Backend.Texture AllocateTexture()
-        {
-            return new Texture(this);
-        }
+		protected override Backend.Texture AllocateTexture()
+		{
+			return new Texture(this);
+		}
 		protected override Backend.Composition AllocateComposition()
-        {
-            return new Composition(this);
-        }
-        public override Backend.Program CreateProgram()
-        {
-            return new Program(this);
-        }
-        public override Backend.Shader CreateShader(ShaderType type)
-        {
-            return new Shader(this, type);
-        }
+		{
+			return new Composition(this);
+		}
+		public override Backend.Program CreateProgram()
+		{
+			return new Program(this);
+		}
+		public override Backend.Program CreateProgram(Programs program)
+		{
+			string code = null;
+			switch (program)
+			{
+				case Programs.MonochromeToBgr:
+					code = @"uniform sampler2D monochrome0; void main() { vec4 value = texture2D(monochrome0, gl_TexCoord[0].xy); float y = value.x; gl_FragColor = vec4(y, y, y, 1.0); }";
+					break;
+				case Programs.BgrToMonochrome:
+					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float y = value.x * 0.299 + value.y * 0.587 + value.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }";
+					break;
+				case Programs.BgrToU:
+					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float u = value.x * (-0.168736) + value.y * (-0.331264) + value.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }";
+					break;
+				case Programs.BgrToV:
+					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float v = value.x * 0.5 + value.y * (-0.418688) + value.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }";
+					break;
+				case Programs.BgrToYuv420:
+					code = @"
+								uniform sampler2D bgr0;
+								vec4 YuvToRgba(vec4 t);
+								void main()
+								{
+									vec2 center = gl_TexCoord[0].xy;
+									gl_FragData[0] = vec4(0.5, 0.0, 0.0, 1.0);
+									gl_FragData[1] = vec4(0.4, 0.0, 0.0, 1.0);
+									gl_FragData[2] = vec4(0.3, 0.0, 0.0, 1.0);
+								}
+								// Convert yuva to rgba
+								vec4 YuvToRgba(vec4 t)
+								{	
+									 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
+														-0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
+														1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
+														0,	                0,                  0,                          1);   
+										
+									return matrix * t;
+								}";
+					break;
+				case Programs.Yuv420ToBgr:
+					code = @"
+								uniform sampler2D monochrome0Y0;
+								uniform sampler2D monochrome0U1;
+								uniform sampler2D monochrome0V2;
+								vec4 YuvToRgba(vec4 t);
+								void main()
+								{
+									vec2 center = gl_TexCoord[0].xy;
+									gl_FragColor = YuvToRgba(vec4(texture2D(monochrome0Y0, center).x, texture2D(monochrome0U1, center).x-0.5, texture2D(monochrome0V2, center).x-0.5, 1.0));
+								}
+								// Convert yuva to rgba
+								vec4 YuvToRgba(vec4 t)
+								{	
+									 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
+														-0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
+														1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
+														0,	                0,                  0,                          1);   
+										
+									return matrix * t;
+								}";
+					break;
+				default:
+					break;
+			}
+			Program result = null;
+			if (code.NotEmpty())
+			{
+				Shader vertex = new Shader(this, ShaderType.Vertex);
+				vertex.Compile(@"void main() { gl_Position = ftransform(); gl_TexCoord[0] = gl_MultiTexCoord0; }");
+				Shader fragment = new Shader(this, ShaderType.Fragment);
+				fragment.Compile(code);
+				result = this.CreateProgram() as Program;
+				result.Attach(vertex);
+				result.Attach(fragment);
+			}
+			return result;
+		}
+		public override Backend.Shader CreateShader(ShaderType type)
+		{
+			return new Shader(this, type);
+		}
 		protected internal override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
 		{
 			if (size.Width > this.MaximumTextureSize)
