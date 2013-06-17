@@ -27,10 +27,10 @@ namespace Kean.Draw.Raster.Test
 	{
 		public static void Test()
 		{
-			Convert.Test();
-			Transform.Test();
+			//Bgr.Test();
 			Bgra.Test();
-			Bgr.Test();
+			Transform.Test();
+			Convert.Test();
 		}
 	}
 }

@@ -22,62 +22,62 @@ using System;
 using Kean.Core.Extension;
 namespace Kean.Math
 {
-    public partial class Integer :
-        Abstract<Integer, int>
-    {
-        #region Abtract Properties
-        protected override Integer EpsilonHelper { get { return Integer.Epsilon; } }
-        protected override Integer PiHelper { get { return Integer.Pi; } }
-        #endregion
-        #region Constructors
-        public Integer() :
-            base(0)
-        { }
-        public Integer(int value) :
-            base(value)
-        { }
-        #endregion
-        public override Integer CreateConstant(int value)
-        {
-            return new Integer(value);
-        }
-        #region Functions
-        #region Arithmetic Functions
-        public override Integer Add(int value)
-        {
-            return new Integer(this.Value + value);
-        }
-        public override Integer Substract(int value)
-        {
-            return new Integer(this.Value - value);
-        }
-        public override Integer Multiply(int value)
-        {
-            return new Integer(this.Value * value);
-        }
-        public override Integer Divide(int value)
-        {
-            return new Integer(this.Value / value);
-        }
-        public override Integer Negate()
-        {
-            return new Integer(-this.Value);
-        }
-        public override Integer Invert()
-        {
-            throw new Exception.NotAllowed();
-        }
-        #endregion
-        #region Trigonometric Helpers
-        public override Integer ToRadians()
-        {
-            return Integer.Pi / 180 * this;
-        }
-        public override Integer ToDegrees()
-        {
-            return 180 / Integer.Pi * this;
-        }
-        #endregion
+	public partial class Integer :
+		Abstract<Integer, int>
+	{
+		#region Abtract Properties
+		protected override Integer EpsilonHelper { get { return Integer.Epsilon; } }
+		protected override Integer PiHelper { get { return Integer.Pi; } }
+		#endregion
+		#region Constructors
+		public Integer() :
+			base(0)
+		{ }
+		public Integer(int value) :
+			base(value)
+		{ }
+		#endregion
+		public override Integer CreateConstant(int value)
+		{
+			return new Integer(value);
+		}
+		#region Functions
+		#region Arithmetic Functions
+		public override Integer Add(int value)
+		{
+			return new Integer(this.Value + value);
+		}
+		public override Integer Substract(int value)
+		{
+			return new Integer(this.Value - value);
+		}
+		public override Integer Multiply(int value)
+		{
+			return new Integer(this.Value * value);
+		}
+		public override Integer Divide(int value)
+		{
+			return new Integer(this.Value / value);
+		}
+		public override Integer Negate()
+		{
+			return new Integer(-this.Value);
+		}
+		public override Integer Invert()
+		{
+			throw new Exception.NotAllowed();
+		}
+		#endregion
+		#region Trigonometric Helpers
+		public override Integer ToRadians()
+		{
+			return Integer.Pi / 180 * this;
+		}
+		public override Integer ToDegrees()
+		{
+			return 180 / Integer.Pi * this;
+		}
+		#endregion
 		#region Utility Functions
 		public override Integer Round()
 		{
@@ -92,102 +92,102 @@ namespace Kean.Math
 			return Integer.Floor(this);
 		}
 		#endregion
-        #region Trigonometric Functions
-        public override Integer Sinus()
-        {
-            return Integer.Sinus(this.Value);
-        }
-        public override Integer Cosinus()
-        {
-            return Integer.Cosinus(this.Value);
-        }
-        public override Integer Tangens()
-        {
-            return Integer.Tangens(this.Value);
-        }
-        #endregion
-        #region Inverse Trigonometric Functions
-        public override Integer ArcusSinus()
-        {
-            return Integer.ArcusSinus(this.Value);
-        }
-        public override Integer ArcusCosinus()
-        {
-            return Integer.ArcusCosinus(this.Value);
-        }
-        public override Integer ArcusTangens()
-        {
-            return Integer.ArcusTangens(this.Value);
-        }
-        public override Integer ArcusTangensExtended(Integer x)
-        {
-            return Integer.ArcusTangensExtended(this.Value, x);
-        }
-        #endregion
-        #region Transcendental Functions
-        public override Integer Exponential()
-        {
-            return Integer.Exponential(this.Value);
-        }
-        public override Integer Logarithm()
-        {
-            return Integer.Logarithm(this.Value);
-        }
-        public override Integer Logarithm(Integer @base)
-        {
-            return Integer.Logarithm(this.Value, @base);
-        }
-        #endregion
-        #region Power Function
-        public override Integer Power(Integer exponent)
-        {
-            return Integer.Power(this.Value, exponent);
-        }
-        public override Integer SquareRoot()
-        {
-            return Integer.SquareRoot(this.Value);
-        }
-        public override Integer Squared()
-        {
-            return this.Value * this.Value;
-        }
-        #endregion
-        #region Comparison Functions
-        public override bool LessThan(Integer other)
-        {
-            return this.Value < other.Value;
-        }
-        public override bool GreaterThan(Integer other)
-        {
-            return this.Value > other.Value;
-        }
-        #endregion
-        #endregion
-        #region Cast Operators
-        public static implicit operator int(Integer value)
-        {
-            return value.IsNull() ? 0 : value.Value;
-        }
-        public static implicit operator Integer(int value)
-        {
-            return new Integer(value);
-        }
-        public static implicit operator Single(Integer value)
-        {
-            return new Single(value.Value);
-        }
-        public static explicit operator Integer(Single value)
-        {
-            return new Integer(System.Convert.ToInt32(value.Value));
-        }
-        #endregion
-        #region Object overides
-        public override string ToString()
-        {
-            return this.Value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-        }
-        #endregion
-    }
+		#region Trigonometric Functions
+		public override Integer Sinus()
+		{
+			return Integer.Sinus(this.Value);
+		}
+		public override Integer Cosinus()
+		{
+			return Integer.Cosinus(this.Value);
+		}
+		public override Integer Tangens()
+		{
+			return Integer.Tangens(this.Value);
+		}
+		#endregion
+		#region Inverse Trigonometric Functions
+		public override Integer ArcusSinus()
+		{
+			return Integer.ArcusSinus(this.Value);
+		}
+		public override Integer ArcusCosinus()
+		{
+			return Integer.ArcusCosinus(this.Value);
+		}
+		public override Integer ArcusTangens()
+		{
+			return Integer.ArcusTangens(this.Value);
+		}
+		public override Integer ArcusTangensExtended(Integer x)
+		{
+			return Integer.ArcusTangensExtended(this.Value, x);
+		}
+		#endregion
+		#region Transcendental Functions
+		public override Integer Exponential()
+		{
+			return Integer.Exponential(this.Value);
+		}
+		public override Integer Logarithm()
+		{
+			return Integer.Logarithm(this.Value);
+		}
+		public override Integer Logarithm(Integer @base)
+		{
+			return Integer.Logarithm(this.Value, @base);
+		}
+		#endregion
+		#region Power Function
+		public override Integer Power(Integer exponent)
+		{
+			return Integer.Power(this.Value, exponent);
+		}
+		public override Integer SquareRoot()
+		{
+			return Integer.SquareRoot(this.Value);
+		}
+		public override Integer Squared()
+		{
+			return this.Value * this.Value;
+		}
+		#endregion
+		#region Comparison Functions
+		public override bool LessThan(Integer other)
+		{
+			return this.Value < other.Value;
+		}
+		public override bool GreaterThan(Integer other)
+		{
+			return this.Value > other.Value;
+		}
+		#endregion
+		#endregion
+		#region Cast Operators
+		public static implicit operator int(Integer value)
+		{
+			return value.IsNull() ? 0 : value.Value;
+		}
+		public static implicit operator Integer(int value)
+		{
+			return new Integer(value);
+		}
+		public static implicit operator Single(Integer value)
+		{
+			return new Single(value.Value);
+		}
+		public static explicit operator Integer(Single value)
+		{
+			return new Integer(System.Convert.ToInt32(value.Value));
+		}
+		#endregion
+		#region Object overides
+		public override string ToString()
+		{
+			return this.Value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+		}
+		#endregion
+	}
 }
 
 

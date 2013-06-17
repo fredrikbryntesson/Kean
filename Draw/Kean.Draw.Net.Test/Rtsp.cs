@@ -25,40 +25,39 @@ using Target = Kean.Draw.Net.Rtsp;
 
 namespace Kean.Draw.Net.Test
 {
-    [TestFixture]
-    public class Rtsp :
-        Kean.Test.Fixture<Rtsp>
-    {
-        string prefix = "Kean.Draw.Net.Test.Rtsp.";
-        protected override void Run()
-        {
-            this.Run(
-                this.Open
-                );
-        }
-        [Test]
-        public void Open()
-        {
-          //  Target.Jpeg jpeg = new Target.Jpeg("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
-            
-            Target.Client jpeg = new Target.Client();
+	[TestFixture]
+	public class Rtsp :
+		Kean.Test.Fixture<Rtsp>
+	{
+		protected override void Run()
+		{
+			this.Run(
+				this.Open
+				);
+		}
+		[Test]
+		public void Open()
+		{
+		  //  Target.Jpeg jpeg = new Target.Jpeg("rtsp://192.168.1.21:554/axis-media/media.amp?videocodec=jpeg");
+			
+			Target.Client jpeg = new Target.Client();
 
 			//bool opened = jpeg.Open("rtsp://81.227.126.88:554/axis-media/media.amp?videocodec=jpeg");
 				bool opened = jpeg.Open("rtsp://elmer.tapir.caltech.edu/Lecture6_tape1_web.mov");
 			if (opened)
 			{
 				int counter = 0;
-                jpeg.NewFrame += image =>
+				jpeg.NewFrame += image =>
 				{
-                //    image.Save("frames/test" + (counter++).ToString("0000") + ".png");
-                    Console.Write(".");
+				//    image.Save("frames/test" + (counter++).ToString("0000") + ".png");
+					Console.Write(".");
 				};
 				jpeg.Play();
-                DateTime now = DateTime.Now;
-                while (counter < 20 && (DateTime.Now - now).Duration().TotalSeconds < 10)
+				DateTime now = DateTime.Now;
+				while (counter < 20 && (DateTime.Now - now).Duration().TotalSeconds < 10)
 					System.Threading.Thread.Sleep(10);
 				jpeg.Close();
 			}
-        }
-    }
+		}
+	}
 }

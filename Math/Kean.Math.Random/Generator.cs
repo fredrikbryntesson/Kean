@@ -30,8 +30,6 @@ namespace Kean.Math.Random
     {
         static int[] shifts;
         static ulong[] seeds;
-        static int shiftCounter = 0;
-        static int seedCounter = 0;
         int a, b, c;
         ulong x, y, z;
         ulong w;

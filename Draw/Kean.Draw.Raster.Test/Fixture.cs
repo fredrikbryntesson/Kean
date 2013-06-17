@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2012-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -41,60 +41,29 @@ namespace Kean.Draw.Raster.Test
 		}
 		public void Verify(Draw.Image image, string resource)
 		{
-			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource))
-				this.Verify(image, correct);
+			this.Verify(image, resource, Is.LessThanOrEqualTo(this.Tolerance));
+		}
+		public void Verify(Draw.Image image, string resource, NUnit.Framework.Constraints.Constraint constraint)
+		{
+			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetAssembly(typeof(T)), resource))
+				this.Verify(image, correct, constraint);
 		}
 		public void Verify(Draw.Image image, Raster.Image correct)
 		{
+			this.Verify(image, correct, Is.LessThanOrEqualTo(this.Tolerance));
+		}
+		public void Verify(Draw.Image image, Raster.Image correct, NUnit.Framework.Constraints.Constraint constraint)
+		{
 			try
 			{
-				if (correct is Raster.Bgr)
-				{
-					if (image is Raster.Bgr)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Bgr i = image.Convert<Raster.Bgr>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Bgra)
-				{
-					if (image is Raster.Bgra)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Bgra i = image.Convert<Raster.Bgra>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Monochrome)
-				{
-					if (image is Raster.Monochrome)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Monochrome i = image.Convert<Raster.Monochrome>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Yuv420)
-				{
-					if (image is Raster.Yuv420)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Yuv420 i = image.Convert<Raster.Yuv420>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else if (correct is Raster.Yuyv)
-				{
-					if (image is Raster.Yuyv)
-						this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-					else
-						using (Raster.Yuyv i = image.Convert<Raster.Yuyv>())
-							this.Verify(i.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
-				}
-				else
-					this.Verify(image.Distance(correct), Is.LessThanOrEqualTo(this.Tolerance));
+				Expect(correct, Is.Not.Null);
+				this.Verify(correct.Distance(image), constraint);
 			}
-			catch
+			catch (NUnit.Framework.AssertionException)
 			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
 					raster.Save(this.CurrentTestStep + ".png");
+				//System.Console.Write("f");
 				throw;
 			} 
 		}

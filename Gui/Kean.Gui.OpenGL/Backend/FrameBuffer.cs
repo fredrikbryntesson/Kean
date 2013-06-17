@@ -76,7 +76,7 @@ namespace Kean.Gui.OpenGL.Backend
 			GL.PopMatrix();
 			GL.PopAttrib();
 		}
-        protected abstract void BindTextures(Gpu.Backend.ITexture[] color);
+		protected abstract void BindTextures(Gpu.Backend.ITexture[] color);
 		protected abstract void Unbind();
 		protected virtual void SetupClippingPlanes()
 		{
@@ -121,14 +121,14 @@ namespace Kean.Gui.OpenGL.Backend
 				Geometry2D.Single.Transform.Identity.Load();
 		}
 		#endregion
-        void Setup()
+		void Setup()
 		{
 			this.Bind();
 			this.SetupViewport();
 			this.SetupClippingPlanes();
 			this.SetupTransform();
 		}
-        void Teardown()
+		void Teardown()
 		{
 			this.Unbind();
 			this.TearDownClippingPlanes();
@@ -186,23 +186,23 @@ namespace Kean.Gui.OpenGL.Backend
 		{
 			this.Setup();
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
-			GL.ClearColor(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
+			GL.ClearColor(new OpenTK.Graphics.Color4(bgra.Red, bgra.Green, bgra.Blue, bgra.Alpha));
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
 			this.Teardown();
 		}
-        public void Draw(Draw.IColor color, Geometry2D.Single.Box region)
-        {
+		public void Draw(Draw.IColor color, Geometry2D.Single.Box region)
+		{
 			this.Setup();
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			Draw.Color.Bgra bgra = color.Convert<Draw.Color.Bgra>();
-			GL.Color4(new OpenTK.Graphics.Color4(bgra.color.red, bgra.color.green, bgra.color.blue, bgra.alpha));
+			GL.Color4(new OpenTK.Graphics.Color4(bgra.Red, bgra.Green, bgra.Blue, bgra.Alpha));
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
-            GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
-            GL.Vertex2(region.Left, region.Top);
-            GL.Vertex2(region.Right, region.Top);
-            GL.Vertex2(region.Right, region.Bottom);
-            GL.Vertex2(region.Left, region.Bottom);
-            GL.End();
+			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+			GL.Vertex2(region.Left, region.Top);
+			GL.Vertex2(region.Right, region.Top);
+			GL.Vertex2(region.Right, region.Bottom);
+			GL.Vertex2(region.Left, region.Bottom);
+			GL.End();
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D); 
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			this.Teardown();

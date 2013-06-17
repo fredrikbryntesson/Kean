@@ -35,7 +35,6 @@
     <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bgr.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Extension\ColorExtension.cs" />

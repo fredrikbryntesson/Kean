@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -16,44 +16,49 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
 // 
-//  You should have received a copy of the GNU Lesser General Public Licenseusing System;
+//  You should have received a copy of the GNU Lesser General Public License
+
 using System;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Color
 {
 	public struct Bgra :
 		IColor, 
-        System.IEquatable<Bgra>
+		System.IEquatable<Bgra>
 	{
-		public Bgr color;
-		public byte alpha;
+		public byte Blue { get { return this.Color.Blue; } set { this.Color.Blue = value; } }
+		public byte Green { get { return this.Color.Green; } set { this.Color.Green = value; } }
+		public byte Red { get { return this.Color.Red; } set { this.Color.Red = value; } }
+		public Bgr Color;
+		public byte Alpha;
 		public Bgra(byte blue, byte green, byte red) : this(blue, green, red, 255) { }
 		public Bgra(byte blue, byte green, byte red, byte alpha) : this(new Bgr(blue, green, red), alpha) { }
 		public Bgra(Bgr color, byte alpha)
 		{
-			this.color = color;
-			this.alpha = alpha;
+			this.Color = color;
+			this.Alpha = alpha;
 		}
 		#region IColor Members
 		public void Set<T>(T color) where T : IColor
 		{
 			Bgra c = color.Convert<Bgra>();
-			this.alpha = c.alpha;
-			this.color.Set(c.color);
+			this.Alpha = c.Alpha;
+			this.Color.Set(c.Color);
 		}
 		public IColor Copy()
 		{
-			return new Bgra(this.color, this.alpha);
+			return new Bgra(this.Color, this.Alpha);
 		}
 		public T Convert<T>() where T : IColor, new()
 		{
 			T result = default(T);
-			if (typeof(T) == typeof(Y))
-				Color.Convert.FromBgr((Y v) => result = (T)(IColor)v)(this.color);
+			if (typeof(T) == typeof(Monochrome))
+				Draw.Color.Convert.FromBgr((Monochrome v) => result = (T)(IColor)v)(this.Color);
 			else if (typeof(T) == typeof(Yuv))
-				Color.Convert.FromBgr((Yuv v) => result = (T)(IColor)v)(this.color);
+				Draw.Color.Convert.FromBgr((Yuv v) => result = (T)(IColor)v)(this.Color);
 			else if (typeof(T) == typeof(Bgr))
-				result = (T)(IColor)this.color;
+				result = (T)(IColor)this.Color;
 			else if (typeof(T) == typeof(Bgra))
 				result = (T)(IColor)this;
 			return result;
@@ -61,53 +66,43 @@ namespace Kean.Draw.Color
 		public IColor Blend(float factor, IColor other)
 		{
 			Bgra c = other.Convert<Bgra>();
-			return new Bgra(this.color.Blend(factor, c.color).Convert<Bgr>(), (byte)(this.alpha * (1 - factor) + c.alpha * factor));
+			return new Bgra(this.Color.Blend(factor, c.Color).Convert<Bgr>(), (byte)(this.Alpha * (1 - factor) + c.Alpha * factor));
 		}
 		public float Distance(IColor other)
 		{
 			Bgra c = other.Convert<Bgra>();
-			return Math.Single.SquareRoot((Math.Single.Squared(this.color.Distance(c.color)) + Math.Single.Squared(this.alpha - c.alpha)) / 2);
+			return Single.SquareRoot((3 * Single.Squared(this.Color.Distance(c.Color)) + Single.Squared(this.Alpha - c.Alpha)) / 4);
 		}
 		#endregion
 		#region Object Overides
 		public override string ToString()
 		{
-			return this.color.ToString() + " " + this.alpha;
+			return this.Color.ToString() + " " + this.Alpha;
 		}
-        public override bool Equals(object other)
-        {
-            return other is Bgra && this.Equals((Bgra)other);
-        }
-        public override int GetHashCode()
-        {
-            return 33 * this.color.GetHashCode() ^ this.alpha.GetHashCode();
-        }
-      	#endregion
-        #region IEquatable<Bgra> Members
-        public bool Equals(Bgra other)
-        {
-            return this.color == other.color && this.alpha == other.alpha;
-        }
-        #endregion
-        #region Comparison Operators
-        public static bool operator ==(Bgra left, Bgra right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Bgra left, Bgra right)
-        {
-            return !(left == right);
-        }
-        #endregion
-		#region Static Creators
-		public static Bgra White { get { return new Bgra(255, 255, 255); } }
-		public static Bgra Black { get { return new Bgra(0, 0, 0); } }
-		public static Bgra Blue { get { return new Bgra(255, 0, 0); } }
-		public static Bgra Green { get { return new Bgra(0, 255, 0); } }
-		public static Bgra Red { get { return new Bgra(0, 0, 255); } }
-		public static Bgra Magenta { get { return new Bgra(255, 0, 255); } }
-		public static Bgra Yellow { get { return new Bgra(0, 255, 255); } }
-		public static Bgra Cyan { get { return new Bgra(255, 255, 0); } }
+		public override bool Equals(object other)
+		{
+			return other is Bgra && this.Equals((Bgra)other);
+		}
+		public override int GetHashCode()
+		{
+			return 33 * this.Color.GetHashCode() ^ this.Alpha.GetHashCode();
+		}
+		#endregion
+		#region IEquatable<Bgra> Members
+		public bool Equals(Bgra other)
+		{
+			return this.Color == other.Color && this.Alpha == other.Alpha;
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Bgra left, Bgra right)
+		{
+			return left.Equals(right);
+		}
+		public static bool operator !=(Bgra left, Bgra right)
+		{
+			return !(left == right);
+		}
 		#endregion
 	}
 }

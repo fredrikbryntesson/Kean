@@ -178,7 +178,7 @@ namespace Kean.Core.Reflect
 		Type()
 		{
 			this.arguments = new Collection.List<Type>();
-            this.Arguments = new Collection.Wrap.ReadOnlyVector<Type>(this.arguments);
+			this.Arguments = new Collection.Wrap.ReadOnlyVector<Type>(this.arguments);
 		}
 		Type(System.Type type) :
 			this()
@@ -457,33 +457,33 @@ namespace Kean.Core.Reflect
 		}
 		public static implicit operator System.Type(Type type)
 		{
-            System.Type result = null;
-            if (type.NotNull())
-            {
-                if (type.type.IsNull())
-                {
-                    System.Text.StringBuilder name = new System.Text.StringBuilder(type.Name);
-                    if (type.Arguments.Count > 0)
-                    {
-                        name = name.AppendFormat("`{0}[", type.Arguments.Count);
-                        bool first = true;
-                        foreach (Type argument in type.Arguments)
-                        {
-                            if (first)
-                                first = false;
-                            else
-                                name.Append(",");
-                            name.AppendFormat("[{0}]", argument.NotNull() ? ((System.Type)argument).AssemblyQualifiedName : "");
-                        }
-                        name.Append("]");
-                    }
-                    if (type.Assembly.NotEmpty() && type.Assembly != "mscorlib")
-                        name.AppendFormat(", {0}", type.Assembly);
-                    type.type = System.Type.GetType(name.ToString(), false);
-                }
-                result = type.type;
-            }
-            return result;
+			System.Type result = null;
+			if (type.NotNull())
+			{
+				if (type.type.IsNull())
+				{
+					System.Text.StringBuilder name = new System.Text.StringBuilder(type.Name);
+					if (type.Arguments.Count > 0)
+					{
+						name = name.AppendFormat("`{0}[", type.Arguments.Count);
+						bool first = true;
+						foreach (Type argument in type.Arguments)
+						{
+							if (first)
+								first = false;
+							else
+								name.Append(",");
+							name.AppendFormat("[{0}]", argument.NotNull() ? ((System.Type)argument).AssemblyQualifiedName : "");
+						}
+						name.Append("]");
+					}
+					if (type.Assembly.NotEmpty() && type.Assembly != "mscorlib")
+						name.AppendFormat(", {0}", type.Assembly);
+					type.type = System.Type.GetType(name.ToString(), false);
+				}
+				result = type.type;
+			}
+			return result;
 		}
 		#endregion
 	}

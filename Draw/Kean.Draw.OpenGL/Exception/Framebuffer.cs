@@ -28,9 +28,9 @@ namespace Kean.Draw.OpenGL.Exception
         internal Framebuffer()
             : this(OpenTK.Graphics.OpenGL.FramebufferErrorCode.FramebufferUndefined) { }
         internal Framebuffer(OpenTK.Graphics.OpenGL.FramebufferErrorCode error)
-            : base(Error.Level.Recoverable, "OpenGL Framebuffer Error", Framebuffer.Message(error))
+            : base(Error.Level.Recoverable, "OpenGL Framebuffer Error", Framebuffer.GetMessage(error))
         { }
-        private static string Message(OpenTK.Graphics.OpenGL.FramebufferErrorCode error)
+        static string GetMessage(OpenTK.Graphics.OpenGL.FramebufferErrorCode error)
         {
             string result = null;
             switch (error)

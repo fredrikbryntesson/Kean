@@ -41,7 +41,7 @@ namespace Kean.Draw.Cairo
 		public override float Distance(Draw.Image other)
 		{
 			Bgra o = other.Convert<Bgra>();
-			return Buffer.Distance(o.Buffer);
+			return this.Buffer.Distance(o.Buffer);
 		}
 	}
 }

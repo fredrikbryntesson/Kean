@@ -29,7 +29,7 @@ namespace Kean.Draw.Net.Client
         Udp
         where T : Net.Protocol.IProtocol
     {
-        public Protocol.Rtp<T> Recieve()
+        public new Protocol.Rtp<T> Recieve()
         {
             return new Protocol.Rtp<T>(base.Recieve());
         }

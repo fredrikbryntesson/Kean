@@ -22,6 +22,9 @@
 using System;
 using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
@@ -29,6 +32,17 @@ namespace Kean.Draw.Raster
 	public class Yuv420 :
 		YuvPlanar
 	{
+		public override Color.Yuv this[int x, int y]
+		{
+			get { return new Color.Yuv(this.Y[x, y], this.U[x / 2, y / 2], this.V[x / 2, y / 2]); }
+			set
+			{
+				this.Y[x, y] = value.Y;
+				this.U[x / 2, y / 2] = value.U;
+				this.V[x / 2, y / 2] = value.V;
+			}
+		}
+
 		public Yuv420(Geometry2D.Integer.Size size) :
 			this(size, CoordinateSystem.Default) { }
 		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
@@ -63,11 +77,11 @@ namespace Kean.Draw.Raster
 
 				original.Apply(color =>
 				{
-					*(yDestination++) = color.y;
+					*(yDestination++) = color.Y;
 					if (x % 2 == 0 && y % 2 == 0)
 					{
-						*(uDestination++) = color.u;
-						*(vDestination++) = color.v;
+						*(uDestination++) = color.U;
+						*(vDestination++) = color.V;
 					}
 					x++;
 					if (x >= width)
@@ -164,13 +178,9 @@ namespace Kean.Draw.Raster
 				}
 			}
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromYuv(action));
-		}
-		public override float Distance(Draw.Image other)
-		{
-			return other is Yuv420 ? base.Distance(other) : float.MaxValue;
 		}
 		public override bool Equals(Draw.Image other)
 		{

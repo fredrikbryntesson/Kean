@@ -35,7 +35,7 @@ namespace Kean.Xml.Serialize.Test
 			Uri.Locator filename = this.Filename(type);
 			Uri.Locator resource = this.ResourceName(type);
 			this.Storage.Store(this.Create(type), filename, "Name");
-			Named.VerifyAsResource(filename.Path.PlatformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
+			Named.VerifyAsResource(filename.PlatformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
 			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
 		protected override string Name(Reflect.Type type)

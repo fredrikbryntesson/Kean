@@ -67,7 +67,7 @@ namespace Kean.IO
 		}
 
 		#region Static Open & Create
-		public static IByteDevice Open(IByteDevice device)
+		public static new IByteDevice Open(IByteDevice device)
 		{
 			return device.NotNull() ? new BufferingByteDevice(device) : null;
 		}

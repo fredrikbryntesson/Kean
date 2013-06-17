@@ -67,8 +67,8 @@ namespace Kean.Core.Serialize.Serializer
 				data.Locator = locator;
 			}
 
-            if (result.IsNull())
-                result = this.Create(type, elementType, nodes.Count);
+			if (result.IsNull())
+				result = this.Create(type, elementType, nodes.Count);
 			int i = 0;
 			foreach (Data.Node child in nodes)
 			{

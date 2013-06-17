@@ -29,6 +29,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("0.2.0.$REVNUM$")]
+[assembly: AssemblyFileVersion("0.2.0.$REVNUM$")]
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]

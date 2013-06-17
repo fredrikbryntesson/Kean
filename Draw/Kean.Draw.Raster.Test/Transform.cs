@@ -124,8 +124,7 @@ namespace Kean.Draw.Raster.Test
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 240);
 				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateScaling(1.5f);
 				using (Target.Bgra copy = image.Copy(size, transform).Convert<Target.Bgra>())
-				using(Target.Bgra correct = Target.Bgra.OpenResource("Correct/Transform/scaled.png"))
-					Verify(copy.Distance(correct), Is.LessThanOrEqualTo(20));
+					Verify(copy, "Correct/Transform/scaled.png");
 			}
 		}
 		[Test]

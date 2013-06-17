@@ -25,6 +25,7 @@ using Buffer = Kean.Core.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
 using Collection = Kean.Core.Collection;
 using Integer = Kean.Math.Integer;
+using Single = Kean.Math.Single;
 
 namespace Kean.Draw.Raster
 {
@@ -32,40 +33,39 @@ namespace Kean.Draw.Raster
 	public class Bgra :
 		Packed
 	{
-        public Color.Bgra this[Geometry2D.Integer.Point position]
-        {
-            get { return this[position.X, position.Y]; }
-            set { this[position.X, position.Y] = value; }
-        }
-        public Color.Bgra this[int x, int y] { 
-            get { unsafe { return *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x); } }
-            set { unsafe { *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
-        }
-        public Color.Bgra this[Geometry2D.Single.Point position]
-        {
-            get { return this[position.X, position.Y]; }
-        }
-        public Color.Bgra this[float x, float y]
-        {
-            get
-            {
-                float left = x - Integer.Floor(x);
-                float top = y - Integer.Floor(y);
+		public Color.Bgra this[Geometry2D.Integer.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+			set { this[position.X, position.Y] = value; }
+		}
+		public Color.Bgra this[int x, int y]
+		{
+			get { unsafe { return *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x); } }
+			set { unsafe { *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x) = value; } }
+		}
+		public Color.Bgra this[Geometry2D.Single.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+		}
+		public Color.Bgra this[float x, float y]
+		{
+			get
+			{
+				float left = x - Integer.Floor(x);
+				float top = y - Integer.Floor(y);
 
-                Color.Bgra topLeft      = this[Integer.Floor(x), Integer.Floor(y)];
-                Color.Bgra bottomLeft   = this[Integer.Floor(x), Integer.Ceiling(y)];
-                Color.Bgra topRight     = this[Integer.Ceiling(x), Integer.Floor(y)];
-                Color.Bgra bottomRight  = this[Integer.Ceiling(x), Integer.Ceiling(y)];
-                
-                float r, g, b, a;
-                b = top * (left * topLeft.color.blue + (1 - left) * topRight.color.blue) + (1-top) * (left * bottomLeft.color.blue + (1 - left) * bottomRight.color.blue);
-				g = top * (left * topLeft.color.green + (1 - left) * topRight.color.green) + (1-top) * (left * bottomLeft.color.green + (1 - left) * bottomRight.color.green);
-				r = top * (left * topLeft.color.red + (1 - left) * topRight.color.red) + (1-top) * (left * bottomLeft.color.red + (1 - left) * bottomRight.color.red);
-				a = top * (left * topLeft.alpha + (1 - left) * topRight.alpha) + (1-top) * (left * bottomLeft.alpha + (1 - left) * bottomRight.alpha);
+				Color.Bgra topLeft = this[Integer.Floor(x), Integer.Floor(y)];
+				Color.Bgra bottomLeft = this[Integer.Floor(x), Integer.Ceiling(y)];
+				Color.Bgra topRight = this[Integer.Ceiling(x), Integer.Floor(y)];
+				Color.Bgra bottomRight = this[Integer.Ceiling(x), Integer.Ceiling(y)];
 
-                return new Color.Bgra((byte)b, (byte)g, (byte)r, (byte)a);
-            }
-        }
+				return new Color.Bgra(
+					(byte)(top * (left * topLeft.Blue + (1 - left) * topRight.Blue) + (1 - top) * (left * bottomLeft.Blue + (1 - left) * bottomRight.Blue)),
+					(byte)(top * (left * topLeft.Green + (1 - left) * topRight.Green) + (1 - top) * (left * bottomLeft.Green + (1 - left) * bottomRight.Green)),
+					(byte)(top * (left * topLeft.Red + (1 - left) * topRight.Red) + (1 - top) * (left * bottomLeft.Red + (1 - left) * bottomRight.Red)),
+					(byte)(top * (left * topLeft.Alpha + (1 - left) * topRight.Alpha) + (1 - top) * (left * bottomLeft.Alpha + (1 - left) * bottomRight.Alpha)));
+			}
+		}
 
 		protected override int BytesPerPixel { get { return 4; } }
 		public Bgra(Geometry2D.Integer.Size size) :
@@ -116,9 +116,77 @@ namespace Kean.Draw.Raster
 		{
 			this.Apply(Color.Convert.FromBgr(action));
 		}
-		public override void Apply(Action<Color.Y> action)
+		public override void Apply(Action<Color.Monochrome> action)
 		{
 			this.Apply(Color.Convert.FromBgr(action));
+		}
+		public override float Distance(Draw.Image other)
+		{
+			float result = 0;
+			if (other.IsNull())
+				result = float.MaxValue;
+			else if (!(other is Bgra))
+				using (Bgra o = other.Convert<Bgra>())
+					result = this.Distance(o);
+			else if (this.Size != other.Size)
+				using (Bgra o = other.ResizeTo(this.Size) as Bgra)
+					result = this.Distance(o);
+			else
+			{
+				for (int y = 0; y < this.Size.Height; y++)
+					for (int x = 0; x < this.Size.Width; x++)
+					{
+						Color.Bgra c = this[x, y];
+						Color.Bgra o = (other as Bgra)[x, y];
+						if (c.Distance(o) > 0)
+						{
+							Color.Bgra maximum = o;
+							Color.Bgra minimum = o;
+							for (int otherY = Integer.Maximum(0, y - this.DistanceRadius); otherY < Integer.Minimum(y + 1 + this.DistanceRadius, this.Size.Height); otherY++)
+								for (int otherX = Integer.Maximum(0, x - this.DistanceRadius); otherX < Integer.Minimum(x + 1 + this.DistanceRadius, this.Size.Width); otherX++)
+									if (otherX != x || otherY != y)
+									{
+										Color.Bgra pixel = (other as Bgra)[otherX, otherY];
+										if (maximum.Blue < pixel.Blue)
+											maximum.Blue = pixel.Blue;
+										else if (minimum.Blue > pixel.Blue)
+											minimum.Blue = pixel.Blue;
+										if (maximum.Green < pixel.Green)
+											maximum.Green = pixel.Green;
+										else if (minimum.Green > pixel.Green)
+											minimum.Green = pixel.Green;
+										if (maximum.Red < pixel.Red)
+											maximum.Red = pixel.Red;
+										else if (minimum.Red > pixel.Red)
+											minimum.Red = pixel.Red;
+										if (maximum.Alpha < pixel.Alpha)
+											maximum.Alpha = pixel.Alpha;
+										else if (minimum.Alpha > pixel.Alpha)
+											minimum.Alpha = pixel.Alpha;
+									}
+							float distance = 0;
+							if (c.Blue < minimum.Blue)
+								distance += Single.Squared(minimum.Blue - c.Blue);
+							else if (c.Blue > maximum.Blue)
+								distance += Single.Squared(c.Blue - maximum.Blue);
+							if (c.Green < minimum.Green)
+								distance += Single.Squared(minimum.Green - c.Green);
+							else if (c.Green > maximum.Green)
+								distance += Single.Squared(c.Green - maximum.Green);
+							if (c.Red < minimum.Red)
+								distance += Single.Squared(minimum.Red - c.Red);
+							else if (c.Red > maximum.Red)
+								distance += Single.Squared(c.Red - maximum.Red);
+							if (c.Alpha < minimum.Alpha)
+								distance += Single.Squared(minimum.Alpha - c.Alpha);
+							else if (c.Alpha > maximum.Alpha)
+								distance += Single.Squared(c.Alpha - maximum.Alpha);
+							result += Single.SquareRoot(distance) / 4;
+						}
+					}
+				result /= this.Size.Length;
+			}
+			return result;
 		}
 		#region Static Open
 		public static new Bgra OpenResource(System.Reflection.Assembly assembly, string name)

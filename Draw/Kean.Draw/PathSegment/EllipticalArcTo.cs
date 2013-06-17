@@ -94,8 +94,7 @@ namespace Kean.Draw.PathSegment
 			float cx, cy; // Center point
 			float cxp, cyp;
 			float deltaTheta;
-			float gamma;
-			float k1, k2, k3, k4, k5;
+			float k1, k2, k3, k4;
 
 			float cosPhi = Kean.Math.Single.Cosinus(phi),
 				  sinPhi = Kean.Math.Single.Sinus(phi);

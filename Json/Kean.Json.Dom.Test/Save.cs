@@ -36,7 +36,7 @@ namespace Kean.Json.Dom.Test
 			Uri.Locator filename = Uri.Locator.FromPlatformPath(System.IO.Path.GetFullPath(name + ".json"));
 			this.Create(name).Save(filename);
 			Uri.Locator resource = "assembly:///Data/" + name + ".json";
-			VerifyAsResource(filename.Path.PlatformPath, resource.Path, "Json save test \"{0}\" failed.", name);
+			VerifyAsResource(filename.PlatformPath, resource.Path, "Json save test \"{0}\" failed.", name);
 		}
 	}
 }
