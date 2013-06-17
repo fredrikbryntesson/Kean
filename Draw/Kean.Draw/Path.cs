@@ -109,7 +109,7 @@ namespace Kean.Draw
 		#region Obejct overrides
 		public override string ToString()
 		{
-			return this.first.NotNull() ? this.first.String : "";
+			return this.first.NotNull() ? this.first.ToString() : "";
 		}
 		#endregion
 		#region Static Create Methods
@@ -147,7 +147,6 @@ namespace Kean.Draw
 		public static explicit operator Path(string path)
 		{
 			PathSegment.Abstract first = PathSegment.Abstract.Parse(path);
-			string p = new Path(first);
 			return first.NotNull() ? new Path(first) : null;
 		}
 		public static implicit operator string(Path path)

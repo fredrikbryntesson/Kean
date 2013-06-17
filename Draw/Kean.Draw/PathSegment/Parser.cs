@@ -67,11 +67,11 @@ namespace Kean.Draw.PathSegment
 				}
 			}
 
-			return Result;
+			return this.Result;
 		}
 		private void Append(Abstract segment)
 		{
-			if (this.Result == null)
+			if (this.Result.IsNull())
 				this.Result = segment;
 			else
 				this.Result.Append(segment);
