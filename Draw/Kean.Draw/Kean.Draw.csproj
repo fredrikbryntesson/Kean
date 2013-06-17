@@ -72,19 +72,12 @@
     <Compile Include="Text.cs" />
     <Compile Include="TextAlign.cs" />
     <None Include="Kean.Draw.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
       <Project>{964ee8eb-6a7e-4b62-bdbc-37a29e9c0e3b}</Project>
       <Name>Kean.Core.Collection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{DAF18CA8-78EA-417F-8730-0A76B0DA2563}</Project>
@@ -96,6 +89,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Kean.Core, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.0.2.0.757\lib\net40-Client\Kean.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Kean.Core.Error, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.Error.0.2.0.757\lib\net40-Client\Kean.Core.Error.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -54,6 +54,14 @@
       <Private>True</Private>
       <HintPath>$(SolutionDir)packages\GLib.2.28.1\lib\glib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Kean.Core, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.0.2.0.757\lib\net40-Client\Kean.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Kean.Core.Error, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.Error.0.2.0.757\lib\net40-Client\Kean.Core.Error.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>$(SolutionDir)packages\Cairo.2.0.0.0\lib\Mono.Cairo.dll</HintPath>
@@ -72,17 +80,9 @@
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
-      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
-      <Name>Kean.Core.Error</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>

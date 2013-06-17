@@ -47,6 +47,7 @@
     <Compile Include="Terminal.cs" />
     <Compile Include="VT100.cs" />
     <None Include="Kean.Cli.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
@@ -56,10 +57,6 @@
     <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
-      <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
-      <Name>Kean.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\IO\Kean.IO.Net\Kean.IO.Net.csproj">
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
@@ -77,6 +74,16 @@
       <Project>{96B4C4B4-5177-4717-9B2F-C74A0C2DF7D5}</Project>
       <Name>Kean.Math</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Kean.Core, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.0.2.0.757\lib\net40-Client\Kean.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Kean.Core.Error, Version=0.2.0.757, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kean.Core.Error.0.2.0.757\lib\net40-Client\Kean.Core.Error.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
