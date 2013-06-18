@@ -25,8 +25,8 @@ using Kean.Core.Extension;
 
 namespace Kean.Html.Dom
 {
-	public class Element :
-		 Node,
+	public abstract class Element :
+		Node,
 		System.Collections.Generic.IEnumerable<Node>
 	{
 		Collection.IList<Node> childNodes = new Collection.List<Node>();

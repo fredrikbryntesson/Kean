@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Core", "Core\Kean.Core\Kean.Core.csproj", "{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kean", "Kean", "{FC2B19B4-4125-4EAF-BC0A-B3D9D5E6B262}"
@@ -184,6 +184,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net", "Draw\Kean.Draw.Net\Kean.Draw.Net.csproj", "{D6D43C31-9C13-4FCA-8C33-1A6B2C43DE93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.Net.Test", "Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj", "{C8BD80C8-2A97-4808-9122-D59E1F5308EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Html.Dom", "Html\Kean.Html.Dom\Kean.Html.Dom.csproj", "{BC3EA63B-C589-43B1-A24D-AD89BE556E5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Html.Dom.Test", "Html\Kean.Html.Dom.Test\Kean.Html.Dom.Test.csproj", "{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -507,6 +511,14 @@ Global
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8BD80C8-2A97-4808-9122-D59E1F5308EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC3EA63B-C589-43B1-A24D-AD89BE556E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3EA63B-C589-43B1-A24D-AD89BE556E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC3EA63B-C589-43B1-A24D-AD89BE556E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3EA63B-C589-43B1-A24D-AD89BE556E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

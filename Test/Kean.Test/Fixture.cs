@@ -85,7 +85,7 @@ namespace Kean.Test
 		protected abstract void Run();
 		protected void Run(Test test)
 		{
-			this.currentTestCounter = -1;
+			this.currentTestCounter = 0;
 			this.currentTestName = test.Name;
 			test.Run(this.PreTest, this.PostTest);
 			Console.Write(".");
@@ -121,8 +121,14 @@ namespace Kean.Test
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			this.currentTestCounter++;
-			Verify(actual, constraint, this.CurrentTestStep);
+			try
+			{
+				Verify(actual, constraint, this.CurrentTestStep);
+			}
+			finally
+			{
+				this.currentTestCounter++;
+			}
 		}
 	}
 }

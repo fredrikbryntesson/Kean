@@ -26,6 +26,12 @@ namespace Kean.Html.Dom
 	   Element
 	{
 		protected override string TagName { get { return "head"; } }
+		Title titleElement;
+		public string Title { get { return this.titleElement.Value; } set { this.titleElement.Value = value; } }
+		public Head ()
+		{
+			this.Add(this.titleElement = new Title());
+		}
 
 		protected override string FormatAttributes()
 		{

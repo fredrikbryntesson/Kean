@@ -26,20 +26,15 @@ namespace Kean.Html.Dom
 		Element
 	{
 		protected override string TagName { get { return "title"; } }
+
+		Text valueElement;
+		public string Value { get { return this.valueElement.Value; } set { this.valueElement.Value  = value; } }
+
 		#region Constructor
 		public Title()
 		{
+			this.Add(this.valueElement = new Text());
 			this.NoLineBreaks = true;
-		}
-		public Title(Node title) :
-			this()
-		{
-			this.Add(title);
-		}
-		public Title(params Node[] nodes) :
-			this()
-		{
-			this.Add(nodes);
 		}
 		#endregion
 		protected override string FormatAttributes()
