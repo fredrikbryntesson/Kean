@@ -28,6 +28,8 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Core.Error.Log.CatchErrors = false;
+			Html.Dom.Test.All.Test();
+
 			#region Core
 			Core.Test.All.Test();
 			Core.Collection.Test.All.Test();
