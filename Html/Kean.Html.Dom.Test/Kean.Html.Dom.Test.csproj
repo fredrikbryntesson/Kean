@@ -60,6 +60,51 @@
   <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Paragraph.0.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Heading.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Anchor.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Abbreviation.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Address.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Aside.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Audio.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Emphasized.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Strong.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Definition.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Code.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.KeyBoardInput.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Sample.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Variable.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.DescriptionList.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Division.0.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
