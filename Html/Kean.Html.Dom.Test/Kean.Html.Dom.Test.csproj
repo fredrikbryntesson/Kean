@@ -105,6 +105,39 @@
   <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Division.0.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Italic.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.InlineFrame.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Form.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Mark.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Meter.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.NoScript.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.OrderedList.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Select.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.PreformattedText.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Progress.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Small.0.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

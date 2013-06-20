@@ -25,7 +25,18 @@ namespace Kean.Html.Dom.Test
 				this.Sample,
 				this.Variable,
 				this.DescriptionList,
-				this.Division
+				this.Division,
+				this.Italic,
+				this.InlineFrame,
+				this.Form,
+				this.Mark,
+				this.Meter,
+				this.NoScript,
+				this.OrderedList,
+				this.Select,
+				this.PreformattedText,
+				this.Progress,
+				this.Small
 				);
 		}
 		protected void Verify(Document document)
@@ -148,6 +159,83 @@ namespace Kean.Html.Dom.Test
 		{
 			Document document = new Document();
 			document.Body.Add(new Division(new Paragraph("this is paragraph"), new Heading3("this is heading")) { Style = "color : purple" });
+			this.Verify(document);
+		}
+		[Test]
+		public void Italic()
+		{
+			Document document = new Document();
+			document.Body.Add(new Italic("this text is in italic"));
+			this.Verify(document);
+		}
+		[Test]
+		public void InlineFrame()
+		{
+			Document document = new Document();
+			document.Body.Add(new InlineFrame(new Paragraph("Inline Frame")) { Source = "http://www.w3schools.com" });
+			this.Verify(document);
+		}
+		[Test]
+		public void Form()
+		{
+			Document document = new Document();
+			document.Body.Add(new Form(new FieldSet(new Legend("Form"), new Label("Firse Name :") { For = "fname" }, new Input() { Type = "text", Identifier = "fname" }, new LineBreak(), "Last Name: ", new Input() { Type = "text", Name = "lname" }, new LineBreak(), "Encryption: ", new KeyGenerator() { Name = "security" }, new LineBreak(), new Input() { Type = "submit", Value = "submit" })));
+			this.Verify(document);
+		}
+		[Test]
+		public void Mark()
+		{
+			Document document = new Document();
+			document.Body.Add(new Paragraph("do not forget to buy " , new Mark("milk"), " today"));
+			this.Verify(document);
+		}
+		[Test]
+		public void Meter()
+		{
+			Document document = new Document();
+			document.Body.Add(new Meter("2 out of 10") { CurrentValue = "2", Minimum = "0", Maximum = "10" });
+			this.Verify(document);
+		}
+		[Test]
+		public void NoScript()
+		{
+			Document document = new Document();
+			document.Body.Add(new NoScript("this is no script text"));
+			this.Verify(document);
+		}
+		[Test]
+		public void OrderedList()
+		{
+			Document document = new Document();
+			document.Body.Add(new OrderedList(new ListItem("coffee"), new ListItem("Tea"), new ListItem("milk")) { StartValue = "50", Reversed = true });
+			this.Verify(document);
+		}
+		[Test]
+		public void Select()
+		{
+			Document document = new Document();
+			document.Body.Add(new Select(new OptionGroup(new Option("Volvo"), new Option("saab")) { LabelForOption = "Swedish Cars" }));
+			this.Verify(document);
+		}
+		[Test]
+		public void PreformattedText()
+		{
+			Document document = new Document();
+			document.Body.Add(new PreformattedText("this is the     preformated text"));
+			this.Verify(document);
+		}
+		[Test]
+		public void Progress()
+		{
+			Document document = new Document();
+			document.Body.Add(new Progress() { Value = "32", Maximum = "150" });
+			this.Verify(document);
+		}
+		[Test]
+		public void Small()
+		{
+			Document document = new Document();
+			document.Body.Add(new Paragraph(new Small("this is small text")));
 			this.Verify(document);
 		}
 	}
