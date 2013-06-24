@@ -71,6 +71,10 @@
       <Project>{C8BD80C8-2A97-4808-9122-D59E1F5308EC}</Project>
       <Name>Kean.Draw.Net.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Draw\Kean.Draw.OpenGL.Test\Kean.Draw.OpenGL.Test.csproj">
+      <Project>{daf60380-c1c0-4f80-a2cd-11a5a836ab52}</Project>
+      <Name>Kean.Draw.OpenGL.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Draw\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
       <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
       <Name>Kean.Draw.Raster.Test</Name>
