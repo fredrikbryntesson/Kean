@@ -41,8 +41,8 @@ namespace Kean.Xml.Serialize.Test
 
 		[Test]
 		public void Array() { this.Test(typeof(Data.Array)); }
-        [Test]
-        public void List() { this.Test(typeof(Data.List)); }
+		[Test]
+		public void List() { this.Test(typeof(Data.List)); }
 		[Test]
 		public void ListExisting() { this.Test(typeof(Data.ListExisting)); }
 		[Test]
