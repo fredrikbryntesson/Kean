@@ -138,6 +138,27 @@
   <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Small.0.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Quote.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Caption.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Cite.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Object.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.TextArea.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Base.0.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.BidirectionalOverride.0.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

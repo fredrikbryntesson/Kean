@@ -36,7 +36,14 @@ namespace Kean.Html.Dom.Test
 				this.Select,
 				this.PreformattedText,
 				this.Progress,
-				this.Small
+				this.Small,
+				this.Quote,
+				this.Caption,
+				this.Cite,
+				this.Object,
+				this.TextArea,
+				this.Base,
+				this.BidirectionalOverride
 				);
 		}
 		protected void Verify(Document document)
@@ -236,6 +243,55 @@ namespace Kean.Html.Dom.Test
 		{
 			Document document = new Document();
 			document.Body.Add(new Paragraph(new Small("this is small text")));
+			this.Verify(document);
+		}
+		[Test]
+		public void Quote()
+		{
+			Document document = new Document();
+			document.Body.Add(new Paragraph("WWF's goal is to ", new Quote("biuld a future where people live in harmony with nature"), "we hope they succeed"));
+			this.Verify(document);
+		}
+		[Test]
+		public void Caption()
+		{
+			Document document = new Document();
+			document.Body.Add(new Table(new Caption("Monthly savings"), new TableRow(new TableHeading("Month"), new TableHeading("saving")),new TableRow(new TableData("january"), new TableData("100"))));
+			this.Verify(document);
+		}
+		[Test]
+		public void Cite()
+		{
+			Document document = new Document();
+			document.Body.Add(new Paragraph(new Cite("The Scream"), "by Edward Munch"));
+			this.Verify(document);
+		}
+		[Test]
+		public void Object()
+		{
+			Document document = new Document();
+			document.Body.Add(new Object(){Width = "200",Height = "200", Data = "http://www.w3schools.com"});
+			this.Verify(document);
+		}
+		[Test]
+		public void TextArea()
+		{
+			Document document = new Document();
+			document.Body.Add(new TextArea("At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.") {Row = "2", Column = "5" });
+			this.Verify(document);
+		}
+		[Test]
+		public void Base()
+		{
+			Document document = new Document();
+			document.Head.Add(new Base() { Destination = "http://www.w3schools.com/images/", Target = "_blank" });
+			this.Verify(document);
+		}
+		[Test]
+		public void BidirectionalOverride()
+		{
+			Document document = new Document();
+			document.Head.Add(new BidirectionalOverride("This text will go right-to-left.") {Direction = "rtl" });
 			this.Verify(document);
 		}
 	}
