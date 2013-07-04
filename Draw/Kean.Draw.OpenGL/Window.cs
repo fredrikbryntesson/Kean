@@ -1,10 +1,10 @@
 ﻿// 
-//  Fixture.cs
+//  Window.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,34 +21,39 @@
 
 using System;
 using Kean.Core.Extension;
-using Geometry2D = Kean.Math.Geometry2D;
 
-namespace Kean.Draw.OpenGL.Test
+namespace Kean.Draw.OpenGL
 {
-	public abstract class Fixture<T> :
-		Raster.Test.Fixture<T>
-		where T : Fixture<T>, new()
+	public class Window :
+		IDisposable
 	{
-		protected Fixture() :
-			this(0.2f)
-		{ }
-		protected Fixture(float tolerance) : 
-			base(tolerance)
-		{ }
-		Window window;
-		public override void Setup()
+		Backend.Window backend;
+		public Window()
 		{
-			base.Setup();
-			this.window = new Window();
+			this.backend = Backend.Window.Create();
 		}
-		public override void TearDown()
+
+		~Window()
 		{
-			if (this.window.NotNull())
+			this.Dispose(false);
+		}
+		void IDisposable.Dispose()
+		{
+			this.Dispose(true);
+		}
+		protected virtual void Dispose(bool disposing)
+		{
+			this.Close();
+		}
+		public bool Close()
+		{
+			bool result;
+			if (result = this.backend.NotNull())
 			{
-				this.window.Close();
-				this.window = null;
+				this.backend.Dispose();
+				this.backend = null;
 			}
-			base.TearDown();
+			return result;
 		}
 	}
 }

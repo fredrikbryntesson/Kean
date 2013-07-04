@@ -51,6 +51,10 @@ namespace Kean.Draw.OpenGL.Backend
 			if (this.Context.NotNull())
 				this.Context.Recycle(this.Refurbish());
 		}
+		public override string ToString()
+		{
+			return this.Identifier.ToString();
+		}
 		#region Implementors Interface
 		protected abstract int CreateIdentifier();
 		public abstract void Use();

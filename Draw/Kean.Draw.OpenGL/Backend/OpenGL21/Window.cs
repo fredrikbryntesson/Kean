@@ -1,10 +1,10 @@
 ﻿// 
-//  Fixture.cs
+//  Window.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,33 +22,27 @@
 using System;
 using Kean.Core.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using Parallel = Kean.Core.Parallel;
+using Error = Kean.Core.Error;
 
-namespace Kean.Draw.OpenGL.Test
+namespace Kean.Draw.OpenGL.Backend.OpenGL21
 {
-	public abstract class Fixture<T> :
-		Raster.Test.Fixture<T>
-		where T : Fixture<T>, new()
+	public class Window :
+		Backend.Window
 	{
-		protected Fixture() :
-			this(0.2f)
+		public Window()
 		{ }
-		protected Fixture(float tolerance) : 
-			base(tolerance)
+		internal Window(Context context) :
+			base(context)
 		{ }
-		Window window;
-		public override void Setup()
+		protected override Backend.Context CreateContext()
 		{
-			base.Setup();
-			this.window = new Window();
+			return new Context();
 		}
-		public override void TearDown()
+		protected override Backend.ThreadPool CreateThreadPool(string name, int workers)
 		{
-			if (this.window.NotNull())
-			{
-				this.window.Close();
-				this.window = null;
-			}
-			base.TearDown();
+			return new ThreadPool(this.WindowInfo, name, workers);
 		}
 	}
 }

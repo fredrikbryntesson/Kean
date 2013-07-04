@@ -55,6 +55,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			return new Composition(this);
 		}
+		protected internal override Backend.Composition CreateComposition(Backend.Texture texture)
+		{
+			return texture is Texture ? new Composition(this, texture as Texture) : null;
+		}
 		public override Backend.Program CreateProgram()
 		{
 			return new Program(this);
@@ -139,6 +143,14 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		public override Backend.Shader CreateShader(ShaderType type)
 		{
 			return new Shader(this, type);
+		}
+		public override Backend.Control CreateControl()
+		{
+			return new Control(this);
+		}
+		public override Backend.Window CreateWindow()
+		{
+			return new Window(this);
 		}
 		protected internal override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
 		{

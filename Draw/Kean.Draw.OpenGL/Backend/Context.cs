@@ -66,7 +66,8 @@ namespace Kean.Draw.OpenGL.Backend
 		public Texture CreateTexture(TextureType type, Geometry2D.Integer.Size size)
 		{
 			this.Free();
-			Texture result = this.textureBin.Recycle(type, size);
+			Composition composition = this.compositionBin.Recycle(type, size);
+			Texture result = composition.NotNull() ? composition.Texture : this.textureBin.Recycle(type, size);
 			if (result.IsNull())
 			{
 				result = this.AllocateTexture();
@@ -107,12 +108,15 @@ namespace Kean.Draw.OpenGL.Backend
 			}
 			return result;
 		}
-
+		protected internal abstract Composition CreateComposition(Texture texture);
 		public abstract Program CreateProgram();
 		public abstract Program CreateProgram(Programs program);
 		public abstract Shader CreateShader(ShaderType type);
 		protected abstract Texture AllocateTexture();
 		protected abstract Composition AllocateComposition();
+
+		public abstract Control CreateControl();
+		public abstract Window CreateWindow();
 
 		internal protected abstract Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size);
 		internal protected abstract TextureType GetTextureType(Raster.Image image);

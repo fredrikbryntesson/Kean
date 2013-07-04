@@ -1,4 +1,25 @@
-﻿using System;
+﻿// 
+//  ThreadPool.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2013 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using Error = Kean.Core.Error;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
@@ -7,34 +28,32 @@ using Kean.Core.Extension;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using Parallel = Kean.Core.Parallel;
 
-namespace Kean.Draw.OpenGL
+namespace Kean.Draw.OpenGL.Backend
 {
-	public class ThreadPool :
+	public abstract class ThreadPool :
 		Parallel.ThreadPool,
 		IDisposable
 	{
 		public bool NoDispose { get; set; }
 
 		OpenTK.Graphics.IGraphicsContext[] contexts;
-		public OpenTK.Graphics.IGraphicsContext MainContext
-		{
-			get { return this.contexts[0]; }
-		}
-		public ThreadPool(OpenTK.Platform.IWindowInfo windowInformation, string name, int workers) :
+		// TODO: should be internal as soon as possible.
+		public OpenTK.Graphics.IGraphicsContext MainContext { get { return this.contexts[0]; } }
+
+		protected ThreadPool(OpenTK.Platform.IWindowInfo windowInformation, string name, int workers) :
 			base(name, workers)
 		{
-			Backend.Context.Current = new Backend.OpenGL21.Context();
 			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
 			this.contexts = new OpenTK.Graphics.GraphicsContext[workers + 1];
 			try
 			{
-				this.contexts[0] = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
+				this.contexts[0] = this.CreateGraphicsContext(windowInformation);
 				this.contexts[0].MakeCurrent(windowInformation);
 				this.contexts[0].VSync = false;
 				(this.contexts[0] as OpenTK.Graphics.IGraphicsContextInternal).LoadAll();
 
 				for (int i = 1; i < this.contexts.Length; i++)
-					this.contexts[i] = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
+					this.contexts[i] = this.CreateGraphicsContext(windowInformation);
 				this.ForEachWorker(c => this.contexts[c + 1].MakeCurrent(windowInformation));
 			}
 			catch (System.Exception e)
@@ -43,6 +62,7 @@ namespace Kean.Draw.OpenGL
 				new Exception.ContextNotCreatable(e).Throw();
 			}
 		}
+		protected abstract OpenTK.Graphics.GraphicsContext CreateGraphicsContext(OpenTK.Platform.IWindowInfo windowInformation);
 
 		#region IDisposable Members
 		public override void Dispose()

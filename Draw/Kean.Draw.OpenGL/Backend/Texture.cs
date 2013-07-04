@@ -53,7 +53,17 @@ namespace Kean.Draw.OpenGL.Backend
 		public Geometry2D.Integer.Size Size { get; protected set; }
 		public TextureType Type { get; protected set; }
 		public abstract bool Wrap { get; set; }
-		public Composition Composition { get; internal set; }
+		Composition composition;
+		public Composition Composition 
+		{ 
+			get 
+			{
+				if (this.composition.IsNull())
+					this.composition = this.Context.CreateComposition(this);
+				return this.composition; 
+			}
+			internal set { this.composition = value; }
+		}
 		protected Texture(Context context) :
 			base(context)
 		{
@@ -69,7 +79,9 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Context.NotNull())
+			if (this.Composition.NotNull()) // If composition exists recycle as composition.
+				this.Composition.Dispose();
+			else if (this.Context.NotNull())
 				this.Context.Recycle(this.Refurbish());
 		}
 		public void Create(TextureType type, Geometry2D.Integer.Size size)
