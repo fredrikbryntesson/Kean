@@ -9,13 +9,6 @@
     <description>$description$</description>
     <dependencies>
       <dependency id="Kean.Cli.Argument" />
-      <dependency id="Kean.Core" />
-      <dependency id="Kean.Core.Collection" />
-      <dependency id="Kean.Core.Error" />
-      <dependency id="Kean.Core.Parallel" />
-      <dependency id="Kean.Core.Reflect" />
-      <dependency id="Kean.Core.Serialize" />
-      <dependency id="Kean.Core.Uri" />
       <dependency id="Kean.Xml.Serialize" />
     </dependencies>
   </metadata>
