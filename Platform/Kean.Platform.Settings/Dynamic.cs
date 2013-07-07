@@ -40,7 +40,14 @@ namespace Kean.Platform.Settings
 		Collection.Dictionary<string, Tuple<string, string, T>> data = new Collection.Dictionary<string, Tuple<string, string, T>>();
 		Action<string, object> loaded;
 
-		public override T this[string name] { get { return this.data[name].Item3; } }
+		public override T this[string name] 
+		{ 
+			get 
+			{
+				Tuple<string, string, T> item = this.data[name];
+				return item.NotNull() ? item.Item3 : default(T); 
+			} 
+		}
 
 		object IDynamic.this[string name]
 		{

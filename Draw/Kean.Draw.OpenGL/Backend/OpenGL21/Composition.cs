@@ -36,6 +36,9 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		protected internal Composition(Context context) :
 			base(context, new Texture(context), new Depth(context), new FrameBuffer(context))
 		{ }
+		protected internal Composition(Context context, Texture texture) :
+			base(context, texture, new Depth(context), new FrameBuffer(context))
+		{ }
 		protected Composition(Composition original) :
 			base(original)
 		{ }

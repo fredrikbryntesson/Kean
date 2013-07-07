@@ -49,11 +49,16 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Composition.cs" />
     <Compile Include="Backend\Context.cs" />
+    <Compile Include="Backend\OpenGL21\ThreadPool.cs" />
+    <Compile Include="Backend\OpenGL21\Window.cs" />
+    <Compile Include="Backend\Window.cs" />
     <Compile Include="Backend\Depth.cs" />
     <Compile Include="Backend\Extension\Geometry2D.cs" />
     <Compile Include="Backend\FrameBuffer.cs" />
@@ -61,6 +66,9 @@
     <Compile Include="Backend\ITexture.cs" />
     <Compile Include="Backend\OpenGL21\Composition.cs" />
     <Compile Include="Backend\OpenGL21\Context.cs" />
+    <Compile Include="Backend\OpenGL21\Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Backend\OpenGL21\Depth.cs" />
     <Compile Include="Backend\OpenGL21\FrameBuffer.cs" />
     <Compile Include="Backend\OpenGL21\Program.cs" />
@@ -71,12 +79,18 @@
     <Compile Include="Backend\Resource.cs" />
     <Compile Include="Backend\Shader.cs" />
     <Compile Include="Backend\ShaderType.cs" />
+    <Compile Include="Backend\Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Backend\Texture.cs" />
     <Compile Include="Backend\TextureType.cs" />
     <Compile Include="Backend\WasteBin.cs" />
     <Compile Include="Bgr.cs" />
     <Compile Include="Bgra.cs" />
     <Compile Include="Canvas.cs" />
+    <Compile Include="Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Exception\ContextNotCreatable.cs" />
     <Compile Include="Exception\Exception.cs" />
     <Compile Include="Exception\Framebuffer.cs" />
@@ -87,7 +101,8 @@
     <Compile Include="Planar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Backend\RecycleBin.cs" />
-    <Compile Include="ThreadPool.cs" />
+    <Compile Include="Backend\ThreadPool.cs" />
+    <Compile Include="Window.cs" />
     <Compile Include="Yuv420.cs" />
   </ItemGroup>
   <ItemGroup>

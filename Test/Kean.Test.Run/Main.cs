@@ -48,7 +48,7 @@ namespace Kean.Test.Run
 			Draw.Test.All.Test();
 			Draw.Cairo.Test.All.Test();
 			Draw.Raster.Test.All.Test();
-			Draw.OpenGL.Test.All.Test();
+			//Draw.OpenGL.Test.All.Test();
 			//Draw.Vector.Test.All.Test();
 			//Draw.Gpu.Test.All.Test();
 			//Draw.Net.Test.All.Test();

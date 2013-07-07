@@ -1,10 +1,10 @@
 ﻿// 
-//  Fixture.cs
+//  ThreadPool.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,35 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
+using Error = Kean.Core.Error;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Core.Extension;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using Parallel = Kean.Core.Parallel;
 
-namespace Kean.Draw.OpenGL.Test
+namespace Kean.Draw.OpenGL.Backend.OpenGL21
 {
-	public abstract class Fixture<T> :
-		Raster.Test.Fixture<T>
-		where T : Fixture<T>, new()
+	public class ThreadPool :
+		Backend.ThreadPool
 	{
-		protected Fixture() :
-			this(0.2f)
+		public ThreadPool(OpenTK.Platform.IWindowInfo windowInformation, string name, int workers) :
+			base(windowInformation, name, workers)
 		{ }
-		protected Fixture(float tolerance) : 
-			base(tolerance)
-		{ }
-		Window window;
-		public override void Setup()
+		protected override OpenTK.Graphics.GraphicsContext CreateGraphicsContext(OpenTK.Platform.IWindowInfo windowInformation)
 		{
-			base.Setup();
-			this.window = new Window();
-		}
-		public override void TearDown()
-		{
-			if (this.window.NotNull())
-			{
-				this.window.Close();
-				this.window = null;
-			}
-			base.TearDown();
+			return new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, windowInformation, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
 		}
 	}
 }

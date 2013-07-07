@@ -48,13 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Gui\Kean.Gui.OpenGL\Kean.Gui.OpenGL.csproj">
-      <Project>{6e879b34-5d82-4715-9874-f2483f99ab6d}</Project>
-      <Name>Kean.Gui.OpenGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Gui\Kean.Gui\Kean.Gui.csproj">
-      <Project>{cc0c0814-9a6b-4b45-b595-043bc79ac6be}</Project>
-      <Name>Kean.Gui</Name>
+    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
+      <Project>{c5a4bc48-c14f-4f6b-9564-e04c0a79b7c1}</Project>
+      <Name>Kean.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
       <Project>{daf18ca8-78ea-417f-8730-0a76b0da2563}</Project>
