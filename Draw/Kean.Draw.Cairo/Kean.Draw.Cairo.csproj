@@ -89,7 +89,7 @@
       <HintPath>..\..\..\packages\GLib.Sharp.2.28.1.1\lib\net40-client\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Cairo.2.0.0.1\lib\net40-client\Mono.Cairo.dll</HintPath>
     </Reference>
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">

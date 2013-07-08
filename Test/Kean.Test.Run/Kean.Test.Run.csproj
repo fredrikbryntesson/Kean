@@ -63,14 +63,6 @@
       <Project>{98BAF538-395F-4E2A-B1FD-29ECC7129C73}</Project>
       <Name>Kean.Draw.Cairo.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Draw\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
-      <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
-      <Name>Kean.Draw.Gpu.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Draw\Kean.Draw.Net.Test\Kean.Draw.Net.Test.csproj">
-      <Project>{C8BD80C8-2A97-4808-9122-D59E1F5308EC}</Project>
-      <Name>Kean.Draw.Net.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Draw\Kean.Draw.OpenGL.Test\Kean.Draw.OpenGL.Test.csproj">
       <Project>{daf60380-c1c0-4f80-a2cd-11a5a836ab52}</Project>
       <Name>Kean.Draw.OpenGL.Test</Name>
@@ -86,10 +78,6 @@
     <ProjectReference Include="..\..\Draw\Kean.Draw.Test\Kean.Draw.Test.csproj">
       <Project>{3EFD4052-3FE8-4B58-8833-349550F073E8}</Project>
       <Name>Kean.Draw.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Gui\Kean.Gui.OpenGL.Test\Kean.Gui.OpenGL.Test.csproj">
-      <Project>{BC052502-2E40-4577-B35E-E659B8FCB6B8}</Project>
-      <Name>Kean.Gui.OpenGL.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\IO\Kean.IO.Net.Test\Kean.IO.Net.Test.csproj">
       <Project>{1C398A0B-ADF3-4DB6-9426-D21F5F7F824F}</Project>

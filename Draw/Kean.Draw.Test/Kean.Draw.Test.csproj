@@ -53,10 +53,6 @@
       <Project>{98BAF538-395F-4E2A-B1FD-29ECC7129C73}</Project>
       <Name>Kean.Draw.Cairo.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kean.Draw.Gpu.Test\Kean.Draw.Gpu.Test.csproj">
-      <Project>{C1BADE4E-A947-4019-AB59-AE4F78DB86CB}</Project>
-      <Name>Kean.Draw.Gpu.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
       <Project>{7F483DF3-ADEA-40B6-AB31-9B3F44314EC2}</Project>
       <Name>Kean.Draw.Raster.Test</Name>
