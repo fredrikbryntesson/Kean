@@ -8,12 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core" />
-      <dependency id="Kean.Core.Collection" />
-      <dependency id="Kean.Core.Uri" />
-      <dependency id="Kean.IO" />
       <dependency id="Kean.IO.Net" />
-      <dependency id="Kean.Math" />
       <dependency id="Kean.Math.Geometry2D" />
     </dependencies>
   </metadata>

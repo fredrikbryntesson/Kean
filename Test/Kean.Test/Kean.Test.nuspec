@@ -8,9 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core" />
       <dependency id="Kean.Core.Reflect" />
-      <dependency id="Kean.Core.Error" />
       <dependency id="NUnit" version="2.6.2" />
     </dependencies>
   </metadata>
