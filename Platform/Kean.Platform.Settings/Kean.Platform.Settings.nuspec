@@ -9,6 +9,7 @@
 		<description>$description$</description>
 		<dependencies>
 			<dependency id="Kean.Cli" />
+			<dependency id="Kean.IO.Tap" />
 			<dependency id="Kean.Platform" />
 		</dependencies>
 	</metadata>
