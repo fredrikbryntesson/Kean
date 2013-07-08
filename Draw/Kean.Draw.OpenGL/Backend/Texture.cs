@@ -79,10 +79,13 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Composition.NotNull()) // If composition exists recycle as composition.
-				this.Composition.Dispose();
-			else if (this.Context.NotNull())
-				this.Context.Recycle(this.Refurbish());
+			if (this.Context.NotNull())
+			{
+				if (this.composition.NotNull()) // If composition exists recycle as composition.
+					this.composition.Dispose();
+				else
+					this.Context.Recycle(this.Refurbish());
+			}
 		}
 		public void Create(TextureType type, Geometry2D.Integer.Size size)
 		{

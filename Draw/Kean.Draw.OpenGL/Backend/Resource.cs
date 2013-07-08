@@ -33,9 +33,9 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.Context = context;
 		}
-		protected Resource(Resource original)
+		protected Resource(Resource original) :
+			this(original.Context)
 		{
-			this.Context = original.Context;
 			original.Context = null;
 		}
 		~Resource()
