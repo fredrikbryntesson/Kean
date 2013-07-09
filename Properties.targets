@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildThisFileDirectory.TrimEnd('\'))</SolutionDir>
+		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildThisFileDirectory)</SolutionDir>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -9,9 +9,9 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>True</DebugSymbols>
+		<DebugSymbols>true</DebugSymbols>
 		<DebugType>full</DebugType>
-		<Optimize>False</Optimize>
+		<Optimize>false</Optimize>
 		<OutputPath>$(SolutionDir)bin\Debug</OutputPath>
 		<DefineConstants>DEBUG</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
@@ -19,10 +19,10 @@
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>pdbonly</DebugType>
-		<Optimize>False</Optimize>
+		<Optimize>false</Optimize>
 		<OutputPath>$(SolutionDir)bin\Release</OutputPath>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<DebugSymbols>True</DebugSymbols>
+		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 </Project>

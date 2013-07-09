@@ -6,7 +6,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{473C25A4-F760-4CE7-8783-554471B6E986}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+		<RootNamespace>Kean.Platform.Settings.Test</RootNamespace>
+		<AssemblyName>Kean.Platform.Settings.Test</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
@@ -113,8 +114,7 @@
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
