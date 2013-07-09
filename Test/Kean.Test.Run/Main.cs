@@ -54,10 +54,6 @@ namespace Kean.Test.Run
 			//Draw.Net.Test.All.Test();
 			//Draw.Jpeg.Test.All.Test();
 			#endregion
-			#region Gui
-			Gui.OpenGL.Test.Window.Test();
-			//new Gui.OpenGL.Test.Window().Create();
-			#endregion
 			#region Xml
 			Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();
