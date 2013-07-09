@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Kean.Math.Complex.Test</RootNamespace>
     <AssemblyName>Kean.Math.Complex.Test</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
