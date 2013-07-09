@@ -5,7 +5,7 @@
 	<!-- Minimum version supported if product already installed and this is an upgrade -->
 	<!-- Note that 4th version (Revision) is ignored by Windows Installer -->
 	<?define MinimumUpgradeVersion = "0.0.0.0" ?>
-	<?define ProductManufacturer = "Imint AB"?>
+	<?define ProductManufacturer = "Kean"?>
 	<!-- Decimal Language ID (LCID) for the Product. Used for localization. -->
 	<?define ProductLanguage = "1033" ?>
 </Include>

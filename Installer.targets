@@ -11,7 +11,7 @@
 	<UsingTask TaskName="GitVersionFile" AssemblyFile="$(MSBuildVersioningFilename)" />
 	<UsingTask TaskName="SvnVersionFile" AssemblyFile="$(MSBuildVersioningFilename)" />
 	<Target Name="MSBuildVersioningAddVersionNumberInstall">
-		<GitVersionFile Condition="Exists('$(ModuleDir).git') Or Exists('$(SolutionDir).git')" TemplateFile="$(ModuleDir)VersionInfo.wxi" DestinationFile="$(ProjectDir)Properties\VersionInfo.Generated.wxi" />
-		<SvnVersionFile Condition="Exists('$(ModuleDir).svn') Or Exists('$(SolutionDir).svn')" TemplateFile="$(ModuleDir)VersionInfo.wxi" DestinationFile="$(ProjectDir)Properties\VersionInfo.Generated.wxi" />
+		<GitVersionFile Condition="Exists('$(ModuleDir).git') Or Exists('$(SolutionDir).git')" TemplateFile="$(ModuleDir)VersionInfo.wxi" DestinationFile="$(ProjectDir)VersionInfo.Generated.wxi" />
+		<SvnVersionFile Condition="Exists('$(ModuleDir).svn') Or Exists('$(SolutionDir).svn')" TemplateFile="$(ModuleDir)VersionInfo.wxi" DestinationFile="$(ProjectDir)VersionInfo.Generated.wxi" />
 	</Target>
 </Project>
