@@ -31,8 +31,8 @@
 		<PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
 				<!-- We need to launch nuget.exe with the mono command if we're not on windows -->
 				<NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
-				<PackagesConfig>..\packages.config</PackagesConfig>
-				<PackagesDir>$(SolutionDir)packages</PackagesDir>
+				<PackagesConfig>packages.config</PackagesConfig>
+				<PackagesDir>$(SolutionDir)..\packages</PackagesDir>
 		</PropertyGroup>
 		
 		<PropertyGroup>
@@ -72,7 +72,7 @@
 				This effectively acts as a lock that makes sure that the download operation will only happen once and all
 				parallel builds will have to wait for it to complete.
 				-->
-				<MsBuild Targets="_DownloadNuGet" Projects="$(MSBuildThisFileFullPath)" Properties="Configuration=NOT_IMPORTANT" />
+				<MsBuild Condition=" '$(OS)' == 'Windows_NT'" Targets="_DownloadNuGet" Projects="$(MSBuildThisFileFullPath)" Properties="Configuration=NOT_IMPORTANT" />
 		</Target>
 
 		<Target Name="_DownloadNuGet">
