@@ -159,6 +159,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Html.Dom", "Html\Kean.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kean.Draw.OpenGL.Test", "Draw\Kean.Draw.OpenGL.Test\Kean.Draw.OpenGL.Test.csproj", "{DAF60380-C1C0-4F80-A2CD-11A5A836AB52}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F47306EF-7BDE-48CC-AFBA-5AFBF3156F8B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.config = .nuget\nuget.config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\nuget.targets = .nuget\nuget.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
