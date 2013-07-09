@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+	<?include Properties\VersionInfo.Generated.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<?define ProductVersion="1.0.0.0"?>
-	<Product Id="*" Name="Kean" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Imint" UpgradeCode="426d8d5d-6f47-4283-a72b-361973d2fb46">
+	<Product Id="*" Name="Kean" Language="$(var.ProductLanguage)" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductManufacturer)" UpgradeCode="426d8d5d-6f47-4283-a72b-361973d2fb46">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
