@@ -73,15 +73,6 @@
 			<Component Id="Kean.Draw.Cairo">
 				<File Source="$(var.Kean.Draw.Cairo.TargetPath)" />
 			</Component>
-			<Component Id="Kean.Draw.Gpu">
-				<File Source="$(var.Kean.Draw.Gpu.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.Jpeg">
-				<File Source="$(var.Kean.Draw.Jpeg.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.Net">
-				<File Source="$(var.Kean.Draw.Net.TargetPath)" />
-			</Component>
 			<Component Id="Kean.Draw.OpenGL">
 				<File Source="$(var.Kean.Draw.OpenGL.TargetPath)" />
 			</Component>
@@ -91,32 +82,14 @@
 			<Component Id="Kean.Draw.Vector">
 				<File Source="$(var.Kean.Draw.Vector.TargetPath)" />
 			</Component>
-			<Component Id="Kean.Fubl">
-				<File Source="$(var.Kean.Fubl.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Gui">
-				<File Source="$(var.Kean.Gui.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Gui.OpenGL">
-				<File Source="$(var.Kean.Gui.OpenGL.TargetPath)" />
-			</Component>
 			<Component Id="Kean.Html.Dom">
 				<File Source="$(var.Kean.Html.Dom.TargetPath)" />
 			</Component>
 			<Component Id="Kean.IO">
 				<File Source="$(var.Kean.IO.TargetPath)" />
 			</Component>
-			<Component Id="Kean.IO.Modem">
-				<File Source="$(var.Kean.IO.Modem.TargetPath)" />
-			</Component>
 			<Component Id="Kean.IO.Net">
 				<File Source="$(var.Kean.IO.Net.TargetPath)" />
-			</Component>
-			<Component Id="Kean.IO.Serial">
-				<File Source="$(var.Kean.IO.Serial.TargetPath)" />
-			</Component>
-			<Component Id="Kean.IO.Sms">
-				<File Source="$(var.Kean.IO.Sms.TargetPath)" />
 			</Component>
 			<Component Id="Kean.IO.Tap">
 				<File Source="$(var.Kean.IO.Tap.TargetPath)" />
