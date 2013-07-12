@@ -23,6 +23,7 @@ using System;
 using NUnit.Framework;
 using Target = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+
 namespace Kean.Core.Collection.Test.Base
 {
 	public abstract class Queue<T, Q> :
@@ -31,14 +32,16 @@ namespace Kean.Core.Collection.Test.Base
         where Q : Target.IQueue<int>, new()
 	{
 		protected Queue ()
-		{ }
+		{
+		}
 		protected Queue (string prefix) :
 			base(prefix)
-		{ }
-
-        protected override void Run()
 		{
-            this.Run(
+		}
+
+		protected override void Run ()
+		{
+			this.Run (
             this.EmptyQueue,
             this.DequeueEmpty,
             this.PeekEmpty,
@@ -46,112 +49,106 @@ namespace Kean.Core.Collection.Test.Base
             this.EnqueuePeekDequeueTen,
             this.EnqueueDequeueEnqueue,
             this.AddAfterEmptyQueue
-            );
-		}
-        [Test]
-        public void AddAfterEmptyQueue()
-        {
-            Q target = new Q();
-            for (int i = 0; i < 10; i++)
-                target.Enqueue(i);
-            target.Clear();
-            for (int i = 0; i < 10; i++)
-                target.Enqueue(i);
-           Verify(target.Count, EqualTo(10));
-        }
-        [Test]
-		public void EmptyQueue()
-		{
-			Q target = new Q();
-			Verify(target.Empty,Is.True);
-            Verify(target.Count, EqualTo(0));
-        }
-		[Test]
-		public void DequeueEmpty()
-		{
-			Q target = new Q();
-			Verify(target.Empty, Is.True);
-			Verify(target.Dequeue(), EqualTo(0));
+			);
 		}
 		[Test]
-		public void PeekEmpty()
+		public void AddAfterEmptyQueue ()
 		{
-			Q target = new Q();
-			Verify(target.Empty, Is.True);
-			Verify(target.Peek(), EqualTo(0));
-		}
-		[Test]
-		public void EnqueuePeekDequeue()
-		{
-			Q target = new Q();
-		   Verify(target.Empty, Is.True);
-           Verify(target.Count, EqualTo(0));
-           target.Enqueue(42);
-           Verify(target.Count, EqualTo(1));
-           Verify(target.Peek(), EqualTo(42));
-           Verify(target.Count, EqualTo(1));
-           Verify(target.Dequeue(), EqualTo(42));
-           Verify(target.Count, EqualTo(0));
-		   Verify(target.Empty, Is.True);
-		}
-		[Test]
-		public void EnqueuePeekDequeueTen()
-		{
-			Q target = new Q();
-			Verify(target.Empty, Is.True);
-            Verify(target.Count, EqualTo(0));
-            for (int i = 0; i < 10; i++)
-			{
-				target.Enqueue(i);
-			   Verify(target.Peek(), EqualTo(0));
-               Verify(target.Count, EqualTo(i+1));
-            }
+			Q target = new Q ();
 			for (int i = 0; i < 10; i++)
-			{
-               Verify(target.Peek(), EqualTo(i));
-               Verify(target.Count, EqualTo(10 - i));
-               Verify(target.Dequeue(), EqualTo(i));
-               Verify(target.Count, EqualTo(10 - i - 1));
-            }
-			Verify(target.Empty,Is.True);
+				target.Enqueue (i);
+			target.Clear ();
+			for (int i = 0; i < 10; i++)
+				target.Enqueue (i);
+			Verify (target.Count, EqualTo (10));
 		}
 		[Test]
-		public void EnqueueDequeueEnqueue()
+		public void EmptyQueue ()
 		{
-			Q target = new Q();
-			Verify(target.Empty, Is.True);
-			for (int i = 0; i < 10; i++)
-			{
-				target.Enqueue(i);
-				Verify(target.Peek(), EqualTo(0));
-               Verify(target.Count, EqualTo(i + 1));
-            }
-			for (int i = 0; i < 5; i++)
-			{
-               Verify(target.Count, EqualTo(10-i));
-               Verify(target.Peek(), EqualTo(i));
-               Verify(target.Count, EqualTo(10 - i));
-               Verify(target.Dequeue(), EqualTo(i));
-               Verify(target.Count, EqualTo(10 - i - 1));
-            }
-			for (int i = 0; i < 5; i++)
-			{
-				target.Enqueue(i + 10);
-               Verify(target.Count, EqualTo(5 + 1 + i));
-               Verify(target.Peek(), EqualTo(5));
-               Verify(target.Count, EqualTo(5 + 1 + i));
-            }
-			for (int i = 0; i < 10; i++)
-			{
-               Verify(target.Count, EqualTo(10 - i));
-               Verify(target.Peek(), EqualTo(i + 5));
-               Verify(target.Count, EqualTo(10 - i));
-               Verify(target.Dequeue(), EqualTo(i + 5));
-               Verify(target.Count, EqualTo(10 - i - 1));
-            }
-			Verify(target.Empty, Is.True);
-			Verify(target.Count, Is.EqualTo(0));
-        }
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			Verify (target.Count, EqualTo (0));
+		}
+		[Test]
+		public void DequeueEmpty ()
+		{
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			Verify (target.Dequeue (), EqualTo (0));
+		}
+		[Test]
+		public void PeekEmpty ()
+		{
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			Verify (target.Peek (), EqualTo (0));
+		}
+		[Test]
+		public void EnqueuePeekDequeue ()
+		{
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			Verify (target.Count, EqualTo (0));
+			target.Enqueue (42);
+			Verify (target.Count, EqualTo (1));
+			Verify (target.Peek (), EqualTo (42));
+			Verify (target.Count, EqualTo (1));
+			Verify (target.Dequeue (), EqualTo (42));
+			Verify (target.Count, EqualTo (0));
+			Verify (target.Empty, Is.True);
+		}
+		[Test]
+		public void EnqueuePeekDequeueTen ()
+		{
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			Verify (target.Count, EqualTo (0));
+			for (int i = 0; i < 10; i++) {
+				target.Enqueue (i);
+				Verify (target.Peek (), EqualTo (0));
+				Verify (target.Count, EqualTo (i + 1));
+			}
+			for (int i = 0; i < 10; i++) {
+				Verify (target.Peek (), EqualTo (i));
+				Verify (target.Count, EqualTo (10 - i));
+				Verify (target.Dequeue (), EqualTo (i));
+				Verify (target.Count, EqualTo (10 - i - 1));
+			}
+			Verify (target.Empty, Is.True);
+		}
+		[Test]
+		public void EnqueueDequeueEnqueue ()
+		{
+			Q target = new Q ();
+			Verify (target.Empty, Is.True);
+			for (int i = 0; i < 10; i++) {
+				target.Enqueue (i);
+				Verify (target.Peek (), EqualTo (0));
+				Verify (target.Count, EqualTo (i + 1));
+			}
+			for (int i = 0; i < 5; i++) {
+				Verify (target.Count, EqualTo (10 - i));
+				Verify (target.Peek (), EqualTo (i));
+				Verify (target.Count, EqualTo (10 - i));
+				Verify (target.Dequeue (), EqualTo (i));
+				Verify (target.Count, EqualTo (10 - i - 1));
+			}
+			for (int i = 0; i < 5; i++) {
+				target.Enqueue (i + 10);
+				Verify (target.Count, EqualTo (5 + 1 + i));
+				Verify (target.Peek (), EqualTo (5));
+				Verify (target.Count, EqualTo (5 + 1 + i));
+			}
+			for (int i = 0; i < 10; i++) {
+				Verify (target.Count, EqualTo (10 - i));
+				Verify (target.Peek (), EqualTo (i + 5));
+				Verify (target.Count, EqualTo (10 - i));
+				Verify (target.Dequeue (), EqualTo (i + 5));
+				Verify (target.Count, EqualTo (10 - i - 1));
+			}
+			Verify (target.Empty, Is.True);
+			Verify (target.Count, Is.EqualTo (0));
+		}
 	}
 }
 
