@@ -45,6 +45,10 @@
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7e58819e-bcde-4194-8a83-e8e6e3d050f9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>

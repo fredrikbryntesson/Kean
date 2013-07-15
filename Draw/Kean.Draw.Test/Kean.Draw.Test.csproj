@@ -48,6 +48,14 @@
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Math\Kean.Math.Geometry2D\Kean.Math.Geometry2D.csproj">
+      <Project>{daf18ca8-78ea-417f-8730-0a76b0da2563}</Project>
+      <Name>Kean.Math.Geometry2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Math\Kean.Math\Kean.Math.csproj">
+      <Project>{96b4c4b4-5177-4717-9b2f-c74a0c2df7d5}</Project>
+      <Name>Kean.Math</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Draw\Kean.Draw.csproj">
       <Project>{375108F3-ECBF-4BF9-9161-22BBEAB6A7BC}</Project>
       <Name>Kean.Draw</Name>

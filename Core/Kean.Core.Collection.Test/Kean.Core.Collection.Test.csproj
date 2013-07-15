@@ -73,5 +73,13 @@
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9ee43841-ce0c-4943-bdff-1c5e158a0bdb}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
+      <Project>{c5a4bc48-c14f-4f6b-9564-e04c0a79b7c1}</Project>
+      <Name>Kean.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

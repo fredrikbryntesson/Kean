@@ -40,20 +40,20 @@ namespace Kean.Core.Collection.Test.Base
 
 		public abstract A Create(int count);
 
-        protected override void Run()
-        {
-            this.Run(
-            (Action)this.Count,
-            (Action)this.Get,
-            (Action)this.Equality,
-            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetIndexToBig, this.Prefix + "GetIndexToBig.0"),
-            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetNegativeIndex, this.Prefix + "GetNegativeIndex.0"),
-            (Action)this.Set,
-            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetIndexToBig, this.Prefix + "SetIndexToBig.0"),
-            Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetNegativeIndex, this.Prefix + "SetNegativeIndex.0")
-            );
-        }
-        
+		protected override void Run()
+		{
+			this.Run(
+			(Action)this.Count,
+			(Action)this.Get,
+			(Action)this.Equality,
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetIndexToBig, this.Prefix + "GetIndexToBig.0"),
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.GetNegativeIndex, this.Prefix + "GetNegativeIndex.0"),
+			(Action)this.Set,
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetIndexToBig, this.Prefix + "SetIndexToBig.0"),
+			Kean.Test.Test<Target.Exception.InvalidIndex>.Create(this.SetNegativeIndex, this.Prefix + "SetNegativeIndex.0")
+			);
+		}
+		
 		[Test]
 		public new void Count()
 		{
@@ -110,25 +110,25 @@ namespace Kean.Core.Collection.Test.Base
 		{
 			this.ZeroToNine[-8] = 32;
 		}
-        [Test]
-        public void Equality()
-        {
-            A a = this.Create(10);
-            A b = this.Create(10);
-            A c = this.Create(11);
-            for (int i = 0; i < a.Count; i++)
-            {
-                a[i] = i;
-                b[i] = i;
-            }
-           Verify(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
-           Verify(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
-           Verify(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
-            b[5] = 33;
-           Verify(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
-           Verify(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
-           Verify(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
-           Verify(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
-        }      
+		[Test]
+		public void Equality()
+		{
+			A a = this.Create(10);
+			A b = this.Create(10);
+			A c = this.Create(11);
+			for (int i = 0; i < a.Count; i++)
+			{
+				a[i] = i;
+				b[i] = i;
+			}
+		   Verify(a, Is.EqualTo(b), this.Prefix + "Equality." + 0);
+		   Verify(a, Is.EqualTo(b as object), this.Prefix + "Equality." + 1);
+		   Verify(b, Is.EqualTo(a), this.Prefix + "Equality." + 1);
+			b[5] = 33;
+		   Verify(a, Is.Not.EqualTo(b), this.Prefix + "Equality." + 3);
+		   Verify(b, Is.Not.EqualTo(a), this.Prefix + "Equality." + 4);
+		   Verify(a, Is.Not.EqualTo(c), this.Prefix + "Equality." + 5);
+		   Verify(c, Is.Not.EqualTo(a), this.Prefix + "Equality." + 6);
+		}      
 	}
 }

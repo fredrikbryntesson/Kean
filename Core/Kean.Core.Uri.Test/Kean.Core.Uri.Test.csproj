@@ -56,9 +56,17 @@
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964ee8eb-6a7e-4b62-bdbc-37a29e9c0e3b}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
+      <Project>{c5a4bc48-c14f-4f6b-9564-e04c0a79b7c1}</Project>
+      <Name>Kean.Core</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace Kean.IO.Net.Test
 		{
 			//Program.Proxy(23, "192.168.1.102:23");
 			//Program.Proxy();
-            Program.Terminal();
+			Program.Terminal();
 		}
 		static void Proxy()
 		{
@@ -104,21 +104,21 @@ namespace Kean.IO.Net.Test
 		static void Terminal()
 		{
 			ICharacterDevice connection = CharacterDevice.Open(Tcp.Connection.Connect("127.0.0.1:23"));
-            ICharacterWriter writer = CharacterWriter.Open(connection);
-            Parallel.Thread receiver = Parallel.Thread.Start(() =>
-            {
-                char? incomming;
-                while (connection.Opened)
-                    while ((incomming = connection.Read()).HasValue)
-                        Console.Write(incomming.Value);
-            });
-            while (writer.Opened)
-            {
-                string outgoing = Console.In.ReadLine();
-                if (outgoing.NotEmpty())
-                    writer.WriteLine(outgoing);
-            }
-            receiver.Abort();
+			ICharacterWriter writer = CharacterWriter.Open(connection);
+			Parallel.Thread receiver = Parallel.Thread.Start(() =>
+			{
+				char? incomming;
+				while (connection.Opened)
+					while ((incomming = connection.Read()).HasValue)
+						Console.Write(incomming.Value);
+			});
+			while (writer.Opened)
+			{
+				string outgoing = Console.In.ReadLine();
+				if (outgoing.NotEmpty())
+					writer.WriteLine(outgoing);
+			}
+			receiver.Abort();
 
 		}
 		static void Echo()
