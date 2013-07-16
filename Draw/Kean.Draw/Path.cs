@@ -106,7 +106,7 @@ namespace Kean.Draw
 			return (this as System.Collections.Generic.IEnumerable<PathSegment.Abstract>).GetEnumerator();
 		}
 		#endregion
-		#region Obejct overrides
+		#region Object overrides
 		public override string ToString()
 		{
 			return this.first.NotNull() ? this.first.ToString() : "";

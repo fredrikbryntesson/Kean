@@ -144,6 +144,10 @@
       <Project>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</Project>
       <Name>Kean.Xml.Serialize.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Html\Kean.Html.Dom.Test\Kean.Html.Dom.Test.csproj">
+      <Project>{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}</Project>
+      <Name>Kean.Html.Dom.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
