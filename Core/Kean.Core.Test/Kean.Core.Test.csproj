@@ -8,16 +8,29 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Kean.Core.Test</RootNamespace>
     <AssemblyName>Kean.Core.Test</AssemblyName>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SolutionDir)packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -27,22 +40,12 @@
     <Compile Include="StringExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kean.Core.Collection.Test\Kean.Core.Collection.Test.csproj">
-      <Project>{598867cf-a027-46ea-a5c8-0ef7fd21a61c}</Project>
-      <Name>Kean.Core.Collection.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Error.Test\Kean.Core.Error.Test.csproj">
-      <Project>{bff45f8c-ea7d-4b63-9deb-8196ad061d10}</Project>
-      <Name>Kean.Core.Error.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Reflect.Test\Kean.Core.Reflect.Test.csproj">
-      <Project>{30a5ae45-568b-48df-8be1-163b316a7b0b}</Project>
-      <Name>Kean.Core.Reflect.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kean.Core.Uri.Test\Kean.Core.Uri.Test.csproj">
-      <Project>{6d086688-cdfe-4f96-b0fa-13b22f7b0808}</Project>
-      <Name>Kean.Core.Uri.Test</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(ProjectDir)..\..\Common.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <ItemGroup>
     <ProjectReference Include="..\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
@@ -52,11 +55,4 @@
       <Name>Kean.Test</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(ProjectDir)..\..\Common.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

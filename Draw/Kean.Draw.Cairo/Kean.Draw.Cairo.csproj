@@ -9,11 +9,26 @@
     <RootNamespace>Kean.Draw.Cairo</RootNamespace>
     <AssemblyName>Kean.Draw.Cairo</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <BuildPackage>true</BuildPackage>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bgra.cs" />
@@ -66,22 +81,21 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-      <HintPath>..\..\packages\GLib.Sharp.2.28.1.1\lib\glib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\packages\Cairo.2.0.0.1\lib\Mono.Cairo.dll</HintPath>
+      <HintPath>..\..\..\packages\GLib.Sharp.2.28.1.1\lib\net40-client\glib-sharp.dll</HintPath>
+      <Package>glib-sharp-2.0</Package>
     </Reference>
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-      <HintPath>..\..\packages\Pango.1.28.3.1\lib\pango-sharp.dll</HintPath>
+      <HintPath>..\..\..\packages\Pango.1.28.3.1\lib\net40-client\pango-sharp.dll</HintPath>
+      <Package>gtk-sharp-2.0</Package>
+    </Reference>
+    <Reference Include="Mono.Cairo">
+      <HintPath>..\..\..\packages\Cairo.2.0.0.1\lib\net40-client\Mono.Cairo.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\..\packages\GLib.Sharp.2.28.1.1\build\GLib.Sharp.targets" Condition="Exists('..\..\packages\GLib.Sharp.2.28.1.1\build\GLib.Sharp.targets')" />
-  <Import Project="..\..\packages\Cairo.2.0.0.1\build\Cairo.targets" Condition="Exists('..\..\packages\Cairo.2.0.0.1\build\Cairo.targets')" />
-  <Import Project="..\..\packages\Pango.1.28.3.1\build\Pango.targets" Condition="Exists('..\..\packages\Pango.1.28.3.1\build\Pango.targets')" />
+  <Import Project="..\..\..\packages\GLib.Sharp.2.28.1.1\build\GLib.Sharp.targets" Condition="Exists('..\..\..\packages\GLib.Sharp.2.28.1.1\build\GLib.Sharp.targets')" />
+  <Import Project="..\..\..\packages\Cairo.2.0.0.1\build\Cairo.targets" Condition="Exists('..\..\..\packages\Cairo.2.0.0.1\build\Cairo.targets')" />
+  <Import Project="..\..\..\packages\Pango.1.28.3.1\build\Pango.targets" Condition="Exists('..\..\..\packages\Pango.1.28.3.1\build\Pango.targets')" />
 </Project>

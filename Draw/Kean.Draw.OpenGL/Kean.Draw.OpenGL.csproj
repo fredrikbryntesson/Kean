@@ -9,29 +9,42 @@
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BuildPackage>true</BuildPackage>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>..\..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.GLControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Composition.cs" />
@@ -99,7 +112,7 @@
       <Name>Kean.Core.Error</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Parallel\Kean.Core.Parallel.csproj">
-      <Project>{8b708cfe-daba-40d5-8830-4c0d67dae732}</Project>
+      <Project>{8B708CFE-DABA-40D5-8830-4C0D67DAE732}</Project>
       <Name>Kean.Core.Parallel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Recycle\Kean.Core.Recycle.csproj">
@@ -107,7 +120,7 @@
       <Name>Kean.Core.Recycle</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
-      <Project>{d44cae32-71ea-4bd9-8a41-8ec84526b596}</Project>
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
       <Name>Kean.Core.Reflect</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">

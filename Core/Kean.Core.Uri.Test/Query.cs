@@ -28,31 +28,31 @@ using Kean.Core;
 
 namespace Kean.Core.Uri.Test
 {
-    [TestFixture]
-    public class Query :
-        Kean.Test.Fixture<Query>
-    {
-        string prefix = "Kean.Core.Uri.Test.Query.";
-        protected override void Run()
-        {
-            this.Run(this.EqualityNull, this.Equality, this.RemoveList, this.RemoveQuery, this.AddQuery);
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.Query query = null;
-            Verify(query, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Verify(query == null, Is.True, this.prefix + "EqualityNull.1");
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.Query query = "keyA=valueA&keyB=valueB&key+c=value+c";
-            Verify(query, Is.Not.EqualTo(null), this.prefix + "Equality.0");
+	[TestFixture]
+	public class Query :
+		Kean.Test.Fixture<Query>
+	{
+		string prefix = "Kean.Core.Uri.Test.Query.";
+		protected override void Run()
+		{
+			this.Run(this.EqualityNull, this.Equality, this.RemoveList, this.RemoveQuery, this.AddQuery);
+		}
+		[Test]
+		public void EqualityNull()
+		{
+			Target.Query query = null;
+			Verify(query, Is.EqualTo(null), this.prefix + "EqualityNull.0");
+			Verify(query == null, Is.True, this.prefix + "EqualityNull.1");
+		}
+		[Test]
+		public void Equality()
+		{
+			Target.Query query = "keyA=valueA&keyB=valueB&key+c=value+c";
+			Verify(query, Is.Not.EqualTo(null), this.prefix + "Equality.0");
 			Verify(query != null, Is.True, this.prefix + "Equality.1");
-            Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB&key+c=value+c"), this.prefix + "Equality.2");
+			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB&key+c=value+c"), this.prefix + "Equality.2");
 			Verify(query == "keyA=valueA&keyB=valueB&key+c=value+c", Is.True, this.prefix + "Equality.3");
-            Verify(query["keyA"], Is.EqualTo("valueA"), this.prefix + "Equality.4");
+			Verify(query["keyA"], Is.EqualTo("valueA"), this.prefix + "Equality.4");
 			Verify(query["keyB"], Is.EqualTo("valueB"), this.prefix + "Equality.5");
 			Verify(query["key c"], Is.EqualTo("value c"), this.prefix + "Equality.6");
 		}
@@ -96,5 +96,5 @@ namespace Kean.Core.Uri.Test
 			query["keyC"] = "valueC";
 			Verify((string)query, Is.EqualTo("keyC=valueC&keyB=valueB"), this.prefix + "AddQuery.1");
 		}
-    }
+	}
 }

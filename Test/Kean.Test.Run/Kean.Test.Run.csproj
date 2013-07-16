@@ -9,14 +9,25 @@
     <RootNamespace>Kean.Test.Run</RootNamespace>
     <AssemblyName>Kean.Test.Run</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -48,7 +59,7 @@
       <Name>Kean.Draw.Cairo.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Draw\Kean.Draw.OpenGL.Test\Kean.Draw.OpenGL.Test.csproj">
-      <Project>{daf60380-c1c0-4f80-a2cd-11a5a836ab52}</Project>
+      <Project>{DAF60380-C1C0-4F80-A2CD-11A5A836AB52}</Project>
       <Name>Kean.Draw.OpenGL.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Draw\Kean.Draw.Raster.Test\Kean.Draw.Raster.Test.csproj">
@@ -136,8 +147,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
