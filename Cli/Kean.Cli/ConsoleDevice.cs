@@ -38,7 +38,7 @@ namespace Kean.Cli
 		public ConsoleDevice()
 		{
 			this.LocalEcho = true;
-			if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+			if (System.Environment.OSVersion.Platform == PlatformID.Win32NT || System.Environment.OSVersion.Platform == PlatformID.Win32Windows)
 				try
 				{
 					int w = Console.WindowWidth;
