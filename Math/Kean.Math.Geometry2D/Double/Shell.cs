@@ -123,11 +123,11 @@ namespace Kean.Math.Geometry2D.Double
 		}
 		public static explicit operator Single.Shell(Shell value)
 		{
-			return new Single.Shell((Kean.Math.Single)(value.Left), (Kean.Math.Single)(value.Right), (Kean.Math.Single)(value.Top), (Kean.Math.Single)(value.Bottom));
+			return new Single.Shell((float)value.Left, (float)value.Right, (float)value.Top, (float)value.Bottom);
 		}
 		public static explicit operator Integer.Shell(Shell value)
 		{
-			return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+			return new Integer.Shell((int)value.Left, (int)value.Right, (int)value.Top, (int)value.Bottom);
 		}
 		public static implicit operator string(Shell value)
 		{

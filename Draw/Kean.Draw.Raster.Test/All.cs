@@ -18,19 +18,18 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
 namespace Kean.Draw.Raster.Test
 {
 	public static class All
 	{
-		public static void Test()
+		public static void Test ()
 		{
 			//Bgr.Test();
-			Bgra.Test();
-			Transform.Test();
-			Convert.Test();
+			Bgra.Test ();
+			//Transform.Test ();
+			Convert.Test ();
 		}
 	}
 }

@@ -305,7 +305,7 @@ namespace Kean.Math.Geometry2D.Single
         }
         public static explicit operator Integer.Transform(Transform value)
         {
-            return new Integer.Transform((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+            return new Integer.Transform((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F);
         }
         public static implicit operator string(Transform value)
         {

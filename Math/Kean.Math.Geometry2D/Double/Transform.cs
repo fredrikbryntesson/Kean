@@ -309,11 +309,11 @@ namespace Kean.Math.Geometry2D.Double
         }
         public static explicit operator Single.Transform(Transform value)
         {
-            return new Single.Transform((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E), (Kean.Math.Single)(value.F));
+            return new Single.Transform((float)value.A, (float)value.B, (float)value.C, (float)value.D, (float)value.E, (float)value.F);
         }
         public static explicit operator Integer.Transform(Transform value)
         {
-            return new Integer.Transform((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+            return new Integer.Transform((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F);
         }
         public static implicit operator string(Transform value)
         {

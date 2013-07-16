@@ -33,96 +33,111 @@ namespace Kean.Test
 		where T : Fixture<T>, new()
 	{
 		protected string Prefix { get; private set; }
+
 		string currentTestName;
 		int currentTestCounter;
+
 		protected string CurrentTestStep { get { return this.Prefix + this.currentTestName + "." + this.currentTestCounter; } }
-		protected OperatingSystem OperatingSystem 
-		{
-			get
-			{
+
+		protected OperatingSystem OperatingSystem {
+			get {
 				OperatingSystem result;
-				switch (Environment.OSVersion.Platform)
-				{
-					case System.PlatformID.Unix:
-						if (System.IO.Directory.Exists("/Applications") && System.IO.Directory.Exists("/System") && System.IO.Directory.Exists("/Users") && System.IO.Directory.Exists("/Volumes"))
-							result = OperatingSystem.Mac;
-						else
-							result = OperatingSystem.Linux;
-					break;
-					case PlatformID.MacOSX:
+				switch (Environment.OSVersion.Platform) {
+				case System.PlatformID.Unix:
+					if (System.IO.Directory.Exists ("/Applications") && System.IO.Directory.Exists ("/System") && System.IO.Directory.Exists ("/Users") && System.IO.Directory.Exists ("/Volumes"))
 						result = OperatingSystem.Mac;
+					else
+						result = OperatingSystem.Linux;
 					break;
-					default:
-						result =  OperatingSystem.Windows;
+				case PlatformID.MacOSX:
+					result = OperatingSystem.Mac;
+					break;
+				default:
+					result = OperatingSystem.Windows;
 					break;
 				}
 				return result;
 			}
 		}
-		protected Fixture() :
+
+		protected Fixture () :
 			this(((Reflect.Type)typeof(T)).Name)
-		{ }
-		protected Fixture(string prefix)
 		{
-			this.Prefix = prefix.NotEmpty() ? prefix + "." : "";
 		}
+
+		protected Fixture (string prefix)
+		{
+			this.Prefix = prefix.NotEmpty () ? prefix + "." : "";
+		}
+
 		[TestFixtureSetUp]
-		public virtual void Setup()
+		public virtual void Setup ()
 		{
 		}
+
 		[TestFixtureTearDown]
-		public virtual void TearDown()
+		public virtual void TearDown ()
 		{
 		}
+
 		[SetUp]
-		public virtual void PreTest()
+		public virtual void PreTest ()
 		{
 		}
+
 		[TearDown]
-		public virtual void PostTest()
+		public virtual void PostTest ()
 		{
 		}
-		protected abstract void Run();
-		protected void Run(Test test)
+
+		protected abstract void Run ();
+
+		protected void Run (Test test)
 		{
 			this.currentTestCounter = -1;
 			this.currentTestName = test.Name;
-			test.Run(this.PreTest, this.PostTest);
-			Console.Write(".");
+			test.Run (this.PreTest, this.PostTest);
+			Console.Write (".");
 		}
-		protected void Run(params Test[] tests)
+
+		protected void Run (params Test[] tests)
 		{
 			foreach (Test test in tests)
-				this.Run(test);
+				this.Run (test);
 		}
-		protected void Run(params Action[] tests)
+
+		protected void Run (params Action[] tests)
 		{
 			foreach (Action test in tests)
-				this.Run((Test)test);
+				this.Run ((Test)test);
 		}
-		public static void Test()
+
+		public static void Test ()
 		{
-			T fixture = new T();
-			Console.Write(fixture.Prefix);
-			fixture.Setup();
-			fixture.Run();
-			fixture.TearDown();
-			Console.WriteLine("done");
+			T fixture = new T ();
+			Console.Write (fixture.Prefix);
+			fixture.Setup ();
+			fixture.Run ();
+			fixture.TearDown ();
+			Console.WriteLine ("done");
 		}
-		public static void VerifyAsResource(string filename, string resource, string message, params object[] arguments)
+
+		public static void VerifyAsResource (string filename, string resource, string message, params object[] arguments)
 		{
-			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open),
-				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.')), message, arguments);
+			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly ();
+			FileAssert.AreEqual (System.IO.File.Open (filename, System.IO.FileMode.Open),
+			                     assembly.GetManifestResourceStream (assembly.GetName ().Name + ((string)resource).Replace ('/', '.')), message, arguments);
 		}
-		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)
+
+		public void Verify (object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)
 		{
-			Expect(actual, constraint, message, arguments);
+			Expect (actual, constraint, message, arguments);
 		}
-		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint)
+
+		public void Verify (object actual, NUnit.Framework.Constraints.Constraint constraint)
 		{
 			this.currentTestCounter++;
-			Verify(actual, constraint, this.CurrentTestStep);
+			Verify (actual, constraint, this.CurrentTestStep);
 		}
 	}
 }
