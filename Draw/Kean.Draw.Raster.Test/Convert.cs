@@ -22,249 +22,254 @@
 using System;
 using NUnit.Framework;
 using Geometry2D = Kean.Math.Geometry2D;
-
 namespace Kean.Draw.Raster.Test
 {
-	[TestFixture]
-	public class Convert :
+    [TestFixture]
+    public class Convert :
 		Fixture<Convert>
-	{
-		public Convert () :
+    {
+        public Convert() :
 			base(30f)
-		{
-		}
+        {
+        }
+        protected override void Run()
+        {
+            this.Run(
+                this.Open,
+                this.Equality,
+                this.Inequality,
+                this.Save,
+                this.Copy,
+                this.Monochrome,
+                this.Bgr,
+                this.Bgra,
+                this.Yuv420,
+                this.Yvu420,
+                this.Yuv422,
+                this.Yuv444,
+                this.Yuyv,
+                this.Uyvy
+            );
+        }
+        #region Basic Operations
+        [Test]
+        public void Open()
+        {
+            using (Raster.Image bitmap = Raster.Image.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)));
+                Verify(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 3));
+            }
+            using (Raster.Image bitmap = Raster.Image.OpenResource("Correct/Convert/monochrome.png"))
+            {
+                Verify(bitmap.Size, Is.EqualTo(new Geometry2D.Integer.Size(800, 348)));
+                Verify(bitmap.Length, Is.EqualTo(new Geometry2D.Integer.Size(800, 348).Area * 4));
+            }
 
-		protected override void Run ()
-		{
-			this.Run (
-				this.Open,
-				this.Equality,
-				this.Inequality,
-				this.Save,
-				this.Copy,
-				this.Monochrome,
-				this.Bgr,
-				this.Bgra,
-				this.Yuv420,
-				this.Yvu420,
-				this.Yuv422,
-				this.Yuv444,
-				this.Yuyv,
-				this.Uyvy
-			);
-		}
-		#region Basic Operations
-		[Test]
-		public void Open ()
-		{
-			using (Raster.Image bitmap = Raster.Image.OpenResource("Correct/Convert/original.png")) {
-				Verify (bitmap.Size, Is.EqualTo (new Geometry2D.Integer.Size (800, 348)));
-				Verify (bitmap.Length, Is.EqualTo (new Geometry2D.Integer.Size (800, 348).Area * 3));
-			}
-			using (Raster.Image bitmap = Raster.Image.OpenResource("Correct/Convert/monochrome.png")) {
-				Verify (bitmap.Size, Is.EqualTo (new Geometry2D.Integer.Size (800, 348)));
-				Verify (bitmap.Length, Is.EqualTo (new Geometry2D.Integer.Size (800, 348).Area * 4));
-			}
-
-		}
-
-		[Test]
-		public void Equality ()
-		{
-			using (Raster.Image first = Raster.Image.OpenResource("Correct/Convert/original.png"))
-				Verify (first, "Correct/Convert/original.png");
-		}
-
-		[Test]
-		public void Inequality ()
-		{
-			using (Raster.Image first = Raster.Image.OpenResource("Correct/Convert/original.png"))
-				Verify (first, "Correct/Convert/monochrome.png", Is.GreaterThan (this.Tolerance));
-		}
-
-		[Test]
-		public void Save ()
-		{
-			if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-				using (Raster.Image original = Raster.Image.OpenResource("Correct/Convert/original.png")) {
-					original.Save ("original.png");
-					original.Save ("original.bmp");
-					using (Raster.Image opened = Raster.Image.Open("original.png"))
-						Verify (opened, original);
-					using (Raster.Image opened = Raster.Image.Open("original.bmp"))
-						Verify (opened, original);
-				}
-			}
-		}
-
-		[Test]
-		public void Copy ()
-		{
-			using (Raster.Image original = Raster.Image.OpenResource("Correct/Convert/original.png"))
-			using (Raster.Image copy = original.Copy() as Raster.Image) {
-				Verify (original.Pointer, Is.Not.EqualTo (copy.Pointer));
-				Verify (copy, original);
-			}
-		}
-		#endregion
-		#region Convert
-		[Test]
-		public void Monochrome ()
-		{
-			using (Raster.Monochrome original = Raster.Monochrome.OpenResource("Correct/Convert/original.png")) {
-				Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/monochrome.png");
-				if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/monochrome.png");
-				}
-				Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/monochrome.png");
-			}
-		}
-
-		[Test]
-		public void Bgr ()
-		{
-			using (Raster.Bgr original = Raster.Bgr.OpenResource("Correct/Convert/original.png")) {
-				Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-				if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-				}
-				Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-			}
-		}
-
-		[Test]
-		public void Bgra ()
-		{
-			using (Raster.Bgra original = Raster.Bgra.OpenResource("Correct/Convert/original.png")) {
-				Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-				if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-				}
-				Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-			}
-		}
-
-		[Test]
-		public void Yuv420 ()
-		{
-			if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows)
-				using (Raster.Yuv420 original = Raster.Yuv420.OpenResource("Correct/Convert/original.png")) {
-					Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-				}
-		}
-
-		[Test]
-		public void Yvu420 ()
-		{
-			if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows)
-				using (Raster.Yvu420 original = Raster.Yvu420.OpenResource("Correct/Convert/original.png")) {
-					Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-				}
-		}
-
-		[Test]
-		public void Yuv422 ()
-		{
-			if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows)
-				using (Raster.Yuv422 original = Raster.Yuv422.OpenResource("Correct/Convert/original.png")) {
-					Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-				}
-		}
-
-		[Test]
-		public void Yuv444 ()
-		{
-			if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows)
-				using (Raster.Yuv444 original = Raster.Yuv444.OpenResource("Correct/Convert/original.png")) {
-					Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-					Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-				}
-		}
-
-		[Test]
-		public void Yuyv ()
-		{
-			using (Raster.Yuyv original = Raster.Yuyv.OpenResource("Correct/Convert/original.png")) {
-				Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-				if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-				}
-				Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-			}
-		}
-
-		[Test]
-		public void Uyvy ()
-		{
-			using (Raster.Uyvy original = Raster.Uyvy.OpenResource("Correct/Convert/original.png")) {
-				Verify (original.Convert<Raster.Monochrome> (), "Correct/Convert/monochrome.png");
-				Verify (original.Convert<Raster.Bgr> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Bgra> (), "Correct/Convert/original.png");
-				if (this.OperatingSystem == Kean.Test.OperatingSystem.Windows) {
-					Verify (original.Convert<Raster.Yuv420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yvu420> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv422> (), "Correct/Convert/original.png");
-					Verify (original.Convert<Raster.Yuv444> (), "Correct/Convert/original.png");
-				}
-				Verify (original.Convert<Raster.Yuyv> (), "Correct/Convert/original.png");
-				Verify (original.Convert<Raster.Uyvy> (), "Correct/Convert/original.png");
-			}
-		}
-		#endregion
-	}
+        }
+        [Test]
+        public void Equality()
+        {
+            using (Raster.Image first = Raster.Image.OpenResource("Correct/Convert/original.png"))
+                Verify(first, "Correct/Convert/original.png");
+        }
+        [Test]
+        public void Inequality()
+        {
+            using (Raster.Image first = Raster.Image.OpenResource("Correct/Convert/original.png"))
+                Verify(first, "Correct/Convert/monochrome.png", Is.GreaterThan(this.Tolerance));
+        }
+        [Test]
+        public void Save()
+        {
+            if (Core.Environment.IsWindows)
+            {
+                using (Raster.Image original = Raster.Image.OpenResource("Correct/Convert/original.png"))
+                {
+                    original.Save("original.png");
+                    original.Save("original.bmp");
+                    using (Raster.Image opened = Raster.Image.Open("original.png"))
+                        Verify(opened, original);
+                    using (Raster.Image opened = Raster.Image.Open("original.bmp"))
+                        Verify(opened, original);
+                }
+            }
+        }
+        [Test]
+        public void Copy()
+        {
+            using (Raster.Image original = Raster.Image.OpenResource("Correct/Convert/original.png"))
+            using (Raster.Image copy = original.Copy() as Raster.Image)
+            {
+                Verify(original.Pointer, Is.Not.EqualTo(copy.Pointer));
+                Verify(copy, original);
+            }
+        }
+        #endregion
+        #region Convert
+        [Test]
+        public void Monochrome()
+        {
+            using (Raster.Monochrome original = Raster.Monochrome.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/monochrome.png");
+                if (Core.Environment.IsWindows)
+                {
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/monochrome.png");
+                }
+                Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/monochrome.png");
+            }
+        }
+        [Test]
+        public void Bgr()
+        {
+            using (Raster.Bgr original = Raster.Bgr.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                if (Core.Environment.IsWindows)
+                {
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                }
+                Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+            }
+        }
+        [Test]
+        public void Bgra()
+        {
+            using (Raster.Bgra original = Raster.Bgra.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                if (Core.Environment.IsWindows)
+                {
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                }
+                Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+            }
+        }
+        [Test]
+        public void Yuv420()
+        {
+            if (Core.Environment.IsWindows)
+                using (Raster.Yuv420 original = Raster.Yuv420.OpenResource("Correct/Convert/original.png"))
+                {
+                    Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+                }
+        }
+        [Test]
+        public void Yvu420()
+        {
+            if (Core.Environment.IsWindows)
+                using (Raster.Yvu420 original = Raster.Yvu420.OpenResource("Correct/Convert/original.png"))
+                {
+                    Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+                }
+        }
+        [Test]
+        public void Yuv422()
+        {
+            if (Core.Environment.IsWindows)
+                using (Raster.Yuv422 original = Raster.Yuv422.OpenResource("Correct/Convert/original.png"))
+                {
+                    Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+                }
+        }
+        [Test]
+        public void Yuv444()
+        {
+            if (Core.Environment.IsWindows)
+                using (Raster.Yuv444 original = Raster.Yuv444.OpenResource("Correct/Convert/original.png"))
+                {
+                    Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                    Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+                }
+        }
+        [Test]
+        public void Yuyv()
+        {
+            using (Raster.Yuyv original = Raster.Yuyv.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                if (Core.Environment.IsWindows)
+                {
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                }
+                Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+            }
+        }
+        [Test]
+        public void Uyvy()
+        {
+            using (Raster.Uyvy original = Raster.Uyvy.OpenResource("Correct/Convert/original.png"))
+            {
+                Verify(original.Convert<Raster.Monochrome>(), "Correct/Convert/monochrome.png");
+                Verify(original.Convert<Raster.Bgr>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Bgra>(), "Correct/Convert/original.png");
+                if (Core.Environment.IsWindows)
+                {
+                    Verify(original.Convert<Raster.Yuv420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yvu420>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv422>(), "Correct/Convert/original.png");
+                    Verify(original.Convert<Raster.Yuv444>(), "Correct/Convert/original.png");
+                }
+                Verify(original.Convert<Raster.Yuyv>(), "Correct/Convert/original.png");
+                Verify(original.Convert<Raster.Uyvy>(), "Correct/Convert/original.png");
+            }
+        }
+        #endregion
+    }
 }
