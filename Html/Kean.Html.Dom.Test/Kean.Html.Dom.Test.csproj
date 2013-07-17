@@ -1,18 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Condition="Exists('$(ProjectDir)..\..\Properties.targets')" Project="$(ProjectDir)..\..\Properties.targets" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kean.Html.Dom.Test</RootNamespace>
     <AssemblyName>Kean.Html.Dom.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
@@ -36,7 +29,7 @@
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,107 +51,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Paragraph.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Heading.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Anchor.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Abbreviation.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Address.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Aside.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Audio.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Emphasized.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Strong.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Definition.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Code.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.KeyBoardInput.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Sample.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Variable.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.DescriptionList.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Division.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Italic.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.InlineFrame.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Form.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Mark.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Meter.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.NoScript.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.OrderedList.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Select.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.PreformattedText.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Progress.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Small.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Quote.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Caption.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Cite.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Object.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.TextArea.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.Base.0.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Correct\Kean.Html.Dom.Test.Save.BidirectionalOverride.0.html" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
