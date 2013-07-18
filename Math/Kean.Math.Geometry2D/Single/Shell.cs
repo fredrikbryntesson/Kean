@@ -119,7 +119,7 @@ namespace Kean.Math.Geometry2D.Single
 		}
 		public static explicit operator Integer.Shell(Shell value)
 		{
-			return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+			return new Integer.Shell((int)value.Left, (int)value.Right, (int)value.Top, (int)value.Bottom);
 		}
 		public static implicit operator string(Shell value)
 		{

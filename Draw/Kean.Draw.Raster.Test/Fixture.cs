@@ -18,11 +18,9 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using Kean.Core;
 using Kean.Core.Extension;
 using NUnit.Framework;
-
 using Reflect = Kean.Core.Reflect;
 
 namespace Kean.Draw.Raster.Test
@@ -32,37 +30,41 @@ namespace Kean.Draw.Raster.Test
 		where T : Fixture<T>, new()
 	{
 		public float Tolerance { get; private set; }
-		protected Fixture() :
+
+		protected Fixture () :
 			this(0.01f)
-		{ }
-		protected Fixture(float tolerance)
+		{
+		}
+
+		protected Fixture (float tolerance)
 		{
 			this.Tolerance = tolerance;
 		}
-		public void Verify(Draw.Image image, string resource)
+
+		public void Verify (Draw.Image image, string resource)
 		{
-			this.Verify(image, resource, Is.LessThanOrEqualTo(this.Tolerance));
+			this.Verify (image, resource, Is.LessThanOrEqualTo (this.Tolerance));
 		}
-		public void Verify(Draw.Image image, string resource, NUnit.Framework.Constraints.Constraint constraint)
+
+		public void Verify (Draw.Image image, string resource, NUnit.Framework.Constraints.Constraint constraint)
 		{
 			using (Image correct = Image.OpenResource(System.Reflection.Assembly.GetAssembly(typeof(T)), resource))
-				this.Verify(image, correct, constraint);
+				this.Verify (image, correct, constraint);
 		}
-		public void Verify(Draw.Image image, Raster.Image correct)
+
+		public void Verify (Draw.Image image, Raster.Image correct)
 		{
-			this.Verify(image, correct, Is.LessThanOrEqualTo(this.Tolerance));
+			this.Verify (image, correct, Is.LessThanOrEqualTo (this.Tolerance));
 		}
-		public void Verify(Draw.Image image, Raster.Image correct, NUnit.Framework.Constraints.Constraint constraint)
+
+		public void Verify (Draw.Image image, Raster.Image correct, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			try
-			{
-				Expect(correct, Is.Not.Null);
-				this.Verify(correct.Distance(image), constraint);
-			}
-			catch (NUnit.Framework.AssertionException)
-			{
+			try {
+				Expect (correct, Is.Not.Null);
+				this.Verify (correct.Distance (image), constraint);
+			} catch (NUnit.Framework.AssertionException) {
 				using (Raster.Image raster = image.Convert<Raster.Image>())
-					raster.Save(this.CurrentTestStep + ".png");
+					raster.Save (this.CurrentTestStep + ".png");
 				//System.Console.Write("f");
 				throw;
 			} 

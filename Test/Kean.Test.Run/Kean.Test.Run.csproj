@@ -16,15 +16,17 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
@@ -141,6 +143,10 @@
     <ProjectReference Include="..\..\Xml\Kean.Xml.Serialize.Test\Kean.Xml.Serialize.Test.csproj">
       <Project>{F2A7DBD4-8B32-4C35-BCD4-938B973F46C7}</Project>
       <Name>Kean.Xml.Serialize.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Html\Kean.Html.Dom.Test\Kean.Html.Dom.Test.csproj">
+      <Project>{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}</Project>
+      <Name>Kean.Html.Dom.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

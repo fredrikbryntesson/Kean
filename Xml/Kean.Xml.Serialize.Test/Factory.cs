@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using NUnit.Framework;
 using Kean.Core;
@@ -28,7 +27,6 @@ using Collection = Kean.Core.Collection;
 using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
 using Uri = Kean.Core.Uri;
-
 namespace Kean.Xml.Serialize.Test
 {
 	public abstract class Factory<T> :
@@ -45,7 +43,6 @@ namespace Kean.Xml.Serialize.Test
 			Factory<T>.VerifyAsResource(filename.PlatformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
 			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
 		}
-
 		byte Byte { get { return 42; } }
 		sbyte SignedByte { get { return -42; } }
 		short Short { get { return -1337; } }
@@ -64,7 +61,6 @@ namespace Kean.Xml.Serialize.Test
 		TimeSpan TimeSpan { get { return new TimeSpan(1337, 11, 11, 11, 111); } }
 		bool Boolean { get { return true; } }
 		Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
-
 		internal Factory()
 		{
 		}
@@ -73,10 +69,9 @@ namespace Kean.Xml.Serialize.Test
 			Storage = new Storage();
 			base.Setup();
 		}
-
 		protected virtual string Name(Reflect.Type type)
 		{
-			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",")  + ")" : "");
+			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",") + ")" : "");
 		}
 		protected virtual Uri.Locator ResourceName(Reflect.Type type)
 		{

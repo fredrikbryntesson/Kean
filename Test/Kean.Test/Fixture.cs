@@ -24,7 +24,6 @@ using Kean.Core.Extension;
 using NUnit.Framework;
 using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
-
 namespace Kean.Test
 {
 	[TestFixture]
@@ -36,32 +35,10 @@ namespace Kean.Test
 		string currentTestName;
 		int currentTestCounter;
 		protected string CurrentTestStep { get { return this.Prefix + this.currentTestName + "." + this.currentTestCounter; } }
-		protected OperatingSystem OperatingSystem 
-		{
-			get
-			{
-				OperatingSystem result;
-				switch (Environment.OSVersion.Platform)
-				{
-					case System.PlatformID.Unix:
-						if (System.IO.Directory.Exists("/Applications") && System.IO.Directory.Exists("/System") && System.IO.Directory.Exists("/Users") && System.IO.Directory.Exists("/Volumes"))
-							result = OperatingSystem.Mac;
-						else
-							result = OperatingSystem.Linux;
-					break;
-					case PlatformID.MacOSX:
-						result = OperatingSystem.Mac;
-					break;
-					default:
-						result =  OperatingSystem.Windows;
-					break;
-				}
-				return result;
-			}
-		}
 		protected Fixture() :
 			this(((Reflect.Type)typeof(T)).Name)
-		{ }
+		{
+		}
 		protected Fixture(string prefix)
 		{
 			this.Prefix = prefix.NotEmpty() ? prefix + "." : "";
@@ -85,7 +62,7 @@ namespace Kean.Test
 		protected abstract void Run();
 		protected void Run(Test test)
 		{
-			this.currentTestCounter = -1;
+			this.currentTestCounter = 0;
 			this.currentTestName = test.Name;
 			test.Run(this.PreTest, this.PostTest);
 			Console.Write(".");
@@ -112,8 +89,10 @@ namespace Kean.Test
 		public static void VerifyAsResource(string filename, string resource, string message, params object[] arguments)
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open),
-				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.')), message, arguments);
+			string plattformResource = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(resource), System.IO.Path.GetFileNameWithoutExtension(resource) + (Core.Environment.IsWindows ? ".windows" : ".mono") + System.IO.Path.GetExtension(resource));
+			System.IO.Stream correct = assembly.GetManifestResourceStream(assembly.GetName().Name + plattformResource.Replace('/', '.')) ??
+				assembly.GetManifestResourceStream(assembly.GetName().Name + resource.Replace('/', '.'));
+			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open), correct, message, arguments);
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)
 		{
@@ -121,8 +100,14 @@ namespace Kean.Test
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			this.currentTestCounter++;
-			Verify(actual, constraint, this.CurrentTestStep);
+			try
+			{
+				Verify(actual, constraint, this.CurrentTestStep);
+			}
+			finally
+			{
+				this.currentTestCounter++;
+			}
 		}
 	}
 }

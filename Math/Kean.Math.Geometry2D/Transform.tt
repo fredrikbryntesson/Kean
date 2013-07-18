@@ -330,9 +330,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         #region Casts
 <#+
     }  
-#>
-
-<#+
+#><#+
     void GenerateDouble(string @name)
     {
 #>
@@ -346,17 +344,15 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public static explicit operator Single.<#= @name #>(<#= @name #> value)
         {
-            return new Single.<#= @name #>((Kean.Math.Single)(value.A), (Kean.Math.Single)(value.B), (Kean.Math.Single)(value.C), (Kean.Math.Single)(value.D), (Kean.Math.Single)(value.E), (Kean.Math.Single)(value.F));
+            return new Single.<#= @name #>((float)value.A, (float)value.B, (float)value.C, (float)value.D, (float)value.E, (float)value.F);
         }
         public static explicit operator Integer.<#= @name #>(<#= @name #> value)
         {
-            return new Integer.<#= @name #>((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+            return new Integer.<#= @name #>((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F);
         }
 <#+
     }  
-#>
-
-<#+
+#><#+
     void GenerateSingle(string @name)
     {
 #>
@@ -366,12 +362,11 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         }
         public static explicit operator Integer.<#= @name #>(<#= @name #> value)
         {
-            return new Integer.<#= @name #>((Kean.Math.Integer)(value.A), (Kean.Math.Integer)(value.B), (Kean.Math.Integer)(value.C), (Kean.Math.Integer)(value.D), (Kean.Math.Integer)(value.E), (Kean.Math.Integer)(value.F));
+            return new Integer.<#= @name #>((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F);
         }
 <#+
     }  
-#>
-<#+
+#><#+
     void GenerateEnd(string @name, string @namespace, string @namespace1, string @value1)
     {
 #>

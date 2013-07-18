@@ -145,7 +145,6 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 <#+
 	}  
 #>
-
 <#+
 	void GenerateDouble(string @name)
 	{
@@ -160,16 +159,15 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		public static explicit operator Single.<#= @name #>(<#= @name #> value)
 		{
-			return new Single.<#= @name #>((Kean.Math.Single)(value.Left), (Kean.Math.Single)(value.Right), (Kean.Math.Single)(value.Top), (Kean.Math.Single)(value.Bottom));
+			return new Single.<#= @name #>((float)value.Left, (float)value.Right, (float)value.Top, (float)value.Bottom);
 		}
 		public static explicit operator Integer.<#= @name #>(<#= @name #> value)
 		{
-			return new Integer.<#= @name #>((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+			return new Integer.<#= @name #>((int)value.Left, (int)value.Right, (int)value.Top, (int)value.Bottom);
 		}
 <#+
 	}  
 #>
-
 <#+
 	void GenerateSingle(string @name)
 	{
@@ -180,7 +178,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		public static explicit operator Integer.<#= @name #>(<#= @name #> value)
 		{
-			return new Integer.<#= @name #>((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom));
+			return new Integer.<#= @name #>((int)value.Left, (int)value.Right, (int)value.Top, (int)value.Bottom);
 		}
 <#+
 	}  

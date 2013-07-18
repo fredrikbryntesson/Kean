@@ -18,18 +18,17 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
 namespace Kean.Draw.Test
 {
 	public static class All
 	{
-		public static void Test()
+		public static void Test ()
 		{
-			Path.Test();
-			Parser.Test();
-			Color.Convert.Test();
+			Path.Test ();
+			Parser.Test ();
+			Color.Convert.Test ();
 		}
 	}
 }
