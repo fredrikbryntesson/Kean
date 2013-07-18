@@ -124,7 +124,9 @@ namespace Kean.Draw.OpenGL.Backend
 					result = new Raster.Monochrome(this.Size);
 					break;
 			}
-			this.Read(result.Pointer, new Geometry2D.Integer.Box(0, 0, this.Size.Width, this.Size.Height));
+			this.Use();
+			this.Read(result.Pointer);
+			this.UnUse();
 			return result;
 		}
 		public abstract void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle);
@@ -153,7 +155,7 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract void SetFormat(TextureType type, Geometry2D.Integer.Size size);
 		protected abstract void Create(IntPtr data);
 		protected abstract void Load(IntPtr data, Geometry2D.Integer.Box region, TextureType type);
-		protected abstract void Read(IntPtr data, Geometry2D.Integer.Box region);
+		protected abstract void Read(IntPtr data);
 		protected internal abstract Texture Refurbish();
 		protected internal override void Delete()
 		{
