@@ -39,134 +39,132 @@ namespace Kean.Json.Sax
 		public event Action<string, Uri.Region, string, Uri.Region> OnString;
 		public event Action<string, Uri.Region, decimal, Uri.Region> OnNumber;
 		public event Action<string, Uri.Region, bool, Uri.Region> OnBoolean;
-
 		Tokenizer tokenizer;
-
 		public Uri.Locator Resource { get { return this.tokenizer.Resource; } }
-
 		public Uri.Position Position { get { return this.tokenizer.Position; } }
-
-		Parser(IO.ICharacterReader reader)
+		Parser (IO.ICharacterReader reader)
 		{
-			this.tokenizer = new Tokenizer(reader);
+			this.tokenizer = new Tokenizer (reader);
 		}
-
-		public bool Parse()
+		public bool Parse ()
 		{
 			bool result;
 			if (Error.Log.CatchErrors)
 			{
 				try
 				{
-					result = this.ParseHelper();
-				} 
-                catch (System.Exception e)
+					result = this.ParseHelper ();
+				}
+				catch (System.Exception e)
 				{
-					Error.Log.Append(Error.Level.Message, "Error Parsing JSON Document", "Failed parsing \"" + this.Resource + "\" on line: " + this.Position.Row + " and column: " + this.Position.Column + " with error: \"" + e.Message + "\"");
+					Error.Log.Append (Error.Level.Message, "Error Parsing JSON Document", "Failed parsing \"" + this.Resource + "\" on line: " + this.Position.Row + " and column: " + this.Position.Column + " with error: \"" + e.Message + "\"");
 					result = false;
 				}
-			} else
-				result = ParseHelper();
+			}
+			else
+				result = ParseHelper ();
 			return result;
 		}
-
-		bool ParseHelper()
+		bool ParseHelper ()
 		{
-			Collection.Stack<Token> stack = new Collection.Stack<Token>();
+			Collection.Stack<Token> stack = new Collection.Stack<Token> ();
 			foreach (Token token in this.tokenizer)
 			{
 				if (token is Token.Symbol)
 					switch ((token as Token.Symbol).Value)
 					{
-						case '{': 
+					case '{': 
+						{
+							Token.Colon colon;
+							Token.String label;
+							if (!stack.Empty && (colon = stack.Pop () as Token.Colon).NotNull () && (label = stack.Pop () as Token.String).NotNull ())
+								this.OnObjectStart.Call (label.Value, label.Region, label.Region + colon.Region + token.Region);
+							else
+								this.OnObjectStart.Call (null, null, token.Region); 
+							break;
+						}
+					case '[':
+						{
+							Token.Colon colon;
+							Token.String label;
+							if (!stack.Empty && (colon = stack.Pop () as Token.Colon).NotNull () && (label = stack.Pop () as Token.String).NotNull ())
+								this.OnArrayStart.Call (label.Value, label.Region, label.Region + colon.Region + token.Region); 
+							break;
+						}
+					case ':':
+						stack.Push (token);
+						break;
+					case '}':
+					case ']':
+					case ',':
+						{
+							if (!stack.Empty)
 							{
+								Token previous = stack.Pop ();
 								Token.Colon colon;
+								string labelValue = null;
+								Uri.Region labelRegion = null;
 								Token.String label;
-								if (!stack.Empty && (colon = stack.Pop() as Token.Colon).NotNull() && (label = stack.Pop() as Token.String).NotNull())
-									this.OnObjectStart.Call(label.Value, label.Region, label.Region + colon.Region + token.Region);
+								Uri.Region region = previous.Region + token.Region;
+								if (!stack.Empty && (colon = stack.Pop () as Token.Colon).NotNull () && (label = stack.Pop () as Token.String).NotNull ())
+								{
+									region = label.Region + colon.Region + region;
+									labelValue = label.Value;
+									labelRegion = label.Region;
+								}
+								if (previous is Token.Null)
+									this.OnNull.Call (labelValue, labelRegion, region);
 								else
-									this.OnObjectStart.Call(null, null, token.Region); 
-								break;
+								if (previous is Token.String)
+									this.OnString.Call (labelValue, labelRegion, (previous as Token.String).Value, region);
+								else
+								if (previous is Token.Number)
+									this.OnNumber.Call (labelValue, labelRegion, (previous as Token.Number).Value, region);
+								else
+								if (previous is Token.Boolean)
+									this.OnBoolean.Call (labelValue, labelRegion, (previous as Token.Boolean).Value, region);
+								if (token is Token.RightBrace)
+									this.OnObjectEnd.Call (token.Region);
+								else
+								if (token is Token.RightBracket)
+									this.OnArrayEnd.Call (token.Region);
 							}
-						case '[':
-							{
-								Token.Colon colon;
-								Token.String label;
-								if (!stack.Empty && (colon = stack.Pop() as Token.Colon).NotNull() && (label = stack.Pop() as Token.String).NotNull())
-									this.OnArrayStart.Call(label.Value, label.Region, label.Region + colon.Region + token.Region); 
-								break;
-							}
-						case ':':
-							stack.Push(token);
 							break;
-                        case '}':
-                        case ']':
-                        case ',':
-							{
-                                if (!stack.Empty)
-                                {
-                                    Token previous = stack.Pop();
-                                    Token.Colon colon;
-                                    Token.String label;
-                                    if (!stack.Empty && (colon = stack.Pop() as Token.Colon).NotNull() && (label = stack.Pop() as Token.String).NotNull())
-                                    {
-                                        Uri.Region region = label.Region + colon.Region + previous.Region + token.Region;
-                                        if (previous is Token.Null)
-                                            this.OnNull.Call(label.Value, label.Region, region);
-                                        else if (previous is Token.String)
-                                            this.OnString.Call(label.Value, label.Region, (previous as Token.String).Value, region);
-                                        else if (previous is Token.Number)
-                                            this.OnNumber.Call(label.Value, label.Region, (previous as Token.Number).Value, region);
-                                        else if (previous is Token.Boolean)
-                                            this.OnBoolean.Call(label.Value, label.Region, (previous as Token.Boolean).Value, region);
-                                    }
-                                }
-                                if (token is Token.RightBrace)
-									this.OnObjectEnd.Call(token.Region);
-								else if (token is Token.RightBracket)
-									this.OnArrayEnd.Call(token.Region);
-
-								break;
-							}
-						default:
-					char symbol = (token as Token.Symbol).Value;
-					Console.Write(symbol);
-							break;
+						}
+					default:
+						char symbol = (token as Token.Symbol).Value;
+						Console.Write (symbol);
+						break;
 					}
 				else
-					stack.Push(token);
+					stack.Push (token);
 			}
 			return stack.Empty;
 		}
 		#region Static Open
-		public static Parser Open(System.Reflection.Assembly assembly, Uri.Path path)
+		public static Parser Open (System.Reflection.Assembly assembly, Uri.Path path)
 		{
-			return Parser.Open(IO.ByteDevice.Open(assembly, path));
+			return Parser.Open (IO.ByteDevice.Open (assembly, path));
 		}
-
-		public static Parser Open(System.IO.Stream stream)
+		public static Parser Open (System.IO.Stream stream)
 		{
-			return Parser.Open(IO.ByteDevice.Open(stream));
+			return Parser.Open (IO.ByteDevice.Open (stream));
 		}
-
-		public static Parser Open(Uri.Locator resource)
+		public static Parser Open (Uri.Locator resource)
 		{
-			return Parser.Open(IO.ByteDevice.Open(resource));
+			return Parser.Open (IO.ByteDevice.Open (resource));
 		}
-
-		public static Parser Open(IO.IByteDevice device)
+		public static Parser Open (IO.IByteDevice device)
 		{
-			return Parser.Open(IO.CharacterDevice.Open(device));
+			return Parser.Open (IO.CharacterDevice.Open (device));
 		}
-
-		public static Parser Open(IO.ICharacterInDevice device)
+		public static Parser Open (IO.ICharacterInDevice device)
 		{
-			return Parser.Open(IO.CharacterReader.Open(device));
+			return Parser.Open (IO.CharacterReader.Open (device));
 		}
-
-		public static Parser Open(IO.ICharacterReader reader)
+		public static Parser Open (IO.ICharacterReader reader)
 		{
-			return reader.NotNull() ? new Parser(reader) : null;
+			return reader.NotNull () ? new Parser (reader) : null;
 		}
 		#endregion
 	}

@@ -35,98 +35,110 @@ namespace Kean.Json.Dom
 		Core.Collection.IDictionary<Label, Item> backend;
 		public Object () :
 			this((Uri.Region) null)
-		{ }
+		{
+		}
 		public Object (Uri.Region region) :
 			base(region)
 		{
-			Core.Collection.Hooked.List<KeyValue<Label, Item>> list = new Core.Collection.Hooked.List<KeyValue<Label,Item>>();
+			Core.Collection.Hooked.List<KeyValue<Label, Item>> list = new Core.Collection.Hooked.List<KeyValue<Label,Item>> ();
 			list.Added += (index, item) =>
 			{
-				if (item.NotNull() && item.Value.NotNull())
+				if (item.NotNull () && item.Value.NotNull ())
 					item.Value.Parent = this;
 			};
 			list.Removed += (index, item) =>
 			{
-				if (item.NotNull() && item.Value.NotNull())
+				if (item.NotNull () && item.Value.NotNull ())
 					item.Value.Parent = null;
 			};
 			list.Replaced += (index, old, @new) =>
 			{
-				if (old.NotNull() && old.Value.NotNull())
+				if (old.NotNull () && old.Value.NotNull ())
 					old.Value.Parent = null;
-				if (@new.NotNull() && @new.Value.NotNull())
+				if (@new.NotNull () && @new.Value.NotNull ())
 					@new.Value.Parent = this;
 			};
-			this.backend = new Core.Collection.Wrap.ListDictionary<Label, Item>(list);
+			this.backend = new Core.Collection.Wrap.ListDictionary<Label, Item> (list);
 		}
 		public Object (params KeyValue<string, Item>[] items) :
 			this((Uri.Region) null)
 		{
 			foreach (KeyValue<string, Item> item in items)
-				this[item.Key] = item.Value;
+				this [item.Key] = item.Value;
 		}
 		public Object (params KeyValue<Label, Item>[] items)
 		{
 			foreach (KeyValue<Label, Item> item in items)
-				this[item.Key] = item.Value;
+				this [item.Key] = item.Value;
 		}
-		public Object Add(Label label, Item item)
+		public Object Add (Label label, Item item)
 		{
-			this[label] = item;
+			this [label] = item;
 			return this;
 		}
-		internal override Collection Add(string label, Uri.Region region, Item item)
+		public Object Add (Label label, params Item[] items)
 		{
-			this[new Label(label, region)] = item;
+			this [label] = items;
+			return this;
+		}
+		public Object Add (params KeyValue<Label, Item>[] items)
+		{
+			foreach (KeyValue<Label, Item> item in items)
+				this [item.Key] = item.Value;
+			return this;
+		}
+		internal override Collection Add (string label, Uri.Region region, Item item)
+		{
+			this [new Label (label, region)] = item;
 			return this;
 		}
 		#region IEnumerable implementation
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
 		{
-			return this.backend.GetEnumerator();
+			return this.backend.GetEnumerator ();
 		}
 		#endregion
 		#region IEnumerable implementation
 		public System.Collections.Generic.IEnumerator<KeyValue<Label, Item>> GetEnumerator ()
 		{
-			return this.backend.GetEnumerator();
+			return this.backend.GetEnumerator ();
 		}
 		#endregion
-        #region IEquatable implementation
-        public override int GetHashCode()
-        {
-            return this.backend.GetHashCode();
-        }
-        public override bool Equals(object other)
-        {
-            return this.Equals(other as Object);
-        }
-        public override bool Equals(Item other)
-        {
-            return other is Object && this.Equals(other as Object);
-        }
-        public bool Equals(Object other)
-        {
-            return other.NotNull() && this.Equals(other.backend as IDictionary<Label, Item>);
-        }
-        public bool Equals(IDictionary<Label, Item> other)
-        {
-            return this.backend.Equals(other);
-        }
-        #endregion
+		#region IEquatable implementation
+		public override int GetHashCode ()
+		{
+			return this.backend.GetHashCode ();
+		}
+		public override bool Equals (object other)
+		{
+			return this.Equals (other as Object);
+		}
+		public override bool Equals (Item other)
+		{
+			return other is Object && this.Equals (other as Object);
+		}
+		public bool Equals (Object other)
+		{
+			return other.NotNull () && this.Equals (other.backend as IDictionary<Label, Item>);
+		}
+		public bool Equals (IDictionary<Label, Item> other)
+		{
+			return this.backend.Equals (other);
+		}
+		#endregion
 		#region IDictionary implementation
 		public bool Contains (Label key)
 		{
-			return this.backend.Contains(key);
+			return this.backend.Contains (key);
 		}
 		public bool Remove (Label key)
 		{
-			return this.backend.Remove(key);
+			return this.backend.Remove (key);
 		}
-		public Item this[Label key] 
+		public Item this [Label key]
 		{
-			get { return this.backend[key]; }
-			set { this.backend[key] = value; }
+			get { return this.backend [key]; }
+			set { this.backend [key] = value; }
 		}
 		#endregion
 	}
