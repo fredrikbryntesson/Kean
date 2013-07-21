@@ -27,8 +27,13 @@ namespace Kean.Test.Run
 		public static void Main (string[] args)
 		{
 			Core.Error.Log.CatchErrors = false;
+			#region Json
+			Json.Dom.Test.All.Test();
+			//Json.Serialize.Test.All.Test();
+			#endregion
+			#region Html
 			Html.Dom.Test.All.Test();
-
+			#endregion
 			#region Core
 			Core.Test.All.Test ();
 			Core.Collection.Test.All.Test ();
@@ -58,10 +63,6 @@ namespace Kean.Test.Run
 			#region Xml
 			Xml.Serialize.Test.All.Test ();
 			Xml.Dom.Test.All.Test ();
-			#endregion
-			#region Json
-			//Json.Dom.Test.All.Test();			
-			//Json.Serialize.Test.All.Test();
 			#endregion
 			Console.WriteLine ();
 			Console.WriteLine ("Press any key to continue");

@@ -47,7 +47,7 @@ namespace Kean.DB.Sql
 			if (limit > 0)
 				query = " LIMIT " + limit;
 			if (offset > 0)
-				query = " OFFSET " + limit;
+				query = " OFFSET " + offset;
 			if (where.NotEmpty())
 				query = " WHERE " + where;
 			if (orderBy.NotEmpty())
