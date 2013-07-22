@@ -22,8 +22,7 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
 using Uri = Kean.Core.Uri;
 
 namespace Kean.Json.Dom
@@ -33,92 +32,109 @@ namespace Kean.Json.Dom
 		Core.Collection.IList<Item>
 	{
 		Core.Collection.IList<Item> backend;
-		public Array ()
-		{ }
+		public Array () :
+			this((Uri.Region)null)
+		{
+		}
+		public Array (System.Collections.Generic.IEnumerable<Item> items) :
+			this((Uri.Region)null)
+		{
+			this.Add (items); 
+		}
 		public Array (Uri.Region region) :
 			base(region)
 		{
-			Core.Collection.Hooked.List<Item> list = new Core.Collection.Hooked.List<Item>();
+			Core.Collection.Hooked.List<Item> list = new Core.Collection.Hooked.List<Item> ();
 			list.Added += (index, item) =>
 			{
-				if (item.NotNull())
+				if (item.NotNull ())
 					item.Parent = this;
 			};
 			list.Removed += (index, item) =>
 			{
-				if (item.NotNull())
+				if (item.NotNull ())
 					item.Parent = null;
 			};
 			list.Replaced += (index, old, @new) =>
 			{
-				if (old.NotNull())
+				if (old.NotNull ())
 					old.Parent = null;
-				if (@new.NotNull())
+				if (@new.NotNull ())
 					@new.Parent = this;
 			};
 			this.backend = list;
 		}
-		internal override Collection Add(string label, Uri.Region region, Item item)
+		internal override Collection Add (string label, Uri.Region region, Item item)
 		{
-			this.Add(item);
+			this.Add (item);
 			return this;
 		}
 		#region IEnumerable implementation
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
 		{
-			return this.backend.GetEnumerator();
+			return this.GetEnumerator ();
 		}
 		#endregion
 		#region IEnumerable implementation
 		public System.Collections.Generic.IEnumerator<Item> GetEnumerator ()
 		{
-			return this.GetEnumerator();
+			return this.backend.GetEnumerator ();
 		}
 		#endregion
-        #region IEquatable implementation
-        public override int GetHashCode()
-        {
-            return this.backend.GetHashCode();
-        }
-        public override bool Equals(object other)
-        {
-            return this.Equals(other as Array);
-        }
-        public override bool Equals(Item other)
-        {
-            return other is Array && this.backend.Equals(other);
-        }
-		public bool Equals (IVector<Item> other)
+		#region IEquatable implementation
+		public override int GetHashCode ()
 		{
-			return this.backend.Equals(other);
+			return this.backend.GetHashCode ();
+		}
+		public override bool Equals (object other)
+		{
+			return this.Equals (other as Array);
+		}
+		public override bool Equals (Item other)
+		{
+			return other is Array && this.backend.Equals (other);
+		}
+		public bool Equals (Core.Collection.IVector<Item> other)
+		{
+			return this.backend.Equals (other);
 		}
 		#endregion
 		#region IVector implementation
 		public int Count { get { return this.backend.Count; } }
-		public Item this[int index] 
+		public Item this [int index]
 		{
-			get { return this.backend[index]; }
-			set { this.backend[index] = value; }
+			get { return this.backend [index]; }
+			set { this.backend [index] = value; }
 		}
 		#endregion
 		#region IList implementation
-		public IList<Item> Add (Item item)
+		public Core.Collection.IList<Item> Add (Item item)
 		{
-			this.backend.Add(item);
+			this.backend.Add (item);
 			return this;
 		}
 		public Item Remove ()
 		{
-			return this.backend.Remove();
+			return this.backend.Remove ();
 		}
-		public IList<Item> Insert (int index, Item item)
+		public Core.Collection.IList<Item> Insert (int index, Item item)
 		{
-			this.backend.Insert(index, item);
+			this.backend.Insert (index, item);
 			return this;
 		}
 		public Item Remove (int index)
 		{
-			return this.backend.Remove(index);
+			return this.backend.Remove (index);
+		}
+		#endregion
+		#region Casts
+		public static implicit operator Item[] (Array item)
+		{
+			return item.NotNull () ? item.backend.ToArray () : new Item[] { };
+		}
+		public static implicit operator Array(Item[] items)
+		{
+			return new Array(items);
 		}
 		#endregion
 	}

@@ -27,12 +27,14 @@ namespace Kean.Json.Dom
 	public abstract class Collection :
 		Item
 	{
-		protected Collection()
-		{ }
-		protected Collection(Uri.Region region) :
+		protected Collection ()
+		{
+		}
+		protected Collection (Uri.Region region) :
 			base(region)
-		{ }
-		internal abstract Collection Add(string label, Uri.Region region, Item item);
+		{
+		}
+		internal abstract Collection Add (string label, Uri.Region region, Item item);
 	}
 }
 

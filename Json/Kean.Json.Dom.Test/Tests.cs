@@ -31,69 +31,72 @@ namespace Kean.Json.Dom.Test
 		where T : Tests<T>, new()
 	{
 		[Test]
-		public new void Empty()
+		public new void Empty ()
 		{
-			this.Verify("Empty");
+			this.Verify ("Empty");
 		}
-
 		[Test]
-		public new void Null()
+		public new void Null ()
 		{
-			this.Verify("Null");
+			this.Verify ("Null");
 		}
-
 		[Test]
-		public void BooleanFalse()
+		public void BooleanFalse ()
 		{
-			this.Verify("BooleanFalse");
+			this.Verify ("BooleanFalse");
 		}
-
 		[Test]
-		public void BooleanTrue()
+		public void BooleanTrue ()
 		{
-			this.Verify("BooleanTrue");
+			this.Verify ("BooleanTrue");
 		}
-
 		[Test]
-		public void Number()
+		public void Number ()
 		{
-			this.Verify("Number");
+			this.Verify ("Number");
 		}
-
 		[Test]
-		public void String()
+		public void String ()
 		{
-			this.Verify("String");
+			this.Verify ("String");
 		}
-
 		[Test]
-		public void ObjectEmpty()
+		public void Array ()
 		{
-			this.Verify("ObjectEmpty");
+			this.Verify ("Array");
 		}
-
 		[Test]
-		public void Object()
+		public void ObjectEmpty ()
 		{
-			this.Verify("Object");
+			this.Verify ("ObjectEmpty");
 		}
-
 		[Test]
-		public void ObjectNested()
+		public void ObjectSingle ()
 		{
-			this.Verify("ObjectNested");
+			this.Verify ("ObjectSingle");
 		}
-
-		protected override void Run()
+		[Test]
+		public void Object ()
 		{
-			this.Run(
+			this.Verify ("Object");
+		}
+		[Test]
+		public void ObjectNested ()
+		{
+			this.Verify ("ObjectNested");
+		}
+		protected override void Run ()
+		{
+			this.Run (
 				this.Empty,
 				this.Null,
 				this.BooleanFalse,
-                this.BooleanTrue,
-                this.Number,
-                this.String,
-                this.ObjectEmpty,
+				this.BooleanTrue,
+				this.Number,
+				this.String,
+				this.Array,
+				this.ObjectEmpty,
+				this.ObjectSingle,
 				this.Object,
 				this.ObjectNested
 			);

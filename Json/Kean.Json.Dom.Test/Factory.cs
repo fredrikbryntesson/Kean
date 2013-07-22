@@ -18,55 +18,58 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
 namespace Kean.Json.Dom.Test
 {
-    public abstract class Factory<T> :
+	public abstract class Factory<T> :
 		Kean.Test.Fixture<T>
 		where T : Factory<T>, new()
 	{
-		protected abstract void Verify(string name);
-
-        protected Item Open(string name)
-        {
-            return Item.OpenResource("Data/" + name + ".json");
-        }
-
-        protected Object Create(string name)
-        {
-            Object result = new Object();
-            switch (name)
-            {
-				case "Empty":
-					break;
-                case "Null": 
-					result.Add("null", new Null());
-                    break;
-                case "BooleanFalse": 
-					result.Add("booleanFalse", false);
-                    break;
-                case "BooleanTrue": 
-					result.Add("booleanTrue", true);
-                    break;
-                case "Number":
-					result.Add("number", 1337);
-                    break;
-                case "String":
-					result.Add("string", "Text");
-                    break;
-                case "ObjectEmpty":
-					result.Add("empty", this.Create("Empty"));
-                    break;
-                case "Object":
-					result.Add("object", this.Create("String"));
-                    break;
-                case "ObjectNested":
-					result.Add("nested", this.Create("Object"));
-                    break;
+		protected abstract void Verify (string name);
+		protected Item Open (string name)
+		{
+			return Item.OpenResource ("Data/" + name + ".json");
+		}
+		protected Object Create (string name)
+		{
+			Object result = new Object ();
+			switch (name)
+			{
+			case "Empty":
+				break;
+			case "Null": 
+				result.Add ("null", new Null ());
+				break;
+			case "BooleanFalse": 
+				result.Add ("booleanFalse", false);
+				break;
+			case "BooleanTrue": 
+				result.Add ("booleanTrue", true);
+				break;
+			case "Number":
+				result.Add ("number", 1337);
+				break;
+			case "String":
+				result.Add ("string", "Text");
+				break;
+			case "Array":
+				result.Add ("array", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+				break;
+			case "ObjectEmpty":
+				result.Add ("empty", this.Create ("Empty"));
+				break;
+			case "ObjectSingle":
+				result.Add ("object", this.Create ("String"));
+				break;
+			case "Object":
+				result.Add ("string", "Text").Add ("number", "1337").Add ("boolean", true);
+				break;
+			case "ObjectNested":
+				result.Add ("nested", this.Create ("Object")).Add ("string", "Text");
+				break;
 			}
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 }

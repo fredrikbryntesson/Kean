@@ -42,10 +42,12 @@
     <EmbeddedResource Include="Data\BooleanTrue.json" />
     <EmbeddedResource Include="Data\BooleanFalse.json" />
     <EmbeddedResource Include="Data\String.json" />
-    <EmbeddedResource Include="Data\Object.json" />
     <EmbeddedResource Include="Data\Number.json" />
     <EmbeddedResource Include="Data\ObjectEmpty.json" />
+    <EmbeddedResource Include="Data\ObjectSingle.json" />
+    <EmbeddedResource Include="Data\Object.json" />
     <EmbeddedResource Include="Data\ObjectNested.json" />
+    <EmbeddedResource Include="Data\Array.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
