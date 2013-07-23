@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Error" />
+      <dependency id="Kean.Core.Error" version="$version$" />
     </dependencies>
   </metadata>
 </package>

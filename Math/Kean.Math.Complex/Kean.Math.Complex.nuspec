@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Collection" />
-      <dependency id="Kean.Math" />
+      <dependency id="Kean.Core.Collection" version="$version$" />
+      <dependency id="Kean.Math" version="$version$" />
     </dependencies>
   </metadata>
 </package>

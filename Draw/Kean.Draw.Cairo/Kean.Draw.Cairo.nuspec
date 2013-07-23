@@ -8,9 +8,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Buffer" />
-      <dependency id="Kean.Core.Uri" />
-      <dependency id="Kean.Draw" />
+      <dependency id="Kean.Core.Buffer" version="$version$" />
+      <dependency id="Kean.Core.Uri" version="$version$" />
+      <dependency id="Kean.Draw" version="$version$" />
       <dependency id="Pango" version="1.28.3.1" />
     </dependencies>
   </metadata>
