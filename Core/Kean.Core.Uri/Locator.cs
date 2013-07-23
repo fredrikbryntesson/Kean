@@ -21,6 +21,7 @@
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
+
 namespace Kean.Core.Uri
 {
     public class Locator :
@@ -29,20 +30,27 @@ namespace Kean.Core.Uri
     {
 
         public Scheme Scheme { get; set; }
+
         public Authority Authority { get; set; }
+
         Path path = new Path();
+
         public Path Path
         {
             get { return this.path; }
             set { this.path = value ?? new Path(); } 
         }
+
         Query query = new Query();
+
         public Query Query
         {
             get { return this.query; }
             set { this.query = value ?? new Query(); } 
         }
+
         public string Fragment { get; set; }
+
         public string PlatformPath
         {
             get { return this.Scheme == "file" ? (this.Authority.IsNull() ? "" : "\\\\" + ((string)this.Authority).ToUpper() + "\\") + this.Path.PlatformPath : ""; }
@@ -131,15 +139,19 @@ namespace Kean.Core.Uri
         public Locator()
         {
         }
+
         public Locator(Scheme scheme, Path path) : this(scheme, null, path)
         {
         }
+
         public Locator(Scheme scheme, Authority authority, Path path) : this(scheme, authority, path, null, null)
         {
         }
+
         public Locator(Scheme scheme, Authority authority, Path path, Query query) : this(scheme, authority, path, query, null)
         {
         }
+
         public Locator(Scheme scheme, Authority authority, Path path, Query query, string fragment) :
 			this()
         {
@@ -149,10 +161,12 @@ namespace Kean.Core.Uri
             this.Query = query;
             this.Fragment = fragment;
         }
+
         public Locator Copy()
         {
             return new Locator(this.Scheme.IsNull() ? null : this.Scheme.Copy(), this.Authority.IsNull() ? null : this.Authority.Copy(), this.Path.IsNull() ? null : this.Path.Copy(), this.Query.IsNull() ? null : this.Query.Copy(), this.Fragment);
         }
+
         public Locator Resolve(Locator absolute)
         {
             Locator result;
@@ -177,6 +191,7 @@ namespace Kean.Core.Uri
                 result = absolute;
             return result;
         }
+
         public Locator Relative(Locator locator)
         {
             Locator result = this.Copy();
@@ -216,10 +231,12 @@ namespace Kean.Core.Uri
         {
             return other is Locator && this.Equals(other as Locator);
         }
+
         public override int GetHashCode()
         {
             return this.Scheme.Hash() ^ this.Authority.Hash() ^ this.Path.Hash() ^ this.Query.Hash() ^ this.Fragment.Hash();
         }
+
         public override string ToString()
         {
             return this.String;
@@ -237,6 +254,7 @@ namespace Kean.Core.Uri
             }
             return path.NotEmpty() ? new Locator("file", authority, Path.FromPlatformPath(path)) : null;
         }
+
         public static Locator FromPlatformPath(string path, params string[] folders)
         {
             Locator result = Locator.FromPlatformPath(path);
@@ -245,14 +263,17 @@ namespace Kean.Core.Uri
                     result.Path.Add(folder);
             return result;
         }
+
         public static Locator FromRelativePlatformPath(string path, params string[] folders)
         {
             return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
         }
+
         public static Locator FromPlatformPath(System.Environment.SpecialFolder folder, params string[] folders)
         {
             return Locator.FromPlatformPath(System.Environment.GetFolderPath(folder), folders);
         }
+
         public static implicit operator Locator(System.IO.DirectoryInfo directory)
         {
             return directory.NotNull() ? new Locator("file", directory) : null;
@@ -262,18 +283,28 @@ namespace Kean.Core.Uri
         {
             return left.Same(right) || (left.NotNull() && left.Equals(right));
         }
+
         public static bool operator !=(Locator left, Locator right)
         {
             return !(left == right);
         }
+
         public static implicit operator string(Locator locator)
         {
             return locator.IsNull() ? null : locator.String;
         }
+
         public static implicit operator Locator(string locator)
         {
             return locator.NotEmpty() ? new Locator() { String = locator } : null;
         }
+        #region Add Operator
+        public static Locator operator +(Locator left, Path right)
+        {
+            left.Path += right;
+            return left;
+        }
+        #endregion
         #endregion
     }
 }
