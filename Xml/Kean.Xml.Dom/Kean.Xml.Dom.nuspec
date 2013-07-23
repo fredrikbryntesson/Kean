@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Xml.Sax" />
+      <dependency id="Kean.Xml.Sax" version="$version$" />
     </dependencies>
   </metadata>
 </package>

@@ -8,9 +8,9 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
 		<dependencies>
-			<dependency id="Kean.Cli" />
-			<dependency id="Kean.IO.Tap" />
-			<dependency id="Kean.Platform" />
+			<dependency id="Kean.Cli" version="$version$" />
+			<dependency id="Kean.IO.Tap" version="$version$" />
+			<dependency id="Kean.Platform" version="$version$" />
 		</dependencies>
 	</metadata>
 	<files>

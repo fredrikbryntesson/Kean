@@ -8,7 +8,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
 		<dependencies>
-			<dependency id="Kean.Platform" />
+			<dependency id="Kean.Platform" version="$version$" />
 		</dependencies>
 	</metadata>
 	<files>
