@@ -95,6 +95,16 @@ namespace Kean.Core.Uri
 		public bool Empty { get { return this.Last.IsNull(); } }
 		public bool Folder { get { return this.Last.NotNull() && this.Last.Head.IsEmpty(); } }
 		public Path FolderPath { get { return this.Last.NotNull() ? new Path(this.Last.Tail) : new Path(); } }
+		public string Name
+		{
+			get { return this.Last.NotNull() ? this.Last.Head.Get(0 , -this.Extension.Length - 1) : null; }
+			set
+			{
+				if (this.Last.NotNull())
+					this.Last = new PathLink();
+				this.Last.Head = value + "." + this.Extension;
+			}
+		}
 		public string Extension
 		{
 			get { return this.Last.NotNull() ? this.Last.Head.Split('.').Last() : null; }
@@ -102,10 +112,7 @@ namespace Kean.Core.Uri
 			{
 				if (this.Last.NotNull())
 					this.Last = new PathLink();
-				string old = this.Extension;
-				if (old.NotEmpty())
-					this.Last.Head = this.Last.Head.Substring(0, this.Last.Head.Length - old.Length);
-				this.Last.Head += "." + value;
+				this.Last.Head = this.Name + "." + value;
 			}
 		}
 		public Path() { }
