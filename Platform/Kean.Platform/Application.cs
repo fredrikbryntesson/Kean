@@ -325,21 +325,21 @@ namespace Kean.Platform
 				if (module.Mode == Mode.Stopped)
 					this.Run(module.Dispose, () => Error.Log.Append(Error.Level.Message, "Module " + module.Name + " disposed.", "Module " + module.Name + " is disposed."), exception => Error.Log.Append(Error.Level.Recoverable, "Module " + module.Name + " failed to dispose.", "Module " + module.Name + " failed to dispose with exception: " + exception.GetType() + " and message: " + exception.Message));
 		}
-		void Run(Action action, Action sucess, Action<System.Exception> failed)
+		void Run(Action action, Action success, Action<System.Exception> failed)
 		{
 			if (Error.Log.CatchErrors)
 			{
 				try
 				{
 					action();
-					sucess.Call();
+					success.Call();
 				}
 				catch (System.Exception e) { failed.Call(e); }
 			}
 			else
 			{
 				action();
-				sucess.Call();
+				success.Call();
 			}
 		}
 		void Executer()
