@@ -69,7 +69,7 @@ namespace Kean.Core.Parallel
 			task = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), task);
 			return new Thread(name, () =>
 			{
-				try { task.Call(); }
+				try { task(); }
 				catch (System.Threading.ThreadInterruptedException) { }
 				catch (System.Threading.ThreadAbortException) { }
 			});
