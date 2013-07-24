@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace Kean.Core.Serialize.Exception
 {
 	/// <summary>
@@ -29,9 +28,11 @@ namespace Kean.Core.Serialize.Exception
 	{
 		internal UnknownType(string type, Uri.Region region) :
 			this(null, type, region)
-		{ }
+		{
+		}
 		internal UnknownType(System.Exception inner, string type, Uri.Region region) :
-			base(inner, Error.Level.Warning, "Unknown type: \"{0}\".", "Attempted to create instance of unknown type \"{0}\" while deserializing {2} column {3} in file \"{1}\".", type, region.Resource, region.Start.Row, region.Start.Column)
-		{ }
+			base(inner, Error.Level.Notification, "Unknown type: \"{0}\".", "Attempted to create instance of unknown type \"{0}\" while deserializing {2} column {3} in file \"{1}\".", type, region.Resource, region.Start.Row, region.Start.Column)
+		{
+		}
 	}
 }

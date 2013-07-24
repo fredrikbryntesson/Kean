@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 
 namespace Kean.Xml.Serialize.Test
@@ -34,6 +33,7 @@ namespace Kean.Xml.Serialize.Test
 			Serialize.Test.CollectionTypes.Test();
 			Serialize.Test.Missing.Test();
 			Serialize.Test.Named.Test();
+			Serialize.Test.Misfit.Test();
 			Serialize.Test.Preprocessor.Test();
 		}
 	}
