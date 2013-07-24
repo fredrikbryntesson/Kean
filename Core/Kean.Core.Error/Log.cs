@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 
@@ -51,8 +50,13 @@ namespace Kean.Core.Error
 				{
 					foreach (Action<IError> action in onAppend.GetInvocationList().Map(s => s as Action<IError>))
 						if (action.NotNull())
-							try { action(entry); }
-							catch (System.Exception) { }
+							try
+							{
+								action(entry);
+							}
+							catch (System.Exception)
+							{
+							}
 				}
 				else
 					onAppend(entry);
@@ -76,6 +80,7 @@ namespace Kean.Core.Error
 			Log.Append(Entry.Create(level, title, message.Format(arguments)));
 		}
 		#region Wrap
+		#region Func<bool>
 		public static Func<bool> Wrap(Func<bool> task)
 		{
 			return Log.Wrap("Task failed", task);
@@ -85,101 +90,205 @@ namespace Kean.Core.Error
 			Func<bool> result = task;
 			if (Log.CatchErrors)
 				result = () =>
-			{
-				bool r = false;
-				try 
-				{ 
-					if (!(r = task()))
-						Log.Append(Error.Level.Notification, title, "Wrapped task returned false."); 
-				}
-				catch (System.Threading.ThreadInterruptedException) { throw; }
-				catch (Exception e)
 				{
-					Log.Append(e);
-				}
-				catch (System.Exception e)
-				{
-					Log.Append(Error.Level.Recoverable, title, e);
-				}
-				return r;
-			};
-			return result;
-		}
-		public static Action Wrap(Action task)
-		{
-			return Log.Wrap("Task failed", task);
-		}
-		public static Action Wrap(string title, Action task)
-		{
-			Action result;
-			if (Log.CatchErrors)
-				result = () =>
-				{
-					try { task.Call(); }
-					catch (System.Threading.ThreadInterruptedException) { throw; }
+					bool r = false;
+					try
+					{ 
+						if (!(r = task()))
+							Log.Append(Error.Level.Notification, title, "Wrapped task returned false."); 
+					}
+					catch (System.Threading.ThreadInterruptedException)
+					{
+						throw;
+					}
 					catch (Exception e)
 					{
 						Log.Append(e);
 					}
 					catch (System.Exception e)
 					{
-						Log.Append(Level.Recoverable, title, e);
+						Log.Append(Error.Level.Recoverable, title, e);
 					}
+					return r;
 				};
-			else
-				result = task.Call;
 			return result;
+		}
+		#endregion
+		#region Action
+		public static Action Wrap(Action task)
+		{
+			return Log.Wrap("Task failed", task);
 		}
 		public static Action<T> Wrap<T>(Action<T> task)
 		{
 			return Log.Wrap("Task failed", task);
 		}
+		public static Action<T1, T2> Wrap<T1, T2>(Action<T1, T2> task)
+		{
+			return Log.Wrap("Task failed", task);
+		}
+		#endregion
+		#region Action with title
+		public static Action Wrap(string title, Action task)
+		{
+			return Log.Wrap<System.Exception>(title, task, null);
+		}
 		public static Action<T> Wrap<T>(string title, Action<T> task)
+		{
+			return Log.Wrap<System.Exception, T>(title, task, null);
+		}
+		public static Action<T1, T2> Wrap<T1, T2>(string title, Action<T1, T2> task)
+		{
+			return Log.Wrap<System.Exception, T1, T2>(title, task, null);
+		}
+		#endregion
+		#region Action with title and onCatch
+		public static Action Wrap<E>(string title, Action task, Action<E> onCatch) where E : System.Exception
+		{
+			Action result;
+			if (Log.CatchErrors)
+				result = () =>
+				{
+					try
+					{
+						task.Call();
+					}
+					catch (System.Threading.ThreadInterruptedException)
+					{
+						throw;
+					}
+					catch (E e)
+					{
+						onCatch.Call(e);
+						if (e is Exception)
+							Log.Append(e as Exception);
+						else
+							Log.Append(Level.Recoverable, title, e);
+					}
+				};
+			else
+				result = task.Call;
+			return result;
+		}
+		public static Action<T> Wrap<E, T>(string title, Action<T> task, Action<E> onCatch) where E : System.Exception
 		{
 			Action<T> result;
 			if (Log.CatchErrors)
 				result = argument =>
 				{
-					try { task.Call(argument); }
-					catch (System.Threading.ThreadInterruptedException) { throw; }
-					catch (Exception e)
+					try
 					{
-						Log.Append(e);
+						task.Call(argument);
 					}
-					catch (System.Exception e)
+					catch (System.Threading.ThreadInterruptedException)
 					{
-						Log.Append(Level.Recoverable, title, e);
+						throw;
+					}
+					catch (E e)
+					{
+						onCatch.Call(e);
+						if (e is Exception)
+							Log.Append(e as Exception);
+						else
+							Log.Append(Level.Recoverable, title, e);
 					}
 				};
 			else
 				result = task.Call;
 			return result;
 		}
-		public static Action<T1, T2> Wrap<T1, T2>(Action<T1, T2> task)
-		{
-			return Log.Wrap("Task failed", task);
-		}
-		public static Action<T1, T2> Wrap<T1, T2>(string title, Action<T1, T2> task)
+		public static Action<T1, T2> Wrap<E, T1, T2>(string title, Action<T1, T2> task, Action<E> onCatch) where E : System.Exception
 		{
 			Action<T1, T2> result;
 			if (Log.CatchErrors)
 				result = (argument1, argument2) =>
 				{
-					try { task.Call(argument1, argument2); }
-					catch (System.Threading.ThreadInterruptedException) { throw; }
-					catch (Exception e)
+					try
 					{
-						Log.Append(e);
+						task.Call(argument1, argument2);
 					}
-					catch (System.Exception e)
+					catch (System.Threading.ThreadInterruptedException)
 					{
-						Log.Append(Level.Recoverable, title, e);
+						throw;
+					}
+					catch (E e)
+					{
+						onCatch.Call(e);
+						if (e is Exception)
+							Log.Append(e as Exception);
+						else
+							Log.Append(Level.Recoverable, title, e);
 					}
 				};
 			else
 				result = task.Call;
 			return result;
 		}
+		#endregion
+		#endregion
+		#region Call
+		#region Action
+		public static bool Call(Action task)
+		{
+			return Log.Call("Call Failed", task);
+		}
+		public static bool Call<T>(Action<T> task, T argument)
+		{
+			return Log.Call("Call Failed", task, argument);
+		}
+		public static bool Call<T1, T2>(Action<T1, T2> task, T1 argument1, T2 argument2)
+		{
+			return Log.Call("Call Failed", task, argument1, argument2);
+		}
+		#endregion
+		#region Action with title
+		public static bool Call(string title, Action task)
+		{
+			bool result = true;
+			Log.Call<System.Exception>(title, task, (e) => result = false);
+			return result;
+		}
+		public static bool Call<T>(string title, Action<T> task, T argument)
+		{
+			bool result = true;
+			Log.Call<System.Exception, T>(title, task, argument, (e) => result = false);
+			return result;
+		}
+		public static bool Call<T1, T2>(string title, Action<T1, T2> task, T1 argument1, T2 argument2)
+		{
+			bool result = true;
+			Log.Call<System.Exception, T1, T2>(title, task, argument1, argument2, (e) => result = false);
+			return result;
+		}
+		#endregion
+		#region Action with onCatch
+		public static void Call<E>(Action task, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Call<E>("Call Failed", task, onCatch);
+		}
+		public static void Call<E, T>(Action<T> task, T argument, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Call<E, T>("Call Failed", task, argument, onCatch);
+		}
+		public static void Call<E, T1, T2>(Action<T1, T2> task, T1 argument1, T2 argument2, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Call<E, T1, T2>("Call Failed", task, argument1, argument2, onCatch);
+		}
+		#endregion
+		#region Action with title and onCatch
+		public static void Call<E>(string title, Action task, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Wrap<E>(title, task, onCatch).Call();
+		}
+		public static void Call<E, T>(string title, Action<T> task, T argument, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Wrap<E, T>(title, task, onCatch).Call(argument);
+		}
+		public static void Call<E, T1, T2>(string title, Action<T1, T2> task, T1 argument1, T2 argument2, Action<E> onCatch) where E : System.Exception
+		{
+			Log.Wrap<E, T1, T2>(title, task, onCatch).Call(argument1, argument2);
+		}
+		#endregion
 		#endregion
 	}
 }
