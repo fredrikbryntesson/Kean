@@ -425,20 +425,20 @@ namespace Kean.Platform
 			defaultModules = new Kean.Core.Collection.List<string>();
 			if (System.IO.Directory.Exists(defaultModulesPath))
 				foreach (string file in System.IO.Directory.GetFiles(defaultModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
+					defaultModules.Add(Uri.Path.FromPlatformPath(file).BaseName);
 			// Load from "Modules/{executable name}" folder
 			string overrideModulesPath = System.IO.Path.Combine(defaultModulesPath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
 			overrideModules = new Kean.Core.Collection.List<string>();
 			if (System.IO.Directory.Exists(overrideModulesPath))
 				foreach (string file in System.IO.Directory.GetFiles(overrideModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
+					defaultModules.Add(Uri.Path.FromPlatformPath(file).BaseName);
 			foreach (string file in defaultModules)
 				if (!overrideModules.Contains(file))
 					result.Load(Uri.Path.FromPlatformPath(file).Name, 
-								storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(defaultModulesPath, file))));
+						storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(defaultModulesPath, file))));
 			foreach (string file in overrideModules)
 				result.Load(Uri.Path.FromPlatformPath(file).Name, 
-							storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(overrideModulesPath, file))));
+					storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(overrideModulesPath, file))));
 
 			return result;
 		}

@@ -105,6 +105,16 @@ namespace Kean.Core.Uri
 				this.Last.Head = value + "." + this.Extension;
 			}
 		}
+		public string BaseName
+		{
+			get { return this.Last.NotNull() ? this.Last.Head : null; }
+			set
+			{
+				if (this.Last.NotNull())
+					this.Last = new PathLink();
+				this.Last.Head = value;
+			}
+		}
 		public string Extension
 		{
 			get { return this.Last.NotNull() ? this.Last.Head.Split('.').Last() : null; }
