@@ -422,13 +422,13 @@ namespace Kean.Platform
 			IList<string> defaultModules, overrideModules;
 			// Load from "Modules" folder
 			string defaultModulesPath = System.IO.Path.Combine(result.ExecutablePath, "Modules");
-			defaultModules = new Kean.Core.Collection.Sorted.List<string>();
+			defaultModules = new Kean.Core.Collection.List<string>();
 			if (System.IO.Directory.Exists(defaultModulesPath))
 				foreach (string file in System.IO.Directory.GetFiles(defaultModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
 					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
 			// Load from "Modules/{executable name}" folder
 			string overrideModulesPath = System.IO.Path.Combine(defaultModulesPath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
-			overrideModules = new Kean.Core.Collection.Sorted.List<string>();
+			overrideModules = new Kean.Core.Collection.List<string>();
 			if (System.IO.Directory.Exists(overrideModulesPath))
 				foreach (string file in System.IO.Directory.GetFiles(overrideModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
 					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
