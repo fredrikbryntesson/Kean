@@ -30,6 +30,7 @@ using Serialize = Kean.Core.Serialize;
 using Kean.Core.Reflect.Extension;
 using Uri = Kean.Core.Uri;
 using Parallel = Kean.Core.Parallel;
+using Kean.Core.Collection;
 
 namespace Kean.Platform
 {
@@ -418,16 +419,27 @@ namespace Kean.Platform
 			Application result = new Application();
 			Xml.Serialize.Storage storage = new Kean.Xml.Serialize.Storage();
 			result.Load("Storage", storage);
+			IList<string> defaultModules, overrideModules;
 			// Load from "Modules" folder
-			string path = System.IO.Path.Combine(result.ExecutablePath, "Modules");
-			if (System.IO.Directory.Exists(path))
-				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
+			string defaultModulesPath = System.IO.Path.Combine(result.ExecutablePath, "Modules");
+			defaultModules = new Kean.Core.Collection.Sorted.List<string>();
+			if (System.IO.Directory.Exists(defaultModulesPath))
+				foreach (string file in System.IO.Directory.GetFiles(defaultModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
+					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
 			// Load from "Modules/{executable name}" folder
-			path = System.IO.Path.Combine(result.ExecutablePath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
-			if (System.IO.Directory.Exists(path))
-				foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					result.Load(file.Substring(path.Length + 1, file.Length - path.Length - 5), storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(file)));
+			string overrideModulesPath = System.IO.Path.Combine(defaultModulesPath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
+			overrideModules = new Kean.Core.Collection.Sorted.List<string>();
+			if (System.IO.Directory.Exists(overrideModulesPath))
+				foreach (string file in System.IO.Directory.GetFiles(overrideModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
+					defaultModules.Add(Uri.Path.FromPlatformPath(file).Name + "." + Uri.Path.FromPlatformPath(file).Extension);
+			foreach (string file in defaultModules)
+				if (!overrideModules.Contains(file))
+					result.Load(Uri.Path.FromPlatformPath(file).Name, 
+								storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(defaultModulesPath, file))));
+			foreach (string file in overrideModules)
+				result.Load(Uri.Path.FromPlatformPath(file).Name, 
+							storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(overrideModulesPath, file))));
+
 			return result;
 		}
 		#endregion
