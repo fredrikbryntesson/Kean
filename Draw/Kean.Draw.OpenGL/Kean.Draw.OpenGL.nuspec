@@ -8,8 +8,8 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
 		<dependencies>
-			<dependency id="Kean.Core.Parallel" />
-			<dependency id="Kean.Draw.Raster" />
+			<dependency id="Kean.Core.Parallel" version="$version$" />
+			<dependency id="Kean.Draw.Raster" version="$version$" />
 			<dependency id="OpenTK.GLControl" />
 		</dependencies>
 	</metadata>

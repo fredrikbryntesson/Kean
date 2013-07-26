@@ -107,10 +107,10 @@ namespace Kean.IO.Net.Test
 			ICharacterWriter writer = CharacterWriter.Open(connection);
 			Parallel.Thread receiver = Parallel.Thread.Start(() =>
 			{
-				char? incomming;
+				char? incoming;
 				while (connection.Opened)
-					while ((incomming = connection.Read()).HasValue)
-						Console.Write(incomming.Value);
+					while ((incoming = connection.Read()).HasValue)
+						Console.Write(incoming.Value);
 			});
 			while (writer.Opened)
 			{

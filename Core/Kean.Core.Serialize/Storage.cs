@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
@@ -33,19 +32,22 @@ namespace Kean.Core.Serialize
 		ISerializer serializer;
 		IRebuilder rebuilder;
 		public Resolver Resolver { get; private set; }
-
 		protected Storage() :
 			this(new Rebuilder.Default(), new Serializer.Default())
-		{ }
+		{
+		}
 		protected Storage(params ISerializer[] serializers) :
 			this(new Resolver(), new Rebuilder.Default(), serializers)
-		{ }
+		{
+		}
 		protected Storage(IRebuilder rebuilder, params ISerializer[] serializers) :
 			this(new Resolver(), rebuilder, serializers)
-		{ }
+		{
+		}
 		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers) :
 			this(resolver, rebuilder, new Serializer.Group(serializers))
-		{ }
+		{
+		}
 		protected Storage(Resolver resolver, IRebuilder rebuilder, ISerializer serializer)
 		{
 			this.Resolver = resolver;
@@ -70,21 +72,19 @@ namespace Kean.Core.Serialize
 			Data.Node node;
 			return (T)(this.Resolver[locator] ?? ((node = this.Load(locator)).NotNull() ? this.Deserialize(null, this.rebuilder.Load(this, node.DefaultType(typeof(T)).UpdateLocators(locator))) : null));
 		}
-
 		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return this.serializer.Serialize(this, type, data, locator);
 		}
-
 		object Deserialize(object result, Serialize.Data.Node node)
 		{
 			return node.NotNull() ? (this.Resolver[node.Locator] = this.serializer.Deserialize(this, node, result)) : null;
 		}
-        public bool DeserializeContent(Serialize.Data.Node node, object result)
-        {
-            return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
-        }
-        public void Deserialize(Serialize.Data.Node node, Reflect.Type type, Action<object> set)
+		public bool DeserializeContent(Serialize.Data.Node node, object result)
+		{
+			return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
+		}
+		public void Deserialize(Serialize.Data.Node node, Reflect.Type type, Action<object> set)
 		{
 			node = node.DefaultType(type);
 			if (node is Data.Link)

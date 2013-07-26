@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Collection" />
-      <dependency id="Kean.Math.Geometry2D" />
+      <dependency id="Kean.Core.Collection" version="$version$" />
+      <dependency id="Kean.Math.Geometry2D" version="$version$" />
     </dependencies>
   </metadata>
 </package>

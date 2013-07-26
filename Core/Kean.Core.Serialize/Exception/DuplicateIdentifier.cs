@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace Kean.Core.Serialize.Exception
 {
 	/// <summary>
@@ -27,14 +26,17 @@ namespace Kean.Core.Serialize.Exception
 	public class DuplicateIdentifier :
 		Abstract
 	{
-		public DuplicateIdentifier(string identifier, string resource, int line, int column)
-			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously. Error located at line {2} column {3} in file \"{1}\".", identifier, resource, line.ToString(), column.ToString())
-		{ }
-		public DuplicateIdentifier(DuplicateIdentifier inner, Uri.Locator resource, int row, int column)
-			: base(inner, inner.Level, inner.Title, inner.Message + "Error located at line {1} column {2} in file \"{0}\".", resource, row.ToString(), column.ToString())
-		{ }
-		public DuplicateIdentifier(string identifier)
-			: base(Error.Level.Warning, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously.", identifier)
-		{ }
+		public DuplicateIdentifier(string identifier, string resource, int line, int column) :
+			base(Error.Level.Notification, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously. Error located at line {2} column {3} in file \"{1}\".", identifier, resource, line.ToString(), column.ToString())
+		{
+		}
+		public DuplicateIdentifier(DuplicateIdentifier inner, Uri.Locator resource, int row, int column) :
+			base(inner, inner.Level, inner.Title, inner.Message + "Error located at line {1} column {2} in file \"{0}\".", resource, row.ToString(), column.ToString())
+		{
+		}
+		public DuplicateIdentifier(string identifier) :
+			base(Error.Level.Notification, "Identifier already defined.", "An identifier with the name \"{0}\" is already defined previously.", identifier)
+		{
+		}
 	}
 }

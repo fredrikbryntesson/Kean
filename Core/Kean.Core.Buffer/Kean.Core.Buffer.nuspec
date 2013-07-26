@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Recycle" />
+      <dependency id="Kean.Core.Recycle" version="$version$" />
     </dependencies>
   </metadata>
 </package>

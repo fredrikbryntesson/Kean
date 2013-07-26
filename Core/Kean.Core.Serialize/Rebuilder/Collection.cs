@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -31,7 +30,8 @@ namespace Kean.Core.Serialize.Rebuilder
 		IRebuilder
 	{
 		public Collection()
-		{ }
+		{
+		}
 		#region IRebuilder Members
 		public Data.Node Store(Storage storage, Data.Node data)
 		{
@@ -64,12 +64,12 @@ namespace Kean.Core.Serialize.Rebuilder
 					if (n.IsNull())
 						nodes[child.Name] = child;
 					else if (n is Data.Collection)
-						(n as Data.Collection).Nodes.Add(child.UpdateLocators(child.Locator + "[" + (n as Data.Collection).Nodes.Count + "]"));
+						(n as Data.Collection).Nodes.Add(child.UpdateLocators((string)child.Locator + "[" + (n as Data.Collection).Nodes.Count + "]"));
 					else
 					{
 						Data.Collection collection = new Data.Collection() { Name = child.Name, Locator = child.Locator, Region = child.Region }; // TODO: include all children in region
-						collection.Nodes.Add(n.UpdateLocators(n.Locator + "[0]"));
-						collection.Nodes.Add(child.UpdateLocators(child.Locator + "[1]"));
+						collection.Nodes.Add(n.UpdateLocators((string)n.Locator + "[0]"));
+						collection.Nodes.Add(child.UpdateLocators((string)child.Locator + "[1]"));
 						nodes[child.Name] = collection;
 					}
 				}

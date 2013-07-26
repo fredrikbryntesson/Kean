@@ -10,6 +10,7 @@
     <AssemblyName>Kean.Xml.Serialize.Test</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -217,6 +218,10 @@
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <EmbeddedResource Include="Xml\Dictionary.mono.xml" />
+    <Compile Include="Misfit.cs" />
+    <EmbeddedResource Include="Xml\StructureMisfit.xml" />
+    <EmbeddedResource Include="Xml\ComplexClassMisfit.xml" />
+    <EmbeddedResource Include="Xml\ClassMisfit.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />

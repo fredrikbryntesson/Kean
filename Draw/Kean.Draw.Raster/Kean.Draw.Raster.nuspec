@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Reflect" />
-      <dependency id="Kean.Draw.Cairo" />
+      <dependency id="Kean.Core.Reflect" version="$version$" />
+      <dependency id="Kean.Draw.Cairo" version="$version$" />
     </dependencies>
   </metadata>
 </package>
