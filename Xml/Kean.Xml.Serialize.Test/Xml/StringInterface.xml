@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<StringInterface type="Kean.Xml.Serialize.Test:Data.StringInterface">This is Kean.</StringInterface>
+<StringInterface type="Kean.Core.Serialize.Test:Data.StringInterface">This is Kean.</StringInterface>

@@ -1,6 +1,5 @@
-﻿//
-// 
-//  Nullable.cs
+﻿// 
+//  Class.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,34 +20,22 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using NUnit.Framework;
 
-
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class Nullable :
+	public class Class :
 		IData
 	{
 		[Core.Serialize.Parameter]
-		public bool? Boolean { get; set; }
+		public bool Boolean { get; set; }
 		[Core.Serialize.Parameter]
-		public bool? BooleanNull { get; set; }
+		public int Integer { get; set; }
 		[Core.Serialize.Parameter]
-		public int? Integer { get; set; }
+		public float Float { get; set; }
 		[Core.Serialize.Parameter]
-		public int? IntegerNull { get; set; }
+		public Enumerator Enumerator { get; set; }
 		[Core.Serialize.Parameter]
-		public float? Float { get; set; }
-		[Core.Serialize.Parameter]
-		public float? FloatNull { get; set; }
-		[Core.Serialize.Parameter]
-		public Enumerator? Enumerator { get; set; }
-		[Core.Serialize.Parameter]
-		public Enumerator? EnumeratorNull { get; set; }
-		[Core.Serialize.Parameter]
-		public Structure? Structure { get; set; }
-		[Core.Serialize.Parameter]
-		public Structure? StructureNull { get; set; }
+		public string String { get; set; }
 
 		#region IData
 		public virtual void Initilize(IFactory factory)
@@ -57,20 +44,15 @@ namespace Kean.Xml.Serialize.Test.Data
 			this.Integer = factory.Create<int>();
 			this.Float = factory.Create<float>();
 			this.Enumerator = factory.Create<Enumerator>();
-			this.Structure = factory.Create<Structure>();
+			this.String = factory.Create<string>();
 		}
 		public virtual void Verify(IFactory factory, string message, params object[] arguments)
 		{
 			factory.Verify(this.Boolean, message, arguments);
-			factory.Verify(this.BooleanNull, Is.Null, message, arguments);
 			factory.Verify(this.Integer, message, arguments);
-			factory.Verify(this.IntegerNull, Is.Null, message, arguments);
 			factory.Verify(this.Float, message, arguments);
-			factory.Verify(this.FloatNull, Is.Null, message, arguments);
 			factory.Verify(this.Enumerator, message, arguments);
-			factory.Verify(this.EnumeratorNull, Is.Null, message, arguments);
-			factory.Verify(this.Structure, message, arguments);
-			factory.Verify(this.StructureNull, Is.Null, message, arguments);
+			factory.Verify(this.String, message, arguments);
 		}
 		#endregion
 	}

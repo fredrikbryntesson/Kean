@@ -1,10 +1,10 @@
 ﻿// 
-//  IFactory.cs
+//  KeyValue.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Reflect = Kean.Core.Reflect;
-namespace Kean.Xml.Serialize.Test
+using Kean.Core;
+
+namespace Kean.Core.Serialize.Test.Data
 {
-	public interface IFactory
+	public class KeyValue :
+		IData
 	{
-		T Create<T>();
-		void Verify(object value, string message, params object[] arguments);
-		void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments);
+		[Core.Serialize.Parameter]
+		public KeyValue<string, object> Data { get; set; }
+
+		#region IData
+		public virtual void Initilize(IFactory factory)
+		{
+			this.Data = Core.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
+		}
+		public virtual void Verify(IFactory factory, string message, params object[] arguments)
+		{
+			factory.Verify(this.Data.Key, message, arguments);
+			factory.Verify(this.Data.Value, message, arguments);
+		}
+		#endregion
 	}
 }

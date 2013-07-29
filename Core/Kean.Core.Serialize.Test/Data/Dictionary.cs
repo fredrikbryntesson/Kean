@@ -24,7 +24,7 @@ using Kean.Core;
 using Collection = Kean.Core.Collection;
 using NUnit.Framework;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
 	public class Dictionary :
 		IData

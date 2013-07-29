@@ -31,7 +31,7 @@ namespace Kean.Xml.Dom.Writer
 		IWriter
 	{
 		IO.Text.Indenter writer;
-		public bool Indent 
+		public bool Indent
 		{ 
 			get { return this.writer.Format; }
 			set { this.writer.Format = value; } 

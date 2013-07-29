@@ -22,7 +22,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
 	public class Linked :
 		IData

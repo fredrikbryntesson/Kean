@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Array type="Kean.Xml.Serialize.Test:Data.Array">
-	<Classes type="Kean.Xml.Serialize.Test:Data.ComplexClass">
+<Array type="Kean.Core.Serialize.Test:Data.Array">
+	<Classes type="Kean.Core.Serialize.Test:Data.ComplexClass">
 		<Boolean>true</Boolean>
 		<Class>
 			<Boolean>true</Boolean>
@@ -38,7 +38,7 @@
 	<Number>7</Number>
 	<Number>8</Number>
 	<Number>9</Number>
-	<Objects type="Kean.Xml.Serialize.Test:Data.ComplexClass">
+	<Objects type="Kean.Core.Serialize.Test:Data.ComplexClass">
 		<Boolean>true</Boolean>
 		<Class>
 			<Boolean>true</Boolean>
@@ -59,7 +59,7 @@
 			<String>This is Kean.</String>
 		</Structure>
 	</Objects>
-	<Objects type="Kean.Xml.Serialize.Test:Data.Class">
+	<Objects type="Kean.Core.Serialize.Test:Data.Class">
 		<Boolean>true</Boolean>
 		<Enumerator>Second</Enumerator>
 		<Float>-13.37</Float>

@@ -24,6 +24,8 @@ using Kean.Core.Extension;
 using NUnit.Framework;
 using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
+using Uri = Kean.Core.Uri;
+
 namespace Kean.Test
 {
 	[TestFixture]
@@ -89,10 +91,19 @@ namespace Kean.Test
 		public static void VerifyAsResource(string filename, string resource, string message, params object[] arguments)
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			string plattformResource = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(resource), System.IO.Path.GetFileNameWithoutExtension(resource) + (Core.Environment.IsWindows ? ".windows" : ".mono") + System.IO.Path.GetExtension(resource));
-			System.IO.Stream correct = assembly.GetManifestResourceStream(assembly.GetName().Name + plattformResource.Replace('/', '.')) ??
+			string platformResource = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(resource), System.IO.Path.GetFileNameWithoutExtension(resource) + (Core.Environment.IsWindows ? ".windows" : ".mono") + System.IO.Path.GetExtension(resource));
+			System.IO.Stream correct = assembly.GetManifestResourceStream(assembly.GetName().Name + platformResource.Replace('/', '.')) ??
 				assembly.GetManifestResourceStream(assembly.GetName().Name + resource.Replace('/', '.'));
 			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open), correct, message, arguments);
+		}
+		public void VerifyResource(Uri.Locator created, Uri.Locator correct, string message, params object[] arguments)
+		{
+			System.Reflection.Assembly assembly = System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(correct.Authority));
+			Uri.Path platformCorrectPath = correct.Path.FolderPath + (correct.Path.Stem + (Core.Environment.IsWindows ? ".windows." : ".mono.") + correct.Path.Extension);
+			System.IO.Stream correctStream = 
+				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)platformCorrectPath).Replace('/', '.')) ??
+				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)correct.Path).Replace('/', '.'));
+			FileAssert.AreEqual(System.IO.File.Open(created.PlatformPath, System.IO.FileMode.Open), correctStream, message, arguments);
 		}
 		public void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments)
 		{

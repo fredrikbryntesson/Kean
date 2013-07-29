@@ -26,14 +26,14 @@ namespace Kean.Xml.Serialize.Test
 	{
 		public static void Test()
 		{
-			Serialize.Test.BasicTypes.Test();
-			Serialize.Test.SystemTypes.Test();
-			Serialize.Test.CoreTypes.Test();
-			Serialize.Test.NullableTypes.Test();
-			Serialize.Test.CollectionTypes.Test();
+			Core.Serialize.Test.BasicTypes<Verifier>.Test();
+			Core.Serialize.Test.SystemTypes<Verifier>.Test();
+			Core.Serialize.Test.CoreTypes<Verifier>.Test();
+			Core.Serialize.Test.NullableTypes<Verifier>.Test();
+			Core.Serialize.Test.CollectionTypes<Verifier>.Test();
 			Serialize.Test.Missing.Test();
 			Serialize.Test.Named.Test();
-			Serialize.Test.Misfit.Test();
+			Core.Serialize.Test.Misfit<Verifier>.Test();
 			Serialize.Test.Preprocessor.Test();
 		}
 	}

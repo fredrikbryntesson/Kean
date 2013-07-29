@@ -1,5 +1,5 @@
 ﻿// 
-//  ListInterface.cs
+//  ListExisting.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -23,40 +23,40 @@ using System;
 using Collection = Kean.Core.Collection;
 using NUnit.Framework;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class ListInterface :
+	public class ListExisting :
 		IData
 	{
 		Collection.List<Structure> structures = new Collection.List<Structure>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<Structure> Structures { get { return this.structures; } }
+		public Collection.List<Structure> Structures { get { return this.structures; } }
 
 		Collection.List<Class> classes = new Collection.List<Class>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<Class> Classes { get { return this.classes; } }
+		public Collection.List<Class> Classes { get { return this.classes; } }
 
 		Collection.List<object> objects = new Collection.List<object>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<object> Objects { get { return this.objects; } }
+		public Collection.List<object> Objects { get { return this.objects; } }
 		
 		Collection.List<float> floats = new Collection.List<float>();
 		[Core.Serialize.Parameter(Name = "Float")]
-		public Collection.IList<float> Floats { get { return this.floats; } }
+		public Collection.List<float> Floats { get { return this.floats; } }
 
 		Collection.List<int> empty = new Collection.List<int>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<int> Empty { get { return this.empty; } }
+		public Collection.List<int> Empty { get { return this.empty; } }
 
 		Collection.List<int> single = new Collection.List<int>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<int> Single { get { return this.single; } }
+		public Collection.List<int> Single { get { return this.single; } }
 
 		public Collection.List<object> singleObject = new Collection.List<object>();
 		[Core.Serialize.Parameter]
-		public Collection.IList<object> SingleObject { get { return this.singleObject; } }
+		public Collection.List<object> SingleObject { get { return this.singleObject; } }
 
-		public ListInterface()
+		public ListExisting()
 		{
 		}
 

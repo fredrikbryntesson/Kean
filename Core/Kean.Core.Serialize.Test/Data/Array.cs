@@ -22,7 +22,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
 	public class Array :
 		IData
@@ -37,7 +37,6 @@ namespace Kean.Xml.Serialize.Test.Data
 		public int[] Numbers { get; set; }
 		[Core.Serialize.Parameter]
 		public int[] Empty { get; set; }
-
 		#region IData
 		public virtual void Initilize(IFactory factory)
 		{

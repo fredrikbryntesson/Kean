@@ -1,10 +1,10 @@
 ﻿// 
-//  Named.cs
+//  CollectionTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2012 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,54 +18,53 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using NUnit.Framework;
 using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Reflect = Kean.Core.Reflect;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Core.Serialize.Test
 {
-	public class Named :
-		Core.Serialize.Test.Factory<Named, Verifier>
+	public class CollectionTypes<C> :
+		Factory<CollectionTypes<C>, C>
+			where C : Verifier, new()
 	{
-		public override string Name(Reflect.Type type)
-		{
-			return base.Name(type) + "Named";
-		}
-		public override bool Store<O>(O value, Uri.Locator locator)
-		{
-			return this.Storage.Store(value, locator, "Name");
-		}
 		protected override void Run()
 		{
 			this.Run(
-				this.Byte,
-				this.Structure,
-				this.Class,
-				this.ComplexClass
+				this.Dictionary,
+				this.List,
+				this.ListExisting,
+				this.ListInterface,
+				this.Array
 			);
 		}
 		[Test]
-		public void Byte()
+		public void Array()
 		{
-			this.Test(typeof(byte));
+			this.Test(typeof(Data.Array));
 		}
 		[Test]
-		public void Structure()
+		public void List()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.Structure));
+			if (Core.Environment.IsWindows) 
+				this.Test(typeof(Data.List));
 		}
 		[Test]
-		public void Class()
+		public void ListExisting()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.Class));
+			if (Core.Environment.IsWindows) 
+				this.Test(typeof(Data.ListExisting));
 		}
 		[Test]
-		public void ComplexClass()
+		public void ListInterface()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.ComplexClass));
+			if (Core.Environment.IsWindows) 
+				this.Test(typeof(Data.ListInterface));
+		}
+		[Test]
+		public void Dictionary()
+		{
+			this.Test(typeof(Data.Dictionary));
 		}
 	}
 }

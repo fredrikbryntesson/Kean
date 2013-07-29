@@ -1,10 +1,10 @@
 ﻿// 
-//  ListExisting.cs
+//  List.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012-2013 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -23,52 +23,45 @@ using System;
 using Collection = Kean.Core.Collection;
 using NUnit.Framework;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class ListExisting :
+	public class List :
 		IData
 	{
-		Collection.List<Structure> structures = new Collection.List<Structure>();
 		[Core.Serialize.Parameter]
-		public Collection.List<Structure> Structures { get { return this.structures; } }
-
-		Collection.List<Class> classes = new Collection.List<Class>();
+		public Collection.List<Structure> Structures { get; set; }
 		[Core.Serialize.Parameter]
-		public Collection.List<Class> Classes { get { return this.classes; } }
-
-		Collection.List<object> objects = new Collection.List<object>();
+        public Collection.List<Class> Classes { get; set; }
 		[Core.Serialize.Parameter]
-		public Collection.List<object> Objects { get { return this.objects; } }
-		
+        public Collection.List<object> Objects { get; set; }
+		[Core.Serialize.Parameter(Name = "Number")]
+        public Collection.List<int> Numbers { get; set; }
 		Collection.List<float> floats = new Collection.List<float>();
 		[Core.Serialize.Parameter(Name = "Float")]
 		public Collection.List<float> Floats { get { return this.floats; } }
-
-		Collection.List<int> empty = new Collection.List<int>();
 		[Core.Serialize.Parameter]
-		public Collection.List<int> Empty { get { return this.empty; } }
-
-		Collection.List<int> single = new Collection.List<int>();
+        public Collection.List<int> Empty { get; set; }
 		[Core.Serialize.Parameter]
-		public Collection.List<int> Single { get { return this.single; } }
-
-		public Collection.List<object> singleObject = new Collection.List<object>();
+		public Collection.List<int> Single { get; set; }
 		[Core.Serialize.Parameter]
-		public Collection.List<object> SingleObject { get { return this.singleObject; } }
+		public Collection.List<object> SingleObject { get; set; }
 
-		public ListExisting()
+		public List()
 		{
 		}
 
 		#region IData
 		public  void Initilize(IFactory factory)
 		{
-			this.Structures.Add(factory.Create<Structure>()).Add(factory.Create<Structure>());
-			this.Classes.Add(factory.Create<ComplexClass>()).Add(factory.Create<Class>());
-			this.Objects.Add(factory.Create<ComplexClass>()).Add(factory.Create<Class>()).Add(factory.Create<bool>()).Add(factory.Create<DateTime>());
+			this.Structures = new Collection.List<Structure>(factory.Create<Structure>(), factory.Create<Structure>());
+			this.Classes = new Collection.List<Class>(factory.Create<ComplexClass>(), factory.Create<Class>());
+			this.Objects = new Collection.List<object>(factory.Create<ComplexClass>(), factory.Create<Class>(), factory.Create<bool>(), factory.Create<DateTime>());
+			this.Numbers = new Collection.List<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 			this.Floats.Add(0.1337f).Add(1.1337f).Add(2.1337f).Add(3.1337f).Add(4.1337f).Add(5.1337f).Add(6.1337f).Add(7.1337f).Add(8.1337f).Add(9.1337f);
+			this.Empty = new Collection.List<int>();
+			this.Single = new Collection.List<int>();
 			this.Single.Add(1337);
-			this.SingleObject.Add(factory.Create<Class>());
+			this.SingleObject = new Collection.List<object>(factory.Create<Class>());
 		}
 		public void Verify(IFactory factory, string message, params object[] arguments)
 		{
@@ -86,11 +79,15 @@ namespace Kean.Xml.Serialize.Test.Data
 			factory.Verify((bool)this.Objects[2], message, arguments);
 			factory.Verify((DateTime)this.Objects[3], message, arguments);
 
+			factory.Verify(this.Numbers.Count, Is.EqualTo(10), message, arguments);
+			for (int i = 0; i < 10; i++)
+				factory.Verify(this.Numbers[i], Is.EqualTo(i), message, arguments);
+
 			factory.Verify(this.Floats.Count, Is.EqualTo(10), message, arguments);
 			for (int i = 0; i < 10; i++)
 				factory.Verify(this.Floats[i], Is.EqualTo(i + 0.1337f), message, arguments);
 
-			factory.Verify(this.Empty.Count, Is.EqualTo(0), message, arguments);
+			factory.Verify(this.Empty, Is.Null, message, arguments);
 
 			factory.Verify(this.Single.Count, Is.EqualTo(1), message, arguments);
 			factory.Verify(this.Single[0], Is.EqualTo(1337), message, arguments);

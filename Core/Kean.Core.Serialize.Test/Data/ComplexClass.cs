@@ -1,5 +1,5 @@
 ﻿// 
-//  StringCast.cs
+//  ComplexClass.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,39 +21,28 @@
 
 using System;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class StringCast :
-		IData
+	public class ComplexClass :
+		Class
 	{
-		public string String { get; set; }
-		public static implicit operator string(StringCast value)
-		{
-			return value.String;
-		}
-		public static implicit operator StringCast(string value)
-		{
-			return new StringCast() { String = value };
-		}
-		#region These are only here to test that we realy pick the right cast
-		public static implicit operator float(StringCast value)
-		{
-			return 13.37f;
-		}
-		public static implicit operator StringCast(float value)
-		{
-			return new StringCast() { String = "13.37" };
-		}
-		#endregion
+		[Core.Serialize.Parameter]
+		public Structure Structure { get; set; }
+		[Core.Serialize.Parameter]
+		public Class Class { get; set; }
 
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public override void Initilize(IFactory factory)
 		{
-			this.String = factory.Create<string>();
+			base.Initilize(factory);
+			this.Structure = factory.Create<Structure>();
+			this.Class = factory.Create<Class>();
 		}
-		public virtual void Verify(IFactory factory, string message, params object[] arguments)
+		public override void Verify(IFactory factory, string message, params object[] arguments)
 		{
-			factory.Verify(this.String, message, arguments);
+			base.Verify(factory, message, arguments);
+			factory.Verify(this.Structure, message, arguments);
+			factory.Verify(this.Class, message, arguments);
 		}
 		#endregion
 	}

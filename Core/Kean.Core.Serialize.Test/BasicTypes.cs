@@ -1,10 +1,10 @@
 ﻿// 
-//  StringProperty.cs
+//  BasicTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,24 +20,49 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
+using NUnit.Framework;
+using Kean.Core.Extension;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test
 {
-	public class StringInterface :
-		IData,
-		IString
+	public class BasicTypes<C> :
+		Factory<BasicTypes<C>, C>
+			where C : Verifier, new()
 	{
-		public string String { get; set; }
-		#region IData
-		public virtual void Initilize(IFactory factory)
+		protected override void Run()
 		{
-			this.String = factory.Create<string>();
+			this.Run(
+				this.Structure,
+				this.EmptyClass,
+				this.Class,
+				this.ComplexClass,
+				this.Linked
+			);
 		}
-		public virtual void Verify(IFactory factory, string message, params object[] arguments)
+		[Test]
+		public void Structure()
 		{
-			factory.Verify(this.String, message, arguments);
+			this.Test(typeof(Data.Structure));
 		}
-		#endregion
+		[Test]
+		public void EmptyClass()
+		{
+			this.Test(typeof(Data.EmptyClass));
+		}
+		[Test]
+		public void Class()
+		{
+			this.Test(typeof(Data.Class));
+		}
+		[Test]
+		public void ComplexClass()
+		{
+			this.Test(typeof(Data.ComplexClass));
+		}
+		[Test]
+		public void Linked()
+		{
+			this.Test(typeof(Data.Linked));
+		}
 	}
 }

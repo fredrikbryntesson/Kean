@@ -23,26 +23,17 @@ using NUnit.Framework;
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
-using Collection = Kean.Core.Collection;
-using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
-using Uri = Kean.Core.Uri;
-namespace Kean.Xml.Serialize.Test
+
+namespace Kean.Core.Serialize.Test
 {
-	public abstract class Factory<T> :
+	public abstract class Factory<T, V> :
 		Kean.Test.Fixture<T>, 
 		IFactory
-		where T : Kean.Test.Fixture<T>, new()
+			where T : Kean.Test.Fixture<T>, new()
+			where V : Verifier, new()
 	{
-		protected Serialize.Storage Storage { get; private set; }
-		protected virtual void Test(Reflect.Type type)
-		{
-			Uri.Locator filename = this.Filename(type);
-			Uri.Locator resource = this.ResourceName(type);
-			this.Storage.Store(this.Create(type), filename);
-			Factory<T>.VerifyAsResource(filename.PlatformPath, resource.Path, "Serializing test \"{0}\" failed.", this.Name(type));
-			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
-		}
+		V verifier;
 		byte Byte { get { return 42; } }
 		sbyte SignedByte { get { return -42; } }
 		short Short { get { return -1337; } }
@@ -61,33 +52,32 @@ namespace Kean.Xml.Serialize.Test
 		TimeSpan TimeSpan { get { return new TimeSpan(1337, 11, 11, 11, 111); } }
 		bool Boolean { get { return true; } }
 		Data.Enumerator Enumerator { get { return Data.Enumerator.Second; } }
-		internal Factory()
+		public Serialize.Storage Storage { get; private set; }
+		protected Factory()
 		{
+			this.verifier = new V() { Factory = this };
+			this.Storage = this.verifier.Storage;
 		}
-		public override void Setup()
+		public virtual bool Store<O>(O value, Uri.Locator locator)
 		{
-			Storage = new Storage();
-			base.Setup();
+			return this.Storage.Store(value, locator);
 		}
-		protected virtual string Name(Reflect.Type type)
+		protected virtual void Test(Reflect.Type type)
+		{
+			this.VerifyStore(type);
+			this.VerifyLoad(type);
+		}
+		protected void VerifyStore(Reflect.Type type)
+		{
+			this.verifier.VerifyStore(type);
+		}
+		protected void VerifyLoad(Reflect.Type type)
+		{
+			this.verifier.VerifyLoad(type);
+		}
+		public virtual string Name(Reflect.Type type)
 		{
 			return type.ShortName + (type.Arguments.Count > 0 ? "(" + type.Arguments.Map(a => this.Name(a)).Join(",") + ")" : "");
-		}
-		protected virtual Uri.Locator ResourceName(Reflect.Type type)
-		{
-			return "assembly://Kean.Xml.Serialize.Test/Xml/" + this.Name(type) + ".xml";
-		}
-		protected Uri.Locator Filename(Reflect.Type type)
-		{
-			return Uri.Locator.FromPlatformPath(System.IO.Path.GetFullPath(this.Name(type) + ".xml"));
-		}
-		string ReferencePath(string filename)
-		{
-			return "" + filename;
-		}
-		string ReferencePath(Reflect.Type type)
-		{
-			return this.ReferencePath(this.Filename(type));
 		}
 		public U Create<U>()
 		{

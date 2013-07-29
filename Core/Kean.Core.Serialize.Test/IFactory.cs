@@ -1,10 +1,10 @@
 ﻿// 
-//  Array.cs
+//  IFactory.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2011-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -21,25 +21,16 @@
 
 using System;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test
 {
-	public class Include :
-		Array
+	public interface IFactory
 	{
-		[Core.Serialize.Parameter]
-		public DateTime DateTime { get; set; }
-
-		#region IData
-		public override void Initilize(IFactory factory)
-		{
-			this.DateTime = factory.Create<DateTime>();
-			base.Initilize(factory);
-		}
-		public override void Verify(IFactory factory, string message, params object[] arguments)
-		{
-			factory.Verify(this.DateTime, message, arguments);
-			base.Verify(factory, message, arguments);
-		}
-		#endregion
+		T Create<T>();
+		object Create(Reflect.Type type);
+		string Name(Reflect.Type type);
+		bool Store<T>(T value, Uri.Locator locator);
+		void Verify(object value, string message, params object[] arguments);
+		void Verify(object actual, NUnit.Framework.Constraints.Constraint constraint, string message, params object[] arguments);
+		void VerifyResource(Uri.Locator filename, Uri.Locator resource, string message, params object[] arguments);
 	}
 }

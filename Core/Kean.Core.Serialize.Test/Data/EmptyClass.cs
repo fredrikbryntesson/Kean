@@ -1,5 +1,5 @@
 ﻿// 
-//  CoreTypes.cs
+//  EmptyClass.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,29 +20,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using NUnit.Framework;
-using Kean.Core;
-using Kean.Core.Extension;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class CoreTypes :
-		Factory<CoreTypes>
+	public class EmptyClass :
+		IData
 	{
-		protected override void Run()
+		#region IData
+		public virtual void Initilize(IFactory factory)
 		{
-			this.Run(
-				this.KeyValue,
-				this.StringCast,
-				this.StringInterface
-				);
 		}
-
-		[Test]
-		public void KeyValue() { this.Test(typeof(Data.KeyValue)); }
-		[Test]
-		public void StringCast() { this.Test(typeof(Data.StringCast)); }
-		[Test]
-		public void StringInterface() { this.Test(typeof(Data.StringInterface)); }
+		public virtual void Verify(IFactory factory, string message, params object[] arguments)
+		{
+		}
+		#endregion
 	}
 }

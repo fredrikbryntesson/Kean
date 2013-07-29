@@ -1,10 +1,10 @@
 ﻿// 
-//  Misfit.cs
+//  CoreTypes.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011-2013 Simon Mika
+//  Copyright (c) 2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,47 +18,40 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using NUnit.Framework;
+using Kean.Core;
 using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Reflect = Kean.Core.Reflect;
-namespace Kean.Xml.Serialize.Test
+
+namespace Kean.Core.Serialize.Test
 {
-	public class Misfit :
-		Factory<Misfit>
+	public class CoreTypes<C> :
+		Factory<CoreTypes<C>, C>
+			where C : Verifier, new()
 	{
-		protected override void Test(Reflect.Type type)
-		{
-			Uri.Locator resource = this.ResourceName(type);
-			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
-		}
-		protected override string Name(Reflect.Type type)
-		{
-			return base.Name(type) + "Misfit";
-		}
 		protected override void Run()
 		{
 			this.Run(
-				this.Structure,
-				this.Class,
-				this.ComplexClass
+				this.KeyValue,
+				this.StringCast,
+				this.StringInterface
 			);
 		}
 		[Test]
-		public void Structure()
+		public void KeyValue()
 		{
-			this.Test(typeof(Data.Structure));
+			this.Test(typeof(Data.KeyValue));
 		}
 		[Test]
-		public void Class()
+		public void StringCast()
 		{
-			this.Test(typeof(Data.Class));
+			this.Test(typeof(Data.StringCast));
 		}
 		[Test]
-		public void ComplexClass()
+		public void StringInterface()
 		{
-			this.Test(typeof(Data.ComplexClass));
+			this.Test(typeof(Data.StringInterface));
 		}
 	}
 }

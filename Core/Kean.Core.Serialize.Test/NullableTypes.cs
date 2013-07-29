@@ -23,10 +23,11 @@ using System;
 using NUnit.Framework;
 using Kean.Core.Extension;
 
-namespace Kean.Xml.Serialize.Test
+namespace Kean.Core.Serialize.Test
 {
-	public class NullableTypes :
-		Factory<NullableTypes>
+	public class NullableTypes<C> :
+		Factory<NullableTypes<C>, C>
+			where C : Verifier, new()
 	{
 		protected override void  Run()
 		{
@@ -50,52 +51,102 @@ namespace Kean.Xml.Serialize.Test
 				this.Enumerator,
 				this.Structure,
 				this.Nullable
-				);
+			);
 		}
-
 		[Test] 
-		public void Byte() { this.Test(typeof(byte?)); }
+		public void Byte()
+		{
+			this.Test(typeof(byte?));
+		}
 		[Test] 
-		public void SignedByte() { this.Test(typeof(sbyte?)); }
+		public void SignedByte()
+		{
+			this.Test(typeof(sbyte?));
+		}
 		[Test] 
-		public void Short() { this.Test(typeof(short?)); }
+		public void Short()
+		{
+			this.Test(typeof(short?));
+		}
 		[Test] 
-		public void UnsignedShort() { this.Test(typeof(ushort?)); }
+		public void UnsignedShort()
+		{
+			this.Test(typeof(ushort?));
+		}
 		[Test]
-		public void Integer() { this.Test(typeof(int?)); }
+		public void Integer()
+		{
+			this.Test(typeof(int?));
+		}
 		[Test]
-		public void UnsignedInteger() { this.Test(typeof(uint?)); }
+		public void UnsignedInteger()
+		{
+			this.Test(typeof(uint?));
+		}
 		[Test]
-		public void Long() { this.Test(typeof(long?)); }
+		public void Long()
+		{
+			this.Test(typeof(long?));
+		}
 		[Test]
-		public void UnsignedLong() { this.Test(typeof(ulong?)); }
-
+		public void UnsignedLong()
+		{
+			this.Test(typeof(ulong?));
+		}
 		[Test] 
-		public void Single() { this.Test(typeof(float?)); }
+		public void Single()
+		{
+			this.Test(typeof(float?));
+		}
 		[Test]
-		public void Double() { this.Test(typeof(double?)); }
+		public void Double()
+		{
+			this.Test(typeof(double?));
+		}
 		[Test]
-		public void Decimal() { this.Test(typeof(decimal?)); }
-
+		public void Decimal()
+		{
+			this.Test(typeof(decimal?));
+		}
 		[Test] 
-		public void Char() { this.Test(typeof(char?)); }
-
+		public void Char()
+		{
+			this.Test(typeof(char?));
+		}
 		[Test]
-		public void DateTime() { this.Test(typeof(DateTime?)); }
+		public void DateTime()
+		{
+			this.Test(typeof(DateTime?));
+		}
 		[Test]
-		public void DateTimeOffset() { this.Test(typeof(DateTimeOffset?)); }
+		public void DateTimeOffset()
+		{
+			this.Test(typeof(DateTimeOffset?));
+		}
 		[Test]
-		public void TimeSpan() { this.Test(typeof(TimeSpan?)); }
-
+		public void TimeSpan()
+		{
+			this.Test(typeof(TimeSpan?));
+		}
 		[Test]
-		public void Boolean() { this.Test(typeof(bool?)); }
+		public void Boolean()
+		{
+			this.Test(typeof(bool?));
+		}
 		[Test] 
-		public void Enumerator() { this.Test(typeof(Data.Enumerator?)); }
-
+		public void Enumerator()
+		{
+			this.Test(typeof(Data.Enumerator?));
+		}
 		[Test]
-		public void Structure() { this.Test(typeof(Data.Structure?)); }
-
+		public void Structure()
+		{
+			this.Test(typeof(Data.Structure?));
+		}
 		[Test]
-		public void Nullable() { this.Test(typeof(Data.Nullable)); }
+		public void Nullable()
+		{
+			this.Test(typeof(Data.Nullable));
+		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿// 
-//  ComplexClass.cs
+//  Sturcture.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -21,28 +21,33 @@
 
 using System;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class ComplexClass :
-		Class
+	public struct Structure :
+		IData
 	{
-		[Core.Serialize.Parameter]
-		public Structure Structure { get; set; }
-		[Core.Serialize.Parameter]
-		public Class Class { get; set; }
+		public bool Boolean;
+		public int Integer;
+		public float Float;
+		public Enumerator Enumerator;
+		public string String;
 
 		#region IData
-		public override void Initilize(IFactory factory)
+		public void Initilize(IFactory factory)
 		{
-			base.Initilize(factory);
-			this.Structure = factory.Create<Structure>();
-			this.Class = factory.Create<Class>();
+			this.Boolean = factory.Create<bool>();
+			this.Integer = factory.Create<int>();
+			this.Float = factory.Create<float>();
+			this.Enumerator = factory.Create<Enumerator>();
+			this.String = factory.Create<string>();
 		}
-		public override void Verify(IFactory factory, string message, params object[] arguments)
+		public void Verify(IFactory factory, string message, params object[] arguments)
 		{
-			base.Verify(factory, message, arguments);
-			factory.Verify(this.Structure, message, arguments);
-			factory.Verify(this.Class, message, arguments);
+			factory.Verify(this.Boolean, message, arguments);
+			factory.Verify(this.Integer, message, arguments);
+			factory.Verify(this.Float, message, arguments);
+			factory.Verify(this.Enumerator, message, arguments);
+			factory.Verify(this.String, message, arguments);
 		}
 		#endregion
 	}

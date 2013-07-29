@@ -1,5 +1,5 @@
 ﻿// 
-//  KeyValue.cs
+//  StringCast.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,25 +20,40 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
 
-namespace Kean.Xml.Serialize.Test.Data
+namespace Kean.Core.Serialize.Test.Data
 {
-	public class KeyValue :
+	public class StringCast :
 		IData
 	{
-		[Core.Serialize.Parameter]
-		public KeyValue<string, object> Data { get; set; }
+		public string String { get; set; }
+		public static implicit operator string(StringCast value)
+		{
+			return value.String;
+		}
+		public static implicit operator StringCast(string value)
+		{
+			return new StringCast() { String = value };
+		}
+		#region These are only here to test that we realy pick the right cast
+		public static implicit operator float(StringCast value)
+		{
+			return 13.37f;
+		}
+		public static implicit operator StringCast(float value)
+		{
+			return new StringCast() { String = "13.37" };
+		}
+		#endregion
 
 		#region IData
 		public virtual void Initilize(IFactory factory)
 		{
-			this.Data = Core.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
+			this.String = factory.Create<string>();
 		}
 		public virtual void Verify(IFactory factory, string message, params object[] arguments)
 		{
-			factory.Verify(this.Data.Key, message, arguments);
-			factory.Verify(this.Data.Value, message, arguments);
+			factory.Verify(this.String, message, arguments);
 		}
 		#endregion
 	}

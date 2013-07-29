@@ -26,34 +26,33 @@ using Uri = Kean.Core.Uri;
 using Reflect = Kean.Core.Reflect;
 using NUnit.Framework;
 
-
 namespace Kean.Xml.Serialize.Test
 {
 	public class Preprocessor :
-		Factory<Preprocessor>
+		Core.Serialize.Test.Factory<Preprocessor, Preprocessor.Verifier>
 	{
+		public class Verifier :
+			Test.Verifier
+		{
+			protected override Uri.Locator CorrectBase { get { return "file:///./Xml"; } }
+			public Verifier()
+			{
+			}
+		}
 		protected override void Test(Reflect.Type type)
 		{
-			Uri.Locator resource = this.ResourceName(type);
-			this.Verify(this.Storage.Load<object>(resource), "Deserialization text \"{0}\" failed.", this.Name(type));
+			this.VerifyLoad(type);
 		}
-		protected override Kean.Core.Uri.Locator ResourceName(Kean.Core.Reflect.Type type)
-		{
-			return "file:///./Xml/" + this.Name(type) + ".xml";
-		}
-		public override void Setup()
-		{
-			base.Setup();
-		}
-
 		protected override void Run()
 		{
 			this.Run(
 				this.Include
-				);
+			);
 		}
-
 		[Test]
-		public void Include() { this.Test(typeof(Data.Include)); }
+		public void Include()
+		{
+			this.Test(typeof(Core.Serialize.Test.Data.Include));
+		}
 	}
 }
