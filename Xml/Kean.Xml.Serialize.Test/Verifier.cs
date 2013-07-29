@@ -1,5 +1,5 @@
 // 
-//  Factory.cs
+//  Verifier.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Uri = Kean.Core.Uri;
 
@@ -28,8 +27,11 @@ namespace Kean.Xml.Serialize.Test
 		Core.Serialize.Test.Verifier
 	{
 		protected override string Extension { get { return "xml"; } }
+
 		protected override Uri.Locator CorrectBase { get { return "assembly://Kean.Xml.Serialize.Test/Xml"; } }
+
 		protected override Uri.Locator CreatedBase { get { return Uri.Locator.FromPlatformPath(System.Environment.CurrentDirectory) + "Xml"; } }
+
 		public Verifier() :
 			base(new Storage())
 		{
