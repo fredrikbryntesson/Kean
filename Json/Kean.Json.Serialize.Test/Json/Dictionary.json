@@ -6,7 +6,7 @@
 			"Value": { 
 				"Boolean": true, 
 				"Enumerator": "Second", 
-				"Float": -13,37, 
+				"Float": -13.37, 
 				"Integer": -1337, 
 				"String": "This is Kean." 
 			} 
@@ -27,7 +27,7 @@
 				"_type": "Kean.Core.Serialize.Test:Data.Class", 
 				"Boolean": true, 
 				"Enumerator": "Second", 
-				"Float": -13,37, 
+				"Float": -13.37, 
 				"Integer": -1337, 
 				"String": "This is Kean." 
 			} 
@@ -39,7 +39,7 @@
 			"Value": { 
 				"Boolean": true, 
 				"Enumerator": "Second", 
-				"Float": -13,37, 
+				"Float": -13.37, 
 				"Integer": -1337, 
 				"String": "This is Kean." 
 			} 

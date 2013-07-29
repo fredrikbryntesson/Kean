@@ -4,7 +4,7 @@
 		"Classes": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 
-			"Float": -13,37, 
+			"Float": -13.37, 
 			"Integer": -1337, 
 			"String": "This is Kean." 
 		} 
@@ -21,7 +21,7 @@
 		"Structures": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 
-			"Float": -13,37, 
+			"Float": -13.37, 
 			"Integer": -1337, 
 			"String": "This is Kean." 
 		} 

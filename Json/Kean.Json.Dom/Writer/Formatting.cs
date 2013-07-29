@@ -32,7 +32,7 @@ namespace Kean.Json.Dom.Writer
 		IWriter
 	{
 		IO.Text.Indenter writer;
-		public bool Format 
+		public bool Format
 		{ 
 			get { return this.writer.Format; }
 			set { this.writer.Format = value; } 
@@ -42,47 +42,45 @@ namespace Kean.Json.Dom.Writer
 			this.writer = new IO.Text.Indenter(backend);
 			this.Format = true;
 		}
-
 		bool Write(Label label)
 		{
 			return this.writer.Write("\"" + label + "\": ");
 		}
 		#region IWriter implementation
-		public bool Write (Item value)
+		public bool Write(Item value)
 		{
 			return value is Object && this.Write(value as Object) ||
 				value is Array && this.Write(value as Array) ||
-			    (value is Null || value.IsNull()) && this.Write(value as Null) ||
-			    value is Boolean && this.Write(value as Boolean) ||
-			    value is Number && this.Write(value as Number) ||
+				(value is Null || value.IsNull()) && this.Write(value as Null) ||
+				value is Boolean && this.Write(value as Boolean) ||
+				value is Number && this.Write(value as Number) ||
 				value is String && this.Write(value as String);
 		}
-		public bool Write (Object value)
+		public bool Write(Object value)
 		{
 			return this.writer.WriteLine("{ ") && this.writer.AddIndent() && value.All((element, last) => this.Write(element.Key) && this.Write(element.Value) && (last || this.writer.Write(",")) && this.writer.WriteLine(" ")) && this.writer.RemoveIndent() && this.writer.Write("}");
 		}
-		public bool Write (Array value)
+		public bool Write(Array value)
 		{
 			return this.writer.WriteLine("[ ") && this.writer.AddIndent() && value.All((node, last) => this.Write(node) && (last || this.writer.Write(",")) && this.writer.WriteLine(" ")) && this.writer.RemoveIndent() && this.writer.Write("]");
 		}
-		public bool Write (Null value)
+		public bool Write(Null value)
 		{
 			return this.writer.Write("null");
 		}
-		public bool Write (Boolean value)
+		public bool Write(Boolean value)
 		{
 			return this.writer.Write(value.Value ? "true" : "false");
 		}
-		public bool Write (Number value)
+		public bool Write(Number value)
 		{
-			return this.writer.Write(value.Value);
+			return this.writer.Write(value.Value.AsString());
 		}
-		public bool Write (String value)
+		public bool Write(String value)
 		{
 			return this.writer.Write("\"" + value.Value + "\"");
 		}
 		#endregion
-
 	}
 }
 

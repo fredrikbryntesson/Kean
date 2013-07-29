@@ -165,7 +165,7 @@ namespace Kean.Json.Serialize
 		Dom.Object Convert(Core.Serialize.Data.Link item)
 		{
 			Dom.Object result = new Dom.Object(item.Region);
-			result.Add("_link", new Dom.String(item.Locator, item.Region));
+			result.Add("_link", new Dom.String(item.Relative, item.Region));
 			return result;
 		}
 		public static T Open<T>(Uri.Locator resource)

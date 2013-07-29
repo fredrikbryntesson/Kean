@@ -26,7 +26,7 @@ namespace Kean.Test.Run
 	{
 		public static void Main(string[] args)
 		{
-			Core.Error.Log.CatchErrors = false;
+			//Core.Error.Log.CatchErrors = false;
 			#region Json
 			Json.Dom.Test.All.Test();
 			Json.Serialize.Test.All.Test();

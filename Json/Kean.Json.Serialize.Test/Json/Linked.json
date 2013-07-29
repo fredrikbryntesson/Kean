@@ -3,26 +3,26 @@
 	"Class0": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	}, 
 	"Class1": { 
-		"_link": "file:///home/smika/versioned/TidR/Kean/bin/Debug/Json/Linked.json" 
+		"_link": "#Class0" 
 	}, 
 	"ComplexClass": { 
 		"Boolean": true, 
 		"Class": { 
-			"_link": "file:///home/smika/versioned/TidR/Kean/bin/Debug/Json/Linked.json#ComplexClass" 
+			"_link": "#Class0" 
 		}, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean.", 
 		"Structure": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 
-			"Float": -13,37, 
+			"Float": -13.37, 
 			"Integer": -1337, 
 			"String": "This is Kean." 
 		} 
@@ -30,21 +30,21 @@
 	"OtherClass": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	}, 
 	"Structure0": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	}, 
 	"Structure1": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	} 

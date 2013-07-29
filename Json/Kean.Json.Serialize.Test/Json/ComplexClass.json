@@ -4,18 +4,18 @@
 	"Class": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	}, 
 	"Enumerator": "Second", 
-	"Float": -13,37, 
+	"Float": -13.37, 
 	"Integer": -1337, 
 	"String": "This is Kean.", 
 	"Structure": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
-		"Float": -13,37, 
+		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	} 
