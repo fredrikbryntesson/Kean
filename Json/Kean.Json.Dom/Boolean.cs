@@ -32,44 +32,46 @@ namespace Kean.Json.Dom
 	{
 		public Boolean (bool value) :
 			base(value)
-		{ }
+		{
+		}
 		public Boolean (bool value, Uri.Region region) :
 			base(value, region)
-		{ }
+		{
+		}
 		#region IEquatable implementation
-		public override int GetHashCode()
+		public override int GetHashCode ()
 		{
-			return this.Value.GetHashCode();
+			return this.Value.GetHashCode ();
 		}
-		public override bool Equals(object other)
+		public override bool Equals (object other)
 		{
-			return other is Boolean && this.Equals(other as Boolean);
+			return other is Boolean && this.Equals (other as Boolean);
 		}
-        public override bool Equals(Item other)
-        {
-            return this.Equals(other as Boolean);
-        }
-        public bool Equals(Boolean other)
+		public override bool Equals (Item other)
 		{
-			return other.NotNull() && this.Value == other.Value;
+			return this.Equals (other as Boolean);
 		}
-		public static bool operator ==(Boolean left, Boolean right)
+		public bool Equals (Boolean other)
 		{
-			return left.Same(right) || left.NotNull() && left.Equals(right);
+			return other.NotNull () && this.Value == other.Value;
 		}
-		public static bool operator !=(Boolean left, Boolean right)
+		public static bool operator == (Boolean left, Boolean right)
 		{
-			return !left.Same(right) || left.IsNull() || !left.Equals(right);
+			return left.Same (right) || left.NotNull () && left.Equals (right);
+		}
+		public static bool operator != (Boolean left, Boolean right)
+		{
+			return !left.Same (right) || left.IsNull () || !left.Equals (right);
 		}
 		#endregion
 		#region Casts
-		public static implicit operator bool(Boolean item)
+		public static implicit operator bool (Boolean item)
 		{
-			return item.NotNull() ? item.Value : false;
+			return item.NotNull () ? item.Value : false;
 		}
-		public static implicit operator Boolean(bool value)
+		public static implicit operator Boolean (bool value)
 		{
-			return new Boolean(value);
+			return new Boolean (value);
 		}
 		#endregion
 	}

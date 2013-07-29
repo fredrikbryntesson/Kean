@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -30,7 +29,8 @@ namespace Kean.Core.Serialize.Serializer
 		ISerializer
 	{
 		public Class()
-		{ }
+		{
+		}
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
@@ -62,7 +62,10 @@ namespace Kean.Core.Serialize.Serializer
 		public object Deserialize(Storage storage, Data.Node data, object result)
 		{
 			if (result.IsNull())
-				try	{ result = data.Type.Create(); }
+				try
+				{
+					result = data.Type.Create();
+				}
 				catch (System.MissingMethodException e)
 				{
 					if (data.Type == data.OriginalType)

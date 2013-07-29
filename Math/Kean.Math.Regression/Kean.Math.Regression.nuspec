@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Math.Matrix" />
-      <dependency id="Kean.Math.Random" />
+      <dependency id="Kean.Math.Matrix" version="$version$" />
+      <dependency id="Kean.Math.Random" version="$version$" />
     </dependencies>
   </metadata>
 </package>

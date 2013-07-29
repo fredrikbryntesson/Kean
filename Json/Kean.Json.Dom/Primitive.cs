@@ -24,14 +24,24 @@ using Uri = Kean.Core.Uri;
 
 namespace Kean.Json.Dom
 {
-	public abstract class Primitive<T> :
+	public abstract class Primitive :
 		Item
 	{
+		protected Primitive(Uri.Region region) :
+			base(region)
+		{
+		}
+	}
+
+	public abstract class Primitive<T> :
+		Primitive
+	{
 		public T Value { get; private set; }
-		protected Primitive (T value) :
+		protected Primitive(T value) :
 			this(value, null)
-		{ }
-		protected Primitive (T value, Uri.Region region) :
+		{
+		}
+		protected Primitive(T value, Uri.Region region) :
 			base(region)
 		{ 
 			this.Value = value;

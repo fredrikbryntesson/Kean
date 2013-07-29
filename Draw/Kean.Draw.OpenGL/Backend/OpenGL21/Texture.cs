@@ -123,9 +123,9 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			}
 			GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, region.Left, region.Top, region.Width, region.Height, format, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
 		}
-        protected override void Read(IntPtr pointer, Geometry2D.Integer.Box region)
+		protected override void Read(IntPtr pointer)
 		{
-			GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, this.Format, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+			GL.GetTexImage(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, this.Format, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 		}
 		public override void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle)
 		{

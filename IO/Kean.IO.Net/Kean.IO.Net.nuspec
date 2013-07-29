@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Parallel" />
-      <dependency id="Kean.IO" />
+      <dependency id="Kean.Core.Parallel" version="$version$" />
+      <dependency id="Kean.IO" version="$version$" />
     </dependencies>
   </metadata>
 </package>

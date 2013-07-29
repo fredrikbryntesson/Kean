@@ -1,7 +1,8 @@
 { 
 	"nested": { 
-		"object": { 
-			"string": "Text" 
-		} 
-	} 
+		"string": "Text", 
+		"number": "1337", 
+		"boolean": true 
+	}, 
+	"string": "Text" 
 }

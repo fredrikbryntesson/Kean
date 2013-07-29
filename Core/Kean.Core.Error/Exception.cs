@@ -45,12 +45,12 @@ namespace Kean.Core.Error
 		public int Line { get; private set; }
 		public int Column { get; private set; }
 		protected Exception(Level level, string title, string message, params object[] arguments) : this(null, level, title, message, arguments) { }
-        protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
-            base(System.String.Format(message, arguments), exception)
-        {
+		protected Exception(System.Exception exception, Level level, string title, string message, params object[] arguments) : 
+			base(System.String.Format(message, arguments), exception)
+		{
 			this.Time = DateTime.Now;
-            this.Level = level;
-            this.Title = title;
+			this.Level = level;
+			this.Title = title;
 			System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace(0, true);
 			int depth = 0;
 			while (trace.GetFrame(depth).GetMethod().DeclaringType.IsInstanceOfType(this))
@@ -68,10 +68,10 @@ namespace Kean.Core.Error
 			this.Column = frame.GetFileColumnNumber();
 			Log.Append(this);
 		}
-        public void Throw()
-        {
+		public void Throw()
+		{
 			if (this.Level >= Exception.Threshold)
 				throw this;
-        }
+		}
 	}
 }

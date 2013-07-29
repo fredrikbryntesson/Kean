@@ -27,10 +27,10 @@ namespace Kean.Draw.OpenGL.Test
 	{
 		public static void Test()
 		{
-			Convert.Test();
-			Monochrome.Test();
 			Bgra.Test();
+			Monochrome.Test();
 			Canvas.Test();
+			Convert.Test();
 		}
 	}
 }

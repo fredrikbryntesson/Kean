@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 namespace Kean.Core.Serialize.Exception
 {
 	/// <summary>
@@ -28,7 +27,8 @@ namespace Kean.Core.Serialize.Exception
 		Abstract
 	{
 		internal PropertyNotWriteable(string type, string node, Uri.Region region) :
-			base(Error.Level.Warning, "Property Not Writable.", "Property in \"{0}\" that corresponds to node \"{1}\"{2} can't be set.", type, node, PropertyNotWriteable.Location(", ", region, ","))
-		{ }
+			base(Error.Level.Notification, "Property Not Writable.", "Property in \"{0}\" that corresponds to node \"{1}\"{2} can't be set.", type, node, PropertyNotWriteable.Location(", ", region, ","))
+		{
+		}
 	}
 }

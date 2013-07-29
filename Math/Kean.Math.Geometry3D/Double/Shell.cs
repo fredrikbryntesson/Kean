@@ -188,7 +188,7 @@ namespace Kean.Math.Geometry3D.Double
           }
           public static explicit operator Integer.Shell(Shell value)
           {
-              return new Integer.Shell((Kean.Math.Integer)(value.Left), (Kean.Math.Integer)(value.Right), (Kean.Math.Integer)(value.Top), (Kean.Math.Integer)(value.Bottom), (Kean.Math.Integer)(value.Front), (Kean.Math.Integer)(value.Back));
+              return new Integer.Shell((int)value.Left, (int)value.Right, (int)value.Top, (int)value.Bottom, (int)value.Front, (int)value.Back);
           }
 		
 		

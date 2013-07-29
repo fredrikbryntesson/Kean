@@ -8,9 +8,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Core.Parallel" />
-      <dependency id="Kean.Core.Serialize" />
-      <dependency id="Kean.Xml.Dom" />
+      <dependency id="Kean.Core.Parallel" version="$version$" />
+      <dependency id="Kean.Core.Serialize" version="$version$" />
+      <dependency id="Kean.Xml.Dom" version="$version$" />
     </dependencies>
   </metadata>
 </package>

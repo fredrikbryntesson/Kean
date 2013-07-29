@@ -18,45 +18,47 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Uri = Kean.Core.Uri;
 using NUnit.Framework;
-
-
 namespace Kean.Xml.Serialize.Test
 {
-	public class Missing :
+    public class Missing :
 		Kean.Test.Fixture<Missing>
-	{
-		Serialize.Storage storage;
-		void Test(Uri.Locator locator)
-		{
-			Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
-			if (locator.Scheme == "file")
-				Verify(this.storage.Store<object>(new Object(), locator), Is.True, "Serialize Missing {0}", locator);
-			else
-				Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Serialize Missing {0}", locator);
-		}
-		public override void Setup()
-		{
-			storage = new Storage();
-			base.Setup();
-		}
-
-		protected override void Run()
-		{
-			this.Run(
-				this.Disk,
-				this.Web
-				);
-		}
-
-		[Test]
-		public void Disk() { this.Test("file:///missing/missing.xml"); }
-		[Test]
-		public void Web() { this.Test("http://kean.hx.se/dev/missing.xml"); }
-	}
+    {
+        Serialize.Storage storage;
+        void Test(Uri.Locator locator)
+        {
+            Verify(this.storage.Load<object>(locator), Is.Null, "Deserialize Missing {0}", locator);
+            if (locator.Scheme == "file")
+                Verify(this.storage.Store<object>(new Object(), locator), Is.True, "Serialize Missing {0}", locator);
+            else
+                Verify(this.storage.Store<object>(new Object(), locator), Is.False, "Serialize Missing {0}", locator);
+        }
+        public override void Setup()
+        {
+            storage = new Storage();
+            base.Setup();
+        }
+        protected override void Run()
+        {
+            this.Run(
+                this.Disk,
+                this.Web
+            );
+        }
+        [Test]
+        public void Disk()
+        {
+            if (Core.Environment.IsWindows)
+                this.Test("file:///missing/missing.xml");
+        }
+        [Test]
+        public void Web()
+        {
+            this.Test("http://kean.hx.se/dev/missing.xml");
+        }
+    }
 }

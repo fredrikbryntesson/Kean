@@ -8,8 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <dependencies>
-      <dependency id="Kean.Cli.Argument" />
-      <dependency id="Kean.Xml.Serialize" />
+      <dependency id="Kean.Cli.Argument" version="$version$" />
+      <dependency id="Kean.Xml.Serialize" version="$version$" />
     </dependencies>
   </metadata>
 </package>

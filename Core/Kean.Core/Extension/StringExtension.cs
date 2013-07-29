@@ -144,6 +144,25 @@ namespace Kean.Core.Extension
 			return result;
 		}
 
+		public static string Get(this string me, int index, int length)
+		{
+			string result = "";
+			if (length != 0)
+			{
+				int count = me.Length;
+				int sliceIndex = (index >= 0) ? index : count + index;
+				int sliceLength = (length > 0) ? length : count + length - sliceIndex;
+				result = me.Substring(sliceIndex, sliceLength);
+			}
+			return result;
+		}
+		public static string Get(this string me, int index)
+		{
+			return index >= 0 ?
+				me.Get(index, me.Length - index) :
+				me.Get(me.Length + index, -index);
+		}
+
 		public static string[] SplitAt (this string me)
 		{
 			return me.SplitAt (' ');

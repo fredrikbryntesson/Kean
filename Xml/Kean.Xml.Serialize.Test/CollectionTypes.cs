@@ -18,36 +18,51 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using NUnit.Framework;
 using Kean.Core.Extension;
-
 namespace Kean.Xml.Serialize.Test
 {
-	public class CollectionTypes :
+    public class CollectionTypes :
 		Factory<CollectionTypes>
-	{
-		protected override void Run()
-		{
-			this.Run(
-				this.Dictionary,
-				this.List,
-				this.ListExisting,
-				this.ListInterface,
-				this.Array
-				);
-		}
-
-		[Test]
-		public void Array() { this.Test(typeof(Data.Array)); }
-		[Test]
-		public void List() { this.Test(typeof(Data.List)); }
-		[Test]
-		public void ListExisting() { this.Test(typeof(Data.ListExisting)); }
-		[Test]
-		public void ListInterface() { this.Test(typeof(Data.ListInterface)); }
-		[Test]
-		public void Dictionary() { this.Test(typeof(Data.Dictionary)); }
-	}
+    {
+        protected override void Run()
+        {
+            this.Run(
+                this.Dictionary,
+                this.List,
+                this.ListExisting,
+                this.ListInterface,
+                this.Array
+            );
+        }
+        [Test]
+        public void Array()
+        {
+            this.Test(typeof(Data.Array));
+        }
+        [Test]
+        public void List()
+        {
+            if (Core.Environment.IsWindows) 
+                this.Test(typeof(Data.List));
+        }
+        [Test]
+        public void ListExisting()
+        {
+            if (Core.Environment.IsWindows) 
+                this.Test(typeof(Data.ListExisting));
+        }
+        [Test]
+        public void ListInterface()
+        {
+            if (Core.Environment.IsWindows) 
+                this.Test(typeof(Data.ListInterface));
+        }
+        [Test]
+        public void Dictionary()
+        {
+            this.Test(typeof(Data.Dictionary));
+        }
+    }
 }
