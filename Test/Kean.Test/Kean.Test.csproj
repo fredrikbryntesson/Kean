@@ -53,6 +53,10 @@
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Error\Kean.Core.Error.csproj">
+      <Project>{9EE43841-CE0C-4943-BDFF-1C5E158A0BDB}</Project>
+      <Name>Kean.Core.Error</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.Test.nuspec" />

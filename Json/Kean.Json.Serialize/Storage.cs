@@ -33,11 +33,7 @@ namespace Kean.Json.Serialize
 		Core.Serialize.Storage
 	{
 		public Storage() :
-			base()
-		{
-		}
-		public Storage(Core.Serialize.IRebuilder rebuilder, params Core.Serialize.ISerializer[] serializers) :
-			base(rebuilder, serializers)
+			base(null, null, null)
 		{
 		}
 		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
@@ -87,7 +83,10 @@ namespace Kean.Json.Serialize
 		}
 		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator resource)
 		{
-			return this.Convert(value).Save(resource);
+			Dom.Item item = this.Convert(value);
+			if (!(item is Dom.Collection))
+				item = new Dom.Object(KeyValue.Create(value.Name, item));
+			return item.Save(resource);
 		}
 		Dom.Item Convert(Core.Serialize.Data.Node item)
 		{

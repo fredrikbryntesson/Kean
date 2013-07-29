@@ -35,11 +35,22 @@ namespace Kean.Test
 		}
 		Test(Action method) :
 			this(method, method.Method.Name)
-		{ }
+		{
+		}
 		internal virtual void Run(Action pre, Action post)
 		{
 			pre.Call();
-			this.Method.Call();
+			if (Core.Error.Log.CatchErrors)
+				try
+				{
+					this.Method.Call();
+				}
+				catch (Exception ex)
+				{
+					Console.Write("F");
+				}
+			else
+				this.Method.Call();
 			post.Call();
 		}
 		public static implicit operator Test(Action method)
@@ -47,13 +58,15 @@ namespace Kean.Test
 			return new Test(method);
 		}
 	}
+
 	public class Test<T> :
 		Test
 		where T : Exception
 	{
 		internal Test(Action method, string name) :
 			base(method, name)
-		{ }
+		{
+		}
 		internal override void Run(Action pre, Action post)
 		{
 			bool catched = false;

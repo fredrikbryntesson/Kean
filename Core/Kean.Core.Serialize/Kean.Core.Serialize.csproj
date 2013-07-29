@@ -108,6 +108,7 @@
     <Compile Include="Serializer\Group.cs" />
     <None Include="Kean.Core.Serialize.nuspec" />
     <Compile Include="Exception\FieldMissing.cs" />
+    <Compile Include="Rebuilder\Identity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kean.Core.Uri\Kean.Core.Uri.csproj">

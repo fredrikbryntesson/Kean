@@ -32,27 +32,11 @@ namespace Kean.Core.Serialize
 		ISerializer serializer;
 		IRebuilder rebuilder;
 		public Resolver Resolver { get; private set; }
-		protected Storage() :
-			this(new Rebuilder.Default(), new Serializer.Default())
+		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers)
 		{
-		}
-		protected Storage(params ISerializer[] serializers) :
-			this(new Resolver(), new Rebuilder.Default(), serializers)
-		{
-		}
-		protected Storage(IRebuilder rebuilder, params ISerializer[] serializers) :
-			this(new Resolver(), rebuilder, serializers)
-		{
-		}
-		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers) :
-			this(resolver, rebuilder, new Serializer.Group(serializers))
-		{
-		}
-		protected Storage(Resolver resolver, IRebuilder rebuilder, ISerializer serializer)
-		{
-			this.Resolver = resolver;
-			this.rebuilder = rebuilder;
-			this.serializer = new Serializer.Cache(serializer);
+			this.Resolver = resolver ?? new Resolver();
+			this.rebuilder = rebuilder ?? new Rebuilder.Identity();
+			this.serializer = new Serializer.Cache(serializers.NotEmpty() ? new Serializer.Group(serializers) : new Serializer.Default());
 		}
 		protected abstract bool Store(Data.Node value, Uri.Locator locator);
 		public bool Store<T>(T value, Uri.Locator locator)

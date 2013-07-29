@@ -1,0 +1,29 @@
+{ 
+	"_type": "Kean.Core.Serialize.Test:Data.Array", 
+	"Classes": { 
+		"Classes": { 
+			"Boolean": true, 
+			"Enumerator": "Second", 
+			"Float": -13,37, 
+			"Integer": -1337, 
+			"String": "This is Kean." 
+		} 
+	}, 
+	"Empty": { 
+	}, 
+	"Number": { 
+		"Number": 9 
+	}, 
+	"Objects": { 
+		"Objects": "2111-11-11T11:11:11.1110000" 
+	}, 
+	"Structures": { 
+		"Structures": { 
+			"Boolean": true, 
+			"Enumerator": "Second", 
+			"Float": -13,37, 
+			"Integer": -1337, 
+			"String": "This is Kean." 
+		} 
+	} 
+}

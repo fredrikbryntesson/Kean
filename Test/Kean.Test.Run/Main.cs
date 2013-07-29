@@ -27,13 +27,13 @@ namespace Kean.Test.Run
 		public static void Main(string[] args)
 		{
 			Core.Error.Log.CatchErrors = false;
+			#region Json
+			Json.Dom.Test.All.Test();
+			Json.Serialize.Test.All.Test();
+			#endregion
 			#region Xml
 			Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();
-			#endregion
-			#region Json
-			Json.Dom.Test.All.Test();
-			//Json.Serialize.Test.All.Test();
 			#endregion
 			#region Html
 			Html.Dom.Test.All.Test();

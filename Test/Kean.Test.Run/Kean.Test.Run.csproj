@@ -148,6 +148,10 @@
       <Project>{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE}</Project>
       <Name>Kean.Html.Dom.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Json\Kean.Json.Serialize.Test\Kean.Json.Serialize.Test.csproj">
+      <Project>{1197AEEB-5CEA-4E71-9D93-05E660F62129}</Project>
+      <Name>Kean.Json.Serialize.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
