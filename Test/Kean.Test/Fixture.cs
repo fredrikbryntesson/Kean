@@ -81,7 +81,14 @@ namespace Kean.Test
 		}
 		public static void Test()
 		{
-			T fixture = new T();
+			Fixture<T>.Test(new T());
+		}
+		public static void Test(string prefix)
+		{
+			Fixture<T>.Test(new T() { Prefix = prefix });
+		}
+		static void Test(T fixture)
+		{
 			Console.Write(fixture.Prefix);
 			fixture.Setup();
 			fixture.Run();
