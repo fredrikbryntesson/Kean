@@ -114,3 +114,5 @@ UpgradeLog*.XML
 
 nuget.exe
 /.tools
+
+VersionInfo.Generated.wxi
