@@ -38,7 +38,7 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
-      <Project>{d44cae32-71ea-4bd9-8a41-8ec84526b596}</Project>
+      <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
       <Name>Kean.Core.Reflect</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
@@ -62,7 +62,7 @@
       <Name>Kean.Core.Serialize</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Json.Sax\Kean.Json.Sax.csproj">
-      <Project>{012b3587-f0a8-4905-ab14-359c31f10b75}</Project>
+      <Project>{012B3587-F0A8-4905-AB14-359C31F10B75}</Project>
       <Name>Kean.Json.Sax</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kean.Json\Kean.Json.csproj">

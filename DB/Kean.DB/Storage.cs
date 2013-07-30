@@ -9,7 +9,8 @@ namespace Kean.DB
 	public abstract class Storage :
 		Serialize.Storage
 	{
-		public Storage()
+		public Storage() :
+			base(null, null, null)
 		{
 		}
 	}
