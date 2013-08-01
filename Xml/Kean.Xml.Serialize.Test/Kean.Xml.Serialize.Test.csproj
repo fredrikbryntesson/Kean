@@ -197,11 +197,11 @@
     <EmbeddedResource Include="Xml\ComplexClassMisfit.xml" />
     <EmbeddedResource Include="Xml\ClassMisfit.xml" />
     <Compile Include="Missing.cs" />
+    <Compile Include="Verifier.cs" />
     <ProjectReference Include="..\..\Core\Kean.Core.Serialize.Test\Kean.Core.Serialize.Test.csproj">
       <Project>{F4A4B924-B65C-4FDE-A38E-AB50AE55DE91}</Project>
       <Name>Kean.Core.Serialize.Test</Name>
     </ProjectReference>
-    <Compile Include="Verifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />

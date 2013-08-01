@@ -1,3 +1,23 @@
+// 
+//  Table.cs
+//  
+//  Author:
+//       Simon Mika <smika@hx.se>
+//  
+//  Copyright (c) 2012 Simon Mika
+// 
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+// 
+//  You should have received data copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -8,42 +28,141 @@ using Serialize = Kean.Core.Serialize;
 using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
 using Data = System.Data;
+using IO = Kean.IO;
 
 namespace Kean.DB.Sql
 {
 	public class Table
 	{
 		Data.IDbConnection connection;
-		string name;
+
+		public string Name { get; private set; }
+
+		Reflect.Type type;
 		KeyValue<string, Reflect.Type> key;
 		KeyValue<string, Reflect.Type>[] indexFields;
 		KeyValue<string, Reflect.Type>[] nonIndexFields;
 		KeyValue<string, Reflect.Type>[] fields;
 		string fieldString;
 
-		Table(string name, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields)
+		Table(string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields)
 		{
-			this.name = name;
+			this.Name = name;
+			this.type = type;
 			this.key = key;
 			this.indexFields = indexFields;
 			this.nonIndexFields = nonIndexFields;
 			this.fields = fields;
 			this.fieldString = fields.Fold((f, s) => s.NotNull() ? s + ", " + f.Key : f.Key, (string)null);
 		}
-		internal void Open(Data.IDbConnection connection)
+
+		internal bool Open (Data.IDbConnection connection)
 		{
 			this.connection = connection;
+			return true; // TODO: Maybe we should verify existance of the table and maybe even its type.
 		}
-		public Serialize.Data.Node Select(string key)
+
+		string SqlType (KeyValue<string, Reflect.Type> field)
+		{
+			string result = "`" + field.Key + "` ";
+			switch (field.Value)
+			{
+				case "bool":
+					result += "boolean";
+					break;
+				case "byte":
+					result += "tinyint UNSIGNED";
+					break;
+				case "sbyte":
+					result += "tinyint";
+					break;
+				case "byte[]":
+					result += "binary";
+					break;
+				case "System.DateTime":
+					result += "datetime";
+					break;
+				case "decimal":
+					result += "decimal";
+					break;
+				case "double":
+					result += "double";
+					break;
+				case "System.Guid":
+					result += "char(36)";
+					break;
+				case "short":
+					result += "smallint";
+					break;
+				case "ushort":
+					result += "smallint UNSIGNED";
+					break;
+				case "int":
+					result += "int";
+					break;
+				case "uint":
+					result += "int UNSIGNED";
+					break;
+				case "long":
+					result += "bigint(20)";
+					break;
+				case "ulong":
+					result += "bigint UNSIGNED";
+					break;
+				case "float":
+					result += "float";
+					break;
+				case "string":
+					result += "text";
+					break;
+				case "System.TimeSpan":
+					result += "time";
+					break;
+
+			}
+			return result;
+		}
+
+		internal bool Create ()
+		{
+			bool result;
+			if (result = this.connection.NotNull())
+			{
+				IO.Text.Builder query = new IO.Text.Builder(@"CREATE TABLE ");
+				query += "`" + this.Name + "` (" + this.SqlType(this.key) + " NOT NULL, ";
+				foreach (var field in this.indexFields)
+					query += this.SqlType(field) + ", ";
+				query += "`_type` varchar(255) DEFAULT '" + this.type + "', ";
+				if (this.nonIndexFields.NotEmpty())
+					query += "`_data` longtext, ";
+				query += "PRIMARY KEY (`" + this.key.Key + "`),";
+				query += "UNIQUE KEY `" + this.key.Key + "` (`" + this.key.Key + "`)";
+				query += ") DEFAULT CHARSET=utf8";
+				Console.WriteLine(query);
+				using (Data.IDbCommand command = this.connection.CreateCommand())
+				{
+					command.CommandText = query;
+					result = command.ExecuteNonQuery() > 0;
+				}
+			}
+			return result;
+		}
+		#region Select
+		public Serialize.Data.Node Select ()
+		{
+			return null;
+		}
+
+		public Serialize.Data.Node Select (string key)
 		{
 			if (this.key.Value == typeof(string))
 				key = "'" + key + "'";
-			Serialize.Data.Node[] result = this.Select(this.key.Key + " = " + key , null, 0, 0);
-			return result.NotEmpty() ? result[0] : null;
+			return this.Select(this.key.Key + " = " + key, null, 0, 0).First();
 		}
-		public Serialize.Data.Node[] Select(string where, string orderBy, int limit, int offset)
+
+		public Serialize.Data.Node[] Select (string where, string orderBy, int limit, int offset)
 		{
-			string query = "SELECT " + this.fieldString + " FROM " + this.name;
+			string query = "SELECT " + this.fieldString + " FROM " + this.Name;
 			if (limit > 0)
 				query = " LIMIT " + limit;
 			if (offset > 0)
@@ -62,7 +181,8 @@ namespace Kean.DB.Sql
 			command.Dispose();
 			return result.ToArray();
 		}
-		Serialize.Data.Node Read(Data.IDataReader reader)
+
+		Serialize.Data.Node Read (Data.IDataReader reader)
 		{
 			Serialize.Data.Branch result = new Serialize.Data.Branch();
 			int ordinal = 0;
@@ -72,7 +192,8 @@ namespace Kean.DB.Sql
 			//result = new Serialize.Data.UnsignedLong(unchecked((ulong)reader.GetInt64(ordinal)));
 			return result;
 		}
-		Serialize.Data.Leaf Read(Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
+
+		Serialize.Data.Leaf Read (Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
 		{
 			Serialize.Data.Leaf result = null;
 			if (field.Value == typeof(bool))
@@ -80,7 +201,7 @@ namespace Kean.DB.Sql
 			else if (field.Value == typeof(byte))
 				result = new Serialize.Data.Byte(reader.GetByte(ordinal));
 			else if (field.Value == typeof(char))
-			result = new Serialize.Data.Character(reader.GetChar(ordinal));
+				result = new Serialize.Data.Character(reader.GetChar(ordinal));
 			else if (field.Value == typeof(DateTime))
 				result = new Serialize.Data.DateTime(reader.GetDateTime(ordinal));
 			else if (field.Value == typeof(decimal))
@@ -113,54 +234,68 @@ namespace Kean.DB.Sql
 				result.Name = field.Key;
 			return result;
 		}
-		public static Table New<T>(string name)
+		#endregion
+		#region Insert
+		public bool Insert (Serialize.Data.Node data)
+		{
+			return false;
+		}
+		#endregion
+		#region Update
+		public bool Update (string key, Serialize.Data.Node data)
+		{
+			return false;
+		}
+		#endregion
+		public static Table New<T> (string name)
 		{
 			return Table.New(name, typeof(T));
 		}
-		public static Table New(string name, Reflect.Type type)
+
+		public static Table New (string name, Reflect.Type type)
 		{
-			KeyValue<string, Reflect.Type> key = null;
+			KeyValue<string, Reflect.Type> key;
 			Collection.List<KeyValue<string, Reflect.Type>> fields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			switch (type.Category)
 			{
-			case Reflect.TypeCategory.Class:
-				foreach (Reflect.PropertyInformation property in type.Properties)
-				{
-					Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
-					if (attributes.Length == 1)
+				case Reflect.TypeCategory.Class:
+					foreach (Reflect.PropertyInformation property in type.Properties)
 					{
-						KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
-						if (attributes[1] is PrimaryKeyAttribute)
-							key = f;
-						else if (attributes[1] is IndexAttribute)
-							indexFields.Add(f);
-						else
-							nonIndexFields.Add(f);
-						fields.Add(f);
+						Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
+						if (attributes.Length == 1)
+						{
+							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
+							if (attributes[0] is PrimaryKeyAttribute)
+								key = f;
+							else if (attributes[0] is IndexAttribute)
+								indexFields.Add(f);
+							else
+								nonIndexFields.Add(f);
+							fields.Add(f);
+						}
 					}
-				}
-				break;
-			case Reflect.TypeCategory.Structure:
-				foreach (Reflect.FieldInformation field in type.Fields)
-				{
-					Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
-					if (attributes.Length == 1)
+					break;
+				case Reflect.TypeCategory.Structure:
+					foreach (Reflect.FieldInformation field in type.Fields)
 					{
-						KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
-						if (attributes[1] is PrimaryKeyAttribute)
-							key = f;
-						else if (attributes[1] is IndexAttribute)
-							indexFields.Add(f);
-						else
-							nonIndexFields.Add(f);
-						fields.Add(f);
+						Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
+						if (attributes.Length == 1)
+						{
+							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
+							if (attributes[1] is PrimaryKeyAttribute)
+								key = f;
+							else if (attributes[1] is IndexAttribute)
+								indexFields.Add(f);
+							else
+								nonIndexFields.Add(f);
+							fields.Add(f);
+						}
 					}
-				}
-				break;
+					break;
 			}
-			return new Table(name, key, indexFields.ToArray(),  nonIndexFields.ToArray(), fields.ToArray());
+			return new Table(name, type, key, indexFields.ToArray(), nonIndexFields.ToArray(), fields.ToArray());
 		}
 	}
 }

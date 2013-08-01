@@ -37,6 +37,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="MySql.Data, Version=6.4.3.0, Culture=neutral, PublicKeyToken=20449f9ba87f7ae2">
+      <Private>False</Private>
+      <Package>mysql-connector-net</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
@@ -66,6 +70,10 @@
     <ProjectReference Include="..\..\Core\Kean.Core.Reflect\Kean.Core.Reflect.csproj">
       <Project>{D44CAE32-71EA-4BD9-8A41-8EC84526B596}</Project>
       <Name>Kean.Core.Reflect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
+      <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
+      <Name>Kean.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

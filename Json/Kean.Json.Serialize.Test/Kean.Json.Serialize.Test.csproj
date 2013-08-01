@@ -42,10 +42,6 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Kean.Core.Serialize.Test\Kean.Core.Serialize.Test.csproj">
-      <Project>{F4A4B924-B65C-4FDE-A38E-AB50AE55DE91}</Project>
-      <Name>Kean.Core.Serialize.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
       <Project>{7E58819E-BCDE-4194-8A83-E8E6E3D050F9}</Project>
       <Name>Kean.Core.Uri</Name>
@@ -57,6 +53,10 @@
     <ProjectReference Include="..\Kean.Json.Serialize\Kean.Json.Serialize.csproj">
       <Project>{22349562-CCE4-43BA-BE12-54950CD3FDE6}</Project>
       <Name>Kean.Json.Serialize</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Serialize.Test\Kean.Core.Serialize.Test.csproj">
+      <Project>{F4A4B924-B65C-4FDE-A38E-AB50AE55DE91}</Project>
+      <Name>Kean.Core.Serialize.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
