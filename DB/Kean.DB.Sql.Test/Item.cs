@@ -16,6 +16,11 @@ namespace Kean.DB.Sql.Test
 		public Item()
 		{
 		}
+
+		public override string ToString ()
+		{
+			return string.Format("[Item: Identifier={0}, Name={1}, Description={2}]", this.Identifier, this.Name, this.Description);
+		}
 	}
 }
 

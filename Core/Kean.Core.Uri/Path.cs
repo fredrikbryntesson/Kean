@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -32,7 +31,9 @@ namespace Kean.Core.Uri
 		IString,
 		IEquatable<Path>
 	{
+
 		#region IString Members
+
 		public string String
 		{
 			get
@@ -57,7 +58,9 @@ namespace Kean.Core.Uri
 				this.Last = tail;
 			}
 		}
+
 		#endregion
+
 		public string PlatformPath
 		{
 			get
@@ -92,12 +95,16 @@ namespace Kean.Core.Uri
 				this.Last = tail;
 			}
 		}
+
 		public bool Empty { get { return this.Last.IsNull(); } }
+
 		public bool Folder { get { return this.Last.NotNull() && this.Last.Head.IsEmpty(); } }
+
 		public Path FolderPath { get { return this.Last.NotNull() ? new Path(this.Last.Tail) : new Path(); } }
+
 		public string Stem
 		{
-			get { return this.Last.NotNull() ? this.Last.Head.Get(0 , -this.Extension.Length - 1) : null; }
+			get { return this.Last.NotNull() ? this.Last.Head.Get(0, -this.Extension.Length - 1) : null; }
 			set
 			{
 				if (this.Last.NotNull())
@@ -105,6 +112,7 @@ namespace Kean.Core.Uri
 				this.Last.Head = value + "." + this.Extension;
 			}
 		}
+
 		public string FileName
 		{
 			get { return this.Last.NotNull() ? this.Last.Head : null; }
@@ -115,6 +123,7 @@ namespace Kean.Core.Uri
 				this.Last.Head = value;
 			}
 		}
+
 		public string Extension
 		{
 			get { return this.Last.NotNull() ? this.Last.Head.Split('.').Last() : null; }
@@ -125,7 +134,11 @@ namespace Kean.Core.Uri
 				this.Last.Head = this.Stem + "." + value;
 			}
 		}
-		public Path() { }
+
+		public Path()
+		{
+		}
+
 		public Path(params string[] path) :
 			this()
 		{
@@ -138,18 +151,21 @@ namespace Kean.Core.Uri
 			}
 			this.Last = last;
 		}
+
 		Path(PathLink last) :
 			this()
 		{
 			this.Last = last;
 		}
-		public Path Copy()
+
+		public Path Copy ()
 		{
 			Func<PathLink, PathLink> copy = null;
 			copy = link => link.IsNull() ? null : new PathLink(link.Head, copy(link.Tail));
 			return new Path(copy(this.Last));
 		}
-		public Path Resolve(Path absolute)
+
+		public Path Resolve (Path absolute)
 		{
 			Path result;
 			switch (this[0])
@@ -164,8 +180,10 @@ namespace Kean.Core.Uri
 			}
 			return result;
 		}
+
 		#region IEquatable<Path> Members
-		public bool Equals(Path other)
+
+		public bool Equals (Path other)
 		{
 			bool result = true;
 			PathLink myTail = this.Last;
@@ -179,13 +197,17 @@ namespace Kean.Core.Uri
 			result &= myTail.IsNull() && otherTail.IsNull();
 			return result;
 		}
+
 		#endregion
+
 		#region Object Overrides
-		public override bool Equals(object other)
+
+		public override bool Equals (object other)
 		{
 			return other is Path && this.Equals(other as Path);
 		}
-		public override int GetHashCode()
+
+		public override int GetHashCode ()
 		{
 			int result = 0;
 			PathLink tail = this.Last;
@@ -196,20 +218,26 @@ namespace Kean.Core.Uri
 			}
 			return result;
 		}
-		public override string ToString()
+
+		public override string ToString ()
 		{
 			return this.String;
 		}
+
 		#endregion
-		public static Path FromPlatformPath(string path)
+
+		public static Path FromPlatformPath (string path)
 		{
 			return new Path() { PlatformPath = path };
 		}
-		public static Path FromRelativePlatformPath(string path)
+
+		public static Path FromRelativePlatformPath (string path)
 		{
 			return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
 		}
+
 		#region Resolve & Insert Special Folders Variables
+
 		static KeyValue<string, string>[] specialFolders = new KeyValue<string,string>[] {
 			KeyValue.Create("Desktop", System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)),
 			KeyValue.Create("Documents", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)),
@@ -218,7 +246,8 @@ namespace Kean.Core.Uri
 			KeyValue.Create("Music", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic)),
 			KeyValue.Create("ApplicationPath", System.IO.Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]))
 		};
-		static string ResolveSpecialFolderVariables(string platformPath)
+
+		static string ResolveSpecialFolderVariables (string platformPath)
 		{
 			string result = platformPath;
 			if (result.NotEmpty())
@@ -227,7 +256,8 @@ namespace Kean.Core.Uri
 						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
 			return result;
 		}
-		static string InsertSpecialFoldersVariables(string platformPath)
+
+		static string InsertSpecialFoldersVariables (string platformPath)
 		{
 			string result = platformPath;
 			if (result.NotEmpty())
@@ -236,50 +266,76 @@ namespace Kean.Core.Uri
 						result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
 			return result;
 		}
+
 		#endregion
+
 		#region static operators
+
 		#region Casts with System.IO.FileSystemInfo
-		static PathLink Create(System.IO.DirectoryInfo directory)
+
+		static PathLink Create (System.IO.DirectoryInfo directory)
 		{
-			return directory.IsNull() ? null : new PathLink() { Head = directory.Name.TrimEnd('\\'), Tail = directory.Parent.NotNull() ? Path.Create(directory.Parent) : null };
+			return directory.IsNull() ? null : new PathLink() {
+				Head = directory.Name.TrimEnd('\\'),
+				Tail = directory.Parent.NotNull() ? Path.Create(directory.Parent) : null
+			};
 		}
-		static PathLink Create(System.IO.FileInfo file)
+
+		static PathLink Create (System.IO.FileInfo file)
 		{
-			return file.IsNull() ? null : new PathLink() { Head = file.Name.TrimEnd('\\'), Tail = file.Directory.NotNull() ? Path.Create(file.Directory) : null };
+			return file.IsNull() ? null : new PathLink() {
+				Head = file.Name.TrimEnd('\\'),
+				Tail = file.Directory.NotNull() ? Path.Create(file.Directory) : null
+			};
 		}
+
 		#region Casts with System.IO.FileSystemInfo
-		public static implicit operator Path(System.IO.FileSystemInfo item)
+
+		public static implicit operator Path (System.IO.FileSystemInfo item)
 		{
 			return new Path(item is System.IO.DirectoryInfo ? Path.Create(item as System.IO.DirectoryInfo) : item is System.IO.FileInfo ? Path.Create(item as System.IO.FileInfo) : null);
 		}
-		public static explicit operator System.IO.DirectoryInfo(Path path)
+
+		public static explicit operator System.IO.DirectoryInfo (Path path)
 		{
 			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlatformPath) : null;
 		}
+
 		#endregion
+
 		#endregion
+
 		#region Casts with string
-		public static implicit operator string(Path path)
+
+		public static implicit operator string (Path path)
 		{
 			return path.IsNull() ? null : path.String;
 		}
-		public static implicit operator Path(string path)
+
+		public static implicit operator Path (string path)
 		{
 			return path.IsEmpty() ? null : new Path() { String = path };
 		}
+
 		#endregion
+
 		#region Equality Operators
-		public static bool operator ==(Path left, Path right)
+
+		public static bool operator == (Path left, Path right)
 		{
 			return left.SameOrEquals(right);
 		}
-		public static bool operator !=(Path left, Path right)
+
+		public static bool operator != (Path left, Path right)
 		{
 			return !(left == right);
 		}
+
 		#endregion
+
 		#region Add Operator
-		public static Path operator +(Path left, Path right)
+
+		public static Path operator + (Path left, Path right)
 		{
 			Path result;
 			if (right.NotNull() && right.Last.NotNull())
@@ -297,9 +353,13 @@ namespace Kean.Core.Uri
 				result = left.Copy();
 			else
 				result = new Path();
+			result.Last = result.Last.Rebuild();
 			return result;
 		}
+
 		#endregion
+
 		#endregion
+
 	}
 }

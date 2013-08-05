@@ -75,6 +75,14 @@
       <Project>{95FD08A5-43C8-4E1D-8291-CC8AFE459000}</Project>
       <Name>Kean.IO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Json\Kean.Json.Dom\Kean.Json.Dom.csproj">
+      <Project>{B8D845C3-C12D-4123-843B-7D48B4F9DFCB}</Project>
+      <Name>Kean.Json.Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Json\Kean.Json.Serialize\Kean.Json.Serialize.csproj">
+      <Project>{22349562-CCE4-43BA-BE12-54950CD3FDE6}</Project>
+      <Name>Kean.Json.Serialize</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)..\..\Common.targets" />

@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -36,16 +35,30 @@ namespace Kean.Json.Serialize
 			base(null, null, null)
 		{
 		}
-		protected override Core.Serialize.Data.Node Load(Uri.Locator resource)
+
+		protected override Core.Serialize.Data.Node Load (Uri.Locator resource)
 		{
 			Dom.Item root = Dom.Item.Open(resource);
-			return root.NotNull() ? this.Convert(root) : null;
+			return root.NotNull() ? Storage.Convert(root) : null;
 		}
-		Core.Serialize.Data.Node Convert(Dom.Item item)
+
+		protected override bool Store (Core.Serialize.Data.Node value, Uri.Locator resource)
+		{
+			Dom.Item item = Storage.Convert(value);
+			if (!(item is Dom.Collection))
+				item = new Dom.Object(KeyValue.Create(value.Name, item));
+			return item.Save(resource);
+		}
+
+		#region Static Convert
+
+		#region From Dom
+
+		public static Core.Serialize.Data.Node Convert (Dom.Item item)
 		{
 			Core.Serialize.Data.Node result;
 			if (item is Dom.Object)
-				result = this.Convert(item as Dom.Object);
+				result = Storage.Convert(item as Dom.Object);
 			else if (item is Dom.Primitive)
 			{
 				if (item is Dom.String)
@@ -58,60 +71,62 @@ namespace Kean.Json.Serialize
 					result = null;
 			}
 			else if (item is Dom.Array)
-				result = this.Convert(item as Dom.Array);
+				result = Storage.Convert(item as Dom.Array);
 			else
 				result = null;
 			return result;
 		}
-		Core.Serialize.Data.Branch Convert(Dom.Object item)
+
+		static Core.Serialize.Data.Branch Convert (Dom.Object item)
 		{
 			Core.Serialize.Data.Branch result = new Core.Serialize.Data.Branch() { Region = item.Region };
 			foreach (KeyValue<Json.Dom.Label, Dom.Item> child in item)
 			{
-				Core.Serialize.Data.Node c = this.Convert(child.Value);
+				Core.Serialize.Data.Node c = Storage.Convert(child.Value);
 				c.Name = child.Key;
 				result.Nodes.Add(c);
 			}
 			return result;
 		}
-		Core.Serialize.Data.Collection Convert(Dom.Array item)
+
+		static Core.Serialize.Data.Collection Convert (Dom.Array item)
 		{
 			Core.Serialize.Data.Collection result = new Core.Serialize.Data.Collection() { Region = item.Region };
 			foreach (Dom.Item child in item)
-				result.Nodes.Add(this.Convert(child));
+				result.Nodes.Add(Storage.Convert(child));
 			return result;
 		}
-		protected override bool Store(Core.Serialize.Data.Node value, Uri.Locator resource)
-		{
-			Dom.Item item = this.Convert(value);
-			if (!(item is Dom.Collection))
-				item = new Dom.Object(KeyValue.Create(value.Name, item));
-			return item.Save(resource);
-		}
-		Dom.Item Convert(Core.Serialize.Data.Node item)
+
+		#endregion
+
+		#region To Dom
+
+		public static Dom.Item Convert (Core.Serialize.Data.Node item)
 		{
 			Dom.Item result;
 			if (item is Core.Serialize.Data.Branch)
-				result = this.Convert(item as Core.Serialize.Data.Branch);
+				result = Storage.Convert(item as Core.Serialize.Data.Branch);
 			else if (item is Core.Serialize.Data.Leaf)
-				result = this.Convert(item as Core.Serialize.Data.Leaf);
+				result = Storage.Convert(item as Core.Serialize.Data.Leaf);
 			else if (item is Core.Serialize.Data.Collection)
-				result = this.Convert(item as Core.Serialize.Data.Collection);
+				result = Storage.Convert(item as Core.Serialize.Data.Collection);
 			else if (item is Core.Serialize.Data.Link)
-				result = this.Convert(item as Core.Serialize.Data.Link);
+				result = Storage.Convert(item as Core.Serialize.Data.Link);
 			else
 				result = new Kean.Json.Dom.Null(item.Region);
 			return result;
 		}
-		Dom.Object Convert(Core.Serialize.Data.Branch item)
+
+		static Dom.Object Convert (Core.Serialize.Data.Branch item)
 		{
 			Dom.Object result = new Dom.Object(item.Region);
 			if (item.Type.NotNull())
 				result.Add("_type", (string)item.Type);
-			item.Nodes.Apply(e => result.Add(e.Name, this.Convert(e)));
+			item.Nodes.Apply(e => result.Add(e.Name, Storage.Convert(e)));
 			return result;
 		}
-		Dom.Primitive Convert(Core.Serialize.Data.Leaf item)
+
+		static Dom.Primitive Convert (Core.Serialize.Data.Leaf item)
 		{
 			Dom.Primitive result;
 			if (item is Core.Serialize.Data.Binary)
@@ -156,27 +171,36 @@ namespace Kean.Json.Serialize
 				result = new Kean.Json.Dom.Null();
 			return result;
 		}
-		Dom.Array Convert(Core.Serialize.Data.Collection item)
+
+		static Dom.Array Convert (Core.Serialize.Data.Collection item)
 		{
 			Dom.Array result = new Dom.Array(item.Region);
-			item.Nodes.Apply(e => result.Add(this.Convert(e)));
+			item.Nodes.Apply(e => result.Add(Storage.Convert(e)));
 			return result;
 		}
-		Dom.Object Convert(Core.Serialize.Data.Link item)
+
+		static Dom.Object Convert (Core.Serialize.Data.Link item)
 		{
 			Dom.Object result = new Dom.Object(item.Region);
 			result.Add("_link", new Dom.String(item.Relative, item.Region));
 			return result;
 		}
-		public static T Open<T>(Uri.Locator resource)
+
+		#endregion
+
+		#endregion
+
+		public static T Open<T> (Uri.Locator resource)
 		{
 			return new Storage().Load<T>(resource);
 		}
-		public static bool Save<T>(T value, Uri.Locator resource)
+
+		public static bool Save<T> (T value, Uri.Locator resource)
 		{
 			return new Storage().Store<T>(value, resource);
 		}
-		public static bool Save<T>(T value, Uri.Locator resource, string name)
+
+		public static bool Save<T> (T value, Uri.Locator resource, string name)
 		{
 			return new Storage().Store<T>(value, resource, name);
 		}

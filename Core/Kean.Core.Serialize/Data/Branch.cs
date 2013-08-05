@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -30,17 +29,20 @@ namespace Kean.Core.Serialize.Data
 		Node
 	{
 		public Core.Collection.IList<Node> Nodes { get; private set; }
+
 		public Branch()
 		{
 			this.Nodes = new Core.Collection.List<Node>();
 		}
+
 		public Branch(object value, Reflect.Type type) :
 			this()
 		{
 			Reflect.Type valueType = value.Type();
 			this.Type = valueType != type ? valueType : null;
 		}
-		public override Node UpdateLocators(Uri.Locator locator)
+
+		public override Node UpdateLocators (Uri.Locator locator)
 		{
 			base.UpdateLocators(locator);
 			foreach (Node child in this.Nodes)
@@ -50,6 +52,11 @@ namespace Kean.Core.Serialize.Data
 				child.UpdateLocators(locator);
 			}
 			return this;
+		}
+
+		public bool Merge (Node node)
+		{
+			return (node is Branch ? this.Nodes.Add((node as Branch).Nodes) : this.Nodes.Add(node)).NotNull();
 		}
 	}
 }

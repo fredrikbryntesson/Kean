@@ -18,7 +18,6 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -30,31 +29,41 @@ namespace Kean.Json.Dom
 		IEquatable<Item>
 	{
 		public Uri.Region Region { get; internal set; }
+
 		public Collection Parent { get; internal set; }
+
 		protected Item()
 		{
 		}
+
 		protected Item(Uri.Region region)
 		{
 			this.Region = region;
 		}
+
 		#region Save
-		public bool Save(Uri.Locator resource)
+
+		public bool Save (Uri.Locator resource)
 		{
 			using (IO.ICharacterWriter writer = IO.CharacterWriter.Create(resource))
 				return this.Save(writer);
 		}
-		public bool Save(IO.ICharacterWriter writer)
+
+		public bool Save (IO.ICharacterWriter writer)
 		{
 			return writer.NotNull() && this.Save(new Writer.Formatting(writer));
 		}
-		public bool Save(IWriter writer)
+
+		public bool Save (IWriter writer)
 		{
 			return writer.Write(this);
 		}
+
 		#endregion
+
 		#region Static Open
-		public static Item Open(Sax.Parser parser)
+
+		public static Item Open (Sax.Parser parser)
 		{
 			Collection result = null;
 			Collection current = null;
@@ -95,48 +104,63 @@ namespace Kean.Json.Dom
 
 			return parser.Parse() ? result : null;
 		}
-		public static Item OpenResource(System.Reflection.Assembly assembly, Uri.Path resource)
+
+		public static Item OpenResource (System.Reflection.Assembly assembly, Uri.Path resource)
 		{
 			return Item.Open(Sax.Parser.Open(assembly, resource));
 		}
-		public static Item OpenResource(Uri.Path resource)
+
+		public static Item OpenResource (Uri.Path resource)
 		{
 			return Item.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource);
 		}
-		public static Item Open(System.IO.Stream stream)
+
+		public static Item Open (System.IO.Stream stream)
 		{
 			return Item.Open(Sax.Parser.Open(stream));
 		}
-		public static Item Open(Uri.Locator resource)
+
+		public static Item Open (Uri.Locator resource)
 		{
 			return Item.Open(Sax.Parser.Open(resource));
 		}
+
 		#endregion
+
 		#region Object Overrides
-		public override string ToString()
+
+		public override string ToString ()
 		{
 			IO.Text.Writer result = new IO.Text.Writer();
-			new Writer.Formatting(result).Write(this);
-			return result;
+			return this.Save(new Writer.Formatting(result) { Format = false }) ? result : null;
 		}
+
 		#endregion
+
 		#region Equals
-		public override bool Equals(object other)
+
+		public override bool Equals (object other)
 		{
 			return base.Equals(other as Item);
 		}
-		public abstract bool Equals(Item other);
-		public static bool operator ==(Item left, Item right)
+
+		public abstract bool Equals (Item other);
+
+		public static bool operator == (Item left, Item right)
 		{
 			return left.NotNull() ? left.Equals(right) : right.IsNull();
 		}
-		public static bool operator !=(Item left, Item right)
+
+		public static bool operator != (Item left, Item right)
 		{
 			return left.NotNull() ? !left.Equals(right) : right.NotNull();
 		}
+
 		#endregion
+
 		#region Static Create
-		public static Item Create(object value)
+
+		public static Item Create (object value)
 		{
 			Item result = null;
 			if (value.IsNull())
@@ -157,45 +181,58 @@ namespace Kean.Json.Dom
 				result = (double)value;
 			return result;
 		}
+
 		#endregion
+
 		#region Casts
-		public static explicit operator string(Item node)
+
+		public static explicit operator string (Item node)
 		{
 			return node.ToString();
 		}
-		public static implicit operator Item(string value)
+
+		public static implicit operator Item (string value)
 		{
 			return value.IsNull() ? null : (String)value;
 		}
-		public static implicit operator Item(bool value)
+
+		public static implicit operator Item (bool value)
 		{
 			return (Boolean)value;
 		}
-		public static implicit operator Item(decimal value)
+
+		public static implicit operator Item (decimal value)
 		{
 			return (Number)value;
 		}
-		public static implicit operator Item(int value)
+
+		public static implicit operator Item (int value)
 		{
 			return (Number)value;
 		}
-		public static implicit operator Item(long value)
+
+		public static implicit operator Item (long value)
 		{
 			return (Number)value;
 		}
-		public static implicit operator Item(float value)
+
+		public static implicit operator Item (float value)
 		{
 			return (Number)value;
 		}
-		public static implicit operator Item(double value)
+
+		public static implicit operator Item (double value)
 		{
 			return (Number)value;
 		}
-		public static implicit operator Item(Item[] items)
+
+		public static implicit operator Item (Item[] items)
 		{
 			return (Array)items;
 		}
+
 		#endregion
+
 	}
 }
 

@@ -74,4 +74,7 @@
       <Name>Kean.Json.Dom</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extension\" />
+  </ItemGroup>
 </Project>

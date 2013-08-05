@@ -53,7 +53,7 @@ namespace Kean.DB.Sql
 			this.indexFields = indexFields;
 			this.nonIndexFields = nonIndexFields;
 			this.fields = fields;
-			this.fieldString = fields.Fold((f, s) => s.NotNull() ? s + ", " + f.Key : f.Key, (string)null);
+			this.fieldString = this.indexFields.Fold((f, s) => s + ", " + f.Key, (IO.Text.Builder)this.key.Key) + (this.nonIndexFields.NotEmpty() ? ", _data" : "") + ", _type";
 		}
 
 		internal bool Open (Data.IDbConnection connection)
@@ -128,7 +128,7 @@ namespace Kean.DB.Sql
 			bool result;
 			if (result = this.connection.NotNull())
 			{
-				IO.Text.Builder query = new IO.Text.Builder(@"CREATE TABLE ");
+				IO.Text.Builder query = new IO.Text.Builder("CREATE TABLE ");
 				query += "`" + this.Name + "` (" + this.SqlType(this.key) + " NOT NULL, ";
 				foreach (var field in this.indexFields)
 					query += this.SqlType(field) + ", ";
@@ -147,7 +147,9 @@ namespace Kean.DB.Sql
 			}
 			return result;
 		}
+
 		#region Select
+
 		public Serialize.Data.Node Select ()
 		{
 			return null;
@@ -162,15 +164,16 @@ namespace Kean.DB.Sql
 
 		public Serialize.Data.Node[] Select (string where, string orderBy, int limit, int offset)
 		{
-			string query = "SELECT " + this.fieldString + " FROM " + this.Name;
+			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.fieldString + " FROM " + this.Name;
 			if (limit > 0)
-				query = " LIMIT " + limit;
+				query += " LIMIT " + limit;
 			if (offset > 0)
-				query = " OFFSET " + offset;
+				query += " OFFSET " + offset;
 			if (where.NotEmpty())
-				query = " WHERE " + where;
+				query += " WHERE " + where;
 			if (orderBy.NotEmpty())
-				query = " ORDER BY " + orderBy;
+				query += " ORDER BY " + orderBy;
+			Console.WriteLine(query);
 			Data.IDbCommand command = this.connection.CreateCommand();
 			command.CommandText = query;
 			Data.IDataReader reader = command.ExecuteReader();
@@ -189,7 +192,16 @@ namespace Kean.DB.Sql
 			result.Nodes.Add(this.Read(reader, ordinal++, this.key));
 			foreach (KeyValue<string, Reflect.Type> field in this.indexFields)
 				result.Nodes.Add(this.Read(reader, ordinal++, field));
-			//result = new Serialize.Data.UnsignedLong(unchecked((ulong)reader.GetInt64(ordinal)));
+			if (this.nonIndexFields.NotEmpty())
+			{
+				string data = reader.GetString(ordinal++);
+				Console.WriteLine(data);
+				Json.Dom.Object d = (Json.Dom.Object)data;
+				Serialize.Data.Node n = Json.Serialize.Storage.Convert(d);
+				result.Merge(n);
+			}
+			string type = reader.GetString(ordinal++);
+			result.Type = type;
 			return result;
 		}
 
@@ -234,19 +246,68 @@ namespace Kean.DB.Sql
 				result.Name = field.Key;
 			return result;
 		}
+
 		#endregion
+
 		#region Insert
-		public bool Insert (Serialize.Data.Node data)
+
+		public bool Insert (Serialize.Data.Branch data)
 		{
-			return false;
+			bool result;
+			IO.Text.Builder query = "INSERT INTO ";
+			Collection.IList<string> fields = new Collection.List<string>();
+			Collection.IList<string> values = new Collection.List<string>();
+			Json.Dom.Object nonIndexData = new Json.Dom.Object();
+			foreach (Serialize.Data.Node node in data.Nodes)
+			{
+				if (node is Serialize.Data.Leaf)
+				{
+					if (node.Attribute is IndexAttribute || node.Attribute is PrimaryKeyAttribute)
+					{
+						fields.Add(node.Name);
+						values.Add("\"" + (node as Serialize.Data.Leaf).Text + "\"");
+					}
+					else
+						nonIndexData.Add(node.Name, Json.Serialize.Storage.Convert(node as Serialize.Data.Leaf));
+				}
+			}
+			fields.Add("_data");
+			values.Add("\"" + ((string)nonIndexData).Replace("\"", "\\\"") + "\"");
+			if (data.Type.NotNull())
+			{
+				fields.Add("_type");
+				values.Add("\"" + data.Type + "\"");
+			}
+			query += this.Name + "(" + fields.Join(", ") + ") VALUES(" + values.Join(", ") + ")";
+			Console.WriteLine(query);
+			using (Data.IDbCommand command = this.connection.CreateCommand())
+			{
+				command.CommandText = query;
+				result = command.ExecuteNonQuery() > 0;
+			}
+			return result;
 		}
+
 		#endregion
+
 		#region Update
+
 		public bool Update (string key, Serialize.Data.Node data)
 		{
 			return false;
 		}
+
 		#endregion
+
+		#region Object overrides
+
+		public override string ToString ()
+		{
+			return string.Format("[Table: Name={0}]", this.Name);
+		}
+
+		#endregion
+
 		public static Table New<T> (string name)
 		{
 			return Table.New(name, typeof(T));

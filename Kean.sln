@@ -550,7 +550,7 @@ Global
 		{CEEE8C98-A7C3-48F8-A0A3-20188D2956DE} = {E2A0ACDC-FF87-4DE9-ACA1-BC3B333EB74F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Test\Kean.Test.Run\Kean.Test.Run.csproj
+		StartupItem = DB\Kean.DB.Sql.Test\Kean.DB.Sql.Test.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

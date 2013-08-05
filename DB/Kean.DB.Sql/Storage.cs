@@ -63,30 +63,35 @@ namespace Kean.DB.Sql
 				this.tables[table.Name] = table;
 			return result;
 		}
+
 		#region implemented abstract members of Kean.Core.Serialize.Storage
+
 		protected override bool Store (Serialize.Data.Node value, Uri.Locator locator)
 		{
 			// update: mysql://user@password:host/database/table/primaryKey
 			// insert: mysql://user@password:host/database/table
 			bool result;
-			locator = locator.Resolve(this.Locator);
-			switch (locator.Path.Count)
+			if (result = value is Serialize.Data.Branch)
 			{
-				case 2:
-					{
-						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() && table.Insert(value);
-					}
-					break;
-				case 3:
-					{
-						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() && table.Update(locator.Path[2], value);
-					}
-					break;
-				default:
-					result = false;
-					break;
+				locator = locator.Resolve(this.Locator);
+				switch (locator.Path.Count)
+				{
+					case 2:
+						{
+							Table table = this.tables[locator.Path[1]];
+							result = table.NotNull() && table.Insert(value as Serialize.Data.Branch);
+						}
+						break;
+					case 3:
+						{
+							Table table = this.tables[locator.Path[1]];
+							result = table.NotNull() && table.Update(locator.Path[2], value as Serialize.Data.Branch);
+						}
+						break;
+					default:
+						result = false;
+						break;
+				}
 			}
 			return result;
 		}
@@ -118,7 +123,9 @@ namespace Kean.DB.Sql
 			}
 			return result;
 		}
+
 		#endregion
+
 		public bool Close ()
 		{
 			bool result;
@@ -129,7 +136,9 @@ namespace Kean.DB.Sql
 			}
 			return result;
 		}
+
 		#region IDisposable implementation
+
 		~Storage ()
 		{
 			(this as IDisposable).Dispose();
@@ -139,8 +148,11 @@ namespace Kean.DB.Sql
 		{
 			this.Close();
 		}
+
 		#endregion
+
 		#region Static Open
+
 		public static Storage Open (Uri.Locator locator)
 		{
 			string connectionString = null;
@@ -161,7 +173,9 @@ namespace Kean.DB.Sql
 			Console.WriteLine(connection.State);
 			return connection.NotNull() ? new Storage(locator, connection) : null;
 		}
+
 		#endregion
+
 	}
 }
 
