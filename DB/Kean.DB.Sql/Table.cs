@@ -142,7 +142,7 @@ namespace Kean.DB.Sql
 				using (Data.IDbCommand command = this.connection.CreateCommand())
 				{
 					command.CommandText = query;
-					result = command.ExecuteNonQuery() > 0;
+					result = command.ExecuteNonQuery() == 0;
 				}
 			}
 			return result;
@@ -150,19 +150,19 @@ namespace Kean.DB.Sql
 
 		#region Select
 
-		public Serialize.Data.Node Select ()
+		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select ()
 		{
-			return null;
+			return this.Select(null, null, 0, 0);
 		}
 
-		public Serialize.Data.Node Select (string key)
+		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string key)
 		{
 			if (this.key.Value == typeof(string))
 				key = "'" + key + "'";
-			return this.Select(this.key.Key + " = " + key, null, 0, 0).First();
+			return this.Select(this.key.Key + " = " + key, null, 0, 0);
 		}
 
-		public Serialize.Data.Node[] Select (string where, string orderBy, int limit, int offset)
+		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string orderBy, int limit, int offset)
 		{
 			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.fieldString + " FROM " + this.Name;
 			if (limit > 0)
@@ -173,16 +173,13 @@ namespace Kean.DB.Sql
 				query += " WHERE " + where;
 			if (orderBy.NotEmpty())
 				query += " ORDER BY " + orderBy;
-			Console.WriteLine(query);
-			Data.IDbCommand command = this.connection.CreateCommand();
-			command.CommandText = query;
-			Data.IDataReader reader = command.ExecuteReader();
-			Collection.IList<Serialize.Data.Node> result = new Collection.Linked.List<Serialize.Data.Node>();
-			while (reader.Read())
-				result.Add(this.Read(reader));
-			reader.Close();
-			command.Dispose();
-			return result.ToArray();
+			using (Data.IDbCommand command = this.connection.CreateCommand())
+			{
+				command.CommandText = query;
+				using (Data.IDataReader reader = command.ExecuteReader())
+					while (reader.Read())
+						yield return this.Read(reader);
+			}
 		}
 
 		Serialize.Data.Node Read (Data.IDataReader reader)
@@ -193,13 +190,7 @@ namespace Kean.DB.Sql
 			foreach (KeyValue<string, Reflect.Type> field in this.indexFields)
 				result.Nodes.Add(this.Read(reader, ordinal++, field));
 			if (this.nonIndexFields.NotEmpty())
-			{
-				string data = reader.GetString(ordinal++);
-				Console.WriteLine(data);
-				Json.Dom.Object d = (Json.Dom.Object)data;
-				Serialize.Data.Node n = Json.Serialize.Storage.Convert(d);
-				result.Merge(n);
-			}
+				result.Merge(Json.Serialize.Storage.Convert((Json.Dom.Object)reader.GetString(ordinal++)));
 			string type = reader.GetString(ordinal++);
 			result.Type = type;
 			return result;

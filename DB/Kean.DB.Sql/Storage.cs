@@ -108,13 +108,13 @@ namespace Kean.DB.Sql
 				case 2:
 					{
 						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() ? table.Select() : null;
+						result = table.NotNull() ? new Serialize.Data.Branch(table.Select()) : null;
 					}
 					break;
 				case 3:
 					{
 						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() ? table.Select(locator.Path[2]) : null;
+						result = table.NotNull() ? table.Select(locator.Path[2]).First() : null;
 					}
 					break;
 				default:
