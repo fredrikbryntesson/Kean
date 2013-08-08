@@ -162,17 +162,20 @@ namespace Kean.DB.Sql
 			return this.Select(this.key.Key + " = " + key, null, 0, 0);
 		}
 
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string orderBy, int limit, int offset)
+		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
 		{
 			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.fieldString + " FROM " + this.Name;
-			if (limit > 0)
-				query += " LIMIT " + limit;
-			if (offset > 0)
-				query += " OFFSET " + offset;
 			if (where.NotEmpty())
 				query += " WHERE " + where;
-			if (orderBy.NotEmpty())
-				query += " ORDER BY " + orderBy;
+			if (order.NotEmpty())
+				query += " ORDER BY " + order;
+			if (limit > 0)
+			{
+				query += " LIMIT " + limit;
+				if (offset > 0)
+					query += " OFFSET " + offset;
+			}
+			Console.WriteLine(query);
 			using (Data.IDbCommand command = this.connection.CreateCommand())
 			{
 				command.CommandText = query;

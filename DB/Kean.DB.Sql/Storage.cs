@@ -100,7 +100,7 @@ namespace Kean.DB.Sql
 		{
 			// select: mysql://user@password:host/database/table/primaryKey
 			// select: mysql://user@password:host/database/table
-			// select: mysql://user@password:host/database/table?query=number=42
+			// select: mysql://user@password:host/database/table?where=number=42
 			Serialize.Data.Node result;
 			locator = locator.Resolve(this.Locator);
 			switch (locator.Path.Count)
@@ -108,7 +108,7 @@ namespace Kean.DB.Sql
 				case 2:
 					{
 						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() ? new Serialize.Data.Collection(table.Select()) : null;
+						result = table.NotNull() ? new Serialize.Data.Collection(table.Select(locator.Query["where"], locator.Query["order"], locator.Query.Get("limit", 0), locator.Query.Get("offset", 0))) : null;
 					}
 					break;
 				case 3:
