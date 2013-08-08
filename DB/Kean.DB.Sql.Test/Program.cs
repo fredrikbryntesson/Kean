@@ -7,10 +7,11 @@ namespace Kean.DB.Sql.Test
 		public static void Main (string[] args)
 		{
 			Console.WriteLine("Hello World!");
-			using (Storage storage = Storage.Open("mysql://kean:password@localhost/keanTest/"))
+			using (Database database = Database.Open("mysql://kean:password@localhost/keanTest/"))
 			{
-				//storage.Create(Table.New<Item>("items"));
-				storage.Add(Table.New<Item>("items"));
+				//database.CreateTable<Item>("items");
+				database.AddTable<Item>("items");
+				Storage storage = new Storage(database);
 //				storage.Store(new Item() { Identifier = 0, Name = "Test Name A", Description = "This is a description of A." }, "./items");
 //				storage.Store(new Item() { Identifier = 1, Name = "Test Name B", Description = "This is a description of B." }, "./items");
 //				storage.Store(new Item() { Identifier = 2, Name = "Test Name C", Description = "This is a description of C." }, "./items");

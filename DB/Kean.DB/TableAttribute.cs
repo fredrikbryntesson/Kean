@@ -18,17 +18,24 @@
 // 
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Serialize = Kean.Core.Serialize;
 
 namespace Kean.DB
 {
-	public class ParameterAttribute : 
-		Serialize.ParameterAttribute
+	[System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+	public class TableAttribute :
+		Attribute
 	{
-		public ParameterAttribute()
+		public string Name { get; set; }
+
+		public TableAttribute()
 		{
+		}
+
+		public TableAttribute(string name)
+		{
+			this.Name = name;
 		}
 	}
 }

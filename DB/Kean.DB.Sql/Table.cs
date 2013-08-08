@@ -32,34 +32,15 @@ using IO = Kean.IO;
 
 namespace Kean.DB.Sql
 {
-	public class Table
+	public class Table :
+		DB.Table
 	{
 		Data.IDbConnection connection;
 
-		public string Name { get; private set; }
-
-		Reflect.Type type;
-		KeyValue<string, Reflect.Type> key;
-		KeyValue<string, Reflect.Type>[] indexFields;
-		KeyValue<string, Reflect.Type>[] nonIndexFields;
-		KeyValue<string, Reflect.Type>[] fields;
-		string fieldString;
-
-		Table(string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields)
-		{
-			this.Name = name;
-			this.type = type;
-			this.key = key;
-			this.indexFields = indexFields;
-			this.nonIndexFields = nonIndexFields;
-			this.fields = fields;
-			this.fieldString = this.indexFields.Fold((f, s) => s + ", " + f.Key, (IO.Text.Builder)this.key.Key) + (this.nonIndexFields.NotEmpty() ? ", _data" : "") + ", _type";
-		}
-
-		internal bool Open (Data.IDbConnection connection)
+		internal Table(Data.IDbConnection connection, string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields) :
+			base(name, type, key, indexFields, nonIndexFields, fields)
 		{
 			this.connection = connection;
-			return true; // TODO: Maybe we should verify existance of the table and maybe even its type.
 		}
 
 		string SqlType (KeyValue<string, Reflect.Type> field)
@@ -123,7 +104,7 @@ namespace Kean.DB.Sql
 			return result;
 		}
 
-		internal bool Create ()
+		public override bool Create ()
 		{
 			bool result;
 			if (result = this.connection.NotNull())
@@ -150,19 +131,7 @@ namespace Kean.DB.Sql
 
 		#region Select
 
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select ()
-		{
-			return this.Select(null, null, 0, 0);
-		}
-
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string key)
-		{
-			if (this.key.Value == typeof(string))
-				key = "'" + key + "'";
-			return this.Select(this.key.Key + " = " + key, null, 0, 0);
-		}
-
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
+		public override System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
 		{
 			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.fieldString + " FROM " + this.Name;
 			if (where.NotEmpty())
@@ -245,7 +214,7 @@ namespace Kean.DB.Sql
 
 		#region Insert
 
-		public bool Insert (Serialize.Data.Branch data)
+		public override bool Insert (Serialize.Data.Branch data)
 		{
 			bool result;
 			IO.Text.Builder query = "INSERT INTO ";
@@ -286,7 +255,7 @@ namespace Kean.DB.Sql
 
 		#region Update
 
-		public bool Update (string key, Serialize.Data.Node data)
+		public override bool Update (string key, Serialize.Data.Node data)
 		{
 			return false;
 		}
@@ -302,56 +271,6 @@ namespace Kean.DB.Sql
 
 		#endregion
 
-		public static Table New<T> (string name)
-		{
-			return Table.New(name, typeof(T));
-		}
-
-		public static Table New (string name, Reflect.Type type)
-		{
-			KeyValue<string, Reflect.Type> key;
-			Collection.List<KeyValue<string, Reflect.Type>> fields = new Collection.List<KeyValue<string, Reflect.Type>>();
-			Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-			Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-			switch (type.Category)
-			{
-				case Reflect.TypeCategory.Class:
-					foreach (Reflect.PropertyInformation property in type.Properties)
-					{
-						Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
-						if (attributes.Length == 1)
-						{
-							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
-							if (attributes[0] is PrimaryKeyAttribute)
-								key = f;
-							else if (attributes[0] is IndexAttribute)
-								indexFields.Add(f);
-							else
-								nonIndexFields.Add(f);
-							fields.Add(f);
-						}
-					}
-					break;
-				case Reflect.TypeCategory.Structure:
-					foreach (Reflect.FieldInformation field in type.Fields)
-					{
-						Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
-						if (attributes.Length == 1)
-						{
-							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
-							if (attributes[1] is PrimaryKeyAttribute)
-								key = f;
-							else if (attributes[1] is IndexAttribute)
-								indexFields.Add(f);
-							else
-								nonIndexFields.Add(f);
-							fields.Add(f);
-						}
-					}
-					break;
-			}
-			return new Table(name, type, key, indexFields.ToArray(), nonIndexFields.ToArray(), fields.ToArray());
-		}
 	}
 }
 

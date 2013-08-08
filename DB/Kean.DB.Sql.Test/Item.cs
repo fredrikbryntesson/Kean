@@ -10,7 +10,7 @@ namespace Kean.DB.Sql.Test
 		[DB.Index]
 		public string Name { get; set; }
 
-		[DB.Parameter]
+		[DB.Data]
 		public string Description { get; set; }
 
 		public Item()

@@ -1,5 +1,5 @@
 // 
-//  PrimaryKeyAttribute.cs
+//  DataAttribute.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -19,13 +19,14 @@
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Serialize = Kean.Core.Serialize;
 
 namespace Kean.DB
 {
-	public class PrimaryKeyAttribute :
-		DataAttribute
+	public class DataAttribute :
+		Serialize.ParameterAttribute
 	{
-		public PrimaryKeyAttribute()
+		public DataAttribute()
 		{
 		}
 	}
