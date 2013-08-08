@@ -35,12 +35,7 @@ namespace Kean.Core.Serialize.Data
 			this.Nodes = new Core.Collection.List<Node>();
 		}
 
-		public Branch(params Node[] nodes) :
-			this((System.Collections.Generic.IEnumerable<Node>)nodes)
-		{
-		}
-
-		public Branch(System.Collections.Generic.IEnumerable<Node> nodes) :
+		protected Branch(System.Collections.Generic.IEnumerable<Node> nodes) :
 			this()
 		{
 			//this.Nodes.Add(nodes);

@@ -18,7 +18,6 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Collection.Extension;
@@ -32,13 +31,14 @@ namespace Kean.Core.Serialize.Data
 		public override Uri.Locator Locator
 		{
 			get { return base.Locator; }
-			set 
+			set
 			{
 				base.Locator = value;
 				foreach (Node child in this.Nodes)
 					child.Locator = value;
 			}
 		}
+
 		public override ParameterAttribute Attribute
 		{
 			get { return base.Attribute; }
@@ -49,6 +49,7 @@ namespace Kean.Core.Serialize.Data
 					child.Attribute = value;
 			}
 		}
+
 		public override string Name
 		{
 			get { return base.Name; }
@@ -59,14 +60,26 @@ namespace Kean.Core.Serialize.Data
 					child.Name = value;
 			}
 		}
+
 		public Collection()
 		{
 		}
+
 		public Collection(object value, Reflect.Type type) :
 			this()
 		{
 			Reflect.Type valueType = value.Type();
 			this.Type = valueType != type ? valueType : null;
+		}
+
+		public Collection(System.Collections.Generic.IEnumerable<Node> nodes) :
+			base(nodes)
+		{
+		}
+
+		public Collection(params Node[] nodes) :
+			this((System.Collections.Generic.IEnumerable<Node>)nodes)
+		{
 		}
 	}
 }

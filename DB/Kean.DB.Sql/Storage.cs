@@ -108,7 +108,7 @@ namespace Kean.DB.Sql
 				case 2:
 					{
 						Table table = this.tables[locator.Path[1]];
-						result = table.NotNull() ? new Serialize.Data.Branch(table.Select()) : null;
+						result = table.NotNull() ? new Serialize.Data.Collection(table.Select()) : null;
 					}
 					break;
 				case 3:
