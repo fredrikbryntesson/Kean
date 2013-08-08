@@ -36,9 +36,20 @@ namespace Kean.DB.Sql
 		DB.Table
 	{
 		Data.IDbConnection connection;
+		string fieldString;
 
-		internal Table(Data.IDbConnection connection, string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields) :
-			base(name, type, key, indexFields, nonIndexFields, fields)
+		public string FieldString
+		{
+			get
+			{
+				if (this.fieldString.IsNull())
+					this.fieldString = this.IndexFields.Fold((f, s) => s + ", " + f.Key, (IO.Text.Builder)this.Key.Key) + (this.NonIndexFields.NotEmpty() ? ", _data" : "") + ", _type";
+				return this.fieldString;
+			}
+		}
+
+		internal Table(Data.IDbConnection connection) :
+			base()
 		{
 			this.connection = connection;
 		}
@@ -110,14 +121,14 @@ namespace Kean.DB.Sql
 			if (result = this.connection.NotNull())
 			{
 				IO.Text.Builder query = new IO.Text.Builder("CREATE TABLE ");
-				query += "`" + this.Name + "` (" + this.SqlType(this.key) + " NOT NULL, ";
-				foreach (var field in this.indexFields)
+				query += "`" + this.Name + "` (" + this.SqlType(this.Key) + " NOT NULL, ";
+				foreach (var field in this.IndexFields)
 					query += this.SqlType(field) + ", ";
-				query += "`_type` varchar(255) DEFAULT '" + this.type + "', ";
-				if (this.nonIndexFields.NotEmpty())
+				query += "`_type` varchar(255) DEFAULT '" + this.Type + "', ";
+				if (this.NonIndexFields.NotEmpty())
 					query += "`_data` longtext, ";
-				query += "PRIMARY KEY (`" + this.key.Key + "`),";
-				query += "UNIQUE KEY `" + this.key.Key + "` (`" + this.key.Key + "`)";
+				query += "PRIMARY KEY (`" + this.Key.Key + "`),";
+				query += "UNIQUE KEY `" + this.Key.Key + "` (`" + this.Key.Key + "`)";
 				query += ") DEFAULT CHARSET=utf8";
 				Console.WriteLine(query);
 				using (Data.IDbCommand command = this.connection.CreateCommand())
@@ -131,9 +142,9 @@ namespace Kean.DB.Sql
 
 		#region Select
 
-		public override System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
+		protected override System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
 		{
-			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.fieldString + " FROM " + this.Name;
+			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.FieldString + " FROM " + this.Name;
 			if (where.NotEmpty())
 				query += " WHERE " + where;
 			if (order.NotEmpty())
@@ -158,10 +169,10 @@ namespace Kean.DB.Sql
 		{
 			Serialize.Data.Branch result = new Serialize.Data.Branch();
 			int ordinal = 0;
-			result.Nodes.Add(this.Read(reader, ordinal++, this.key));
-			foreach (KeyValue<string, Reflect.Type> field in this.indexFields)
+			result.Nodes.Add(this.Read(reader, ordinal++, this.Key));
+			foreach (KeyValue<string, Reflect.Type> field in this.IndexFields)
 				result.Nodes.Add(this.Read(reader, ordinal++, field));
-			if (this.nonIndexFields.NotEmpty())
+			if (this.NonIndexFields.NotEmpty())
 				result.Merge(Json.Serialize.Storage.Convert((Json.Dom.Object)reader.GetString(ordinal++)));
 			string type = reader.GetString(ordinal++);
 			result.Type = type;
@@ -214,7 +225,7 @@ namespace Kean.DB.Sql
 
 		#region Insert
 
-		public override bool Insert (Serialize.Data.Branch data)
+		protected override bool Insert (Serialize.Data.Branch data)
 		{
 			bool result;
 			IO.Text.Builder query = "INSERT INTO ";
@@ -255,7 +266,7 @@ namespace Kean.DB.Sql
 
 		#region Update
 
-		public override bool Update (string key, Serialize.Data.Node data)
+		protected override bool Update (string key, Serialize.Data.Node data)
 		{
 			return false;
 		}

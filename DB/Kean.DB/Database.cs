@@ -35,8 +35,9 @@ namespace Kean.DB
 	{
 		Collection.IDictionary<string, Table> tables = new Collection.Dictionary<string, Table>();
 
-		public Table this [string table]
-		{ get { return this.tables[table]; }
+		internal Table this [string table]
+		{ 
+			get { return this.tables[table]; }
 		}
 
 		public Uri.Locator Locator { get; private set; }
@@ -71,10 +72,7 @@ namespace Kean.DB
 
 		bool Create (Table table)
 		{
-			bool result;
-			if (result = table.NotNull() && table.Create())
-				this.tables[table.Name] = table;
-			return result;
+			return table.NotNull() && table.Create() && this.Add(table);
 		}
 
 		public bool AddTable<T> (string name)
@@ -100,7 +98,6 @@ namespace Kean.DB
 		Table NewTable (string name, Reflect.Type type)
 		{
 			KeyValue<string, Reflect.Type> key;
-			Collection.List<KeyValue<string, Reflect.Type>> fields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			switch (type.Category)
@@ -118,7 +115,6 @@ namespace Kean.DB
 								indexFields.Add(f);
 							else
 								nonIndexFields.Add(f);
-							fields.Add(f);
 						}
 					}
 					break;
@@ -135,15 +131,23 @@ namespace Kean.DB
 								indexFields.Add(f);
 							else
 								nonIndexFields.Add(f);
-							fields.Add(f);
 						}
 					}
 					break;
 			}
-			return this.NewTable(name, type, key, indexFields.ToArray(), nonIndexFields.ToArray(), fields.ToArray());
+			Table result = this.NewTable();
+			if (result.NotNull())
+			{
+				result.Name = name;
+				result.Type = type;
+				result.Key = key;
+				result.IndexFields = indexFields.ToArray();
+				result.NonIndexFields = nonIndexFields.ToArray();
+			}
+			return result;
 		}
 
-		protected abstract Table NewTable (string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields);
+		protected abstract Table NewTable ();
 
 		#endregion
 

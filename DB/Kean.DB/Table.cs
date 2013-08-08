@@ -34,53 +34,42 @@ namespace Kean.DB
 	public abstract class Table :
 		IDisposable
 	{
-		public string Name { get; private set; }
+		public string Name { get; internal set; }
 
-		protected Reflect.Type type;
-		protected KeyValue<string, Reflect.Type> key;
-		protected KeyValue<string, Reflect.Type>[] indexFields;
-		protected KeyValue<string, Reflect.Type>[] nonIndexFields;
-		protected KeyValue<string, Reflect.Type>[] fields;
-		protected string fieldString;
+		internal protected Reflect.Type Type { get; internal set; }
 
-		protected Table(string name, Reflect.Type type, KeyValue<string, Reflect.Type> key, KeyValue<string, Reflect.Type>[] indexFields, KeyValue<string, Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields)
+		internal protected KeyValue<string, Reflect.Type> Key { get; internal set; }
+
+		internal protected KeyValue<string, Reflect.Type>[] IndexFields { get; internal set; }
+
+		internal protected KeyValue<string, Reflect.Type>[] NonIndexFields { get; internal set; }
+
+		protected Table()
 		{
-			this.Name = name;
-			this.type = type;
-			this.key = key;
-			this.indexFields = indexFields;
-			this.nonIndexFields = nonIndexFields;
-			this.fields = fields;
-			this.fieldString = this.indexFields.Fold((f, s) => s + ", " + f.Key, (IO.Text.Builder)this.key.Key) + (this.nonIndexFields.NotEmpty() ? ", _data" : "") + ", _type";
 		}
 
 		#region Select
 
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select ()
+		internal protected System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string key)
 		{
-			return this.Select(null, null, 0, 0);
-		}
-
-		public System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string key)
-		{
-			if (this.key.Value == typeof(string))
+			if (this.Key.Value == typeof(string))
 				key = "'" + key + "'";
-			return this.Select(this.key.Key + " = " + key, null, 0, 0);
+			return this.Select(this.Key.Key + " = " + key, null, 0, 0);
 		}
 
-		public abstract System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset);
+		internal protected abstract System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset);
 
 		#endregion
 
 		#region Insert
 
-		public abstract bool Insert (Serialize.Data.Branch data);
+		internal protected abstract bool Insert (Serialize.Data.Branch data);
 
 		#endregion
 
 		#region Update
 
-		public abstract bool Update (string key, Serialize.Data.Node data);
+		internal protected abstract bool Update (string key, Serialize.Data.Node data);
 
 		#endregion
 

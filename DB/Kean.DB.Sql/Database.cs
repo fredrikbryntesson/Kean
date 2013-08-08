@@ -53,9 +53,9 @@ namespace Kean.DB.Sql
 
 		#region implemented abstract members of Database
 
-		protected override DB.Table NewTable (string name, Reflect.Type type, KeyValue<string, Kean.Core.Reflect.Type> key, KeyValue<string, Kean.Core.Reflect.Type>[] indexFields, KeyValue<string, Kean.Core.Reflect.Type>[] nonIndexFields, KeyValue<string, Reflect.Type>[] fields)
+		protected override DB.Table NewTable ()
 		{
-			return new Table(this.connection, name, type, key, indexFields, nonIndexFields, fields);
+			return new Table(this.connection);
 		}
 
 		#endregion
