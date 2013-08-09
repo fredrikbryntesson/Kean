@@ -97,7 +97,7 @@ namespace Kean.DB
 
 		Table NewTable (string name, Reflect.Type type)
 		{
-			KeyValue<string, Reflect.Type> key;
+			KeyValue<string, Reflect.Type> key = null;
 			Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
 			switch (type.Category)
