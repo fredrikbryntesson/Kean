@@ -217,7 +217,7 @@ namespace Kean.Xml.Dom
 				if (current.Name != name)
 					throw new Exception.EndTagUnmatched(current.Name, current.Region, name, region);
 				if (current.Region.NotNull() && region.NotNull())
-                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End); 
+					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End); 
 				current = current.Parent;
 			};
 			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };

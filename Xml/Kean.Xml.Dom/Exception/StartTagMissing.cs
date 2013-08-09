@@ -24,13 +24,13 @@ using Uri = Kean.Core.Uri;
 
 namespace Kean.Xml.Dom.Exception
 {
-    public class StartTagMissing : 
-        Abstract
-    {
+	public class StartTagMissing : 
+		Abstract
+	{
 		public string Name { get; private set; }
 		public Uri.Region Region { get; private set; }
-        internal StartTagMissing(string name, Uri.Region region) : 
-            this(null, name, region) 
+		internal StartTagMissing(string name, Uri.Region region) : 
+			this(null, name, region) 
 		{ }
 		internal StartTagMissing(System.Exception innerException, string name, Uri.Region region) :
 			base(innerException, Error.Level.Recoverable, "XML Tree error", "XML end element \"{0}\" between row {1} column {2} and row {3} column {4} does not have a corresponding start tag in \"{5}\".", name, region.Start.Row.ToString(), region.Start.Column.ToString(), region.End.Row.ToString(), region.End.Column.ToString(), region.Resource)
@@ -38,5 +38,5 @@ namespace Kean.Xml.Dom.Exception
 			this.Name = name;
 			this.Region = region;
 		}
-    }
+	}
 }

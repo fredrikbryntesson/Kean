@@ -96,7 +96,7 @@ namespace Kean.Xml.Sax
 									if (this.AccumulateUntil('=').Trim() != "version")
 										return false;
 									this.AccumulateUntil('"');
-                                    float version = float.Parse(this.AccumulateUntil('"'), System.Globalization.CultureInfo.InvariantCulture);
+									float version = float.Parse(this.AccumulateUntil('"'), System.Globalization.CultureInfo.InvariantCulture);
 									if (this.AccumulateUntil('=').Trim() != "encoding")
 										return false;
 									this.AccumulateUntil('"');
@@ -117,26 +117,26 @@ namespace Kean.Xml.Sax
 										if (!this.Verify("CDATA["))
 											return false;
 										this.OnData.Call(this.AccumulateUntil("]]>"), mark);
-                                        this.reader.Next();
+										this.reader.Next();
 										break;
 									case '-': // comment
 										if (!this.Verify("-"))
 											return false;
 										this.OnComment.Call(this.AccumulateUntil("-->"), mark);
-                                        this.reader.Next();
+										this.reader.Next();
 										break;
 								}
 								break;
 							default: // element name
 								string name = this.reader.Last + this.AccumulateUntilWhiteSpaceOr('/', '>').Trim();
 								Collection.IList<Tuple<string, string, Uri.Region>> attributes = new Collection.List<Tuple<string, string, Uri.Region>>();
-                                if (this.reader.Last != '/' && this.reader.Last != '>')
-                                    do
-                                    {
-                                        IO.Text.Mark attributeMark = this.Mark();
-                                        string key = (this.reader.Last + this.AccumulateUntil('=')).Trim();
-                                        this.AccumulateUntil('"');
-                                        attributes.Add(Tuple.Create(key, this.AccumulateUntil('"'), (Uri.Region)attributeMark));
+								if (this.reader.Last != '/' && this.reader.Last != '>')
+									do
+									{
+										IO.Text.Mark attributeMark = this.Mark();
+										string key = (this.reader.Last + this.AccumulateUntil('=')).Trim();
+										this.AccumulateUntil('"');
+										attributes.Add(Tuple.Create(key, this.AccumulateUntil('"'), (Uri.Region)attributeMark));
 										while (this.reader.Next() && this.reader.Last == ' ') ;
 									} while (this.reader.Last != '/' && this.reader.Last != '>' && !this.reader.Empty);
 								this.OnElementStart.Call(name, attributes, mark);

@@ -27,7 +27,7 @@ namespace Kean.Xml.Dom
 {
 	public abstract class Object
 	{
-        public Uri.Region Region { get; internal set; }
+		public Uri.Region Region { get; internal set; }
 
 		Document document;
 		public Document Document
