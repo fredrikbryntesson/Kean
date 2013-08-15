@@ -18,22 +18,20 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Uri = Kean.Core.Uri;
-
 namespace Kean.Json.Serialize.Test
 {
-	public class Verifier :
+    public class Verifier :
 		Core.Serialize.Test.Verifier
-	{
-		protected override string Extension { get { return "json"; } }
-		protected override Uri.Locator CorrectBase { get { return "assembly://Kean.Json.Serialize.Test/Json"; } }
-		protected override Uri.Locator CreatedBase { get { return Uri.Locator.FromPlatformPath(System.Environment.CurrentDirectory) + "Json"; } }
-		public Verifier() :
+    {
+        protected override string Extension { get { return "json"; } }
+        protected override Uri.Locator CorrectBase { get { return "assembly://Kean.Json.Serialize.Test/Json"; } }
+        protected override Uri.Locator CreatedBase { get { return Uri.Locator.FromPlatformPath(System.Environment.CurrentDirectory) + "Json"; } }
+        public Verifier() :
 			base(new Storage())
-		{
-		}
-	}
+        {
+        }
+    }
 }
 

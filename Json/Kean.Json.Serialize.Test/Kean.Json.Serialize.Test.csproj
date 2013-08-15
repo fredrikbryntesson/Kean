@@ -58,6 +58,14 @@
       <Project>{F4A4B924-B65C-4FDE-A38E-AB50AE55DE91}</Project>
       <Name>Kean.Core.Serialize.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Serialize\Kean.Core.Serialize.csproj">
+      <Project>{06324516-5008-4A34-9C54-041F30F5A229}</Project>
+      <Name>Kean.Core.Serialize</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Collection\Kean.Core.Collection.csproj">
+      <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
+      <Name>Kean.Core.Collection</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Json\" />

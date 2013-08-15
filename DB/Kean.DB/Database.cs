@@ -27,155 +27,154 @@ using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Generic = System.Collections.Generic;
 using Reflect = Kean.Core.Reflect;
-
 namespace Kean.DB
 {
-	public abstract class Database :
+    public abstract class Database :
 		IDisposable
-	{
-		Collection.IDictionary<string, Table> tables = new Collection.Dictionary<string, Table>();
+    {
+        Collection.IDictionary<string, Table> tables = new Collection.Dictionary<string, Table>();
+        Serialize.Resolver resolver;
+        Serialize.ISerializer serializer;
+        Serialize.IRebuilder rebuilder;
+        internal Table this [string table]
+        { 
+            get { return this.tables[table]; }
+        }
+        public Uri.Locator Locator { get; private set; }
+        protected Database(Uri.Locator locator, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers)
+        {
+            this.Locator = locator;
+            this.resolver = resolver ?? new Serialize.Resolver();
+            this.rebuilder = rebuilder ?? new Serialize.Rebuilder.Identity();
+            this.serializer = new Serialize.Serializer.Cache(serializers.NotEmpty() ? new Serialize.Serializer.Group(serializers) : new Serialize.Serializer.Default());
+        }
+        protected Database(Uri.Locator locator, Generic.IEnumerable<Table> tables)
+        {
+            this.Locator = locator;
+            foreach (Table table in tables)
+                this.tables[table.Name] = table;
+        }
+        public T Load<T>(string table, long key)
+        {
+            return default(T);
+        }
+        public bool Store<T>(string table, T item)
+        {
+            return false;
+        }
 
-		internal Table this [string table]
-		{ 
-			get { return this.tables[table]; }
-		}
+        #region Add & Create Table
 
-		public Uri.Locator Locator { get; private set; }
+        bool Add(params Table[] tables)
+        {
+            return tables.Fold((table, result) => result && this.Add(table), true);
+        }
+        bool Add(Table table)
+        {
+            bool result;
+            if (result = table.NotNull())
+                this.tables[table.Name] = table;
+            return result;
+        }
+        bool Create(Table table)
+        {
+            return table.NotNull() && table.Create() && this.Add(table);
+        }
+        public bool AddTable<T>(string name)
+        {
+            return this.AddTable(name, typeof(T));
+        }
+        public bool AddTable(string name, Reflect.Type type)
+        {
+            return this.Add(this.NewTable(name, type));
+        }
+        public bool CreateTable<T>(string name)
+        {
+            return this.CreateTable(name, typeof(T));
+        }
+        public bool CreateTable(string name, Reflect.Type type)
+        {
+            return this.Create(this.NewTable(name, type));
+        }
+        Table NewTable(string name, Reflect.Type type)
+        {
+            KeyValue<string, Reflect.Type> key = null;
+            Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
+            Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
+            switch (type.Category)
+            {
+                case Reflect.TypeCategory.Class:
+                    foreach (Reflect.PropertyInformation property in type.Properties)
+                    {
+                        Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
+                        if (attributes.Length == 1)
+                        {
+                            KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
+                            if (attributes[0] is PrimaryKeyAttribute)
+                                key = f;
+                            else if (attributes[0] is IndexAttribute)
+                                indexFields.Add(f);
+                            else
+                                nonIndexFields.Add(f);
+                        }
+                    }
+                    break;
+                case Reflect.TypeCategory.Structure:
+                    foreach (Reflect.FieldInformation field in type.Fields)
+                    {
+                        Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
+                        if (attributes.Length == 1)
+                        {
+                            KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
+                            if (attributes[1] is PrimaryKeyAttribute)
+                                key = f;
+                            else if (attributes[1] is IndexAttribute)
+                                indexFields.Add(f);
+                            else
+                                nonIndexFields.Add(f);
+                        }
+                    }
+                    break;
+            }
+            Table result = this.NewTable();
+            if (result.NotNull())
+            {
+                result.Name = name;
+                result.Type = type;
+                result.Key = key;
+                result.IndexFields = indexFields.ToArray();
+                result.NonIndexFields = nonIndexFields.ToArray();
+            }
+            return result;
+        }
+        protected abstract Table NewTable();
 
-		protected Database(Uri.Locator locator)
-		{
-			this.Locator = locator;
-		}
+        #endregion
 
-		protected Database(Uri.Locator locator, Generic.IEnumerable<Table> tables) :
-			this(locator)
-		{
-			this.Locator = locator;
-			foreach (Table table in tables)
-				this.tables[table.Name] = table;
-		}
+        public virtual bool Close()
+        {
+            bool result;
+            if (result = this.tables.NotNull())
+            {
+                this.tables.Apply(table => table.Value.Close());
+                this.tables = null;
+            }
+            return result;
+        }
 
-		#region Add & Create Table
+        #region IDisposable implementation
 
-		bool Add (params Table[] tables)
-		{
-			return tables.Fold((table, result) => result && this.Add(table), true);
-		}
+        ~Database ()
+        {
+            (this as IDisposable).Dispose();
+        }
+        void IDisposable.Dispose()
+        {
+            this.Close();
+        }
 
-		bool Add (Table table)
-		{
-			bool result;
-			if (result = table.NotNull())
-				this.tables[table.Name] = table;
-			return result;
-		}
+        #endregion
 
-		bool Create (Table table)
-		{
-			return table.NotNull() && table.Create() && this.Add(table);
-		}
-
-		public bool AddTable<T> (string name)
-		{
-			return this.AddTable(name, typeof(T));
-		}
-
-		public bool AddTable (string name, Reflect.Type type)
-		{
-			return this.Add(this.NewTable(name, type));
-		}
-
-		public bool CreateTable<T> (string name)
-		{
-			return this.CreateTable(name, typeof(T));
-		}
-
-		public bool CreateTable (string name, Reflect.Type type)
-		{
-			return this.Create(this.NewTable(name, type));
-		}
-
-		Table NewTable (string name, Reflect.Type type)
-		{
-			KeyValue<string, Reflect.Type> key = null;
-			Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-			Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-			switch (type.Category)
-			{
-				case Reflect.TypeCategory.Class:
-					foreach (Reflect.PropertyInformation property in type.Properties)
-					{
-						Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
-						if (attributes.Length == 1)
-						{
-							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
-							if (attributes[0] is PrimaryKeyAttribute)
-								key = f;
-							else if (attributes[0] is IndexAttribute)
-								indexFields.Add(f);
-							else
-								nonIndexFields.Add(f);
-						}
-					}
-					break;
-				case Reflect.TypeCategory.Structure:
-					foreach (Reflect.FieldInformation field in type.Fields)
-					{
-						Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
-						if (attributes.Length == 1)
-						{
-							KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
-							if (attributes[1] is PrimaryKeyAttribute)
-								key = f;
-							else if (attributes[1] is IndexAttribute)
-								indexFields.Add(f);
-							else
-								nonIndexFields.Add(f);
-						}
-					}
-					break;
-			}
-			Table result = this.NewTable();
-			if (result.NotNull())
-			{
-				result.Name = name;
-				result.Type = type;
-				result.Key = key;
-				result.IndexFields = indexFields.ToArray();
-				result.NonIndexFields = nonIndexFields.ToArray();
-			}
-			return result;
-		}
-
-		protected abstract Table NewTable ();
-
-		#endregion
-
-		public virtual bool Close ()
-		{
-			bool result;
-			if (result = this.tables.NotNull())
-			{
-				this.tables.Apply(table => table.Value.Close());
-				this.tables = null;
-			}
-			return result;
-		}
-
-		#region IDisposable implementation
-
-		~Database ()
-		{
-			(this as IDisposable).Dispose();
-		}
-
-		void IDisposable.Dispose ()
-		{
-			this.Close();
-		}
-
-		#endregion
-
-	}
+    }
 }
 

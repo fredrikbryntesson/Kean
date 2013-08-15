@@ -26,65 +26,62 @@ using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Data = System.Data;
 using Reflect = Kean.Core.Reflect;
-
 namespace Kean.DB.Sql
 {
-	public class Database :
+    public class Database :
 		DB.Database
-	{
-		Data.IDbConnection connection;
+    {
+        Data.IDbConnection connection;
+        Database(Uri.Locator locator, Data.IDbConnection connection) :
+			base(locator, null)
+        {
+            this.connection = connection;
+        }
+        public override bool Close()
+        {
+            bool result;
+            if (result = this.connection.NotNull())
+            {
+                this.connection.Close();
+                this.connection = null;
+            }
+            return result;
+        }
 
-		Database(Uri.Locator locator, Data.IDbConnection connection) :
-			base(locator)
-		{
-			this.connection = connection;
-		}
+        #region implemented abstract members of Database
 
-		public override bool Close ()
-		{
-			bool result;
-			if (result = this.connection.NotNull())
-			{
-				this.connection.Close();
-				this.connection = null;
-			}
-			return result;
-		}
+        protected override DB.Table NewTable()
+        {
+            return new Table(this.connection);
+        }
 
-		#region implemented abstract members of Database
+        #endregion
 
-		protected override DB.Table NewTable ()
-		{
-			return new Table(this.connection);
-		}
+        #region Static Open
 
-		#endregion
-
-		#region Static Open
-
-		public static Database Open (Uri.Locator locator)
-		{
-			string connectionString = null;
-			connectionString =
+        public static Database Open(Uri.Locator locator)
+        {
+            string connectionString = null;
+            connectionString =
 				"Server=" + locator.Authority.Endpoint +
-				";Database=" + locator.Path[0] +
-				";User ID=" + locator.Authority.User.Name +
-				";Password=" + locator.Authority.User.Password;
-			Console.WriteLine(connectionString);
-			Data.IDbConnection connection = null;
-			switch (locator.Scheme)
-			{
-				case "mysql":
-					connection = new global::MySql.Data.MySqlClient.MySqlConnection(connectionString);
-					break;
-			}
-			connection.Open();
-			Console.WriteLine(connection.State);
-			return connection.NotNull() ? new Database(locator, connection) : null;
-		}
+                ";Database=" + locator.Path[0] +
+                ";User ID=" + locator.Authority.User.Name +
+                ";Password=" + locator.Authority.User.Password;
+            Console.WriteLine(connectionString);
+            Data.IDbConnection connection = null;
+            switch (locator.Scheme)
+            {
+                case "mysql":
+                    connection = new global::MySql.Data.MySqlClient.MySqlConnection(connectionString);
+                    break;
+            }
+            connection.Open();
+            Console.WriteLine(connection.State);
+            return connection.NotNull() ? new Database(locator, connection) : null;
+        }
 
-		#endregion
+        #endregion
 
-	}
+    }
 }
 
