@@ -48,12 +48,6 @@ namespace Kean.DB
             this.rebuilder = rebuilder ?? new Serialize.Rebuilder.Identity();
             this.serializer = new Serialize.Serializer.Cache(serializers.NotEmpty() ? new Serialize.Serializer.Group(serializers) : new Serialize.Serializer.Default());
         }
-        protected Database(Uri.Locator locator, Generic.IEnumerable<Table> tables)
-        {
-            this.Locator = locator;
-            foreach (Table table in tables)
-                this.tables[table.Name] = table;
-        }
         public T Load<T>(string table, long key)
         {
             return default(T);
@@ -98,7 +92,7 @@ namespace Kean.DB
         }
         Table NewTable(string name, Reflect.Type type)
         {
-            KeyValue<string, Reflect.Type> key = null;
+            KeyValue<string, Reflect.Type>? key = null;
             Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
             Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
             switch (type.Category)
@@ -141,7 +135,8 @@ namespace Kean.DB
             {
                 result.Name = name;
                 result.Type = type;
-                result.Key = key;
+                if (key.HasValue)
+                    result.Key = key.Value;
                 result.IndexFields = indexFields.ToArray();
                 result.NonIndexFields = nonIndexFields.ToArray();
             }

@@ -31,9 +31,13 @@ namespace Kean.DB.Sql
     public class Database :
 		DB.Database
     {
-        Data.IDbConnection connection;
         Database(Uri.Locator locator, Data.IDbConnection connection) :
-			base(locator, null)
+            this(locator, connection, null, null, null)
+        {
+        }
+        Data.IDbConnection connection;
+        Database(Uri.Locator locator, Data.IDbConnection connection, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers) :
+ 			base(locator, resolver, rebuilder, serializers)
         {
             this.connection = connection;
         }
