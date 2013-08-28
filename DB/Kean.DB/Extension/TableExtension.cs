@@ -20,14 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Expressions = System.Linq.Expressions;
 
-namespace Kean.DB
+namespace Kean.DB.Extension
 {
-	public class TableExtension
+	public static class TableExtension
 	{
-		public TableExtension()
+		public static T ReadFirst<T>(this ITable<T> me) where T : Item, new()
 		{
+			return me.Limit(1, 0).Read().First();
+		}
+		public static T Read<T>(this ITable<T> me, long key) where T : Item, new()
+		{
+			return me.Filter(item => item.Key == key).Read().First();
+		}
+		public static bool Delete<T>(this ITable<T> me, long key) where T : Item, new()
+		{
+			return me.Filter(item => item.Key == key).Delete() == 1;
 		}
 	}
 }
-

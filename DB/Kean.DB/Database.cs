@@ -27,149 +27,108 @@ using Uri = Kean.Core.Uri;
 using Serialize = Kean.Core.Serialize;
 using Generic = System.Collections.Generic;
 using Reflect = Kean.Core.Reflect;
+
 namespace Kean.DB
 {
-    public abstract class Database :
+	public abstract class Database :
+        Serialize.IStorage,
 		IDisposable
-    {
-        Collection.IDictionary<string, Table> tables = new Collection.Dictionary<string, Table>();
-        Serialize.Resolver resolver;
-        Serialize.ISerializer serializer;
-        Serialize.IRebuilder rebuilder;
-        internal Table this [string table]
-        { 
-            get { return this.tables[table]; }
-        }
-        public Uri.Locator Locator { get; private set; }
-        protected Database(Uri.Locator locator, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers)
-        {
-            this.Locator = locator;
-            this.resolver = resolver ?? new Serialize.Resolver();
-            this.rebuilder = rebuilder ?? new Serialize.Rebuilder.Identity();
-            this.serializer = new Serialize.Serializer.Cache(serializers.NotEmpty() ? new Serialize.Serializer.Group(serializers) : new Serialize.Serializer.Default());
-        }
-        public T Load<T>(string table, long key)
-        {
-            return default(T);
-        }
-        public bool Store<T>(string table, T item)
-        {
-            return false;
-        }
+	{
+		Collection.IDictionary<Reflect.Type, IDisposable> tables = new Collection.Dictionary<Reflect.Type, IDisposable>();
+		Serialize.Resolver resolver;
+		Serialize.ISerializer serializer;
+		Serialize.IRebuilder rebuilder;
+		public Uri.Locator Locator { get; private set; }
+		public Serialize.Casing Casing { get { return Serialize.Casing.Camel; } }
+		protected Database(Uri.Locator locator, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers)
+		{
+			this.Locator = locator;
+			this.resolver = resolver ?? new Serialize.Resolver();
+			this.rebuilder = rebuilder ?? new Serialize.Rebuilder.Identity();
+			this.serializer = new Serialize.Serializer.Cache(serializers.NotEmpty() ? new Serialize.Serializer.Group(serializers) : new Serialize.Serializer.Default());
+		}
 
-        #region Add & Create Table
+		#region IStorage implementation
+		Serialize.Resolver Serialize.IStorage.Resolver { get { return this.resolver; } }
+		Serialize.Data.Node Serialize.IStorage.Serialize(Reflect.Type type, object data, Uri.Locator locator)
+		{
+			return this.serializer.Serialize(this, type, data, locator);
+		}
+		bool Serialize.IStorage.DeserializeContent(Serialize.Data.Node node, object result)
+		{
+			return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
+		}
+		void Serialize.IStorage.Deserialize(Serialize.Data.Node node, Reflect.Type type, Action<object> set)
+		{
+			node = node.DefaultType(type);
+			if (node is Serialize.Data.Link)
+				this.resolver.Resolve((node as Serialize.Data.Link).Target, d =>
+				{
+					this.resolver[node.Locator] = d;
+					set.Call(d);
+				});
+			else
+				set.Call(this.Deserialize(null, node));
+		}
+		object Deserialize(object result, Serialize.Data.Node node)
+		{
+			return node.NotNull() ? (this.resolver[node.Locator] = this.serializer.Deserialize(this, node, result)) : null;
+		}
+		#endregion
 
-        bool Add(params Table[] tables)
-        {
-            return tables.Fold((table, result) => result && this.Add(table), true);
-        }
-        bool Add(Table table)
-        {
-            bool result;
-            if (result = table.NotNull())
-                this.tables[table.Name] = table;
-            return result;
-        }
-        bool Create(Table table)
-        {
-            return table.NotNull() && table.Create() && this.Add(table);
-        }
-        public bool AddTable<T>(string name)
-        {
-            return this.AddTable(name, typeof(T));
-        }
-        public bool AddTable(string name, Reflect.Type type)
-        {
-            return this.Add(this.NewTable(name, type));
-        }
-        public bool CreateTable<T>(string name)
-        {
-            return this.CreateTable(name, typeof(T));
-        }
-        public bool CreateTable(string name, Reflect.Type type)
-        {
-            return this.Create(this.NewTable(name, type));
-        }
-        Table NewTable(string name, Reflect.Type type)
-        {
-            KeyValue<string, Reflect.Type>? key = null;
-            Collection.List<KeyValue<string, Reflect.Type>> indexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-            Collection.List<KeyValue<string, Reflect.Type>> nonIndexFields = new Collection.List<KeyValue<string, Reflect.Type>>();
-            switch (type.Category)
-            {
-                case Reflect.TypeCategory.Class:
-                    foreach (Reflect.PropertyInformation property in type.Properties)
-                    {
-                        Serialize.ParameterAttribute[] attributes = property.GetAttributes<Serialize.ParameterAttribute>();
-                        if (attributes.Length == 1)
-                        {
-                            KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? property.Name, property.Type);
-                            if (attributes[0] is PrimaryKeyAttribute)
-                                key = f;
-                            else if (attributes[0] is IndexAttribute)
-                                indexFields.Add(f);
-                            else
-                                nonIndexFields.Add(f);
-                        }
-                    }
-                    break;
-                case Reflect.TypeCategory.Structure:
-                    foreach (Reflect.FieldInformation field in type.Fields)
-                    {
-                        Serialize.ParameterAttribute[] attributes = field.GetAttributes<Serialize.ParameterAttribute>();
-                        if (attributes.Length == 1)
-                        {
-                            KeyValue<string, Reflect.Type> f = KeyValue.Create(attributes[0].Name ?? field.Name, field.Type);
-                            if (attributes[1] is PrimaryKeyAttribute)
-                                key = f;
-                            else if (attributes[1] is IndexAttribute)
-                                indexFields.Add(f);
-                            else
-                                nonIndexFields.Add(f);
-                        }
-                    }
-                    break;
-            }
-            Table result = this.NewTable();
-            if (result.NotNull())
-            {
-                result.Name = name;
-                result.Type = type;
-                if (key.HasValue)
-                    result.Key = key.Value;
-                result.IndexFields = indexFields.ToArray();
-                result.NonIndexFields = nonIndexFields.ToArray();
-            }
-            return result;
-        }
-        protected abstract Table NewTable();
+		#region Add & Create Table
+		protected abstract Table<T> New<T>(string name) where T : Item, new();
+		public Table<T> Get<T>() where T : Item, new()
+		{
+			lock (this.tables)
+			{
+				Table<T> result = this.tables[typeof(T)] as Table<T>;
+				if (result.IsNull())
+				{
+					this.tables[typeof(T)] = result = this.New<T>(this.GetName(typeof(T)));
+					result.Database = this;
+				}
+				return result;
+			}
+		}
+		public Table<T> Create<T>() where T : Item, new()
+		{
+			lock (this.tables)
+			{
+				Table<T> result = this.Get<T>();
+				result.Create();
+				return result;
+			}
+		}
+		protected virtual string GetName(Reflect.Type type)
+		{
+			TableAttribute attribute = type.GetAttributes<TableAttribute>().First();
+			return (attribute.NotNull() ? attribute.Name : null) ?? type.ShortName.FirstToLower();
+		}
+		#endregion
 
-        #endregion
+		public virtual bool Close()
+		{
+			bool result;
+			if (result = this.tables.NotNull())
+			{
+				this.tables.Apply(table => table.Value.Dispose());
+				this.tables = null;
+			}
+			return result;
+		}
 
-        public virtual bool Close()
-        {
-            bool result;
-            if (result = this.tables.NotNull())
-            {
-                this.tables.Apply(table => table.Value.Close());
-                this.tables = null;
-            }
-            return result;
-        }
+		#region IDisposable implementation
+		~Database ()
+		{
+			(this as IDisposable).Dispose();
+		}
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
+		#endregion
 
-        #region IDisposable implementation
-
-        ~Database ()
-        {
-            (this as IDisposable).Dispose();
-        }
-        void IDisposable.Dispose()
-        {
-            this.Close();
-        }
-
-        #endregion
-
-    }
+	}
 }
 

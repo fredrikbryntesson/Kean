@@ -34,11 +34,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type == "char" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.Character(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			return data is Data.Character ? (data as Data.Character).Value :
 				data is Data.Binary ? this.Convert((data as Data.Binary).Value) :

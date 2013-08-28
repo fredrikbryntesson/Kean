@@ -1,28 +1,31 @@
 using System;
+using Kean.DB.Extension;
+using Generic = System.Collections.Generic;
+
 namespace Kean.DB.Sql.Test
 {
-    class MainClass
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-            using (Database database = Database.Open("mysql://kean:password@localhost/keanTest/"))
-            {
-                //database.CreateTable<Item>("items");
-                database.AddTable<Item>("items");
-                Storage storage = new Storage(database);
-//                storage.Store(new Item() { Identifier = 0, Name = "Test Name A", Description = "This is a description of A." }, "./items");
-//                storage.Store(new Item() { Identifier = 1, Name = "Test Name B", Description = "This is a description of B." }, "./items");
-//                storage.Store(new Item() { Identifier = 2, Name = "Test Name C", Description = "This is a description of C." }, "./items");
-//                storage.Store(new Item() { Identifier = 3, Name = "Test Name D", Description = "This is a description of D." }, "./items");
-//                storage.Store(new Item() { Identifier = 4, Name = "Test Name E", Description = "This is a description of E." }, "./items");
-//                storage.Store(new Item() { Identifier = 5, Name = "Test Name F", Description = "This is a description of F." }, "./items");
-                Item item0 = storage.Load<Item>("./items/0");
-                Console.WriteLine(item0);
-                Item[] items = storage.Load<Item[]>("./items?where=Identifier!=4;order=Identifier DESC;limit=3;offset=2");
-                foreach (Item item in items)
-                    Console.WriteLine(item);
-            }
-        }
-    }
+	class MainClass
+	{
+		public static void Main(string[] args)
+		{
+			Console.WriteLine("Hello World!");
+			using (Database database = Database.Open("mysql://kean:password@localhost/keanTest/"))
+			{
+				//database.Create<Item>();
+				DB.ITable<Item> table = database.Get<Item>();
+				table.Create(new Item() { Name = "Test Name A", Description = "This is a description of A." });
+				table.Create(new Item() { Name = "Test Name B", Description = "This is a description of B." });
+				table.Create(new Item() { Name = "Test Name C", Description = "This is a description of C." });
+				table.Create(new Item() { Name = "Test Name D", Description = "This is a description of D." });
+				table.Create(new Item() { Name = "Test Name E", Description = "This is a description of E." });
+				table.Create(new Item() { Name = "Test Name F", Description = "This is a description of F." });
+
+				Item item0 = table.Read(1);
+				Console.WriteLine(item0);
+				Generic.IEnumerable<Item> items = table.Filter(item => item.Key > 2).Filter(item => item.Key > 5).Sort(item => item.Name, false).Limit(8, 2).Read();
+				foreach (Item item in items)
+					Console.WriteLine(item);
+			}
+		}
+	}
 }

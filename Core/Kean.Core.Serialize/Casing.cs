@@ -23,8 +23,14 @@ using System;
 
 namespace Kean.Core.Serialize
 {
-	public enum Naming
+	public enum Casing
 	{
+		Raw,
+		Normal,
+		Pascal,
+		Camel,
+		Upper,
+		Lower,
 	}
 }
 

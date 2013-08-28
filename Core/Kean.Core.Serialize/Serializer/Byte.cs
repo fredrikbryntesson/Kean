@@ -19,31 +19,35 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-
 namespace Kean.Core.Serialize.Serializer
 {
-	public class Byte :
+    public class Byte :
 		ISerializer
-	{
-		public Byte()
-		{ }
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
-		{
-			return type == "byte" ? this : null;
-		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
-		{
-			return new Data.Byte(data, type);
-		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
-		{
-			return data is Data.Byte ? (data as Data.Byte).Value :
+    {
+        public Byte()
+        {
+        }
+
+        #region ISerializer Members
+
+        public ISerializer Find(Reflect.Type type)
+        {
+            return type == "byte" ? this : null;
+        }
+        public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
+        {
+            return new Data.Byte(data, type);
+        }
+        public object Deserialize(IStorage storage, Data.Node data, object result)
+        {
+            return data is Data.Byte ? (data as Data.Byte).Value :
 				data is Data.Binary ? (data as Data.Binary).Value[0] :
 				data is Data.String ? byte.Parse((data as Data.String).Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat) :
 				(byte)0;
-		}
-		#endregion
-	}
+        }
+
+        #endregion
+
+    }
 }
 

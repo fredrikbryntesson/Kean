@@ -40,7 +40,7 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return this.Found(type) ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Collection result = new Data.Collection(data, type);
 			Reflect.Type elementType = this.GetElementType(type);
@@ -49,7 +49,7 @@ namespace Kean.Core.Serialize.Serializer
 				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
 			return result;
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			Core.Collection.IList<Data.Node> nodes;
 			Reflect.Type type;

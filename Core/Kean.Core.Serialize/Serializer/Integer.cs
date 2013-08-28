@@ -34,11 +34,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type == "int" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.Integer(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			return data is Data.Integer ? (data as Data.Integer).Value :
 				data is Data.Binary ? BitConverter.ToInt32((data as Data.Binary).Value, 0) :

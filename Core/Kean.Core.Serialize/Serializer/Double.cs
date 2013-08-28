@@ -32,11 +32,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type == "double" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.Double(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			return data is Data.Double ? (data as Data.Double).Value :
 				data is Data.Binary ? BitConverter.ToDouble((data as Data.Binary).Value, 0) :

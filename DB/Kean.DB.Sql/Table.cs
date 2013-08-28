@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2012-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 // 
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Core;
 using Kean.Core.Extension;
@@ -29,32 +30,32 @@ using Reflect = Kean.Core.Reflect;
 using Kean.Core.Reflect.Extension;
 using Data = System.Data;
 using IO = Kean.IO;
+using Generic = System.Collections.Generic;
+using Expressions = System.Linq.Expressions;
 
 namespace Kean.DB.Sql
 {
-	public class Table :
-		DB.Table
+	public class Table<T> :
+		DB.Table<T>
+            where T : Item, new()
 	{
 		Data.IDbConnection connection;
 		string fieldString;
-
 		public string FieldString
 		{
 			get
 			{
 				if (this.fieldString.IsNull())
-					this.fieldString = this.IndexFields.Fold((f, s) => s + ", " + f.Key, (IO.Text.Builder)this.Key.Key) + (this.NonIndexFields.NotEmpty() ? ", _data" : "") + ", _type";
+					this.fieldString = this.Columns.Map(column => "`" + column.Key + "`").Join(", ");
 				return this.fieldString;
 			}
 		}
-
-		internal Table(Data.IDbConnection connection) :
-			base()
+		internal Table(Data.IDbConnection connection, string name) :
+			base(name)
 		{
 			this.connection = connection;
 		}
-
-		string SqlType (KeyValue<string, Reflect.Type> field)
+		string SqlType(KeyValue<string, Reflect.Type> field)
 		{
 			string result = "`" + field.Key + "` ";
 			switch (field.Value)
@@ -114,72 +115,13 @@ namespace Kean.DB.Sql
 			}
 			return result;
 		}
-
-		public override bool Create ()
+		Generic.IEnumerable<Serialize.Data.Leaf> Read(Data.IDataReader reader)
 		{
-			bool result;
-			if (result = this.connection.NotNull())
-			{
-				IO.Text.Builder query = new IO.Text.Builder("CREATE TABLE ");
-				query += "`" + this.Name + "` (" + this.SqlType(this.Key) + " NOT NULL, ";
-				foreach (var field in this.IndexFields)
-					query += this.SqlType(field) + ", ";
-				query += "`_type` varchar(255) DEFAULT '" + this.Type + "', ";
-				if (this.NonIndexFields.NotEmpty())
-					query += "`_data` longtext, ";
-				query += "PRIMARY KEY (`" + this.Key.Key + "`),";
-				query += "UNIQUE KEY `" + this.Key.Key + "` (`" + this.Key.Key + "`)";
-				query += ") DEFAULT CHARSET=utf8";
-				Console.WriteLine(query);
-				using (Data.IDbCommand command = this.connection.CreateCommand())
-				{
-					command.CommandText = query;
-					result = command.ExecuteNonQuery() == 0;
-				}
-			}
-			return result;
-		}
-
-		#region Select
-
-		protected override System.Collections.Generic.IEnumerable<Serialize.Data.Node> Select (string where, string order, int limit, int offset)
-		{
-			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.FieldString + " FROM " + this.Name;
-			if (where.NotEmpty())
-				query += " WHERE " + where;
-			if (order.NotEmpty())
-				query += " ORDER BY " + order;
-			if (limit > 0)
-			{
-				query += " LIMIT " + limit;
-				if (offset > 0)
-					query += " OFFSET " + offset;
-			}
-			Console.WriteLine(query);
-			using (Data.IDbCommand command = this.connection.CreateCommand())
-			{
-				command.CommandText = query;
-				using (Data.IDataReader reader = command.ExecuteReader())
-					while (reader.Read())
-						yield return this.Read(reader);
-			}
-		}
-
-		Serialize.Data.Node Read (Data.IDataReader reader)
-		{
-			Serialize.Data.Branch result = new Serialize.Data.Branch();
 			int ordinal = 0;
-			result.Nodes.Add(this.Read(reader, ordinal++, this.Key));
-			foreach (KeyValue<string, Reflect.Type> field in this.IndexFields)
-				result.Nodes.Add(this.Read(reader, ordinal++, field));
-			if (this.NonIndexFields.NotEmpty())
-				result.Merge(Json.Serialize.Storage.Convert((Json.Dom.Object)reader.GetString(ordinal++)));
-			string type = reader.GetString(ordinal++);
-			result.Type = type;
-			return result;
+			foreach (KeyValue<string, Reflect.Type> field in this.Columns)
+				yield return this.Read(reader, ordinal++, field);
 		}
-
-		Serialize.Data.Leaf Read (Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
+		Serialize.Data.Leaf Read(Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
 		{
 			Serialize.Data.Leaf result = null;
 			if (field.Value == typeof(bool))
@@ -194,9 +136,9 @@ namespace Kean.DB.Sql
 				result = new Serialize.Data.Decimal(reader.GetDecimal(ordinal));
 			else if (field.Value == typeof(double))
 				result = new Serialize.Data.Double(reader.GetDouble(ordinal));
-			//else if (field.Value == typeof(Guid))
-			//case typeof(Guid): result = new Serialize.Data.Guid(reader.GetGuid(ordinal)); break;
-			else if (field.Value == typeof(short))
+        			//else if (field.Value == typeof(Guid))
+        			//case typeof(Guid): result = new Serialize.Data.Guid(reader.GetGuid(ordinal)); break;
+        			else if (field.Value == typeof(short))
 				result = new Serialize.Data.Short(reader.GetInt16(ordinal));
 			else if (field.Value == typeof(int))
 				result = new Serialize.Data.Integer(reader.GetInt32(ordinal));
@@ -221,65 +163,109 @@ namespace Kean.DB.Sql
 			return result;
 		}
 
-		#endregion
-
-		#region Insert
-
-		protected override bool Insert (Serialize.Data.Branch data)
+		#region implemented abstract members of Table
+		protected override bool Create(Generic.IEnumerable<KeyValue<string, Reflect.Type>> columns)
 		{
 			bool result;
-			IO.Text.Builder query = "INSERT INTO ";
-			Collection.IList<string> fields = new Collection.List<string>();
-			Collection.IList<string> values = new Collection.List<string>();
-			Json.Dom.Object nonIndexData = new Json.Dom.Object();
-			foreach (Serialize.Data.Node node in data.Nodes)
+			if (result = this.connection.NotNull())
 			{
-				if (node is Serialize.Data.Leaf)
-				{
-					if (node.Attribute is IndexAttribute || node.Attribute is PrimaryKeyAttribute)
+				IO.Text.Builder query = new IO.Text.Builder("CREATE TABLE ");
+				query += "`" + this.Name + "` (";
+				foreach (var field in this.Columns)
+					switch (field.Key)
 					{
-						fields.Add(node.Name);
-						values.Add("\"" + (node as Serialize.Data.Leaf).Text + "\"");
+						default:
+							query += this.SqlType(field) + ", ";
+							break;
+						case "key":
+							query += "`key` bigint(20) NOT NULL AUTO_INCREMENT, ";
+							break;
+						case "_type":
+							query += "`_type` varchar(255) DEFAULT '" + this.Type + "', ";
+							break;
+						case "_data":
+							query += "`_data` longtext, ";
+							break;
 					}
-					else
-						nonIndexData.Add(node.Name, Json.Serialize.Storage.Convert(node as Serialize.Data.Leaf));
+				query += "PRIMARY KEY (`key`),";
+				query += "UNIQUE KEY `key` (`key`)";
+				query += ") DEFAULT CHARSET=utf8";
+				Console.WriteLine(query);
+				using (Data.IDbCommand command = this.connection.CreateCommand())
+				{
+					command.CommandText = query;
+					result = command.ExecuteNonQuery() == 0;
 				}
 			}
-			fields.Add("_data");
-			values.Add("\"" + ((string)nonIndexData).Replace("\"", "\\\"") + "\"");
-			if (data.Type.NotNull())
+			return result;
+		}
+		protected override int Delete(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset)
+		{
+			int result = -1;
+			if (this.connection.NotNull())
 			{
-				fields.Add("_type");
-				values.Add("\"" + data.Type + "\"");
+				IO.Text.Builder query = new IO.Text.Builder("DELETE FROM ") + this.Name + QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
+				Console.WriteLine(query);
+				using (Data.IDbCommand command = this.connection.CreateCommand())
+				{
+					command.CommandText = query;
+					result = command.ExecuteNonQuery();
+				}
 			}
-			query += this.Name + "(" + fields.Join(", ") + ") VALUES(" + values.Join(", ") + ")";
+			return result;
+		}
+		protected override long Create(Generic.IEnumerable<Serialize.Data.Leaf> fields)
+		{
+			Collection.IList<string> columns = new Collection.List<string>();
+			Collection.IList<string> values = new Collection.List<string>();
+			foreach (Serialize.Data.Leaf field in fields)
+				if (field.Name != "key")
+				{
+					columns.Add("`" + field.Name + "`");
+					values.Add((field as Serialize.Data.Leaf).Text.AddDoubleQuotes());
+				}
+			IO.Text.Builder query = (IO.Text.Builder)"INSERT INTO " + this.Name + "(" + columns.Join(", ") + ") VALUES(" + values.Join(", ") + ")";
+			Console.WriteLine(query);
+			long result = -1;
+			using (Data.IDbCommand command = this.connection.CreateCommand())
+			{
+				command.CommandText = query;
+				command.ExecuteNonQuery();
+			}
+			using (Data.IDbCommand command = this.connection.CreateCommand())
+			{
+				command.CommandText = "SELECT LAST_INSERT_ID()";
+				result = (long)(ulong)command.ExecuteScalar();
+			}
+			return result;
+		}
+		protected override Generic.IEnumerable<Generic.IEnumerable<Serialize.Data.Leaf>> ReadFields(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset)
+		{
+			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.FieldString + " FROM " + this.Name;
+			query += QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
 			Console.WriteLine(query);
 			using (Data.IDbCommand command = this.connection.CreateCommand())
 			{
 				command.CommandText = query;
-				result = command.ExecuteNonQuery() > 0;
+				using (Data.IDataReader reader = command.ExecuteReader())
+					while (reader.Read())
+						yield return this.Read(reader);
+			}
+		}
+		protected override int Update(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset, Generic.IEnumerable<Serialize.Data.Leaf> fields)
+		{
+			IO.Text.Builder query = (IO.Text.Builder)"UPDATE " + this.Name + " SET ";
+			foreach (Serialize.Data.Leaf field in fields)
+				query += "`" + field.Name + "` = " + (field as Serialize.Data.Leaf).Text.AddDoubleQuotes();
+			query += QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
+			int result;
+			using (Data.IDbCommand command = this.connection.CreateCommand())
+			{
+				command.CommandText = query;
+				result = command.ExecuteNonQuery();
 			}
 			return result;
 		}
-
-		#endregion
-
-		#region Update
-
-		protected override bool Update (string key, Serialize.Data.Node data)
-		{
-			return false;
-		}
-
-		#endregion
-
-		#region Object overrides
-
-		public override string ToString ()
-		{
-			return string.Format("[Table: Name={0}]", this.Name);
-		}
-
 		#endregion
 
 	}

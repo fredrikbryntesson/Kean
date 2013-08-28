@@ -54,9 +54,9 @@ namespace Kean.DB.Sql
 
         #region implemented abstract members of Database
 
-        protected override DB.Table NewTable()
+        protected override DB.Table<T> New<T>(string name)
         {
-            return new Table(this.connection);
+            return new Table<T>(this.connection, name);
         }
 
         #endregion

@@ -27,11 +27,13 @@ using Kean.Core.Reflect.Extension;
 
 namespace Kean.Core.Serialize
 {
-	public abstract class Storage
+	public abstract class Storage :
+        IStorage
 	{
 		ISerializer serializer;
 		IRebuilder rebuilder;
 		public Resolver Resolver { get; private set; }
+		public Casing Casing { get; set; }
 		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers)
 		{
 			this.Resolver = resolver ?? new Resolver();

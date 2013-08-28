@@ -22,6 +22,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
+using Kean.Core.Serialize.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -31,37 +32,41 @@ namespace Kean.Core.Serialize.Serializer
 		public Structure()
 		{
 		}
+
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
 			return type.Category == Reflect.TypeCategory.Structure ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Branch result = new Data.Branch(data, type);
 			foreach (Reflect.Field field in data.GetFields())
 			{
 				Uri.Locator l = locator.Copy();
-				l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + field.Name;
-				result.Nodes.Add(storage.Serialize(field.Type, field.Data, l).UpdateName(field.Name));
+				string name = field.Name.Convert(Casing.Camel, storage.Casing);
+				l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+				result.Nodes.Add(storage.Serialize(field.Type, field.Data, l).UpdateName(name));
 			}
 			return result;
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			result = data.Type.Create();
 			Reflect.Field[] fields = result.GetFields();
 			foreach (Data.Node node in (data as Data.Branch).Nodes)
 			{
-				Reflect.Field field = fields.Find(f => f.Name == node.Name);
+				string name = node.Name.Convert(storage.Casing, Casing.Camel);
+				Reflect.Field field = fields.Find(f => f.Name == name);
 				if (field.NotNull())
 					storage.Deserialize(node, field.Type, d => field.Data = d);
 				else
-					new Exception.FieldMissing(data.Type, node.Name, node.Region).Throw();
+					new Exception.FieldMissing(data.Type, name, node.Region).Throw();
 			}
 			return result;
 		}
 		#endregion
+
 	}
 }
 

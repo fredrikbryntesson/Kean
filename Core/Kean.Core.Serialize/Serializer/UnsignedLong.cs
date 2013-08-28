@@ -32,11 +32,11 @@ namespace Kean.Core.Serialize.Serializer
 		{
 			return type == "ulong" ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			return new Data.UnsignedLong(data, type);
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			return data is Data.UnsignedLong ? (data as Data.UnsignedLong).Value :
 				data is Data.Binary ? BitConverter.ToUInt64((data as Data.Binary).Value, 0) :

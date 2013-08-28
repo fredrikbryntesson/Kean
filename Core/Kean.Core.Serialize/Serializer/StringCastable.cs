@@ -18,54 +18,56 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
-
 namespace Kean.Core.Serialize.Serializer
 {
-	public class StringCastable :
+    public class StringCastable :
 		ISerializer
-	{
-		public StringCastable()
-		{ }
+    {
+        public StringCastable()
+        {
+        }
 
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
-		{
-			return this.GetFromStringCast(type).NotNull() && this.GetToStringCast(type).NotNull() ? this : null;
-		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
-		{
-			return new Data.String((string)this.GetToStringCast(data.Type()).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture), data, type);
-		}
-		public object Deserialize(Storage storage, Serialize.Data.Node data, object result)
-		{
-			return this.GetFromStringCast(data.Type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
-		}
-		#endregion
-		System.Reflection.MethodInfo GetFromStringCast(Type type)
-		{
-			return type.GetMethod("op_Implicit", new Type[] { typeof(string) }) ?? type.GetMethod("op_Explicit", new Type[] { typeof(string) });
-		}
-		System.Reflection.MethodInfo GetToStringCast(Type type)
-		{
-			System.Reflection.MethodInfo result = null;
-			foreach (System.Reflection.MethodInfo method in type.GetMethods())
-			{
-				if (method.IsStatic && method.ReturnType == typeof(string) && (method.Name == "op_Implicit" || method.Name == "op_Explicit"))
-				{
-					System.Reflection.ParameterInfo[] parameters = method.GetParameters();
-					if (parameters.Length == 1 && parameters[0].ParameterType == type)
-					{
-						result = method;
-						break;
-					}
-				}
-			}
-			return result;
-		}
-	}
+        #region ISerializer Members
+
+        public ISerializer Find(Reflect.Type type)
+        {
+            return this.GetFromStringCast(type).NotNull() && this.GetToStringCast(type).NotNull() ? this : null;
+        }
+        public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
+        {
+            return new Data.String((string)this.GetToStringCast(data.Type()).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data }, System.Globalization.CultureInfo.InvariantCulture), data, type);
+        }
+        public object Deserialize(IStorage storage, Serialize.Data.Node data, object result)
+        {
+            return this.GetFromStringCast(data.Type).Invoke(null, System.Reflection.BindingFlags.Static, null, new object[] { data is Data.String ? (data as Data.String).Value : null }, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        #endregion
+
+        System.Reflection.MethodInfo GetFromStringCast(Type type)
+        {
+            return type.GetMethod("op_Implicit", new Type[] { typeof(string) }) ?? type.GetMethod("op_Explicit", new Type[] { typeof(string) });
+        }
+        System.Reflection.MethodInfo GetToStringCast(Type type)
+        {
+            System.Reflection.MethodInfo result = null;
+            foreach (System.Reflection.MethodInfo method in type.GetMethods())
+            {
+                if (method.IsStatic && method.ReturnType == typeof(string) && (method.Name == "op_Implicit" || method.Name == "op_Explicit"))
+                {
+                    System.Reflection.ParameterInfo[] parameters = method.GetParameters();
+                    if (parameters.Length == 1 && parameters[0].ParameterType == type)
+                    {
+                        result = method;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+    }
 }
 

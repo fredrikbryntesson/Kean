@@ -20,13 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Core;
+using Kean.Core.Extension;
+using Expressions = System.Linq.Expressions;
 
 namespace Kean.DB
 {
-	public class Sorting
+	public class Sorting<T>
 	{
-		public Sorting()
+		public Sorting<T> Previous { get; private set; }
+		public Expressions.Expression<Func<T, object>> Selector { get; private set; }
+		public bool Descending { get; private set; }
+		internal Sorting(Sorting<T> previous, Expressions.Expression<Func<T, object>> selector, bool descending)
 		{
+			this.Previous = previous;
+			this.Selector = selector;
+			this.Descending = descending;
+		}
+		internal Sorting<T> Add(Sorting<T> item)
+		{
+			return new Sorting<T>(item.Previous.IsNull() ? this : this.Add(item.Previous), item.Selector, item.Descending); 
 		}
 	}
 }

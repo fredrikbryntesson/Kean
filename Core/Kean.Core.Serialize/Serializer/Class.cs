@@ -22,6 +22,7 @@ using System;
 using Kean.Core;
 using Kean.Core.Extension;
 using Kean.Core.Reflect.Extension;
+using Kean.Core.Serialize.Extension;
 
 namespace Kean.Core.Serialize.Serializer
 {
@@ -31,12 +32,13 @@ namespace Kean.Core.Serialize.Serializer
 		public Class()
 		{
 		}
+
 		#region ISerializer Members
 		public ISerializer Find(Reflect.Type type)
 		{
 			return type.Category == Reflect.TypeCategory.Class ? this : null;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			Data.Node result;
 			Uri.Locator l = storage.Resolver.Update(data, locator);
@@ -50,7 +52,7 @@ namespace Kean.Core.Serialize.Serializer
 					ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
 					if (attributes.Length == 1 && property.Data.NotNull())
 					{
-						string name = attributes[0].Name ?? property.Name;
+						string name = attributes[0].Name ?? property.Name.Convert(Casing.Pascal, storage.Casing);
 						l = locator.Copy();
 						l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
 						(result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(locator));
@@ -59,7 +61,7 @@ namespace Kean.Core.Serialize.Serializer
 			}
 			return result;
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			if (result.IsNull())
 				try
@@ -77,18 +79,19 @@ namespace Kean.Core.Serialize.Serializer
 			if (data is Data.Branch)
 				foreach (Data.Node node in (data as Data.Branch).Nodes)
 				{
+					string name = node.Name.Convert(storage.Casing, Casing.Pascal);
 					Reflect.Property property = properties.Find(p => {
 						Core.Serialize.ParameterAttribute[] attributes;
-						return (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name.NotEmpty() ? attributes[0].Name == node.Name : p.Name == node.Name;
+						return (attributes = p.GetAttributes<Core.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name.NotEmpty() ? attributes[0].Name == node.Name : p.Name == name;
 					});
 					if (property.IsNull())
-						new Exception.PropertyMissing(data.Type, node.Name, node.Region).Throw();
+						new Exception.PropertyMissing(data.Type, name, node.Region).Throw();
 					else if (!property.Writable)
 					{
 						if (property.Readable && (property.Type.Category == Reflect.TypeCategory.Class || property.Type.Category == Reflect.TypeCategory.Array || property.Type.Category == Reflect.TypeCategory.Interface))
 							storage.DeserializeContent(node.DefaultType(property.Type), property.Data);
 						else
-							new Exception.PropertyNotWriteable(data.Type, node.Name, node.Region).Throw();
+							new Exception.PropertyNotWriteable(data.Type, name, node.Region).Throw();
 					}
 					else
 						storage.Deserialize(node, property.Type, d => property.Data = d);
@@ -96,6 +99,7 @@ namespace Kean.Core.Serialize.Serializer
 			return result;
 		}
 		#endregion
+
 	}
 }
 

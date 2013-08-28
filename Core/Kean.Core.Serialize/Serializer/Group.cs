@@ -43,12 +43,12 @@ namespace Kean.Core.Serialize.Serializer
 					break;
 			return result;
 		}
-		public Data.Node Serialize(Storage storage, Reflect.Type type, object data, Uri.Locator locator)
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
 			ISerializer serializer = this.Find(data.Type());
 			return serializer.NotNull() ? serializer.Serialize(storage, type, data, locator) : null;
 		}
-		public object Deserialize(Storage storage, Data.Node data, object result)
+		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
 			ISerializer serializer = this.Find(data.Type);
 			return serializer.NotNull() ? serializer.Deserialize(storage, data, null) : null;
