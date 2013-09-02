@@ -21,17 +21,17 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Target = Kean.Collection;
+using Kean.Collection.Extension;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
 	[TestFixture]
 	public class List :
 		Base.List<List, Target.List<int>>
 	{
 		public List () :
-			base("Kean.Core.Collection.Test.List.")
+			base("Kean.Collection.Test.List.")
 		{
 			this.ZeroToNine = new Target.List<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}

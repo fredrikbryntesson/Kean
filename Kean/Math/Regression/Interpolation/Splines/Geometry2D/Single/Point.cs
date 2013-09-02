@@ -1,6 +1,6 @@
 ﻿using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 
 namespace Kean.Math.Regression.Interpolation.Splines.Geometry2D.Single
 {

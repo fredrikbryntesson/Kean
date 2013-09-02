@@ -19,18 +19,18 @@
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
-using Serialize = Kean.Core.Serialize;
-using Reflect = Kean.Core.Reflect;
-using Kean.Core.Reflect.Extension;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
+using Serialize = Kean.Serialize;
+using Reflect = Kean.Reflect;
+using Kean.Reflect.Extension;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Expressions = System.Linq.Expressions;
-using Kean.Core.Serialize.Extension;
+using Kean.Serialize.Extension;
 namespace Kean.DB
 {
     public abstract class Table<T> :
@@ -75,7 +75,7 @@ namespace Kean.DB
                     {
                         IndexAttribute attribute = property.GetAttributes<IndexAttribute>().First();
                         if (attribute.NotNull())
-                            yield return KeyValue.Create(attribute.Name ?? property.Name.Convert(Core.Serialize.Casing.Pascal, this.Database.Casing), property.Type);
+                            yield return KeyValue.Create(attribute.Name ?? property.Name.Convert(Kean.Serialize.Casing.Pascal, this.Database.Casing), property.Type);
                     }
                     break;
                 case Reflect.TypeCategory.Structure:
@@ -83,7 +83,7 @@ namespace Kean.DB
                     {
                         IndexAttribute attribute = field.GetAttributes<IndexAttribute>().First();
                         if (attribute.NotNull())
-                            yield return KeyValue.Create(attribute.Name ?? field.Name.Convert(Core.Serialize.Casing.Camel, this.Database.Casing), field.Type);
+                            yield return KeyValue.Create(attribute.Name ?? field.Name.Convert(Kean.Serialize.Casing.Camel, this.Database.Casing), field.Type);
                     }
                     break;
             }

@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
 
 namespace Kean.Json.Dom
 {

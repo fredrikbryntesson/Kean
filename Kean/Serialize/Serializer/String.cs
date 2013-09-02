@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public class String :
 		ISerializer

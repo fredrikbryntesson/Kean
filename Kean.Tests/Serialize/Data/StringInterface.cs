@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
+using Kean;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class StringInterface :
 		IData,

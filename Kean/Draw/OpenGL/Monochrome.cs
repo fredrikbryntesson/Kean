@@ -21,7 +21,7 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Reflect.Extension;
+using Kean.Reflect.Extension;
 
 namespace Kean.Draw.OpenGL
 {

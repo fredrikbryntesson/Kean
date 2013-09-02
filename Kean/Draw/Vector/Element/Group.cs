@@ -19,11 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
 namespace Kean.Draw.Vector.Element
 {
@@ -98,7 +98,7 @@ namespace Kean.Draw.Vector.Element
 		#endregion
 
 		#region IEquatable<IVector<Abstract>> Members
-		public bool Equals(Kean.Core.Collection.IVector<Abstract> other)
+		public bool Equals(Kean.Collection.IVector<Abstract> other)
 		{
 			return this.elements.Equals(other);
 		}

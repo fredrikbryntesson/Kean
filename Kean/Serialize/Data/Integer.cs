@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Reflect = Kean.Core.Reflect;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Reflect = Kean.Reflect;
 
-namespace Kean.Core.Serialize.Data
+namespace Kean.Serialize.Data
 {
 	public class Integer :
 		Leaf<int>

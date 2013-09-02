@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Collection
 {
     public class ReadOnlyVector<T> :
 		Abstract.ReadOnlyVector<T>,

@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Buffer = Kean.Core.Buffer;
+using Buffer = Kean.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.Cairo

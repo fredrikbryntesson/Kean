@@ -21,14 +21,14 @@
 
 using System;
 
-namespace Kean.Core.Test
+namespace Kean.Test
 {
 	public static class All
 	{
 		public static void Test()
 		{
-			Core.Test.NonNullable.Test();
-			Core.Test.StringExtension.Test();
+			Kean.Test.NonNullable.Test();
+			Kean.Test.StringExtension.Test();
 		}
 	}
 }

@@ -19,13 +19,13 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
-using Kean.Core.Reflect.Extension;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
+using Kean.Reflect.Extension;
 
-namespace Kean.Core.Serialize
+namespace Kean.Serialize
 {
 	public abstract class Storage :
         IStorage

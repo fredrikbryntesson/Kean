@@ -21,20 +21,20 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Class :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public bool Boolean { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public int Integer { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public float Float { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Enumerator Enumerator { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public string String { get; set; }
 
 		#region IData

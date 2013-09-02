@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
 
-using Kean.Core.Extension;
+using Kean.Extension;
 using Target = Kean.Math.Regression.Ransac;
 using Geometry2D = Kean.Math.Geometry2D;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
 namespace Kean.Math.Regression.Test.Ransac
 {
@@ -183,7 +183,7 @@ namespace Kean.Math.Regression.Test.Ransac
             float xTranslation = 7;
             float yTranslation = 10;
             Kean.Math.Random.Single.Normal normal = new Kean.Math.Random.Single.Normal(0, 1);
-            Kean.Core.Collection.IList<Geometry2D.Single.Point> previousPoints = new Kean.Core.Collection.List<Geometry2D.Single.Point>();
+            Kean.Collection.IList<Geometry2D.Single.Point> previousPoints = new Kean.Collection.List<Geometry2D.Single.Point>();
             for (int x = -100; x < 100; x += 20)
                 for (int y = -100; y < 100; y += 20)
                     previousPoints.Add(new Geometry2D.Single.Point(x, y));
@@ -308,7 +308,7 @@ namespace Kean.Math.Regression.Test.Ransac
                 new Collection.List<Tuple<Geometry2D.Single.Point, Geometry2D.Single.Point>>();
             Geometry2D.Single.Point translation = new Geometry2D.Single.Point(7, 10);
             Kean.Math.Random.Single.Normal normal = new Kean.Math.Random.Single.Normal(0, 2);
-            Kean.Core.Collection.IList<Geometry2D.Single.Point> previousPoints = new Kean.Core.Collection.List<Geometry2D.Single.Point>();
+            Kean.Collection.IList<Geometry2D.Single.Point> previousPoints = new Kean.Collection.List<Geometry2D.Single.Point>();
             for (int x = -100; x < 100; x += 20)
                 for (int y = -100; y < 100; y += 20)
                     previousPoints.Add(new Geometry2D.Single.Point(x, y));

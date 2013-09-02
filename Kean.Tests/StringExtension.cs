@@ -21,9 +21,9 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Test
+namespace Kean.Test
 {
 	[TestFixture]
 	public class StringExtension :

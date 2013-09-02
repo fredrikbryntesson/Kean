@@ -22,7 +22,7 @@
 using System;
 using NUnit.Framework;
 using Target = Kean.Math.Geometry3D;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Math.Geometry3D.Test.Double
 { 

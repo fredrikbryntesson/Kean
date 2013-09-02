@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public Licenseusing System;
 using System;
 using Function = Kean.Math;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Draw.Color
 {

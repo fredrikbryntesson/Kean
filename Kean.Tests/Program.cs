@@ -26,13 +26,13 @@ namespace Kean.Tests
 	{
 		static void Main(string[] args)
 		{
-			Core.Error.Log.CatchErrors = false;
+			Kean.Error.Log.CatchErrors = false;
 			#region Core
-			Core.Test.All.Test();
-			Core.Collection.Test.All.Test();
-			Core.Error.Test.All.Test();
-			Core.Reflect.Test.All.Test();
-			Core.Uri.Test.All.Test();
+			Kean.Test.All.Test();
+			Kean.Collection.Test.All.Test();
+			Kean.Error.Test.All.Test();
+			Kean.Reflect.Test.All.Test();
+			Kean.Uri.Test.All.Test();
 			#endregion
 			#region Json
 			Json.Dom.Test.All.Test();

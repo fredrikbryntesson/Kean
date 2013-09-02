@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Synchronized
+namespace Kean.Collection.Synchronized
 {
 	public class Vector<T> :
 		Abstract.Vector<T>

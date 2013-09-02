@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-namespace Kean.Core.Collection.Abstract
+namespace Kean.Collection.Abstract
 {
 	public abstract class Vector<T> :
 		CommonVector<T>,

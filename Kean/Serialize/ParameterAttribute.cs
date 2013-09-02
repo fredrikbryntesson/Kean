@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Serialize
+namespace Kean.Serialize
 {
 	[System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
 	public class ParameterAttribute :

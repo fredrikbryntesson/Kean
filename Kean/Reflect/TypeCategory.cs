@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Reflect
+namespace Kean.Reflect
 {
 	public enum TypeCategory
 	{

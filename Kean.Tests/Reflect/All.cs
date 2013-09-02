@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Reflect.Test
+namespace Kean.Reflect.Test
 {
 	public static class All
 	{

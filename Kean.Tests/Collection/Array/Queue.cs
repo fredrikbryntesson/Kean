@@ -21,16 +21,16 @@
 
 using System;
 using NUnit.Framework;
-using Target = Kean.Core.Collection.Array;
+using Target = Kean.Collection.Array;
 
-namespace Kean.Core.Collection.Test.Array
+namespace Kean.Collection.Test.Array
 {
 	[TestFixture]
 	public class Queue :
 		Base.Queue<Queue, Target.Queue<int>>
 	{
 		public Queue () :
-			base("Kean.Core.Collection.Test.Array.Queue.")
+			base("Kean.Collection.Test.Array.Queue.")
 		{ }
 	}
 }

@@ -20,20 +20,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
+using Kean;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class KeyValue :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public KeyValue<string, object> Data { get; set; }
 
 		#region IData
 		public virtual void Initilize(IFactory factory)
 		{
-			this.Data = Core.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
+			this.Data = Kean.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
 		}
 		public virtual void Verify(IFactory factory, string message, params object[] arguments)
 		{

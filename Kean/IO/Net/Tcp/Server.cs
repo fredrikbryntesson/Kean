@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Parallel = Kean.Core.Parallel;
-using Uri = Kean.Core.Uri;
-using Error = Kean.Core.Error;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Parallel = Kean.Parallel;
+using Uri = Kean.Uri;
+using Error = Kean.Error;
 
 namespace Kean.IO.Net.Tcp
 {
@@ -47,7 +47,7 @@ namespace Kean.IO.Net.Tcp
 		#region Constructors
 		public Server() : this("TcpServer") { }
 		public Server(string name) :
-			this(new Kean.Core.Parallel.ThreadPool(name, 1) { MaximumThreadCount = -1 })
+			this(new Kean.Parallel.ThreadPool(name, 1) { MaximumThreadCount = -1 })
 		{ }
 		public Server(Action<IByteDevice> connected) :
 			this()

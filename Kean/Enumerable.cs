@@ -22,7 +22,7 @@
 using System;
 using Generic = System.Collections.Generic;
 
-namespace Kean.Core
+namespace Kean
 {
 	public static class Enumerable
 	{

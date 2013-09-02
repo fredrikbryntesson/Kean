@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 
-namespace Kean.Core.Collection.Wrap
+namespace Kean.Collection.Wrap
 {
     public class Set<T> :
         ISet<T>

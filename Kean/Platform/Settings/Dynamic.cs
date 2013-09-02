@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
 
 namespace Kean.Platform.Settings
 {

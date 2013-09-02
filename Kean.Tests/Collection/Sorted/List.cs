@@ -22,14 +22,14 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
-namespace Kean.Core.Collection.Test.Sorted
+using Target = Kean.Collection;
+namespace Kean.Collection.Test.Sorted
 {
     public class List :
         Kean.Test.Fixture<List>
     {
         public List() :
-			base("Kean.Core.Collection.Test.Sorted.List.")
+			base("Kean.Collection.Test.Sorted.List.")
         { }
         protected override void  Run()
         {

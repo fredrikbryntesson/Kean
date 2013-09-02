@@ -21,24 +21,24 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection.Linked;
-using Kean.Core.Collection.Extension;
+using Target = Kean.Collection.Linked;
+using Kean.Collection.Extension;
 
-namespace Kean.Core.Collection.Test.Linked
+namespace Kean.Collection.Test.Linked
 {
 	public class List :
 		Base.List<List, Target.List<int>>
 	{
 		public List () :
-			base("Kean.Core.Collection.Test.Linked.List.")
+			base("Kean.Collection.Test.Linked.List.")
 		{
 			this.ZeroToNine = new Target.List<int>();
-			Kean.Core.Collection.Extension.ListExtension.Add(this.ZeroToNine, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+			Kean.Collection.Extension.ListExtension.Add(this.ZeroToNine, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}
 		public override Target.List<int> Create(int count)
 		{
 			Target.List<int> result = new Target.List<int>();
-			Kean.Core.Collection.Extension.ListExtension.Add(result, (new Kean.Core.Collection.Vector<int>(count) as Kean.Core.Collection.IVector<int>).ToArray());
+			Kean.Collection.Extension.ListExtension.Add(result, (new Kean.Collection.Vector<int>(count) as Kean.Collection.IVector<int>).ToArray());
 			return result;
 		}
 	}

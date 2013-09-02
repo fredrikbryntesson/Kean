@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class StringCast :
 		IData

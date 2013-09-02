@@ -1,9 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 
-using Kean.Core.Extension;
+using Kean.Extension;
 using Target = Kean.Math.Random;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 
 namespace Kean.Math.Random.Test
 {

@@ -19,8 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 
 using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Extension;
+using Collection = Kean.Collection;
+using Kean.Extension;
 
 namespace Kean.Html.Dom
 {

@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Core.Serialize.Test.Data.ComplexClass Kean.Tests", 
+	"_type": "Kean.Serialize.Test.Data.ComplexClass Kean.Tests", 
 	"Boolean": true, 
 	"Class": { 
 		"Boolean": true, 

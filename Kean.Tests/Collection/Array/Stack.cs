@@ -20,16 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using Target = Kean.Core.Collection.Array;
+using Target = Kean.Collection.Array;
 
-namespace Kean.Core.Collection.Test.Array
+namespace Kean.Collection.Test.Array
 {
 	[TestFixture]
 	public class Stack :
 		Base.Stack<Stack, Target.Stack<int>>
 	{
 		public Stack() :
-			base("Kean.Core.Collection.Test.Array.Stack.")
+			base("Kean.Collection.Test.Array.Stack.")
 		{
 		}
 	}

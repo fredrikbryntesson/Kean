@@ -19,12 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Kean.Core.Collection.Extension;
+using Kean.Collection.Extension;
 using System;
-using Collection = Kean.Core.Collection;
-using Error = Kean.Core.Error;
+using Collection = Kean.Collection;
+using Error = Kean.Error;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Draw.OpenGL.Backend
 {

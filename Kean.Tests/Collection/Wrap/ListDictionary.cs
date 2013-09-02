@@ -22,16 +22,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test.Wrap
+namespace Kean.Collection.Test.Wrap
 {
 	[TestFixture]
 	public class ListDictionary :
 		Base.Dictionary<ListDictionary, Target.Wrap.ListDictionary<string, int>>
 	{
 		public ListDictionary() :
-			base("Kean.Core.Collection.Test.Wrap.Dictionary.")
+			base("Kean.Collection.Test.Wrap.Dictionary.")
 		{ }
 		protected override Target.Wrap.ListDictionary<string, int> Create (int size)
 		{

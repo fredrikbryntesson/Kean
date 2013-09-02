@@ -19,8 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Extension;
+using Collection = Kean.Collection;
+using Kean.Extension;
 
 namespace Kean.Math.Regression.Ransac
 {

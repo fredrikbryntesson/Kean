@@ -22,9 +22,9 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test.Base
+namespace Kean.Collection.Test.Base
 {
 	public abstract class Dictionary<T, D> :
         Kean.Test.Fixture<T>

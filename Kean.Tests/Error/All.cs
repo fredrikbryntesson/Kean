@@ -16,7 +16,7 @@
 
 using System;
 
-namespace Kean.Core.Error.Test
+namespace Kean.Error.Test
 {
 	public static class All
 	{

@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Array
+namespace Kean.Collection.Array
 {
 	public class Queue<T> :
 		Wrap.ListQueue<T>

@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Collection.Hooked
+namespace Kean.Collection.Hooked
 {
 	public class Vector<T> :
 		Abstract.Vector<T>,

@@ -21,16 +21,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
 	[TestFixture]
 	public class Stack :
 		Base.Stack<Stack, Target.Stack<int>>
 	{
 		public Stack() :
-			base("Kean.Core.Collection.Test.Stack.")
+			base("Kean.Collection.Test.Stack.")
 		{ }
 	}
 }

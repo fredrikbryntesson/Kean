@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Serialize = Kean.Core.Serialize;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Serialize = Kean.Serialize;
 using Argument = Kean.Cli.Argument;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 
 namespace Kean.Platform.Settings
 {
@@ -33,9 +33,9 @@ namespace Kean.Platform.Settings
 		Platform.Module
 	{
 		Collection.IList<IDisposable> editors = new Collection.List<IDisposable>();
-		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Uri.Locator>();
 		Collection.IList<string> settings = new Collection.List<string>();
-		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Uri.Locator>();
 		Root root;
 		[Serialize.Parameter]
 		public string Title { get { return this.root.Title; } set { this.root.Title = value; } }

@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Serialize.Test
+namespace Kean.Serialize.Test
 {
 	public class CollectionTypes<C> :
 		Factory<CollectionTypes<C>, C>
@@ -46,19 +46,19 @@ namespace Kean.Core.Serialize.Test
 		[Test]
 		public void List()
 		{
-			if (Core.Environment.IsWindows) 
+			if (Kean.Environment.IsWindows) 
 				this.Test(typeof(Data.List));
 		}
 		[Test]
 		public void ListExisting()
 		{
-			if (Core.Environment.IsWindows) 
+			if (Kean.Environment.IsWindows) 
 				this.Test(typeof(Data.ListExisting));
 		}
 		[Test]
 		public void ListInterface()
 		{
-			if (Core.Environment.IsWindows) 
+			if (Kean.Environment.IsWindows) 
 				this.Test(typeof(Data.ListInterface));
 		}
 		[Test]

@@ -21,10 +21,10 @@
 
 using System;
 using Kean.Draw.OpenGL.Backend.Extension;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
+using Kean.Extension;
+using Collection = Kean.Collection;
 using Color = Kean.Draw.Color;
-using Error = Kean.Core.Error;
+using Error = Kean.Error;
 using Geometry2D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
 

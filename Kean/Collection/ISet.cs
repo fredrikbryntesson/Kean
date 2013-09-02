@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Collection
 {
     public interface ISet<T> :
 		System.Collections.Generic.IEnumerable<T>,

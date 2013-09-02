@@ -21,9 +21,9 @@
 
 using System;
 using NUnit.Framework;
-using Target = Kean.Core;
+using Target = Kean;
 
-namespace Kean.Core.Test
+namespace Kean.Test
 {
 	[TestFixture]
 	public class NonNullable :

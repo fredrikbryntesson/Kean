@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Parallel
+namespace Kean.Parallel
 {
     public interface ITask
     {

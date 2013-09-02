@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Core.Serialize.Test.Data.Class Kean.Tests", 
+	"_type": "Kean.Serialize.Test.Data.Class Kean.Tests", 
 	"Boolean": true, 
 	"Enumerator": "Second", 
 	"Misfit": 42,

@@ -21,14 +21,14 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class ComplexClass :
 		Class
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure Structure { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Class Class { get; set; }
 
 		#region IData

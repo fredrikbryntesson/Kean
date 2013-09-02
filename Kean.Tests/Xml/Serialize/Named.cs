@@ -21,14 +21,14 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Reflect = Kean.Core.Reflect;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Reflect = Kean.Reflect;
 
 namespace Kean.Xml.Serialize.Test
 {
 	public class Named :
-		Core.Serialize.Test.Factory<Named, Verifier>
+		Kean.Serialize.Test.Factory<Named, Verifier>
 	{
 		public override string Name(Reflect.Type type)
 		{
@@ -55,17 +55,17 @@ namespace Kean.Xml.Serialize.Test
 		[Test]
 		public void Structure()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.Structure));
+			this.Test(typeof(Kean.Serialize.Test.Data.Structure));
 		}
 		[Test]
 		public void Class()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.Class));
+			this.Test(typeof(Kean.Serialize.Test.Data.Class));
 		}
 		[Test]
 		public void ComplexClass()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.ComplexClass));
+			this.Test(typeof(Kean.Serialize.Test.Data.ComplexClass));
 		}
 	}
 }

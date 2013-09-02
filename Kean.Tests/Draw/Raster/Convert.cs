@@ -84,7 +84,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Save()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 			{
 				using (Raster.Image original = Raster.Image.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
@@ -118,7 +118,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgr>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgra>(), "Draw/Raster/Correct/Convert/monochrome.png");
-				if (Core.Environment.IsWindows)
+				if (Kean.Environment.IsWindows)
 				{
 					Verify(original.Convert<Raster.Yuv420>(), "Draw/Raster/Correct/Convert/monochrome.png");
 					Verify(original.Convert<Raster.Yvu420>(), "Draw/Raster/Correct/Convert/monochrome.png");
@@ -137,7 +137,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgr>(), "Draw/Raster/Correct/Convert/original.png");
 				Verify(original.Convert<Raster.Bgra>(), "Draw/Raster/Correct/Convert/original.png");
-				if (Core.Environment.IsWindows)
+				if (Kean.Environment.IsWindows)
 				{
 					Verify(original.Convert<Raster.Yuv420>(), "Draw/Raster/Correct/Convert/original.png");
 					Verify(original.Convert<Raster.Yvu420>(), "Draw/Raster/Correct/Convert/original.png");
@@ -156,7 +156,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgr>(), "Draw/Raster/Correct/Convert/original.png");
 				Verify(original.Convert<Raster.Bgra>(), "Draw/Raster/Correct/Convert/original.png");
-				if (Core.Environment.IsWindows)
+				if (Kean.Environment.IsWindows)
 				{
 					Verify(original.Convert<Raster.Yuv420>(), "Draw/Raster/Correct/Convert/original.png");
 					Verify(original.Convert<Raster.Yvu420>(), "Draw/Raster/Correct/Convert/original.png");
@@ -170,7 +170,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Yuv420()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 				using (Raster.Yuv420 original = Raster.Yuv420.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
 					Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
@@ -187,7 +187,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Yvu420()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 				using (Raster.Yvu420 original = Raster.Yvu420.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
 					Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
@@ -204,7 +204,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Yuv422()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 				using (Raster.Yuv422 original = Raster.Yuv422.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
 					Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
@@ -221,7 +221,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Yuv444()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 				using (Raster.Yuv444 original = Raster.Yuv444.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
 					Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
@@ -243,7 +243,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgr>(), "Draw/Raster/Correct/Convert/original.png");
 				Verify(original.Convert<Raster.Bgra>(), "Draw/Raster/Correct/Convert/original.png");
-				if (Core.Environment.IsWindows)
+				if (Kean.Environment.IsWindows)
 				{
 					Verify(original.Convert<Raster.Yuv420>(), "Draw/Raster/Correct/Convert/original.png");
 					Verify(original.Convert<Raster.Yvu420>(), "Draw/Raster/Correct/Convert/original.png");
@@ -262,7 +262,7 @@ namespace Kean.Draw.Raster.Test
 				Verify(original.Convert<Raster.Monochrome>(), "Draw/Raster/Correct/Convert/monochrome.png");
 				Verify(original.Convert<Raster.Bgr>(), "Draw/Raster/Correct/Convert/original.png");
 				Verify(original.Convert<Raster.Bgra>(), "Draw/Raster/Correct/Convert/original.png");
-				if (Core.Environment.IsWindows)
+				if (Kean.Environment.IsWindows)
 				{
 					Verify(original.Convert<Raster.Yuv420>(), "Draw/Raster/Correct/Convert/original.png");
 					Verify(original.Convert<Raster.Yvu420>(), "Draw/Raster/Correct/Convert/original.png");

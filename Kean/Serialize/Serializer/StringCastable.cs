@@ -19,9 +19,9 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
-namespace Kean.Core.Serialize.Serializer
+using Kean.Extension;
+using Kean.Reflect.Extension;
+namespace Kean.Serialize.Serializer
 {
     public class StringCastable :
 		ISerializer

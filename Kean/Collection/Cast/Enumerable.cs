@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Cast
+namespace Kean.Collection.Cast
 {
 	public class Enumerable<T, S> :
 		System.Collections.Generic.IEnumerable<S>

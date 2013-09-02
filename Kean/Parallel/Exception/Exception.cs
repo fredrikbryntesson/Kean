@@ -19,9 +19,9 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Error = Kean.Core.Error;
+using Error = Kean.Error;
 
-namespace Kean.Core.Parallel.Exception
+namespace Kean.Parallel.Exception
 {
     public class Exception : 
         Error.Exception

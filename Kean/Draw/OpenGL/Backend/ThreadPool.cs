@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Error = Kean.Core.Error;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Error = Kean.Error;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Extension;
+using Kean.Extension;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using Parallel = Kean.Core.Parallel;
+using Parallel = Kean.Parallel;
 
 namespace Kean.Draw.OpenGL.Backend
 {

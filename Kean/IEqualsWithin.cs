@@ -20,7 +20,7 @@
 
 using System;
 
-namespace Kean.Core.Interface
+namespace Kean.Interface
 {
 	public interface IEqualsWithin<T, S>
 	{

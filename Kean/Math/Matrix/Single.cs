@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Extension;
+using Kean.Extension;
 namespace Kean.Math.Matrix
 {
     public class Single :
@@ -429,7 +429,7 @@ namespace Kean.Math.Matrix
                     for (int x = y + 1; x < order; x++)
                         result[x, y] = 0;
             }
-            catch (Kean.Core.Error.Exception)
+            catch (Kean.Error.Exception)
             {
                 result = null;
             }
@@ -464,7 +464,7 @@ namespace Kean.Math.Matrix
                     result = z.BackwardSubstitution(lower.Transpose());
                 }
             }
-            catch (Kean.Core.Error.Exception)
+            catch (Kean.Error.Exception)
             {
             }
             return result;
@@ -501,7 +501,7 @@ namespace Kean.Math.Matrix
                     result = (q.Transpose() * y).BackwardSubstitution(r);
                 }
             }
-            catch (Kean.Core.Error.Exception)
+            catch (Kean.Error.Exception)
             {
             }
             return result;
@@ -1010,7 +1010,7 @@ namespace Kean.Math.Matrix
                         result = (lup[2] * transpose * y).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
                     }
                 }
-                catch (Kean.Core.Error.Exception)
+                catch (Kean.Error.Exception)
                 {
                 }
             return result;
@@ -1038,7 +1038,7 @@ namespace Kean.Math.Matrix
             {
                 result = (lup[2] * Single.Identity(this.Order)).ForwardSubstitution(lup[0]).BackwardSubstitution(lup[1]);
             }
-            catch (Kean.Core.Error.Exception)
+            catch (Kean.Error.Exception)
             {
             }
             return result;

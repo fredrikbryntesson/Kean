@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection
+namespace Kean.Collection
 {
 	public class List<T> :
 		IList<T>

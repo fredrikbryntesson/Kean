@@ -20,9 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Error = Kean.Core.Error;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Error = Kean.Error;
 
 namespace Kean.IO
 {

@@ -19,19 +19,19 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Collection;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Kean.Collection;
+using Uri = Kean.Uri;
 
 namespace Kean.Json.Dom
 {
 	public class Object :
 		Collection,
         IEquatable<Object>,
-		Core.Collection.IDictionary<Label, Item>
+		Kean.Collection.IDictionary<Label, Item>
 	{
-		Core.Collection.IDictionary<Label, Item> backend;
+		Kean.Collection.IDictionary<Label, Item> backend;
 
 		public Object() :
 			this((Uri.Region) null)
@@ -41,7 +41,7 @@ namespace Kean.Json.Dom
 		public Object(Uri.Region region) :
 			base(region)
 		{
-			Core.Collection.Hooked.List<KeyValue<Label, Item>> list = new Core.Collection.Hooked.List<KeyValue<Label,Item>>();
+			Kean.Collection.Hooked.List<KeyValue<Label, Item>> list = new Kean.Collection.Hooked.List<KeyValue<Label,Item>>();
 			list.Added += (index, item) =>
 			{
 				if (item.NotNull() && item.Value.NotNull())
@@ -59,7 +59,7 @@ namespace Kean.Json.Dom
 				if (@new.NotNull() && @new.Value.NotNull())
 					@new.Value.Parent = this;
 			};
-			this.backend = new Core.Collection.Wrap.ListDictionary<Label, Item>(list);
+			this.backend = new Kean.Collection.Wrap.ListDictionary<Label, Item>(list);
 		}
 
 		public Object(params KeyValue<string, Item>[] items) :

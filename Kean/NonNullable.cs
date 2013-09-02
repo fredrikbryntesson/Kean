@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core
+namespace Kean
 {
 	public struct NonNullable<T>
 		where T : class, new()

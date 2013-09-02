@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 using Argument = Kean.Cli.Argument;
-using Serialize = Kean.Core.Serialize;
-using Error = Kean.Core.Error;
+using Serialize = Kean.Serialize;
+using Error = Kean.Error;
 
 namespace Kean.Platform
 {

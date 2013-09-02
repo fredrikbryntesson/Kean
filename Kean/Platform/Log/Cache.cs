@@ -19,11 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Error = Kean.Core.Error;
-using Collection = Kean.Core.Collection;
-using Basis = Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
+using Error = Kean.Error;
+using Collection = Kean.Collection;
+using Basis = Kean;
+using Kean.Extension;
+using Kean.Collection.Extension;
 
 namespace Kean.Platform.Log
 {
@@ -52,10 +52,10 @@ namespace Kean.Platform.Log
 		}
 		public Cache()
 		{
-			this.LogThreshold = Kean.Core.Error.Level.Message;
-			this.AllThreshold = Kean.Core.Error.Level.Critical;
+			this.LogThreshold = Kean.Error.Level.Message;
+			this.AllThreshold = Kean.Error.Level.Critical;
 			this.cache = new Collection.Wrap.ListQueue<Error.IError>(this.cacheList);
-			this.Writers = new Kean.Core.Collection.List<Writer.Abstract>();
+			this.Writers = new Kean.Collection.List<Writer.Abstract>();
 		}
 		#region IDisposable Members
 		public void Dispose()

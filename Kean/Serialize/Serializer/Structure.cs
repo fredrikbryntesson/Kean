@@ -19,12 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
-using Kean.Core.Serialize.Extension;
+using Kean;
+using Kean.Extension;
+using Kean.Reflect.Extension;
+using Kean.Serialize.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public class Structure :
 		ISerializer

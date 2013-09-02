@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Test
+namespace Kean.Serialize.Test
 {
 	public interface IFactory
 	{

@@ -19,8 +19,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Error = Kean.Core.Error;
-using Uri = Kean.Core.Uri;
+using Error = Kean.Error;
+using Uri = Kean.Uri;
 
 namespace Kean.Xml.Dom.Exception
 {

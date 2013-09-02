@@ -19,9 +19,9 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
 namespace Kean.Cli
 {
     class ConsoleDevice :
@@ -36,7 +36,7 @@ namespace Kean.Cli
         public ConsoleDevice()
         {
             this.LocalEcho = true;
-            if (Core.Environment.IsWindows)
+            if (Kean.Environment.IsWindows)
                 try
                 {
                     int w = Console.WindowWidth;

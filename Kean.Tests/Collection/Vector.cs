@@ -22,16 +22,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
 	[TestFixture]
 	public class Vector :
 		Base.Vector<Vector, Target.Vector<int>>
 	{
 		public Vector() :
-			base("Kean.Core.Collection.Test.Vector.")
+			base("Kean.Collection.Test.Vector.")
 		{
 			this.ZeroToNine = new Target.Vector<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);			
 		}

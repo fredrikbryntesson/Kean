@@ -16,7 +16,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
     public static class All
     {

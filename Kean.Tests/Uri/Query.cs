@@ -22,17 +22,17 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Uri;
-using Kean.Core.Collection.Linked.Extension;
-using Kean.Core;
+using Target = Kean.Uri;
+using Kean.Collection.Linked.Extension;
+using Kean;
 
-namespace Kean.Core.Uri.Test
+namespace Kean.Uri.Test
 {
 	[TestFixture]
 	public class Query :
 		Kean.Test.Fixture<Query>
 	{
-		string prefix = "Kean.Core.Uri.Test.Query.";
+		string prefix = "Kean.Uri.Test.Query.";
 		protected override void Run()
 		{
 			this.Run(this.EqualityNull, this.Equality, this.RemoveList, this.RemoveQuery, this.AddQuery);

@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
+using Kean;
+using Kean.Extension;
+using Kean.Reflect.Extension;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public abstract class Collection :
 		ISerializer
@@ -51,7 +51,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
-			Core.Collection.IList<Data.Node> nodes;
+			Kean.Collection.IList<Data.Node> nodes;
 			Reflect.Type type;
 			Reflect.Type elementType;
 			type = data.Type;
@@ -60,7 +60,7 @@ namespace Kean.Core.Serialize.Serializer
 				nodes = (data as Data.Collection).Nodes;
 			else 
 			{ // only one element so it was impossible to know it was a collection
-				nodes = new Core.Collection.List<Data.Node>(data);
+				nodes = new Kean.Collection.List<Data.Node>(data);
 				data.Type = data.OriginalType ?? elementType;
 				Uri.Locator locator = data.Locator.Copy();
 				locator.Fragment += "[0]";

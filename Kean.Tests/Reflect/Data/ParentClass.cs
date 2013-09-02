@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Reflect.Test.Data
+namespace Kean.Reflect.Test.Data
 {
 	public class ParentClass
 	{

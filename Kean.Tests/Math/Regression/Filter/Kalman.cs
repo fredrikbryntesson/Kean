@@ -1,10 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
 
-using Kean.Core.Extension;
+using Kean.Extension;
 using Target = Kean.Math.Regression.Filter;
 using Geometry2D = Kean.Math.Geometry2D;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 
 
 namespace Kean.Math.Regression.Test.Filter

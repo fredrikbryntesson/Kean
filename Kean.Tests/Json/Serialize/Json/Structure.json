@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Core.Serialize.Test.Data.Structure Kean.Tests", 
+	"_type": "Kean.Serialize.Test.Data.Structure Kean.Tests", 
 	"Boolean": true, 
 	"Enumerator": "Second", 
 	"Float": -13.37, 

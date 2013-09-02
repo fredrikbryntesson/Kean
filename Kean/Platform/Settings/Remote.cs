@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Uri = Kean.Core.Uri;
+using Uri = Kean.Uri;
 using IO = Kean.IO;
-using Kean.Core.Extension;
-using Parallel = Kean.Core.Parallel;
-using Collection = Kean.Core.Collection;
-using Error = Kean.Core.Error;
-using Kean.Core;
+using Kean.Extension;
+using Parallel = Kean.Parallel;
+using Collection = Kean.Collection;
+using Error = Kean.Error;
+using Kean;
 
 namespace Kean.Platform.Settings
 {

@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Uri = Kean.Core.Uri;
+using Uri = Kean.Uri;
 
 namespace Kean.Json.Sax
 {

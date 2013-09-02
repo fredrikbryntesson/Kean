@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
-using Collection = Kean.Core.Collection;
+using Kean;
+using Kean.Extension;
+using Kean.Reflect.Extension;
+using Collection = Kean.Collection;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public class Dictionary :
 		Collection
@@ -35,7 +35,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		System.Type GetInterface(Reflect.Type type)
 		{
-			return ((System.Type)type).GetInterface(typeof(Core.Collection.IDictionary<,>).Name);
+			return ((System.Type)type).GetInterface(typeof(Kean.Collection.IDictionary<,>).Name);
 		}
 		protected override bool Found(Reflect.Type type)
 		{
@@ -43,7 +43,7 @@ namespace Kean.Core.Serialize.Serializer
 		}
 		protected override Reflect.Type GetElementType(Reflect.Type type)
 		{
-			return new Reflect.Type("Kean", "Kean.Core.KeyValue", this.GetInterface(type).GetGenericArguments().Map<System.Type, Reflect.Type>(t => t));
+			return new Reflect.Type("Kean", "Kean.KeyValue", this.GetInterface(type).GetGenericArguments().Map<System.Type, Reflect.Type>(t => t));
 		}
 		protected override object Create(Reflect.Type type, Reflect.Type elementType, int count)
 		{

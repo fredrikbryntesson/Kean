@@ -20,14 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using Target = Kean.Core.Uri;
-namespace Kean.Core.Uri.Test
+using Target = Kean.Uri;
+namespace Kean.Uri.Test
 {
     [TestFixture]
     public class Locator :
 		Kean.Test.Fixture<Locator>
     {
-        string prefix = "Kean.Core.Uri.Test.Locator.";
+        string prefix = "Kean.Uri.Test.Locator.";
         protected override void Run()
         {
             this.Run(
@@ -210,7 +210,7 @@ namespace Kean.Core.Uri.Test
         [Test]
         public void FromPlatformPath()
         {
-            string platformPath = Core.Environment.IsWindows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
+            string platformPath = Kean.Environment.IsWindows ? "C:\\Windows\\System32\\etc\\hosts" : "/C:/Windows/System32/etc/hosts"; 
             Target.Locator locator = Target.Locator.FromPlatformPath(platformPath);
             Verify((string)locator.Scheme, Is.EqualTo("file"), this.prefix + "FromPlatformPath.0");
             Verify((string)locator.Authority, Is.EqualTo(null), this.prefix + "FromPlatformPath.1");
@@ -225,7 +225,7 @@ namespace Kean.Core.Uri.Test
         [Test]
         public void FromNetworkPlatformPath()
         {
-            if (Core.Environment.IsWindows)
+            if (Kean.Environment.IsWindows)
             {
                 string platformPath = "\\\\SERVER\\Windows\\System32\\etc\\hosts";
                 Target.Locator locator = Target.Locator.FromPlatformPath(platformPath);

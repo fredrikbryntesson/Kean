@@ -19,20 +19,20 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
-using Kean.Core.Reflect.Extension;
+using Kean.Extension;
+using Kean.Collection.Extension;
+using Kean.Reflect.Extension;
 
-namespace Kean.Core.Serialize.Data
+namespace Kean.Serialize.Data
 {
 	public class Branch :
 		Node
 	{
-		public Core.Collection.IList<Node> Nodes { get; private set; }
+		public Kean.Collection.IList<Node> Nodes { get; private set; }
 
 		public Branch()
 		{
-			this.Nodes = new Core.Collection.List<Node>();
+			this.Nodes = new Kean.Collection.List<Node>();
 		}
 
 		protected Branch(System.Collections.Generic.IEnumerable<Node> nodes) :

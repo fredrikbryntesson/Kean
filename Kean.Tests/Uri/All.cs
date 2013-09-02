@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Uri.Test
+namespace Kean.Uri.Test
 {
     public static class All
     {

@@ -21,16 +21,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
 	[TestFixture]
 	public class Dictionary :
 		Base.Dictionary<Dictionary, Target.Dictionary<string, int>>
 	{
 		public Dictionary() :
-			base("Kean.Core.Collection.Test.Dictionary.")
+			base("Kean.Collection.Test.Dictionary.")
 		{ }
 		protected override Target.Dictionary<string, int> Create (int size)
 		{

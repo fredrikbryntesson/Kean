@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Linked
+namespace Kean.Collection.Linked
 {
 	public class Link<T> :
 		ILink<Link<T>, T>

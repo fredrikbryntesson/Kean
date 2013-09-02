@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
 namespace Kean.Platform.Settings
 {
@@ -66,16 +66,16 @@ namespace Kean.Platform.Settings
 		}
 		public event Action<string> OnErrorString;
 
-		public Core.Error.IError Error { get; private set; }
-		public event Action<Core.Error.IError> OnError;
+		public Kean.Error.IError Error { get; private set; }
+		public event Action<Kean.Error.IError> OnError;
 
 		internal Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;
-            Core.Error.Log.OnAppend += this.OnErrorHelper;
+            Kean.Error.Log.OnAppend += this.OnErrorHelper;
 		}
-        void OnErrorHelper(Core.Error.IError error)
+        void OnErrorHelper(Kean.Error.IError error)
         {
             this.OnError.Call(this.Error = error);
             this.errorString = null;
@@ -84,7 +84,7 @@ namespace Kean.Platform.Settings
         }
         public override void Dispose()
         {
-            Core.Error.Log.OnAppend -= this.OnErrorHelper;
+            Kean.Error.Log.OnAppend -= this.OnErrorHelper;
             base.Dispose();
         }
 		[Method("close", "Closes application.", "Shuts down the current application instance.")]

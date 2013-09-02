@@ -21,10 +21,10 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 
-namespace Kean.Core.Serialize.Test
+namespace Kean.Serialize.Test
 {
 	public class CoreTypes<C> :
 		Factory<CoreTypes<C>, C>

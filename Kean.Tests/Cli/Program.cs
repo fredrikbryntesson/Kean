@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using IO = Kean.IO;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Cli.Test
 {
@@ -61,7 +61,7 @@ namespace Kean.Cli.Test
 				}
 				return result;
 			};
-			Kean.Core.Collection.IDictionary<string, Action> commands = new Kean.Core.Collection.Dictionary<string, Action>();
+			Kean.Collection.IDictionary<string, Action> commands = new Kean.Collection.Dictionary<string, Action>();
 			commands["play"] = () => Console.WriteLine("play it again");
 			commands["beep"] = () => Console.Beep();
 			commands["now"] = () => Console.WriteLine("now again");

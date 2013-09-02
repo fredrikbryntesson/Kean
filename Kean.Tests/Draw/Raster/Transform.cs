@@ -141,7 +141,7 @@ namespace Kean.Draw.Raster.Test
 		public void CoordinateSystems()
 		{
 			using(Target.Image source = Target.Image.OpenResource("Correct/Transform/original.png"))
-			using (Target.Image image = new Target.Bgr(new Kean.Core.Buffer.Sized(source.Pointer, source.Size.Area * 3), source.Size, CoordinateSystem.XLeftward | CoordinateSystem.YUpward))
+			using (Target.Image image = new Target.Bgr(new Kean.Buffer.Sized(source.Pointer, source.Size.Area * 3), source.Size, CoordinateSystem.XLeftward | CoordinateSystem.YUpward))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
 				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45));

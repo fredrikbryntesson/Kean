@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
 
-namespace Kean.Core.Collection.Cast
+namespace Kean.Collection.Cast
 {
 	public class ReadOnlyVector<T, S> :
 		Abstract.ReadOnlyVector<S>

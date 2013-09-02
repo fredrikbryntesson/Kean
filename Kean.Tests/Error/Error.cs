@@ -19,10 +19,10 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Target = Kean.Core.Error;
+using Target = Kean.Error;
 using NUnit.Framework;
 
-namespace Kean.Core.Error.Test
+namespace Kean.Error.Test
 {
 	[TestFixture]
 	public class Error :
@@ -48,7 +48,7 @@ namespace Kean.Core.Error.Test
 				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
 				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
 				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Error.Test.Error"));
 				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataImmediateThrow"));
 			}
 		}
@@ -69,7 +69,7 @@ namespace Kean.Core.Error.Test
 				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
 				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
 				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Error.Test.Error"));
 				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataFilteredThrow"));
 			}
 		}
@@ -90,7 +90,7 @@ namespace Kean.Core.Error.Test
 				Verify((e as Target.IError).Message, Is.EqualTo("Message argument0 argument1"));
 				Verify((e as Target.IError).AssemblyName, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name));
 				Verify((e as Target.IError).AssemblyVersion, Is.EqualTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Core.Error.Test.Error"));
+				Verify((e as Target.IError).Type, Is.EqualTo("Kean.Error.Test.Error"));
 				Verify((e as Target.IError).Method, Is.EqualTo("MetaDataIndirectThrow"));
 			}
 		}

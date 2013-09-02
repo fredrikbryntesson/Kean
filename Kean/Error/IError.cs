@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Error
+namespace Kean.Error
 {
 	public interface IError
 	{

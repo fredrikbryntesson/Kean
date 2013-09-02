@@ -20,33 +20,33 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Collection = Kean.Core.Collection;
+using Kean;
+using Collection = Kean.Collection;
 using NUnit.Framework;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Dictionary :
 		IData
 	{
 		string[] keys = new string[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.Dictionary<int, Structure> Structures { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.Dictionary<int, Class> Classes { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.Dictionary<string, object> Objects { get; set; }
-		[Core.Serialize.Parameter(Name = "Number")]
+		[Kean.Serialize.Parameter(Name = "Number")]
         public Collection.Dictionary<string, int> Numbers { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.Dictionary<string, int> Empty { get; set; }
 
 		#region IData
 		public  void Initilize(IFactory factory)
 		{
-			this.Structures = new Collection.Dictionary<int, Structure>(Core.KeyValue.Create(0, factory.Create<Structure>()), Core.KeyValue.Create(1, factory.Create<Structure>()));
-			this.Classes = new Collection.Dictionary<int, Class>(Core.KeyValue.Create(0, (Class)factory.Create<ComplexClass>()), Core.KeyValue.Create(1, factory.Create<Class>()));
-			this.Objects = new Collection.Dictionary<string, object>(Core.KeyValue.Create("complex", (object)factory.Create<ComplexClass>()), Core.KeyValue.Create("class", (object)factory.Create<Class>()), Core.KeyValue.Create("boolean", (object)factory.Create<bool>()), Core.KeyValue.Create("time", (object)factory.Create<DateTime>()));
+			this.Structures = new Collection.Dictionary<int, Structure>(Kean.KeyValue.Create(0, factory.Create<Structure>()), Kean.KeyValue.Create(1, factory.Create<Structure>()));
+			this.Classes = new Collection.Dictionary<int, Class>(Kean.KeyValue.Create(0, (Class)factory.Create<ComplexClass>()), Kean.KeyValue.Create(1, factory.Create<Class>()));
+			this.Objects = new Collection.Dictionary<string, object>(Kean.KeyValue.Create("complex", (object)factory.Create<ComplexClass>()), Kean.KeyValue.Create("class", (object)factory.Create<Class>()), Kean.KeyValue.Create("boolean", (object)factory.Create<bool>()), Kean.KeyValue.Create("time", (object)factory.Create<DateTime>()));
 			this.Numbers = new Collection.Dictionary<string, int>();
 			for (int i = 0; i < 10; i++)
 				this.Numbers[this.keys[i]] = i;

@@ -163,7 +163,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void BitmapText()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 			{
 				using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(256, 512)))
 				using (Image Text = Image.OpenResource(this.correctPath + "Text.png"))
@@ -176,7 +176,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void Text()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 			{
 				using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
 				{
@@ -192,7 +192,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void TextFill()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 			{
 
 				using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))
@@ -209,7 +209,7 @@ namespace Kean.Draw.Raster.Test
 		[Test]
 		public void TextStroke()
 		{
-			if (Core.Environment.IsWindows)
+			if (Kean.Environment.IsWindows)
 			{
 
 				using (Draw.Image image = this.CreateImage(new Geometry2D.Integer.Size(128, 256)))

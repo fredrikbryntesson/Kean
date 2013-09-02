@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
+using Kean.Extension;
 using Text = System.Text;
-using Uri = Kean.Core.Uri;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Uri = Kean.Uri;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
 namespace Kean.IO.Net.Udp
 {

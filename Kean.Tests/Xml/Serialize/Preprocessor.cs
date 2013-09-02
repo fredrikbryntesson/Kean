@@ -20,16 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Reflect = Kean.Core.Reflect;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Reflect = Kean.Reflect;
 using NUnit.Framework;
 
 namespace Kean.Xml.Serialize.Test
 {
 	public class Preprocessor :
-		Core.Serialize.Test.Factory<Preprocessor, Preprocessor.Verifier>
+		Kean.Serialize.Test.Factory<Preprocessor, Preprocessor.Verifier>
 	{
 		public class Verifier :
 			Test.Verifier
@@ -52,7 +52,7 @@ namespace Kean.Xml.Serialize.Test
 		[Test]
 		public void Include()
 		{
-			this.Test(typeof(Core.Serialize.Test.Data.Include));
+			this.Test(typeof(Kean.Serialize.Test.Data.Include));
 		}
 	}
 }

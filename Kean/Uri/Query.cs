@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Linked.Extension;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Linked.Extension;
 
-namespace Kean.Core.Uri
+namespace Kean.Uri
 {
 	public class Query :
 		Collection.Linked.Dictionary<QueryLink, string, string>,

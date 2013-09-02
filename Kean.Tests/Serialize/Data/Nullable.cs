@@ -24,30 +24,30 @@ using System;
 using NUnit.Framework;
 
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Nullable :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public bool? Boolean { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public bool? BooleanNull { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public int? Integer { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public int? IntegerNull { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public float? Float { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public float? FloatNull { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Enumerator? Enumerator { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Enumerator? EnumeratorNull { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure? Structure { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure? StructureNull { get; set; }
 
 		#region IData

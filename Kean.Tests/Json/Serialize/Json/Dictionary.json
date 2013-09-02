@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Core.Serialize.Test.Data.Dictionary Kean.Tests", 
+	"_type": "Kean.Serialize.Test.Data.Dictionary Kean.Tests", 
 	"Classes": { 
 		"Classes": { 
 			"Key": 1, 
@@ -24,7 +24,7 @@
 		"Objects": { 
 			"Key": "class", 
 			"Value": { 
-				"_type": "Kean.Core.Serialize.Test.Data.Class Kean.Tests", 
+				"_type": "Kean.Serialize.Test.Data.Class Kean.Tests", 
 				"Boolean": true, 
 				"Enumerator": "Second", 
 				"Float": -13.37, 

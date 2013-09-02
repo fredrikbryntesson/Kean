@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<StringCast type="Kean.Core.Serialize.Test.Data.StringCast Kean.Tests">This is Kean.</StringCast>
+<StringCast type="Kean.Serialize.Test.Data.StringCast Kean.Tests">This is Kean.</StringCast>

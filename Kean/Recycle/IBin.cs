@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Recycle
+namespace Kean.Recycle
 {
 	public interface IBin<T, S>
 	{

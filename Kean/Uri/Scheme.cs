@@ -20,13 +20,13 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 
-namespace Kean.Core.Uri
+namespace Kean.Uri
 {
     public class Scheme :
-        Core.Collection.ILink<Scheme, string>,
+        Kean.Collection.ILink<Scheme, string>,
         IString,
         IEquatable<Scheme>
     {

@@ -26,14 +26,14 @@ namespace Kean.Xml.Serialize.Test
 	{
 		public static void Test()
 		{
-			Core.Serialize.Test.SystemTypes<Verifier>.Test("Kean.Xml.Serialize.Test:SystemTypes");
-			Core.Serialize.Test.CoreTypes<Verifier>.Test("Kean.Xml.Serialize.Test:CoreTypes");
-			Core.Serialize.Test.BasicTypes<Verifier>.Test("Kean.Xml.Serialize.Test:BasicTypes");
-			Core.Serialize.Test.NullableTypes<Verifier>.Test("Kean.Xml.Serialize.Test:NullableTypes");
-			Core.Serialize.Test.CollectionTypes<Verifier>.Test("Kean.Xml.Serialize.Test:CollectionTypes");
+			Kean.Serialize.Test.SystemTypes<Verifier>.Test("Kean.Xml.Serialize.Test:SystemTypes");
+			Kean.Serialize.Test.CoreTypes<Verifier>.Test("Kean.Xml.Serialize.Test:CoreTypes");
+			Kean.Serialize.Test.BasicTypes<Verifier>.Test("Kean.Xml.Serialize.Test:BasicTypes");
+			Kean.Serialize.Test.NullableTypes<Verifier>.Test("Kean.Xml.Serialize.Test:NullableTypes");
+			Kean.Serialize.Test.CollectionTypes<Verifier>.Test("Kean.Xml.Serialize.Test:CollectionTypes");
 			Serialize.Test.Missing.Test();
 			Serialize.Test.Named.Test();
-			Core.Serialize.Test.Misfit<Verifier>.Test("Kean.Xml.Serialize.Test:Misfit");
+			Kean.Serialize.Test.Misfit<Verifier>.Test("Kean.Xml.Serialize.Test:Misfit");
 			Serialize.Test.Preprocessor.Test();
 		}
 	}

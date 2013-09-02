@@ -19,12 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
-using Kean.Core.Collection.Extension;
+using Kean;
+using Kean.Extension;
+using Kean.Reflect.Extension;
+using Kean.Collection.Extension;
 
-namespace Kean.Core.Serialize.Rebuilder
+namespace Kean.Serialize.Rebuilder
 {
 	public class Collection :
 		IRebuilder
@@ -37,7 +37,7 @@ namespace Kean.Core.Serialize.Rebuilder
 		{
 			if (data is Data.Branch)
 			{
-				Core.Collection.IList<Data.Node> nodes = new Core.Collection.List<Data.Node>();
+				Kean.Collection.IList<Data.Node> nodes = new Kean.Collection.List<Data.Node>();
 				foreach (Data.Node child in (data as Data.Branch).Nodes)
 					if (child is Data.Collection)
 						foreach (Data.Node c in (child as Data.Collection).Nodes)
@@ -57,7 +57,7 @@ namespace Kean.Core.Serialize.Rebuilder
 					(data as Data.Collection).Nodes[i] = this.Load(storage, (data as Data.Collection).Nodes[i]);
 			else if (data is Data.Branch)
 			{
-				Core.Collection.IDictionary<string, Data.Node> nodes = new Core.Collection.Dictionary<string, Data.Node>((data as Data.Branch).Nodes.Count);
+				Kean.Collection.IDictionary<string, Data.Node> nodes = new Kean.Collection.Dictionary<string, Data.Node>((data as Data.Branch).Nodes.Count);
 				foreach (Data.Node child in (data as Data.Branch).Nodes)
 				{
 					Data.Node n = nodes[child.Name];

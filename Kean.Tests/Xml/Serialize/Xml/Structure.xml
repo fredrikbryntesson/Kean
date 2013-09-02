@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Structure type="Kean.Core.Serialize.Test.Data.Structure Kean.Tests">
+<Structure type="Kean.Serialize.Test.Data.Structure Kean.Tests">
 	<Boolean>true</Boolean>
 	<Enumerator>Second</Enumerator>
 	<Float>-13.37</Float>

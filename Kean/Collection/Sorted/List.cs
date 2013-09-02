@@ -18,26 +18,26 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 using System;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Collection.Sorted
+namespace Kean.Collection.Sorted
 {
     public class List<T> :
         IList<T>
     {
         IList<T> data;
-        Core.Comparer<T> comparer;
+        Kean.Comparer<T> comparer;
         #region Constructors
         public List() :
             this(new Collection.List<T>())
         { }
 		public List(IList<T> data) :
-			this((Core.Comparer<T>) List<T>.Compare, data)
+			this((Kean.Comparer<T>) List<T>.Compare, data)
 		{ }
-		public List(Core.Comparer<T> comparer) :
+		public List(Kean.Comparer<T> comparer) :
             this(comparer, new Collection.List<T>())
         { }
-        public List(Core.Comparer<T> comparer, IList<T> data)
+        public List(Kean.Comparer<T> comparer, IList<T> data)
         {
             this.comparer = comparer;
             this.data = data;
@@ -57,10 +57,10 @@ namespace Kean.Core.Collection.Sorted
                 for (int i = 0; i < this.data.Count; i++)
                     switch (this.comparer(this.data[i], item))
                     {
-                        case Core.Order.LessThan:
+                        case Kean.Order.LessThan:
                             break;
-                        case Core.Order.Equal:
-                        case Core.Order.GreaterThan:
+                        case Kean.Order.Equal:
+                        case Kean.Order.GreaterThan:
                             this.data.Insert(i, item);
                             goto Done;
                     }
@@ -96,7 +96,7 @@ namespace Kean.Core.Collection.Sorted
             get { return this.data[index]; }
             set
             {
-                if (this.comparer(this.data[index], value) == Core.Order.Equal)
+                if (this.comparer(this.data[index], value) == Kean.Order.Equal)
                     this.data[index] = value;
                 else
                 {
@@ -151,7 +151,7 @@ namespace Kean.Core.Collection.Sorted
         }
 		static Order Order(int order)
 		{
-            return order > 0 ? Core.Order.GreaterThan : order == 0 ? Core.Order.Equal : Core.Order.LessThan;
+            return order > 0 ? Kean.Order.GreaterThan : order == 0 ? Kean.Order.Equal : Kean.Order.LessThan;
 		}
         #endregion
     }

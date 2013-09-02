@@ -22,22 +22,22 @@
 using System;
 using NUnit.Framework;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Linked :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure Structure0 { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure Structure1 { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public ComplexClass ComplexClass { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Class Class0 { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Class Class1 { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Class OtherClass { get; set; }
 
 		#region IData

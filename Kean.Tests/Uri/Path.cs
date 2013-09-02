@@ -22,15 +22,15 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Uri;
+using Target = Kean.Uri;
 
-namespace Kean.Core.Uri.Test
+namespace Kean.Uri.Test
 {
     [TestFixture]
     public class Path :
         Kean.Test.Fixture<Path>
     {
-        string prefix = "Kean.Core.Uri.Test.Path.";
+        string prefix = "Kean.Uri.Test.Path.";
         protected override void Run()
         {
             this.Run(

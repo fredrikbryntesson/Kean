@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Core.Serialize.Test.Data.Linked Kean.Tests", 
+	"_type": "Kean.Serialize.Test.Data.Linked Kean.Tests", 
 	"Class0": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 

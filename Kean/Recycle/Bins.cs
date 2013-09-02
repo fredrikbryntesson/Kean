@@ -19,12 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Kean.Core.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Kean.Extension;
 using System;
 
-namespace Kean.Core.Recycle
+namespace Kean.Recycle
 {
 	public class Bins<T, S> : 
 		IBin<T, S>

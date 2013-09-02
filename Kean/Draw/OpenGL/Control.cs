@@ -20,8 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
-using Parallel = Kean.Core.Parallel;
+using Kean.Extension;
+using Parallel = Kean.Parallel;
 using Forms = System.Windows.Forms;
 
 namespace Kean.Draw.OpenGL

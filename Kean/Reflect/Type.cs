@@ -19,10 +19,10 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
+using Kean.Extension;
+using Kean.Collection.Extension;
 
-namespace Kean.Core.Reflect
+namespace Kean.Reflect
 {
 	public class Type :
 		System.IEquatable<Type>,

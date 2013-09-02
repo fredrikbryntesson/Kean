@@ -19,13 +19,13 @@
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Uri = Kean.Core.Uri;
-using Serialize = Kean.Core.Serialize;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Uri = Kean.Uri;
+using Serialize = Kean.Serialize;
 using Data = System.Data;
-using Reflect = Kean.Core.Reflect;
+using Reflect = Kean.Reflect;
 
 namespace Kean.DB.Sql
 {

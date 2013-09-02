@@ -1,7 +1,7 @@
 ﻿using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
+using Collection = Kean.Collection;
+using Kean.Extension;
+using Kean.Collection.Extension;
 
 namespace Kean.IO.Text
 {
@@ -11,7 +11,7 @@ namespace Kean.IO.Text
 		System.Timers.Timer timer;
 		Collection.IQueue<System.Collections.Generic.IEnumerable<char>> queue; 
 
-		public override Core.Uri.Locator Resource { get { return "console:///"; } }
+		public override Kean.Uri.Locator Resource { get { return "console:///"; } }
 		public override bool Opened { get { return this.timer.NotNull(); } }
 		
 		WriteBuffer()

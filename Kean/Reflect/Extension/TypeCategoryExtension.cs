@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Reflect.Extension
+namespace Kean.Reflect.Extension
 {
 	public static class TypeCategoryExtension
 	{

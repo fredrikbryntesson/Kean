@@ -26,12 +26,12 @@ namespace Kean.Json.Serialize.Test
 	{
 		public static void Test()
 		{
-			Core.Serialize.Test.SystemTypes<Verifier>.Test("Kean.Json.Serialize.Test:SystemTypes");
-			Core.Serialize.Test.CoreTypes<Verifier>.Test("Kean.Json.Serialize.Test:CoreTypes");
-			Core.Serialize.Test.BasicTypes<Verifier>.Test("Kean.Json.Serialize.Test:BasicTypes");
-			Core.Serialize.Test.NullableTypes<Verifier>.Test("Kean.Json.Serialize.Test:NullableTypes");
-			Core.Serialize.Test.CollectionTypes<Verifier>.Test("Kean.Json.Serialize.Test:CollectionTypes");
-			Core.Serialize.Test.Misfit<Verifier>.Test("Kean.Json.Serialize.Test:Misfit");
+			Kean.Serialize.Test.SystemTypes<Verifier>.Test("Kean.Json.Serialize.Test:SystemTypes");
+			Kean.Serialize.Test.CoreTypes<Verifier>.Test("Kean.Json.Serialize.Test:CoreTypes");
+			Kean.Serialize.Test.BasicTypes<Verifier>.Test("Kean.Json.Serialize.Test:BasicTypes");
+			Kean.Serialize.Test.NullableTypes<Verifier>.Test("Kean.Json.Serialize.Test:NullableTypes");
+			Kean.Serialize.Test.CollectionTypes<Verifier>.Test("Kean.Json.Serialize.Test:CollectionTypes");
+			Kean.Serialize.Test.Misfit<Verifier>.Test("Kean.Json.Serialize.Test:Misfit");
 		}
 	}
 }

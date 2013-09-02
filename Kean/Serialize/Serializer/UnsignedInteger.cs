@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public class UnsignedInteger :
 		ISerializer

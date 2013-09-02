@@ -20,30 +20,30 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 using NUnit.Framework;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class List :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.List<Structure> Structures { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.List<Class> Classes { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.List<object> Objects { get; set; }
-		[Core.Serialize.Parameter(Name = "Number")]
+		[Kean.Serialize.Parameter(Name = "Number")]
         public Collection.List<int> Numbers { get; set; }
 		Collection.List<float> floats = new Collection.List<float>();
-		[Core.Serialize.Parameter(Name = "Float")]
+		[Kean.Serialize.Parameter(Name = "Float")]
 		public Collection.List<float> Floats { get { return this.floats; } }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
         public Collection.List<int> Empty { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.List<int> Single { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.List<object> SingleObject { get; set; }
 
 		public List()

@@ -21,7 +21,7 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
+using Kean.Extension;
 using Target = Kean.Math.Complex.Double;
 namespace Kean.Math.Complex.Test
 {

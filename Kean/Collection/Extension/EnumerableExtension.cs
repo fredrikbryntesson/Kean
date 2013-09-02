@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Extension
+namespace Kean.Collection.Extension
 {
 	public static class EnumerableExtension
 	{

@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Cast
+namespace Kean.Collection.Cast
 {
 	public class Vector<T, S> :
 		Abstract.Vector<S>

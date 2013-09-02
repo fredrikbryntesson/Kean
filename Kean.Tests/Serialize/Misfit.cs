@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Reflect = Kean.Core.Reflect;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Reflect = Kean.Reflect;
 
-namespace Kean.Core.Serialize.Test
+namespace Kean.Serialize.Test
 {
 	public class Misfit<C> :
 		Factory<Misfit<C>, C>

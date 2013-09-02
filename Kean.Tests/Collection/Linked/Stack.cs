@@ -21,16 +21,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection.Linked;
+using Target = Kean.Collection.Linked;
 
-namespace Kean.Core.Collection.Test.Linked
+namespace Kean.Collection.Test.Linked
 {
 	[TestFixture]
 	public class Stack :
 		Base.Stack<Stack, Target.Stack<int>>
 	{
 		public Stack() :
-			base("Kean.Core.Collection.Test.Linked.Stack.")
+			base("Kean.Collection.Test.Linked.Stack.")
 		{ }
 	}
 }

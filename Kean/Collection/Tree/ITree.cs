@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kean.Core.Collection.Tree
+namespace Kean.Collection.Tree
 {
     public interface ITree<T>
     {

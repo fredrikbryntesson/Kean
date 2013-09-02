@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Reflect.Extension;
-using Collection = Kean.Core.Collection;
+using Kean;
+using Kean.Extension;
+using Kean.Reflect.Extension;
+using Collection = Kean.Collection;
 
-namespace Kean.Core.Serialize.Serializer
+namespace Kean.Serialize.Serializer
 {
 	public class List :
 		Collection
@@ -34,7 +34,7 @@ namespace Kean.Core.Serialize.Serializer
 		{ }
 		System.Type GetInterface(Reflect.Type type)
 		{
-			return type.Name == "Kean.Core.Collection.IList" ? (System.Type)type : ((System.Type)type).GetInterface(typeof(Core.Collection.IList<>).Name);
+			return type.Name == "Kean.Collection.IList" ? (System.Type)type : ((System.Type)type).GetInterface(typeof(Kean.Collection.IList<>).Name);
 		}
 		protected override bool Found(Reflect.Type type)
 		{

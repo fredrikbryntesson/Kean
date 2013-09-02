@@ -20,18 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
 
 namespace Kean.Json.Dom
 {
 	public class Array :
 		Collection,
-		Core.Collection.IList<Item>
+		Kean.Collection.IList<Item>
 	{
-		Core.Collection.IList<Item> backend;
+		Kean.Collection.IList<Item> backend;
 		public Array () :
 			this((Uri.Region)null)
 		{
@@ -44,7 +44,7 @@ namespace Kean.Json.Dom
 		public Array (Uri.Region region) :
 			base(region)
 		{
-			Core.Collection.Hooked.List<Item> list = new Core.Collection.Hooked.List<Item> ();
+			Kean.Collection.Hooked.List<Item> list = new Kean.Collection.Hooked.List<Item> ();
 			list.Added += (index, item) =>
 			{
 				if (item.NotNull ())
@@ -94,7 +94,7 @@ namespace Kean.Json.Dom
 		{
 			return other is Array && this.backend.Equals (other);
 		}
-		public bool Equals (Core.Collection.IVector<Item> other)
+		public bool Equals (Kean.Collection.IVector<Item> other)
 		{
 			return this.backend.Equals (other);
 		}
@@ -108,7 +108,7 @@ namespace Kean.Json.Dom
 		}
 		#endregion
 		#region IList implementation
-		public Core.Collection.IList<Item> Add (Item item)
+		public Kean.Collection.IList<Item> Add (Item item)
 		{
 			this.backend.Add (item);
 			return this;
@@ -117,7 +117,7 @@ namespace Kean.Json.Dom
 		{
 			return this.backend.Remove ();
 		}
-		public Core.Collection.IList<Item> Insert (int index, Item item)
+		public Kean.Collection.IList<Item> Insert (int index, Item item)
 		{
 			this.backend.Insert (index, item);
 			return this;

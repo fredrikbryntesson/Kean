@@ -21,9 +21,9 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Serialize.Test
+namespace Kean.Serialize.Test
 {
 	public class SystemTypes<C> :
 		Factory<SystemTypes<C>, C>

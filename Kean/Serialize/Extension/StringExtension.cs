@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 using Generic = System.Collections.Generic;
 
-namespace Kean.Core.Serialize.Extension
+namespace Kean.Serialize.Extension
 {
 	public static class StringExtension
 	{

@@ -21,12 +21,12 @@
 
 using System;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Include :
 		Array
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public DateTime DateTime { get; set; }
 
 		#region IData

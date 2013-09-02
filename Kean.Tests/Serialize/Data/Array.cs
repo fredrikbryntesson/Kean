@@ -22,20 +22,20 @@
 using System;
 using NUnit.Framework;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class Array :
 		IData
 	{
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Structure[] Structures { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Class[] Classes { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public object[] Objects { get; set; }
-		[Core.Serialize.Parameter(Name = "Number")]
+		[Kean.Serialize.Parameter(Name = "Number")]
 		public int[] Numbers { get; set; }
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public int[] Empty { get; set; }
 		#region IData
 		public virtual void Initilize(IFactory factory)

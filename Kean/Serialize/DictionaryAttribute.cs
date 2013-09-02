@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Serialize
+namespace Kean.Serialize
 {
 	public class DictionaryAttribute :
 		ParameterAttribute

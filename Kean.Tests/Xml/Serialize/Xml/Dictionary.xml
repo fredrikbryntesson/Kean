@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Dictionary type="Kean.Core.Serialize.Test.Data.Dictionary Kean.Tests">
+<Dictionary type="Kean.Serialize.Test.Data.Dictionary Kean.Tests">
 	<Classes>
 		<Key>0</Key>
-		<Value type="Kean.Core.Serialize.Test.Data.ComplexClass Kean.Tests">
+		<Value type="Kean.Serialize.Test.Data.ComplexClass Kean.Tests">
 			<Boolean>true</Boolean>
 			<Class>
 				<Boolean>true</Boolean>
@@ -84,7 +84,7 @@
 	</Objects>
 	<Objects>
 		<Key>complex</Key>
-		<Value type="Kean.Core.Serialize.Test.Data.ComplexClass Kean.Tests">
+		<Value type="Kean.Serialize.Test.Data.ComplexClass Kean.Tests">
 			<Boolean>true</Boolean>
 			<Class>
 				<Boolean>true</Boolean>
@@ -108,7 +108,7 @@
 	</Objects>
 	<Objects>
 		<Key>class</Key>
-		<Value type="Kean.Core.Serialize.Test.Data.Class Kean.Tests">
+		<Value type="Kean.Serialize.Test.Data.Class Kean.Tests">
 			<Boolean>true</Boolean>
 			<Enumerator>Second</Enumerator>
 			<Float>-13.37</Float>

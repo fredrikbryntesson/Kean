@@ -20,10 +20,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 
-namespace Kean.Core.Collection.Abstract
+namespace Kean.Collection.Abstract
 {
 	public abstract class ReadOnlyDictionary<TKey, TValue> :
 		IReadOnlyDictionary<TKey, TValue>

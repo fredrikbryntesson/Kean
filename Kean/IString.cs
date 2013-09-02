@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core
+namespace Kean
 {
 	public interface IString
 	{

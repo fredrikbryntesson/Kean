@@ -20,11 +20,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
 
 namespace Kean.Xml.Dom
 {
@@ -161,7 +161,7 @@ namespace Kean.Xml.Dom
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() { return (this.childNodes as System.Collections.IEnumerable).GetEnumerator(); }
 		#endregion
 		#region IEquatable<IVector<Node>> Members
-		public bool Equals(Kean.Core.Collection.IVector<Node> other) { return this.childNodes.Equals(other); }
+		public bool Equals(Kean.Collection.IVector<Node> other) { return this.childNodes.Equals(other); }
 		#endregion
 		#region Object Overrides
 		public override bool Equals(object other)

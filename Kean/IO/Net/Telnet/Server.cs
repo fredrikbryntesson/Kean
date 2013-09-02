@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Uri = Kean.Core.Uri;
-using Error = Kean.Core.Error;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
+using Error = Kean.Error;
 
 namespace Kean.IO.Net.Telnet
 {
@@ -82,7 +82,7 @@ namespace Kean.IO.Net.Telnet
 					case Command.SB: // Subnegotiation
 						this.backend.Read(); // option
 						this.backend.Read(); // supplied (0) / required (1)
-						Collection.List<byte> value = new Kean.Core.Collection.List<byte>();
+						Collection.List<byte> value = new Kean.Collection.List<byte>();
 						byte? v;
 						while ((v = this.backend.Read()).HasValue && (Command)v.Value != Command.IAC)
 							value.Add(v.Value);

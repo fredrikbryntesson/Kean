@@ -20,40 +20,40 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 using NUnit.Framework;
 
-namespace Kean.Core.Serialize.Test.Data
+namespace Kean.Serialize.Test.Data
 {
 	public class ListInterface :
 		IData
 	{
 		Collection.List<Structure> structures = new Collection.List<Structure>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<Structure> Structures { get { return this.structures; } }
 
 		Collection.List<Class> classes = new Collection.List<Class>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<Class> Classes { get { return this.classes; } }
 
 		Collection.List<object> objects = new Collection.List<object>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<object> Objects { get { return this.objects; } }
 		
 		Collection.List<float> floats = new Collection.List<float>();
-		[Core.Serialize.Parameter(Name = "Float")]
+		[Kean.Serialize.Parameter(Name = "Float")]
 		public Collection.IList<float> Floats { get { return this.floats; } }
 
 		Collection.List<int> empty = new Collection.List<int>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<int> Empty { get { return this.empty; } }
 
 		Collection.List<int> single = new Collection.List<int>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<int> Single { get { return this.single; } }
 
 		public Collection.List<object> singleObject = new Collection.List<object>();
-		[Core.Serialize.Parameter]
+		[Kean.Serialize.Parameter]
 		public Collection.IList<object> SingleObject { get { return this.singleObject; } }
 
 		public ListInterface()

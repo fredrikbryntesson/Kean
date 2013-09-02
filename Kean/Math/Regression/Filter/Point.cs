@@ -1,6 +1,6 @@
 ﻿using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 using Matrix = Kean.Math.Matrix;
 using Geometry2D = Kean.Math.Geometry2D;
 

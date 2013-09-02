@@ -19,13 +19,13 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core;
-using Kean.Core.Extension;
+using Collection = Kean.Collection;
+using Kean;
+using Kean.Extension;
 using Text = System.Text;
-using Uri = Kean.Core.Uri;
+using Uri = Kean.Uri;
 using IO = Kean.IO;
-using Error = Kean.Core.Error;
+using Error = Kean.Error;
 
 namespace Kean.Json.Sax
 {

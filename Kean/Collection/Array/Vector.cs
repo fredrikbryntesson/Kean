@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-namespace Kean.Core.Collection.Array
+namespace Kean.Collection.Array
 {
 	public class Vector<T> :
 		Abstract.Vector<T>

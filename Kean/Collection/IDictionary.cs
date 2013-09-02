@@ -20,8 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-namespace Kean.Core.Collection
+using Kean;
+namespace Kean.Collection
 {
 	public interface IDictionary<TKey, TValue> :
 		System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>,

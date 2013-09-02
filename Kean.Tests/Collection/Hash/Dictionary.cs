@@ -22,16 +22,16 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test.Hash
+namespace Kean.Collection.Test.Hash
 {
 	[TestFixture]
 	public class Dictionary :
 		Base.Dictionary<Dictionary, Target.Hash.Dictionary<string, int>>
 	{
 		public Dictionary() :
-			base("Kean.Core.Collection.Test.Hash.Dictionary.")
+			base("Kean.Collection.Test.Hash.Dictionary.")
 		{ }
 		protected override Target.Hash.Dictionary<string, int> Create (int size)
 		{

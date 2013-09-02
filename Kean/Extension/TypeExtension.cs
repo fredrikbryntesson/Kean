@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Extension
+namespace Kean.Extension
 {
 	public static class TypeExtension
 	{

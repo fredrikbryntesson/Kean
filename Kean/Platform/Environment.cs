@@ -1,6 +1,6 @@
 ﻿using System;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
+using Kean.Extension;
+using Collection = Kean.Collection;
 using Management = System.Management;
 
 namespace Kean.Platform

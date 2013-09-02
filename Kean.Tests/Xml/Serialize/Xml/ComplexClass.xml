@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ComplexClass type="Kean.Core.Serialize.Test.Data.ComplexClass Kean.Tests">
+<ComplexClass type="Kean.Serialize.Test.Data.ComplexClass Kean.Tests">
 	<Boolean>true</Boolean>
 	<Class>
 		<Boolean>true</Boolean>

@@ -21,9 +21,9 @@
 
 using System;
 using Text = System.Text;
-using Collection = Kean.Core.Collection;
-using Kean.Core;
-using Kean.Core.Extension;
+using Collection = Kean.Collection;
+using Kean;
+using Kean.Extension;
 
 namespace Kean.Xml.Dom.Writer
 {

@@ -21,15 +21,15 @@
 using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection.Array;
+using Target = Kean.Collection.Array;
 
-namespace Kean.Core.Collection.Test.Array
+namespace Kean.Collection.Test.Array
 {
 	public class Vector :
 		Base.Vector<Vector, Target.Vector<int>>
 	{
 		public Vector () :
-			base("Kean.Core.Collection.Test.Array.Vector.")
+			base("Kean.Collection.Test.Array.Vector.")
 		{
 			this.ZeroToNine = new Target.Vector<int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 		}

@@ -19,9 +19,9 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Buffer = Kean.Core.Buffer;
+using Buffer = Kean.Buffer;
 using Geometry2D = Kean.Math.Geometry2D;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Draw.OpenGL
 {

@@ -1,27 +1,27 @@
-﻿// 
+﻿//
 //  Log.cs
-//  
+//
 //  Author:
 //       Simon Mika <smika@hx.se>
-//  
+//
 //  Copyright (c) 2012 Simon Mika
-// 
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-// 
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
-using Kean.Core.Extension;
+using Kean.Extension;
 
-namespace Kean.Core.Error
+namespace Kean.Error
 {
 	public static class Log
 	{
@@ -79,6 +79,7 @@ namespace Kean.Core.Error
 		{
 			Log.Append(Entry.Create(level, title, message.Format(arguments)));
 		}
+
 		#region Wrap
 		#region Func<bool>
 		public static Func<bool> Wrap(Func<bool> task)
@@ -114,6 +115,7 @@ namespace Kean.Core.Error
 			return result;
 		}
 		#endregion
+
 		#region Action
 		public static Action Wrap(Action task)
 		{
@@ -128,6 +130,7 @@ namespace Kean.Core.Error
 			return Log.Wrap("Task failed", task);
 		}
 		#endregion
+
 		#region Action with title
 		public static Action Wrap(string title, Action task)
 		{
@@ -142,6 +145,7 @@ namespace Kean.Core.Error
 			return Log.Wrap<System.Exception, T1, T2>(title, task, null);
 		}
 		#endregion
+
 		#region Action with title and onCatch
 		public static Action Wrap<E>(string title, Action task, Action<E> onCatch) where E : System.Exception
 		{
@@ -225,7 +229,9 @@ namespace Kean.Core.Error
 			return result;
 		}
 		#endregion
+
 		#endregion
+
 		#region Call
 		#region Action
 		public static bool Call(Action task)
@@ -241,6 +247,7 @@ namespace Kean.Core.Error
 			return Log.Call("Call Failed", task, argument1, argument2);
 		}
 		#endregion
+
 		#region Action with title
 		public static bool Call(string title, Action task)
 		{
@@ -261,6 +268,7 @@ namespace Kean.Core.Error
 			return result;
 		}
 		#endregion
+
 		#region Action with onCatch
 		public static void Call<E>(Action task, Action<E> onCatch) where E : System.Exception
 		{
@@ -275,6 +283,7 @@ namespace Kean.Core.Error
 			Log.Call<E, T1, T2>("Call Failed", task, argument1, argument2, onCatch);
 		}
 		#endregion
+
 		#region Action with title and onCatch
 		public static void Call<E>(string title, Action task, Action<E> onCatch) where E : System.Exception
 		{
@@ -289,6 +298,8 @@ namespace Kean.Core.Error
 			Log.Wrap<E, T1, T2>(title, task, onCatch).Call(argument1, argument2);
 		}
 		#endregion
+
 		#endregion
+
 	}
 }

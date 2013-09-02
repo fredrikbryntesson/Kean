@@ -19,12 +19,12 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
+using Kean;
+using Kean.Extension;
 using NUnit.Framework;
-using Reflect = Kean.Core.Reflect;
-using Kean.Core.Reflect.Extension;
-using Uri = Kean.Core.Uri;
+using Reflect = Kean.Reflect;
+using Kean.Reflect.Extension;
+using Uri = Kean.Uri;
 
 namespace Kean.Test
 {
@@ -98,7 +98,7 @@ namespace Kean.Test
 		public static void VerifyAsResource(string filename, string resource, string message, params object[] arguments)
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetCallingAssembly();
-			string platformResource = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(resource), System.IO.Path.GetFileNameWithoutExtension(resource) + (Core.Environment.IsWindows ? ".windows" : ".mono") + System.IO.Path.GetExtension(resource));
+			string platformResource = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(resource), System.IO.Path.GetFileNameWithoutExtension(resource) + (Kean.Environment.IsWindows ? ".windows" : ".mono") + System.IO.Path.GetExtension(resource));
 			System.IO.Stream correct = assembly.GetManifestResourceStream(assembly.GetName().Name + platformResource.Replace('/', '.')) ??
 				assembly.GetManifestResourceStream(assembly.GetName().Name + resource.Replace('/', '.'));
 			FileAssert.AreEqual(System.IO.File.Open(filename, System.IO.FileMode.Open), correct, message, arguments);
@@ -106,7 +106,7 @@ namespace Kean.Test
 		public void VerifyResource(Uri.Locator created, Uri.Locator correct, string message, params object[] arguments)
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(correct.Authority));
-			Uri.Path platformCorrectPath = correct.Path.FolderPath + (correct.Path.Stem + (Core.Environment.IsWindows ? ".windows." : ".mono.") + correct.Path.Extension);
+			Uri.Path platformCorrectPath = correct.Path.FolderPath + (correct.Path.Stem + (Kean.Environment.IsWindows ? ".windows." : ".mono.") + correct.Path.Extension);
 			System.IO.Stream correctStream = 
 				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)platformCorrectPath).Replace('/', '.')) ??
 				assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)correct.Path).Replace('/', '.'));

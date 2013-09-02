@@ -21,20 +21,20 @@
 
 using System;
 using NUnit.Framework;
-using Kean.Core.Reflect.Extension;
+using Kean.Reflect.Extension;
 
-namespace Kean.Core.Reflect.Test
+namespace Kean.Reflect.Test
 {
 	[TestFixture]
 	public class Type :
 		Kean.Test.Fixture<Type>
 	{
-		string prefix = "Kean.Core.Reflect.Test.Type.";
+		string prefix = "Kean.Reflect.Test.Type.";
 		[Test]
 		public void NestedClass()
 		{
-			string parentName = "Kean.Core.Reflect.Test.Data.ParentClass Kean.Tests";
-			string name = "Kean.Core.Reflect.Test.Data.ParentClass+NestedClass Kean.Tests";
+			string parentName = "Kean.Reflect.Test.Data.ParentClass Kean.Tests";
+			string name = "Kean.Reflect.Test.Data.ParentClass+NestedClass Kean.Tests";
 			Reflect.Type type1 = name;
 			Verify((string)type1.Parent, EqualTo(parentName), this.prefix + "NestedClass.0");
 			Verify((string)type1, EqualTo(name), this.prefix + "NestedClass.1");
@@ -46,10 +46,10 @@ namespace Kean.Core.Reflect.Test
 		[Test]
 		public void GenericStructure()
 		{
-			string name = "Kean:Core.KeyValue<string,object>";
+			string name = "Kean:KeyValue<string,object>";
 			Reflect.Type type = name;
 			Verify(type.Assembly, EqualTo("Kean"), this.prefix + "GenericStructure.0");
-			Verify(type.Name, EqualTo("Kean.Core.KeyValue"), this.prefix + "GenericStructure.1");
+			Verify(type.Name, EqualTo("Kean.KeyValue"), this.prefix + "GenericStructure.1");
 			//Expect(type.Arguments.Count, EqualTo(2), this.prefix + "GenericStructure.2");
 			//Expect((string)type.Arguments[0], EqualTo("string"), this.prefix + "GenericStructure.3");
 			//Expect((string)type.Arguments[1], EqualTo("object"), this.prefix + "GenericStructure.4");

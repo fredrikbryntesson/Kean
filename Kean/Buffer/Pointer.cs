@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Buffer
+namespace Kean.Buffer
 {
     /// <summary>
     /// Used to handle a memory area for use by unmanaged code so that it can be garbage collected.

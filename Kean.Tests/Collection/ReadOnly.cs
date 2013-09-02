@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
 
-using Target = Kean.Core.Collection;
+using Target = Kean.Collection;
 
-namespace Kean.Core.Collection.Test
+namespace Kean.Collection.Test
 {
     [TestFixture]
     public class ReadOnly :
         Kean.Test.Fixture<ReadOnly>
     {
-        string prefix = "Kean.Core.Collection.Test.";
+        string prefix = "Kean.Collection.Test.";
         protected override void Run()
         {
             this.Run(this.Create, this.Equality, this.Count);

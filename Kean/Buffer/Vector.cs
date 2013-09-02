@@ -20,10 +20,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
+using Kean.Extension;
 using InteropServices = System.Runtime.InteropServices;
 
-namespace Kean.Core.Buffer
+namespace Kean.Buffer
 {
     public class Vector<T> :
         Sized,

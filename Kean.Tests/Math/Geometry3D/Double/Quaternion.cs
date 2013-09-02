@@ -2,7 +2,7 @@
 //using NUnit.Framework;
 
 
-//using Kean.Core.Extension;
+//using Kean.Extension;
 //using Target = Kean.Math.Geometry3D.Double;
 //namespace Kean.Math.Geometry3D.Test.Double
 //{

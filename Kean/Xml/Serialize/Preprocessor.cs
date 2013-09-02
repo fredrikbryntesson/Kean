@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 using IO = Kean.IO;
-using Uri = Kean.Core.Uri;
+using Uri = Kean.Uri;
 using Generic = System.Collections.Generic;
 
 namespace Kean.Xml.Serialize

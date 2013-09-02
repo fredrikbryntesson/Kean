@@ -20,8 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core.Extension;
-using Error = Kean.Core.Error;
+using Kean.Extension;
+using Error = Kean.Error;
 
 namespace Kean.Draw.OpenGL.Backend
 {

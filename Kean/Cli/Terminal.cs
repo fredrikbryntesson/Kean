@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
 using Geometry2D = Kean.Math.Geometry2D;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
 namespace Kean.Cli
 {

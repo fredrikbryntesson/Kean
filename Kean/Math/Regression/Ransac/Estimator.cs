@@ -21,9 +21,9 @@
 
 // RANSAC Method implemented according to described method given at http://en.wikipedia.org/wiki/RANSAC
 using System;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Extension;
-using Kean.Core.Collection.Extension;
+using Collection = Kean.Collection;
+using Kean.Extension;
+using Kean.Collection.Extension;
 namespace Kean.Math.Regression.Ransac
 {
     public class Estimator<Domain, Range, Transform>

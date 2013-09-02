@@ -21,10 +21,10 @@
 
 using System;
 using NUnit.Framework;
-using Target = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
+using Target = Kean.Collection;
+using Kean.Collection.Extension;
 
-namespace Kean.Core.Collection.Test.Base
+namespace Kean.Collection.Test.Base
 {
 	public abstract class Queue<T, Q> :
 		Kean.Test.Fixture<T>

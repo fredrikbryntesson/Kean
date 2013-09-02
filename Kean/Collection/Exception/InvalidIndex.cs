@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Core.Collection.Exception
+namespace Kean.Collection.Exception
 {
 	public class InvalidIndex :
 		Exception

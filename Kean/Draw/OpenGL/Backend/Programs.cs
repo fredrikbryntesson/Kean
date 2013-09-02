@@ -22,7 +22,7 @@
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using Error = Kean.Core.Error;
+using Error = Kean.Error;
 using Draw = Kean.Draw;
 using Raster = Kean.Draw.Raster;
 

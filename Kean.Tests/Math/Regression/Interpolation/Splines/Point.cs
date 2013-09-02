@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
 
-using Kean.Core.Extension;
-using Kean.Core;
+using Kean.Extension;
+using Kean;
 
 namespace Kean.Math.Regression.Test.Interpolation.Splines
 {
@@ -38,7 +38,7 @@ namespace Kean.Math.Regression.Test.Interpolation.Splines
                Verify(distance, Is.LessThan(0.5f), this.prefix + "Point.0");
             }
             /*
-            Kean.Core.Collection.IList<Kean.Math.Geometry2D.Double.Point> points = new Kean.Core.Collection.List<Kean.Math.Geometry2D.Double.Point>();
+            Kean.Collection.IList<Kean.Math.Geometry2D.Double.Point> points = new Kean.Collection.List<Kean.Math.Geometry2D.Double.Point>();
             int count = 100;
             for (int i = 0; i <= count; i++)
             {
