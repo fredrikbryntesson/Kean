@@ -1,0 +1,8 @@
+{ 
+	"_type": "Kean.Core.Serialize.Test.Data.Class Kean.Tests", 
+	"Boolean": true, 
+	"Enumerator": "Second", 
+	"Float": -13.37, 
+	"Integer": -1337, 
+	"String": "This is Kean." 
+}
