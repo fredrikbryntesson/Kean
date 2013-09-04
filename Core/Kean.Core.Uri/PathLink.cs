@@ -23,6 +23,7 @@ using Kean.Core;
 using Kean.Core.Extension;
 using Collection = Kean.Core.Collection;
 using Kean.Core.Collection.Extension;
+using System.Text.RegularExpressions;
 
 namespace Kean.Core.Uri
 {
@@ -49,7 +50,20 @@ namespace Kean.Core.Uri
 			this.Head = head;
 			this.Tail = tail;
 		}
-
+		public PathLink ResolveVariable(string variable, Func<string, string> format)
+		{
+			string head = this.Head;
+			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
+			if (matches.Count == 1)
+				head = matches[0].Groups[1].Value + format("HH-mm-ss-fff") + matches[0].Groups[3].Value;
+			else
+			{
+				matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @":)(.+)(\))(.*)"); // Variable without format specifier
+				if (matches.Count == 1)
+					head = matches[0].Groups[1].Value + format(matches[0].Groups[3].Value) + matches[0].Groups[5].Value;
+			}
+			return new PathLink(head, this.Tail.NotNull() ? this.Tail.ResolveVariable(variable, format) : null);
+		}
 		public PathLink Rebuild ()
 		{
 			PathLink result;
