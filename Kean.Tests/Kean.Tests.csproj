@@ -233,12 +233,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Kean\Kean.csproj">
-      <Project>{DB8ACBAC-64DF-439B-BFCD-564D51661CE2}</Project>
-      <Name>Kean</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Math\Complex\Template.tt" />
     <None Include="Math\Geometry2D\Box.tt" />
     <None Include="Math\Geometry2D\Point.tt" />
@@ -559,5 +553,11 @@
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYuyv.png" />
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYvu420.png" />
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\translated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kean\Kean.csproj">
+      <Project>{DB8ACBAC-64DF-439B-BFCD-564D51661CE2}</Project>
+      <Name>Kean</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
