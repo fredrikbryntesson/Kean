@@ -55,11 +55,16 @@ namespace Kean.Core.Uri
 			{"Time", "HH-mm-ss-fff"},
 		};
 
+		/// <summary>
+		/// Recursively resolves a given variable in a PathLink, using a format specified as "$(variable:format)" in the PathLink string.
+		/// If the variable has no format specifier i.e. "$(variable)", a default format, specified in defaultFormats above, is used.
+		/// If no default format specifier has been defined, the variable is left untouched because we don't know what to do with it.
+		/// </summary>
+		/// <param name="variable">The name of variable we want to resolve.</param>
+		/// <param name="format">A function that returns the variable formatted as specified in its input.</param>
+		/// <returns>A new PathLink where the variable has been resolved, or perhaps not.</returns>
 		public PathLink ResolveVariable(string variable, Func<string, string> format)
 		{
-
-			//TODO: Fixa en dictionary för defaultformat för olika variabler. Men vad händer om inget default finns?
-
 			string head = this.Head;
 			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
 			if (matches.Count == 1 && defaultFormats.Keys.Contains(variable))
