@@ -50,12 +50,20 @@ namespace Kean.Core.Uri
 			this.Head = head;
 			this.Tail = tail;
 		}
+
+		static System.Collections.Generic.Dictionary<string, string> defaultFormats = new System.Collections.Generic.Dictionary<string, string> {
+			{"Time", "HH-mm-ss-fff"},
+		};
+
 		public PathLink ResolveVariable(string variable, Func<string, string> format)
 		{
+
+			//TODO: Fixa en dictionary för defaultformat för olika variabler. Men vad händer om inget default finns?
+
 			string head = this.Head;
 			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
-			if (matches.Count == 1)
-				head = matches[0].Groups[1].Value + format("HH-mm-ss-fff") + matches[0].Groups[3].Value;
+			if (matches.Count == 1 && defaultFormats.Keys.Contains(variable))
+				head = matches[0].Groups[1].Value + format(defaultFormats[variable]) + matches[0].Groups[3].Value;
 			else
 			{
 				matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @":)(.+)(\))(.*)"); // Variable without format specifier
