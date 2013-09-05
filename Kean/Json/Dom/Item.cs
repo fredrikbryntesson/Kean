@@ -22,217 +22,214 @@ using System;
 using Kean;
 using Kean.Extension;
 using Uri = Kean.Uri;
-
 namespace Kean.Json.Dom
 {
-	public abstract class Item :
+    public abstract class Item :
 		IEquatable<Item>
-	{
-		public Uri.Region Region { get; internal set; }
+    {
+        public Uri.Region Region { get; internal set; }
+        public Collection Parent { get; internal set; }
+        protected Item()
+        {
+        }
+        protected Item(Uri.Region region)
+        {
+            this.Region = region;
+        }
 
-		public Collection Parent { get; internal set; }
+        #region Save
 
-		protected Item()
-		{
-		}
+        public bool Save(Uri.Locator resource)
+        {
+            using (IO.IByteDevice device = IO.ByteDevice.Create(resource))
+                return this.Save(device);
+        }
+        public bool Save(IO.IByteOutDevice device)
+        {
+            using (IO.ICharacterOutDevice characterDevice = IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(device)))
+                return this.Save(characterDevice);
+        }
+        public bool Save(IO.ICharacterOutDevice device)
+        {
+            using (IO.ICharacterWriter writer = IO.CharacterWriter.Open(device))
+                return this.Save(writer);
+        }
+        public bool Save(IO.ICharacterWriter writer)
+        {
+            return writer.NotNull() && this.Save(new Writer.Formatting(writer));
+        }
+        public bool Save(IWriter writer)
+        {
+            return writer.Write(this);
+        }
 
-		protected Item(Uri.Region region)
-		{
-			this.Region = region;
-		}
+        #endregion
 
-		#region Save
+        #region Static Open
 
-		public bool Save (Uri.Locator resource)
-		{
-			using (IO.ICharacterWriter writer = IO.CharacterWriter.Create(resource))
-				return this.Save(writer);
-		}
+        public static Item Open(Sax.Parser parser)
+        {
+            Collection result = null;
+            Collection current = null;
+            parser.OnObjectStart += (label, labelRegion, region) =>
+            { 
+                Object next = new Object(region);
+                if (result.IsNull())
+                    result = next;
+                else
+                    current.Add(label, labelRegion, next);
+                current = next;
+            };
+            parser.OnObjectEnd += region =>
+            {
+                if (current.Region.NotNull() && region.NotNull())
+                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
+                current = current.Parent;
+            };
+            parser.OnArrayStart += (label, labelRegion, region) =>
+            { 
+                Array next = new Array(region);
+                if (result.IsNull())
+                    result = next;
+                else
+                    current.Add(label, labelRegion, next);
+                current = next;
+            };
+            parser.OnArrayEnd += region =>
+            {
+                if (current.Region.NotNull() && region.NotNull())
+                    current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
+                current = current.Parent;
+            };
+            parser.OnNull += (label, labelRegion, region) => current.Add(label, labelRegion, new Null(region));
+            parser.OnBoolean += (label, labelRegion, value, region) => current.Add(label, labelRegion, new Boolean(value, region));
+            parser.OnNumber += (label, labelRegion, value, region) => current.Add(label, labelRegion, new Number(value, region));
+            parser.OnString += (label, labelRegion, value, region) => current.Add(label, labelRegion, new String(value, region));
 
-		public bool Save (IO.ICharacterWriter writer)
-		{
-			return writer.NotNull() && this.Save(new Writer.Formatting(writer));
-		}
+            return parser.Parse() ? result : null;
+        }
+        public static Item OpenResource(System.Reflection.Assembly assembly, Uri.Path path)
+        {
+            return Item.Open(Sax.Parser.Open(assembly, path));
+        }
+        public static Item OpenResource(Uri.Path path)
+        {
+            return Item.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), path);
+        }
+        public static Item Open(System.IO.Stream stream)
+        {
+            return Item.Open(Sax.Parser.Open(stream));
+        }
+        public static Item Open(Uri.Locator resource)
+        {
+            return Item.Open(Sax.Parser.Open(resource));
+        }
+        public static Item Open(IO.IByteInDevice device)
+        {
+            return Item.Open(Sax.Parser.Open(device));
+        }
+        public static Item Open(IO.ICharacterInDevice device)
+        {
+            return Item.Open(Sax.Parser.Open(device));
+        }
 
-		public bool Save (IWriter writer)
-		{
-			return writer.Write(this);
-		}
+        #endregion
 
-		#endregion
+        #region Object Overrides
 
-		#region Static Open
+        public override string ToString()
+        {
+            IO.Text.Writer result = new IO.Text.Writer();
+            return this.Save(new Writer.Formatting(result) { Format = false }) ? result : null;
+        }
 
-		public static Item Open (Sax.Parser parser)
-		{
-			Collection result = null;
-			Collection current = null;
-			parser.OnObjectStart += (label, labelRegion, region) => 
-			{ 
-				Object next = new Object(region);
-				if (result.IsNull())
-					result = next;
-				else
-					current.Add(label, labelRegion, next);
-				current = next;
-			};
-			parser.OnObjectEnd += region => 
-			{
-				if (current.Region.NotNull() && region.NotNull())
-					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
-				current = current.Parent;
-			};
-			parser.OnArrayStart += (label, labelRegion, region) => 
-			{ 
-				Array next = new Array(region);
-				if (result.IsNull())
-					result = next;
-				else
-					current.Add(label, labelRegion, next);
-				current = next;
-			};
-			parser.OnArrayEnd += region => 
-			{
-				if (current.Region.NotNull() && region.NotNull())
-					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End);
-				current = current.Parent;
-			};
-			parser.OnNull += (label, labelRegion, region) => current.Add(label, labelRegion, new Null(region));
-			parser.OnBoolean += (label, labelRegion, value, region) => current.Add(label, labelRegion, new Boolean(value, region));
-			parser.OnNumber += (label, labelRegion, value, region) => current.Add(label, labelRegion, new Number(value, region));
-			parser.OnString += (label, labelRegion, value, region) => current.Add(label, labelRegion, new String(value, region));
+        #endregion
 
-			return parser.Parse() ? result : null;
-		}
+        #region Equals
 
-		public static Item OpenResource (System.Reflection.Assembly assembly, Uri.Path resource)
-		{
-			return Item.Open(Sax.Parser.Open(assembly, resource));
-		}
+        public override bool Equals(object other)
+        {
+            return base.Equals(other as Item);
+        }
+        public abstract bool Equals(Item other);
+        public static bool operator ==(Item left, Item right)
+        {
+            return left.NotNull() ? left.Equals(right) : right.IsNull();
+        }
+        public static bool operator !=(Item left, Item right)
+        {
+            return left.NotNull() ? !left.Equals(right) : right.NotNull();
+        }
 
-		public static Item OpenResource (Uri.Path resource)
-		{
-			return Item.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), resource);
-		}
+        #endregion
 
-		public static Item Open (System.IO.Stream stream)
-		{
-			return Item.Open(Sax.Parser.Open(stream));
-		}
+        #region Static Create
 
-		public static Item Open (Uri.Locator resource)
-		{
-			return Item.Open(Sax.Parser.Open(resource));
-		}
+        public static Item Create(object value)
+        {
+            Item result = null;
+            if (value.IsNull())
+                result = new Null();
+            else if (value is string)
+                result = value as string;
+            else if (value is bool)
+                result = (bool)value;
+            else if (value is decimal)
+                result = (decimal)value;
+            else if (value is int)
+                result = (int)value;
+            else if (value is long)
+                result = (long)value;
+            else if (value is float)
+                result = (float)value;
+            else if (value is double)
+                result = (double)value;
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region Object Overrides
+        #region Casts
 
-		public override string ToString ()
-		{
-			IO.Text.Writer result = new IO.Text.Writer();
-			return this.Save(new Writer.Formatting(result) { Format = false }) ? result : null;
-		}
+        public static explicit operator string(Item node)
+        {
+            return node.ToString();
+        }
+        public static implicit operator Item(string value)
+        {
+            return value.IsNull() ? null : (String)value;
+        }
+        public static implicit operator Item(bool value)
+        {
+            return (Boolean)value;
+        }
+        public static implicit operator Item(decimal value)
+        {
+            return (Number)value;
+        }
+        public static implicit operator Item(int value)
+        {
+            return (Number)value;
+        }
+        public static implicit operator Item(long value)
+        {
+            return (Number)value;
+        }
+        public static implicit operator Item(float value)
+        {
+            return (Number)value;
+        }
+        public static implicit operator Item(double value)
+        {
+            return (Number)value;
+        }
+        public static implicit operator Item(Item[] items)
+        {
+            return (Array)items;
+        }
 
-		#endregion
+        #endregion
 
-		#region Equals
-
-		public override bool Equals (object other)
-		{
-			return base.Equals(other as Item);
-		}
-
-		public abstract bool Equals (Item other);
-
-		public static bool operator == (Item left, Item right)
-		{
-			return left.NotNull() ? left.Equals(right) : right.IsNull();
-		}
-
-		public static bool operator != (Item left, Item right)
-		{
-			return left.NotNull() ? !left.Equals(right) : right.NotNull();
-		}
-
-		#endregion
-
-		#region Static Create
-
-		public static Item Create (object value)
-		{
-			Item result = null;
-			if (value.IsNull())
-				result = new Null();
-			else if (value is string)
-				result = value as string;
-			else if (value is bool)
-				result = (bool)value;
-			else if (value is decimal)
-				result = (decimal)value;
-			else if (value is int)
-				result = (int)value;
-			else if (value is long)
-				result = (long)value;
-			else if (value is float)
-				result = (float)value;
-			else if (value is double)
-				result = (double)value;
-			return result;
-		}
-
-		#endregion
-
-		#region Casts
-
-		public static explicit operator string (Item node)
-		{
-			return node.ToString();
-		}
-
-		public static implicit operator Item (string value)
-		{
-			return value.IsNull() ? null : (String)value;
-		}
-
-		public static implicit operator Item (bool value)
-		{
-			return (Boolean)value;
-		}
-
-		public static implicit operator Item (decimal value)
-		{
-			return (Number)value;
-		}
-
-		public static implicit operator Item (int value)
-		{
-			return (Number)value;
-		}
-
-		public static implicit operator Item (long value)
-		{
-			return (Number)value;
-		}
-
-		public static implicit operator Item (float value)
-		{
-			return (Number)value;
-		}
-
-		public static implicit operator Item (double value)
-		{
-			return (Number)value;
-		}
-
-		public static implicit operator Item (Item[] items)
-		{
-			return (Array)items;
-		}
-
-		#endregion
-
-	}
+    }
 }
 

@@ -34,17 +34,17 @@ namespace Kean.Json.Serialize
 			base(null, null, null)
         {
         }
-        protected override Kean.Serialize.Data.Node Load(Uri.Locator resource)
+        protected override Kean.Serialize.Data.Node Load(IO.IByteInDevice device)
         {
-            Dom.Item root = Dom.Item.Open(resource);
+            Dom.Item root = Dom.Item.Open(device);
             return root.NotNull() ? Storage.Convert(root) : null;
         }
-        protected override bool Store(Kean.Serialize.Data.Node value, Uri.Locator resource)
+        protected override bool Store(Kean.Serialize.Data.Node value, IO.IByteOutDevice device)
         {
             Dom.Item item = Storage.Convert(value);
             if (!(item is Dom.Collection))
                 item = new Dom.Object(KeyValue.Create(value.Name, item));
-            return item.Save(resource);
+            return item.Save(device);
         }
 
         #region Static Convert
@@ -185,13 +185,17 @@ namespace Kean.Json.Serialize
         {
             return new Storage().Load<T>(resource);
         }
-        public static bool Save<T>(T value, Uri.Locator resource)
-        {
-            return new Storage().Store<T>(value, resource);
-        }
-        public static bool Save<T>(T value, Uri.Locator resource, string name)
+        public static bool Save<T>(T value, Uri.Locator resource, string name = null)
         {
             return new Storage().Store<T>(value, resource, name);
+        }
+        public static T Open<T>(IO.IByteInDevice device)
+        {
+            return new Storage().Load<T>(device);
+        }
+        public static bool Save<T>(T value, IO.IByteOutDevice device, string name = null)
+        {
+            return new Storage().Store<T>(value, device, name);
         }
     }
 }
