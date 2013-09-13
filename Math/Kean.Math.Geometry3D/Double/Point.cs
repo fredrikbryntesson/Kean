@@ -44,7 +44,7 @@ namespace Kean.Math.Geometry3D.Double
 		{
 			get
 			{
-				double result = new double();
+				double result = 0.0;
 				double r = this.Norm;
 				if (r != result)
 					result = Math.Double.Clamp(this.Z / r, -1, Math.Double.ArcusCosinus(1));
@@ -60,7 +60,7 @@ namespace Kean.Math.Geometry3D.Double
 		#region Methods
 		public double ScalarProduct(Point other)
 		{
-			return  this.X * other.X + this.Y * other.Y + this.Z * other.Z;
+			return this.X * other.X + this.Y * other.Y + this.Z * other.Z;
 		}
 		public Point VectorProduct(Point other)
 		{
