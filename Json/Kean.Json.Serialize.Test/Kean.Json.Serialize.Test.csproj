@@ -72,6 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Json\Dictionary.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +81,7 @@
     <EmbeddedResource Include="Json\ComplexClass.json" />
     <EmbeddedResource Include="Json\DateTime.json" />
     <EmbeddedResource Include="Json\DateTimeOffset.json" />
-    <EmbeddedResource Include="Json\Dictionary.json" />
+    <EmbeddedResource Include="Json\Dictionary.mono.json" />
     <EmbeddedResource Include="Json\EmptyClass.json" />
     <EmbeddedResource Include="Json\Enumerator.json" />
     <EmbeddedResource Include="Json\KeyValue.json" />
