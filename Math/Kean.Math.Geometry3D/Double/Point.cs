@@ -148,7 +148,7 @@ namespace Kean.Math.Geometry3D.Double
 		}
 		public static Point operator /(Point left, double right)
 		{
-			return new Point(left.X / right, left.Y / right, left.Y / right);
+			return new Point(left.X / right, left.Y / right, left.Z / right);
 		}
 		#endregion
 		#region Comparison Operators

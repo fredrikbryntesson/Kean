@@ -148,7 +148,7 @@ namespace Kean.Math.Geometry3D.Integer
 		}
 		public static Point operator /(Point left, int right)
 		{
-			return new Point(left.X / right, left.Y / right, left.Y / right);
+			return new Point(left.X / right, left.Y / right, left.Z / right);
 		}
 		#endregion
 		#region Comparison Operators
