@@ -1,0 +1,45 @@
+{ 
+	"_type": "Kean.Serialize.Test.Data.List Kean.Tests", 
+	"Classes": { 
+		"Classes": { 
+			"Boolean": true, 
+			"Enumerator": "Second", 
+			"Float": -13.37, 
+			"Integer": -1337, 
+			"String": "This is Kean." 
+		} 
+	}, 
+	"Empty": { 
+	}, 
+	"Float": { 
+		"Float": 9.1337 
+	}, 
+	"Number": { 
+		"Number": 9 
+	}, 
+	"Objects": { 
+		"Objects": "2111-11-11T11:11:11.1110000" 
+	}, 
+	"Single": { 
+		"Single": 1337 
+	}, 
+	"SingleObject": { 
+		"SingleObject": { 
+			"_type": "Kean.Serialize.Test.Data.Class Kean.Tests", 
+			"Boolean": true, 
+			"Enumerator": "Second", 
+			"Float": -13.37, 
+			"Integer": -1337, 
+			"String": "This is Kean." 
+		} 
+	}, 
+	"Structures": { 
+		"Structures": { 
+			"Boolean": true, 
+			"Enumerator": "Second", 
+			"Float": -13.37, 
+			"Integer": -1337, 
+			"String": "This is Kean." 
+		} 
+	} 
+}

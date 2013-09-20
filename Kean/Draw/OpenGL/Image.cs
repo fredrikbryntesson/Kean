@@ -93,7 +93,7 @@ namespace Kean.Draw.OpenGL
 			}
 			else if (image is Image)
 				result = image.Copy() as Image;
-			else
+			else if (image.NotNull())
 				result = new Bgra(image.Convert<Raster.Bgra>());
 			return result;
 		}

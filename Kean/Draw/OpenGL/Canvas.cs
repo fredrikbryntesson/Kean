@@ -110,7 +110,9 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
-			this.Backend.Draw(color.Convert<Color.Bgra>(), region);
+			this.Backend.Setup();
+			this.Backend.Draw(color, region);
+			this.Backend.Teardown();
 		}
 		#endregion
 		#region Draw Path
@@ -128,17 +130,23 @@ namespace Kean.Draw.OpenGL
 		#region Blend
 		public override void Blend(float factor)
 		{
+			this.Backend.Setup();
 			this.Backend.Blend(factor);
+			this.Backend.Teardown();
 		}
 		#endregion
 		#region Clear
 		public override void Clear()
 		{
-			this.Draw(new Color.Bgra());
+			this.Backend.Setup();
+			this.Backend.Clear();
+			this.Backend.Teardown();
 		}
 		public override void Clear(Geometry2D.Single.Box region)
 		{
-			this.Backend.Draw(new Color.Bgra(), region);
+			this.Backend.Setup();
+			this.Backend.Clear(region);
+			this.Backend.Teardown();
 		}
 		#endregion
 		#endregion

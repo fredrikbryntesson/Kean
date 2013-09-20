@@ -153,10 +153,11 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Color4(factor, factor, factor, factor * 3);
 			this.CreateRectangle();
 		}
-		public override void Draw(Color.Bgra color, Geometry2D.Single.Box region)
+		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
-			GL.Color4(color.Red, color.Green, color.Blue, color.Alpha);
+			Color.Bgra bgra = color.Convert<Color.Bgra>();
+			GL.Color4(bgra.Red, bgra.Green, bgra.Blue, bgra.Alpha);
 			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 			GL.Vertex2(region.Left, region.Top);
 			GL.Vertex2(region.Right, region.Top);

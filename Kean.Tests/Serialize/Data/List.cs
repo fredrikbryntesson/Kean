@@ -31,16 +31,16 @@ namespace Kean.Serialize.Test.Data
 		[Kean.Serialize.Parameter]
 		public Collection.List<Structure> Structures { get; set; }
 		[Kean.Serialize.Parameter]
-        public Collection.List<Class> Classes { get; set; }
+		public Collection.List<Class> Classes { get; set; }
 		[Kean.Serialize.Parameter]
-        public Collection.List<object> Objects { get; set; }
+		public Collection.List<object> Objects { get; set; }
 		[Kean.Serialize.Parameter(Name = "Number")]
-        public Collection.List<int> Numbers { get; set; }
+		public Collection.List<int> Numbers { get; set; }
 		Collection.List<float> floats = new Collection.List<float>();
 		[Kean.Serialize.Parameter(Name = "Float")]
 		public Collection.List<float> Floats { get { return this.floats; } }
 		[Kean.Serialize.Parameter]
-        public Collection.List<int> Empty { get; set; }
+		public Collection.List<int> Empty { get; set; }
 		[Kean.Serialize.Parameter]
 		public Collection.List<int> Single { get; set; }
 		[Kean.Serialize.Parameter]
@@ -69,7 +69,7 @@ namespace Kean.Serialize.Test.Data
 			factory.Verify(this.Structures[0], message, arguments);
 			factory.Verify(this.Structures[1], message, arguments);
 
-            factory.Verify(this.Classes.Count, Is.EqualTo(2), message, arguments);
+			factory.Verify(this.Classes.Count, Is.EqualTo(2), message, arguments);
 			factory.Verify(this.Classes[0] as ComplexClass, message, arguments);
 			factory.Verify(this.Classes[1], message, arguments);
 

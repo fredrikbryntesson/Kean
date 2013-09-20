@@ -32,7 +32,7 @@ namespace Kean.Draw.OpenGL.Test
 		public override void Setup()
 		{
 			base.Setup();
-			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 				this.image = OpenGL.Image.Create(raster);
 		}
 		public override void TearDown()
@@ -43,7 +43,6 @@ namespace Kean.Draw.OpenGL.Test
 		protected override void Run()
 		{
 			this.Run(
-				this.DrawImageOnPosition,
 				this.Create,
 				this.CreateFromRaster,
 				this.DrawColor,
@@ -71,13 +70,13 @@ namespace Kean.Draw.OpenGL.Test
 		[Test]
 		public void CreateFromRaster()
 		{
-			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 				Verify(this.image.Canvas.Image, raster);
 		}
 		[Test]
 		public void Copy()
 		{
-			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image copy = this.image.Copy())
 				Verify(copy, raster);
 		}
@@ -87,7 +86,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255));
-				Verify(image, "Correct.Bgra.DrawColor.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColor.png");
 			}
 		}
 		[Test]
@@ -96,7 +95,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
-				Verify(image, "Correct.Bgra.DrawColorRegion.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColorRegion.png");
 			}
 		}
 		[Test]
@@ -105,7 +104,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Clear();
-				Verify(image, "Correct.Bgra.Clear.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.Clear.png");
 			}
 		}
 		[Test]
@@ -114,29 +113,29 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Clear(new Geometry2D.Single.Box(200, 300, 200, 100));
-				Verify(image, "Correct.Bgra.ClearArea.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.ClearArea.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnPosition()
 		{
 			using (Draw.Image image = this.image.Copy())
-			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
 				image.Canvas.Draw(resized, new Geometry2D.Single.Point(500, 200));
-				Verify(image, "Correct.Bgra.DrawImageOnPosition.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawImageOnPosition.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnRegion()
 		{
 			using (Draw.Image image = this.image.Copy())
-			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
 				image.Canvas.Draw(resized, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
-				Verify(image, "Correct.Bgra.DrawImageOnRegion.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawImageOnRegion.png");
 			}
 		}
 		[Test]
@@ -145,7 +144,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Blend(0.5f);
-				Verify(image, "Correct.Bgra.Blend.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.Blend.png");
 			}
 		}
 		[Test]
@@ -157,33 +156,33 @@ namespace Kean.Draw.OpenGL.Test
 				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
 				image.Canvas.Draw(new Kean.Draw.Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, 100, 400, 100));
 				image.Canvas.Pop();
-				Verify(image, "Correct.Bgra.DrawColorRegionWithClipping.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColorRegionWithClipping.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnRegionWithClipping()
 		{
 			using (Draw.Image image = this.image.Copy())
-			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
 				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
 				image.Canvas.Draw(part, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
 				image.Canvas.Pop();
-				Verify(image, "Correct.Bgra.DrawImageOnRegionWithClipping.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawImageOnRegionWithClipping.png");
 			}
 		}
 		[Test]
 		public void BlendWithClipping()
 		{
 			using (Draw.Image image = this.image.Copy())
-			using (Draw.Image part = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
 				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
 				image.Canvas.Blend(0.5f);
 				image.Canvas.Pop();
-				Verify(image, "Correct.Bgra.BlendWithClipping.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.BlendWithClipping.png");
 			}
 		}
 		//TODO Need a way to set both clip and transform independently.
@@ -196,7 +195,7 @@ namespace Kean.Draw.OpenGL.Test
 				image.Canvas.Push(new Geometry2D.Single.Box(0,0, image.Size.Width / 2, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(100,0) * Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45)));
 				image.Canvas.Draw(new Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
 				image.Canvas.Pop();
-				Verify(image, "Correct.Bgra.DrawColorRegionWithTransformAndClipping.png");
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColorRegionWithTransformAndClipping.png");
 			}
 		}		
 	}

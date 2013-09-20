@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,6 +10,7 @@
     <RootNamespace>Kean</RootNamespace>
     <AssemblyName>Kean</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -32,6 +34,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -42,9 +47,6 @@
       <HintPath>..\packages\Cairo.2.0.0.1\lib\Mono.Cairo.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="OpenTK">
       <HintPath>..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.dll</HintPath>
@@ -236,7 +238,9 @@
     <Compile Include="Draw\OpenGL\Bgr.cs" />
     <Compile Include="Draw\OpenGL\Bgra.cs" />
     <Compile Include="Draw\OpenGL\Canvas.cs" />
-    <Compile Include="Draw\OpenGL\Control.cs" />
+    <Compile Include="Draw\OpenGL\Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Draw\OpenGL\Image.cs" />
     <Compile Include="Draw\OpenGL\Map.cs" />
     <Compile Include="Draw\OpenGL\Monochrome.cs" />
@@ -246,7 +250,9 @@
     <Compile Include="Draw\OpenGL\Yuv420.cs" />
     <Compile Include="Draw\OpenGL\Backend\Composition.cs" />
     <Compile Include="Draw\OpenGL\Backend\Context.cs" />
-    <Compile Include="Draw\OpenGL\Backend\Control.cs" />
+    <Compile Include="Draw\OpenGL\Backend\Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Draw\OpenGL\Backend\Depth.cs" />
     <Compile Include="Draw\OpenGL\Backend\FrameBuffer.cs" />
     <Compile Include="Draw\OpenGL\Backend\IData.cs" />
@@ -265,7 +271,9 @@
     <Compile Include="Draw\OpenGL\Backend\Extension\Geometry2D.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Composition.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Context.cs" />
-    <Compile Include="Draw\OpenGL\Backend\OpenGL21\Control.cs" />
+    <Compile Include="Draw\OpenGL\Backend\OpenGL21\Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Depth.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\FrameBuffer.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Program.cs" />
@@ -809,26 +817,7 @@
     <Compile Include="Buffer\Exception\NullArgument.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Cli\" />
-    <Folder Include="Cli\Argument\" />
-    <Folder Include="Buffer\" />
-    <Folder Include="Collection\" />
-    <Folder Include="Error\" />
-    <Folder Include="Parallel\" />
-    <Folder Include="Recycle\" />
-    <Folder Include="Reflect\" />
-    <Folder Include="Serialize\" />
-    <Folder Include="Uri\" />
-    <Folder Include="DB\" />
-    <Folder Include="Draw\" />
-    <Folder Include="Html\" />
-    <Folder Include="IO\" />
-    <Folder Include="Json\" />
-    <Folder Include="Math\" />
-    <Folder Include="Platform\" />
-    <Folder Include="Xml\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Math\Complex\Template.tt" />
     <None Include="Math\Geometry2D\Box.tt" />
@@ -845,10 +834,13 @@
     <None Include="Platform\Log\Modules\Log.xml" />
     <None Include="Platform\Settings\Kean.Platform.Settings.targets" />
     <None Include="Platform\Settings\Modules\Settings.xml" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets" Condition="Exists('../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets')" />
   <Import Project="../packages/Cairo.2.0.0.1/build/Cairo.targets" Condition="Exists('../packages/Cairo.2.0.0.1/build/Cairo.targets')" />
   <Import Project="../packages/Pango.1.28.3.1/build/Pango.targets" Condition="Exists('../packages/Pango.1.28.3.1/build/Pango.targets')" />
   <Import Project="../../packages/Pango.1.28.3.1/build/Pango.targets" Condition="Exists('../../packages/Pango.1.28.3.1/build/Pango.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

@@ -39,8 +39,8 @@
 		<Value>1</Value>
 	</Number>
 	<Number>
-		<Key>seven</Key>
-		<Value>7</Value>
+		<Key>eight</Key>
+		<Value>8</Value>
 	</Number>
 	<Number>
 		<Key>three</Key>
@@ -59,29 +59,21 @@
 		<Value>0</Value>
 	</Number>
 	<Number>
-		<Key>six</Key>
-		<Value>6</Value>
+		<Key>two</Key>
+		<Value>2</Value>
 	</Number>
 	<Number>
 		<Key>four</Key>
 		<Value>4</Value>
 	</Number>
 	<Number>
-		<Key>two</Key>
-		<Value>2</Value>
+		<Key>six</Key>
+		<Value>6</Value>
 	</Number>
 	<Number>
-		<Key>eight</Key>
-		<Value>8</Value>
+		<Key>seven</Key>
+		<Value>7</Value>
 	</Number>
-	<Objects>
-		<Key>boolean</Key>
-		<Value type="bool">true</Value>
-	</Objects>
-	<Objects>
-		<Key>time</Key>
-		<Value type="System.DateTime">2111-11-11T11:11:11.1110000</Value>
-	</Objects>
 	<Objects>
 		<Key>complex</Key>
 		<Value type="Kean.Serialize.Test.Data.ComplexClass Kean.Tests">
@@ -105,6 +97,14 @@
 				<String>This is Kean.</String>
 			</Structure>
 		</Value>
+	</Objects>
+	<Objects>
+		<Key>time</Key>
+		<Value type="System.DateTime">2111-11-11T11:11:11.1110000</Value>
+	</Objects>
+	<Objects>
+		<Key>boolean</Key>
+		<Value type="bool">true</Value>
 	</Objects>
 	<Objects>
 		<Key>class</Key>

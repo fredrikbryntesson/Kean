@@ -294,7 +294,8 @@ namespace Kean.Draw.Raster
 
 		public static T OpenResource<T> (System.Reflection.Assembly assembly, string name) where T : Raster.Image
 		{
-			return Image.OpenResource (assembly, name).As<T> ();
+			Image result = Image.OpenResource(assembly, name);
+			return result.NotNull() ? result.As<T> () : null;
 		}
 
 		public static Image OpenResource (string name)
