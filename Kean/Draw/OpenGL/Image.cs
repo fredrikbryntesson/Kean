@@ -54,7 +54,7 @@ namespace Kean.Draw.OpenGL
 		internal abstract void Render(Map map, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		internal void Render(Geometry2D.Single.Box texture, Geometry2D.Single.Box rectangle)
 		{
-			if (this.Crop != null)
+			if (this.Crop.NotZero)
 			{
 				texture = (texture).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
 				rectangle = ((Geometry2D.Single.Box)rectangle).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));

@@ -88,12 +88,22 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane3, ref bottom[0]);
 			}
 			else
-			{
-				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
-				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
-				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
-				GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
-			}
+				this.UnSetClip();
+		}
+		public override void UnSetClip()
+		{
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
+		}
+		public override void SetTransform(Geometry2D.Single.Transform transform)
+		{
+			transform.Load();
+		}
+		public override void SetIdentityTransform()
+		{
+			GL.LoadIdentity();
 		}
 		public override void CopyToTexture()
 		{
@@ -158,12 +168,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			Color.Bgra bgra = color.Convert<Color.Bgra>();
 			GL.Color4(bgra.Red, bgra.Green, bgra.Blue, bgra.Alpha);
-			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
-			GL.Vertex2(region.Left, region.Top);
-			GL.Vertex2(region.Right, region.Top);
-			GL.Vertex2(region.Right, region.Bottom);
-			GL.Vertex2(region.Left, region.Bottom);
-			GL.End();
+			this.CreateRectangle(region);
 		}	 
 		protected void CreateRectangle()
 		{

@@ -51,20 +51,20 @@ namespace Kean.Draw.OpenGL.Test
 				this.ClearArea,
 				this.DrawImageOnPosition,
 				this.DrawImageOnRegion,
-				this.Blend,
+				//this.Blend,
 				this.DrawColorRegionWithClipping,
 				this.DrawImageOnRegionWithClipping,
-				this.BlendWithClipping,
+				//this.BlendWithClipping,
 				this.DrawColorRegionWithTransformAndClipping
 				);
 		}
 		[Test]
 		public void Create()
 		{
-			using (OpenGL.Bgra image = new OpenGL.Bgra(new Geometry2D.Integer.Size(128, 256)))
+			using (OpenGL.Bgra image = new OpenGL.Bgra(new Geometry2D.Integer.Size(256, 128)))
 			{
 				Verify(image.Canvas, Is.Not.Null);
-				Verify(image.Canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(128, 256)));
+				Verify(image.Canvas.Size, Is.EqualTo(new Geometry2D.Integer.Size(256, 128)));
 			}
 		}
 		[Test]
@@ -176,8 +176,6 @@ namespace Kean.Draw.OpenGL.Test
 		public void BlendWithClipping()
 		{
 			using (Draw.Image image = this.image.Copy())
-			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
-			using (Draw.Image resized = part.ResizeTo(new Geometry2D.Integer.Size(100, 100)).Convert<Raster.Bgra>())
 			{
 				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
 				image.Canvas.Blend(0.5f);
@@ -192,8 +190,9 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Draw(new Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
-				image.Canvas.Push(new Geometry2D.Single.Box(0,0, image.Size.Width / 2, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(100,0) * Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45)));
-				image.Canvas.Draw(new Color.Bgra(255, 0, 0, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 100, image.Size.Width / 2 - 100, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(image.Size / 2) * Geometry2D.Single.Transform.CreateRotation(Math.Single.ToRadians(11.25f)) * Geometry2D.Single.Transform.CreateTranslation(-image.Size / 2));
+				image.Canvas.Draw(new Color.Bgra(255, 0, 0, 128), new Geometry2D.Single.Box(image.Size.Width / 2 - 50, image.Size.Height / 2 - 50, 100, 100));
+				image.Canvas.Draw(new Color.Bgra(0, 255, 0, 128), new Geometry2D.Single.Box(100, 100, 100, 100));
 				image.Canvas.Pop();
 				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColorRegionWithTransformAndClipping.png");
 			}

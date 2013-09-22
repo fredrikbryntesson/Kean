@@ -29,7 +29,8 @@ namespace Kean.Draw.OpenGL
 		Draw.Canvas
 	{
 		protected internal Backend.Composition Backend { get; private set; }
-
+		Geometry2D.Single.Box clip = new Geometry2D.Single.Box();
+		Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.Identity;
 		internal Canvas(Packed image) :
 			base(image)
 		{
@@ -71,13 +72,11 @@ namespace Kean.Draw.OpenGL
 		#region Clip, Transform, Push & Pop
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
-			this.Backend.SetClip(clip);
-			return clip;
+			return this.clip = clip;
 		}
 		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
 		{
-			//this.Backend.Transform = transform;
-			return transform;
+			return this.transform = transform;
 		}
 		#endregion
 		#region Create
@@ -91,7 +90,10 @@ namespace Kean.Draw.OpenGL
 		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
 			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
 			image.Render(source, destination);
+			this.Backend.UnSetClip();
 			this.Backend.Teardown();
 		}
 		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
@@ -111,7 +113,10 @@ namespace Kean.Draw.OpenGL
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
 			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
 			this.Backend.Draw(color, region);
+			this.Backend.UnSetClip();
 			this.Backend.Teardown();
 		}
 		#endregion
@@ -131,21 +136,34 @@ namespace Kean.Draw.OpenGL
 		public override void Blend(float factor)
 		{
 			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
 			this.Backend.Blend(factor);
+			this.Backend.UnSetClip();
 			this.Backend.Teardown();
+
+			//this.Backend.Setup();
+			//this.Backend.UnSetClip();
+			//this.Backend.SetIdentityTransform();
+			//this.Backend.Blend(factor);
+			//this.Backend.Teardown();
 		}
 		#endregion
 		#region Clear
 		public override void Clear()
 		{
 			this.Backend.Setup();
+			this.Backend.UnSetClip();
 			this.Backend.Clear();
 			this.Backend.Teardown();
 		}
 		public override void Clear(Geometry2D.Single.Box region)
 		{
 			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
 			this.Backend.Clear(region);
+			this.Backend.UnSetClip();
 			this.Backend.Teardown();
 		}
 		#endregion

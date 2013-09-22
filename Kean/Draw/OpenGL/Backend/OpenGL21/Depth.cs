@@ -50,9 +50,9 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 		}
-		public override void Create(Geometry2D.Integer.Size size)
+		public override void Create()
 		{
-			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, (OpenTK.Graphics.OpenGL.PixelInternalFormat)OpenTK.Graphics.OpenGL.All.DepthComponent32, size.Width, size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.DepthComponent, OpenTK.Graphics.OpenGL.PixelType.UnsignedInt, IntPtr.Zero);
+			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, (OpenTK.Graphics.OpenGL.PixelInternalFormat)OpenTK.Graphics.OpenGL.All.DepthComponent32, this.Size.Width, this.Size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.DepthComponent, OpenTK.Graphics.OpenGL.PixelType.UnsignedInt, IntPtr.Zero);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.ClampToBorder);

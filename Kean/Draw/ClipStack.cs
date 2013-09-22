@@ -39,8 +39,6 @@ namespace Kean.Draw
 		{
 			if (update.IsNull())
 				throw new ArgumentNullException("update");
-			if (size.IsNull())
-				throw new ArgumentNullException("size");
 			this.update = update;
 			this.clips = new Collection.Stack<Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>>();
 			this.clips.Push(Tuple.Create(new Geometry2D.Single.Box(0, 0, size.Width, size.Height), Geometry2D.Single.Transform.Identity));

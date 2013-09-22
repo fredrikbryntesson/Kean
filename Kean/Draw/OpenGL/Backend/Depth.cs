@@ -55,11 +55,16 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			return this.Identifier.ToString();
 		}
+		public void Create(Geometry2D.Integer.Size size)
+		{
+			this.Size = size;
+			this.Create();
+		}
 		#region Implementors Interface
 		protected abstract int CreateIdentifier();
 		public abstract void Use();
 		public abstract void UnUse();
-		public abstract void Create(Geometry2D.Integer.Size size);
+		public abstract void Create();
 		protected internal abstract Depth Refurbish();
 		protected internal override void Delete()
 		{
