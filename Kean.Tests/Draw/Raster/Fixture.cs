@@ -59,10 +59,13 @@ namespace Kean.Draw.Raster.Test
 
 		public void Verify (Draw.Image image, Raster.Image correct, NUnit.Framework.Constraints.Constraint constraint)
 		{
-			try {
+			try 
+			{
 				Expect (correct, Is.Not.Null);
 				this.Verify (correct.Distance (image), constraint);
-			} catch (NUnit.Framework.AssertionException) {
+			}
+			catch (NUnit.Framework.AssertionException) 
+			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
 					raster.Save (this.CurrentTestStep + ".png");
 				throw;

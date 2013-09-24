@@ -160,7 +160,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.One);
 			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncReverseSubtract);
-			//GL.Color4((byte)(255 * factor), (byte)(255 * factor), (byte)(255 * factor), (byte)(255 * factor));
 			GL.Color4(0f, 0f, 0f, factor);
 			this.CreateRectangle();
 		}

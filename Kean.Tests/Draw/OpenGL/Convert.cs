@@ -31,18 +31,18 @@ namespace Kean.Draw.OpenGL.Test
 		protected override void Run()
 		{
 			this.Run(
-				this.BgrToYuv420,
-				this.Yuv420ToBgr,
-				this.Yuv420ToBgra,
-				this.BgraToYuv420,
-				this.BgraToMonochrome,
+				//this.BgraToMonochrome,
 				this.BgraToBgr,
-				this.MonochromeToYuv420,
-				this.MonochromeToBgr,
+				this.BgraToYuv420,
+				this.BgrToYuv420,
+				//this.BgrToMonochrome,
+				this.BgrToBgra,
 				this.MonochromeToBgra,
+				this.MonochromeToBgr,
+				this.MonochromeToYuv420,
 				this.Yuv420ToMonochrome,
-				this.BgrToMonochrome,
-				this.BgrToBgra
+				this.Yuv420ToBgra,
+				this.Yuv420ToBgr
 				);
 		}
 		[Test]
