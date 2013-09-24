@@ -51,10 +51,10 @@ namespace Kean.Draw.OpenGL.Test
 				this.ClearArea,
 				this.DrawImageOnPosition,
 				this.DrawImageOnRegion,
-				//this.Blend,
+				this.Blend,
 				this.DrawColorRegionWithClipping,
 				this.DrawImageOnRegionWithClipping,
-				//this.BlendWithClipping,
+				this.BlendWithClipping,
 				this.DrawColorRegionWithTransformAndClipping
 				);
 		}
@@ -177,7 +177,8 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image image = this.image.Copy())
 			{
-				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200)); 
+				image.Canvas.Blend(0.25f);
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 50, 320, 200));
 				image.Canvas.Blend(0.5f);
 				image.Canvas.Pop();
 				Verify(image, "Draw.OpenGL.Correct.Bgra.BlendWithClipping.png");

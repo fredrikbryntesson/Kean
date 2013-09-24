@@ -160,7 +160,8 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.One);
 			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncReverseSubtract);
-			GL.Color4(factor, factor, factor, factor * 3);
+			//GL.Color4((byte)(255 * factor), (byte)(255 * factor), (byte)(255 * factor), (byte)(255 * factor));
+			GL.Color4(0f, 0f, 0f, factor);
 			this.CreateRectangle();
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
@@ -172,7 +173,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}	 
 		protected void CreateRectangle()
 		{
-			this.CreateRectangle(new Geometry2D.Single.Box(new Geometry2D.Single.Point(), this.Size));
+			this.CreateRectangle(new Geometry2D.Single.Box(this.Size));
 		}
 		protected void CreateRectangle(Geometry2D.Single.Box region)
 		{

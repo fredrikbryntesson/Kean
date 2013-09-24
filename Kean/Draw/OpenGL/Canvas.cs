@@ -89,12 +89,7 @@ namespace Kean.Draw.OpenGL
 		#region Draw Image
 		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			this.Backend.Setup();
-			this.Backend.SetClip(this.clip);
-			this.Backend.SetTransform(this.transform);
-			image.Render(source, destination);
-			this.Backend.UnSetClip();
-			this.Backend.Teardown();
+			this.Draw(() => image.Render(source, destination));
 		}
 		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
@@ -112,12 +107,7 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
-			this.Backend.Setup();
-			this.Backend.SetClip(this.clip);
-			this.Backend.SetTransform(this.transform);
-			this.Backend.Draw(color, region);
-			this.Backend.UnSetClip();
-			this.Backend.Teardown();
+			this.Draw(() => this.Backend.Draw(color, region));
 		}
 		#endregion
 		#region Draw Path
@@ -135,18 +125,7 @@ namespace Kean.Draw.OpenGL
 		#region Blend
 		public override void Blend(float factor)
 		{
-			this.Backend.Setup();
-			this.Backend.SetClip(this.clip);
-			this.Backend.SetTransform(this.transform);
-			this.Backend.Blend(factor);
-			this.Backend.UnSetClip();
-			this.Backend.Teardown();
-
-			//this.Backend.Setup();
-			//this.Backend.UnSetClip();
-			//this.Backend.SetIdentityTransform();
-			//this.Backend.Blend(factor);
-			//this.Backend.Teardown();
+			this.Draw(() => this.Backend.Blend(factor));
 		}
 		#endregion
 		#region Clear
@@ -159,16 +138,20 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Clear(Geometry2D.Single.Box region)
 		{
-			this.Backend.Setup();
-			this.Backend.SetClip(this.clip);
-			this.Backend.SetTransform(this.transform);
-			this.Backend.Clear(region);
-			this.Backend.UnSetClip();
-			this.Backend.Teardown();
+			this.Draw(() => this.Backend.Clear(region));
 		}
 		#endregion
 		#endregion
 		#endregion
+		void Draw(Action action)
+		{
+			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
+			action();
+			this.Backend.UnSetClip();
+			this.Backend.Teardown();
+		}
 		public override void Dispose()
 		{
 			if (this.Backend.NotNull())
