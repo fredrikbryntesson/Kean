@@ -44,9 +44,10 @@ namespace Kean.Draw.OpenGL.Backend
 			base(context)
 		{
 			this.Texture = texture;
-			this.Texture.Composition = this;
 			this.Depth = depth;
 			this.FrameBuffer = frameBuffer;
+			this.Create();
+			this.Texture.Composition = this;
 		}
 		protected Composition(Composition original) :
 			base(original)
@@ -91,6 +92,9 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void Setup();
 		public abstract void Teardown();
 		public abstract void SetClip(Geometry2D.Single.Box region);
+		public abstract void UnSetClip();
+		public abstract void SetTransform(Geometry2D.Single.Transform transform);
+		public abstract void SetIdentityTransform();
 		public abstract void CopyToTexture();
 		public abstract void CopyToTexture(Geometry2D.Integer.Size offset);
 		public abstract void Read(IntPtr pointer, Geometry2D.Integer.Box region);
@@ -98,7 +102,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void Clear();
 		public abstract void Clear(Geometry2D.Single.Box region);
 		public abstract void Blend(float factor);
-		public abstract void Draw(Color.Bgra color, Geometry2D.Single.Box region);
+		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
 		protected abstract Composition Refurbish();
 		protected internal override void Delete()
 		{

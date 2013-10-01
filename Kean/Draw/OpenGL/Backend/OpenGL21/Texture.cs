@@ -95,7 +95,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 					this.Format = OpenTK.Graphics.OpenGL.PixelFormat.Bgr;
 					break;
 				case TextureType.Monochrome:
-					this.InternalFormat = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba;
+					this.InternalFormat = OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance;
 					this.Format = OpenTK.Graphics.OpenGL.PixelFormat.Luminance;
 					break;
 			}

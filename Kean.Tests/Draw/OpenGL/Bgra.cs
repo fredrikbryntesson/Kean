@@ -32,7 +32,7 @@ namespace Kean.Draw.OpenGL.Test
 		public override void Setup()
 		{
 			base.Setup();
-			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Input.Flower.jpg"))
+			using (Raster.Bgra raster = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 				this.image = OpenGL.Image.Create(raster);
 		}
 		public override void TearDown()
@@ -45,6 +45,7 @@ namespace Kean.Draw.OpenGL.Test
 			this.Run(
 				this.Create,
 				this.Equality,
+				this.ConvertToRaster,
 				this.CreateFromRaster,
 				this.Copy,
 				this.ResizeTo,
@@ -70,35 +71,34 @@ namespace Kean.Draw.OpenGL.Test
 				Verify(a, Is.Not.EqualTo(b));
 			}
 		}
-		/*
 		[Test]
 		public void ConvertToRaster()
 		{
-			using (Gpu.Bgra image = new Gpu.Bgra(new Geometry2D.Integer.Size(128, 256)))
-				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Correct.Bgra.ConvertToRaster.png")));
-		}*/
+			using (OpenGL.Bgra image = new OpenGL.Bgra(new Geometry2D.Integer.Size(128, 256)))
+				Expect(image.Convert<Raster.Bgra>(), Is.EqualTo(Raster.Bgra.OpenResource("Draw.OpenGL.Correct.Bgra.ConvertToRaster.png")));
+		}
 		[Test]
 		public void CreateFromRaster()
 		{
-			Verify(this.image, "Correct.Bgra.CreateFromRaster.png");
+			Verify(this.image, "Draw.OpenGL.Correct.Bgra.CreateFromRaster.png");
 		}
 		[Test]
 		public void Copy()
 		{
 			using (Draw.Image copy = this.image.Copy())
-				Verify(copy, "Correct.Bgra.CreateFromRaster.png");
+				Verify(copy, "Draw.OpenGL.Correct.Bgra.CreateFromRaster.png");
 		}
 		[Test]
 		public void ResizeTo()
 		{
 			using (Draw.Image resized = this.image.ResizeTo(new Geometry2D.Integer.Size(100, 100)))
-				Verify(resized, "Correct.Bgra.ResizeTo.png");
+				Verify(resized, "Draw.OpenGL.Correct.Bgra.ResizeTo.png");
 		}
 		[Test]
 		public void ResizeWithin()
 		{
 			using (Draw.Image resized = this.image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
-				Verify(resized, "Correct.Bgra.ResizeWithin.png");
+				Verify(resized, "Draw.OpenGL.Correct.Bgra.ResizeWithin.png");
 		}
 	}
 }

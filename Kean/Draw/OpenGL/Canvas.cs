@@ -29,7 +29,8 @@ namespace Kean.Draw.OpenGL
 		Draw.Canvas
 	{
 		protected internal Backend.Composition Backend { get; private set; }
-
+		Geometry2D.Single.Box clip = new Geometry2D.Single.Box();
+		Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.Identity;
 		internal Canvas(Packed image) :
 			base(image)
 		{
@@ -71,13 +72,11 @@ namespace Kean.Draw.OpenGL
 		#region Clip, Transform, Push & Pop
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
-			this.Backend.SetClip(clip);
-			return clip;
+			return this.clip = clip;
 		}
 		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
 		{
-			//this.Backend.Transform = transform;
-			return transform;
+			return this.transform = transform;
 		}
 		#endregion
 		#region Create
@@ -90,9 +89,7 @@ namespace Kean.Draw.OpenGL
 		#region Draw Image
 		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			this.Backend.Setup();
-			image.Render(source, destination);
-			this.Backend.Teardown();
+			this.Draw(() => image.Render(source, destination));
 		}
 		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
@@ -110,7 +107,7 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Draw(IColor color, Geometry2D.Single.Box region)
 		{
-			this.Backend.Draw(color.Convert<Color.Bgra>(), region);
+			this.Draw(() => this.Backend.Draw(color, region));
 		}
 		#endregion
 		#region Draw Path
@@ -128,21 +125,33 @@ namespace Kean.Draw.OpenGL
 		#region Blend
 		public override void Blend(float factor)
 		{
-			this.Backend.Blend(factor);
+			this.Draw(() => this.Backend.Blend(factor));
 		}
 		#endregion
 		#region Clear
 		public override void Clear()
 		{
-			this.Draw(new Color.Bgra());
+			this.Backend.Setup();
+			this.Backend.UnSetClip();
+			this.Backend.Clear();
+			this.Backend.Teardown();
 		}
 		public override void Clear(Geometry2D.Single.Box region)
 		{
-			this.Backend.Draw(new Color.Bgra(), region);
+			this.Draw(() => this.Backend.Clear(region));
 		}
 		#endregion
 		#endregion
 		#endregion
+		void Draw(Action action)
+		{
+			this.Backend.Setup();
+			this.Backend.SetClip(this.clip);
+			this.Backend.SetTransform(this.transform);
+			action();
+			this.Backend.UnSetClip();
+			this.Backend.Teardown();
+		}
 		public override void Dispose()
 		{
 			if (this.Backend.NotNull())
