@@ -32,15 +32,15 @@ namespace Kean.Xml.Serialize
     {
         Preprocessor preprocessor;
         public Storage() :
-			this(null, null)
+            this(null, null)
         {
         }
         public Storage(Kean.Serialize.IRebuilder rebuilder, params Kean.Serialize.ISerializer[] serializers) :
-			base(null, rebuilder ?? new Kean.Serialize.Rebuilder.Default(), serializers)
+            base(null, rebuilder ?? new Kean.Serialize.Rebuilder.Default(), serializers)
         {
             this.preprocessor = new Serialize.Preprocessor();
         }
-        protected override Kean.Serialize.Data.Node Load(IO.IByteInDevice device)
+        protected override Kean.Serialize.Data.Node LoadImplementation(IO.IByteInDevice device)
         {
             Dom.Document document = Dom.Document.Open(device);
             return document.NotNull() && document.Root.NotNull() ? this.Convert(this.preprocessor.Process(document).Root) : null;
@@ -71,7 +71,7 @@ namespace Kean.Xml.Serialize
             }
             return result;
         }
-        protected override bool Store(Kean.Serialize.Data.Node value, IO.IByteOutDevice device)
+        protected override bool StoreImplementation(Kean.Serialize.Data.Node value, IO.IByteOutDevice device)
         {
             return new Dom.Document() { Root = this.Convert(value) }.Save(device);
         }

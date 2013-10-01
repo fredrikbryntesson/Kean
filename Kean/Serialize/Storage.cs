@@ -39,7 +39,11 @@ namespace Kean.Serialize
             this.rebuilder = rebuilder ?? new Rebuilder.Identity();
             this.serializer = new Serializer.Cache(serializers.NotEmpty() ? new Serializer.Group(serializers) : new Serializer.Default());
         }
-        protected abstract bool Store(Data.Node value, IO.IByteOutDevice device);
+        protected abstract bool StoreImplementation(Data.Node value, IO.IByteOutDevice device);
+        public bool Store(Data.Node value, IO.IByteOutDevice device)
+        {
+            return device.NotNull() && this.StoreImplementation(this.rebuilder.Store(this, value), device);
+        }
         public bool Store<T>(T value, Uri.Locator resource, string name = null)
         {
             return this.Store(value, IO.ByteDevice.Create(resource), name);
@@ -52,11 +56,16 @@ namespace Kean.Serialize
                 Data.Node data = this.Serialize(typeof(T), value, device.Resource);
                 if (name.NotEmpty() && data.NotNull())
                     data.Name = name;
-                result = this.Store(this.rebuilder.Store(this, data), device);
+                result = this.Store(data, device);
             }
             return result;
         }
-        protected abstract Data.Node Load(IO.IByteInDevice device);
+        protected abstract Data.Node LoadImplementation(IO.IByteInDevice device);
+        public Data.Node Load(IO.IByteInDevice device)
+        {
+            Data.Node node;
+            return (node = this.LoadImplementation(device)).NotNull() ? this.rebuilder.Load(this, node.UpdateLocators(device.Resource)) : null;
+        }
         public T Load<T>(Uri.Locator resource)
         {
             return this.Load<T>(IO.ByteDevice.Open(resource));
@@ -64,7 +73,7 @@ namespace Kean.Serialize
         public T Load<T>(IO.IByteInDevice device)
         {
             Data.Node node;
-            return device.IsNull() ? default(T) : (T)(this.Resolver[device.Resource] ?? ((node = this.Load(device)).NotNull() ? this.Deserialize(null, this.rebuilder.Load(this, node.DefaultType(typeof(T)).UpdateLocators(device.Resource))) : null));
+            return device.IsNull() ? default(T) : (T)(this.Resolver[device.Resource] ?? ((node = this.Load(device)).NotNull() ? this.Deserialize(null, node.DefaultType(typeof(T))) : null));
         }
         public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
         {
