@@ -46,15 +46,16 @@ namespace Kean.Draw.OpenGL
 			{
 				map.Backend.SetTexture("texture", 0, this.Backend);
 				map.Backend.Use();
-			}
-			this.Backend.Use();
-			this.Backend.Configure();
-			this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
-			this.Backend.UnUse();
-			if (map.NotNull())
-			{
+				this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
 				map.Backend.UnUse();
 				map.Backend.UnSetTexture(0);
+			}
+			else
+			{
+				this.Backend.Use();
+				this.Backend.Configure();
+				this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
+				this.Backend.UnUse();
 			}
 		}
 		#region Draw.Image Overrides

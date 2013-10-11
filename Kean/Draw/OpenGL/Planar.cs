@@ -46,16 +46,17 @@ namespace Kean.Draw.OpenGL
 				for (int i = this.Channels.Length - 1; i >= 0; i--)
 					map.Backend.SetTexture("texture" + i, i, this.Channels[i].Backend);
 				map.Backend.Use();
-			}
-			this.Channels[0].Backend.Use();
-			this.Channels[0].Backend.Configure();
-			this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
-			this.Channels[0].Backend.UnUse();
-			if (map.NotNull())
-			{
+				this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
 				map.Backend.UnUse();
-				for (int i = this.Channels.Length - 1; i >= 0; i--)
+				for (int i = 0; i < this.Channels.Length; i++)
 					map.Backend.UnSetTexture(i);
+			}
+			else
+			{
+				this.Channels[0].Backend.Use();
+				this.Channels[0].Backend.Configure();
+				this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
+				this.Channels[0].Backend.UnUse();
 			}
 		}
 		#region Draw.Image Overrides

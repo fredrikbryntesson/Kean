@@ -41,6 +41,7 @@ namespace Kean.Draw.OpenGL.Backend
 		WasteBin<FrameBuffer> frameBufferBin;
 		WasteBin<Program> programBin;
 		WasteBin<Shader> shaderBin;
+		Collection.IDictionary<Programs, Program> programs = new Collection.Dictionary<Programs, Program>();
 
 
 		public string OpenGLVersion { get { return OpenTK.Graphics.OpenGL.GL.GetString(OpenTK.Graphics.OpenGL.StringName.Version); } }
@@ -113,7 +114,14 @@ namespace Kean.Draw.OpenGL.Backend
 		protected internal abstract Composition CreateComposition(Texture texture);
 		public abstract Program CreateProgram();
 		public abstract Program CreateProgram(string vertex, string fragment);
-		public abstract Program CreateProgram(Programs program);
+		protected abstract Program CreateProgram(Programs program);
+		public Program GetProgram(Programs program)
+		{
+			Backend.Program result = this.programs[program];
+			if (result.IsNull())
+				/*this.programs[program] = */result = this.CreateProgram(program);
+			return result;
+		}
 		public abstract Shader CreateShader(ShaderType type);
 		protected abstract Texture AllocateTexture();
 		protected abstract Composition AllocateComposition();
@@ -166,6 +174,12 @@ namespace Kean.Draw.OpenGL.Backend
 		public virtual void Dispose()
 		{
 			//this.compositionBin.On = this.textureBin.On = false;
+			if (this.programs.NotNull())
+			{
+				foreach (Tuple<Programs, Program> program in this.programs)
+					if (program.Item2.NotNull())
+						program.Item2.Dispose();
+			}
 			this.Free();
 			Texture.FreeAllocated();
 			//this.compositionBin.On = this.textureBin.On = true;

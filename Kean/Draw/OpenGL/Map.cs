@@ -33,7 +33,6 @@ namespace Kean.Draw.OpenGL
 		public Map(Backend.Program backend)
 		{
 			this.Backend = backend;
-			this.Backend.Link();
 		}
 		public override void Dispose()
 		{
@@ -44,11 +43,11 @@ namespace Kean.Draw.OpenGL
 			}
 			base.Dispose();
 		}
-		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Context.Current.CreateProgram(OpenGL.Backend.Programs.MonochromeToBgr)); } }
-		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Context.Current.CreateProgram(OpenGL.Backend.Programs.BgrToMonochrome)); } }
-		public static Map BgrToU { get { return new Map(OpenGL.Backend.Context.Current.CreateProgram(OpenGL.Backend.Programs.BgrToU)); } }
-		public static Map BgrToV { get { return new Map(OpenGL.Backend.Context.Current.CreateProgram(OpenGL.Backend.Programs.BgrToV)); } }
-		public static Map Yuv420ToBgr { get { return new Map(OpenGL.Backend.Context.Current.CreateProgram(OpenGL.Backend.Programs.Yuv420ToBgr)); } }
+		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Context.Current.GetProgram(OpenGL.Backend.Programs.MonochromeToBgr)); } }
+		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Context.Current.GetProgram(OpenGL.Backend.Programs.BgrToMonochrome)); } }
+		public static Map BgrToU { get { return new Map(OpenGL.Backend.Context.Current.GetProgram(OpenGL.Backend.Programs.BgrToU)); } }
+		public static Map BgrToV { get { return new Map(OpenGL.Backend.Context.Current.GetProgram(OpenGL.Backend.Programs.BgrToV)); } }
+		public static Map Yuv420ToBgr { get { return new Map(OpenGL.Backend.Context.Current.GetProgram(OpenGL.Backend.Programs.Yuv420ToBgr)); } }
 
 		public static Map Create(string fragment)
 		{
