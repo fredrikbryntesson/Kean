@@ -61,23 +61,26 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected override void Dispose(bool disposing)
 		{
-			if (this.Texture.NotNull() && this.Depth.NotNull() && this.FrameBuffer.NotNull())
+			if (this.Texture.NotNull() && this.Texture.Identifier != 0 && this.Depth.NotNull() && this.Depth.Identifier != 0 && this.FrameBuffer.NotNull() && this.FrameBuffer.Identifier != 0)
 				this.Context.Recycle(this.Refurbish());
-			else if (this.Texture.NotNull())
+			else
 			{
-				this.Texture.Composition = null;
-				this.Texture.Dispose();
-				this.Texture = null;
-			}
-			else if (this.Depth.NotNull())
-			{
-				this.Depth.Dispose();
-				this.Depth = null;
-			}
-			else if (this.FrameBuffer.NotNull())
-			{
-				this.FrameBuffer.Dispose();
-				this.FrameBuffer = null;
+				if (this.Texture.NotNull())
+				{
+					this.Texture.Composition = null;
+					this.Context.Delete(this.Texture);
+					this.Texture = null;
+				}
+				if (this.Depth.NotNull())
+				{
+					this.Depth.Dispose();
+					this.Depth = null;
+				}
+				if (this.FrameBuffer.NotNull())
+				{
+					this.FrameBuffer.Dispose();
+					this.FrameBuffer = null;
+				}
 			}
 		}
 		public void Create()

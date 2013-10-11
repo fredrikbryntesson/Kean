@@ -35,7 +35,9 @@ namespace Kean.Draw.OpenGL.Test
 		public override void  Setup()
 		{
 			base.Setup();
-			this.image = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Monochrome>());
+			using (Raster.Image flower = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
+			using (Raster.Monochrome monochrome = flower.Convert<Raster.Monochrome>())
+				this.image = OpenGL.Image.Create(monochrome);
 		}
 		public override void TearDown()
 		{
@@ -56,7 +58,8 @@ namespace Kean.Draw.OpenGL.Test
 				this.DrawColorRegion,
 				this.ClearArea,
 				this.DrawImageOnRegion,
-				this.DrawImageOnBgra
+				this.DrawColorRegionWithoutBackground
+				//this.DrawImageOnBgra
 				);
 		}
 		[Test]
@@ -137,26 +140,39 @@ namespace Kean.Draw.OpenGL.Test
 			}
 		}
 		[Test]
+		public void DrawColorRegionWithoutBackground()
+		{
+			using (Draw.Image image = new OpenGL.Monochrome(this.image.Size))
+			{
+				image.Canvas.Draw(new Color.Bgra(64, 64, 64, 255));
+				image.Canvas.Draw(new Color.Bgra(128, 128, 128, 255), new Geometry2D.Single.Box(100, 100, 200, 200));
+				Verify(image, "Draw.OpenGL.Correct.Monochrome.DrawColorRegionWithoutBackground.png");
+			}
+		}
+		[Test]
 		public void DrawImageOnRegion()
 		{
 			using (Draw.Image image = this.image.Copy())
 			using (Draw.Image flower = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (Draw.Image part = flower.ResizeTo(new Geometry2D.Integer.Size(100, 100)))
 			using (Draw.Image monochrome = part.Convert<Raster.Monochrome>())
+			using (Draw.Image bgra = monochrome.Convert<Raster.Bgra>())
 			{
-				image.Canvas.Draw(monochrome.Convert<Raster.Bgra>(), new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
+				image.Canvas.Draw(bgra, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
 				Verify(image, "Draw.OpenGL.Correct.Monochrome.DrawImageOnRegion.png");
 			}
 		}
 		[Test]
 		public void DrawImageOnBgra()
 		{
-			using (Draw.Image monochrome = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Monochrome>()))
-			using (Draw.Image bgra = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.ElephantSeal.jpg").Convert<Raster.Bgra>()))
-			using (Draw.Image resized = monochrome.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
+			using (Draw.Image bgr = Raster.Image.OpenResource("Draw.OpenGL.Input.ElephantSeal.jpg"))
+			using (Draw.Image bgra = bgr.Convert<Raster.Bgra>())
+			using (Draw.OpenGL.Image destination = OpenGL.Image.Create(bgra))
+			using (Draw.Image resized = this.image.ResizeWithin(new Geometry2D.Integer.Size(100, 100)))
 			{
-				bgra.Canvas.Draw(resized);
-				Verify(bgra, "Draw.OpenGL.Correct.Monochrome.DrawImageOnBgra.png");
+				destination.Canvas.Draw(resized);
+				destination.Canvas.Finish();
+				Verify(destination, "Draw.OpenGL.Correct.Monochrome.DrawImageOnBgra.png");
 			}
 		}
 		#endregion

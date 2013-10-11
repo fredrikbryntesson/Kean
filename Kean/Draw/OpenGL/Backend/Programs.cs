@@ -35,7 +35,6 @@ namespace Kean.Draw.OpenGL.Backend
 		BgrToMonochrome,
 		BgrToU,
 		BgrToV,
-		BgrToYuv420,
 		Yuv420ToBgr,
 	}
 }

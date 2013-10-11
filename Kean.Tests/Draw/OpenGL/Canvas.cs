@@ -51,6 +51,7 @@ namespace Kean.Draw.OpenGL.Test
 				this.ClearArea,
 				this.DrawImageOnPosition,
 				this.DrawImageOnRegion,
+				this.DrawImageUsingMapping,
 				this.Blend,
 				this.DrawColorRegionWithClipping,
 				this.DrawImageOnRegionWithClipping,
@@ -136,6 +137,18 @@ namespace Kean.Draw.OpenGL.Test
 			{
 				image.Canvas.Draw(resized, new Geometry2D.Single.Box(0, 0, 50, 100), new Geometry2D.Single.Box(200, 200, 100, 100));
 				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawImageOnRegion.png");
+			}
+		}
+		[Test]
+		public void DrawImageUsingMapping()
+		{
+			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image part = Raster.Bgra.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
+			using (Draw.Image resized = part.ResizeWithin(new Geometry2D.Integer.Size(300, 300)))
+			using (Draw.Map map = OpenGL.Map.Create(@"uniform sampler2D texture; void main() { vec4 value = texture2D(texture, gl_TexCoord[0].xy); gl_FragColor = vec4(1.0 - value.z, 1.0 - value.y, 1.0 - value.x, 1.0); }"))
+			{
+				image.Canvas.Draw(map, resized, new Geometry2D.Single.Point(300, 200));
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawImageUsingMapping.png");
 			}
 		}
 		[Test]

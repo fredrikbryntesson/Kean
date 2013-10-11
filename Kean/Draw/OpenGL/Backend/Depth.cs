@@ -49,7 +49,7 @@ namespace Kean.Draw.OpenGL.Backend
 		protected override void Dispose(bool disposing)
 		{
 			if (this.Context.NotNull())
-				this.Context.Recycle(this.Refurbish());
+				this.Context.Delete(this.Refurbish());
 		}
 		public override string ToString()
 		{

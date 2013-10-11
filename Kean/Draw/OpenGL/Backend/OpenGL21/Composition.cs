@@ -57,7 +57,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.PushMatrix();
 			GL.LoadIdentity();
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+			if (this.Texture.Type == TextureType.Argb)
+				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+			else
+				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
 		}
 
 		public override void Teardown()
@@ -138,7 +141,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 					break;
 				case TextureType.Monochrome:
-					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 					break;
 			}
 		}

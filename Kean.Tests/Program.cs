@@ -25,7 +25,7 @@ namespace Kean.Tests
 	{
 		static void Main(string[] args)
 		{
-			Kean.Error.Log.CatchErrors = false;
+			//Kean.Error.Log.CatchErrors = false;
 			#region Draw
 			Draw.OpenGL.Test.All.Test();
 			Draw.Test.All.Test();

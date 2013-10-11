@@ -39,21 +39,24 @@ namespace Kean.Draw.OpenGL
 		{
 			this.Channels = original.Channels.Map(c => c.Copy() as Packed);
 		}
-		internal override void Render(Map map, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		internal override void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
 		{
 			if (map.NotNull())
 			{
-				for (int i = 0; i < this.Channels.Length; i++)
-					map.Backend.SetTexture("texture", i, this.Channels[i].Backend);
+				for (int i = this.Channels.Length - 1; i >= 0; i--)
+					map.Backend.SetTexture("texture" + i, i, this.Channels[i].Backend);
 				map.Backend.Use();
 			}
-			this.Render(source, destination);
+			this.Channels[0].Backend.Use();
+			this.Channels[0].Backend.Configure();
+			this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
+			this.Channels[0].Backend.UnUse();
 			if (map.NotNull())
+			{
 				map.Backend.UnUse();
-		}
-		internal override void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
-		{
-			this.Channels[0].Render(leftTop, rightTop, leftBottom, rightBottom, destination);
+				for (int i = this.Channels.Length - 1; i >= 0; i--)
+					map.Backend.UnSetTexture(i);
+			}
 		}
 		#region Draw.Image Overrides
 		Canvas canvas;

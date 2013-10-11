@@ -63,8 +63,8 @@ namespace Kean.Draw.OpenGL
 			this(image.Size, image.CoordinateSystem)
 		{
 			this.Y.Canvas.Draw(Map.BgrToMonochrome, image);
-			this.U.Canvas.Draw(Map.BgrToU, image);
-			this.V.Canvas.Draw(Map.BgrToV, image);
+			this.U.Canvas.Draw(Map.BgrToU, image, new Kean.Math.Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0, 0, this.U.Size.Width, this.U.Size.Height));
+			this.V.Canvas.Draw(Map.BgrToV, image, new Kean.Math.Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0, 0, this.V.Size.Width, this.V.Size.Height));
 		}
 		public Yuv420(Bgra image) :
 			this(image.Size, image.CoordinateSystem)
@@ -84,7 +84,7 @@ namespace Kean.Draw.OpenGL
 		public override T Convert<T>()
 		{
 			T result = null;
-			if (typeof(T).IsSubclassOf(typeof(Raster.Image)))
+			if (((Reflect.Type)typeof(T)).Inherits<Raster.Image>())
 			{
 				Raster.Monochrome y = this.Y.Backend.Read() as Raster.Monochrome;
 				Raster.Monochrome u = this.U.Backend.Read() as Raster.Monochrome;
