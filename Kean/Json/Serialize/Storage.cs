@@ -34,12 +34,12 @@ namespace Kean.Json.Serialize
 			base(null, null, null)
         {
         }
-        protected override Kean.Serialize.Data.Node Load(IO.IByteInDevice device)
+        protected override Kean.Serialize.Data.Node LoadImplementation(IO.IByteInDevice device)
         {
             Dom.Item root = Dom.Item.Open(device);
             return root.NotNull() ? Storage.Convert(root) : null;
         }
-        protected override bool Store(Kean.Serialize.Data.Node value, IO.IByteOutDevice device)
+        protected override bool StoreImplementation(Kean.Serialize.Data.Node value, IO.IByteOutDevice device)
         {
             Dom.Item item = Storage.Convert(value);
             if (!(item is Dom.Collection))
