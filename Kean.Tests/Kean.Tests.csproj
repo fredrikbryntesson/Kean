@@ -568,5 +568,11 @@
       <Name>Kean</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColorRegionWithoutBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageUsingMapping.png" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

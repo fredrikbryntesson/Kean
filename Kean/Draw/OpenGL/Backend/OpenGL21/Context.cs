@@ -42,7 +42,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				return maximumTextureSize; 
 			}
 		}
-
 		public Context()
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
@@ -63,81 +62,64 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			return new Program(this);
 		}
-		public override Backend.Program CreateProgram(Programs program)
+		protected override Backend.Program CreateProgram(Programs program)
 		{
 			string code = null;
 			switch (program)
 			{
 				case Programs.MonochromeToBgr:
-					code = @"uniform sampler2D monochrome0; void main() { vec4 value = texture2D(monochrome0, gl_TexCoord[0].xy); float y = value.x; gl_FragColor = vec4(y, y, y, 1.0); }";
+					code = @"uniform sampler2D texture; void main() { vec4 value = texture2D(texture, gl_TexCoord[0].xy); float y = value.x; gl_FragColor = vec4(y, y, y, 1.0); }";
 					break;
 				case Programs.BgrToMonochrome:
-					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float y = value.x * 0.299 + value.y * 0.587 + value.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }";
+					code = @"uniform sampler2D texture; void main() { vec4 value = texture2D(texture, gl_TexCoord[0].xy); float y = value.x * 0.299 + value.y * 0.587 + value.z * 0.114; gl_FragColor = vec4(y, y, y, 1.0); }";
 					break;
 				case Programs.BgrToU:
-					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float u = value.x * (-0.168736) + value.y * (-0.331264) + value.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }";
+					code = @"uniform sampler2D texture; void main() { vec4 value = texture2D(texture, gl_TexCoord[0].xy); float u = value.x * (-0.168736) + value.y * (-0.331264) + value.z * 0.5000 + 0.5; gl_FragColor = vec4(u, u, u, 1.0); }";
 					break;
 				case Programs.BgrToV:
-					code = @"uniform sampler2D bgr0; void main() { vec4 value = texture2D(bgr0, gl_TexCoord[0].xy); float v = value.x * 0.5 + value.y * (-0.418688) + value.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }";
-					break;
-				case Programs.BgrToYuv420:
-					code = @"
-								uniform sampler2D bgr0;
-								vec4 YuvToRgba(vec4 t);
-								void main()
-								{
-									vec2 center = gl_TexCoord[0].xy;
-									gl_FragData[0] = vec4(0.5, 0.0, 0.0, 1.0);
-									gl_FragData[1] = vec4(0.4, 0.0, 0.0, 1.0);
-									gl_FragData[2] = vec4(0.3, 0.0, 0.0, 1.0);
-								}
-								// Convert yuva to rgba
-								vec4 YuvToRgba(vec4 t)
-								{	
-									 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
-														-0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
-														1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
-														0,	                0,                  0,                          1);   
-										
-									return matrix * t;
-								}";
+					code = @"uniform sampler2D texture; void main() { vec4 value = texture2D(texture, gl_TexCoord[0].xy); float v = value.x * 0.5 + value.y * (-0.418688) + value.z * (-0.081312) + 0.5; gl_FragColor = vec4(v, v, v, 1.0); }";
 					break;
 				case Programs.Yuv420ToBgr:
 					code = @"
-								uniform sampler2D monochrome0Y0;
-								uniform sampler2D monochrome0U1;
-								uniform sampler2D monochrome0V2;
-								vec4 YuvToRgba(vec4 t);
-								void main()
-								{
-									vec2 center = gl_TexCoord[0].xy;
-									gl_FragColor = YuvToRgba(vec4(texture2D(monochrome0Y0, center).x, texture2D(monochrome0U1, center).x-0.5, texture2D(monochrome0V2, center).x-0.5, 1.0));
-								}
-								// Convert yuva to rgba
-								vec4 YuvToRgba(vec4 t)
-								{	
-									 mat4 matrix = mat4(1,	                1,                  1,   	                    0,
-														-0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
-														1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
-														0,	                0,                  0,                          1);   
+						uniform sampler2D texture0;
+						uniform sampler2D texture1;
+						uniform sampler2D texture2;
+						vec4 YuvToRgba(vec4 t);
+						void main()
+						{
+							vec2 position = gl_TexCoord[0].xy;
+							gl_FragColor = YuvToRgba(vec4(texture2D(texture0, position).x, texture2D(texture1, position).x - 0.5, texture2D(texture2, position).x - 0.5, 1.0));
+						}
+						// Convert yuva to rgba
+						vec4 YuvToRgba(vec4 t)
+						{	
+								mat4 matrix = mat4(1,	                1,                  1,   	                    0,
+												-0.000001218894189, -0.344135678165337,  1.772000066073816,         0,
+												1.401999588657340, -0.714136155581812,   0.000000406298063,         0, 
+												0,	                0,                  0,                          1);   
 										
-									return matrix * t;
-								}";
+							return matrix * t;
+						}";
 					break;
 				default:
 					break;
 			}
-			Program result = null;
+			Backend.Program result = null;
 			if (code.NotEmpty())
-			{
-				Shader vertex = new Shader(this, ShaderType.Vertex);
-				vertex.Compile(@"void main() { gl_Position = ftransform(); gl_TexCoord[0] = gl_MultiTexCoord0; }");
-				Shader fragment = new Shader(this, ShaderType.Fragment);
-				fragment.Compile(code);
-				result = this.CreateProgram() as Program;
-				result.Attach(vertex);
-				result.Attach(fragment);
-			}
+				result = this.CreateProgram(null, code);
+			return result;
+		}
+		public override Backend.Program CreateProgram(string vertex, string fragment)
+		{
+			Shader vertexShader = new Shader(this, ShaderType.Vertex);
+			vertexShader.Compile(vertex ?? @"void main() { gl_Position = ftransform(); gl_TexCoord[0] = gl_MultiTexCoord0; }");
+			Shader fragmentShader = new Shader(this, ShaderType.Fragment);
+			fragmentShader.Compile(fragment ?? @"uniform sampler2D texture; void main() { gl_FragColor = texture2D(texture, gl_TexCoord[0].xy); }");
+			Program result = this.CreateProgram() as Program;
+			result.Attach(vertexShader);
+			result.Link();
+			result.Attach(fragmentShader);
+			result.Link();
 			return result;
 		}
 		public override Backend.Shader CreateShader(ShaderType type)

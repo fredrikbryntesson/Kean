@@ -21,6 +21,7 @@
 
 using System;
 using Geometry2D = Kean.Math.Geometry2D;
+using Kean.Extension;
 using NUnit.Framework;
 
 namespace Kean.Draw.OpenGL.Test
@@ -28,106 +29,126 @@ namespace Kean.Draw.OpenGL.Test
 	public class Convert : 
 		Fixture<Convert>
 	{
+		Raster.Bgra rasterBgra;
+		Raster.Bgr rasterBgr;
+		Raster.Monochrome rasterMonochrome;
+		Raster.Yuv420 rasterYuv420;
+		public override void Setup()
+		{
+			this.rasterBgr = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg") as Raster.Bgr;
+			this.rasterBgra = this.rasterBgr.Convert<Raster.Bgra>();
+			this.rasterMonochrome = this.rasterBgr.Convert<Raster.Monochrome>();
+			this.rasterYuv420 = this.rasterBgr.Convert<Raster.Yuv420>();
+			base.Setup();
+		}
+		public override void TearDown()
+		{
+			this.rasterBgra.Dispose();
+			this.rasterBgr.Dispose();
+			this.rasterMonochrome.Dispose();
+			this.rasterYuv420.Dispose();
+			base.TearDown();
+		}
 		protected override void Run()
 		{
 			this.Run(
-				//this.BgraToMonochrome,
+				this.BgrToMonochrome,
+				this.BgrToBgra,
+				this.BgrToYuv420,
+				this.BgraToMonochrome,
 				this.BgraToBgr,
 				this.BgraToYuv420,
-				this.BgrToYuv420,
-				//this.BgrToMonochrome,
-				this.BgrToBgra,
-				this.MonochromeToBgra,
 				this.MonochromeToBgr,
+				this.MonochromeToBgra,
 				this.MonochromeToYuv420,
 				this.Yuv420ToMonochrome,
-				this.Yuv420ToBgra,
-				this.Yuv420ToBgr
+				this.Yuv420ToBgr,
+				this.Yuv420ToBgra
 				);
-		}
-		[Test]
-		public void BgraToMonochrome()
-		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgra>()))
-			using (OpenGL.Monochrome destination = source.Convert<OpenGL.Monochrome>())
-				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToMonochrome.png");
-		}
-		[Test]
-		public void BgraToBgr()
-		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgra>()))
-			using (OpenGL.Bgr destination = source.Convert<OpenGL.Bgr>())
-				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToBgr.png");
-		}
-		
-		[Test]
-		public void BgraToYuv420()
-		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgra>()))
-			using (OpenGL.Yuv420 destination = source.Convert<OpenGL.Yuv420>())
-				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToYuv420.png");
 		}
 		[Test]
 		public void BgrToMonochrome()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgr>()))
-			using (OpenGL.Monochrome destination = source.Convert<OpenGL.Monochrome>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgr))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Monochrome>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.BgrToMonochrome.png");
 		}
 		[Test]
 		public void BgrToBgra()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgr>()))
-			using (OpenGL.Bgra destination = source.Convert<OpenGL.Bgra>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgr))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Bgra>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.BgrToBgra.png");
 		}
 		[Test]
 		public void BgrToYuv420()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Bgr>()))
-			using (OpenGL.Yuv420 destination = source.Convert<OpenGL.Yuv420>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgr))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Yuv420>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.BgrToYuv420.png");
 		}
 		[Test]
-		public void MonochromeToBgra()
+		public void BgraToMonochrome()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Monochrome>()))
-			using (OpenGL.Bgra destination = source.Convert<OpenGL.Bgra>())
-				Verify(destination, "Draw.OpenGL.Correct.Convert.MonochromeToBgra.png");
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgra))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Monochrome>())
+				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToMonochrome.png");
+		}
+		[Test]
+		public void BgraToBgr()
+		{
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgra))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Bgr>())
+				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToBgr.png");
+		}
+
+		[Test]
+		public void BgraToYuv420()
+		{
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterBgra))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Yuv420>())
+				Verify(destination, "Draw.OpenGL.Correct.Convert.BgraToYuv420.png");
 		}
 		[Test]
 		public void MonochromeToBgr()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Monochrome>()))
-			using (OpenGL.Bgr destination = source.Convert<OpenGL.Bgr>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterMonochrome))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Bgr>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.MonochromeToBgr.png");
+		}
+		[Test]
+		public void MonochromeToBgra()
+		{
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterMonochrome))
+			using (OpenGL.Bgra destination = source.Convert<OpenGL.Bgra>())
+				Verify(destination, "Draw.OpenGL.Correct.Convert.MonochromeToBgra.png");
 		}
 		[Test]
 		public void MonochromeToYuv420()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Monochrome>()))
-			using (OpenGL.Yuv420 destination = source.Convert<OpenGL.Yuv420>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterMonochrome))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Yuv420>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.MonochromeToYuv420.png");
-		}
-		[Test]
-		public void Yuv420ToBgra()
-		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Yuv420>()))
-			using (OpenGL.Bgra destination = source.Convert<OpenGL.Bgra>())
-				Verify(destination, "Draw.OpenGL.Correct.Convert.Yuv420ToBgra.png");
 		}
 		[Test]
 		public void Yuv420ToBgr()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Yuv420>()))
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterYuv420))
 			using (OpenGL.Bgr destination = source.Convert<OpenGL.Bgr>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.Yuv420ToBgr.png");
 		}
 		[Test]
+		public void Yuv420ToBgra()
+		{
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterYuv420))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Bgra>())
+				Verify(destination, "Draw.OpenGL.Correct.Convert.Yuv420ToBgra.png");
+		}
+		[Test]
 		public void Yuv420ToMonochrome()
 		{
-			using (OpenGL.Image source = OpenGL.Image.Create(Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg").Convert<Raster.Yuv420>()))
-			using (OpenGL.Monochrome destination = source.Convert<OpenGL.Monochrome>())
+			using (OpenGL.Image source = OpenGL.Image.Create(this.rasterYuv420))
+			using (OpenGL.Image destination = source.Convert<OpenGL.Monochrome>())
 				Verify(destination, "Draw.OpenGL.Correct.Convert.Yuv420ToMonochrome.png");
 		}
 	}

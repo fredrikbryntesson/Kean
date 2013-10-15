@@ -40,25 +40,23 @@ namespace Kean.Draw.OpenGL
 			this.Backend = backend;
 		}
 		#endregion
-		internal override void Render(Map map, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		internal override void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
 		{
-			if (this is OpenGL.Monochrome && map.IsNull())
-				map = Map.MonochromeToBgr;
 			if (map.NotNull())
 			{
 				map.Backend.SetTexture("texture", 0, this.Backend);
 				map.Backend.Use();
-			}
-			this.Render(source, destination);
-			if (map.NotNull())
+				this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
 				map.Backend.UnUse();
-		}
-		internal override void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
-		{
-			this.Backend.Use();
-			this.Backend.Configure();
-			this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
-			this.Backend.UnUse();
+				map.Backend.UnSetTexture(0);
+			}
+			else
+			{
+				this.Backend.Use();
+				this.Backend.Configure();
+				this.Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
+				this.Backend.UnUse();
+			}
 		}
 		#region Draw.Image Overrides
 		Canvas canvas;

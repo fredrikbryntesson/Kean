@@ -34,12 +34,14 @@ namespace Kean.Draw.OpenGL.Backend
 	public abstract class Context :
 		IDisposable
 	{
-		RecycleBin<Texture> textureBin;
-		RecycleBin<Composition> compositionBin;
+		WasteBin<Composition> compositionBin;
+		WasteBin<Texture> textureBin;
+		WasteBin<Texture> textureDeleteBin;
 		WasteBin<Depth> depthBin;
 		WasteBin<FrameBuffer> frameBufferBin;
 		WasteBin<Program> programBin;
 		WasteBin<Shader> shaderBin;
+		Collection.IDictionary<Programs, Program> programs = new Collection.Dictionary<Programs, Program>();
 
 
 		public string OpenGLVersion { get { return OpenTK.Graphics.OpenGL.GL.GetString(OpenTK.Graphics.OpenGL.StringName.Version); } }
@@ -56,8 +58,9 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected Context()
 		{
-			this.compositionBin = new RecycleBin<Composition>(item => item.Delete());
-			this.textureBin = new RecycleBin<Texture>(item => item.Delete());
+			this.compositionBin = new WasteBin<Composition>(item => item.Delete());
+			this.textureBin = new WasteBin<Texture>(item => item.Delete());
+			this.textureDeleteBin = new WasteBin<Texture>(item => item.Delete());
 			this.depthBin = new WasteBin<Depth>(item => item.Delete());
 			this.frameBufferBin = new WasteBin<FrameBuffer>(item => item.Delete());
 			this.programBin = new WasteBin<Program>(item => item.Delete());
@@ -66,8 +69,8 @@ namespace Kean.Draw.OpenGL.Backend
 		public Texture CreateTexture(TextureType type, Geometry2D.Integer.Size size)
 		{
 			this.Free();
-			Composition composition = this.compositionBin.Recycle(type, size);
-			Texture result = composition.NotNull() ? composition.Texture : this.textureBin.Recycle(type, size);
+			Composition composition = null; // this.compositionBin.Recycle(type, size);
+			Texture result = composition.NotNull() ? composition.Texture : null; // this.textureBin.Recycle(type, size);
 			if (result.IsNull())
 			{
 				result = this.AllocateTexture();
@@ -78,14 +81,14 @@ namespace Kean.Draw.OpenGL.Backend
 		public Texture CreateTexture(Raster.Image image)
 		{
 			this.Free();
-			Texture result = this.textureBin.Recycle(this.GetTextureType(image), image.Size) ?? this.AllocateTexture();
+			Texture result = /* this.textureBin.Recycle(this.GetTextureType(image), image.Size) ?? */ this.AllocateTexture();
 			result.Create(image);
 			return result;
 		}
 		public Composition CreateComposition(TextureType type, Geometry2D.Integer.Size size)
 		{
 			this.Free();
-			Composition result = this.compositionBin.Recycle(type, size);
+			Composition result = null; // this.compositionBin.Recycle(type, size);
 			if (result.IsNull())
 			{
 				result = this.AllocateComposition();
@@ -97,7 +100,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public Composition CreateComposition(Raster.Image image)
 		{
 			this.Free();
-			Composition result = this.compositionBin.Recycle(this.GetTextureType(image), image.Size);
+			Composition result = null; //this.compositionBin.Recycle(this.GetTextureType(image), image.Size);
 			if (result.NotNull())
 				result.Texture.Create(image);
 			else
@@ -110,7 +113,15 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected internal abstract Composition CreateComposition(Texture texture);
 		public abstract Program CreateProgram();
-		public abstract Program CreateProgram(Programs program);
+		public abstract Program CreateProgram(string vertex, string fragment);
+		protected abstract Program CreateProgram(Programs program);
+		public Program GetProgram(Programs program)
+		{
+			Backend.Program result = this.programs[program];
+			if (result.IsNull())
+				/*this.programs[program] = */result = this.CreateProgram(program);
+			return result;
+		}
 		public abstract Shader CreateShader(ShaderType type);
 		protected abstract Texture AllocateTexture();
 		protected abstract Composition AllocateComposition();
@@ -129,19 +140,23 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.textureBin.Add(texture);
 		}
-		internal void Recycle(Depth depth)
+		internal void Delete(Texture texture)
+		{
+			this.textureDeleteBin.Add(texture);
+		}
+		internal void Delete(Depth depth)
 		{
 			this.depthBin.Add(depth);
 		}
-		internal void Recycle(FrameBuffer frameBuffer)
+		internal void Delete(FrameBuffer frameBuffer)
 		{
 			this.frameBufferBin.Add(frameBuffer);
 		}
-		internal void Recycle(Program program)
+		internal void Delete(Program program)
 		{
 			this.programBin.Add(program);
 		}
-		internal void Recycle(Shader shader)
+		internal void Delete(Shader shader)
 		{
 			this.shaderBin.Add(shader);
 		}
@@ -150,17 +165,24 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.compositionBin.Free();
 			this.textureBin.Free();
+			this.textureDeleteBin.Free();
 			this.depthBin.Free();
 			this.frameBufferBin.Free();
 			this.programBin.Free();
 			this.shaderBin.Free();
 		}
-		public void Dispose()
+		public virtual void Dispose()
 		{
-			this.compositionBin.On = this.textureBin.On = false;
+			//this.compositionBin.On = this.textureBin.On = false;
+			if (this.programs.NotNull())
+			{
+				foreach (Tuple<Programs, Program> program in this.programs)
+					if (program.Item2.NotNull())
+						program.Item2.Dispose();
+			}
 			this.Free();
 			Texture.FreeAllocated();
-			this.compositionBin.On = this.textureBin.On = true;
+			//this.compositionBin.On = this.textureBin.On = true;
 		}
 
 

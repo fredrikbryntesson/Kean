@@ -89,7 +89,7 @@ namespace Kean.Draw.OpenGL
 		#region Draw Image
 		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
-			this.Draw(() => image.Render(source, destination));
+			this.Draw(() => image.Render(map, source, destination));
 		}
 		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{

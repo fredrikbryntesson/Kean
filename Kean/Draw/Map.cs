@@ -26,7 +26,15 @@ using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw
 {
-	public abstract class Map
+	public abstract class Map :
+		IDisposable
 	{
+		~Map()
+		{
+			this.Dispose();
+		}
+		public virtual void Dispose()
+		{
+		}
 	}
 }

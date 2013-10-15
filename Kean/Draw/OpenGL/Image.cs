@@ -51,18 +51,17 @@ namespace Kean.Draw.OpenGL
 			this.RightBottom = new Geometry2D.Single.Point(1, 1);
 		}
 		#endregion
-		internal abstract void Render(Map map, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
-		internal void Render(Geometry2D.Single.Box texture, Geometry2D.Single.Box rectangle)
+		internal void Render(Map map, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
 		{
 			if (this.Crop.NotZero)
 			{
-				texture = (texture).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
-				rectangle = ((Geometry2D.Single.Box)rectangle).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
+				source = (source).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
+				destination = ((Geometry2D.Single.Box)destination).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
 			}
-			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(texture.Left / this.Size.Width, texture.Top / this.Size.Height);
-			Geometry2D.Single.Point rightTop = new Geometry2D.Single.Point(texture.Right / this.Size.Width, texture.Top / this.Size.Height);
-			Geometry2D.Single.Point leftBottom = new Geometry2D.Single.Point(texture.Left / this.Size.Width, texture.Bottom / this.Size.Height);
-			Geometry2D.Single.Point rightBottom = new Geometry2D.Single.Point(texture.Right / this.Size.Width, texture.Bottom / this.Size.Height);
+			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Top / this.Size.Height);
+			Geometry2D.Single.Point rightTop = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Top / this.Size.Height);
+			Geometry2D.Single.Point leftBottom = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Bottom / this.Size.Height);
+			Geometry2D.Single.Point rightBottom = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Bottom / this.Size.Height);
 			leftTop.X = this.LeftTop.X * (1 - leftTop.X) + this.RightTop.X * leftTop.X;
 			rightTop.X = this.LeftTop.X * (1 - rightTop.X) + this.RightTop.X * rightTop.X;
 			leftBottom.X = this.LeftBottom.X * (1 - leftBottom.X) + this.RightBottom.X * leftBottom.X;
@@ -71,9 +70,9 @@ namespace Kean.Draw.OpenGL
 			leftBottom.Y = this.LeftTop.Y * (1 - leftBottom.Y) + this.LeftBottom.Y * leftBottom.Y;
 			rightTop.Y = this.RightTop.Y * (1 - rightTop.Y) + this.RightBottom.Y * rightTop.Y;
 			rightBottom.Y = this.RightTop.Y * (1 - rightBottom.Y) + this.RightBottom.Y * rightBottom.Y;
-			this.Render(leftTop, rightTop, leftBottom, rightBottom, rectangle);
+			this.Render(map, leftTop, rightTop, leftBottom, rightBottom, destination);
 		}
-		internal abstract void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination);
+		internal abstract void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination);
 		#region Draw.Image Overrides
 		#endregion
 		#region Static Creators
@@ -84,6 +83,8 @@ namespace Kean.Draw.OpenGL
 			{
 				if (image is Raster.Bgra)
 					result = new Bgra(image as Raster.Bgra);
+				else if (image is Raster.Bgr)
+					result = new Bgr(image as Raster.Bgr);
 				else if (image is Raster.Monochrome)
 					result = new Monochrome(image as Raster.Monochrome);
 				else if (image is Raster.Yuv420)

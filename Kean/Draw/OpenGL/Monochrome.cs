@@ -32,15 +32,15 @@ namespace Kean.Draw.OpenGL
 		public Monochrome(Raster.Monochrome image) :
 			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem)
 		{ }
-		public Monochrome(OpenGL.Yuv420 image) :
+		public Monochrome(Yuv420 image) :
 			this(image.Y.Backend, image.CoordinateSystem)
 		{ }
-		public Monochrome(OpenGL.Bgr image) :
+		public Monochrome(Bgr image) :
 			this(image.Size, image.CoordinateSystem)
 		{
 			this.Canvas.Draw(Map.BgrToMonochrome, image);
 		}
-		public Monochrome(OpenGL.Bgra image) :
+		public Monochrome(Bgra image) :
 			this(image.Size, image.CoordinateSystem)
 		{
 			this.Canvas.Draw(Map.BgrToMonochrome, image);
@@ -75,6 +75,10 @@ namespace Kean.Draw.OpenGL
 					result = new Yuv420(this) as T;
 			}
 			return result;
+		}
+		internal override void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
+		{
+			base.Render(map ?? Map.MonochromeToBgr, leftTop, rightTop, leftBottom, rightBottom, destination);
 		}
 		// TODO:  Resize Monochrome using GPU
 		public override Draw.Image ResizeTo(Kean.Math.Geometry2D.Integer.Size size)
