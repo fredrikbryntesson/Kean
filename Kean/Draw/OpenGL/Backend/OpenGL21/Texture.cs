@@ -86,7 +86,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			switch (this.Type = type)
 			{
 				default:
-				case TextureType.Argb:
+				case TextureType.Rgba:
 					this.InternalFormat = OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba;
 					this.Format = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
 					break;
@@ -111,7 +111,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			switch (type)
 			{
 				default:
-				case TextureType.Argb:
+				case TextureType.Rgba:
 					format = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
 					break;
 				case TextureType.Rgb:

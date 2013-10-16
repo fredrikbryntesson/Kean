@@ -26,7 +26,7 @@ namespace Kean.Draw.OpenGL.Backend
     public enum TextureType
     {
         Monochrome,
-        Argb,
+        Rgba,
         Rgb,
     }
 }

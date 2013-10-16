@@ -53,7 +53,7 @@ namespace Kean.Draw.OpenGL
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Argb, size), coordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Rgba, size), coordinateSystem)
 		{ }
 		protected Bgra(Draw.OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem) :
 			base(image, coordinateSystem)

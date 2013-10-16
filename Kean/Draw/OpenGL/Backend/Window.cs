@@ -176,6 +176,11 @@ namespace Kean.Draw.OpenGL.Backend
 				this.threadPool.Delete();
 				this.threadPool = null;
 			}
+			if (this.Context.NotNull())
+			{
+				this.Context.Dispose();
+				Backend.Context.Current = this.Context = null;
+			}
 		}
 		public sealed override void Dispose()
 		{

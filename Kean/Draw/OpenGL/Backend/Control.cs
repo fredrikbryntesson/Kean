@@ -133,7 +133,12 @@ namespace Kean.Draw.OpenGL.Backend
 			{
 				this.threadPool.Delete();
 				this.threadPool = null;
-			} 
+			}
+			if (this.Context.NotNull()) // TODO: only dispose context if this is the last OpenGL control in the current context.
+			{
+				this.Context.Dispose();
+				Backend.Context.Current = this.Context = null;
+			}
 			base.Dispose(disposing);
 		}
 		public static Control Create()

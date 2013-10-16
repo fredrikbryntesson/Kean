@@ -34,7 +34,7 @@ namespace Kean.Draw.OpenGL.Backend
 		where T : ITexture
 	{
 		Recycle.IBin<T, Geometry2D.Integer.Size> monochrome;
-		Recycle.IBin<T, Geometry2D.Integer.Size> argb;
+		Recycle.IBin<T, Geometry2D.Integer.Size> rgba;
 		Recycle.IBin<T, Geometry2D.Integer.Size> rgb;
 
 		public bool On { get; set; }
@@ -44,7 +44,7 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.On = true;
 			this.monochrome = this.CreateBin();
-			this.argb = this.CreateBin();
+			this.rgba = this.CreateBin();
 			this.rgb = this.CreateBin();
 		}
 
@@ -57,7 +57,7 @@ namespace Kean.Draw.OpenGL.Backend
 					switch (item.Type)
 					{
 						case TextureType.Monochrome: this.monochrome.Recycle(item); break;
-						case TextureType.Argb: this.argb.Recycle(item); break;
+						case TextureType.Rgba: this.rgba.Recycle(item); break;
 						case TextureType.Rgb: this.rgb.Recycle(item); break;
 					}
 				}
@@ -72,7 +72,7 @@ namespace Kean.Draw.OpenGL.Backend
 				if (!this.On)
 				{
 					this.monochrome.Free();
-					this.argb.Free();
+					this.rgba.Free();
 					this.rgb.Free();
 				}
 				base.Free();
@@ -86,7 +86,7 @@ namespace Kean.Draw.OpenGL.Backend
 				{
 					case TextureType.Monochrome: result = this.monochrome.Find(size); break;
 					default:
-					case TextureType.Argb: result = this.argb.Find(size); break;
+					case TextureType.Rgba: result = this.rgba.Find(size); break;
 					case TextureType.Rgb: result = this.rgb.Find(size); break;
 				}
 			return result;
@@ -98,7 +98,7 @@ namespace Kean.Draw.OpenGL.Backend
 			10,
 			3,
 			(item, size) => item.Size == size,
-			base.Add,
+			item => base.Add(item),
 			item => {
 				int pixels = item.Size.Area;
 				return pixels < 10000 ? 0 : pixels < 100000 ? 1 : 2;
@@ -115,7 +115,7 @@ namespace Kean.Draw.OpenGL.Backend
 			lock (this.Lock)
 			{
 				this.monochrome.Free();
-				this.argb.Free();
+				this.rgba.Free();
 				this.rgb.Free();
 				base.Dispose();
 			}

@@ -36,6 +36,12 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		protected FrameBuffer(FrameBuffer frameBuffer) :
 			base(frameBuffer)
 		{ }
+		protected override int CreateIdentifier()
+		{
+			int result;
+			GL.Ext.GenFramebuffers(1, out result);
+			return result;
+		}
 		public override void Use()
 		{
 			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, this.Identifier);

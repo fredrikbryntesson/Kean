@@ -53,6 +53,8 @@ namespace Kean.Draw.OpenGL.Backend
 			base(original)
 		{
 			this.Texture = original.Texture.Refurbish();
+			this.Texture.Composition = this;
+			original.Texture.Composition = null;
 			original.Texture = null;
 			this.Depth = original.Depth.Refurbish();
 			original.Depth = null;
@@ -73,12 +75,12 @@ namespace Kean.Draw.OpenGL.Backend
 				}
 				if (this.Depth.NotNull())
 				{
-					this.Depth.Dispose();
+					this.Context.Delete(this.Depth);
 					this.Depth = null;
 				}
 				if (this.FrameBuffer.NotNull())
 				{
-					this.FrameBuffer.Dispose();
+					this.Context.Delete(this.FrameBuffer);
 					this.FrameBuffer = null;
 				}
 			}
@@ -129,7 +131,7 @@ namespace Kean.Draw.OpenGL.Backend
 		#endregion
 		public override string ToString()
 		{
-			return "color: " + this.Texture + " depth:" + this.Depth + " frame buffer:" + this.FrameBuffer;
+			return "color: " + this.Texture.Identifier + " depth:" + this.Depth.Identifier + " frame buffer:" + this.FrameBuffer.Identifier + " (s: " + this.Size + ", t: " + this.Type + ")";
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{ }
 		protected Composition(Composition original) :
 			base(original)
-		{ }
+		{} 
 
 		public override void Setup()
 		{
@@ -57,7 +57,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.PushMatrix();
 			GL.LoadIdentity();
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-			if (this.Texture.Type == TextureType.Argb)
+			if (this.Texture.Type == TextureType.Rgba)
 				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
 			else
 				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
@@ -134,7 +134,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			switch (this.Type)
 			{
 				default:
-				case TextureType.Argb:
+				case TextureType.Rgba:
 					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 					break;
 				case TextureType.Rgb:

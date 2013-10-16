@@ -35,7 +35,6 @@ namespace Kean.Draw.OpenGL.Backend
 		protected Shader(Context context, ShaderType type) :
 			base(context)
 		{
-			Shader.Free();
 			this.Identifier = this.Create(this.type = type);
 		}
 		protected Shader(Shader original) :
@@ -64,14 +63,5 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			return this.Identifier.ToString();
 		}
-		#region Garbage
-		static Collection.IList<int> garbage = new Collection.List<int>();
-		internal static void Free()
-		{
-			lock (Shader.garbage)
-				while (Shader.garbage.Count > 0)
-					GL.DeleteShader(Shader.garbage.Remove());
-		}
-		#endregion
 	}
 }

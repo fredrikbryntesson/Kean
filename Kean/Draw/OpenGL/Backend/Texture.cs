@@ -39,16 +39,7 @@ namespace Kean.Draw.OpenGL.Backend
 		internal int Identifier 
 		{
 			get { return this.identifier; }
-			private set
-			{
-				if (value == 0 && this.identifier != 0)
-					lock (Texture.allocated)
-						Texture.allocated.Remove(texture => texture.Same(this));
-				else if (value != 0 && this.identifier == 0)
-					lock (Texture.allocated) 
-						Texture.allocated.Add(this);
-				this.identifier = value;
-			}
+			private set { this.identifier = value; }
 		}
 		public Geometry2D.Integer.Size Size { get; protected set; }
 		public TextureType Type { get; protected set; }
@@ -114,7 +105,7 @@ namespace Kean.Draw.OpenGL.Backend
 			switch (this.Type)
 			{
 				default:
-				case TextureType.Argb:
+				case TextureType.Rgba:
 					result = new Raster.Bgra(this.Size);
 					break;
 				case TextureType.Rgb:
@@ -139,7 +130,7 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			TextureType type;
 			if (image is Raster.Bgra)
-				type = TextureType.Argb;
+				type = TextureType.Rgba;
 			else if (image is Raster.Bgr)
 				type = TextureType.Rgb;
 			else
@@ -163,19 +154,5 @@ namespace Kean.Draw.OpenGL.Backend
 			base.Delete();
 		}
 		#endregion
-
-		static Collection.List<Texture> allocated = new Collection.List<Texture>();
-		internal static void FreeAllocated()
-		{
-			lock (Texture.allocated)
-				while (Texture.allocated.Count > 0)
-				{
-					Texture texture = Texture.allocated.Remove();
-					if (texture.Composition.NotNull())
-						texture.Composition.Delete();
-					else
-						texture.Delete();
-				}
-		}
 	}
 }

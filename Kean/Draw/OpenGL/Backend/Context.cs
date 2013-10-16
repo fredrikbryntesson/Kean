@@ -34,8 +34,8 @@ namespace Kean.Draw.OpenGL.Backend
 	public abstract class Context :
 		IDisposable
 	{
-		WasteBin<Composition> compositionBin;
-		WasteBin<Texture> textureBin;
+		RecycleBin<Composition> compositionBin;
+		RecycleBin<Texture> textureBin;
 		WasteBin<Texture> textureDeleteBin;
 		WasteBin<Depth> depthBin;
 		WasteBin<FrameBuffer> frameBufferBin;
@@ -58,8 +58,8 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected Context()
 		{
-			this.compositionBin = new WasteBin<Composition>(item => item.Delete());
-			this.textureBin = new WasteBin<Texture>(item => item.Delete());
+			this.compositionBin = new RecycleBin<Composition>(item => item.Delete());
+			this.textureBin = new RecycleBin<Texture>(item => item.Delete());
 			this.textureDeleteBin = new WasteBin<Texture>(item => item.Delete());
 			this.depthBin = new WasteBin<Depth>(item => item.Delete());
 			this.frameBufferBin = new WasteBin<FrameBuffer>(item => item.Delete());
@@ -69,8 +69,18 @@ namespace Kean.Draw.OpenGL.Backend
 		public Texture CreateTexture(TextureType type, Geometry2D.Integer.Size size)
 		{
 			this.Free();
-			Composition composition = null; // this.compositionBin.Recycle(type, size);
-			Texture result = composition.NotNull() ? composition.Texture : null; // this.textureBin.Recycle(type, size);
+			Composition composition = this.compositionBin.Recycle(type, size);
+			Texture result;
+			if (composition.NotNull())
+			{
+				composition.Setup();
+				composition.UnSetClip();
+				composition.Clear();
+				composition.Teardown();
+				result = composition.Texture;
+			}
+			else
+				result = this.textureBin.Recycle(type, size);
 			if (result.IsNull())
 			{
 				result = this.AllocateTexture();
@@ -81,26 +91,35 @@ namespace Kean.Draw.OpenGL.Backend
 		public Texture CreateTexture(Raster.Image image)
 		{
 			this.Free();
-			Texture result = /* this.textureBin.Recycle(this.GetTextureType(image), image.Size) ?? */ this.AllocateTexture();
+			Texture result = this.textureBin.Recycle(this.GetTextureType(image), image.Size);
+			if (result.IsNull())
+				result = this.AllocateTexture();
 			result.Create(image);
 			return result;
 		}
 		public Composition CreateComposition(TextureType type, Geometry2D.Integer.Size size)
 		{
 			this.Free();
-			Composition result = null; // this.compositionBin.Recycle(type, size);
+			Composition result = this.compositionBin.Recycle(type, size);
 			if (result.IsNull())
 			{
 				result = this.AllocateComposition();
 				result.Texture.Create(type, size);
 				result.Create();
 			}
+			else
+			{
+				result.Setup();
+				result.UnSetClip();
+				result.Clear();
+				result.Teardown();
+			}
 			return result;
 		}
 		public Composition CreateComposition(Raster.Image image)
 		{
 			this.Free();
-			Composition result = null; //this.compositionBin.Recycle(this.GetTextureType(image), image.Size);
+			Composition result = this.compositionBin.Recycle(this.GetTextureType(image), image.Size);
 			if (result.NotNull())
 				result.Texture.Create(image);
 			else
@@ -117,10 +136,7 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract Program CreateProgram(Programs program);
 		public Program GetProgram(Programs program)
 		{
-			Backend.Program result = this.programs[program];
-			if (result.IsNull())
-				/*this.programs[program] = */result = this.CreateProgram(program);
-			return result;
+			return this.programs[program] ?? (/*this.programs[program] =*/ this.CreateProgram(program));
 		}
 		public abstract Shader CreateShader(ShaderType type);
 		protected abstract Texture AllocateTexture();
@@ -173,16 +189,13 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		public virtual void Dispose()
 		{
-			//this.compositionBin.On = this.textureBin.On = false;
-			if (this.programs.NotNull())
-			{
-				foreach (Tuple<Programs, Program> program in this.programs)
-					if (program.Item2.NotNull())
-						program.Item2.Dispose();
-			}
+			this.compositionBin.On = this.textureBin.On = false;
+			foreach (Tuple<Programs, Program> program in this.programs)
+				if (program.Item2.NotNull())
+					program.Item2.Dispose();
+			this.programs = new Collection.Dictionary<Programs, Program>();
 			this.Free();
-			Texture.FreeAllocated();
-			//this.compositionBin.On = this.textureBin.On = true;
+			this.compositionBin.On = this.textureBin.On = true;
 		}
 
 

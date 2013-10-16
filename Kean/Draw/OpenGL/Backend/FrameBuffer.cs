@@ -35,9 +35,7 @@ namespace Kean.Draw.OpenGL.Backend
 		protected FrameBuffer(Context context) :
 			base(context)
 		{
-			int identifier;
-			GL.Ext.GenFramebuffers(1, out identifier);
-			this.Identifier = identifier;
+			this.Identifier = this.CreateIdentifier();
 		}
 		protected FrameBuffer(FrameBuffer original) :
 			base(original)
@@ -51,6 +49,7 @@ namespace Kean.Draw.OpenGL.Backend
 				this.Context.Delete(this.Refurbish());
 		}
 		#region Implementors Interface
+		protected abstract int CreateIdentifier();
 		public abstract void Use();
 		public abstract void UnUse();
 		public abstract void Create(Texture texture, Depth depth);

@@ -152,7 +152,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			TextureType result;
 			if (image is Raster.Bgra)
-				result = TextureType.Argb;
+				result = TextureType.Rgba;
 			else if (image is Raster.Bgr)
 				result = TextureType.Rgb;
 			else

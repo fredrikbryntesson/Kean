@@ -54,7 +54,7 @@ namespace Kean.Draw.OpenGL
 				case OpenGL.Backend.TextureType.Rgb:
 					result = new Raster.Bgr(this.Size, this.Image.CoordinateSystem);
 					break;
-				case OpenGL.Backend.TextureType.Argb:
+				case OpenGL.Backend.TextureType.Rgba:
 					result = new Raster.Bgra(this.Size, this.Image.CoordinateSystem);
 					break;
 				case OpenGL.Backend.TextureType.Monochrome:
