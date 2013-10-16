@@ -32,6 +32,7 @@ namespace Kean.Core.Uri.Test
         {
             this.Run(
                 this.EqualityNull,
+				this.SchemeOnly,
                 this.Equality,
                 this.PathAbsolute,
                 this.PathAbsoluteWithoutResource,
@@ -55,6 +56,12 @@ namespace Kean.Core.Uri.Test
             Verify(locator, Is.EqualTo(null), this.prefix + "EqualityNull.0");
             Verify(locator == null, Is.True, this.prefix + "EqualityNull.1");
         }
+		[Test]
+		public void SchemeOnly()
+		{
+			Target.Locator locator = "schemeA://";
+			Verify((string)locator.Scheme, Is.EqualTo("schemeA"));
+		}
         [Test]
         public void Equality()
         {
