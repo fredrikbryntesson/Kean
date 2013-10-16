@@ -1,7 +1,6 @@
 using System;
 using Kean.DB.Extension;
 using Generic = System.Collections.Generic;
-
 namespace Kean.DB.Sql.Test
 {
 	public class Program
@@ -22,6 +21,7 @@ namespace Kean.DB.Sql.Test
 
 				Item item0 = table.Read(1);
 				Console.WriteLine(item0);
+				item0.Description += " With some more.";
 				Generic.IEnumerable<Item> items = table.Filter(item => item.Key > 2).Filter(item => item.Key > 5).Sort(item => item.Name, false).Limit(8, 2).Read();
 				foreach (Item item in items)
 					Console.WriteLine(item);
