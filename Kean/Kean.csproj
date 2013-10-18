@@ -35,16 +35,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="glib-sharp">
-      <HintPath>..\packages\GLib.Sharp.2.28.1.1\lib\glib-sharp.dll</HintPath>
+      <HintPath>..\..\packages\GLib.Sharp.2.28.1.1\lib\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cairo">
-      <HintPath>..\packages\Cairo.2.0.0.1\lib\Mono.Cairo.dll</HintPath>
+      <HintPath>..\..\packages\Cairo.2.0.0.1\lib\Mono.Cairo.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Drawing" />
