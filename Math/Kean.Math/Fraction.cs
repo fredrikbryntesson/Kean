@@ -90,8 +90,8 @@ namespace Kean.Math
 						string[] splitted = value.Split(new char[] { ':', '/', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 						if (splitted.Length == 2)
 						{
-							this.Nominator = Integer.Parse(splitted[0]);
-							this.denominator = Integer.Parse(splitted[1]);
+							this.Nominator = Integer.Parse(splitted[0], 0);
+							this.denominator = Integer.Parse(splitted[1], 1);
 						}
 					}
 					else
@@ -99,11 +99,11 @@ namespace Kean.Math
 						value = value.Replace(',', '.');
 						if (!value.Contains('.'))
 						{
-							this.Nominator = Integer.Parse(value);
+							this.Nominator = Integer.Parse(value, 0);
 							this.denominator = 1;
 						}
 						else
-							this.DecimalToFraction(Kean.Math.Double.Parse(value));
+							this.DecimalToFraction(Kean.Math.Double.Parse(value, 0));
 					}
 				}
 			}
