@@ -54,7 +54,7 @@ namespace Kean.Serialize.Extension
 					bool lastSpace = true;
 					foreach (var c in me)
 					{
-						if (lastSpace = (char.IsUpper(c) || c == ' ' || c == '_') && !lastSpace)
+						if (lastSpace = (c == ' ' || c == '_') && !lastSpace)
 							yield return ' ';
 						else
 						{

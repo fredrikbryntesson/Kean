@@ -141,8 +141,8 @@ namespace Kean.Draw.OpenGL.Backend
 					base.ProcessEvents();
 					redraw = this.redrawSignal.WaitOne(20);
 				}
-				else
-					base.WaitForNextEvent();
+				//else
+				//	base.WaitForNextEvent();
 			}
 		}
 
@@ -153,11 +153,11 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.redrawSignal.Set();
 		}
-		protected override void OnPaint(EventArgs e)
-		{
-			base.OnPaint(e);
-			this.RePaint();
-		}
+		//protected override void OnPaint(EventArgs e)
+		//{
+		//	//base.OnPaint(e);
+		//	this.RePaint();
+		//}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);

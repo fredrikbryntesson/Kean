@@ -103,9 +103,9 @@ namespace Kean.Draw.OpenGL.Backend
 			Composition result = this.compositionBin.Recycle(type, size);
 			if (result.IsNull())
 			{
-				result = this.AllocateComposition();
-				result.Texture.Create(type, size);
-				result.Create();
+				Texture texture = this.CreateTexture(type, size);
+				if (texture.NotNull())
+					result = texture.Composition;
 			}
 			else
 			{

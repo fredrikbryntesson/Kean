@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Extension
 {
@@ -198,6 +199,12 @@ namespace Kean.Extension
 					result.Append(seperator).Append(enumerator.Current);
 			}
 			return result.ToString();
+		}
+		public static Generic.IEnumerable<T> Where<T>(this Generic.IEnumerable<T> me, Func<T, bool> predicate)
+		{
+			foreach (T element in me)
+				if (predicate(element))
+					yield return element;
 		}
 	}
 }

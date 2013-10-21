@@ -417,29 +417,19 @@ namespace Kean.Platform
 		public static Application Load()
 		{
 			Application result = new Application();
-			Xml.Serialize.Storage storage = new Kean.Xml.Serialize.Storage();
+			Xml.Serialize.Storage storage = new Xml.Serialize.Storage();
 			result.Load("Storage", storage);
-			IList<string> defaultModules, overrideModules;
-			// Load from "Modules" folder
-			string defaultModulesPath = System.IO.Path.Combine(result.ExecutablePath, "Modules");
-			defaultModules = new Kean.Collection.List<string>();
-			if (System.IO.Directory.Exists(defaultModulesPath))
-				foreach (string file in System.IO.Directory.GetFiles(defaultModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					defaultModules.Add(Uri.Path.FromPlatformPath(file).FileName);
-			// Load from "Modules/{executable name}" folder
-			string overrideModulesPath = System.IO.Path.Combine(defaultModulesPath, System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", ""));
-			overrideModules = new Kean.Collection.List<string>();
-			if (System.IO.Directory.Exists(overrideModulesPath))
-				foreach (string file in System.IO.Directory.GetFiles(overrideModulesPath, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
-					defaultModules.Add(Uri.Path.FromPlatformPath(file).FileName);
-			foreach (string file in defaultModules)
-				if (!overrideModules.Contains(file))
-					result.Load(Uri.Path.FromPlatformPath(file).Stem, 
-						storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(defaultModulesPath, file))));
-			foreach (string file in overrideModules)
-				result.Load(Uri.Path.FromPlatformPath(file).Stem, 
-					storage.Load<Platform.Module>(Uri.Locator.FromPlatformPath(System.IO.Path.Combine(overrideModulesPath, file))));
-
+			Collection.Dictionary<string, Uri.Locator> modules = new Collection.Dictionary<string, Uri.Locator>();
+			// Load from "Modules" folder and from "Modules/{executable name}" folder
+			foreach (string path in new string[] { System.IO.Path.Combine(result.ExecutablePath, "Modules"), System.IO.Path.Combine(result.ExecutablePath, "Modules", System.IO.Path.GetFileNameWithoutExtension(result.Executable).Replace(".vshost", "")) })
+				if (System.IO.Directory.Exists(path))
+					foreach (string file in System.IO.Directory.GetFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly))
+					{
+						Uri.Locator locator = Uri.Locator.FromPlatformPath(file);
+						modules[locator.Path.Stem] = locator;
+					}
+			foreach (Tuple<string, Uri.Locator> module in modules)
+				result.Load(module.Item1, storage.Load<Module>(module.Item2));
 			return result;
 		}
 		#endregion

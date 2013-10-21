@@ -81,7 +81,7 @@ namespace Kean.Uri
 				}
 				else
 				{
-					string[] splitted = value.Split(new string[] { "://" }, 2, StringSplitOptions.RemoveEmptyEntries);
+					string[] splitted = value.Split(new string[] { "://" }, 2, StringSplitOptions.None);
 					if (splitted.Length > 1) // has scheme
 						this.Scheme = splitted[0];
 					value = splitted.Last();

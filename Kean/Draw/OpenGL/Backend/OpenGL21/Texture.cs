@@ -43,7 +43,9 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		protected internal Texture(Context context) :
 			base(context)
-		{ }
+		{
+			this.Type = TextureType.Rgba;
+		}
 		protected Texture(Texture original) :
 			base(original)
 		{

@@ -31,7 +31,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
         Kean.Test.Fixture<Point>
        
     {
-		float Precision { get { return 1e-4f; } }
+		float Precision { get { return 1; } }
         Target.Integer.Point CastFromString(string value)
         {
             return value;

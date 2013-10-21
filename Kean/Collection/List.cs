@@ -55,7 +55,7 @@ namespace Kean.Collection
 		{
 			return this.data.Remove();
 		}
-        public T Remove(int index)
+		public T Remove(int index)
 		{
 			return this.data.Remove(index);
 		}

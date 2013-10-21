@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -36,6 +36,14 @@
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.1161.61462, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\OpenTK.1.1.1161.61462\lib\NET40\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.1161.61462, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\OpenTK.GLControl.1.1.1161.61462\lib\NET40\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -48,12 +56,6 @@
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Drawing" />
-    <Reference Include="OpenTK">
-      <HintPath>..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\..\packages\OpenTK.GLControl.1.1.704.2230\lib\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="pango-sharp">
       <HintPath>..\..\packages\Pango.1.28.3.1\lib\pango-sharp.dll</HintPath>
     </Reference>
@@ -831,9 +833,13 @@
     <None Include="Math\Geometry3D\Size.tt" />
     <None Include="Math\Geometry3D\Transform.tt" />
     <None Include="Math\Matrix\Template.tt" />
-    <None Include="Platform\Log\Modules\Log.xml" />
+    <None Include="Modules\Log.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Platform\Settings\Kean.Platform.Settings.targets" />
-    <None Include="Platform\Settings\Modules\Settings.xml" />
+    <None Include="Modules\Settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

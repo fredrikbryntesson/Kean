@@ -164,7 +164,10 @@ namespace Kean.Uri
 			copy = link => link.IsNull() ? null : new PathLink(link.Head, copy(link.Tail));
 			return new Path(copy(this.Last));
 		}
-
+		public Path ResolveVariable(string name, Func<string, string> format)
+		{
+			return new Path(this.Last.ResolveVariable(name, format));
+		}
 		public Path Resolve (Path absolute)
 		{
 			Path result;
@@ -360,6 +363,7 @@ namespace Kean.Uri
 		#endregion
 
 		#endregion
+
 
 	}
 }
