@@ -40,7 +40,7 @@ namespace Kean.Core.Collection.Linked
 		#region IDictionary<TKey,TValue> Members
 		public TValue this[TKey key]
 		{
-			get { return this.Head.Find(item => item.Key.Equals(key)).Value; }
+			get { return this.Head.Find(item => item.Key.SameOrEquals(key)).Value; }
 			set
 			{
 				this.Remove(key);
@@ -54,7 +54,7 @@ namespace Kean.Core.Collection.Linked
 		public bool Remove(TKey key)
 		{
 			bool result = false;
-			this.Head = this.Head.Remove(item => result = item.Key.Equals(key));
+			this.Head = this.Head.Remove(item => result = item.Key.SameOrEquals(key));
 			return result;
 		}
 		#endregion
