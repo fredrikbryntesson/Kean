@@ -57,6 +57,14 @@ namespace Kean.Core.Uri.Test
 			Verify(query["key c"], Is.EqualTo("value c"), this.prefix + "Equality.6");
 		}
 		[Test]
+		public void Enums()
+		{
+			Target.Query query = "consoleColor=Green";
+			Verify(query.GetEnumeration<ConsoleColor>("consoleColor", ConsoleColor.Black), Is.EqualTo(ConsoleColor.Green));
+			query = "consoleColor=green";
+			Verify(query.GetEnumeration<ConsoleColor>("consoleColor", ConsoleColor.Black), Is.EqualTo(ConsoleColor.Green));
+		}
+		[Test]
 		public void RemoveList()
 		{
 			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
