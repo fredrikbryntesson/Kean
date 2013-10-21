@@ -127,6 +127,10 @@ namespace Kean.Math.Geometry2D.Integer
 					string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length == 4)
 						result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]));
+					else if (values.Length == 2)
+						result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]));
+					else if (values.Length == 1)
+						result = new Shell(Kean.Math.Integer.Parse(values[0]));
 				}
 				catch
 				{
