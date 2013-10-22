@@ -47,6 +47,7 @@
     <Compile Include="Double\Size.cs" />
     <Compile Include="Double\Transform.cs" />
     <Compile Include="Integer\Box.cs" />
+    <Compile Include="Integer\Shell.cs" />
     <Compile Include="Integer\Point.cs" />
     <Compile Include="Integer\Size.cs" />
     <Compile Include="Integer\Transform.cs" />

@@ -159,7 +159,7 @@ namespace Kean.Math.Geometry2D.Integer
 		}
 		public override string ToString()
 		{
-			return this.ToString("{0}, {1}, {2}, {3}");
+			return (this.Bottom == this.Top && this.Left == this.Right) ? (this.Left == this.Top ? this.ToString("{0}") : this.ToString("{0}, {2}")) : this.ToString("{0}, {1}, {2}, {3}");
 		}
 		public string ToString(string format)
 		{

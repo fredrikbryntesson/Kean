@@ -84,6 +84,7 @@ namespace Kean.Platform.Settings
 		}
 		protected override void Start()
 		{
+			//TODO: Nånting åt det här.
 			try { Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
 			catch { }
 			try
