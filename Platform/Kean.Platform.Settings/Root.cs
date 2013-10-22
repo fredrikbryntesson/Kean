@@ -107,7 +107,7 @@ namespace Kean.Platform.Settings
 			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
 				head, 
 				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(this.HelpFilename);
-			System.Diagnostics.Process.Start(this.HelpFilename);
+			System.Diagnostics.Process.Start(this.HelpFilename.PlatformPath);
 		}
 		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Object @object, bool topLevel)
 		{
