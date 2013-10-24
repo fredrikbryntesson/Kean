@@ -32,26 +32,31 @@ namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Composition :
 		Resource,
-		ITexture,
-		IDisposable
+		ITexture
 	{
-		public Geometry2D.Integer.Size Size { get { return this.Texture.Size; } }
-		public TextureType Type { get { return this.Texture.Type; } }
+		public Renderer Renderer { get; private set; }
+		public Geometry2D.Integer.Size Size { get; private set; }
+		public TextureType Type { get; private set; }
 		public Texture Texture { get; private set; }
 		public Depth Depth { get; private set; }
 		public FrameBuffer FrameBuffer { get; private set; }
 		protected Composition(Context context, Texture texture, Depth depth, FrameBuffer frameBuffer) :
 			base(context)
 		{
+			this.Size = texture.Size;
+			this.Type = texture.Type;
 			this.Texture = texture;
 			this.Depth = depth;
 			this.FrameBuffer = frameBuffer;
 			this.Create();
 			this.Texture.Composition = this;
+			this.Renderer = this.CreateRenderer(this.Context, () => this.Size, () => this.Type);
 		}
 		protected Composition(Composition original) :
 			base(original)
 		{
+			this.Size = original.Size;
+			this.Type = original.Type;
 			this.Texture = original.Texture.Refurbish();
 			this.Texture.Composition = this;
 			original.Texture.Composition = null;
@@ -60,11 +65,13 @@ namespace Kean.Draw.OpenGL.Backend
 			original.Depth = null;
 			this.FrameBuffer = original.FrameBuffer.Refurbish();
 			original.FrameBuffer = null;
+			this.Renderer = original.Renderer.Refurbish();
+			original.Renderer = null;
 		}
 		protected override void Dispose(bool disposing)
 		{
 			if (this.Texture.NotNull() && this.Texture.Identifier != 0 && this.Depth.NotNull() && this.Depth.Identifier != 0 && this.FrameBuffer.NotNull() && this.FrameBuffer.Identifier != 0)
-				this.Context.Recycle(this.Refurbish());
+				this.Context.Recycle(this);
 			else
 			{
 				if (this.Texture.NotNull())
@@ -94,23 +101,12 @@ namespace Kean.Draw.OpenGL.Backend
 			this.FrameBuffer.UnUse();
 		}
 		#region Implementors Interface
-		public abstract void Setup();
-		public abstract void Teardown();
-		public abstract void SetClip(Geometry2D.Single.Box region);
-		public abstract void UnSetClip();
-		public abstract void SetTransform(Geometry2D.Single.Transform transform);
-		public abstract void SetIdentityTransform();
-		public abstract void CopyToTexture();
-		public abstract void CopyToTexture(Geometry2D.Integer.Size offset);
-		public abstract void Read(IntPtr pointer, Geometry2D.Integer.Box region);
-
-		public abstract void Clear();
-		public abstract void Clear(Geometry2D.Single.Box region);
-		public abstract void Blend(float factor);
-		public abstract void Draw(IColor color, Geometry2D.Single.Box region);
+		protected abstract Renderer CreateRenderer(Context context, Func<Geometry2D.Integer.Size> getSize, Func<TextureType> getType);
 		protected abstract Composition Refurbish();
 		protected internal override void Delete()
 		{
+			if (this.Renderer.NotNull())
+				this.Renderer = null;
 			if (this.Texture.NotNull())
 			{
 				this.Texture.Composition = null;
