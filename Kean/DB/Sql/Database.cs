@@ -63,15 +63,10 @@ namespace Kean.DB.Sql
 
 		#region Static Open, Register
 
-		static Collection.Dictionary<string, Func<string, Data.IDbConnection>> providers;
+		static Collection.IDictionary<string, Func<string, Data.IDbConnection>> providers = new Collection.Dictionary<string, Func<string, Data.IDbConnection>>();
 		public static Database Open(Uri.Locator locator)
 		{
-			string connectionString = null;
-			connectionString =
-				"Server=" + locator.Authority.Endpoint +
-			";Database=" + locator.Path[0] +
-			";User ID=" + locator.Authority.User.Name +
-			";Password=" + locator.Authority.User.Password;
+			string connectionString = "Server=" + locator.Authority.Endpoint + ";Database=" + locator.Path[0] + ";User ID=" + locator.Authority.User.Name + ";Password=" + locator.Authority.User.Password;
 			Console.WriteLine(connectionString);
 			Data.IDbConnection connection = null;
 			Func<string, Data.IDbConnection> create = Database.providers[locator.Scheme];
