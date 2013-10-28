@@ -26,19 +26,18 @@ using Uri = Kean.Uri;
 using Serialize = Kean.Serialize;
 using Data = System.Data;
 using Reflect = Kean.Reflect;
-
 namespace Kean.DB.Sql
 {
 	public class Database :
 		DB.Database
 	{
 		Database(Uri.Locator locator, Data.IDbConnection connection) :
-            this(locator, connection, null, null, null)
+			this(locator, connection, null, null, null)
 		{
 		}
 		Data.IDbConnection connection;
 		Database(Uri.Locator locator, Data.IDbConnection connection, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers) :
- 			base(locator, resolver, rebuilder, serializers)
+			base(locator, resolver, rebuilder, serializers)
 		{
 			this.connection = connection;
 		}
@@ -54,33 +53,44 @@ namespace Kean.DB.Sql
 		}
 
 		#region implemented abstract members of Database
+
 		protected override DB.Table<T> New<T>(string name)
 		{
 			return new Table<T>(this.connection, name);
 		}
+
 		#endregion
 
-		#region Static Open
+		#region Static Open, Register
+
+		static Collection.Dictionary<string, Func<string, Data.IDbConnection>> providers;
 		public static Database Open(Uri.Locator locator)
 		{
 			string connectionString = null;
 			connectionString =
 				"Server=" + locator.Authority.Endpoint +
-				";Database=" + locator.Path[0] +
-				";User ID=" + locator.Authority.User.Name +
-				";Password=" + locator.Authority.User.Password;
+			";Database=" + locator.Path[0] +
+			";User ID=" + locator.Authority.User.Name +
+			";Password=" + locator.Authority.User.Password;
 			Console.WriteLine(connectionString);
 			Data.IDbConnection connection = null;
-			switch (locator.Scheme)
+			Func<string, Data.IDbConnection> create = Database.providers[locator.Scheme];
+			if (create.NotNull())
 			{
-				case "mysql":
-					connection = new global::MySql.Data.MySqlClient.MySqlConnection(connectionString);
-					break;
+				connection = create(connectionString);
+				if (connection.NotNull())
+				{
+					connection.Open();
+					Console.WriteLine(connection.State);
+				}
 			}
-			connection.Open();
-			Console.WriteLine(connection.State);
 			return connection.NotNull() ? new Database(locator, connection) : null;
 		}
+		public static void Register(string scheme, Func<string, Data.IDbConnection> create)
+		{
+			Database.providers[scheme] = create;
+		}
+
 		#endregion
 
 	}
