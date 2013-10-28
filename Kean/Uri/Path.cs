@@ -113,7 +113,7 @@ namespace Kean.Uri
 			}
 		}
 
-		public string FileName
+		public string Filename
 		{
 			get { return this.Last.NotNull() ? this.Last.Head : null; }
 			set
