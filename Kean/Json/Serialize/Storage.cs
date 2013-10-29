@@ -33,6 +33,7 @@ namespace Kean.Json.Serialize
 		public Storage() :
 			base(null, null, null)
 		{
+			this.Casing = Kean.Serialize.Casing.Camel;
 		}
 		protected override Kean.Serialize.Data.Node LoadImplementation(IO.IByteInDevice device)
 		{
