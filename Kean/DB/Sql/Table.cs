@@ -121,6 +121,7 @@ namespace Kean.DB.Sql
 		}
 		Serialize.Data.Leaf Read(Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
 		{
+			Console.Write(ordinal);
 			Serialize.Data.Leaf result = null;
 			if (field.Value == typeof(bool))
 				result = new Serialize.Data.Boolean(reader.GetBoolean(ordinal));
@@ -259,14 +260,27 @@ namespace Kean.DB.Sql
 		{
 			IO.Text.Builder query = (IO.Text.Builder)"SELECT " + this.FieldString + " FROM " + this.Name;
 			query += QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
-			Console.WriteLine(query);
+			Console.Write(query);
+			Collection.List<Generic.IEnumerable<Serialize.Data.Leaf>> result = new Collection.List<Generic.IEnumerable<Serialize.Data.Leaf>>();
 			using (Data.IDbCommand command = this.connection.CreateCommand())
 			{
 				command.CommandText = query;
 				using (Data.IDataReader reader = command.ExecuteReader())
 					while (reader.Read())
-						yield return this.Read(reader);
+					{
+						Console.Write("[");
+						Collection.List<Serialize.Data.Leaf> r = new Collection.List<Serialize.Data.Leaf>();
+						foreach (Serialize.Data.Leaf field in this.Read(reader))
+						{
+							r.Add(field);
+							Console.Write(".");
+						}
+						result.Add(r);
+						Console.Write("]");
+					}
 			}
+			Console.WriteLine("done");
+			return result;
 		}
 		protected override int Update(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset, Generic.IEnumerable<Serialize.Data.Leaf> fields)
 		{

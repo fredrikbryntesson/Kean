@@ -25,43 +25,43 @@ using Kean.Reflect.Extension;
 using Generic = System.Collections.Generic;
 namespace Kean.Serialize.Data
 {
-    public class Branch :
+	public class Branch :
 		Node
-    {
-        public Kean.Collection.IList<Node> Nodes { get; private set; }
-        public Branch()
-        {
-            this.Nodes = new Kean.Collection.List<Node>();
-        }
-        public Branch(Generic.IEnumerable<Node> nodes) :
+	{
+		public Kean.Collection.IList<Node> Nodes { get; private set; }
+		public Branch()
+		{
+			this.Nodes = new Kean.Collection.List<Node>();
+		}
+		public Branch(Generic.IEnumerable<Node> nodes) :
 			this()
-        {
-            this.Nodes.Add(nodes);
-        }
-        public Branch(params Node[] nodes) :
-            this((Generic.IEnumerable<Node>) nodes)
-        {
-        }
-        public Branch(object value, Reflect.Type type) :
+		{
+			this.Nodes.Add(nodes);
+		}
+		public Branch(params Node[] nodes) :
+			this((Generic.IEnumerable<Node>)nodes)
+		{
+		}
+		public Branch(object value, Reflect.Type type) :
 			this()
-        {
-            Reflect.Type valueType = value.Type();
-            this.Type = valueType != type ? valueType : null;
-        }
-        public override Node UpdateLocators(Uri.Locator resource)
-        {
-            base.UpdateLocators(resource);
-            foreach (Node child in this.Nodes)
-            {
-                resource = this.Locator.Copy();
-                resource.Fragment = (resource.Fragment.NotEmpty() ? resource.Fragment + "." : "") + child.Name;
-                child.UpdateLocators(resource);
-            }
-            return this;
-        }
-        public bool Merge(Node node)
-        {
-            return (node is Branch ? this.Nodes.Add((node as Branch).Nodes) : this.Nodes.Add(node)).NotNull();
-        }
-    }
+		{
+			Reflect.Type valueType = value.Type();
+			this.Type = valueType != type ? valueType : null;
+		}
+		public override Node UpdateLocators(Uri.Locator resource)
+		{
+			base.UpdateLocators(resource);
+			foreach (Node child in this.Nodes)
+			{
+				resource = this.Locator.Copy();
+				resource.Fragment = (resource.Fragment.NotEmpty() ? resource.Fragment + "." : "") + child.Name;
+				child.UpdateLocators(resource);
+			}
+			return this;
+		}
+		public bool Merge(Node node)
+		{
+			return (node is Branch ? this.Nodes.Add((node as Branch).Nodes) : this.Nodes.Add(node)).NotNull();
+		}
+	}
 }
