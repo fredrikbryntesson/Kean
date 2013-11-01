@@ -25,11 +25,13 @@ using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using IO = Kean.IO;
 using Uri = Kean.Uri;
+
 namespace Kean.Json.Serialize
 {
 	public class Storage : 
 		Kean.Serialize.Storage
 	{
+		public override string ContentType { get { return "application/json"; } }
 		public Storage() :
 			base(null, null, null)
 		{
@@ -47,11 +49,8 @@ namespace Kean.Json.Serialize
 				item = new Dom.Object(KeyValue.Create(value.Name, item));
 			return item.Save(device);
 		}
-
 		#region Static Convert
-
 		#region From Dom
-
 		public static Kean.Serialize.Data.Node Convert(Dom.Item item)
 		{
 			Kean.Serialize.Data.Node result;
@@ -92,11 +91,8 @@ namespace Kean.Json.Serialize
 				result.Nodes.Add(Storage.Convert(child));
 			return result;
 		}
-
 		#endregion
-
 		#region To Dom
-
 		public static Dom.Item Convert(Kean.Serialize.Data.Node item)
 		{
 			Dom.Item result;
@@ -177,11 +173,8 @@ namespace Kean.Json.Serialize
 			result.Add("_link", new Dom.String(item.Relative, item.Region));
 			return result;
 		}
-
 		#endregion
-
 		#endregion
-
 		public static T Open<T>(Uri.Locator resource)
 		{
 			return new Storage().Load<T>(resource);
