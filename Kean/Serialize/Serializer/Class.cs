@@ -23,85 +23,88 @@ using Kean;
 using Kean.Extension;
 using Kean.Reflect.Extension;
 using Kean.Serialize.Extension;
+
 namespace Kean.Serialize.Serializer
 {
-    public class Class :
+	public class Class :
 		ISerializer
-    {
-        public Class()
-        {
-        }
-
-        #region ISerializer Members
-
-        public ISerializer Find(Reflect.Type type)
-        {
-            return type.Category == Reflect.TypeCategory.Class ? this : null;
-        }
-        public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator resource)
-        {
-            Data.Node result;
-            Uri.Locator l = storage.Resolver.Update(data, resource);
-            if (l.NotNull())
-                result = new Data.Link(l);
-            else
-            {
-                result = new Data.Branch(data, type);
-                foreach (Reflect.Property property in data.GetProperties())
-                {
-                    ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
-                    if (attributes.Length == 1 && property.Data.NotNull())
-                    {
-                        string name = attributes[0].Name ?? property.Name.Convert(Casing.Pascal, storage.Casing);
-                        l = resource.Copy();
-                        l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
-                        (result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(resource));
-                    }
-                }
-            }
-            return result;
-        }
-        public object Deserialize(IStorage storage, Data.Node data, object result)
-        {
-            if (result.IsNull())
-                try
-                {
-                    result = data.Type.Create();
-                }
-                catch (System.MissingMethodException e)
-                {
-                    if (data.Type == data.OriginalType)
-                        new Exception.CreateAbstract(e, data.Type, data.Region).Throw();
-                    else
-                        new Exception.UnknownType(e, data.OriginalType, data.Region).Throw();
-                }
-            Reflect.Property[] properties = result.GetProperties();
-            if (data is Data.Branch)
-                foreach (Data.Node node in (data as Data.Branch).Nodes)
-                {
-                    string name = node.Name.Convert(storage.Casing, Casing.Pascal);
-                    Reflect.Property property = properties.Find(p =>
-                    {
-                        Kean.Serialize.ParameterAttribute[] attributes;
-                        return (attributes = p.GetAttributes<Kean.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name.NotEmpty() ? attributes[0].Name == node.Name : p.Name == name;
-                    });
-                    if (property.IsNull())
-                        new Exception.PropertyMissing(data.Type, name, node.Region).Throw();
-                    else if (!property.Writable)
-                    {
-                        if (property.Readable && (property.Type.Category == Reflect.TypeCategory.Class || property.Type.Category == Reflect.TypeCategory.Array || property.Type.Category == Reflect.TypeCategory.Interface))
-                            storage.DeserializeContent(node.DefaultType(property.Type), property.Data);
-                        else
-                            new Exception.PropertyNotWriteable(data.Type, name, node.Region).Throw();
-                    }
-                    else
-                        storage.Deserialize(node, property.Type, d => property.Data = d);
-                }
-            return result;
-        }
-
-        #endregion
-
-    }
+	{
+		public Class()
+		{
+		}
+		#region ISerializer Members
+		public ISerializer Find(Reflect.Type type)
+		{
+			return type.Category == Reflect.TypeCategory.Class ? this : null;
+		}
+		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator resource)
+		{
+			Data.Node result;
+			Uri.Locator l = storage.Resolver.Update(data, resource);
+			if (l.NotNull())
+				result = new Data.Link(l);
+			else
+			{
+				result = new Data.Branch(data, type);
+				foreach (Reflect.Property property in data.GetProperties())
+				{
+					ParameterAttribute[] attributes = property.GetAttributes<ParameterAttribute>();
+					if (attributes.Length == 1 && property.Data.NotNull())
+					{
+						string name = attributes[0].Name ?? property.Name.Convert(Casing.Pascal, storage.Casing);
+						if (resource.NotNull())
+						{
+							l = resource.Copy();
+							l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+						}
+						(result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(resource));
+					}
+				}
+			}
+			return result;
+		}
+		public object Deserialize(IStorage storage, Data.Node data, object result)
+		{
+			if (result.IsNull())
+				try
+				{
+					result = data.Type.Create();
+				}
+				catch (System.MissingMethodException e)
+				{
+					if (data.Type == data.OriginalType)
+						new Exception.CreateAbstract(e, data.Type, data.Region).Throw();
+					else
+						new Exception.UnknownType(e, data.OriginalType, data.Region).Throw();
+				}
+			if (result.NotNull())
+			{
+				Reflect.Property[] properties = result.GetProperties();
+				if (data is Data.Branch)
+					foreach (Data.Node node in (data as Data.Branch).Nodes)
+					{
+						string name = node.Name.Convert(storage.Casing, Casing.Pascal);
+						Reflect.Property property = properties.Find(p =>
+						{
+							Kean.Serialize.ParameterAttribute[] attributes;
+							return (attributes = p.GetAttributes<Kean.Serialize.ParameterAttribute>()).Length > 0 && attributes[0].Name.NotEmpty() ? attributes[0].Name == node.Name : p.Name == name;
+						});
+						if (property.IsNull())
+							new Exception.PropertyMissing(data.Type, name, node.Region).Throw();
+						else if (!property.Writable)
+						{
+							if (property.Readable && (property.Type.Category == Reflect.TypeCategory.Class || property.Type.Category == Reflect.TypeCategory.Array || property.Type.Category == Reflect.TypeCategory.Interface))
+								storage.DeserializeContent(node.DefaultType(property.Type), property.Data);
+							else
+								new Exception.PropertyNotWriteable(data.Type, name, node.Region).Throw();
+						}
+						else
+							storage.Deserialize(node, property.Type, d => property.Data = d);
+					}
+			}
+			return result;
+		}
+		#endregion
+	}
 }
 

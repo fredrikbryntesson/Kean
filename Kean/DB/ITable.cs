@@ -30,6 +30,7 @@ using Kean.Reflect.Extension;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Expressions = System.Linq.Expressions;
+
 namespace Kean.DB
 {
 	public interface ITable<T> :
@@ -37,25 +38,19 @@ namespace Kean.DB
             where T : Item, new()
 	{
 		Database Database { get; }
-
 		#region Filter, Sort, Limit, Offset
-
 		ITable<T> Filter(Expressions.Expression<Func<T, bool>> predicate);
 		ITable<T> Sort(Expressions.Expression<Func<T, object>> selector, bool descending);
 		ITable<T> Limit(int limit, int offset);
-
 		#endregion
-
 		#region Count, Create, Read, Update, Delete
-
 		int Count { get; }
 		long Create(T item);
 		Generic.IEnumerable<T> Read();
+		bool Update(T item);
 		int Update(params KeyValue<string, object>[] values);
 		int Delete();
-
 		#endregion
-
 		bool Close();
 	}
 }

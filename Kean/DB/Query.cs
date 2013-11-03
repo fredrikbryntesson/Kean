@@ -31,6 +31,7 @@ using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Expressions = System.Linq.Expressions;
 using Integer = Kean.Math.Integer;
+
 namespace Kean.DB
 {
 	public class Query<T> :
@@ -63,13 +64,9 @@ namespace Kean.DB
 			this.limit = limit;
 			this.offset = offset;
 		}
-
 		#region ITable implementation
-
 		public int Count { get { return this.backend.GetCount(this.filters, this.sorting, this.limit, this.offset); } }
-
 		#region Filter, Sort, Limit
-
 		public ITable<T> Filter(Expressions.Expression<Func<T, bool>> predicate)
 		{
 			Query<T> result = new Query<T>(this.backend)
@@ -102,11 +99,8 @@ namespace Kean.DB
 				offset = this.offset + offset,
 			};
 		}
-
 		#endregion
-
 		#region CRUD - Create, Read, Update, Delete
-
 		public long Create(T item)
 		{
 			return this.backend.Create(item);
@@ -114,6 +108,10 @@ namespace Kean.DB
 		public Generic.IEnumerable<T> Read()
 		{
 			return this.backend.Read(this.filters, this.sorting, this.limit, this.offset);
+		}
+		public bool Update(T item)
+		{
+			return this.backend.Update(this.filters, this.sorting, this.limit, this.offset, item);
 		}
 		public int Update(params KeyValue<string, object>[] values)
 		{
@@ -123,9 +121,7 @@ namespace Kean.DB
 		{
 			return this.backend.Delete(this.filters, this.sorting, this.limit, this.offset);
 		}
-
 		#endregion
-
 		public bool Close()
 		{
 			bool result;
@@ -133,18 +129,13 @@ namespace Kean.DB
 				this.backend = null;
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable implementation
-
 		public void Dispose()
 		{
 			this.Close();
 		}
-
 		#endregion
-
 	}
 }
 

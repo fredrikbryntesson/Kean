@@ -29,6 +29,7 @@ using Reflect = Kean.Reflect;
 using Kean.Reflect.Extension;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
+
 namespace Kean.DB
 {
 	public abstract class Item
