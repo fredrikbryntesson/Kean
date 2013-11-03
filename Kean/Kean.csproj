@@ -819,6 +819,7 @@
     <Compile Include="Buffer\Exception\IndexOutOfRange.cs" />
     <Compile Include="Buffer\Exception\NullArgument.cs" />
     <Compile Include="IO\BufferByteInDevice.cs" />
+    <Compile Include="Serialize\Storer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

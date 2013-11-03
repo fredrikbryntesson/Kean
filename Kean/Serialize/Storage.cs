@@ -28,18 +28,14 @@ using Kean.Reflect.Extension;
 namespace Kean.Serialize
 {
 	public abstract class Storage :
-        IStorage
+	Storer
 	{
-		public abstract string ContentType { get; }
-		ISerializer serializer;
 		IRebuilder rebuilder;
-		public Resolver Resolver { get; private set; }
-		public Casing Casing { get; set; }
-		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers)
+		public abstract string ContentType { get; }
+		protected Storage(Resolver resolver, IRebuilder rebuilder, params ISerializer[] serializers) :
+			base(resolver, serializers)
 		{
-			this.Resolver = resolver ?? new Resolver();
 			this.rebuilder = rebuilder ?? new Rebuilder.Identity();
-			this.serializer = new Serializer.Cache(serializers.NotEmpty() ? new Serializer.Group(serializers) : new Serializer.Default());
 		}
 		protected abstract bool StoreImplementation(Data.Node value, IO.IByteOutDevice device);
 		public bool Store(Data.Node value, IO.IByteOutDevice device)
@@ -76,30 +72,6 @@ namespace Kean.Serialize
 		{
 			Data.Node node;
 			return device.IsNull() ? default(T) : (T)(this.Resolver[device.Resource] ?? ((node = this.Load(device)).NotNull() ? this.Deserialize(null, node.DefaultType(typeof(T))) : null));
-		}
-		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
-		{
-			return this.serializer.Serialize(this, type, data, locator);
-		}
-		object Deserialize(object result, Serialize.Data.Node node)
-		{
-			return node.NotNull() ? (this.Resolver[node.Locator] = this.serializer.Deserialize(this, node, result)) : null;
-		}
-		public bool DeserializeContent(Serialize.Data.Node node, object result)
-		{
-			return node.NotNull() && result.NotNull() && this.Deserialize(result, node).NotNull();
-		}
-		public void Deserialize(Serialize.Data.Node node, Reflect.Type type, Action<object> set)
-		{
-			node = node.DefaultType(type);
-			if (node is Data.Link)
-				this.Resolver.Resolve((node as Data.Link).Target, d =>
-				{
-					this.Resolver[node.Locator] = d;
-					set.Call(d);
-				});
-			else
-				set.Call(this.Deserialize(null, node));
 		}
 	}
 }

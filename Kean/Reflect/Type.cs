@@ -136,7 +136,6 @@ namespace Kean.Reflect
 				return this.category.Value;
 			}
 		}
-
 		#region Members
 		Collection.IReadOnlyVector<FieldInformation> fields;
 		public Collection.IReadOnlyVector<FieldInformation> Fields
@@ -215,9 +214,7 @@ namespace Kean.Reflect
 			}
 		}
 		#endregion
-
 		System.Type type;
-
 		#region Constructors
 		Type()
 		{
@@ -345,7 +342,6 @@ namespace Kean.Reflect
 			this.arguments.Add(arguments);
 		}
 		#endregion
-
 		public T Create<T>()
 		{
 			return (T)this.Create();
@@ -359,7 +355,6 @@ namespace Kean.Reflect
 			System.Reflection.ConstructorInfo constructor = ((System.Type)this).GetConstructor(parameters.Map(parameter => parameter.GetType()));
 			return constructor.NotNull() ? constructor.Invoke(parameters) : null;
 		}
-
 		#region Implemented Interfaces
 		public bool Implements(Type type)
 		{
@@ -380,7 +375,6 @@ namespace Kean.Reflect
 			return this.GetImplementation(typeof(T));
 		}
 		#endregion
-
 		#region Inherited Classes
 		public Type Base { get { return ((System.Type)this).BaseType.NotNull() ? ((Type)((System.Type)this).BaseType) : null; } }
 		public bool Inherits<T>()
@@ -392,7 +386,6 @@ namespace Kean.Reflect
 			return this == type || ((System.Type)this).NotNull() && ((System.Type)this).BaseType.NotNull() && ((Type)((System.Type)this).BaseType).Inherits(type);
 		}
 		#endregion
-
 		#region Get Attributes
 		public System.Attribute[] GetAttributes()
 		{
@@ -404,7 +397,6 @@ namespace Kean.Reflect
 			return ((System.Type)this).GetCustomAttributes(typeof(T), true).Map(attribute => attribute as T);
 		}
 		#endregion
-
 		#region Object Overrides
 		public override string ToString()
 		{
@@ -419,7 +411,6 @@ namespace Kean.Reflect
 			return ((string)this).GetHashCode();
 		}
 		#endregion
-
 		#region IEquatable<Typename>, IEquatable<string>, IEquatable<Type>
 		public bool Equals(Type other)
 		{
@@ -434,7 +425,6 @@ namespace Kean.Reflect
 			return other.NotNull() && this == (Type)other;
 		}
 		#endregion
-
 		#region Binary Operators
 		public static bool operator ==(Type left, Type right)
 		{
@@ -477,11 +467,10 @@ namespace Kean.Reflect
 			return !(left == right);
 		}
 		#endregion
-
 		#region Casts
 		public static implicit operator Type(string value)
 		{
-			return new Type(value);
+			return value.IsNull() ? null : new Type(value);
 		}
 		public static implicit operator string(Type value)
 		{
@@ -598,6 +587,5 @@ namespace Kean.Reflect
 			return result;
 		}
 		#endregion
-
 	}
 }

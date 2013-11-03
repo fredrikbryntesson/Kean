@@ -122,7 +122,6 @@ namespace Kean.DB.Sql
 		}
 		Serialize.Data.Leaf Read(Data.IDataReader reader, int ordinal, KeyValue<string, Reflect.Type> field)
 		{
-			Console.Write(ordinal);
 			Serialize.Data.Leaf result = null;
 			if (field.Value == typeof(bool))
 				result = new Serialize.Data.Boolean(reader.GetBoolean(ordinal));
@@ -149,7 +148,7 @@ namespace Kean.DB.Sql
 			else if (field.Value == typeof(float))
 				result = new Serialize.Data.Single(reader.GetFloat(ordinal));
 			else if (field.Value == typeof(string))
-				result = new Serialize.Data.String(reader.GetString(ordinal));
+				result = new Serialize.Data.String(reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal));
 			else if (field.Value == typeof(TimeSpan))
 				result = new Serialize.Data.TimeSpan(reader.GetDateTime(ordinal) - new DateTime());
 			else if (field.Value == typeof(ushort))
@@ -180,7 +179,7 @@ namespace Kean.DB.Sql
 							query += "`key` bigint(20) NOT NULL AUTO_INCREMENT, ";
 							break;
 						case "_type":
-							query += "`_type` varchar(255) DEFAULT '" + this.Type + "', ";
+							query += "`_type` varchar(255) DEFAULT NULL, ";
 							break;
 						case "_data":
 							query += "`_data` longtext, ";

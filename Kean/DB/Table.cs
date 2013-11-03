@@ -31,6 +31,7 @@ using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Expressions = System.Linq.Expressions;
 using Kean.Serialize.Extension;
+
 namespace Kean.DB
 {
 	public abstract class Table<T> :
@@ -90,36 +91,32 @@ namespace Kean.DB
 			yield return KeyValue.Create("_data", (Reflect.Type)typeof(string));
 			yield return KeyValue.Create("_type", (Reflect.Type)typeof(string));
 		}
-
 		#region Create Table
-
 		public bool Create()
 		{
 			return this.Create(this.Columns);
 		}
-
 		#endregion
-
 		#region Create, Read, Update, Delete
-
 		internal Generic.IEnumerable<T> Read(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset)
 		{
 			return this.Deserialize(this.FromFields(this.ReadFields(filters, sorting, limit, offset)));
+		}
+		internal bool Update(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset, T item)
+		{		
+			long key = item.Key; // TODO: fix this
+			filters = ((Generic.IEnumerable<Expressions.Expression<Func<T, bool>>>)new Expressions.Expression<Func<T, bool>>[] { i => i.Key == key }).Append(filters);
+			return this.Update(filters, sorting, limit, offset, this.ToFields(this.Serialize(item))) == 1;
 		}
 		internal int Update(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset, params KeyValue<string, object>[] values)
 		{
 			return this.Update(filters, sorting, limit, offset, values.Map(value => this.Serialize(value.Value).UpdateName(value.Key) as Serialize.Data.Leaf));
 		}
 		internal protected abstract int Delete(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset);
-
 		#endregion
-
 		#region ITable implementation
-
 		public int Count { get { return this.GetCount(null, null, 0, 0); } }
-
 		#region CRUD - Create, Read, Update, Delete
-
 		public long Create(T item)
 		{
 			return item.Key = this.Create(this.ToFields(this.Serialize(item)));
@@ -127,6 +124,10 @@ namespace Kean.DB
 		public Generic.IEnumerable<T> Read()
 		{
 			return this.Read(null, null, 0, 0);
+		}
+		public bool Update(T item)
+		{
+			return this.Update(null, null, 0, 0, item);
 		}
 		public int Update(params KeyValue<string, object>[] values)
 		{
@@ -136,11 +137,8 @@ namespace Kean.DB
 		{
 			return this.Delete(null, null, 0, 0);
 		}
-
 		#endregion
-
 		#region Filter, Sort, Limit, Offset
-
 		public ITable<T> Filter(Expressions.Expression<Func<T, bool>> predicate)
 		{
 			return new Query<T>(this, predicate);
@@ -153,13 +151,9 @@ namespace Kean.DB
 		{
 			return new Query<T>(this, limit, offset);
 		}
-
 		#endregion
-
 		#endregion
-
 		#region Implementors interface
-
 		internal protected abstract int GetCount(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset);
 		protected abstract bool Create(Generic.IEnumerable<KeyValue<string, Reflect.Type>> columns);
 		protected abstract long Create(Generic.IEnumerable<Serialize.Data.Leaf> fields);
@@ -214,27 +208,22 @@ namespace Kean.DB
 		}
 		protected T Deserialize(Serialize.Data.Branch item)
 		{
-			T result = new T();
+			item.DefaultType(typeof(T));
+			T result = item.Type.Create<T>();
 			return result.Deserialize(this.Database as Serialize.IStorage, item) ? result : null;
 		}
 		protected Generic.IEnumerable<T> Deserialize(Generic.IEnumerable<Serialize.Data.Branch> items)
 		{
 			return items.Map(this.Deserialize);
 		}
-
 		#endregion
-
 		#region Object overrides
-
 		public override string ToString()
 		{
 			return string.Format("[Table: Name={0}]", this.Name);
 		}
-
 		#endregion
-
 		#region IDisposable implementation
-
 		public virtual bool Close()
 		{
 			return true;
@@ -247,9 +236,7 @@ namespace Kean.DB
 		{
 			this.Close();
 		}
-
 		#endregion
-
 	}
 }
 
