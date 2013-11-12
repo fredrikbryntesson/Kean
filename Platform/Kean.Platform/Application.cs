@@ -429,8 +429,7 @@ namespace Kean.Platform
 						modules[locator.Path.Stem] = locator;
 					}
 			foreach (Tuple<string, Uri.Locator> module in modules)
-				result.Load(module.Item1, storage.Load<Module>(module.Item2));
-
+				Error.Log.Call(() => result.Load(module.Item1, storage.Load<Module>(module.Item2)));
 			return result;
 		}
 		#endregion
