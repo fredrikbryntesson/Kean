@@ -27,8 +27,8 @@ namespace Kean.Core.Collection
 		System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>,
 		IEquatable<IDictionary<TKey, TValue>>
 	{
-        TValue this[TKey key] { get; set; }
-        bool Contains(TKey key);
+		TValue this[TKey key] { get; set; }
+		bool Contains(TKey key);
 		bool Remove(TKey key);
 	}
 }
