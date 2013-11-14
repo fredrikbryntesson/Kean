@@ -75,7 +75,7 @@ namespace Kean.Draw.OpenGL
 		}
 		public override Draw.Image Convert(Draw.Image image)
 		{
-			return image is Image ? null : image.Convert<Image>();
+			return image is Image ? null : Image.Create(image);
 		}
 		#region Draw.Canvas Overrides
 		#region Clip, Transform, Push & Pop
