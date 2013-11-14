@@ -68,6 +68,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			};
 			GL.LoadMatrix(ref identity);
 		}
+		protected override Backend.Renderer CreateRenderer()
+		{
+			return new Renderer(this.Context, () => new Geometry2D.Integer.Size(this.Size.Width, this.Size.Height), () => TextureType.Rgba);
+		}
 		protected override void Clear()
 		{
 			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.DepthBufferBit);

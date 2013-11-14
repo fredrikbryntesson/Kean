@@ -32,7 +32,7 @@ namespace Kean.Draw.OpenGL.Backend
 		OpenTK.GLControl
 	{
 		public event Action Initialized;
-		public event Action Draw;
+		public event Action<Renderer> Draw;
 
 		public Context Context { get; private set; }
 
@@ -108,13 +108,14 @@ namespace Kean.Draw.OpenGL.Backend
 					if (this.loaded)
 					{
 						this.Clear();
-						this.Draw.Call();
+						this.Draw.Call(this.CreateRenderer());
 						this.SwapBuffers();
 					}
 				}
 			})();
 		}
 		protected abstract Context CreateContext();
+		protected abstract Renderer CreateRenderer();
 		protected abstract ThreadPool CreateThreadPool(string name, int workers);
 		protected abstract void SetupViewport();
 		protected abstract void Clear();

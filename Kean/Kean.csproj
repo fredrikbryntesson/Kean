@@ -212,7 +212,6 @@
     <Compile Include="DB\Sql\QueryGenerator.cs" />
     <Compile Include="DB\Sql\Table.cs" />
     <Compile Include="Draw\Canvas.cs" />
-    <Compile Include="Draw\ClipStack.cs" />
     <Compile Include="Draw\Colors.cs" />
     <Compile Include="Draw\CoordinateSystem.cs" />
     <Compile Include="Draw\Font.cs" />

@@ -29,7 +29,7 @@ namespace Kean.Draw.OpenGL
 		Draw.Surface
 	{
 		Backend.Renderer renderer;
-		Geometry2D.Single.Box clip = new Geometry2D.Single.Box();
+		Geometry2D.Single.Box clip;
 		Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.Identity;
 		internal Surface(Backend.Renderer renderer) :
 			base(renderer.Size, CoordinateSystem.Default)
@@ -81,11 +81,13 @@ namespace Kean.Draw.OpenGL
 		#region Clip, Transform, Push & Pop
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
-			return this.clip = clip;
+			this.renderer.SetClip(clip);
+			return base.OnClipChange(this.clip = clip);
 		}
 		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
 		{
-			return this.transform = transform;
+			this.renderer.SetTransform(transform);
+			return base.OnTransformChange(this.transform = transform);
 		}
 		#endregion
 		#region Draw, Blend, Clear
@@ -134,10 +136,8 @@ namespace Kean.Draw.OpenGL
 		#region Clear
 		public override void Clear()
 		{
-			this.Use();
 			this.renderer.UnSetClip();
 			this.renderer.Clear();
-			this.Unuse();
 		}
 		public override void Clear(Geometry2D.Single.Box region)
 		{

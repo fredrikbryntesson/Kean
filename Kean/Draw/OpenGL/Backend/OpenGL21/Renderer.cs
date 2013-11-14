@@ -35,36 +35,19 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	{
 		protected internal Renderer(Backend.Context context, Func<Geometry2D.Integer.Size> getSize, Func<TextureType> getType) :
 			base(context, getSize, getType)
-		{ }
+		{
+		}
 		protected Renderer(Renderer original) :
 			base(original)
-		{ }
-
-		protected override void Setup()
-		{
-			GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
-			GL.Viewport(0, 0, this.Size.Width, this.Size.Height);
-			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-			GL.PushMatrix();
-			new Geometry2D.Single.Transform(2.0f / this.Size.Width, 0.0f, 0.0f, 2.0f / this.Size.Height, -1.0f, -1.0f).Load();
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-			GL.PushMatrix();
-			GL.LoadIdentity();
-			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-			if (this.Type == TextureType.Rgba)
-				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
-			else
-				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
+		{ 
 		}
-
-		protected override void Teardown()
+		public override void Use()
 		{
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-			GL.PopMatrix();
-			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-			GL.PopMatrix();
-			GL.PopAttrib();
+			base.Use();
+		}
+		public override void Unuse()
+		{
+			base.Unuse();
 		}
 		public override void SetClip(Geometry2D.Single.Box region)
 		{
