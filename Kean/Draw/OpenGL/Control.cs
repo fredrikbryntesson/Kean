@@ -110,16 +110,7 @@ namespace Kean.Draw.OpenGL
 					{
 						surface.Use();
 						surface.Transform = Geometry2D.Single.Transform.CreateTranslation(surface.Size / 2);
-						surface.Draw(Kean.Draw.Colors.LightGreen, new Math.Geometry2D.Single.Box(-surface.Size.Width / 2, -surface.Size.Height / 2, surface.Size.Width, surface.Size.Height));
 						this.Draw(surface);
-						surface.Draw(Kean.Draw.Colors.Blue, new Math.Geometry2D.Single.Box(0, 0, 10, 10));
-						surface.Draw(Kean.Draw.Colors.Blue, new Math.Geometry2D.Single.Box(-10, -10, 10, 10));
-
-						surface.Draw(Kean.Draw.Colors.SaddleBrown, new Math.Geometry2D.Single.Box(-surface.Size.Width / 2, -surface.Size.Height / 2, 10, 10));
-						surface.Draw(Kean.Draw.Colors.BlueViolet, new Math.Geometry2D.Single.Box(-surface.Size.Width / 2, surface.Size.Height / 2 - 10, 10, 10));
-						surface.Draw(Kean.Draw.Colors.Yellow, new Math.Geometry2D.Single.Box(surface.Size.Width / 2 - 10, -surface.Size.Height / 2, 10, 10));
-						surface.Draw(Kean.Draw.Colors.Salmon, new Math.Geometry2D.Single.Box(surface.Size.Width / 2 - 10, surface.Size.Height / 2 - 10, 10, 10));
-
 						surface.Unuse();
 					}
 				};
