@@ -21,7 +21,6 @@
 using System;
 using Kean;
 using Kean.Extension;
-
 namespace Kean.Uri
 {
 	public class Locator :
@@ -210,11 +209,11 @@ namespace Kean.Uri
 		public bool Equals(Locator other)
 		{
 			return other.NotNull() &&
-				this.Scheme == other.Scheme &&
-				this.Authority == other.Authority &&
-				this.Path == other.Path &&
-				this.Query == other.Query &&
-				this.Fragment == other.Fragment;
+			this.Scheme == other.Scheme &&
+			this.Authority == other.Authority &&
+			this.Path == other.Path &&
+			this.Query == other.Query &&
+			this.Fragment == other.Fragment;
 		}
 
 		#endregion
@@ -288,12 +287,18 @@ namespace Kean.Uri
 			return locator.NotEmpty() ? new Locator() { String = locator } : null;
 		}
 
-		#region Add Operator
+		#region Add Operators
 
 		public static Locator operator +(Locator left, Path right)
 		{
 			left = left.Copy();
 			left.Path += right;
+			return left;
+		}
+		public static Locator operator +(Locator left, KeyValue<string, string> right)
+		{
+			left = left.Copy();
+			left.Query[right.Key] = right.Value;
 			return left;
 		}
 

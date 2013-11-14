@@ -29,22 +29,27 @@ using Reflect = Kean.Reflect;
 using Kean.Reflect.Extension;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
+
 namespace Kean.DB
 {
-    public abstract class Item
-    {
-        public long Key { get; internal set; }
-        protected Item()
-        {
-        }
-        internal protected virtual Serialize.Data.Branch Serialize(Serialize.IStorage storage, Reflect.Type type, Uri.Locator resource)
-        {
-            return storage.Serialize(type, this, resource) as Serialize.Data.Branch;
-        }
-        internal protected virtual bool Deserialize(Serialize.IStorage storage, Serialize.Data.Branch node)
-        {
-            return storage.DeserializeContent(node, this);
-        }
-    }
+	public abstract class Item
+	{
+		public long Key { get; internal protected set; }
+		protected Item()
+		{
+		}
+		protected Item(long key)
+		{
+			this.Key = key;
+		}
+		internal protected virtual Serialize.Data.Branch Serialize(Serialize.IStorage storage, Reflect.Type type, Uri.Locator resource)
+		{
+			return storage.Serialize(type, this, resource) as Serialize.Data.Branch;
+		}
+		internal protected virtual bool Deserialize(Serialize.IStorage storage, Serialize.Data.Branch node)
+		{
+			return storage.DeserializeContent(node, this);
+		}
+	}
 }
 

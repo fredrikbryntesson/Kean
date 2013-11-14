@@ -8,6 +8,7 @@ namespace Kean.DB.Sql.Test
 		public static void Run(string[] args)
 		{
 			Console.WriteLine("Hello World!");
+			DB.Sql.Database.Register("mysql", c => new global::MySql.Data.MySqlClient.MySqlConnection(c));
 			using (Database database = Database.Open("mysql://kean:password@localhost/keanTest/"))
 			{
 				//database.Create<Item>();
@@ -25,6 +26,7 @@ namespace Kean.DB.Sql.Test
 				Generic.IEnumerable<Item> items = table.Filter(item => item.Key > 2).Filter(item => item.Key > 5).Sort(item => item.Name, false).Limit(8, 2).Read();
 				foreach (Item item in items)
 					Console.WriteLine(item);
+				Console.ReadLine();
 			}
 		}
 	}

@@ -23,6 +23,7 @@ using Kean;
 using Kean.Extension;
 using Kean.Reflect.Extension;
 using Kean.Serialize.Extension;
+
 namespace Kean.Serialize.Serializer
 {
 	public class Class :
@@ -31,9 +32,7 @@ namespace Kean.Serialize.Serializer
 		public Class()
 		{
 		}
-
 		#region ISerializer Members
-
 		public ISerializer Find(Reflect.Type type)
 		{
 			return type.Category == Reflect.TypeCategory.Class ? this : null;
@@ -53,8 +52,11 @@ namespace Kean.Serialize.Serializer
 					if (attributes.Length == 1 && property.Data.NotNull())
 					{
 						string name = attributes[0].Name ?? property.Name.Convert(Casing.Pascal, storage.Casing);
-						l = resource.Copy();
-						l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+						if (resource.NotNull())
+						{
+							l = resource.Copy();
+							l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+						}
 						(result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(resource));
 					}
 				}
@@ -102,9 +104,7 @@ namespace Kean.Serialize.Serializer
 			}
 			return result;
 		}
-
 		#endregion
-
 	}
 }
 
