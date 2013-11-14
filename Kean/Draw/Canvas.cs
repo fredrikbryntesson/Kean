@@ -60,6 +60,16 @@ namespace Kean.Draw
 		}
 		#endregion
 		#region Surface Implementation
+		#region Clip, Transform
+		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
+		{
+			return this.surface.Clip = clip;
+		}
+		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
+		{
+			return this.surface.Transform = transform;
+		}
+		#endregion
 		#region Convert
 		public override Image Convert(Image image)
 		{
