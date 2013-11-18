@@ -223,13 +223,13 @@ namespace Kean.Xml.Sax
 		#region Static Open
 		public static Parser Open(System.Reflection.Assembly assembly, Uri.Path path) 
 		{
-			using (IO.IByteDevice device = IO.ByteDevice.Open(assembly, path))
+			IO.IByteDevice device = IO.ByteDevice.Open(assembly, path);
 				return Parser.Open(device); 
 		}
 		public static Parser Open(System.IO.Stream stream) { return Parser.Open(IO.ByteDevice.Open(stream)); }
 		public static Parser Open(Uri.Locator resource) 
 		{
-			using(IO.IByteDevice device = IO.ByteDevice.Open(resource))
+			IO.IByteDevice device = IO.ByteDevice.Open(resource);
 				return Parser.Open(device); 
 		}
 		public static Parser Open(IO.IByteDevice device) { return Parser.Open(IO.CharacterDevice.Open(device)); }
