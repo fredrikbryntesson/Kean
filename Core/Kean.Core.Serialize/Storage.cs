@@ -28,7 +28,7 @@ using Kean.Core.Reflect.Extension;
 namespace Kean.Core.Serialize
 {
 	public abstract class Storage :
-        IStorage
+		IStorage
 	{
 		ISerializer serializer;
 		IRebuilder rebuilder;
