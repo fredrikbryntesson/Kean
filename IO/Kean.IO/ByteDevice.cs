@@ -44,13 +44,13 @@ namespace Kean.IO
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
-        byte? RawRead()
-        {
-            byte? result;
-            try { result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte()); }
-            catch (ObjectDisposedException) { result = null;  }
-            return result;
-        }
+		byte? RawRead()
+		{
+			byte? result;
+			try { result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte()); }
+			catch (ObjectDisposedException) { result = null;  }
+			return result;
+		}
 		byte? Convert(int value)
 		{
 			return value < 0 ? null : (byte?)value;
@@ -63,13 +63,13 @@ namespace Kean.IO
 		public byte? Read()
 		{
 			byte? result;
-            if (this.peeked.HasValue)
-            {
-                result = this.peeked;
-                this.peeked = null;
-            }
-            else
-                result = this.RawRead();
+			if (this.peeked.HasValue)
+			{
+				result = this.peeked;
+				this.peeked = null;
+			}
+			else
+				result = this.RawRead();
 			return result;
 		}
 		#endregion
@@ -162,7 +162,7 @@ namespace Kean.IO
 							try
 							{
 								using (System.Net.WebClient client = new System.Net.WebClient())
-                                    result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
+									result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
 							}
 							catch (System.Net.WebException) { result = null; }
 						}

@@ -103,7 +103,8 @@ namespace Kean.Xml.Dom
 		}
 		public static Document OpenResource(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return Document.Open(Sax.Parser.Open(assembly, resource));
+			using (Sax.Parser parser = Sax.Parser.Open(assembly, resource))
+				return Document.Open(parser);
 		}
 		public static Document OpenResource(Uri.Path resource)
 		{
@@ -115,7 +116,8 @@ namespace Kean.Xml.Dom
 		}
 		public static Document Open(Uri.Locator resource)
 		{
-			return Document.Open(Sax.Parser.Open(resource));
+			using (Sax.Parser parser = Sax.Parser.Open(resource))
+				return Document.Open(parser);
 		}
 		#endregion
 		#region Object Overrides

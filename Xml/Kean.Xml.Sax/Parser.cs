@@ -30,7 +30,8 @@ using Error = Kean.Core.Error;
 
 namespace Kean.Xml.Sax
 {
-	public class Parser
+	public class Parser : 
+		IDisposable
 	{
 		public event Action<float, string, bool?, Uri.Region> OnDeclaration;
 		public event Action<string, Collection.IList<Tuple<string, string, Uri.Region>>, Uri.Region> OnElementStart;
@@ -48,6 +49,18 @@ namespace Kean.Xml.Sax
 		Parser(IO.ICharacterReader reader)
 		{
 			this.reader = reader;
+		}
+		~Parser()
+		{
+			this.Dispose();
+		}
+		public void Dispose()
+		{
+			if (this.reader.NotNull())
+			{
+				this.reader.Dispose();
+				this.reader = null;
+			}
 		}
 		IO.Text.Mark Mark()
 		{
@@ -208,9 +221,17 @@ namespace Kean.Xml.Sax
 			return result.ToString();
 		}
 		#region Static Open
-		public static Parser Open(System.Reflection.Assembly assembly, Uri.Path path) { return Parser.Open(IO.ByteDevice.Open(assembly, path)); }
+		public static Parser Open(System.Reflection.Assembly assembly, Uri.Path path) 
+		{
+			using (IO.IByteDevice device = IO.ByteDevice.Open(assembly, path))
+				return Parser.Open(device); 
+		}
 		public static Parser Open(System.IO.Stream stream) { return Parser.Open(IO.ByteDevice.Open(stream)); }
-		public static Parser Open(Uri.Locator resource) { return Parser.Open(IO.ByteDevice.Open(resource)); }
+		public static Parser Open(Uri.Locator resource) 
+		{
+			using(IO.IByteDevice device = IO.ByteDevice.Open(resource))
+				return Parser.Open(device); 
+		}
 		public static Parser Open(IO.IByteDevice device) { return Parser.Open(IO.CharacterDevice.Open(device)); }
 		public static Parser Open(IO.ICharacterInDevice device) { return Parser.Open(IO.CharacterReader.Open(device)); }
 		public static Parser Open(IO.ICharacterReader reader)
