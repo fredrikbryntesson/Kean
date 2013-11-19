@@ -29,10 +29,10 @@ using Raster = Kean.Draw.Raster;
 
 namespace Kean.Draw.OpenGL.Backend
 {
-	public interface IData
+	public interface IData :
+		IDisposable
 	{
 		void Use();
 		void UnUse();
-		void Configure();
 	}
 }

@@ -42,19 +42,10 @@ namespace Kean.Draw.OpenGL
 		internal override void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination)
 		{
 			if (map.NotNull())
-			{
-				for (int i = this.Channels.Length - 1; i >= 0; i--)
-					map.Backend.SetTexture("texture" + i, i, this.Channels[i].Backend);
-				map.Backend.Use();
-				this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
-				map.Backend.UnUse();
-				for (int i = 0; i < this.Channels.Length; i++)
-					map.Backend.UnSetTexture(i);
-			}
+				map.Render(() => this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination), this.Channels);
 			else
 			{
 				this.Channels[0].Backend.Use();
-				this.Channels[0].Backend.Configure();
 				this.Channels[0].Backend.Render(leftTop, rightTop, leftBottom, rightBottom, destination);
 				this.Channels[0].Backend.UnUse();
 			}

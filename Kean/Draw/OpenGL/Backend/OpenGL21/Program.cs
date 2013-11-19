@@ -60,7 +60,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			OpenTK.Graphics.OpenGL.GL.ActiveTexture(this.GetUnit(number));
 			texture.Use();
-			texture.Configure();
 			this.SetVariable(name, number);
 		}
 		public override void UnSetTexture(int number)
@@ -136,6 +135,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 					break;
 			}
 			this.UnUse();
+		}
+		public override Backend.Data1D CreateData(byte[] data)
+		{
+			return new Data1D(this.Context, data);
+		}
+		public override Backend.Data2D CreateData(byte[,] data)
+		{
+			return new Data2D(this.Context, data);
+		}
+		public override Backend.Data3D CreateData(byte[,,] data)
+		{
+			return new Data3D(this.Context, data);
 		}
 		OpenTK.Graphics.OpenGL.TextureUnit GetUnit(int number)
 		{

@@ -23,13 +23,15 @@ using System;
 using Kean;
 using Kean.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Collection = Kean.Collection;
 
 namespace Kean.Draw.OpenGL
 {
 	public class Map :
 		Draw.Map
 	{
-		protected internal Backend.Program Backend { get; private set; }
+		Collection.Dictionary<string, object> data = new Collection.Dictionary<string, object>();
+		protected Backend.Program Backend { get; private set; }
 		bool disposeBackend = true;
 		public Map(Backend.Program backend)
 		{
@@ -42,6 +44,13 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Dispose()
 		{
+			if (this.data.NotNull())
+			{
+				foreach (var item in this.data)
+					if (item.Value is IDisposable)
+					(item.Value as IDisposable).Dispose();
+				this.data = null;
+			}
 			if (this.Backend.NotNull())
 			{
 				if (this.disposeBackend)
@@ -50,6 +59,102 @@ namespace Kean.Draw.OpenGL
 			}
 			base.Dispose();
 		}
+		internal void Render(Action render, params Packed[] channels)
+		{
+			int count = 1;
+			foreach (var item in this.data)
+				if (item.Value is Backend.IData)
+					this.Backend.SetTexture(item.Key, count++, item.Value as Backend.IData);
+				else if (item.Value is int)
+					this.Backend.SetVariable(item.Key, (int)item.Value);
+				else if (item.Value is float)
+					this.Backend.SetVariable(item.Key, (float)item.Value);
+				else if (item.Value is int[])
+					this.Backend.SetVariable(item.Key, item.Value as int[]);
+				else if (item.Value is float[])
+					this.Backend.SetVariable(item.Key, item.Value as float[]);
+				else if (item.Value is float[,])
+					this.Backend.SetVariable(item.Key, item.Value as float[,]);
+			for (int i = channels.Length - 1; i >= 0; i--)
+				this.Backend.SetTexture("texture" + i, count++, channels[i].Backend);
+			this.Backend.Use();
+			render();
+			this.Backend.UnUse();
+			while (--count > 0)
+				this.Backend.UnSetTexture(count);
+		}
+		public override bool Remove(string name)
+		{
+			bool result;
+			object item = this.data[name];
+			if ((result = item.NotNull() && this.data.Remove(name)) && item is IDisposable)
+				(item as IDisposable).Dispose();
+			return result;
+		}
+		public override void Add(string name, params int[] data)
+		{
+			this.Remove(name);
+			this.data[name] = data;
+		}
+		public override void Add(string name, params float[] data)
+		{
+			this.Remove(name);
+			this.data[name] = data;
+		}
+		public override void Add(string name, float[,] data)
+		{
+			this.Remove(name);
+			this.data[name] = data;
+		}
+		public override void Add(string name, params byte[] data)
+		{
+			object item = this.data[name];
+			if (item is Backend.Data1D)
+			{
+				(item as Backend.Data1D).Use();
+				(item as Backend.Data1D).Update(data);
+				(item as Backend.Data1D).UnUse();
+			}
+			else
+			{
+				if (item is IDisposable)
+					(item as IDisposable).Dispose();
+				this.data[name] = this.Backend.CreateData(data);
+			}
+		}
+		public override void Add(string name, byte[,] data)
+		{
+			object item = this.data[name];
+			if (item is Backend.Data2D)
+			{
+				(item as Backend.Data2D).Use();
+				(item as Backend.Data2D).Update(data);
+				(item as Backend.Data2D).UnUse();
+			}
+			else
+			{
+				if (item is IDisposable)
+					(item as IDisposable).Dispose();
+				this.data[name] = this.Backend.CreateData(data);
+			}
+		}
+		public override void Add(string name, byte[,,] data)
+		{
+			object item = this.data[name];
+			if (item is Backend.Data3D)
+			{
+				(item as Backend.Data3D).Use();
+				(item as Backend.Data3D).Update(data);
+				(item as Backend.Data3D).UnUse();
+			}
+			else
+			{
+				if (item is IDisposable)
+					(item as IDisposable).Dispose();
+				this.data[name] = this.Backend.CreateData(data);
+			}
+		}
+
 		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Programs.MonochromeToBgr); } }
 		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Programs.BgrToMonochrome); } }
 		public static Map BgrToU { get { return new Map(OpenGL.Backend.Programs.BgrToU); } }

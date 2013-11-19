@@ -150,7 +150,6 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract int CreateIdentifier();
 		public abstract void Use();
 		public abstract void UnUse();
-		public abstract void Configure();
 		protected abstract void SetFormat(TextureType type, Geometry2D.Integer.Size size);
 		protected abstract void Create(IntPtr data);
 		protected abstract void Load(IntPtr data, Geometry2D.Integer.Box region, TextureType type);

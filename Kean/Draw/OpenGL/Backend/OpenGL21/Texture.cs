@@ -80,9 +80,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
 		}
-		public override void Configure()
-		{
-		}
 		protected override void SetFormat(TextureType type, Geometry2D.Integer.Size size)
 		{
 			switch (this.Type = type)
