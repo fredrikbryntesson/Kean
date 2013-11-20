@@ -1,5 +1,5 @@
 ﻿// 
-//  DescriptionData.cs
+//  DescriptionList.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -17,26 +17,25 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-
 using System;
 
 namespace Kean.Html.Dom
 {
-	public class DescriptionData :
+	public class DefinitionList :
 	   Element
 	{
-		protected override string TagName { get { return "dd"; } }
+		protected override string TagName { get { return "dl"; } }
 		#region Constructor
-		public DescriptionData()
+		public DefinitionList()
 		{
-			this.NoLineBreaks = true;
+			this.RequiresEndTag = true;
 		}
-		public DescriptionData(Node content) :
+		public DefinitionList(Node content) :
 			this()
 		{
 			this.Add(content);
 		}
-		public DescriptionData(params Node[] nodes) :
+		public DefinitionList(params Node[] nodes) :
 			this()
 		{
 			this.Add(nodes);

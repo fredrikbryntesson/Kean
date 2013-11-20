@@ -19,8 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 
 using System;
-using Collection = Kean.Core.Collection;
+using Kean.Core;
 using Kean.Core.Extension;
+using Collection = Kean.Core.Collection;
+using Kean.Core.Collection.Extension;
+using Uri = Kean.Core.Uri;
 
 namespace Kean.Html.Dom
 {
@@ -29,15 +32,25 @@ namespace Kean.Html.Dom
 		public Head Head { get; set; }
 		public Body Body { get; set; }
 
-		public Document()
+		public Document() :
+			this("")
+		{ }
+		public Document(string title) :
+			this(new Head(title), new Body())
+		{}
+		public Document(Head head, Body body)
 		{
-			this.Head = new Head();
-			this.Body = new Body();
+			this.Head = head;
+			this.Body = body;
 		}
-		public bool Save(string filename)
+		public bool Save(Uri.Locator resource)
 		{
-			System.IO.File.WriteAllText(filename, this.ToString());
-			return true;
+			using (IO.ICharacterWriter writer = IO.CharacterWriter.Create(resource))
+				return this.Save(writer);
+		}
+		public bool Save(IO.ICharacterWriter writer)
+		{
+			return writer.NotNull() && writer.Write(this.ToString());
 		}
 		public override string ToString()
 		{

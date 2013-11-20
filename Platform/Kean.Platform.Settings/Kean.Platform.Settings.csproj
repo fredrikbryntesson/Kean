@@ -103,6 +103,10 @@
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Html\Kean.Html.Dom\Kean.Html.Dom.csproj">
+      <Project>{bc3ea63b-c589-43b1-a24d-ad89be556e5e}</Project>
+      <Name>Kean.Html.Dom</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IO\Kean.IO.Net\Kean.IO.Net.csproj">
       <Project>{485C7018-3CB3-4BEB-A101-91EEE4557AEE}</Project>
       <Name>Kean.IO.Net</Name>

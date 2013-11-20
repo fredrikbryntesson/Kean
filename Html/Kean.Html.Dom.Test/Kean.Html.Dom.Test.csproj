@@ -42,6 +42,18 @@
     <Compile Include="Save.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7e58819e-bcde-4194-8a83-e8e6e3d050f9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
+      <Project>{c5a4bc48-c14f-4f6b-9564-e04c0a79b7c1}</Project>
+      <Name>Kean.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
+      <Project>{95fd08a5-43c8-4e1d-8291-cc8afe459000}</Project>
+      <Name>Kean.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Test\Kean.Test\Kean.Test.csproj">
       <Project>{B5E16CAE-808E-448A-8D6E-D770EB91868C}</Project>
       <Name>Kean.Test</Name>

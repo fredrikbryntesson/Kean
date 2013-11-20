@@ -22,21 +22,21 @@ using System;
 
 namespace Kean.Html.Dom
 {
-	public class DefineTerm :
+	public class DefinitionTerm :
 		Element
 	{
 		protected override string TagName { get { return "dt"; } }
 		#region Constructor
-		public DefineTerm()
+		public DefinitionTerm()
 		{
 			this.NoLineBreaks = true;
 		}
-		public DefineTerm(Node content) :
+		public DefinitionTerm(Node content) :
 			this()
 		{
 			this.Add(content);
 		}
-		public DefineTerm(params Node[] nodes) :
+		public DefinitionTerm(params Node[] nodes) :
 			this()
 		{
 			this.Add(nodes);

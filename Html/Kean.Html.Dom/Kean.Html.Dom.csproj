@@ -54,11 +54,11 @@
     <Compile Include="Column.cs" />
     <Compile Include="ColumnGroup.cs" />
     <Compile Include="DataList.cs" />
-    <Compile Include="DefineTerm.cs" />
+    <Compile Include="DefinitionTerm.cs" />
     <Compile Include="Definition.cs" />
     <Compile Include="Deleted.cs" />
-    <Compile Include="DescriptionData.cs" />
-    <Compile Include="DescriptionList.cs" />
+    <Compile Include="DefinitionData.cs" />
+    <Compile Include="DefinitionList.cs" />
     <Compile Include="Details.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="Division.cs" />
@@ -150,9 +150,17 @@
       <Project>{964EE8EB-6A7E-4B62-BDBC-37A29E9C0E3B}</Project>
       <Name>Kean.Core.Collection</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Kean.Core.Uri\Kean.Core.Uri.csproj">
+      <Project>{7e58819e-bcde-4194-8a83-e8e6e3d050f9}</Project>
+      <Name>Kean.Core.Uri</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Kean.Core\Kean.Core.csproj">
       <Project>{C5A4BC48-C14F-4F6B-9564-E04C0A79B7C1}</Project>
       <Name>Kean.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IO\Kean.IO\Kean.IO.csproj">
+      <Project>{95fd08a5-43c8-4e1d-8291-cc8afe459000}</Project>
+      <Name>Kean.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

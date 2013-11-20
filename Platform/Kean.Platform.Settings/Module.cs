@@ -39,10 +39,9 @@ namespace Kean.Platform.Settings
 
 		Root root;
 
-        [Serialize.Parameter]
-        public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
-        [Serialize.Parameter]
-        public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
+		[Serialize.Parameter]
+		public string Title { get { return this.root.Head.Title; } set { this.root.Head.Title = value; } }
+		public Html.Dom.Head Head { get { return this.root.Head; } }
 
 		public object this[string name] { get { return (this.root as IDynamic)[name]; } set { (this.root as IDynamic)[name] = value; } }
 
@@ -51,12 +50,12 @@ namespace Kean.Platform.Settings
 		{
 			this.root = new Root(this);
 		}
-        protected override void Initialize()
-        {
-            base.Initialize();
-            this.root.HelpFilename = Uri.Locator.FromPlatformPath(this.Application.ExecutablePath);
-            this.root.HelpFilename.Path.Add("settings.html");
-        }
+		protected override void Initialize()
+		{
+			base.Initialize();
+			this.root.HelpFilename = Uri.Locator.FromPlatformPath(this.Application.ExecutablePath);
+			this.root.HelpFilename.Path.Add("settings.html");
+		}
 
 		public void Load(string name, object value)
 		{
@@ -126,11 +125,11 @@ namespace Kean.Platform.Settings
 				this.editors.Apply(editor => editor.Dispose());
 				this.editors = null;
 			}
-            if (this.root.NotNull())
-            {
-                this.root.Dispose();
-                this.root = null;
-            }
+			if (this.root.NotNull())
+			{
+				this.root.Dispose();
+				this.root = null;
+			}
 			base.Dispose();
 		}
 	}
