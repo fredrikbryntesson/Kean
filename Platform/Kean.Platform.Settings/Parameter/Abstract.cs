@@ -50,14 +50,11 @@ namespace Kean.Platform.Settings.Parameter
 				if (attributes.NotEmpty())
 				{
 					result.Name = attributes[0].Name;
-					result.Description = attributes[0].Name;
+					result.Description = attributes[0].Description;
 					result.Usage = attributes[0].Usage;
 				}
 				else
-				{
 					result.Name = parameter.Name;
-					result.Usage = parameter.Type;
-				}
 			}
 			return result;
 		}
