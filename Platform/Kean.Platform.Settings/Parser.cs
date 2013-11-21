@@ -49,13 +49,27 @@ namespace Kean.Platform.Settings
 		{
 			get { return this.lineBuffer; }
 			set 
-			{ 
-				this.lineBuffer = value;
-				this.LineBuffer.Execute = this.Execute;
-				this.LineBuffer.Complete = this.Complete;
-				this.LineBuffer.Help = this.Help;
-				this.LineBuffer.RequestType = this.RequestType;
-				this.LineBuffer.Error = line => "! " + line;
+			{
+				if (value != this.lineBuffer)
+				{
+					if (this.lineBuffer.NotNull())
+					{
+						this.LineBuffer.Execute = null;
+						this.LineBuffer.Complete = null;
+						this.LineBuffer.Help = null;
+						this.LineBuffer.RequestType = null;
+						this.LineBuffer.Error = null;
+					}
+					this.lineBuffer = value;
+					if (this.lineBuffer.NotNull())
+					{
+						this.LineBuffer.Execute = this.Execute;
+						this.LineBuffer.Complete = this.Complete;
+						this.LineBuffer.Help = this.Help;
+						this.LineBuffer.RequestType = this.RequestType;
+						this.LineBuffer.Error = line => "! " + line;
+					}
+				}
 			}
 		}
 
