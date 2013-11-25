@@ -9,6 +9,7 @@
 		<description>$description$</description>
 		<dependencies>
 			<dependency id="Kean.Cli" version="$version$" />
+			<dependency id="Kean.Html.Dom" version="$version$" />
 			<dependency id="Kean.IO.Tap" version="$version$" />
 			<dependency id="Kean.Platform" version="$version$" />
 		</dependencies>
