@@ -227,9 +227,9 @@
 			<Component Id="OpenTK.GLControl">
 				<File Source="$(var.Kean.Core.TargetDir)OpenTK.GLControl.dll" />
 			</Component>
-			<Component Id="OpenTK.xml">
+			<!--<Component Id="OpenTK.xml">
 				<File Source="$(var.Kean.Core.TargetDir)OpenTK.xml" />
-			</Component>
+			</Component>-->
 		</ComponentGroup>
 		<ComponentGroup Id="ProductModules" Directory="MODULESFOLDER">
 			<Component Id="Kean.Platform.Log_Module">
