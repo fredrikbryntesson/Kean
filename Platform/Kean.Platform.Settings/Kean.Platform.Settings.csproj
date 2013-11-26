@@ -64,7 +64,9 @@
     <Compile Include="Asynchronous.cs" />
     <Compile Include="Root.cs" />
     <None Include="Kean.Platform.Settings.targets" />
-    <None Include="Kean.Platform.Settings.nuspec" />
+    <None Include="Kean.Platform.Settings.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cli\Kean.Cli.Argument\Kean.Cli.Argument.csproj">
