@@ -36,7 +36,7 @@ namespace Kean.DB.Sql
 {
 	public class Table<T> :
 		DB.Table<T>
-            where T : Item, new()
+		where T : Item<T>, new()
 	{
 		Data.IDbConnection connection;
 		string fieldString;
