@@ -34,6 +34,7 @@ namespace Kean.Serialize
 		ISerializer serializer;
 		public Resolver Resolver { get; private set; }
 		public Casing Casing { get; set; }
+		public bool NoTypes { get; set; }
 		public Storer() :
 			this(null)
 		{
@@ -45,7 +46,7 @@ namespace Kean.Serialize
 		}
 		public Data.Node Serialize(Reflect.Type type, object data, Uri.Locator locator)
 		{
-			return this.serializer.Serialize(this, type, data, locator);
+			return this.serializer.Serialize(this, this.NoTypes ? data.Type() : type, data, locator);
 		}
 		protected object Deserialize(object result, Serialize.Data.Node node)
 		{

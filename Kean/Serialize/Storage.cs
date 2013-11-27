@@ -48,10 +48,14 @@ namespace Kean.Serialize
 		}
 		public bool Store<T>(T value, IO.IByteOutDevice device, string name = null)
 		{
+			return this.Store(typeof(T), value, device, name);
+		}
+		public bool Store(System.Type type, object value, IO.IByteOutDevice device, string name = null)
+		{
 			bool result = device.NotNull();
 			if (result)
 			{
-				Data.Node data = this.Serialize(typeof(T), value, device.Resource);
+				Data.Node data = this.Serialize(type, value, device.Resource);
 				if (name.NotEmpty() && data.NotNull())
 					data.Name = name;
 				result = this.Store(data, device);
@@ -72,6 +76,10 @@ namespace Kean.Serialize
 		{
 			Data.Node node;
 			return device.IsNull() ? default(T) : (T)(this.Resolver[device.Resource] ?? ((node = this.Load(device)).NotNull() ? this.Deserialize(null, node.DefaultType(typeof(T))) : null));
+		}
+		public bool LoadInto(object result, IO.IByteInDevice device)
+		{
+			return this.DeserializeContent(this.Load(device), result);
 		}
 	}
 }
