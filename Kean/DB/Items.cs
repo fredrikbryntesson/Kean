@@ -83,7 +83,7 @@ namespace Kean.DB
 		public long Create(T item)
 		{
 			item.Table = this.table;
-			return this.table.Create(this as T);
+			return this.table.Create(item);
 		}
 	}
 }

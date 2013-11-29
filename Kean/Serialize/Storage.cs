@@ -79,7 +79,7 @@ namespace Kean.Serialize
 		}
 		public bool LoadInto(object result, IO.IByteInDevice device)
 		{
-			return this.DeserializeContent(this.Load(device), result);
+			return this.DeserializeContent(this.Load(device).DefaultType(result.GetType()), result);
 		}
 	}
 }
