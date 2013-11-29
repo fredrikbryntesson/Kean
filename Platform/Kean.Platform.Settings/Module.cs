@@ -84,8 +84,9 @@ namespace Kean.Platform.Settings
 		protected override void Start()
 		{
 			Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).TryDispose();
-			foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
-				Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(file)).TryDispose();
+			if (System.IO.Directory.Exists(this.Application.ExecutablePath + "/Settings/"))
+				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
+					Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(file)).TryDispose();
 			Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).TryDispose();
 			foreach (Uri.Locator locator in this.configurations)
 				Settings.Parser.Listen(this.root, locator).TryDispose();
