@@ -43,7 +43,7 @@ namespace Kean.Platform.Settings
 		public string Version { get { return this.module.Application.Version; } }
 
 		string errorString;
-		[Property("error", "Last error message", "The last error message.")]
+		[Property("error", "Last error message", "The most recent error message.")]
 		[Notify("OnErrorString")]
 		public string ErrorString
 		{
