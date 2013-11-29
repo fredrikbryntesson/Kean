@@ -817,6 +817,7 @@
     <Compile Include="Serialize\Storer.cs" />
     <Compile Include="DB\Items.cs" />
     <Compile Include="Serialize\Serializer\Enumerable.cs" />
+    <Compile Include="Serialize\Data\Null.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -64,6 +64,8 @@ namespace Kean.Json.Serialize
 					result = new Kean.Serialize.Data.Decimal((item as Dom.Number).Value);
 				else if (item is Dom.Boolean)
 					result = new Kean.Serialize.Data.Boolean((item as Dom.Boolean).Value);
+				else if (item is Dom.Null)
+					result = new Kean.Serialize.Data.Null();
 				else
 					result = null;
 			}

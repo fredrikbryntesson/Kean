@@ -278,6 +278,7 @@ namespace Kean.DB.Sql
 		{
 			IO.Text.Builder query = (IO.Text.Builder)"UPDATE " + this.Name + " SET " + fields.Map(field => "`" + field.Name + "` = " + (field as Serialize.Data.Leaf).Text.AddDoubleQuotes()).Join(", ");
 			query += QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
+			Console.WriteLine(query);
 			int result;
 			using (Data.IDbCommand command = this.connection.CreateCommand())
 			{
