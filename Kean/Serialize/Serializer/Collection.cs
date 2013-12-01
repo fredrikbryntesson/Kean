@@ -30,7 +30,8 @@ namespace Kean.Serialize.Serializer
 		ISerializer
 	{
 		protected Collection()
-		{ }
+		{
+		}
 		protected abstract bool Found(Reflect.Type type);
 		protected abstract Reflect.Type GetElementType(Reflect.Type type);
 		protected abstract object Create(Reflect.Type type, Reflect.Type elementType, int count);
@@ -46,7 +47,15 @@ namespace Kean.Serialize.Serializer
 			Reflect.Type elementType = this.GetElementType(type);
 			int c = 0;
 			foreach (object child in data as System.Collections.IEnumerable)
-				result.Nodes.Add(storage.Serialize(elementType, child, locator + "[" + c++ + "]"));
+			{
+				Uri.Locator l = null;
+				if (locator.NotNull())
+				{
+					l = locator.Copy();
+					l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "/" : "") + (c++).ToString();
+				}
+				result.Nodes.Add(storage.Serialize(elementType, child, l));
+			}
 			return result;
 		}
 		public object Deserialize(IStorage storage, Data.Node data, object result)
@@ -58,12 +67,12 @@ namespace Kean.Serialize.Serializer
 			elementType = this.GetElementType(type);
 			if (data is Data.Collection)
 				nodes = (data as Data.Collection).Nodes;
-			else 
+			else
 			{ // only one element so it was impossible to know it was a collection
 				nodes = new Kean.Collection.List<Data.Node>(data);
 				data.Type = data.OriginalType ?? elementType;
 				Uri.Locator locator = data.Locator.Copy();
-				locator.Fragment += "[0]";
+				locator.Fragment += "0";
 				data.Locator = locator;
 			}
 
