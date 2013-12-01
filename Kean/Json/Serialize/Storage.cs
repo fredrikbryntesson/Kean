@@ -114,7 +114,7 @@ namespace Kean.Json.Serialize
 		{
 			Dom.Object result = new Dom.Object(item.Region);
 			if (item.Type.NotNull())
-				result.Add("_type", (string)item.Type);
+				result.Add("$type", (string)item.Type);
 			item.Nodes.Apply(e => result.Add(e.Name, Storage.Convert(e)));
 			return result;
 		}
@@ -172,7 +172,7 @@ namespace Kean.Json.Serialize
 		static Dom.Object Convert(Kean.Serialize.Data.Link item)
 		{
 			Dom.Object result = new Dom.Object(item.Region);
-			result.Add("_link", new Dom.String(item.Relative, item.Region));
+			result.Add("$ref", new Dom.String(item.Relative, item.Region));
 			return result;
 		}
 		#endregion
