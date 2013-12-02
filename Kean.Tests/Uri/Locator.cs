@@ -61,6 +61,8 @@ namespace Kean.Uri.Test
 		{
 			Target.Locator locator = "schemeA://";
 			Verify((string)locator.Scheme, Is.EqualTo("schemeA"));
+			locator = "schemeA+schemeB://";
+			Verify((string)locator.Scheme, Is.EqualTo("schemeA+schemeB"));
 		}
         [Test]
         public void Equality()

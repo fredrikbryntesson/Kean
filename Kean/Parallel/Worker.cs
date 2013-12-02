@@ -72,8 +72,7 @@ namespace Kean.Parallel
 						do
 						{
 							if (task.NotNull())
-							{
-								if (Error.Log.CatchErrors)
+								Error.Log.Call(() => {
 									try
 									{
 										this.Occupied = true;
@@ -82,32 +81,16 @@ namespace Kean.Parallel
 									catch (System.Threading.ThreadInterruptedException)
 									{
 									}
-									catch (System.Exception e)
+									catch (System.Threading.ThreadAbortException)
 									{
-										Error.Log.Append(Error.Level.Recoverable, string.Format("Worker {0} in Thread Pool {1} Failed", this.Name, this.pool.Name), e);
+										System.Threading.Thread.ResetAbort();
 									}
 									finally
 									{
 										task = null;
 										this.Occupied = false;
 									}
-								else
-								{
-									try
-									{
-										this.Occupied = true;
-										task.Run();
-									}
-									catch (System.Threading.ThreadInterruptedException)
-									{
-									}
-									finally
-									{
-										task = null;
-										this.Occupied = false;
-									}
-								}
-							}
+								}, (System.Exception e) => Error.Log.Append(Error.Level.Recoverable, string.Format("Worker {0} in Thread Pool {1} Failed", this.Name, this.pool.Name), e));
 							lock (this.semaphore) task = this.tasks.Empty ? this.pool.Dequeue() : this.tasks.Dequeue();
 						} while (!this.End && task.NotNull());
 						if (!this.End)
@@ -146,6 +129,11 @@ namespace Kean.Parallel
 		public void Start()
 		{
 			lock (this.wakeUp) System.Threading.Monitor.Pulse(this.wakeUp);
+		}
+		public void Abort()
+		{
+			if (this.thread.NotNull())
+				this.thread.Abort();
 		}
 		public void Enqueue(ITask task)
 		{

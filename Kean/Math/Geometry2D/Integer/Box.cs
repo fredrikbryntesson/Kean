@@ -24,20 +24,20 @@ using Kean.Extension;
 
 namespace Kean.Math.Geometry2D.Integer
 {
-    public struct Box :
+	public struct Box :
 		IEquatable<Box>
-    {
-        public Point LeftTop;
-        public Size Size;
+	{
+		public Point LeftTop;
+		public Size Size;
 		#region Sizes
 		public int Width { get { return this.Size.Width; } }
-        public int Height { get { return this.Size.Height; } }
+		public int Height { get { return this.Size.Height; } }
 		#endregion
 		#region All sides
 		public int Left { get { return this.LeftTop.X; } }
-        public int Top { get { return this.LeftTop.Y; } }
-        public int Right { get { return this.LeftTop.X + this.Size.Width; } }
-        public int Bottom { get { return this.LeftTop.Y + this.Size.Height; } }
+		public int Top { get { return this.LeftTop.Y; } }
+		public int Right { get { return this.LeftTop.X + this.Size.Width; } }
+		public int Bottom { get { return this.LeftTop.Y + this.Size.Height; } }
 		#endregion
 		#region All other corners
 		public Point RightTop { get { return new Point(this.Right, this.Top); } }
@@ -47,17 +47,17 @@ namespace Kean.Math.Geometry2D.Integer
 		public Point Center { get { return this.LeftTop + (this.Size / 2); } }
 		public bool Empty { get { return this.Size.Empty; } }
 
-        public Box(Point leftTop, Size size)
-        {
-            this.LeftTop = leftTop;
-            this.Size = size;
+		public Box(Point leftTop, Size size)
+		{
+			this.LeftTop = leftTop;
+			this.Size = size;
 		}
 		public Box(int left, int top, int width, int height) :
 			this(new Point(left, top), new Size(width, height))
-        { }
-        public Box(Size size) :
+		{ }
+		public Box(Size size) :
 			this(new Point(), size)
-        { }
+		{ }
 		#region Methods
 		public Box Swap()
 		{
@@ -91,17 +91,17 @@ namespace Kean.Math.Geometry2D.Integer
 			int height = Kean.Math.Integer.Maximum(this.Bottom, other.Bottom) - Kean.Math.Integer.Minimum(this.Top, other.Top);
 			return new Box(left, top, width, height);
 		}
-        public bool Contains(Integer.Point point)
-        {
-            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
-        }
-        public bool Contains(Single.Point point)
-        {
-            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
-        }
-        public bool Contains(Double.Point point)
-        {
-            return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
+		public bool Contains(Integer.Point point)
+		{
+			return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
+		}
+		public bool Contains(Single.Point point)
+		{
+			return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
+		}
+		public bool Contains(Double.Point point)
+		{
+			return this.Left <= point.X && point.X < this.Right && this.Top <= point.Y && point.Y < this.Bottom;
 		}
 		public bool Contains(Box box)
 		{
@@ -174,64 +174,73 @@ namespace Kean.Math.Geometry2D.Integer
 			return new Box(left * right.LeftTop, left * right.Size);
 		}
 		#endregion
-        
+		
 		#region Comparison Operators
 		/// <summary>
-        /// Defines equality.
-        /// </summary>
-        /// <param name="Left">Point Left of operator.</param>
-        /// <param name="Right">Point Right of operator.</param>
-        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
-        public static bool operator ==(Box left, Box right)
-        {
-            return left.Left == right.Left && left.Top == right.Top && left.Width == right.Width && left.Height == right.Height;
-        }
-        /// <summary>
-        /// Defines inequality.
-        /// </summary>
-        /// <param name="Left">Point Left of operator.</param>
-        /// <param name="Right">Point Right of operator.</param>
-        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
-        public static bool operator !=(Box left, Box right)
-        {
-            return !(left == right);
-        }
-        #endregion
-        #region Static Operators
-        public static Box operator -(Box left, Shell right)
-        {
-            return new Box(left.LeftTop + right.LeftTop, left.Size - right.Size);
-        }
-        public static Box operator +(Box left, Shell right)
-        {
-            return new Box(left.LeftTop - right.LeftTop, left.Size + right.Size);
-        }
-        #endregion
+		/// Defines equality.
+		/// </summary>
+		/// <param name="Left">Point Left of operator.</param>
+		/// <param name="Right">Point Right of operator.</param>
+		/// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
+		public static bool operator ==(Box left, Box right)
+		{
+			return left.Left == right.Left && left.Top == right.Top && left.Width == right.Width && left.Height == right.Height;
+		}
+		/// <summary>
+		/// Defines inequality.
+		/// </summary>
+		/// <param name="Left">Point Left of operator.</param>
+		/// <param name="Right">Point Right of operator.</param>
+		/// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
+		public static bool operator !=(Box left, Box right)
+		{
+			return !(left == right);
+		}
+		#endregion
+		#region Static Operators
+		public static Box operator -(Box left, Shell right)
+		{
+			return new Box(left.LeftTop + right.LeftTop, left.Size - right.Size);
+		}
+		public static Box operator +(Box left, Shell right)
+		{
+			return new Box(left.LeftTop - right.LeftTop, left.Size + right.Size);
+		}
+		#endregion
 		#region Casts
 		public static implicit operator string(Box value)
-        {
-            return value.ToString();
-        }
-        public static explicit operator Box(string value)
-        {
-            Box result = new Box();
-            if (value.NotEmpty())
-            {
+		{
+			return value.ToString();
+		}
+		public static explicit operator Box(string value)
+		{
+			Box result = new Box();
+			if (value.NotEmpty())
+			{
 
-                try
-                {
-                    string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 4)
-                        result = new Box((Point)(values[0] + " " + values[1]), (Size)(values[2] + " " + values[3]));
-                }
-                catch
-                {
-                }
-            }
-            return result;
-        }
-        #endregion
-        #region Object Overrides
+				try
+				{
+					string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+					switch (values.Length)
+					{
+						case 4:
+							result = new Box((Point)(values[0] + " " + values[1]), (Size)(values[2] + " " + values[3]));
+							break;
+						case 2:
+							result = new Box((Point)(values[0] + " " + values[1]), new Size()); 
+							break;
+						default:
+							break;
+					}
+				}
+				catch
+				{
+				}
+			}
+			return result;
+		}
+		#endregion
+		#region Object Overrides
 		public override bool Equals(object other)
 		{
 			return (other is Box) && this.Equals((Box)other);
@@ -240,8 +249,8 @@ namespace Kean.Math.Geometry2D.Integer
 		{
 			return this == other;
 		}
-        public override string ToString()
-        {
+		public override string ToString()
+		{
 			return this.ToString("{0}, {1}, {2}, {3}");
 		}
 		public string ToString(string format)
@@ -249,27 +258,27 @@ namespace Kean.Math.Geometry2D.Integer
 			return String.Format(format, Kean.Math.Integer.ToString(this.Left), Kean.Math.Integer.ToString(this.Top), Kean.Math.Integer.ToString(this.Width), Kean.Math.Integer.ToString(this.Height));
 		}
 		public override int GetHashCode()
-        {
-            return 33 * this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
-        }
-        #endregion
+		{
+			return 33 * this.LeftTop.GetHashCode() ^ this.Size.GetHashCode();
+		}
+		#endregion
 		#region Static Creators
-        public static Box Create(Point leftTop, Size size)
-        {
-            return new Box(leftTop, size);
-        }
-        public static Box Create(int left, int top, int width, int height)
-        {
-            return new Box(left, top, width, height);
-        }
-        public static Box CreateAround(Point center, Size size)
-        {
-            return new Box(center - size / 2, size);
-        }
-        public static Box CreateAround(int center, int middle, int width, int height)
-        {
-            return new Box(center - width / 2, middle - height / 2, width, height);
-        }
+		public static Box Create(Point leftTop, Size size)
+		{
+			return new Box(leftTop, size);
+		}
+		public static Box Create(int left, int top, int width, int height)
+		{
+			return new Box(left, top, width, height);
+		}
+		public static Box CreateAround(Point center, Size size)
+		{
+			return new Box(center - size / 2, size);
+		}
+		public static Box CreateAround(int center, int middle, int width, int height)
+		{
+			return new Box(center - width / 2, middle - height / 2, width, height);
+		}
 		public static Box Bounds(int left, int right, int top, int bottom)
 		{
 			return new Box(left, top, right - left, bottom - top);

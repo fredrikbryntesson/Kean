@@ -25,20 +25,20 @@ using Kean.Extension;
 
 namespace Kean.Collection
 {
-    public class Dictionary<TKey, TValue> :
-        IDictionary<TKey, TValue>
-    {
-        IDictionary<TKey, TValue> data;
+	public class Dictionary<TKey, TValue> :
+		IDictionary<TKey, TValue>
+	{
+		IDictionary<TKey, TValue> data;
 		public Dictionary(IDictionary<TKey, TValue> data)
 		{
 			this.data = data;
 		}
-        public Dictionary() :
+		public Dictionary() :
 			this(new Hash.Dictionary<TKey, TValue>())
-        { }
-        public Dictionary(int capacity) :
+		{ }
+		public Dictionary(int capacity) :
 			this(new Hash.Dictionary<TKey, TValue>(capacity))
-        { }
+		{ }
 		public Dictionary(System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>> data) :
 			this()
 		{
@@ -49,67 +49,67 @@ namespace Kean.Collection
 			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)
 		{ }
 
-        #region IDictionary[TKey,TValue] implementation
-        public bool Contains(TKey key)
-        {
-            return this.data.Contains(key);
-        }
+		#region IDictionary[TKey,TValue] implementation
+		public bool Contains(TKey key)
+		{
+			return this.data.Contains(key);
+		}
 
-        public bool Remove(TKey key)
-        {
-            return this.data.Remove(key);
-        }
+		public bool Remove(TKey key)
+		{
+			return this.data.Remove(key);
+		}
 
-        public TValue this[TKey key]
-        {
-            get { return this.data[key]; }
-            set { this.data[key] = value; }
-        }
-        #endregion
-
-        #region IEquatable[IDictionary[TKey,TValue]] implementation
-        public bool Equals(IDictionary<TKey, TValue> other)
-        {
-            return this.data.Equals(other);
-        }
-        #endregion
-
-        #region IEnumerable[KeyValue[TKey,TValue]] implementation
-        System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>.GetEnumerator()
-        {
-            return (this.data as System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>).GetEnumerator();
-        }
-        #endregion
-
-        #region IEnumerable implementation
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return (this.data as System.Collections.IEnumerable).GetEnumerator();
-        }
-        #endregion
-        #region Object Overrides
-        public override bool Equals(object other)
-        {
-            return (other is IDictionary<TKey, TValue>) && this.Equals(other as IDictionary<TKey, TValue>);
-        }
-        public override string ToString()
-        {
-            return this.data.ToString();
-        }
-        public override int GetHashCode()
-        {
-            return this.data.GetHashCode();
-        }
-        #endregion
-        #region Comparison Operators
-        public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
-        {
-            return left.SameOrEquals(right);
-        }
-        public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
-        {
-            return !(left == right);
-        }
+		public TValue this[TKey key]
+		{
+			get { return this.data[key]; }
+			set { this.data[key] = value; }
+		}
 		#endregion
-    }
+
+		#region IEquatable[IDictionary[TKey,TValue]] implementation
+		public bool Equals(IDictionary<TKey, TValue> other)
+		{
+			return this.data.Equals(other);
+		}
+		#endregion
+
+		#region IEnumerable[KeyValue[TKey,TValue]] implementation
+		System.Collections.Generic.IEnumerator<KeyValue<TKey, TValue>> System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>.GetEnumerator()
+		{
+			return (this.data as System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>).GetEnumerator();
+		}
+		#endregion
+
+		#region IEnumerable implementation
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return (this.data as System.Collections.IEnumerable).GetEnumerator();
+		}
+		#endregion
+		#region Object Overrides
+		public override bool Equals(object other)
+		{
+			return (other is IDictionary<TKey, TValue>) && this.Equals(other as IDictionary<TKey, TValue>);
+		}
+		public override string ToString()
+		{
+			return this.data.ToString();
+		}
+		public override int GetHashCode()
+		{
+			return this.data.GetHashCode();
+		}
+		#endregion
+		#region Comparison Operators
+		public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+		{
+			return left.SameOrEquals(right);
+		}
+		public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+		{
+			return !(left == right);
+		}
+		#endregion
+	}
 }

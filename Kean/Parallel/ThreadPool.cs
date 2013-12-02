@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2010-2012 Simon Mika
+//  Copyright (c) 2010-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -25,9 +25,9 @@ using Kean.Extension;
 
 namespace Kean.Parallel
 {
-    public class ThreadPool :
-        IDisposable
-    {
+	public class ThreadPool :
+		IDisposable
+	{
 		public int TaskCount { get { return this.tasks.Count; } }
 		public string Name { get; private set; }
 		public int QueueMaximum { get; set; }
@@ -41,25 +41,25 @@ namespace Kean.Parallel
 		}
 		int workerIndex = 0;
 		Collection.IList<Worker> workers;
-        Collection.Queue<ITask> tasks;
+		Collection.Queue<ITask> tasks;
 		public ThreadPool(string name) : this(name, System.Environment.ProcessorCount + 2) { }
-        public ThreadPool(string name, int workers)
-        {
+		public ThreadPool(string name, int workers)
+		{
 			this.Name = name;
-            this.tasks = new Collection.Queue<ITask>();
+			this.tasks = new Collection.Queue<ITask>();
 			this.MinimumThreadCount = workers;
 			this.workers = new Collection.List<Worker>(this.MinimumThreadCount);
 			for (int i = 0; i < this.MinimumThreadCount; i++)
 				this.AddWorker();
-        }
-        ~ThreadPool()
-        {
+		}
+		~ThreadPool()
+		{
 			Error.Log.Wrap((Action)this.Dispose)();
-        }
-        public virtual void Dispose()
-        {
-            if (this.workers.NotNull())
-            {
+		}
+		public virtual void Dispose()
+		{
+			if (this.workers.NotNull())
+			{
 				foreach (Worker worker in this.workers)
 					if (worker.NotNull() && !worker.Occupied)
 						worker.Dispose();
@@ -67,7 +67,7 @@ namespace Kean.Parallel
 					if (worker.NotNull())
 						worker.Dispose();
 				this.workers = null;
-            }
+			}
 		}
 		void AddWorker()
 		{
@@ -75,20 +75,20 @@ namespace Kean.Parallel
 		}
 		#region Enqueue Action
 		public void Enqueue(Action task) 
-        { 
-            if(task.NotNull()) 
-                this.Enqueue(new Task(task)); 
-        }
-        public void Enqueue<T>(Action<T> task, T argument) 
-        { 
-            if(task.NotNull())
-                this.Enqueue(new Task<T>(task, argument)); 
-        }
+		{ 
+			if(task.NotNull()) 
+				this.Enqueue(new Task(task)); 
+		}
+		public void Enqueue<T>(Action<T> task, T argument) 
+		{ 
+			if(task.NotNull())
+				this.Enqueue(new Task<T>(task, argument)); 
+		}
 		public void Enqueue<T1, T2>(Action<T1, T2> task, T1 argument1, T2 argument2) 
-        { 
-            if(task.NotNull())
-                this.Enqueue(new Task<T1, T2>(task, argument1, argument2)); 
-        }
+		{ 
+			if(task.NotNull())
+				this.Enqueue(new Task<T1, T2>(task, argument1, argument2)); 
+		}
 		public void Enqueue<T1, T2, T3>(Action<T1, T2, T3> task, T1 argument1, T2 argument2, T3 argument3)
 		{
 			if (task.NotNull())
@@ -126,9 +126,9 @@ namespace Kean.Parallel
 		}
 		#endregion
 		public void Enqueue(ITask task)
-        {
-            try
-            {
+		{
+			try
+			{
 				lock (this.tasks)
 				{
 					if (this.QueueMaximum > 0 && this.tasks.Count >= this.QueueMaximum)
@@ -160,24 +160,32 @@ namespace Kean.Parallel
 					if (waiting == -1 && (this.MaximumThreadCount > this.ThreadCount || this.MaximumThreadCount == -1))
 						this.AddWorker();
 				}
-            }
-            catch (ArgumentNullException e)
-            {
-                throw new Exception.ThreadPoolDisposed(e);
-            }
-        }
+			}
+			catch (ArgumentNullException e)
+			{
+				throw new Exception.ThreadPoolDisposed(e);
+			}
+		}
 
-        internal ITask Dequeue()
-        {
-            lock (this.tasks)
-                return this.tasks.Dequeue();
-        }
-
-        public void ForEachWorker(Action task)
-        {
-            if(task.NotNull())
-                this.ForEachWorker(new Task(task));
-        }
+		internal ITask Dequeue()
+		{
+			lock (this.tasks)
+				return this.tasks.Dequeue();
+		}
+		public void Abort()
+		{
+			if (this.workers.NotNull())
+			{
+				foreach (Worker worker in this.workers)
+					if (worker.NotNull() && worker.Occupied)
+						worker.Abort();
+			}
+		}
+		public void ForEachWorker(Action task)
+		{
+			if(task.NotNull())
+				this.ForEachWorker(new Task(task));
+		}
 		public void ForEachWorker(Action<int> task)
 		{
 			lock (this.workers)
@@ -185,16 +193,16 @@ namespace Kean.Parallel
 					worker.Enqueue(new Task<int>(task, worker.Number));
 		}
 		public void ForEachWorker<T>(Action<T> task, T argument)
-        {
-            if (task.NotNull())
-                this.ForEachWorker(new Task<T>(task, argument));
-        }
-        public void ForEachWorker(ITask task)
-        {
-            lock (this.workers)
-                foreach (Worker worker in this.workers)
-                    worker.Enqueue(task);
-        }
+		{
+			if (task.NotNull())
+				this.ForEachWorker(new Task<T>(task, argument));
+		}
+		public void ForEachWorker(ITask task)
+		{
+			lock (this.workers)
+				foreach (Worker worker in this.workers)
+					worker.Enqueue(task);
+		}
 		static ThreadPool global;
 		public static ThreadPool Global
 		{
@@ -206,5 +214,5 @@ namespace Kean.Parallel
 				return ThreadPool.global;
 			}
 		}
-    }
+	}
 }

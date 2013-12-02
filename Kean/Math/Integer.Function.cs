@@ -53,6 +53,13 @@ namespace Kean.Math
 		{
 			return int.Parse(value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 		}
+		public static int Parse(string value, int @default)
+		{
+			int result;
+			if (!int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out result))
+				result = @default;
+			return result;
+		}
 		public static string ToString(int value)
 		{
 			return value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);

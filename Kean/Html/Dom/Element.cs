@@ -22,6 +22,7 @@ using System;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Kean.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Html.Dom
 {
@@ -126,6 +127,12 @@ namespace Kean.Html.Dom
 		public string OnWaiting { get; set; }
 		#endregion
 		#endregion
+		protected Element()
+		{}
+		protected Element(Generic.IEnumerable<Node> nodes)
+		{
+			this.childNodes.Add(nodes);
+		}
 		public void Add(Node node)
 		{
 			this.childNodes.Add(node);
@@ -141,7 +148,7 @@ namespace Kean.Html.Dom
 				this.FormatAttribute("onbeforeprint", this.OnBeforePrint) +
 				this.FormatAttribute("onbeforeload", this.OnBeforeUnload) +
 				this.FormatAttribute("onhaschange", this.OnHasChange) +
-				this.FormatAttribute("onerroe", this.OnErrorWindow) +
+				this.FormatAttribute("onerror", this.OnErrorWindow) + // TODO: ?
 				this.FormatAttribute("onload", this.OnLoad) +
 				this.FormatAttribute("onmessage", this.OnMessage) +
 				this.FormatAttribute("onoffline", this.OnOffline) +
@@ -151,8 +158,8 @@ namespace Kean.Html.Dom
 				this.FormatAttribute("onpopstate", this.OnPopState) +
 				this.FormatAttribute("onredo", this.OnRedo) +
 				this.FormatAttribute("onresize", this.OnResize) +
-				this.FormatAttribute("onstaorage", this.OnStorage) +
-				this.FormatAttribute("omundo", this.OnUndo) +
+				this.FormatAttribute("onstorage", this.OnStorage) +
+				this.FormatAttribute("onundo", this.OnUndo) +
 				this.FormatAttribute("onunload", this.OnUnload) +
 				this.FormatAttribute("onblur", this.OnBlur) +
 				this.FormatAttribute("onchange", this.OnChange) +
@@ -168,7 +175,7 @@ namespace Kean.Html.Dom
 				this.FormatAttribute("onkeypress", this.OnKeyPress) +
 				this.FormatAttribute("onkeyup", this.OnKeyUp) +
 				this.FormatAttribute("onclick", this.OnClick) +
-				this.FormatAttribute("ondblclick", this.OnDoubleClick) +
+				this.FormatAttribute("ondblclick", this.OnDoubleClick) + //TODO: ?
 				this.FormatAttribute("ondrag", this.OnDrag) +
 				this.FormatAttribute("ondragend", this.OnDragEnd) +
 				this.FormatAttribute("ondragenter", this.OnDragEnter) +
@@ -189,9 +196,9 @@ namespace Kean.Html.Dom
 				this.FormatAttribute("ondurationchange", this.OnDurationChange) +
 				this.FormatAttribute("onemptied", this.OnEmptied) +
 				this.FormatAttribute("onended", this.OnEnded) +
-				this.FormatAttribute("onerror", this.OnErrorMedia) +
+				this.FormatAttribute("onerror", this.OnErrorMedia) + //TODO: ?
 				this.FormatAttribute("onloadeddata", this.OnLoadedData) +
-				this.FormatAttribute("onloadedmetadat", this.OnLoadedMetaData) +
+				this.FormatAttribute("onloadedmetadata", this.OnLoadedMetaData) +
 				this.FormatAttribute("onloadstart", this.OnLoadStart) +
 				this.FormatAttribute("onpause", this.OnPause) +
 				this.FormatAttribute("onplay", this.OnPlay) +
@@ -200,7 +207,7 @@ namespace Kean.Html.Dom
 				this.FormatAttribute("onratechange", this.OnRateChange) +
 				this.FormatAttribute("onreadystatechange", this.OnReadyStateChange) +
 				this.FormatAttribute("onseeked", this.OnSeeked) +
-				this.FormatAttribute("OnSeeking", this.OnSeeking) +
+				this.FormatAttribute("onseeking", this.OnSeeking) +
 				this.FormatAttribute("onstalled", this.OnStalled) +
 				this.FormatAttribute("onsuspend", this.OnSuspend) +
 				this.FormatAttribute("ontimeupdate", this.OnTimeUpdate) +

@@ -86,14 +86,8 @@ namespace Kean.Uri
 		public T GetEnumeration<T>(string key, T @default) where T : struct
 		{
 			T result;
-			try
-			{
-				result = (T)(Enum.Parse(typeof(T), this[key] ?? @default.ToString(), true) ?? @default);
-			}
-			catch (Exception)
-			{
+			if (!Enum.TryParse<T>(this[key], true, out result))
 				result = @default;
-			}
 			return result;
 		}
 

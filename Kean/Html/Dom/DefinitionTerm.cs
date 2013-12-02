@@ -1,10 +1,10 @@
-// 
-//  IDictonary.cs
+﻿// 
+//  DefineTerm.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2009 - 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -17,19 +17,30 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean;
-namespace Kean.Collection
+
+namespace Kean.Html.Dom
 {
-	public interface IDictionary<TKey, TValue> :
-		System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>,
-		IEquatable<IDictionary<TKey, TValue>>
+	public class DefinitionTerm :
+		Element
 	{
-		TValue this[TKey key] { get; set; }
-		bool Contains(TKey key);
-		bool Remove(TKey key);
+		protected override string TagName { get { return "dt"; } }
+		#region Constructor
+		public DefinitionTerm()
+		{
+			this.NoLineBreaks = true;
+		}
+		public DefinitionTerm(Node content) :
+			this()
+		{
+			this.Add(content);
+		}
+		public DefinitionTerm(params Node[] nodes) :
+			this()
+		{
+			this.Add(nodes);
+		}
+		#endregion
 	}
 }
-

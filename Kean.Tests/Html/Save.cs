@@ -158,7 +158,7 @@ namespace Kean.Html.Dom.Test
 		public void DescriptionList()
 		{
 			Document document = new Document();
-			document.Body.Add(new DescriptionList(new DefineTerm("Coffee"), new DescriptionData("black hot drink"), new DefineTerm("Milk"), new DescriptionData("white cold drink")));
+			document.Body.Add(new DefinitionList(new DefinitionTerm("Coffee"), new DefinitionData("black hot drink"), new DefinitionTerm("Milk"), new DefinitionData("white cold drink")));
 			this.Verify(document);
 		}
 		[Test]
@@ -290,9 +290,7 @@ namespace Kean.Html.Dom.Test
 		[Test]
 		public void BidirectionalOverride()
 		{
-			Document document = new Document();
-			document.Head.Add(new BidirectionalOverride("This text will go right-to-left.") { Direction = "rtl" });
-			this.Verify(document);
+			this.Verify(new Document(new Head("", new BidirectionalOverride("This text will go right-to-left.") { Direction = "rtl" }), null));
 		}
 	}
 }

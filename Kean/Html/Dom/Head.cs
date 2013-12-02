@@ -28,9 +28,14 @@ namespace Kean.Html.Dom
 		protected override string TagName { get { return "head"; } }
 		Title titleElement;
 		public string Title { get { return this.titleElement.Value; } set { this.titleElement.Value = value; } }
-		public Head ()
+		public Head (string title)
 		{
-			this.Add(this.titleElement = new Title());
+			this.Add(this.titleElement = new Title(title));
+		}
+		public Head(string title, params Element[] elements) :
+			this(title)
+		{
+			this.Add(elements);
 		}
 
 		protected override string FormatAttributes()

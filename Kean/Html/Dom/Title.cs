@@ -31,9 +31,9 @@ namespace Kean.Html.Dom
 		public string Value { get { return this.valueElement.Value; } set { this.valueElement.Value  = value; } }
 
 		#region Constructor
-		public Title()
+		public Title(string title)
 		{
-			this.Add(this.valueElement = new Text());
+			this.Add(this.valueElement = new Text(title));
 			this.NoLineBreaks = true;
 		}
 		#endregion

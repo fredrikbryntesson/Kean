@@ -49,17 +49,31 @@ namespace Kean.Platform.Settings
 		{
 			get { return this.lineBuffer; }
 			set 
-			{ 
-				this.lineBuffer = value;
-				this.LineBuffer.Execute = this.Execute;
-				this.LineBuffer.Complete = this.Complete;
-				this.LineBuffer.Help = this.Help;
-				this.LineBuffer.RequestType = this.RequestType;
-				this.LineBuffer.Error = line => "! " + line;
+			{
+				if (value != this.lineBuffer)
+				{
+					if (this.lineBuffer.NotNull())
+					{
+						this.LineBuffer.Execute = null;
+						this.LineBuffer.Complete = null;
+						this.LineBuffer.Help = null;
+						this.LineBuffer.RequestType = null;
+						this.LineBuffer.Error = null;
+					}
+					this.lineBuffer = value;
+					if (this.lineBuffer.NotNull())
+					{
+						this.LineBuffer.Execute = this.Execute;
+						this.LineBuffer.Complete = this.Complete;
+						this.LineBuffer.Help = this.Help;
+						this.LineBuffer.RequestType = this.RequestType;
+						this.LineBuffer.Error = line => "! " + line;
+					}
+				}
 			}
 		}
 
-		[Property("asynchronous", "", "")]
+		[Property("asynchronous", "Asynchronous mode.", "Asynchronous mode [None | Set | Notify | SetNotify | Call | SetCall | NotifyCall | All], where Set, Notify, and Call make property sets, notifications, and method calls, respectively, asynchronous. This means that the application will not wait for a response from the callee.")]
 		public Asynchronous Asynchronous { get; set; }
 
 		public bool Interactive 

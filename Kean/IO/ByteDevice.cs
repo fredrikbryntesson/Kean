@@ -1,23 +1,24 @@
-﻿//
+﻿// 
 //  ByteDevice.cs
-//
+//  
 //  Author:
 //       Simon Mika <smika@hx.se>
-//
+//  
 //  Copyright (c) 2011 Simon Mika
-//
+// 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//
+// 
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-//
+// 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean;
 using Kean.Extension;
@@ -67,9 +68,7 @@ namespace Kean.IO
 		{
 			return value < 0 ? null : (byte?)value;
 		}
-
 		#region IByteInDevice Members
-
 		public byte? Peek()
 		{
 			return this.peeked.HasValue ? this.peeked : this.peeked = this.RawRead();
@@ -86,11 +85,8 @@ namespace Kean.IO
 				result = this.RawRead();
 			return result;
 		}
-
 		#endregion
-
 		#region IByteOutDevice Members
-
 		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
 		{
 			bool result = true;
@@ -109,17 +105,11 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
-
 		#region IInDevice Members
-
 		public bool Empty { get { return !this.Peek().HasValue; } }
-
 		#endregion
-
 		#region IDevice Members
-
 		public Uri.Locator Resource { get; private set; }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
 		public virtual bool Close()
@@ -132,22 +122,15 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable Members
-
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
-
 		#endregion
-
 		#region Static Open, Wrap & Create
-
 		#region Open
-
 		public static IByteDevice Open(System.IO.Stream stream)
 		{
 			return stream.NotNull() ? new ByteDevice(stream) : null;
@@ -207,20 +190,8 @@ namespace Kean.IO
 		{
 			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
 		}
-
 		#endregion
-
-		#region Wrap
-
-		public static IByteDevice Wrap(System.IO.Stream stream)
-		{
-			return stream.NotNull() ? new ByteDevice(stream) { CatchStop = true } : null;
-		}
-
-		#endregion
-
 		#region Create
-
 		public static IByteDevice Create(Uri.Locator resource)
 		{
 			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
@@ -231,10 +202,13 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
-
+		#region Wrap
+		public static IByteDevice Wrap(System.IO.Stream stream)
+		{
+			return stream.NotNull() ? new ByteDevice(stream) { CatchStop = true } : null;
+		}
 		#endregion
-
+		#endregion
 	}
 }

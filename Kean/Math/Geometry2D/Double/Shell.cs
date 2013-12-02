@@ -143,6 +143,10 @@ namespace Kean.Math.Geometry2D.Double
 					string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length == 4)
 						result = new Shell(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]));
+					else if (values.Length == 2)
+						result = new Shell(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]));
+					else if (values.Length == 1)
+						result = new Shell(Kean.Math.Double.Parse(values[0]));
 				}
 				catch
 				{
@@ -171,7 +175,7 @@ namespace Kean.Math.Geometry2D.Double
 		}
 		public override string ToString()
 		{
-			return this.ToString("{0}, {1}, {2}, {3}");
+			return (this.Bottom == this.Top && this.Left == this.Right) ? (this.Left == this.Top ? this.ToString("{0}") : this.ToString("{0}, {2}")) : this.ToString("{0}, {1}, {2}, {3}");
 		}
 		public string ToString(string format)
 		{
