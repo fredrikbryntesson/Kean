@@ -39,7 +39,7 @@ namespace Kean.Platform.Settings
 		internal Html.Dom.Head Head { get { return this.head; } }
 		internal Uri.Locator HelpFilename { get; set; }
 
-		[Property("version", "Products version number.", "The version number of the product.")]
+		[Property("version", "Product version number.", "The product version number.")]
 		public string Version { get { return this.module.Application.Version; } }
 
 		string errorString;
@@ -87,13 +87,13 @@ namespace Kean.Platform.Settings
 			Kean.Error.Log.OnAppend -= this.OnErrorHelper;
 			base.Dispose();
 		}
-		[Method("close", "Closes application.", "Shuts down the current application instance.")]
+		[Method("close", "Close application.", "Shut down the current application instance.")]
 		public bool Close()
 		{
 			return this.module.Application.NotNull() && this.module.Application.Close();
 		}
 
-		[Method("help", "Opens help in browser.", "Launches browser viewing help.")]
+		[Method("help", "Open help in browser.", "Generate and open help document in browser.")]
 		public void Help()
 		{
 			Html.Dom.Head head = new Html.Dom.Head(this.Head.Title);
