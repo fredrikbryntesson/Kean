@@ -73,7 +73,7 @@ namespace Kean.Platform.Settings
 			}
 		}
 
-		[Property("asynchronous", "", "")]
+		[Property("asynchronous", "Asynchronous mode.", "Asynchronous mode [None | Set | Notify | SetNotify | Call | SetCall | NotifyCall | All].")]
 		public Asynchronous Asynchronous { get; set; }
 
 		public bool Interactive 
