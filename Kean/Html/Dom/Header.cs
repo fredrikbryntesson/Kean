@@ -37,7 +37,7 @@ namespace Kean.Html.Dom
 			this.Add(content);
 		}
 		public Header(params Node[] nodes) :
-			this()
+			base(nodes)
 		{
 			this.Add(nodes);
 		}

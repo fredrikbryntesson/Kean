@@ -40,9 +40,8 @@ namespace Kean.Platform.Settings
 		Root root;
 
 		[Serialize.Parameter]
-		public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
-		[Serialize.Parameter]
-		public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
+		public string Title { get { return this.root.Head.Title; } set { this.root.Head.Title = value; } }
+		public Html.Dom.Head Head { get { return this.root.Head; } }
 
 		public object this[string name] { get { return (this.root as IDynamic)[name]; } set { (this.root as IDynamic)[name] = value; } }
 

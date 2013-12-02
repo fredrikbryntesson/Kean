@@ -25,6 +25,7 @@ using Kean.Extension;
 using Uri = Kean.Uri;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Platform.Settings
 {
@@ -34,8 +35,8 @@ namespace Kean.Platform.Settings
 		Module module;
 
 		internal Object Object { get; set; }
-		internal string Title { get; set; }
-		internal Xml.Dom.Fragment Header { get; set; }
+		Html.Dom.Head head = new Html.Dom.Head("");
+		internal Html.Dom.Head Head { get { return this.head; } }
 		internal Uri.Locator HelpFilename { get; set; }
 
 		[Property("version", "Products version number.", "The version number of the product.")]
@@ -71,7 +72,6 @@ namespace Kean.Platform.Settings
 
 		internal Root(Module module)
 		{
-			this.Title = "Settings Reference Manual";
 			this.module = module;
 			Kean.Error.Log.OnAppend += this.OnErrorHelper;
 		}
@@ -96,87 +96,83 @@ namespace Kean.Platform.Settings
 		[Method("help", "Opens help in browser.", "Launches browser viewing help.")]
 		public void Help()
 		{
-			Xml.Dom.Element head = new Xml.Dom.Element("head",
-					new Xml.Dom.Element("meta", KeyValue.Create("charset", "UTF-8")),
-					new Xml.Dom.Element("title", new Xml.Dom.Text(this.Title ?? this.module.Application.Product + " " + this.module.Application.Version + " Settings Reference Manual")),
-					new Xml.Dom.Element("meta", KeyValue.Create("name", "generator"), KeyValue.Create("content", this.module.Application.Product + " " + this.module.Application.Version)),
-					new Xml.Dom.Element("meta", KeyValue.Create("name", "date"), KeyValue.Create("content", DateTime.Today.ToShortDateString()))
+			Html.Dom.Head head = new Html.Dom.Head(this.Head.Title);
+			foreach(var node in this.Head)
+				head.Add(node);
+			head.Add(
+					new Html.Dom.MetaData() { CharacterSet = "UTF-8" },
+					new Html.Dom.MetaData() { Name = "generator", Content = this.module.Application.Product + " " + this.module.Application.Version },
+					new Html.Dom.MetaData() { Name = "date", Content = DateTime.Today.ToShortDateString() }
 					);
-			if (this.Header.NotNull())
-				head.Add(this.Header);
-			new Kean.Xml.Dom.Document(new Xml.Dom.Element("html", 
-				head, 
-				new Xml.Dom.Element("body", this.GetHelp(null, this.Object, true)))).Save(this.HelpFilename);
+			new Kean.Html.Dom.Document(head, new Html.Dom.Body(this.GetHelp(this.Object))).Save(this.HelpFilename);
 			System.Diagnostics.Process.Start(this.HelpFilename.PlatformPath);
 		}
-		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Object @object, bool topLevel)
+		Generic.IEnumerable<Html.Dom.Node> GetHelp(Object @object)
 		{
-			Collection.IList<Xml.Dom.Node> result = new Collection.List<Kean.Xml.Dom.Node>();
+			return this.GetHelp(null, @object).Prepend((Html.Dom.Node)new Html.Dom.Header(this.Head.Title));
+		}
+		Generic.IEnumerable<Html.Dom.Node> GetHelp(string prefix, Object @object)
+		{
 			Collection.IReadOnlyVector<Property> properties = @object.Properties;
 			Collection.IReadOnlyVector<Method> methods = @object.Methods;
-			Collection.IReadOnlyVector<Object> objects = @object.Objects;
 			string name = (prefix.NotEmpty() ? prefix : "") + @object.Name ;
 			if (name.NotEmpty())
 				prefix = name + ".";
-			if (name.IsEmpty())
-				result.Add(new Xml.Dom.Element("header", new Xml.Dom.Text(this.Title)));
-			else if (topLevel && !(topLevel = !(properties.Count > 0 || methods.Count > 0)))
-				result.Add(new Xml.Dom.Element("h1", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", "object")));
+			if (properties.Count > 0 || methods.Count > 0)
+				yield return new Html.Dom.Heading1(name.NotEmpty() ? name : "&lt;root&gt;") { Identifier = name, Class = "object" };
 			if (properties.Count > 0)
 			{
-				result.Add(new Xml.Dom.Element("h2", new Xml.Dom.Text("Properties"), KeyValue.Create("id", name + "_properties"), KeyValue.Create("class", "properties")));
-				Xml.Dom.Element list = new Xml.Dom.Element("dl", KeyValue.Create("class", "properties"));
-				properties.Apply(p => list.Add(this.GetHelp(prefix, p)));
-				result.Add(list);
+				yield return new Html.Dom.Heading2("Properties") { Identifier = name + "_properties", Class = "properties" };
+				Html.Dom.DefinitionList list = new Html.Dom.DefinitionList() { Class = "properties" };
+				properties.Apply(p => this.GetHelp(prefix, p).Apply(n => list.Add(n)));
+				yield return list;
 			}
 			if (methods.Count > 0)
 			{
-				result.Add(new Xml.Dom.Element("h2", new Xml.Dom.Text("Methods"), KeyValue.Create("id", name + "_methods"), KeyValue.Create("class", "methods")));
-				Xml.Dom.Element list = new Xml.Dom.Element("dl", KeyValue.Create("class", "methods"));
-				methods.Apply(m => list.Add(this.GetHelp(prefix, m)));
-				result.Add(list);
+				yield return new Html.Dom.Heading2("Methods") { Identifier = name + "_methods", Class = "methods" };
+				Html.Dom.DefinitionList list = new Html.Dom.DefinitionList() { Class = "methods" };
+				methods.Apply(m => this.GetHelp(prefix, m).Apply(n => list.Add(n)));
+				yield return list;
 			}
-			objects.Apply(o => result.Add(this.GetHelp(prefix, o, topLevel)));
-			return result;
+			Collection.IReadOnlyVector<Object> objects = @object.Objects;
+			foreach (var o in objects)
+				foreach (var node in this.GetHelp(prefix, o))
+					yield return node;
 		}
-		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Method method)
+		Generic.IEnumerable<Html.Dom.Node> GetHelp(string prefix, Method method)
 		{
 			string name = prefix + method.Name;
-			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name)));
-			Xml.Dom.Element parameters = new Xml.Dom.Element("dd", KeyValue.Create("class", "parameters"));
+			yield return new Html.Dom.DefinitionTerm(method.Parameters.Map(p => (Html.Dom.Node)new Html.Dom.Span(p.Name) { Class = "parameter" }).Prepend(name)) { Identifier = name };
 			if (method.Parameters.NotEmpty())
 			{
-				Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
+				Html.Dom.Element parameters = new Html.Dom.DefinitionData() { Class = "parameters" };
+				Html.Dom.DefinitionList parametersList = new Html.Dom.DefinitionList();
 				foreach (Parameter.Abstract parameter in method.Parameters)
 					if (parameter.Usage.NotEmpty() || parameter.Description.NotEmpty())
 					{
-						parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
+						parametersList.Add(new Html.Dom.DefinitionTerm(parameter.Name));
 						if (parameter.Usage.NotEmpty())
-							parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
+							parametersList.Add(new Html.Dom.DefinitionData(parameter.Usage) { Class = "usage" });
 						if (parameter.Description.NotEmpty())
-							parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
+							parametersList.Add(new Html.Dom.DefinitionData(parameter.Description) { Class = "description" });
 					}
 				parameters.Add(parametersList);
+				yield return parameters;
 			}
-			result.Add(parameters);
 			if (method.Usage.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", "usage")));
+				yield return new Html.Dom.DefinitionData(method.Usage) { Identifier = name + "_usage", Class = "usage" };
 			if (method.Example.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + method.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", "example")));
-			return result;
+				yield return new Html.Dom.DefinitionData(name + " " + method.Example) { Identifier = name + "_example", Class = "example" };
 		}
-		Collection.IVector<Xml.Dom.Node> GetHelp(string prefix, Property property)
+		Generic.IEnumerable<Html.Dom.Node> GetHelp(string prefix, Property property)
 		{
 			string name = prefix + property.Name;
 			string classes = string.Join(" ", property.Mode.ToString().Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)).ToLowerInvariant();
-			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
+			yield return new Html.Dom.DefinitionTerm(name) { Identifier = name, Class = classes };
 			if (property.Usage.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", classes + " usage")));
+				yield return new Html.Dom.DefinitionData(property.Usage) { Identifier = name + "_usage", Class = classes + " usage" };
 			if (property.Example.NotEmpty())
-				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + property.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", classes + " example")));
-			return result;
+				yield return new Html.Dom.DefinitionData(name + " " + property.Example) { Identifier = name + "_example", Class = classes + " example" };
 		}
 	}
 }

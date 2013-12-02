@@ -42,7 +42,7 @@ namespace Kean.Platform.Settings.Test
 				Application application = new Application();
 				Settings.Module settings = new Settings.Module()
 				{
-					Header = "<link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>\n <link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>",
+					//Header = "<link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>\n <link href=\"resources/settings.css\" rel=\"stylesheet\" type=\"text/css\"/>",
 				};
 				settings.Load("loader", new Loader(settings));
 				settings.Load("old.object", new Object());

@@ -35,6 +35,7 @@ namespace Kean.Html.Dom
 		public Script()
 		{
 			this.NoLineBreaks = true;
+			this.RequiresEndTag = true;
 		}
 		public Script(Node content) :
 			this()

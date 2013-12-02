@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 
 using System;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Html.Dom
 {
@@ -26,6 +27,14 @@ namespace Kean.Html.Dom
 	   Element
 	{
 		protected override string TagName { get { return "body"; } }
+		public Body()
+		{ }
+		public Body(params Node[] nodes) :
+			this((Generic.IEnumerable<Node>)nodes)
+		{ }
+		public Body(Generic.IEnumerable<Node> nodes) :
+			base(nodes)
+		{ }
 		protected override string FormatAttributes()
 		{
 			return base.FormatAttributes();
