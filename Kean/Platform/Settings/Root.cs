@@ -66,27 +66,27 @@ namespace Kean.Platform.Settings
 		}
 		public event Action<string> OnErrorString;
 
-		public Kean.Error.IError Error { get; private set; }
-		public event Action<Kean.Error.IError> OnError;
+		public Error.IError Error { get; private set; }
+		public event Action<Error.IError> OnError;
 
 		internal Root(Module module)
 		{
 			this.Title = "Settings Reference Manual";
 			this.module = module;
-            Kean.Error.Log.OnAppend += this.OnErrorHelper;
+			Kean.Error.Log.OnAppend += this.OnErrorHelper;
 		}
-        void OnErrorHelper(Kean.Error.IError error)
-        {
-            this.OnError.Call(this.Error = error);
-            this.errorString = null;
-            if (this.OnErrorString.NotNull())
-                this.OnErrorString(this.ErrorString);
-        }
-        public override void Dispose()
-        {
-            Kean.Error.Log.OnAppend -= this.OnErrorHelper;
-            base.Dispose();
-        }
+		void OnErrorHelper(Error.IError error)
+		{
+			this.OnError.Call(this.Error = error);
+			this.errorString = null;
+			if (this.OnErrorString.NotNull())
+				this.OnErrorString(this.ErrorString);
+		}
+		public override void Dispose()
+		{
+			Kean.Error.Log.OnAppend -= this.OnErrorHelper;
+			base.Dispose();
+		}
 		[Method("close", "Closes application.", "Shuts down the current application instance.")]
 		public bool Close()
 		{
@@ -144,23 +144,23 @@ namespace Kean.Platform.Settings
 			string name = prefix + method.Name;
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
 			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(method.Name), KeyValue.Create("id", name)));
-            Xml.Dom.Element parameters = new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name + "_signature"), KeyValue.Create("class", "signature"));
-            if (method.Parameters.NotEmpty())
-            {
-                Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
-                foreach (Parameter.Abstract parameter in method.Parameters)
-                {
-                    parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
-                    if (parameter.Usage.NotEmpty())
-                        parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
-                    if (parameter.Description.NotEmpty())
-                        parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
-                }
-                parameters.Add(parametersList);
-            }
-            result.Add(parameters);
+			Xml.Dom.Element parameters = new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name + "_signature"), KeyValue.Create("class", "signature"));
+			if (method.Parameters.NotEmpty())
+			{
+				Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
+				foreach (Parameter.Abstract parameter in method.Parameters)
+				{
+					parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
+					if (parameter.Usage.NotEmpty())
+						parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
+					if (parameter.Description.NotEmpty())
+						parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
+				}
+				parameters.Add(parametersList);
+			}
+			result.Add(parameters);
 			if (method.Usage.NotEmpty())
-                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", "usage")));
+				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(method.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", "usage")));
 			if (method.Example.NotEmpty())
 				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + method.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", "example")));
 			return result;
@@ -172,9 +172,9 @@ namespace Kean.Platform.Settings
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
 			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(property.Name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
 			if (property.Usage.NotEmpty())
-                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", classes + " usage")));
+				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", classes + " usage")));
 			if (property.Example.NotEmpty())
-                result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + property.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", classes + " example")));
+				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + property.Example), KeyValue.Create("id", name + "_example"), KeyValue.Create("class", classes + " example")));
 			return result;
 		}
 	}
