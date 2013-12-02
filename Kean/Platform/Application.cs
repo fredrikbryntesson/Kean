@@ -20,17 +20,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Error = Kean.Core.Error;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Error = Kean.Error;
 using Argument = Kean.Cli.Argument;
-using Serialize = Kean.Core.Serialize;
-using Kean.Core.Reflect.Extension;
-using Uri = Kean.Core.Uri;
-using Parallel = Kean.Core.Parallel;
-using Kean.Core.Collection;
+using Serialize = Kean.Serialize;
+using Kean.Reflect.Extension;
+using Uri = Kean.Uri;
+using Parallel = Kean.Parallel;
+using Kean.Collection;
 
 namespace Kean.Platform
 {

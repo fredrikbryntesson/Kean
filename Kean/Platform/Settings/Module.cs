@@ -20,12 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Core;
-using Kean.Core.Extension;
-using Uri = Kean.Core.Uri;
-using Serialize = Kean.Core.Serialize;
+using Kean;
+using Kean.Extension;
+using Uri = Kean.Uri;
+using Serialize = Kean.Serialize;
 using Argument = Kean.Cli.Argument;
-using Collection = Kean.Core.Collection;
+using Collection = Kean.Collection;
 
 namespace Kean.Platform.Settings
 {
@@ -33,16 +33,16 @@ namespace Kean.Platform.Settings
 		Platform.Module
 	{
 		Collection.IList<IDisposable> editors = new Collection.List<IDisposable>();
-		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> configurations = new Collection.List<Kean.Uri.Locator>();
 		Collection.IList<string> settings = new Collection.List<string>();
-		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Core.Uri.Locator>();
+		Collection.IList<Uri.Locator> remotes = new Collection.List<Kean.Uri.Locator>();
 
 		Root root;
 
-        [Serialize.Parameter]
-        public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
-        [Serialize.Parameter]
-        public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
+		[Serialize.Parameter]
+		public string Title { get { return this.root.Title; } set { this.root.Title = value; } }
+		[Serialize.Parameter]
+		public string Header { get { return (string)this.root.Header; } set { this.root.Header = (Xml.Dom.Fragment)value; } }
 
 		public object this[string name] { get { return (this.root as IDynamic)[name]; } set { (this.root as IDynamic)[name] = value; } }
 
@@ -51,12 +51,12 @@ namespace Kean.Platform.Settings
 		{
 			this.root = new Root(this);
 		}
-        protected override void Initialize()
-        {
-            base.Initialize();
-            this.root.HelpFilename = Uri.Locator.FromPlatformPath(this.Application.ExecutablePath);
-            this.root.HelpFilename.Path.Add("settings.html");
-        }
+		protected internal override void Initialize()
+		{
+			base.Initialize();
+			this.root.HelpFilename = Uri.Locator.FromPlatformPath(this.Application.ExecutablePath);
+			this.root.HelpFilename.Path.Add("settings.html");
+		}
 
 		public void Load(string name, object value)
 		{
@@ -75,14 +75,14 @@ namespace Kean.Platform.Settings
 			this.root.Unload(name);
 		}
 
-		protected override void AddArguments(Argument.Parser parser)
+		protected override internal void AddArguments(Argument.Parser parser)
 		{
 			parser.Add('c', "config", argument => this.configurations.Add(argument));
 			parser.Add('s', "setting", argument => this.settings.Add(argument));
 			parser.Add('r', "remote", argument => this.remotes.Add(argument));
 			base.AddArguments(parser);
 		}
-		protected override void Start()
+		protected override internal void Start()
 		{
 			//TODO: Nånting åt det här.
 			try { Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).Dispose(); }
@@ -115,22 +115,22 @@ namespace Kean.Platform.Settings
 				}
 			base.Start();
 		}
-		protected override void Stop()
+		protected override internal void Stop()
 		{
 			base.Stop();
 		}
-		protected override void Dispose()
+		protected override internal void Dispose()
 		{
 			if (this.editors.NotNull())
 			{
 				this.editors.Apply(editor => editor.Dispose());
 				this.editors = null;
 			}
-            if (this.root.NotNull())
-            {
-                this.root.Dispose();
-                this.root = null;
-            }
+			if (this.root.NotNull())
+			{
+				this.root.Dispose();
+				this.root = null;
+			}
 			base.Dispose();
 		}
 	}
