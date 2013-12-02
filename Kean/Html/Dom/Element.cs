@@ -19,16 +19,10 @@
 //  You should have received a copy of the GNU Lesser General Public License
 
 using System;
-<<<<<<< HEAD:Kean/Html/Dom/Element.cs
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Kean.Extension;
-=======
-using Collection = Kean.Core.Collection;
-using Kean.Core.Collection.Extension;
-using Kean.Core.Extension;
 using Generic = System.Collections.Generic;
->>>>>>> 953b85b97c794b5ea8e2fc68c8861f34929e6f48:Html/Kean.Html.Dom/Element.cs
 
 namespace Kean.Html.Dom
 {

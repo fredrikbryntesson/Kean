@@ -355,11 +355,11 @@
     <Compile Include="Html\Dom\Column.cs" />
     <Compile Include="Html\Dom\ColumnGroup.cs" />
     <Compile Include="Html\Dom\DataList.cs" />
-    <Compile Include="Html\Dom\DefineTerm.cs" />
+    <Compile Include="Html\Dom\DefinitionTerm.cs" />
     <Compile Include="Html\Dom\Definition.cs" />
     <Compile Include="Html\Dom\Deleted.cs" />
-    <Compile Include="Html\Dom\DescriptionData.cs" />
-    <Compile Include="Html\Dom\DescriptionList.cs" />
+    <Compile Include="Html\Dom\DefinitionData.cs" />
+    <Compile Include="Html\Dom\DefinitionList.cs" />
     <Compile Include="Html\Dom\Details.cs" />
     <Compile Include="Html\Dom\Dialog.cs" />
     <Compile Include="Html\Dom\Division.cs" />
