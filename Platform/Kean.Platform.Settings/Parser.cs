@@ -73,7 +73,7 @@ namespace Kean.Platform.Settings
 			}
 		}
 
-		[Property("asynchronous", "Asynchronous mode.", "Asynchronous mode [None | Set | Notify | SetNotify | Call | SetCall | NotifyCall | All].")]
+		[Property("asynchronous", "Asynchronous mode.", "Asynchronous mode [None | Set | Notify | SetNotify | Call | SetCall | NotifyCall | All], where Set, Notify, and Call make property sets, notifications, and method calls, respectively, asynchronous. This means that the application will not wait for a response from the callee.")]
 		public Asynchronous Asynchronous { get; set; }
 
 		public bool Interactive 
