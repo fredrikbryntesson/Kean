@@ -21,6 +21,8 @@ namespace Kean.Math.Geometry2D.Test
             Integer.Transform.Test();
             Single.Transform.Test();
             Double.Transform.Test();
+
+			Integer.Shell.Test();
         }
     }
 }
