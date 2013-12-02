@@ -36,9 +36,9 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void Attach(Shader shader);
 		public abstract void Detach(Shader shader);
 		public abstract void Link();
-		public abstract Data1D CreateData(byte[] data);
-		public abstract Data2D CreateData(byte[,] data);
-		public abstract Data3D CreateData(byte[,,] data);
+		public abstract Data1D CreateData1D();
+		public abstract Data2D CreateData2D();
+		public abstract Data3D CreateData3D();
 		public abstract void SetTexture(string name, int number, IData texture);
 		public abstract void UnSetTexture(int number);
 		public abstract void SetVariable(string name, float[,] values);

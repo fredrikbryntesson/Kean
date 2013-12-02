@@ -34,24 +34,24 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Data2D :
 		Backend.Data2D
 	{
-		protected internal Data2D(Backend.Context context, byte[,] data) :
-			base(context, data)
+		protected internal Data2D(Backend.Context context) :
+			base(context)
 		{ }
 		protected override int CreateIdentifier()
 		{
 			return GL.GenTexture();
 		}
-		protected override void Allocate()
+		protected override void Allocate(IntPtr pointer)
 		{
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapR, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
-			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance, this.Size.Width, this.Size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, this.PixelInternalFormat, this.Size.Width, this.Size.Height, 0, this.PixelFormat, this.PixelType, pointer);
 		}
-		protected override void Load(byte[,] data)
+		protected override void Load(IntPtr pointer)
 		{
-			GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, this.Size.Width, this.Size.Height, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
+			GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, this.Size.Width, this.Size.Height, this.PixelFormat, this.PixelType, pointer);
 		}
 		public override void Use()
 		{

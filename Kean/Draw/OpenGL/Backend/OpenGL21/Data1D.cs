@@ -34,25 +34,25 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 	public class Data1D :
 		Backend.Data1D
 	{
-		protected internal Data1D(Backend.Context context, byte[] data) :
-			base(context, data)
+		protected internal Data1D(Backend.Context context) :
+			base(context)
 		{ }
 		protected override int CreateIdentifier()
 		{
 			return GL.GenTexture();
 		}
-		protected override void Allocate(byte[] data)
+		protected override void Allocate(IntPtr pointer)
 		{
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
-			GL.TexImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, this.Size / 4, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
+			GL.TexImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, this.PixelInternalFormat, this.Size, 0, this.PixelFormat, this.PixelType, pointer);
 //			GL.TexImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance, this.Size, 0, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 		}
-		protected override void Load(byte[] data)
+		protected override void Load(IntPtr pointer)
 		{
 			//GL.TexSubImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, 0, this.Size, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
-			GL.TexImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, this.Size / 4, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
+			GL.TexImage1D(OpenTK.Graphics.OpenGL.TextureTarget.Texture1D, 0, this.PixelInternalFormat, this.Size, 0, this.PixelFormat, this.PixelType, pointer);
 		}
 		public override void Use()
 		{

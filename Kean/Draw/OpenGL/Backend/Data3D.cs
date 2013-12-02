@@ -32,49 +32,23 @@ using Kean.Extension;
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Data3D :
-		Resource,
-		IData
+		Data
 	{
-		protected int Identifier { get; private set; }
 		public Geometry3D.Integer.Size Size { get; private set; }
-		protected Data3D(Context context, byte[,,] data) :
-			this(context)
-		{
-			this.Use();
-			this.Update(data);
-			this.UnUse();
-		}
 		protected Data3D(Context context) : 
 			base(context)
+		{ }
+		public Data3D Update<T>(T[,,] data)
+			where T : struct
 		{
-			this.Identifier = this.CreateIdentifier();
-		}
-		public void Update(byte[,,] data)
-		{
-			if (this.Size.Width != data.GetLength(0) || this.Size.Height != data.GetLength(1) || this.Size.Depth != data.GetLength(2))
+			if (this.SetType<T>() && this.Size.Width == data.GetLength(0) && this.Size.Height == data.GetLength(1) && this.Size.Depth == data.GetLength(2))
+				this.FixCall(this.Load, data);
+			else
 			{
 				this.Size = new Geometry3D.Integer.Size(data.GetLength(0), data.GetLength(1), data.GetLength(2));
-				this.Allocate();
+				this.FixCall(this.Allocate, data);
 			}
-			this.Load(data);
+			return this;
 		}
-		#region Implementors Interface
-		protected abstract int CreateIdentifier();
-		protected abstract void Allocate();
-		protected abstract void Load(byte[,,] data);
-		public abstract void Use();
-		public abstract void UnUse();
-		protected internal override void Delete()
-		{
-			this.Identifier = 0;
-			base.Delete();
-		}
-		#endregion
-		protected override void Dispose(bool disposing)
-		{
-			if (this.Identifier != 0)
-				this.Delete();
-		}
-
 	}
 }

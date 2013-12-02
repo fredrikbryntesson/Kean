@@ -32,48 +32,23 @@ using Kean.Extension;
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Data2D :
-		Resource,
-		IData
+		Data
 	{
-		protected int Identifier { get; private set; }
 		public Geometry2D.Integer.Size Size { get; private set; }
-		protected Data2D(Context context, byte[,] data) :
-			this(context)
-		{
-			this.Use();
-			this.Load(data);
-			this.UnUse();
-		}
 		protected Data2D(Context context) : 
 			base(context)
+		{ }
+		public Data2D Update<T>(T[,] data)
+			where T : struct
 		{
-			this.Identifier = this.CreateIdentifier();
-		}
-		public void Update(byte[,] data)
-		{
-			if (this.Size.Width != data.GetLength(0) || this.Size.Height != data.GetLength(1))
+			if (this.SetType<T>() && this.Size.Width == data.GetLength(0) && this.Size.Height == data.GetLength(1))
+				this.FixCall(this.Load, data);
+			else
 			{
 				this.Size = new Geometry2D.Integer.Size(data.GetLength(0), data.GetLength(1));
-				this.Allocate();
+				this.FixCall(this.Allocate, data);
 			}
-			this.Load(data);
-		}
-		#region Implementors Interface
-		protected abstract int CreateIdentifier();
-		protected abstract void Allocate();
-		protected abstract void Load(byte[,] data);
-		public abstract void Use();
-		public abstract void UnUse();
-		protected internal override void Delete()
-		{
-			this.Identifier = 0;
-			base.Delete();
-		}
-		#endregion
-		protected override void Dispose(bool disposing)
-		{
-			if (this.Identifier != 0)
-				this.Delete();
+			return this;
 		}
 	}
 }

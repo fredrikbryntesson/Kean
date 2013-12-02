@@ -40,8 +40,9 @@ namespace Kean.Draw
 		public abstract void Add(string name, params int[] data);
 		public abstract void Add(string name, params float[] data);
 		public abstract void Add(string name, float[,] data);
-		public abstract void Add(string name, params byte[] data);
-		public abstract void Add(string name, byte[,] data);
-		public abstract void Add(string name, byte[,,] data);
+		public abstract void Add<T>(string name, params T[] data) where T : struct;
+		public abstract void Add<T>(string name, T[,] data) where T : struct;
+		public abstract void Add<T>(string name, T[,,] data) where T : struct;
+		public abstract void Add(string name, Draw.Image data);
 	}
 }

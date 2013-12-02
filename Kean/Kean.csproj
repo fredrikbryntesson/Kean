@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Draw\Cairo\Surface.cs" />
+    <Compile Include="Draw\OpenGL\Backend\Data.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data1D.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data2D.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data3D.cs" />

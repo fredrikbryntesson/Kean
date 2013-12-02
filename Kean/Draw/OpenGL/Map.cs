@@ -106,55 +106,47 @@ namespace Kean.Draw.OpenGL
 			this.Remove(name);
 			this.data[name] = data;
 		}
-		public override void Add(string name, params byte[] data)
+
+		public override void Add<T>(string name, params T[] data)
 		{
 			object item = this.data[name];
 			if (item is Backend.Data1D)
-			{
-				(item as Backend.Data1D).Use();
 				(item as Backend.Data1D).Update(data);
-				(item as Backend.Data1D).UnUse();
-			}
 			else
 			{
 				if (item is IDisposable)
 					(item as IDisposable).Dispose();
-				this.data[name] = this.Backend.CreateData(data);
+				this.data[name] = this.Backend.CreateData1D().Update(data);
 			}
 		}
-		public override void Add(string name, byte[,] data)
+		public override void Add<T>(string name, T[,] data)
 		{
 			object item = this.data[name];
 			if (item is Backend.Data2D)
-			{
-				(item as Backend.Data2D).Use();
 				(item as Backend.Data2D).Update(data);
-				(item as Backend.Data2D).UnUse();
-			}
 			else
 			{
 				if (item is IDisposable)
 					(item as IDisposable).Dispose();
-				this.data[name] = this.Backend.CreateData(data);
+				this.data[name] = this.Backend.CreateData2D().Update(data);
 			}
 		}
-		public override void Add(string name, byte[,,] data)
+		public override void Add(string name, Draw.Image data)
+		{
+			throw new NotImplementedException();
+		}
+		public override void Add<T>(string name, T[,,] data)
 		{
 			object item = this.data[name];
 			if (item is Backend.Data3D)
-			{
-				(item as Backend.Data3D).Use();
 				(item as Backend.Data3D).Update(data);
-				(item as Backend.Data3D).UnUse();
-			}
 			else
 			{
 				if (item is IDisposable)
 					(item as IDisposable).Dispose();
-				this.data[name] = this.Backend.CreateData(data);
+				this.data[name] = this.Backend.CreateData3D().Update(data);
 			}
 		}
-
 		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Programs.MonochromeToBgr); } }
 		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Programs.BgrToMonochrome); } }
 		public static Map BgrToU { get { return new Map(OpenGL.Backend.Programs.BgrToU); } }

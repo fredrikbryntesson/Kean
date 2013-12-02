@@ -136,17 +136,17 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			}
 			this.UnUse();
 		}
-		public override Backend.Data1D CreateData(byte[] data)
+		public override Backend.Data1D CreateData1D()
 		{
-			return new Data1D(this.Context, data);
+			return new Data1D(this.Context);
 		}
-		public override Backend.Data2D CreateData(byte[,] data)
+		public override Backend.Data2D CreateData2D()
 		{
-			return new Data2D(this.Context, data);
+			return new Data2D(this.Context);
 		}
-		public override Backend.Data3D CreateData(byte[,,] data)
+		public override Backend.Data3D CreateData3D()
 		{
-			return new Data3D(this.Context, data);
+			return new Data3D(this.Context);
 		}
 		OpenTK.Graphics.OpenGL.TextureUnit GetUnit(int number)
 		{

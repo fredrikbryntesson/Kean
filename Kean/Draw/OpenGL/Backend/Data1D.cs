@@ -1,5 +1,5 @@
 ﻿//
-//  Data2D.cs
+//  Data1D.cs
 //
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -32,50 +32,23 @@ using Kean.Extension;
 namespace Kean.Draw.OpenGL.Backend
 {
 	public abstract class Data1D :
-		Resource,
-		IData
+		Data
 	{
-		protected int Identifier { get; private set; }
 		public int Size { get; private set; }
-		protected Data1D(Context context, byte[] data) :
-			this(context)
-		{
-			this.Use();
-			this.Update(data);
-			this.UnUse();
-		}
-		protected Data1D(Context context) : 
+		protected Data1D(Context context) :
 			base(context)
+		{ }
+		public Data1D Update<T>(T[] data) 
+			where T : struct
 		{
-			this.Identifier = this.CreateIdentifier();
-		}
-
-		public void Update(byte[] data)
-		{
-			if (this.Size != data.Length)
+			if (this.SetType<T>() && this.Size == data.Length)
+				this.FixCall(this.Load, data);
+			else
 			{
 				this.Size = data.Length;
-				this.Allocate(data);
+				this.FixCall(this.Allocate, data);
 			}
-			else
-				this.Load(data);
-		}
-		#region Implementors Interface
-		protected abstract int CreateIdentifier();
-		protected abstract void Allocate(byte[] data);
-		protected abstract void Load(byte[] data);
-		public abstract void Use();
-		public abstract void UnUse();
-		protected internal override void Delete()
-		{
-			this.Identifier = 0;
-			base.Delete();
-		}
-		#endregion
-		protected override void Dispose(bool disposing)
-		{
-			if (this.Identifier != 0)
-				this.Delete();
+			return this;
 		}
 	}
 }
