@@ -143,19 +143,20 @@ namespace Kean.Platform.Settings
 		{
 			string name = prefix + method.Name;
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(method.Name), KeyValue.Create("id", name)));
-			Xml.Dom.Element parameters = new Xml.Dom.Element("dd", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name + "_signature"), KeyValue.Create("class", "signature"));
+			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name + " " + string.Join(" ", method.Parameters.Map(p => "<span class='parameter'>" + p.Name + "</span>"))), KeyValue.Create("id", name)));
+			Xml.Dom.Element parameters = new Xml.Dom.Element("dd", KeyValue.Create("class", "parameters"));
 			if (method.Parameters.NotEmpty())
 			{
 				Xml.Dom.Element parametersList = new Xml.Dom.Element("dl");
 				foreach (Parameter.Abstract parameter in method.Parameters)
-				{
-					parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
-					if (parameter.Usage.NotEmpty())
-						parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
-					if (parameter.Description.NotEmpty())
-						parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
-				}
+					if (parameter.Usage.NotEmpty() || parameter.Description.NotEmpty())
+					{
+						parametersList.Add(new Xml.Dom.Element("dt", parameter.Name));
+						if (parameter.Usage.NotEmpty())
+							parametersList.Add(new Xml.Dom.Element("dd", parameter.Usage, KeyValue.Create("class", "usage")));
+						if (parameter.Description.NotEmpty())
+							parametersList.Add(new Xml.Dom.Element("dd", parameter.Description, KeyValue.Create("class", "description")));
+					}
 				parameters.Add(parametersList);
 			}
 			result.Add(parameters);
@@ -170,7 +171,7 @@ namespace Kean.Platform.Settings
 			string name = prefix + property.Name;
 			string classes = string.Join(" ", property.Mode.ToString().Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)).ToLowerInvariant();
 			Collection.IList<Xml.Dom.Node> result = new Collection.List<Xml.Dom.Node>();
-			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(property.Name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
+			result.Add(new Xml.Dom.Element("dt", new Xml.Dom.Text(name), KeyValue.Create("id", name), KeyValue.Create("class", classes)));
 			if (property.Usage.NotEmpty())
 				result.Add(new Xml.Dom.Element("dd", new Xml.Dom.Text(property.Usage), KeyValue.Create("id", name + "_usage"), KeyValue.Create("class", classes + " usage")));
 			if (property.Example.NotEmpty())
