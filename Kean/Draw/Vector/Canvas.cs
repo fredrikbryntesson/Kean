@@ -31,12 +31,12 @@ namespace Kean.Draw.Vector
 	{
 		public Element.Group Root { get; private set; }
 		internal Canvas(Image image) :
-			base(new Surface(image), image)
+			base(image)
 		{
 			this.Root = new Element.Group();
 		}
 		Canvas(Image image, Canvas original) :
-			base(new Surface(image), image)
+			base(image)
 		{
 			this.Root = original.Root.Copy() as Element.Group;
 		}
@@ -53,6 +53,30 @@ namespace Kean.Draw.Vector
 			Canvas result = new Canvas(this.Image as Image);
 			this.Root.Add(result.Root);
 			return result;
+		}
+		public override void Draw(Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		{
+			this.Root.Add(new Element.Image(map, image, source, destination));
+		}
+		public override void Draw(IPaint fill, Stroke stroke, Path path)
+		{
+			this.Root.Add(new Element.Path(fill, stroke, path));
+		}
+		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
+		{
+			this.Root.Add(new Element.Text(fill, stroke, text, position));
+		}
+		public override void Blend(float factor)
+		{
+			throw new System.NotImplementedException();
+		}
+		public override void Clear()
+		{
+			this.Root = new Element.Group();
+		}
+		public override void Clear(Geometry2D.Single.Box region)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

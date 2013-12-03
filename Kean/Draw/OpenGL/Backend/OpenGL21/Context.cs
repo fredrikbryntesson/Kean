@@ -134,17 +134,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			return new Window(this);
 		}
-		#region Flush, Finish
-		public override void Flush()
-		{
-			GL.Flush();
-		}
-		public override bool Finish()
-		{
-			GL.Finish();
-			return true;
-		}
-		#endregion
 		protected internal override Geometry2D.Integer.Size ClampTextureSize(Geometry2D.Integer.Size size)
 		{
 			if (size.Width > this.MaximumTextureSize)

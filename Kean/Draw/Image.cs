@@ -131,13 +131,7 @@ namespace Kean.Draw
 		public abstract Image Copy();
 		public abstract Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform);
 		public abstract Image Shift(Geometry2D.Integer.Size offset);
-		public virtual void Flush()
-		{
-		}
-		public virtual bool Finish()
-		{
-			return true;
-		}
+
 		public abstract float Distance(Image other);
 		public override bool Equals(object other)
 		{

@@ -29,9 +29,8 @@ namespace Kean.Draw.OpenGL
 	public class Control :
 		Forms.UserControl
 	{
-		Canvas canvas;
 		public event Action Initialized;
-		public event Action<Canvas> Draw;
+		public event Action Draw;
 
 		public Parallel.ThreadPool ThreadPool { get { return this.backend.NotNull() ? this.backend.ThreadPool : null; } }
 
@@ -41,18 +40,6 @@ namespace Kean.Draw.OpenGL
 			get { return this.designMode || base.DesignMode || System.Diagnostics.Process.GetCurrentProcess().ProcessName.StartsWith("devenv") || System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime; }
 			set { this.designMode = value; }
 		}
-		#region AutoStart
-		[System.ComponentModel.DefaultValue(true)]
-		public bool AutoStart
-		{
-			get { return this.backend.NotNull() && this.backend.AutoStart; }
-			set
-			{
-				if (this.backend.NotNull())
-					this.backend.AutoStart = value;
-			}
-		}
-		#endregion
 		Backend.Control backend;
 		public Control()
 		{
@@ -65,7 +52,7 @@ namespace Kean.Draw.OpenGL
 			{
 				this.backend = Backend.Control.Create();
 				this.backend.Initialized += () => this.Initialized.Call();
-				this.backend.Draw += () => this.Draw.Call(this.canvas);
+				this.backend.Draw += () => this.Draw.Call();
 				this.backend.AutoSize = true;
 				this.backend.BackColor = System.Drawing.Color.Transparent;
 				this.backend.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -84,11 +71,6 @@ namespace Kean.Draw.OpenGL
 			this.Name = "Viewer";
 			this.ResumeLayout(false);
 			this.PerformLayout();
-		}
-		public void Initialize()
-		{
-			if (!this.DesignMode)
-				this.backend.Initialize();
 		}
 		public void Redraw()
 		{

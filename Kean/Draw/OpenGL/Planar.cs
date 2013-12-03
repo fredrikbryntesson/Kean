@@ -70,17 +70,6 @@ namespace Kean.Draw.OpenGL
 				return this.canvas;
 			}
 		}
-		#region Flush, Finish
-		public override void Flush()
-		{
-			this.Channels[0].Flush();
-			base.Flush();
-		}
-		public override bool Finish()
-		{
-			return this.Channels[0].Finish() && base.Finish();
-		}
-		#endregion
 		public override void Dispose()
 		{
 			if (this.Channels.NotNull())

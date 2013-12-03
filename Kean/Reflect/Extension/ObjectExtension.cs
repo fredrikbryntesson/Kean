@@ -92,13 +92,13 @@ namespace Kean.Reflect.Extension
 		{
 			System.Type type = me.GetType();
 			Collection.IList<Member> result = new Collection.Sorted.List<Member>();
-			foreach (System.Reflection.MemberInfo member in type.GetMembers(filter.AsBindingFlags()))
+            foreach (System.Reflection.MemberInfo member in type.GetMembers(filter.AsBindingFlags()))
 			{
-				Member m = Member.Create(me, type, member, filter);
-				if (m.NotNull())
-					result.Add(m);
-			}
-			return result.ToArray();
+           		Member m = Member.Create(me, type, member, filter);
+                if (m.NotNull())
+                    result.Add(m);
+           	}
+            return result.ToArray();
 		}
 		#endregion
 		#region Get Fields
