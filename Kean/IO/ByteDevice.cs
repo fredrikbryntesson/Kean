@@ -32,22 +32,36 @@ namespace Kean.IO
 	{
 		byte? peeked;
 		System.IO.Stream stream;
+		public bool CatchStop { get; set; }
 
 		#region Constructors
+
 		protected ByteDevice(System.IO.Stream stream)
 		{
 			this.stream = stream;
+			this.Resource = "stream:///";
 		}
+
 		#endregion
+
 		#region IByteDevice Members
+
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
+
 		#endregion
+
 		byte? RawRead()
 		{
 			byte? result;
-			try { result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte()); }
-			catch (ObjectDisposedException) { result = null;  }
+			try
+			{
+				result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte());
+			}
+			catch (ObjectDisposedException)
+			{
+				result = null;
+			}
 			return result;
 		}
 		byte? Convert(int value)
@@ -85,7 +99,10 @@ namespace Kean.IO
 				this.stream.Write(array, 0, array.Length);
 				this.stream.Flush();
 			}
-			catch (System.Exception) { result = false; }
+			catch (System.Exception)
+			{
+				result = false;
+			}
 			return result;
 		}
 		#endregion
@@ -98,7 +115,7 @@ namespace Kean.IO
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.stream.NotNull())
+			if (result = this.stream.NotNull() && !this.CatchStop)
 			{
 				this.stream.Close();
 				this.stream = null;
@@ -112,7 +129,8 @@ namespace Kean.IO
 			this.Close();
 		}
 		#endregion
-		#region Static Open & Create
+		#region Static Open, Wrap & Create
+		#region Open
 		public static IByteDevice Open(System.IO.Stream stream)
 		{
 			return stream.NotNull() ? new ByteDevice(stream) : null;
@@ -125,16 +143,6 @@ namespace Kean.IO
 		{
 			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Create(output));
 		}
-		public static IByteDevice Create(Uri.Locator resource)
-		{
-			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
-			if (result.IsNull() && resource.NotNull())
-			{
-				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlatformPath);
-				result = ByteDevice.Open(resource, System.IO.FileMode.Create);
-			}
-			return result;
-		}
 		static IByteDevice Open(Uri.Locator resource, System.IO.FileMode mode)
 		{
 			IByteDevice result = null;
@@ -145,14 +153,20 @@ namespace Kean.IO
 						result = resource.Authority == "" ? ByteDevice.Open(System.Reflection.Assembly.GetEntryAssembly(), resource.Path) : ByteDevice.Open(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(resource.Authority)), resource.Path);
 						break;
 					case "file":
-						try 
+						try
 						{
-							System.IO.FileStream stream = System.IO.File.Open(resource.PlatformPath, mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
+							System.IO.FileStream stream = System.IO.File.Open(System.IO.Path.GetFullPath(resource.PlatformPath), mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
 							if (stream.NotNull())
 								result = new ByteDevice(stream) { Resource = resource }; 
 						}
-						catch (System.IO.DirectoryNotFoundException) { result = null; }
-						catch (System.IO.FileNotFoundException) { result = null; }
+						catch (System.IO.DirectoryNotFoundException)
+						{
+							result = null;
+						}
+						catch (System.IO.FileNotFoundException)
+						{
+							result = null;
+						}
 						break;
 					case "http":
 					case "https":
@@ -163,7 +177,10 @@ namespace Kean.IO
 								using (System.Net.WebClient client = new System.Net.WebClient())
 									result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
 							}
-							catch (System.Net.WebException) { result = null; }
+							catch (System.Net.WebException)
+							{
+								result = null;
+							}
 						}
 						break;
 				}
@@ -173,6 +190,25 @@ namespace Kean.IO
 		{
 			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
 		}
+		#endregion
+		#region Create
+		public static IByteDevice Create(Uri.Locator resource)
+		{
+			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
+			if (result.IsNull() && resource.NotNull())
+			{
+				System.IO.Directory.CreateDirectory(resource.Path.FolderPath.PlatformPath);
+				result = ByteDevice.Open(resource, System.IO.FileMode.Create);
+			}
+			return result;
+		}
+		#endregion
+		#region Wrap
+		public static IByteDevice Wrap(System.IO.Stream stream)
+		{
+			return stream.NotNull() ? new ByteDevice(stream) { CatchStop = true } : null;
+		}
+		#endregion
 		#endregion
 	}
 }

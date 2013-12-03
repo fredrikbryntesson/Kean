@@ -25,39 +25,39 @@ using InteropServices = System.Runtime.InteropServices;
 
 namespace Kean.Buffer
 {
-    public class Vector<T> :
-        Sized,
-        Collection.IVector<T>
-        where T : struct
-    {
-        T[] data;
-        protected internal T[] Data 
-        {
-            get { lock (this.Lock) return this.data; }
-            set { lock (this.Lock) this.data = value; }
-        }
-        bool isPinned = false;
+	public class Vector<T> :
+		Sized,
+		Collection.IVector<T>
+		where T : struct
+	{
+		T[] data;
+		protected internal T[] Data 
+		{
+			get { lock (this.Lock) return this.data; }
+			set { lock (this.Lock) this.data = value; }
+		}
+		bool isPinned = false;
 		bool recyclable;
-        InteropServices.GCHandle handle;
-        public Vector(int size) : this(size, null) { }
+		InteropServices.GCHandle handle;
+		public Vector(int size) : this(size, null) { }
 		public Vector(int size, Action<IntPtr> free) : this(Vector<T>.Find(size), free) 
 		{
 			this.recyclable = true;  // only recycle the once we allocate our self is both safer and leads to higher recycle rate
 		}
-        public Vector(T[] data) : this(data, null) { }
-        public Vector(T[] data, Action<IntPtr> free) :
-            this(InteropServices.GCHandle.Alloc(data, InteropServices.GCHandleType.Pinned), InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(data, 0), data.Length * InteropServices.Marshal.SizeOf(typeof(T)), free)
-        {
-            this.Data = data;
-        }
-        Vector(InteropServices.GCHandle handle, IntPtr data, int size, Action<IntPtr> free) :
-            base(data, size, free)
-        {
-            this.handle = handle;
-            this.isPinned = true;
-        }
-        protected override void Dispose(bool disposing)
-        {
+		public Vector(T[] data) : this(data, null) { }
+		public Vector(T[] data, Action<IntPtr> free) :
+			this(InteropServices.GCHandle.Alloc(data, InteropServices.GCHandleType.Pinned), InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(data, 0), data.Length * InteropServices.Marshal.SizeOf(typeof(T)), free)
+		{
+			this.Data = data;
+		}
+		Vector(InteropServices.GCHandle handle, IntPtr data, int size, Action<IntPtr> free) :
+			base(data, size, free)
+		{
+			this.handle = handle;
+			this.isPinned = true;
+		}
+		protected override void Dispose(bool disposing)
+		{
 			lock (this.Lock ?? new object())
 			{
 				if (this.data.NotNull())
@@ -74,7 +74,7 @@ namespace Kean.Buffer
 						Vector<T>.recycle.Recycle(data);
 				}
 			}
-        }
+		}
 		public override void CopyFrom(Sized other, int start, int destination, int length)
 		{
 			if (typeof(T) == typeof(byte))
@@ -88,38 +88,38 @@ namespace Kean.Buffer
 			else
 				base.CopyFrom(other, start, destination, length);
 		}
-        #region IVector<T> Members
-        T Collection.IVector<T>.this[int index]
-        {
-            get { lock (this.Lock) return this.Data[index]; }
-            set { lock (this.Lock) this.Data[index] = value; }
-        }
-        int Collection.IVector<T>.Count
-        {
-            get { lock (this.Lock) return this.Data.Length; }
-        }
-        System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
-        {
-            for (int i = 0; i < this.Data.Length; i++)
-                yield return this.Data[i];
-        }
-        #endregion
-        #region IEquatable<IVector<T>> Members
-        bool IEquatable<Collection.IVector<T>>.Equals(Collection.IVector<T> other)
-        {
-            bool result = this.Data.Length == other.Count;
-            for (int i = 0; result && i < this.Data.Length; i++)
-                result &= this.Data[i].Equals(other[i]);
-            return result;
-        }
-        #endregion
-        public unsafe static implicit operator void*(Vector<T> pointer)
-        {
-            return ((IntPtr)pointer).ToPointer();
-        }
-        public static implicit operator IntPtr(Vector<T> pointer)
-        {
-            return (IntPtr)(Pointer)pointer;
+		#region IVector<T> Members
+		T Collection.IVector<T>.this[int index]
+		{
+			get { lock (this.Lock) return this.Data[index]; }
+			set { lock (this.Lock) this.Data[index] = value; }
+		}
+		int Collection.IVector<T>.Count
+		{
+			get { lock (this.Lock) return this.Data.Length; }
+		}
+		System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+		{
+			for (int i = 0; i < this.Data.Length; i++)
+				yield return this.Data[i];
+		}
+		#endregion
+		#region IEquatable<IVector<T>> Members
+		bool IEquatable<Collection.IVector<T>>.Equals(Collection.IVector<T> other)
+		{
+			bool result = this.Data.Length == other.Count;
+			for (int i = 0; result && i < this.Data.Length; i++)
+				result &= this.Data[i].Equals(other[i]);
+			return result;
+		}
+		#endregion
+		public unsafe static implicit operator void*(Vector<T> pointer)
+		{
+			return ((IntPtr)pointer).ToPointer();
+		}
+		public static implicit operator IntPtr(Vector<T> pointer)
+		{
+			return (IntPtr)(Pointer)pointer;
 		}
 		static int Index(int size)
 		{
@@ -149,12 +149,12 @@ namespace Kean.Buffer
 	}
 	public class Vector
 	{
-        public static bool Recycle { get; set; }
+		public static bool Recycle { get; set; }
 		internal static event Action OnFree;
-        static Vector()
-        {
-            Vector.Recycle = true;
-        }
+		static Vector()
+		{
+			Vector.Recycle = true;
+		}
 		public static void Free()
 		{
 			Vector.OnFree.Call();

@@ -31,7 +31,7 @@ namespace Kean.Serialize.Exception
 		{
 		}
 		internal CreateAbstract(System.Exception inner, string type, Uri.Region region) :
-			base(inner, Error.Level.Notification, "Cannot instantiate Abstract Type.", "Attempted to instantiate Abstract type \"{0}\" while deserializing line {2} column {3} in file \"{1}\".", type, region.Resource, region.Start.Row, region.Start.Column)
+			base(inner, Error.Level.Recoverable, "Cannot instantiate Abstract Type.", "Attempted to instantiate Abstract type \"{0}\" while deserializing line {2} column {3} in file \"{1}\".", type, region.Resource, region.Start.Row, region.Start.Column)
 		{
 		}
 	}
