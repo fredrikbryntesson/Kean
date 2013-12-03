@@ -1,7 +1,7 @@
 { 
-	"_type": "Kean.Serialize.Test.Data.ListInterface Kean.Tests", 
+	"$type": "Kean.Serialize.Test.Data.ListInterface Kean.Tests", 
 	"Classes": { 
-		"_type": "Kean:Collection.List<Kean.Serialize.Test.Data.Class Kean.Tests>", 
+		"$type": "Kean:Collection.List<Kean.Serialize.Test.Data.Class Kean.Tests>", 
 		"Classes": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 
@@ -11,24 +11,24 @@
 		} 
 	}, 
 	"Empty": { 
-		"_type": "Kean:Collection.List<int>" 
+		"$type": "Kean:Collection.List<int>" 
 	}, 
 	"Float": { 
-		"_type": "Kean:Collection.List<float>", 
+		"$type": "Kean:Collection.List<float>", 
 		"Float": 9.1337 
 	}, 
 	"Objects": { 
-		"_type": "Kean:Collection.List<object>", 
+		"$type": "Kean:Collection.List<object>", 
 		"Objects": "2111-11-11T11:11:11.1110000" 
 	}, 
 	"Single": { 
-		"_type": "Kean:Collection.List<int>", 
+		"$type": "Kean:Collection.List<int>", 
 		"Single": 1337 
 	}, 
 	"SingleObject": { 
-		"_type": "Kean:Collection.List<object>", 
+		"$type": "Kean:Collection.List<object>", 
 		"SingleObject": { 
-			"_type": "Kean.Serialize.Test.Data.Class Kean.Tests", 
+			"$type": "Kean.Serialize.Test.Data.Class Kean.Tests", 
 			"Boolean": true, 
 			"Enumerator": "Second", 
 			"Float": -13.37, 
@@ -37,7 +37,7 @@
 		} 
 	}, 
 	"Structures": { 
-		"_type": "Kean:Collection.List<Kean.Serialize.Test.Data.Structure Kean.Tests>", 
+		"$type": "Kean:Collection.List<Kean.Serialize.Test.Data.Structure Kean.Tests>", 
 		"Structures": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 

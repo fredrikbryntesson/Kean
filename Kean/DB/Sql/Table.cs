@@ -36,7 +36,7 @@ namespace Kean.DB.Sql
 {
 	public class Table<T> :
 		DB.Table<T>
-            where T : Item, new()
+		where T : Item<T>, new()
 	{
 		Data.IDbConnection connection;
 		string fieldString;
@@ -276,10 +276,9 @@ namespace Kean.DB.Sql
 		}
 		protected override int Update(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset, Generic.IEnumerable<Serialize.Data.Leaf> fields)
 		{
-			IO.Text.Builder query = (IO.Text.Builder)"UPDATE " + this.Name + " SET ";
-			foreach (Serialize.Data.Leaf field in fields)
-				query += "`" + field.Name + "` = " + (field as Serialize.Data.Leaf).Text.AddDoubleQuotes();
+			IO.Text.Builder query = (IO.Text.Builder)"UPDATE " + this.Name + " SET " + fields.Map(field => "`" + field.Name + "` = " + (field as Serialize.Data.Leaf).Text.AddDoubleQuotes()).Join(", ");
 			query += QueryGenerator<T>.Generate(this.Database.Casing, filters, sorting, limit, offset);
+			Console.WriteLine(query);
 			int result;
 			using (Data.IDbCommand command = this.connection.CreateCommand())
 			{

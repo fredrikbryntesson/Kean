@@ -28,15 +28,15 @@ namespace Kean.DB.Extension
 {
 	public static class TableExtension
 	{
-		public static T ReadFirst<T>(this ITable<T> me) where T : Item, new()
+		public static T ReadFirst<T>(this ITable<T> me) where T : Item<T>, new()
 		{
 			return me.Limit(1, 0).Read().First();
 		}
-		public static T Read<T>(this ITable<T> me, long key) where T : Item, new()
+		public static T Read<T>(this ITable<T> me, long key) where T : Item<T>, new()
 		{
 			return me.Filter(item => item.Key == key).Read().First();
 		}
-		public static bool Delete<T>(this ITable<T> me, long key) where T : Item, new()
+		public static bool Delete<T>(this ITable<T> me, long key) where T : Item<T>, new()
 		{
 			return me.Filter(item => item.Key == key).Delete() == 1;
 		}

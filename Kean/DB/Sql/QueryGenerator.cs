@@ -32,6 +32,7 @@ using Data = System.Data;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Expressions = System.Linq.Expressions;
+
 namespace Kean.DB.Sql
 {
 	class QueryGenerator<T>
@@ -42,9 +43,7 @@ namespace Kean.DB.Sql
 		QueryGenerator()
 		{
 		}
-
 		#region Generate
-
 		void Generate(Expressions.Expression expression)
 		{
 			if (expression is Expressions.BinaryExpression)
@@ -114,9 +113,7 @@ namespace Kean.DB.Sql
 		{
 			this.builder += expression.Value.AsString().AddDoubleQuotes();
 		}
-
 		#endregion
-
 		void Filter(Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters)
 		{
 			if (filters.NotNull())
@@ -160,9 +157,7 @@ namespace Kean.DB.Sql
 					this.builder += " OFFSET " + offset;
 			}
 		}
-
 		#region Static Genearate
-
 		public static IO.Text.Builder Generate(Serialize.Casing casing, Generic.IEnumerable<Expressions.Expression<Func<T, bool>>> filters, Sorting<T> sorting, int limit, int offset)
 		{
 			QueryGenerator<T> result = new QueryGenerator<T>();
@@ -172,9 +167,7 @@ namespace Kean.DB.Sql
 			result.Limit(limit, offset);
 			return result.builder;
 		}
-
 		#endregion
-
 	}
 }
 

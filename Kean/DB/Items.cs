@@ -1,5 +1,5 @@
 // 
-//  Item.cs
+//  Items.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -30,36 +30,60 @@ using Kean.Reflect.Extension;
 using IO = Kean.IO;
 using Generic = System.Collections.Generic;
 using Kean.DB.Extension;
+using Expressions = System.Linq.Expressions;
 
 namespace Kean.DB
 {
-	public abstract class Item<T>
+	public abstract class Items<T>
 		where T : Item<T>, new()
 	{
-		internal protected ITable<T> Table { get; internal set; }
-		public long Key { get; internal protected set; }
-		protected Item()
+		ITable<T> table;
+		int? count;
+		public int Count
 		{
+			get
+			{
+				if (!this.count.HasValue)
+					this.count = this.table.Count;
+				return this.count.GetValueOrDefault();
+			}
 		}
-		protected Item(long key)
+		protected Items(ITable<T> table)
 		{
-			this.Key = key;
+			this.table = table;
 		}
-		internal protected virtual Serialize.Data.Branch Serialize(Serialize.IStorage storage, Reflect.Type type, Uri.Locator resource)
+		public T Open(long key)
 		{
-			return storage.Serialize(type, this, resource) as Serialize.Data.Branch;
+			return this.OpenFirst(item => item.Key == key);
 		}
-		internal protected virtual bool Deserialize(Serialize.IStorage storage, Serialize.Data.Branch node)
+		protected T OpenFirst(Expressions.Expression<Func<T, bool>> predicate)
 		{
-			return storage.DeserializeContent(node, this);
+			T result = this.table.Filter(predicate).ReadFirst();
+			if (result.NotNull())
+				result.Table = this.table;
+			return result;
 		}
-		public bool Save()
+		public Generic.IEnumerable<T> Open(int limit, int offset)
 		{
-			return this.Table.Update(this as T);
+			return this.SetTable(this.table.Limit(limit, offset).Read());
 		}
-		public bool Remove()
+		protected Generic.IEnumerable<T> Open(Expressions.Expression<Func<T, bool>> predicate)
 		{
-			return this.Table.Delete(this.Key);
+			return this.SetTable(this.table.Filter(predicate).Read());
+		}
+		Generic.IEnumerable<T> SetTable(Generic.IEnumerable<T> items)
+		{
+			foreach (T item in items)
+			{
+				if (item.NotNull())
+					item.Table = this.table;
+				yield return item;
+			}
+		}
+		public long Create(T item)
+		{
+			item.Table = this.table;
+			return this.table.Create(item);
 		}
 	}
 }
