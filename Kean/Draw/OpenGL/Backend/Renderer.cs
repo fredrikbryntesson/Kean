@@ -55,15 +55,13 @@ namespace Kean.Draw.OpenGL.Backend
 			original.getType = () => TextureType.Rgba;
 		}
 		#region Use, Unuse
-		public void Use()
+		public virtual void Use()
 		{
 			this.OnUse.Call();
-			this.Setup();
 		}
-		public void Unuse()
+		public virtual void Unuse()
 		{
 			this.OnUnuse.Call();
-			this.Teardown();
 		}
 		#endregion
 		#region Flush, Finish
@@ -77,8 +75,6 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		#endregion
 		#region Implementors Interface
-		protected abstract void Setup();
-		protected abstract void Teardown();
 		public abstract void SetClip(Geometry2D.Single.Box region);
 		public abstract void UnSetClip();
 		public abstract void SetTransform(Geometry2D.Single.Transform transform);

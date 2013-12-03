@@ -23,15 +23,15 @@ using System;
 using Kean.Extension;
 using Parallel = Kean.Parallel;
 using Forms = System.Windows.Forms;
+using Geometry2D = Kean.Math.Geometry2D;
 
 namespace Kean.Draw.OpenGL
 {
 	public class Control :
 		Forms.UserControl
 	{
-		Canvas canvas;
 		public event Action Initialized;
-		public event Action<Canvas> Draw;
+		public event Action<Surface> Draw;
 
 		public Parallel.ThreadPool ThreadPool { get { return this.backend.NotNull() ? this.backend.ThreadPool : null; } }
 
@@ -53,6 +53,14 @@ namespace Kean.Draw.OpenGL
 			}
 		}
 		#endregion
+		#region PointerEvents
+		Geometry2D.Single.Point lastPointerPosition;
+		public event Action<Geometry2D.Single.Size, Geometry2D.Single.Point, bool, bool, bool> PointerMoved;
+		public event Action<Geometry2D.Single.Point> PointerLeftClicked;
+		public event Action<Geometry2D.Single.Point> PointerMiddleClicked;
+		public event Action<Geometry2D.Single.Point> PointerRightClicked;
+		public event Action<float, Geometry2D.Single.Point> PointerWheelChanged;
+		#endregion
 		Backend.Control backend;
 		public Control()
 		{
@@ -65,7 +73,47 @@ namespace Kean.Draw.OpenGL
 			{
 				this.backend = Backend.Control.Create();
 				this.backend.Initialized += () => this.Initialized.Call();
-				this.backend.Draw += () => this.Draw.Call(this.canvas);
+				#region Pointer Events Hookup
+				this.backend.MouseClick += (sender, arguments) =>
+				{
+					Error.Log.Call((Action<System.Windows.Forms.MouseEventArgs>)(e =>
+					{
+						Geometry2D.Single.Point position = new Geometry2D.Single.Point(e.X, e.Y);
+						switch (e.Button)
+						{
+							case System.Windows.Forms.MouseButtons.Left:
+								this.PointerLeftClicked(position);
+								break;
+							case System.Windows.Forms.MouseButtons.Middle:
+								this.PointerMiddleClicked(position);
+								break;
+							case System.Windows.Forms.MouseButtons.Right:
+								this.PointerRightClicked(position);
+								break;
+						}
+					}), arguments);
+				};
+				this.backend.MouseMove += (sender, arguments) =>
+				{
+					Error.Log.Call((Action<System.Windows.Forms.MouseEventArgs>)(e =>
+					{
+						Geometry2D.Single.Point currentPosition = new Geometry2D.Single.Point(e.X, e.Y);
+						this.PointerMoved((Geometry2D.Single.Size)(currentPosition - this.lastPointerPosition), currentPosition, e.Button == System.Windows.Forms.MouseButtons.Left, e.Button == System.Windows.Forms.MouseButtons.Middle, e.Button == System.Windows.Forms.MouseButtons.Right);
+						this.lastPointerPosition = currentPosition;
+					}), arguments);
+				};
+				this.backend.MouseWheel += (sender, arguments) => Error.Log.Call((Action<System.Windows.Forms.MouseEventArgs>)(e => this.PointerWheelChanged(e.Delta / 120f, new Geometry2D.Single.Point(e.X, e.Y))), arguments);
+				#endregion
+				this.backend.Draw += renderer =>
+				{
+					using (Surface surface = new Surface(renderer))
+					{
+						surface.Use();
+						surface.Transform = Geometry2D.Single.Transform.CreateTranslation(surface.Size / 2);
+						this.Draw(surface);
+						surface.Unuse();
+					}
+				};
 				this.backend.AutoSize = true;
 				this.backend.BackColor = System.Drawing.Color.Transparent;
 				this.backend.Dock = System.Windows.Forms.DockStyle.Fill;

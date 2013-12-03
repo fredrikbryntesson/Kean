@@ -35,8 +35,6 @@ namespace Kean.Draw
 		public override Geometry2D.Integer.Size Size { get { return this.Image.Size; } }
 		public override CoordinateSystem CoordinateSystem { get { return this.Image.CoordinateSystem; } }
 
-		internal override ClipStack ClipStack { get { return this.surface.ClipStack; } }
-
 		protected Canvas(Surface surface, Image image) :
 			base(image.Size, image.CoordinateSystem)
 		{
@@ -62,6 +60,16 @@ namespace Kean.Draw
 		}
 		#endregion
 		#region Surface Implementation
+		#region Clip, Transform
+		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
+		{
+			return this.surface.Clip = clip;
+		}
+		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
+		{
+			return this.surface.Transform = transform;
+		}
+		#endregion
 		#region Convert
 		public override Image Convert(Image image)
 		{

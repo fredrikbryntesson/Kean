@@ -56,7 +56,7 @@ namespace Kean.Draw
 		#region Constructors, Destructor
 		protected Surface(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
 		{
-			this.ClipStack = new ClipStack(this.Size = size, (transform, clip) => { this.Transform = this.OnTransformChange(transform); this.Clip = this.OnClipChange(clip); });
+			this.Size = size;
 			this.CoordinateSystem = coordinateSystem;
 		}
 		protected Surface(Surface original) :
@@ -73,9 +73,19 @@ namespace Kean.Draw
 		protected internal virtual void Unuse() { }
 		#endregion
 		#region Clip, Transform, Push & Pop
-		internal virtual ClipStack ClipStack { get; private set; }
-		public Geometry2D.Single.Box Clip { get; private set; }
-		public Geometry2D.Single.Transform Transform { get; private set; }
+		Collection.IStack<Tuple<Geometry2D.Single.Box, Geometry2D.Single.Transform>> stack = new Collection.Stack<Tuple<Geometry2D.Single.Box,Geometry2D.Single.Transform>>();
+		Geometry2D.Single.Box clip;
+		public Geometry2D.Single.Box Clip 
+		{
+			get { return this.clip; }
+			set { this.clip = this.OnClipChange(value); }
+		}
+		Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.Identity;
+		public Geometry2D.Single.Transform Transform
+		{
+			get { return this.transform; }
+			set { this.transform = this.OnTransformChange(value); }
+		}
 		protected virtual Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{
 			return clip;
@@ -84,9 +94,15 @@ namespace Kean.Draw
 		{
 			return transform;
 		}
+		public void Push()
+		{
+			this.stack.Push(Tuple.Create(this.Clip, this.Transform));
+		}
 		public void Push(Geometry2D.Single.Box clip, Geometry2D.Single.Transform transform)
 		{
-			this.ClipStack.Push(clip, transform);
+			this.Push();
+			this.Clip = clip.Intersection(this.Clip);
+			this.Transform *= transform;
 		}
 		public void Push(Geometry2D.Single.Box clip)
 		{
@@ -94,15 +110,17 @@ namespace Kean.Draw
 		}
 		public void Push(Geometry2D.Single.Transform transform)
 		{
-			this.ClipStack.Push(new Geometry2D.Single.Box(0, 0, this.Size.Width, this.Size.Height), transform);
+			this.Push(this.Clip, transform);
 		}
 		public void PushAndTranslate(Geometry2D.Single.Box clip)
 		{
-			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)clip.LeftTop));
+			this.Push(clip, Geometry2D.Single.Transform.Identity);
 		}
 		public void Pop()
 		{
-			this.ClipStack.Pop();
+			var previous = this.stack.Pop();
+			this.Clip = previous.Item1;
+			this.Transform = previous.Item2;
 		}
 		#endregion
 		#region Convert
