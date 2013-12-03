@@ -73,10 +73,10 @@ namespace Kean.Draw.OpenGL.Backend
 			Texture result;
 			if (composition.NotNull())
 			{
-				composition.Setup();
-				composition.UnSetClip();
-				composition.Clear();
-				composition.Teardown();
+				composition.Renderer.Use();
+				composition.Renderer.UnSetClip();
+				composition.Renderer.Clear();
+				composition.Renderer.Unuse();
 				result = composition.Texture;
 			}
 			else
@@ -109,10 +109,10 @@ namespace Kean.Draw.OpenGL.Backend
 			}
 			else
 			{
-				result.Setup();
-				result.UnSetClip();
-				result.Clear();
-				result.Teardown();
+				result.Renderer.Use();
+				result.Renderer.UnSetClip();
+				result.Renderer.Clear();
+				result.Renderer.Unuse();
 			}
 			return result;
 		}
@@ -176,7 +176,10 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.shaderBin.Add(shader);
 		}
-
+		#region Flush, Finish
+		public abstract void Flush();
+		public abstract bool Finish();
+		#endregion
 		void Free()
 		{
 			this.compositionBin.Free();

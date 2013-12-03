@@ -28,20 +28,23 @@ namespace Kean.Draw.OpenGL
 	public class Canvas :
 		Draw.Canvas
 	{
-		protected internal Backend.Composition Backend { get; private set; }
-		Geometry2D.Single.Box clip = new Geometry2D.Single.Box();
-		Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.Identity;
+		Backend.Renderer renderer;
+		IDisposable backend;
+		Canvas(Image image, Backend.Renderer renderer, IDisposable backend) :
+			base(new Surface(renderer), image)
+		{
+			this.renderer = renderer;
+			this.backend = backend;
+		}
+		Canvas(Image image, Backend.Composition backend) :
+			this(image, backend.Renderer, backend)
+		{ }
 		internal Canvas(Packed image) :
-			base(image)
-		{
-			this.Backend = image.Backend.Composition;
-		}
+			this(image, image.Backend.Composition)
+		{ }
 		internal Canvas(Planar image, params Packed[] channels) :
-			base(image)
-		{
-			this.Backend = channels[0].Backend.Composition;
-		}
-
+			this(image, channels[0].Backend.Composition)
+		{ }
 		public Raster.Image Read()
 		{
 			return this.Read(new Geometry2D.Integer.Box(new Geometry2D.Integer.Point(), this.Size));
@@ -49,7 +52,7 @@ namespace Kean.Draw.OpenGL
 		public Raster.Image Read(Geometry2D.Integer.Box region)
 		{
 			Raster.Packed result;
-			switch (this.Backend.Type)
+			switch (this.renderer.Type)
 			{
 				case OpenGL.Backend.TextureType.Rgb:
 					result = new Raster.Bgr(this.Size, this.Image.CoordinateSystem);
@@ -65,99 +68,21 @@ namespace Kean.Draw.OpenGL
 					break;
 			}
 			if (result.NotNull())
-				this.Backend.Read(result.Pointer, region);
+				this.renderer.Read(result.Pointer, region);
 			return result;
 		}
-		#region Draw.Canvas Overrides
-		#region Clip, Transform, Push & Pop
-		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
-		{
-			return this.clip = clip;
-		}
-		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
-		{
-			return this.transform = transform;
-		}
-		#endregion
 		#region Create
 		public override Draw.Canvas CreateSubcanvas(Geometry2D.Single.Box bounds)
 		{
 			return null;
 		}
 		#endregion
-		#region Draw, Blend, Clear
-		#region Draw Image
-		void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
-		{
-			this.Draw(() => image.Render(map, source, destination));
-		}
-		public override void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
-		{
-			if (!(image is Image))
-				using (image = OpenGL.Image.Create(image))
-					this.Draw(map as Map, image as Image, source, destination);
-			else
-				this.Draw(map as Map, image as Image, source, destination);
-		}
-		#endregion
-		#region Draw Box
-		public override void Draw(IColor color)
-		{
-			this.Draw(color, new Geometry2D.Single.Box(this.Size));
-		}
-		public override void Draw(IColor color, Geometry2D.Single.Box region)
-		{
-			this.Draw(() => this.Backend.Draw(color, region));
-		}
-		#endregion
-		#region Draw Path
-		public override void Draw(IPaint fill, Stroke stroke, Path path)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-		#region Draw Text
-		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
-		{
-			throw new NotImplementedException();
-		}
-		#endregion
-		#region Blend
-		public override void Blend(float factor)
-		{
-			this.Draw(() => this.Backend.Blend(factor));
-		}
-		#endregion
-		#region Clear
-		public override void Clear()
-		{
-			this.Backend.Setup();
-			this.Backend.UnSetClip();
-			this.Backend.Clear();
-			this.Backend.Teardown();
-		}
-		public override void Clear(Geometry2D.Single.Box region)
-		{
-			this.Draw(() => this.Backend.Clear(region));
-		}
-		#endregion
-		#endregion
-		#endregion
-		void Draw(Action action)
-		{
-			this.Backend.Setup();
-			this.Backend.SetClip(this.clip);
-			this.Backend.SetTransform(this.transform);
-			action();
-			this.Backend.UnSetClip();
-			this.Backend.Teardown();
-		}
 		public override void Dispose()
 		{
-			if (this.Backend.NotNull())
+			if (this.backend.NotNull())
 			{
-				this.Backend.Dispose();
-				this.Backend = null;
+				this.backend.Dispose();
+				this.backend = null;
 			}
 			base.Dispose();
 		}

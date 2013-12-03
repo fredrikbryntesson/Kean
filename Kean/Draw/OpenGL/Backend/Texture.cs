@@ -120,6 +120,14 @@ namespace Kean.Draw.OpenGL.Backend
 			this.UnUse();
 			return result;
 		}
+		public void Flush()
+		{
+			this.Context.Flush();
+		}
+		public bool Finish()
+		{
+			return this.Context.Finish();
+		}
 		public abstract void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle);
 		public override string ToString()
 		{
