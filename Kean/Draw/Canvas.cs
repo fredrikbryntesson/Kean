@@ -27,130 +27,151 @@ using Geometry2D = Kean.Math.Geometry2D;
 namespace Kean.Draw
 {
 	public abstract class Canvas :
-		Surface
+		IDisposable
 	{
-		Surface surface;
 		public Image Image { get; private set; }
+		public Geometry2D.Integer.Size Size { get { return this.Image.Size; } }
 
-		public override Geometry2D.Integer.Size Size { get { return this.Image.Size; } }
-		public override CoordinateSystem CoordinateSystem { get { return this.Image.CoordinateSystem; } }
-
-		protected Canvas(Surface surface, Image image) :
-			base(image.Size, image.CoordinateSystem)
+		protected Canvas(Image image)
 		{
-			this.surface = surface;
 			this.Image = image;
+			this.clipStack = new ClipStack(this.Image.Size, (transform, clip) => { this.Transform = this.OnTransformChange(transform); this.Clip = this.OnClipChange(clip); });
 		}
+		~Canvas()
+		{
+			this.Dispose();
+		}
+		#region Text Antialias
+		bool textAntialias;
+		[Notify("TextAntialiasChanged")]
+		public bool TextAntialias 
+		{
+			get { return this.textAntialias; }
+			set
+			{
+				if (this.textAntialias != value)
+				{
+					this.textAntialias = value;
+					this.TextAntialiasChanged(value);
+				}
+			}
+		}
+		public event Action<bool> TextAntialiasChanged; 
+		#endregion
+
+		#region Clip, Transform, Push & Pop
+		ClipStack clipStack;
+		public Geometry2D.Single.Box Clip { get; private set; }
+		public Geometry2D.Single.Transform Transform { get; private set; }
+		protected virtual Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
+		{
+			return clip;
+		}
+		protected virtual Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
+		{
+			return transform;
+		}
+		public void Push(Geometry2D.Single.Box clip, Geometry2D.Single.Transform transform)
+		{
+			this.clipStack.Push(clip, transform);
+		}
+		public void Push(Geometry2D.Single.Box clip)
+		{
+			this.Push(clip, Geometry2D.Single.Transform.Identity);
+		}
+		public void Push(Geometry2D.Single.Transform transform)
+		{
+			this.clipStack.Push(new Geometry2D.Single.Box(0,0, this.Image.Size.Width, this.Image.Size.Height), transform);
+		}
+		public void PushAndTranslate(Geometry2D.Single.Box clip)
+		{
+			this.Push(clip.Intersection(this.Clip) - clip.LeftTop, Geometry2D.Single.Transform.CreateTranslation((Geometry2D.Single.Size)clip.LeftTop));
+		}
+		public void Pop()
+		{
+			this.clipStack.Pop();
+		}
+		#endregion
 		#region Create
 		public abstract Canvas CreateSubcanvas(Geometry2D.Single.Box bounds);
 		#endregion
-		#region Render
-		public void Render(Action<Surface> render)
-		{
-			this.surface.Use();
-			render.Call(this.surface);
-			this.surface.Unuse();
-		}
-		public void Render(params Action<Surface>[] render)
-		{
-			this.surface.Use();
-			foreach (Action<Surface> r in render)
-				r.Call(this.surface);
-			this.surface.Unuse();
-		}
-		#endregion
-		#region Surface Implementation
-		#region Clip, Transform
-		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
-		{
-			return this.surface.Clip = clip;
-		}
-		protected override Geometry2D.Single.Transform OnTransformChange(Geometry2D.Single.Transform transform)
-		{
-			return this.surface.Transform = transform;
-		}
-		#endregion
-		#region Convert
-		public override Image Convert(Image image)
-		{
-			return this.surface.Convert(image);
-		}
-		#endregion
+		#region Draw, Blend, Clear
 		#region Draw Image
-		public override void Draw(Image image)
+		public virtual void Draw(Draw.Image image)
 		{
-			this.Render(s => s.Draw(image));
+			this.Draw(null, image);
 		}
-		public override void Draw(Map map, Image image)
+		public virtual void Draw(Map map, Image image)
 		{
-			this.Render(s => s.Draw(map, image));
+			this.Draw(map, image, new Geometry2D.Single.Point());
 		}
-		public override void Draw(Map map, Image image, Geometry2D.Single.Point position)
+		public virtual void Draw(Draw.Image image, Geometry2D.Single.Point position)
 		{
-			this.Render(s => s.Draw(map, image, position));
+			this.Draw(null, image, position);
 		}
-		public override void Draw(Map map, Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		public virtual void Draw(Map map, Draw.Image image, Geometry2D.Single.Point position)
 		{
-			this.Render(s => s.Draw(map, image, source, destination));
+			Geometry2D.Single.Box region = image.Crop.Decrease((Geometry2D.Single.Size)image.Size);
+			this.Draw(map, image, region, new Geometry2D.Single.Box(position, region.Size));
 		}
+		public virtual void Draw(Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination)
+		{
+			this.Draw(null, image, source, destination);
+		}
+		public abstract void Draw(Draw.Map map, Draw.Image image, Geometry2D.Single.Box source, Geometry2D.Single.Box destination);
 		#endregion
 		#region Draw Box
-		public override void Draw(IColor color)
+		public virtual void Draw(IColor color)
 		{
-			this.Render(s => s.Draw(color));
+			this.Draw(color, new Geometry2D.Single.Box((Geometry2D.Single.Size)this.Size));
 		}
-		public override void Draw(IColor color, Geometry2D.Single.Box region)
+		public virtual void Draw(IColor color, Geometry2D.Single.Box region)
 		{
-			this.Render(s => s.Draw(color, region));
+			this.Draw(color, Path.Rectangle(region));
 		}
 		#endregion
 		#region Draw Path
-		public override void Draw(IPaint fill, Stroke stroke, Path path)
+		public void Draw(Stroke stroke, Path path)
 		{
-			this.Render(s => s.Draw(fill, stroke, path));
+			this.Draw(null, stroke, path);
 		}
+		public void Draw(IPaint fill, Path path)
+		{
+			this.Draw(fill, null, path);
+		}
+		public abstract void Draw(IPaint fill, Stroke stroke, Path path);
 		#endregion
 		#region Draw Text
-		public override void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position)
+		public void Draw(Stroke stroke, Text text, Geometry2D.Single.Point position)
 		{
-			this.Render(s => s.Draw(fill, stroke, text, position));
+			this.Draw(null, stroke, text, position);
 		}
+		public void Draw(IPaint fill, Text text, Geometry2D.Single.Point position)
+		{
+			this.Draw(fill, null, text, position);
+		}
+		public abstract void Draw(IPaint fill, Stroke stroke, Text text, Geometry2D.Single.Point position);
 		#endregion
 		#region Blend
-		public override void Blend(float factor)
-		{
-			this.Render(s => s.Blend(factor));
-		}
+		public abstract void Blend(float factor);
 		#endregion
 		#region Clear
-		public override void Clear()
+		public virtual void Clear()
 		{
-			this.Render(s => s.Clear());
+			this.Clear(new Geometry2D.Single.Box((Geometry2D.Single.Size)this.Size));
 		}
-		public override void Clear(Geometry2D.Single.Box region)
-		{
-			this.Render(s => s.Clear(region));
-		}
-		#endregion
-		#region Flush, Finish
-		public override void Flush()
-		{
-			this.surface.Flush();
-		}
-		public override bool Finish()
-		{
-			return this.surface.Finish();
-		}
+		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion
 		#endregion
-		public override void Dispose()
+		public virtual void Flush()
 		{
-			if (this.surface.NotNull())
-			{
-				this.surface.Dispose();
-				this.surface = null;
-			}
-			base.Dispose();
+		}
+		public virtual bool Finish()
+		{
+			return true;
+		}
+		public virtual void Dispose()
+		{
 		}
 	}
 }

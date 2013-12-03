@@ -43,40 +43,148 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			base(original)
 		{} 
 
-		protected override Backend.Renderer CreateRenderer(Backend.Context context, Func<Geometry2D.Integer.Size> getSize, Func<TextureType> getType)
+		public override void Setup()
 		{
-			Renderer result = new Renderer(context, getSize, getType);
-			result.OnUse += () =>
-			{
-				GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
-				GL.Viewport(0, 0, this.Size.Width, this.Size.Height);
-				GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
-				GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-				GL.PushMatrix();
-				new Geometry2D.Single.Transform(2.0f / this.Size.Width, 0.0f, 0.0f, 2.0f / this.Size.Height, -1.0f, -1.0f).Load();
-				GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-				GL.PushMatrix();
-				GL.LoadIdentity();
-				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
-				if (this.Type == TextureType.Rgba)
-					GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
-				else
-					GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
+			GL.PushAttrib(OpenTK.Graphics.OpenGL.AttribMask.AllAttribBits);
+			this.FrameBuffer.Use();
+			Exception.Framebuffer.Check();
+			GL.Viewport(0, 0, this.Size.Width, this.Size.Height);
+			GL.Ortho(0.0, 0.0, 1.0, 1.0, 0.0, 0.0);
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+			GL.PushMatrix();
+			new Geometry2D.Single.Transform(2.0f / this.Size.Width, 0.0f, 0.0f, 2.0f / this.Size.Height, -1.0f, -1.0f).Load();
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+			GL.PushMatrix();
+			GL.LoadIdentity();
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+			if (this.Texture.Type == TextureType.Rgba)
+				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+			else
+				GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
+		}
 
-				this.FrameBuffer.Use();
-				Exception.Framebuffer.Check();
-			};
-			result.OnUnuse += () =>
+		public override void Teardown()
+		{
+			GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
+			Exception.Framebuffer.Check();
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+			GL.PopMatrix();
+			GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+			GL.PopMatrix();
+			GL.PopAttrib();
+		}
+		public override void SetClip(Geometry2D.Single.Box region)
+		{
+			if (!region.Empty)
 			{
-				GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
-				GL.PopMatrix();
-				GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
-				GL.PopMatrix();
-				GL.PopAttrib();
-				GL.Ext.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.FramebufferExt, 0);
-				Exception.Framebuffer.Check();
-			};
-			return result;
+				double[] left = new double[] { 1.0, 0.0, 0.0, -region.Left };
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane0, ref left[0]);
+				double[] right = new double[] { -1.0, 0.0, 0.0, region.Right };
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane1, ref right[0]);
+				double[] top = new double[] { 0.0, 1.0, 0.0, -region.Top };
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane2, ref top[0]);
+				double[] bottom = new double[] { 0.0, -1.0, 0.0, region.Bottom };
+				GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
+				GL.ClipPlane(OpenTK.Graphics.OpenGL.ClipPlaneName.ClipPlane3, ref bottom[0]);
+			}
+			else
+				this.UnSetClip();
+		}
+		public override void UnSetClip()
+		{
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane0);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane1);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane2);
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ClipPlane3);
+		}
+		public override void SetTransform(Geometry2D.Single.Transform transform)
+		{
+			transform.Load();
+		}
+		public override void SetIdentityTransform()
+		{
+			GL.LoadIdentity();
+		}
+		public override void CopyToTexture()
+		{
+			GL.RasterPos2(0, 0);
+			GL.CopyTexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
+				OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba,
+				0,
+				0,
+				this.Size.Width,
+				this.Size.Height, 0);
+		}
+		public override void CopyToTexture(Geometry2D.Integer.Size offset)
+		{
+			GL.RasterPos2(0, 0);
+			GL.CopyTexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
+				(offset.Width < 0) ? 0 : offset.Width,
+				(offset.Height < 0) ? 0 : offset.Height,
+				(offset.Width < 0) ? (-offset.Width) : 0,
+				(offset.Height < 0) ? (-offset.Height) : 0,
+				this.Size.Width - Kean.Math.Integer.Absolute(offset.Width),
+				this.Size.Height - Kean.Math.Integer.Absolute(offset.Height));
+		}
+		public override void Read(IntPtr pointer, Geometry2D.Integer.Box region)
+		{
+			switch (this.Type)
+			{
+				default:
+				case TextureType.Rgba:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Rgb:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+				case TextureType.Monochrome:
+					GL.ReadPixels(region.Left, region.Top, region.Width, region.Height, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
+					break;
+			}
+		}
+		public override void Clear()
+		{
+			GL.ClearColor(0f, 0f, 0f, 0f);
+			GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.StencilBufferBit);
+		}
+
+		public override void Clear(Kean.Math.Geometry2D.Single.Box region)
+		{
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.Zero, OpenTK.Graphics.OpenGL.BlendingFactorDest.Zero);
+			this.CreateRectangle(region);
+		}
+		public override void Blend(float factor)
+		{
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.One, OpenTK.Graphics.OpenGL.BlendingFactorDest.One);
+			GL.BlendEquation(OpenTK.Graphics.OpenGL.BlendEquationMode.FuncReverseSubtract);
+			GL.Color4(0f, 0f, 0f, factor);
+			this.CreateRectangle();
+		}
+		public override void Draw(IColor color, Geometry2D.Single.Box region)
+		{
+			GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+			Color.Bgra bgra = color.Convert<Color.Bgra>();
+			GL.Color4(bgra.Red, bgra.Green, bgra.Blue, bgra.Alpha);
+			this.CreateRectangle(region);
+		}	 
+		protected void CreateRectangle()
+		{
+			this.CreateRectangle(new Geometry2D.Single.Box(this.Size));
+		}
+		protected void CreateRectangle(Geometry2D.Single.Box region)
+		{
+			GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+			GL.Vertex2(region.Left, region.Top);
+			GL.Vertex2(region.Right, region.Top);
+			GL.Vertex2(region.Right, region.Bottom);
+			GL.Vertex2(region.Left, region.Bottom);
+			GL.End();
 		}
 		protected override Backend.Composition Refurbish()
 		{
