@@ -36,7 +36,7 @@ namespace Kean.DB
 {
 	public class Query<T> :
 		ITable<T>
-			where T: Item, new()
+		where T: Item<T>, new()
 	{
 		public Database Database { get { return this.backend.Database; } }
 		Table<T> backend;

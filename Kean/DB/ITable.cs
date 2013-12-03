@@ -35,7 +35,7 @@ namespace Kean.DB
 {
 	public interface ITable<T> :
 		IDisposable
-            where T : Item, new()
+		where T : Item<T>, new()
 	{
 		Database Database { get; }
 		#region Filter, Sort, Limit, Offset

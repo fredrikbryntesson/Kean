@@ -85,6 +85,17 @@ namespace Kean.Draw.OpenGL
 		{
 			return null;
 		}
+		#region Flush, Finish
+		public override void Flush()
+		{
+			this.Backend.Flush();
+			base.Flush();
+		}
+		public override bool Finish()
+		{
+			return this.Backend.Finish() && base.Finish();
+		}
+		#endregion
 		public override float Distance(Draw.Image other)
 		{
 			float result;
