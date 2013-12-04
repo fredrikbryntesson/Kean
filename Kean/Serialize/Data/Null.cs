@@ -1,10 +1,10 @@
-﻿// 
-//  String.cs
+// 
+//  Null.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -20,32 +20,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean;
+using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
 
-namespace Kean.Serialize.Serializer
+namespace Kean.Serialize.Data
 {
-	public class String :
-		ISerializer
+	public class Null :
+	Leaf<object>
 	{
-		public String()
+		public override string Text { get { return null; } }
+		public override byte[] Raw { get { return new byte[0]; } }
+		public Null() :
+			base(null)
 		{
 		}
-		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public Null(Reflect.Type type) :
+			base(null, type)
 		{
-			return type == "string" ? this : null;
 		}
-		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
-		{
-			return new Data.String(data, type);
-		}
-		public object Deserialize(IStorage storage, Data.Node data, object result)
-		{
-			return data is Data.String ? (data as Data.String).Value :
-				data is Data.Binary ? System.Text.Encoding.UTF8.GetString((data as Data.Binary).Value) :
-				data is Data.Null ? null :
-				"";
-		}
-		#endregion
 	}
 }
-

@@ -55,7 +55,7 @@ namespace Kean.Serialize.Serializer
 						if (resource.NotNull())
 						{
 							l = resource.Copy();
-							l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "." : "") + name;
+							l.Fragment = (l.Fragment.NotEmpty() ? l.Fragment + "/" : "") + name;
 						}
 						(result as Data.Branch).Nodes.Add(storage.Serialize(property.Type, property.Data, l).UpdateName(name).UpdateAttribute(attributes[0]).UpdateLocator(resource));
 					}

@@ -1,10 +1,10 @@
 ﻿// 
-//  Default.cs
+//  Enumerable.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2013 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -22,25 +22,36 @@
 using System;
 using Kean;
 using Kean.Extension;
+using Kean.Reflect.Extension;
+using Collection = Kean.Collection;
 
 namespace Kean.Serialize.Serializer
 {
-	public class Default :
-		Group
+	public class Enumerable :
+		Collection
 	{
-		public Default() :
-			base(
-				new SystemTypes(),
-				new StringInterface(),
-				new StringCastable(),
-				new Array(),
-				new List(),
-				new Dictionary(),
-				new Enumerable(),
-				new Structure(),
-				new Class()
-			)
+		public Enumerable()
+		{
+		}
+		System.Type GetInterface(Reflect.Type type)
+		{
+			return type.Name == "System.Collections.Generic.IEnumerable" ? (System.Type)type : ((System.Type)type).GetInterface(typeof(System.Collections.Generic.IEnumerable<>).Name);
+		}
+		protected override bool Found(Reflect.Type type)
+		{
+			return this.GetInterface(type).NotNull();
+		}
+		protected override Reflect.Type GetElementType(Reflect.Type type)
+		{
+			return this.GetInterface(type).GetGenericArguments()[0];
+		}
+		protected override object Create(Reflect.Type type, Reflect.Type elementType, int count)
+		{
+			return null;
+		}
+		protected override void Set(object collection, object value, int index)
 		{
 		}
 	}
 }
+

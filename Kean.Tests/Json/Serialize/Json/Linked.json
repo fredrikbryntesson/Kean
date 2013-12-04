@@ -1,5 +1,5 @@
 { 
-	"_type": "Kean.Serialize.Test.Data.Linked Kean.Tests", 
+	"$type": "Kean.Serialize.Test.Data.Linked Kean.Tests", 
 	"Class0": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
@@ -8,12 +8,12 @@
 		"String": "This is Kean." 
 	}, 
 	"Class1": { 
-		"_link": "#Class0" 
+		"$ref": "#Class0" 
 	}, 
 	"ComplexClass": { 
 		"Boolean": true, 
 		"Class": { 
-			"_link": "#Class0" 
+			"$ref": "#Class0" 
 		}, 
 		"Enumerator": "Second", 
 		"Float": -13.37, 

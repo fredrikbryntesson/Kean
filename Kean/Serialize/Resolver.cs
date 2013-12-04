@@ -24,6 +24,7 @@ using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 using Kean.Reflect.Extension;
+
 namespace Kean.Serialize
 {
 	public class Resolver
@@ -33,10 +34,10 @@ namespace Kean.Serialize
 		Collection.IDictionary<Uri.Locator, Action<object>> looseEnds;
 		public object this [Uri.Locator locator]
 		{
-			get { return this.IsQualified(locator) ? this.targets[locator] : null; }
+			get { return this.targets[locator]; }
 			set
 			{				
-				if (locator.NotNull() && value.NotNull() && this.IsQualified(locator))
+				if (locator.NotNull() && value.NotNull())
 				{
 					if (this.targets[locator].IsNull())
 					{
@@ -62,10 +63,6 @@ namespace Kean.Serialize
 			this.targets = new Collection.Dictionary<Uri.Locator, object>();
 			this.reverse = new Collection.Dictionary<object, Uri.Locator>();
 			this.looseEnds = new Collection.Dictionary<Uri.Locator, Action<object>>();
-		}
-		bool IsQualified(Uri.Locator locator)
-		{
-			return locator.Path.Filename.NotEmpty();
 		}
 		public bool Resolve(Uri.Locator locator, Action<object> set)
 		{

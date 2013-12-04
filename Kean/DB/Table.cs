@@ -35,8 +35,8 @@ using Kean.Serialize.Extension;
 namespace Kean.DB
 {
 	public abstract class Table<T> :
-		ITable<T>
-			where T : Item, new()
+        ITable<T>
+		where T : Item<T>, new()
 	{
 		public string Name { get; private set; }
 		public Uri.Locator Locator { get; private set; }
