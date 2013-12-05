@@ -25,128 +25,8 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<Component Id="Kean.Cli">
-				<File Source="$(var.Kean.Cli.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Cli.Argument">
-				<File Source="$(var.Kean.Cli.Argument.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core">
-				<File Source="$(var.Kean.Core.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Buffer">
-				<File Source="$(var.Kean.Core.Buffer.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Collection">
-				<File Source="$(var.Kean.Core.Collection.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Error">
-				<File Source="$(var.Kean.Core.Error.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Notify">
-				<File Source="$(var.Kean.Core.Notify.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Parallel">
-				<File Source="$(var.Kean.Core.Parallel.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Recycle">
-				<File Source="$(var.Kean.Core.Recycle.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Reflect">
-				<File Source="$(var.Kean.Core.Reflect.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Serialize">
-				<File Source="$(var.Kean.Core.Serialize.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Core.Uri">
-				<File Source="$(var.Kean.Core.Uri.TargetPath)" />
-			</Component>
-			<Component Id="Kean.DB">
-				<File Source="$(var.Kean.DB.TargetPath)" />
-			</Component>
-			<Component Id="Kean.DB.Sql">
-				<File Source="$(var.Kean.DB.Sql.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw">
-				<File Source="$(var.Kean.Draw.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.Cairo">
-				<File Source="$(var.Kean.Draw.Cairo.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.OpenGL">
-				<File Source="$(var.Kean.Draw.OpenGL.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.Raster">
-				<File Source="$(var.Kean.Draw.Raster.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Draw.Vector">
-				<File Source="$(var.Kean.Draw.Vector.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Html.Dom">
-				<File Source="$(var.Kean.Html.Dom.TargetPath)" />
-			</Component>
-			<Component Id="Kean.IO">
-				<File Source="$(var.Kean.IO.TargetPath)" />
-			</Component>
-			<Component Id="Kean.IO.Net">
-				<File Source="$(var.Kean.IO.Net.TargetPath)" />
-			</Component>
-			<Component Id="Kean.IO.Tap">
-				<File Source="$(var.Kean.IO.Tap.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Json">
-				<File Source="$(var.Kean.Json.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Json.Dom">
-				<File Source="$(var.Kean.Json.Dom.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Json.Sax">
-				<File Source="$(var.Kean.Json.Sax.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Json.Serialize">
-				<File Source="$(var.Kean.Json.Serialize.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math">
-				<File Source="$(var.Kean.Math.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Complex">
-				<File Source="$(var.Kean.Math.Complex.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Geometry2D">
-				<File Source="$(var.Kean.Math.Geometry2D.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Geometry3D">
-				<File Source="$(var.Kean.Math.Geometry3D.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Matrix">
-				<File Source="$(var.Kean.Math.Matrix.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Random">
-				<File Source="$(var.Kean.Math.Random.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Math.Regression">
-				<File Source="$(var.Kean.Math.Regression.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Platform">
-				<File Source="$(var.Kean.Platform.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Platform.Log">
-				<File Source="$(var.Kean.Platform.Log.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Platform.Settings">
-				<File Source="$(var.Kean.Platform.Settings.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Xml">
-				<File Source="$(var.Kean.Xml.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Xml.Dom">
-				<File Source="$(var.Kean.Xml.Dom.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Xml.Sax">
-				<File Source="$(var.Kean.Xml.Sax.TargetPath)" />
-			</Component>
-			<Component Id="Kean.Xml.Serialize">
-				<File Source="$(var.Kean.Xml.Serialize.TargetPath)" />
+			<Component Id="Kean">
+				<File Source="$(var.Kean.TargetPath)" />
 			</Component>
 			<!--Cairo-->
 			<Component Id="freetype6">
@@ -233,10 +113,10 @@
 		</ComponentGroup>
 		<ComponentGroup Id="ProductModules" Directory="MODULESFOLDER">
 			<Component Id="Kean.Platform.Log_Module">
-				<File Source="$(var.Kean.Platform.Log.TargetDir)Modules\Log.xml" />
+				<File Source="$(var.Kean.TargetDir)Modules\Log.xml" />
 			</Component>
 			<Component Id="Kean.Platform.Settings_Module">
-				<File Source="$(var.Kean.Platform.Settings.TargetDir)Modules\Settings.xml" />
+				<File Source="$(var.Kean.TargetDir)Modules\Settings.xml" />
 			</Component>
 		</ComponentGroup>
 	</Fragment>
