@@ -97,12 +97,12 @@ namespace Kean.Uri.Test
 		{
 			Target.Query query = "keyA=valueA";
 			query["keyB"] = "valueB";
-			Verify((string)query, Is.EqualTo("keyB=valueB&keyA=valueA"), this.prefix + "AddQuery.0");
+			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB"), this.prefix + "AddQuery.0");
 			query = new Target.Query();
 			query.ToString();
 			query["keyB"] = "valueB";
 			query["keyC"] = "valueC";
-			Verify((string)query, Is.EqualTo("keyC=valueC&keyB=valueB"), this.prefix + "AddQuery.1");
+			Verify((string)query, Is.EqualTo("keyB=valueB&keyC=valueC"), this.prefix + "AddQuery.1");
 		}
 	}
 }
