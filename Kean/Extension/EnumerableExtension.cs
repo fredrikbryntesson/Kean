@@ -173,7 +173,7 @@ namespace Kean.Extension
 		}
 		public static Generic.IEnumerable<T> Prepend<T>(this Generic.IEnumerable<T> me, params T[] other)
 		{
-			return me.Prepend(other);
+			return me.Prepend((Generic.IEnumerable<T>) other);
 		}
 		public static Generic.IEnumerable<T> Prepend<T>(this Generic.IEnumerable<T> me, Generic.IEnumerable<T> other)
 		{
