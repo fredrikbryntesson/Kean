@@ -25,7 +25,7 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 [assembly: AssemblyTitle("Kean")]
-[assembly: AssemblyDescription("Toolkit for simplifing common tasks.")]
+[assembly: AssemblyDescription("Toolkit for simplifying common tasks.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cogneco AB")]
 [assembly: AssemblyProduct("Kean Toolkit")]
