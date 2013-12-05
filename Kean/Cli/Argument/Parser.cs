@@ -29,48 +29,48 @@ namespace Kean.Cli.Argument
 	/// <summary>
 	/// Contains handlers for command line arguments and parses the argument list.
 	/// </summary>
-    public class Parser
-    {
-        enum TokenType
-        {
-            Short,
-            Long,
-            Parameter,
-        }
-        struct Token
-        {
-            public TokenType Type;
-            public string Value;
-            public Token(TokenType type, string value)
-                : this()
-            {
-                this.Type = type;
-                this.Value = value;
-            }
-        }
+	public class Parser
+	{
+		enum TokenType
+		{
+			Short,
+			Long,
+			Parameter,
+		}
+		struct Token
+		{
+			public TokenType Type;
+			public string Value;
+			public Token(TokenType type, string value)
+				: this()
+			{
+				this.Type = type;
+				this.Value = value;
+			}
+		}
 
-        Collection.List<Argument> arguments;
+		Collection.List<Argument> arguments;
 
-        Argument this[char identifier]
-        {
-            get { return this.arguments.Find(argument => argument.Short == identifier); }
-        }
-        Argument this[string identifier]
-        {
-            get { return this.arguments.Find(argument => argument.Long == identifier); }
-        }
-        /// <summary>
-        /// Handler to handle parameters not associated with an argument.
-        /// </summary>
-        public Action<string> UnassociatedParameterHandler { get; set; }
-        
-        /// <summary>
-        /// Creates a new parser.
-        /// </summary>
-        public Parser()
-        {
-            this.arguments = new Collection.List<Argument>();
-        }
+		Argument this[char identifier]
+		{
+			get { return this.arguments.Find(argument => argument.Short == identifier); }
+		}
+		Argument this[string identifier]
+		{
+			get { return this.arguments.Find(argument => argument.Long == identifier); }
+		}
+		/// <summary>
+		/// Handler to handle parameters not associated with an argument.
+		/// </summary>
+		public Action<string> UnassociatedParameterHandler { get; set; }
+		
+		/// <summary>
+		/// Creates a new parser.
+		/// </summary>
+		public Parser()
+		{
+			this.arguments = new Collection.List<Argument>();
+		}
 
 		/// <summary>
 		/// Adds a new argument handler to the parser.
@@ -112,68 +112,68 @@ namespace Kean.Cli.Argument
 			this.Add(shortIdentifier, longIdentifier, 7, s => handler.Call(s[0], s[1], s[2], s[3], s[4], s[5], s[6]));
 		}
 		/// <summary>
-        /// Adds a new argument handler to the parser.
-        /// </summary>
-        /// <param name="shortIdentifier">Argument short form character (for example v for -v).</param>
-        /// <param name="longIdentifier">Argument long form string (for example version for --version).</param>
-        /// <param name="parameters">Number of required parameters.</param>
-        /// <param name="handler">Function to call when argument is found during parsing.</param>
-        public void Add(char shortIdentifier, string longIdentifier, int parameters, Action<string[]> handler)
-        {
-        	this.arguments.Add(new Argument() { Short = shortIdentifier, Long = longIdentifier, Parameters = parameters, Handler = handler });
-        }
+		/// Adds a new argument handler to the parser.
+		/// </summary>
+		/// <param name="shortIdentifier">Argument short form character (for example v for -v).</param>
+		/// <param name="longIdentifier">Argument long form string (for example version for --version).</param>
+		/// <param name="parameters">Number of required parameters.</param>
+		/// <param name="handler">Function to call when argument is found during parsing.</param>
+		public void Add(char shortIdentifier, string longIdentifier, int parameters, Action<string[]> handler)
+		{
+			this.arguments.Add(new Argument() { Short = shortIdentifier, Long = longIdentifier, Parameters = parameters, Handler = handler });
+		}
 		
-        /// <summary>
-        /// Parses the argument list and activates the respective callbacks.
-        /// </summary>
-        /// <param name="arguments">Argument list to parse.</param>
-        /// <returns></returns>
-        public bool Parse(string[] arguments)
-        {
-            bool result = true;
-            Collection.Queue<Token> tokens = new Collection.Queue<Token>();
-            foreach(string argument in arguments)
-            {
-                if (argument.StartsWith("--"))
-                    tokens.Enqueue(new Token(TokenType.Long, argument.Substring(2)));
-                else if (argument.StartsWith("-") && argument.Length > 1 && char.IsLetter(argument[1]))
-                {
-                    foreach (char c in argument.Substring(1))
-                        tokens.Enqueue(new Token(TokenType.Short, c.ToString()));
-                }
-                else
-                    tokens.Enqueue(new Token(TokenType.Parameter, argument));
-            }
-            while (tokens.Count > 0 && result)
-            {
-                Argument argument = null;
-                switch (tokens.Peek().Type)
-                {
-                    case TokenType.Long:
-                        argument = this[tokens.Dequeue().Value];
-                        break;
-                    case TokenType.Short:
-                        argument = this[tokens.Dequeue().Value[0]];
-                        break;
-                    case TokenType.Parameter:
+		/// <summary>
+		/// Parses the argument list and activates the respective callbacks.
+		/// </summary>
+		/// <param name="arguments">Argument list to parse.</param>
+		/// <returns></returns>
+		public bool Parse(string[] arguments)
+		{
+			bool result = true;
+			Collection.Queue<Token> tokens = new Collection.Queue<Token>();
+			foreach(string argument in arguments)
+			{
+				if (argument.StartsWith("--"))
+					tokens.Enqueue(new Token(TokenType.Long, argument.Substring(2)));
+				else if (argument.StartsWith("-") && argument.Length > 1 && char.IsLetter(argument[1]))
+				{
+					foreach (char c in argument.Substring(1))
+						tokens.Enqueue(new Token(TokenType.Short, c.ToString()));
+				}
+				else
+					tokens.Enqueue(new Token(TokenType.Parameter, argument));
+			}
+			while (tokens.Count > 0 && result)
+			{
+				Argument argument = null;
+				switch (tokens.Peek().Type)
+				{
+					case TokenType.Long:
+						argument = this[tokens.Dequeue().Value];
+						break;
+					case TokenType.Short:
+						argument = this[tokens.Dequeue().Value[0]];
+						break;
+					case TokenType.Parameter:
 						this.UnassociatedParameterHandler.Call(tokens.Dequeue().Value);
-                        break;
-                }
-                if (argument.NotNull() && result)
-                {
-                    Collection.List<string> parameters = new Collection.List<string>();
-                    for (int i = 0; i < argument.Parameters && result; i++)
-                    {
-                        if (!tokens.Empty && tokens.Peek().Type == TokenType.Parameter)
-                            parameters.Add(tokens.Dequeue().Value);
-                        else
-                            result = false;
-                    }
-                    if (result)
-                        argument.Handler(parameters.ToArray());
-                }
-            }
-            return result;
-        }
-    }
+						break;
+				}
+				if (argument.NotNull() && result)
+				{
+					Collection.List<string> parameters = new Collection.List<string>();
+					for (int i = 0; i < argument.Parameters && result; i++)
+					{
+						if (!tokens.Empty && tokens.Peek().Type == TokenType.Parameter)
+							parameters.Add(tokens.Dequeue().Value);
+						else
+							result = false;
+					}
+					if (result)
+						argument.Handler(parameters.ToArray());
+				}
+			}
+			return result;
+		}
+	}
 }

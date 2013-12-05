@@ -99,16 +99,16 @@ namespace Kean.Collection.Array
 		{
 			return this.Remove(this.Count - 1);
 		}
-        public override T Remove(int index)
-        {
-        	T result = this[index];
+		public override T Remove(int index)
+		{
+			T result = this[index];
 			if (0 <= index && index < this.Count - 1)
-	        	System.Array.Copy(this.items, index + 1, this.items, index, this.Count - index - 1);
+				System.Array.Copy(this.items, index + 1, this.items, index, this.Count - index - 1);
 			this.Decrease();
 			return result;
 		}
 		public override IList<T> Insert(int index, T item)
-        {
+		{
 			if (index == this.Count)
 				this.Add(item);
 			else

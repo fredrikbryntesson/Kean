@@ -38,10 +38,10 @@ namespace Kean.Draw.PathSegment
 			this.First = first;
 			this.Second = second;
 		}
-        public override string String
-        {
+		public override string String
+		{
 			get { return "C" + this.First.ToString("{0},{1}") + " " + this.Second.ToString("{0},{1}") + " " + this.End.ToString("{0},{1}"); }
-        }
+		}
 		protected override Geometry2D.Single.Box SegmentBounds(Geometry2D.Single.Transform transform)
 		{
 			Geometry2D.Single.Point p0 = this.Start;

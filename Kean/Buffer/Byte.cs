@@ -31,5 +31,5 @@ namespace Kean.Buffer
 		public Byte(int size, Action<IntPtr> free) : base(size, free) { }
 		public Byte(byte[] data) : base(data, null) { }
 		public Byte(byte[] data, Action<IntPtr> free) : base(data, free) { }
-   	}
+	}
 }
