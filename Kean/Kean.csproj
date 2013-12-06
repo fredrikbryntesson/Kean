@@ -825,6 +825,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Kean.nuspec" />
+    <None Include="Kean.targets" />
     <None Include="Math\Complex\Template.tt" />
     <None Include="Math\Geometry2D\Box.tt" />
     <None Include="Math\Geometry2D\Point.tt" />
