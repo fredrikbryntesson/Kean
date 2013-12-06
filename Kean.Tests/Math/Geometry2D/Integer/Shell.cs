@@ -22,29 +22,29 @@
 using System;
 using NUnit.Framework;
 using Target = Kean.Math.Geometry2D;
-using Kean.Core.Extension;
+using Kean.Extension;
 
 namespace Kean.Math.Geometry2D.Test.Integer
 {
-    [TestFixture]
-    public class Shell :
-        Kean.Test.Fixture<Shell>
-    {
-        protected override void Run()
-        {
-            this.Run(
-                this.StringCasts
-                );
-        }
-        [Test]
-        public void StringCasts()
-        {
-            string textFromValue = new Target.Integer.Shell(10, 10, 10, 10);
-            Verify(textFromValue, Is.EqualTo("10"));
+	[TestFixture]
+	public class Shell :
+		Kean.Test.Fixture<Shell>
+	{
+		protected override void Run()
+		{
+			this.Run(
+				this.StringCasts
+				);
+		}
+		[Test]
+		public void StringCasts()
+		{
+			string textFromValue = new Target.Integer.Shell(10, 10, 10, 10);
+			Verify(textFromValue, Is.EqualTo("10"));
 			textFromValue = new Target.Integer.Shell(10, 10, 20, 20);
 			Verify(textFromValue, Is.EqualTo("10, 20"));
 			textFromValue = new Target.Integer.Shell(10, 20, 10, 20);
 			Verify(textFromValue, Is.EqualTo("10, 20, 10, 20"));
-        }
-    }
+		}
+	}
 }
