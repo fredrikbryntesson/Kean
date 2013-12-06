@@ -51,7 +51,7 @@ namespace Kean.Uri.Test
         {
             Target.Authority authority = "name:password@example.com:80";
             Verify(authority, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Verify(authority != null, Is.True, this.prefix + "Equality.1");
+            Verify(authority != null, Is.False, this.prefix + "Equality.1");
             Verify((string)authority.User, Is.EqualTo("name:password"), this.prefix + "Equality.2");
             Verify((string)authority.Endpoint, Is.EqualTo("example.com:80"), this.prefix + "Equality.3");
             Verify((string)authority, Is.EqualTo("name:password@example.com:80"), this.prefix + "Equality.4");

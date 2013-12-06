@@ -24,29 +24,29 @@ using Kean.Extension;
 
 namespace Kean.Collection.Wrap
 {
-    public class ReadOnlyVector<T> :
+	public class ReadOnlyVector<T> :
 		Abstract.ReadOnlyVector<T>,
-        IReadOnlyVector<T>
-    {
+		IReadOnlyVector<T>
+	{
 		IVector<T> vector;
 		IReadOnlyVector<T> readOnlyVector;
-        #region Constructor
-        public ReadOnlyVector(params T[] data)
-        {
-            this.vector = new Collection.Vector<T>(data);
-        }
-        public ReadOnlyVector(IVector<T> data)
-        {
-            this.vector = data;
-        }
-        public ReadOnlyVector(IReadOnlyVector<T> data)
-        {
-            this.readOnlyVector = data;
-        }
-        #endregion
-        #region IReadOnlyVector<T>
-        public override int Count { get { return this.vector.NotNull() ? this.vector.Count : this.readOnlyVector.Count; } }
-        public override T this[int index] { get { return this.vector.NotNull() ? this.vector[index] : this.readOnlyVector[index]; } }
-        #endregion
-    }
+		#region Constructor
+		public ReadOnlyVector(params T[] data)
+		{
+			this.vector = new Collection.Vector<T>(data);
+		}
+		public ReadOnlyVector(IVector<T> data)
+		{
+			this.vector = data;
+		}
+		public ReadOnlyVector(IReadOnlyVector<T> data)
+		{
+			this.readOnlyVector = data;
+		}
+		#endregion
+		#region IReadOnlyVector<T>
+		public override int Count { get { return this.vector.NotNull() ? this.vector.Count : this.readOnlyVector.Count; } }
+		public override T this[int index] { get { return this.vector.NotNull() ? this.vector[index] : this.readOnlyVector[index]; } }
+		#endregion
+	}
 }

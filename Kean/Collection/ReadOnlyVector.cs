@@ -23,20 +23,20 @@ using System;
 
 namespace Kean.Collection
 {
-    public class ReadOnlyVector<T> :
+	public class ReadOnlyVector<T> :
 		Abstract.ReadOnlyVector<T>,
-        IReadOnlyVector<T>
-    {
+		IReadOnlyVector<T>
+	{
 		T[] data;
-        #region Constructor
+		#region Constructor
 		public ReadOnlyVector(params T[] data)
-        {
-            this.data = data ?? new T[0];
-        }
-        #endregion
-        #region IReadOnlyVector<T>
-        public override int Count { get { return this.data.Length; } }
-        public override T this[int index] 
+		{
+			this.data = data ?? new T[0];
+		}
+		#endregion
+		#region IReadOnlyVector<T>
+		public override int Count { get { return this.data.Length; } }
+		public override T this[int index] 
 		{
 			get
 			{
@@ -50,7 +50,7 @@ namespace Kean.Collection
 				}
 			}
 		}
-        #endregion
+		#endregion
 		#region Operators
 		public static implicit operator ReadOnlyVector<T>(T[] data)
 		{
@@ -61,5 +61,5 @@ namespace Kean.Collection
 			return data.data;
 		}
 		#endregion
-    }
+	}
 }

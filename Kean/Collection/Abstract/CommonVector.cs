@@ -26,9 +26,9 @@ using Generic = System.Collections.Generic;
 namespace Kean.Collection.Abstract
 {
 	public abstract class CommonVector<T> :
-        System.Collections.Generic.IEnumerable<T>,
-        System.IEquatable<IVector<T>>,
-        System.IEquatable<IReadOnlyVector<T>>
+		System.Collections.Generic.IEnumerable<T>,
+		System.IEquatable<IVector<T>>,
+		System.IEquatable<IReadOnlyVector<T>>
 
 	{
 		public abstract int Count { get; }
@@ -70,7 +70,7 @@ namespace Kean.Collection.Abstract
 		}
 		#endregion
 		#region IEquatable<IReadOnlyVector<T>>
-        public bool Equals(IReadOnlyVector<T> other)
+		public bool Equals(IReadOnlyVector<T> other)
 		{
 			bool result = other.NotNull() && this.Count == other.Count;
 			for (int i = 0; result && i < this.Count; i++)

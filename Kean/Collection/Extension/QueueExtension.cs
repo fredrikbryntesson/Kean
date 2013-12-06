@@ -38,9 +38,9 @@ namespace Kean.Collection.Extension
 			return me;
 		}
 		public static IQueue<T> Clear<T>(this IQueue<T> me)
-        {
-            while (!me.Empty)
-                me.Dequeue();
+		{
+			while (!me.Empty)
+				me.Dequeue();
 			return me;
 		}
 	}

@@ -44,17 +44,17 @@ namespace Kean.Collection.Hash
 				divided *= -1;
 			return divided % this.data.Length;
 		}
-        public int Count
-        {
-            get
-            {
-                int result = 0;
-                foreach (IList<T> list in this.data)
-                    if (list.NotNull())
-                        result += list.Count;
-                return result;
-            }
-        }
+		public int Count
+		{
+			get
+			{
+				int result = 0;
+				foreach (IList<T> list in this.data)
+					if (list.NotNull())
+						result += list.Count;
+				return result;
+			}
+		}
 		public bool Add(T value)
 		{
 			IList<T> list = this.data[this.Index(value)];
@@ -109,10 +109,10 @@ namespace Kean.Collection.Hash
 		public bool Equals(ISet<T> other)
 		{
 			bool result = other.NotNull();
-            int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
+			int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
 			if (result)
 				foreach (T value in other)
-                    if (!(result = count-- == 0 || this.Contains(value)))
+					if (!(result = count-- == 0 || this.Contains(value)))
 						break;
 			return result && count == 0;
 		}
