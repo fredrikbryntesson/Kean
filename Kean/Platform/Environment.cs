@@ -12,9 +12,12 @@ namespace Kean.Platform
 		Environment()
 		{
 			int cpuCount = 0;
-			Management.ManagementObjectSearcher searcher = new Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor");
-			foreach (Management.ManagementObject share in searcher.Get())
-				this["Cpu" + cpuCount++] = share.Properties["Name"].Value + ", " + share.Properties["Caption"].Value;
+			if (Kean.Environment.IsWindows)
+			{
+				Management.ManagementObjectSearcher searcher = new Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+				foreach (Management.ManagementObject share in searcher.Get())
+					this["Cpu" + cpuCount++] = share.Properties["Name"].Value + ", " + share.Properties["Caption"].Value;
+			}
 			this["OperatingSystem"] =
 					System.Environment.OSVersion.VersionString +
 					(System.Environment.Is64BitOperatingSystem ? " 64bit " : " ");
