@@ -10,5 +10,6 @@
 	</metadata>
 	<files>
 		<file src="Modules\**.xml" target="build\Configuration" />
+		<file src="Kean.targets" target="build" />
 	</files>
 </package>
