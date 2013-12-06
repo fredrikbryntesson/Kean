@@ -25,9 +25,9 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kean\Kean.csproj">
-      <Name>Kean _Kean\Kean_</Name>
-      <Project>{db8acbac-64df-439b-bfcd-564d51661ce2}</Project>
+    <ProjectReference Include="..\KeanDummy\KeanDummy.csproj">
+      <Name>KeanDummy</Name>
+      <Project>{fa2d10d4-7da8-47d6-98a9-72650b9e16f6}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

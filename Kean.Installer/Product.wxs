@@ -26,97 +26,97 @@
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 			<Component Id="Kean">
-				<File Source="$(var.Kean.TargetPath)" />
+				<File Source="$(var.KeanDummy.TargetDir)Kean.dll" />
 			</Component>
 			<!--Cairo-->
 			<Component Id="freetype6">
-				<File Source="$(var.Kean.Core.TargetDir)freetype6.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)freetype6.dll" />
 			</Component>
 			<Component Id="libcairo2">
-				<File Source="$(var.Kean.Core.TargetDir)libcairo-2.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libcairo-2.dll" />
 			</Component>
 			<Component Id="libcairo_gobject_2">
-				<File Source="$(var.Kean.Core.TargetDir)libcairo-gobject-2.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libcairo-gobject-2.dll" />
 			</Component>
 			<Component Id="libcairo_script_interpreter_2">
-				<File Source="$(var.Kean.Core.TargetDir)libcairo-script-interpreter-2.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libcairo-script-interpreter-2.dll" />
 			</Component>
 			<Component Id="libexpat_1">
-				<File Source="$(var.Kean.Core.TargetDir)libexpat-1.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libexpat-1.dll" />
 			</Component>
 			<Component Id="libfontconfig_1">
-				<File Source="$(var.Kean.Core.TargetDir)libfontconfig-1.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libfontconfig-1.dll" />
 			</Component>
 			<Component Id="libpng14_14">
-				<File Source="$(var.Kean.Core.TargetDir)libpng14-14.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libpng14-14.dll" />
 			</Component>
 			<Component Id="Mono.Cairo">
-				<File Source="$(var.Kean.Core.TargetDir)Mono.Cairo.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)Mono.Cairo.dll" />
 			</Component>
 			<!--GLib-->
 			<Component Id="glib_sharp">
-				<File Source="$(var.Kean.Core.TargetDir)glib-sharp.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)glib-sharp.dll" />
 			</Component>
 			<Component Id="glibsharpglue_2">
-				<File Source="$(var.Kean.Core.TargetDir)glibsharpglue-2.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)glibsharpglue-2.dll" />
 			</Component>
 			<Component Id="intl">
-				<File Source="$(var.Kean.Core.TargetDir)intl.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)intl.dll" />
 			</Component>
 			<Component Id="libgio_2.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libgio-2.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libgio-2.0-0.dll" />
 			</Component>
 			<Component Id="libglib_2.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libglib-2.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libglib-2.0-0.dll" />
 			</Component>
 			<Component Id="libgmodule_2.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libgmodule-2.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libgmodule-2.0-0.dll" />
 			</Component>
 			<Component Id="libgobject_2.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libgobject-2.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libgobject-2.0-0.dll" />
 			</Component>
 			<Component Id="libgthread2.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libgthread-2.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libgthread-2.0-0.dll" />
 			</Component>
 			<Component Id="zlib1">
-				<File Source="$(var.Kean.Core.TargetDir)zlib1.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)zlib1.dll" />
 			</Component>
 			<!--Pango-->
 			<Component Id="libpango_1.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libpango-1.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libpango-1.0-0.dll" />
 			</Component>
 			<Component Id="libpangocairo_1.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libpangocairo-1.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libpangocairo-1.0-0.dll" />
 			</Component>
 			<Component Id="libpangoft2_1.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libpangoft2-1.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libpangoft2-1.0-0.dll" />
 			</Component>
 			<Component Id="libpangowin32_1.0_0">
-				<File Source="$(var.Kean.Core.TargetDir)libpangowin32-1.0-0.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)libpangowin32-1.0-0.dll" />
 			</Component>
 			<Component Id="pango_sharp">
-				<File Source="$(var.Kean.Core.TargetDir)pango-sharp.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)pango-sharp.dll" />
 			</Component>
 			<Component Id="pangosharpglue_2">
-				<File Source="$(var.Kean.Core.TargetDir)pangosharpglue-2.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)pangosharpglue-2.dll" />
 			</Component>
 			<!--OpenTK-->
 			<Component Id="OpenTK">
-				<File Source="$(var.Kean.Core.TargetDir)OpenTK.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)OpenTK.dll" />
 			</Component>
 			<Component Id="OpenTK.GLControl">
-				<File Source="$(var.Kean.Core.TargetDir)OpenTK.GLControl.dll" />
+				<File Source="$(var.KeanDummy.TargetDir)OpenTK.GLControl.dll" />
 			</Component>
 			<!--<Component Id="OpenTK.xml">
-				<File Source="$(var.Kean.Core.TargetDir)OpenTK.xml" />
+				<File Source="$(var.KeanDummy.TargetDir)OpenTK.xml" />
 			</Component>-->
 		</ComponentGroup>
 		<ComponentGroup Id="ProductModules" Directory="MODULESFOLDER">
 			<Component Id="Kean.Platform.Log_Module">
-				<File Source="$(var.Kean.TargetDir)Modules\Log.xml" />
+				<File Source="$(var.KeanDummy.TargetDir)Modules\Log.xml" />
 			</Component>
 			<Component Id="Kean.Platform.Settings_Module">
-				<File Source="$(var.Kean.TargetDir)Modules\Settings.xml" />
+				<File Source="$(var.KeanDummy.TargetDir)Modules\Settings.xml" />
 			</Component>
 		</ComponentGroup>
 	</Fragment>
