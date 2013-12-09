@@ -116,3 +116,6 @@ nuget.exe
 /.tools
 
 VersionInfo.Generated.wxi
+
+/.nuget/NuGet.Config
+/.nuget/NuGet.targets
