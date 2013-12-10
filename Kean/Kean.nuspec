@@ -9,6 +9,7 @@
 		<description>$description$</description>
 	</metadata>
 	<files>
-		<file src="Modules\**.xml" target="build\Configuration" />
+		<file src="Modules\**.xml" target="build\Modules" />
+		<file src="Kean.targets" target="build" />
 	</files>
 </package>
