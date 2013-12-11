@@ -30,7 +30,7 @@ namespace Kean.Serialize.Serializer
 		public StringInterface()
 		{ }
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type.Implements<IString>() ? this : null;
 		}

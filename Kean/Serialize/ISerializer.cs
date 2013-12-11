@@ -23,7 +23,7 @@ namespace Kean.Serialize
 {
     public interface ISerializer
     {
-        ISerializer Find(Reflect.Type type);
+        ISerializer Find(Reflect.Type type, bool deserialize);
         Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator);
         object Deserialize(IStorage storage, Data.Node data, object target);
     }

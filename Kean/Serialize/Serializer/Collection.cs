@@ -32,14 +32,14 @@ namespace Kean.Serialize.Serializer
 		protected Collection()
 		{
 		}
-		protected abstract bool Found(Reflect.Type type);
+		protected abstract bool Found(Reflect.Type type, bool deserialize);
 		protected abstract Reflect.Type GetElementType(Reflect.Type type);
 		protected abstract object Create(Reflect.Type type, Reflect.Type elementType, int count);
 		protected abstract void Set(object collection, object value, int index);
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
-			return this.Found(type) ? this : null;
+			return this.Found(type, deserialize) ? this : null;
 		}
 		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{

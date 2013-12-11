@@ -37,7 +37,7 @@ namespace Kean.Serialize.Serializer
 		{
 			return ((System.Type)type).GetInterface(typeof(Kean.Collection.IDictionary<,>).Name);
 		}
-		protected override bool Found(Reflect.Type type)
+		protected override bool Found(Reflect.Type type, bool deserialize)
 		{
 			return this.GetInterface(type).NotNull();
 		}

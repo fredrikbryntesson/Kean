@@ -28,7 +28,7 @@ namespace Kean.Serialize.Serializer
 		public Long()
 		{ }
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type == "long" ? this : null;
 		}

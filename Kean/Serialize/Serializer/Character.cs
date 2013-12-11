@@ -30,7 +30,7 @@ namespace Kean.Serialize.Serializer
 		public Character()
 		{ }
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type == "char" ? this : null;
 		}
