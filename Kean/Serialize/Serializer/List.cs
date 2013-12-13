@@ -36,7 +36,7 @@ namespace Kean.Serialize.Serializer
 		{
 			return type.Name == "Kean.Collection.IList" ? (System.Type)type : ((System.Type)type).GetInterface(typeof(Kean.Collection.IList<>).Name);
 		}
-		protected override bool Found(Reflect.Type type)
+		protected override bool Found(Reflect.Type type, bool deserialize)
 		{
 			return this.GetInterface(type).NotNull();
 		}

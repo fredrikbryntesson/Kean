@@ -34,7 +34,7 @@ namespace Kean.Serialize.Serializer
 		}
 
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type.Category == Reflect.TypeCategory.Structure ? this : null;
 		}

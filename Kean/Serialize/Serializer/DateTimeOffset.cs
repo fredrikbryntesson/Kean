@@ -28,7 +28,7 @@ namespace Kean.Serialize.Serializer
 		public DateTimeOffset()
 		{ }
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type == "System.DateTimeOffset" ? this : null;
 		}

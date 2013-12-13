@@ -35,22 +35,22 @@ namespace Kean.Serialize.Serializer
 			this.serializers = serializers;
 		}
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			ISerializer result = null;
 			foreach (ISerializer serializer in this.serializers)
-				if ((result = serializer.Find(type)).NotNull())
+				if ((result = serializer.Find(type, deserialize)).NotNull())
 					break;
 			return result;
 		}
 		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			ISerializer serializer = this.Find(data.Type());
+			ISerializer serializer = this.Find(data.Type(), false);
 			return serializer.NotNull() ? serializer.Serialize(storage, type, data, locator) : null;
 		}
 		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
-			ISerializer serializer = this.Find(data.Type);
+			ISerializer serializer = this.Find(data.Type, true);
 			return serializer.NotNull() ? serializer.Deserialize(storage, data, null) : null;
 		}
 		#endregion

@@ -29,7 +29,7 @@ namespace Kean.Serialize.Serializer
 	public class Cache :
 		ISerializer
 	{
-		Kean.Collection.Dictionary<Reflect.Type, ISerializer> cache = new Kean.Collection.Dictionary<Reflect.Type, ISerializer>();
+		Kean.Collection.Dictionary<Reflect.Type, ISerializer>[] cache = new Kean.Collection.Dictionary<Reflect.Type, ISerializer>[] { new Kean.Collection.Dictionary<Reflect.Type, ISerializer>() , new Kean.Collection.Dictionary<Reflect.Type, ISerializer>() };
 
 		ISerializer serializer;
 		public Cache(ISerializer serializer)
@@ -37,34 +37,34 @@ namespace Kean.Serialize.Serializer
 			this.serializer = serializer;
 		}
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			ISerializer result = null;
 			if (type.NotNull())
 			{
-				if (this.cache.Contains(type))
-					result = this.cache[type];
+				if (this.cache[deserialize ? 1 : 0].Contains(type))
+					result = this.cache[deserialize ? 1 : 0][type];
 				else
 				{
 					MethodAttribute[] attributes;
 					if (type.Category != Reflect.TypeCategory.Primitive && (attributes = type.GetAttributes<MethodAttribute>()).Length == 1)
 						result = attributes[0].Serializer;
 					else
-						result = serializer.Find(type);
+						result = serializer.Find(type, deserialize);
 					if (result.NotNull())
-						cache[type] = result;
+						this.cache[deserialize ? 1 : 0][type] = result;
 				}
 			}
 			return result;
 		}
 		public Data.Node Serialize(IStorage storage, Reflect.Type type, object data, Uri.Locator locator)
 		{
-			ISerializer serializer = this.Find(data.Type());
+			ISerializer serializer = this.Find(data.Type(), false);
 			return serializer.NotNull() ? serializer.Serialize(storage, type, data, locator) : null;
 		}
 		public object Deserialize(IStorage storage, Data.Node data, object result)
 		{
-			ISerializer serializer = data.NotNull() ? this.Find(data.Type) : null;
+			ISerializer serializer = data.NotNull() ? this.Find(data.Type, true) : null;
 			return  serializer.NotNull() ? serializer.Deserialize(storage, data, result) : null;
 		}
 		#endregion
