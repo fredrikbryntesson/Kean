@@ -26,113 +26,113 @@ using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 namespace Kean.IO
 {
-    public class ByteDeviceCombiner :
+	public class ByteDeviceCombiner :
 		IByteDevice
-    {
-        IByteInDevice inDevice;
-        IByteOutDevice outDevice;
+	{
+		IByteInDevice inDevice;
+		IByteOutDevice outDevice;
 
-        #region Constructors
+		#region Constructors
 
-        protected ByteDeviceCombiner(IByteInDevice inDevice) :
+		protected ByteDeviceCombiner(IByteInDevice inDevice) :
 			this(inDevice, null)
-        {
-        }
-        protected ByteDeviceCombiner(IByteInDevice inDevice, IByteOutDevice outDevice)
-        {
-            this.inDevice = inDevice;
-            this.outDevice = outDevice;
-        }
+		{
+		}
+		protected ByteDeviceCombiner(IByteInDevice inDevice, IByteOutDevice outDevice)
+		{
+			this.inDevice = inDevice;
+			this.outDevice = outDevice;
+		}
 
-        #endregion
+		#endregion
 
-        #region IByteDevice Members
+		#region IByteDevice Members
 
-        public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
-        public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
+		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
+		public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
 
-        #endregion
+		#endregion
 
-        #region IByteInDevice Members
+		#region IByteInDevice Members
 
-        public byte? Peek()
-        {
-            return this.inDevice.NotNull() ? this.inDevice.Peek() : null;
-        }
-        public byte? Read()
-        {
-            return this.inDevice.NotNull() ? this.inDevice.Read() : null;
-        }
+		public byte? Peek()
+		{
+			return this.inDevice.NotNull() ? this.inDevice.Peek() : null;
+		}
+		public byte? Read()
+		{
+			return this.inDevice.NotNull() ? this.inDevice.Read() : null;
+		}
 
-        #endregion
+		#endregion
 
-        #region IByteOutDevice Members
+		#region IByteOutDevice Members
 
-        public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
-        {
-            return this.outDevice.NotNull() && this.outDevice.Write(buffer);
-        }
+		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
+		{
+			return this.outDevice.NotNull() && this.outDevice.Write(buffer);
+		}
 
-        #endregion
+		#endregion
 
-        #region IInDevice Members
+		#region IInDevice Members
 
-        public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
+		public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
 
-        #endregion
+		#endregion
 
-        #region IDevice Members
+		#region IDevice Members
 
-        public Uri.Locator Resource { get { return this.inDevice.Resource; } }
-        public virtual bool Opened { get { return this.Readable || this.Writeable; } }
-        public virtual bool Close()
-        {
-            bool result;
-            if (result = this.inDevice.NotNull())
-            {
-                this.inDevice.Close();
-                this.inDevice = null;
-            }
-            if (this.outDevice.NotNull())
-            {
-                result |= this.outDevice.NotNull();
-                this.outDevice.Close();
-                this.outDevice = null;
-            }
-            return result;
-        }
+		public Uri.Locator Resource { get { return this.inDevice.Resource; } }
+		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
+		public virtual bool Close()
+		{
+			bool result;
+			if (result = this.inDevice.NotNull())
+			{
+				this.inDevice.Close();
+				this.inDevice = null;
+			}
+			if (this.outDevice.NotNull())
+			{
+				result |= this.outDevice.NotNull();
+				this.outDevice.Close();
+				this.outDevice = null;
+			}
+			return result;
+		}
 
-        #endregion
+		#endregion
 
-        #region IDisposable Members
+		#region IDisposable Members
 
-        void IDisposable.Dispose()
-        {
-            this.Close();
-        }
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
 
-        #endregion
+		#endregion
 
-        #region Static Open
+		#region Static Open
 
-        public static IByteDevice Open(IByteInDevice inDevice)
-        {
-            return ByteDeviceCombiner.Open(inDevice, null);
-        }
-        public static IByteDevice Open(IByteOutDevice outDevice)
-        {
-            return ByteDeviceCombiner.Open(null, outDevice);
-        }
-        public static IByteDevice Open(IByteInDevice inDevice, IByteOutDevice outDevice)
-        {
-            return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceCombiner(inDevice, outDevice) : null;
-        }
-        public static IByteDevice Open(System.IO.Stream input, System.IO.Stream output)
-        {
-            return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Open(output));
-        }
+		public static IByteDevice Open(IByteInDevice inDevice)
+		{
+			return ByteDeviceCombiner.Open(inDevice, null);
+		}
+		public static IByteDevice Open(IByteOutDevice outDevice)
+		{
+			return ByteDeviceCombiner.Open(null, outDevice);
+		}
+		public static IByteDevice Open(IByteInDevice inDevice, IByteOutDevice outDevice)
+		{
+			return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceCombiner(inDevice, outDevice) : null;
+		}
+		public static IByteDevice Open(System.IO.Stream input, System.IO.Stream output)
+		{
+			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Open(output));
+		}
 
-        #endregion
+		#endregion
 
-    }
+	}
 }

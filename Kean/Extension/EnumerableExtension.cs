@@ -184,6 +184,12 @@ namespace Kean.Extension
 				foreach (T item in me)
 					yield return item;
 		}
+		public static Generic.IEnumerable<T> Where<T>(this Generic.IEnumerable<T> me, Func<T, bool> predicate)
+		{
+			foreach (T element in me)
+				if (predicate(element))
+					yield return element;
+		}
 		public static string Join(this Generic.IEnumerable<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
@@ -196,11 +202,39 @@ namespace Kean.Extension
 			}
 			return result.ToString();
 		}
-		public static Generic.IEnumerable<T> Where<T>(this Generic.IEnumerable<T> me, Func<T, bool> predicate)
+		public static Generic.IEnumerable<char> Decode(this Generic.IEnumerable<byte> me)
 		{
-			foreach (T element in me)
-				if (predicate(element))
-					yield return element;
+			return me.Decode(System.Text.Encoding.UTF8);
+		}
+		public static Generic.IEnumerable<char> Decode(this Generic.IEnumerable<byte> me, System.Text.Encoding encoding)
+		{
+			byte[] buffer = new byte[3];
+			int pointer = 0;
+			Generic.IEnumerator<byte> enumerator = me.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				buffer[pointer++] = enumerator.Current;
+				if (enumerator.Current == 0xef && enumerator.MoveNext())
+				{
+					buffer[pointer++] = enumerator.Current;
+					if (enumerator.Current == 0xbb && enumerator.MoveNext())
+					{
+						buffer[pointer++] = enumerator.Current;
+						if (enumerator.Current == 0xbf)
+							pointer = 0;
+					}
+				}
+				foreach (char c in encoding.GetChars(buffer, 0, pointer))
+					yield return c;
+				pointer = 0;
+			}
+		}
+		public static string Join(this Generic.IEnumerable<char> me)
+		{
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			foreach (char c in me)
+				result.Append(c);
+			return result.ToString();
 		}
 	}
 }
