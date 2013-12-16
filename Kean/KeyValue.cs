@@ -53,7 +53,7 @@ namespace Kean
 		}
 		public override bool Equals(object other)
 		{
-            return other is KeyValue<K, V> && this.Equals((KeyValue<K, V>)other);
+			return other is KeyValue<K, V> && this.Equals((KeyValue<K, V>)other);
 		}
 		#endregion
 		#region IEquatable<KeyValue<K, V>> Members

@@ -60,7 +60,12 @@ namespace Kean.Collection.Linked
 		public bool Remove(TKey key)
 		{
 			bool result = false;
-			this.Head = this.Head.Remove(item => result = item.Key.SameOrEquals(key));
+			this.Head = this.Head.Remove(item =>
+			{
+				bool r = item.Key.SameOrEquals(key);
+				result |= r;
+				return r;
+			});
 			return result;
 		}
 		#endregion

@@ -51,8 +51,9 @@ namespace Kean.Draw.OpenGL.Backend
 			get 
 			{
 				string result = "";
-				foreach (Management.ManagementObject share in new Management.ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration").Get())
-					result = (string)share.Properties["DriverVersion"].Value;
+				if (Kean.Environment.IsWindows)
+					foreach (Management.ManagementObject share in new Management.ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration").Get())
+						result = (string)share.Properties["DriverVersion"].Value;
 				return result;
 			}
 		}

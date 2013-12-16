@@ -26,13 +26,13 @@ namespace Kean.Tests
 		static void Main(string[] args)
 		{
 			Kean.Error.Log.CatchErrors = false;
-			DB.Sql.Test.Program.Run(args);
+			//DB.Sql.Test.Program.Run(args);
 			#region Draw
 			Draw.OpenGL.Test.All.Test();
 			Draw.Test.All.Test();
 			Draw.Raster.Test.All.Test();
 			Draw.Cairo.Test.All.Test();
-			//Draw.Vector.Test.All.Test();
+			Draw.Vector.Test.All.Test();
 			//Draw.Net.Test.All.Test();
 			//Draw.Jpeg.Test.All.Test();
 			#endregion
@@ -60,7 +60,7 @@ namespace Kean.Tests
 			Math.Geometry2D.Test.All.Test();
 			Math.Geometry3D.Test.All.Test();
 			Math.Matrix.Test.All.Test();
-			// Math.Random.Test.All.Test();
+			Math.Random.Test.All.Test();
 			Math.Regression.Test.All.Test();
 			#endregion
 			Console.WriteLine();

@@ -112,25 +112,25 @@ namespace Kean.Collection.Hash
 		public bool Equals(IDictionary<TKey, TValue> other)
 		{
 			bool result = other.NotNull();
-            int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
+			int count = this.data.Fold((list, c) => c + (list.NotNull() ? list.Count : 0), 0);
 			if (result)
 				foreach (KeyValue<TKey, TValue> pair in other)
-                    if (!(result = count-- == 0 || this[pair.Key].Equals(pair.Value)))
+					if (!(result = count-- == 0 || this[pair.Key].Equals(pair.Value)))
 						break;
 
 			return result && count == 0;
 		}
 		#endregion
-        #region Comparison Operators
-        public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
-        {
-            return left.SameOrEquals(right);
-        }
-        public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
-        {
-            return !(left == right);
-        }
-        #endregion
+		#region Comparison Operators
+		public static bool operator ==(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+		{
+			return left.SameOrEquals(right);
+		}
+		public static bool operator !=(Dictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+		{
+			return !(left == right);
+		}
+		#endregion
 	}
 }
 

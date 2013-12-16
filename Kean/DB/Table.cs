@@ -35,7 +35,7 @@ using Kean.Serialize.Extension;
 namespace Kean.DB
 {
 	public abstract class Table<T> :
-        ITable<T>
+		ITable<T>
 		where T : Item<T>, new()
 	{
 		public string Name { get; private set; }

@@ -31,7 +31,7 @@ namespace Kean.Serialize.Serializer
 	{
 		public Array()
 		{ }
-		protected override bool Found(Reflect.Type type)
+		protected override bool Found(Reflect.Type type, bool deserialize)
 		{
 			return type.Category == Reflect.TypeCategory.Array;
 		}

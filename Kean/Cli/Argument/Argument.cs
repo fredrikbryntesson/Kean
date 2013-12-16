@@ -22,12 +22,12 @@ using System;
 
 namespace Kean.Cli.Argument
 {
-    internal class Argument
-    {
-        public string Long { get; set; }
-        public char? Short { get; set; }
-        public int Parameters { get; set; }
-        public string Help { get; set; }
-        public Action<string[]> Handler { get; set; }
-    }
+	internal class Argument
+	{
+		public string Long { get; set; }
+		public char? Short { get; set; }
+		public int Parameters { get; set; }
+		public string Help { get; set; }
+		public Action<string[]> Handler { get; set; }
+	}
 }

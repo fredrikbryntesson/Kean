@@ -28,7 +28,7 @@ namespace Kean.Serialize.Serializer
 		public SignedByte()
 		{ }
 		#region ISerializer Members
-		public ISerializer Find(Reflect.Type type)
+		public ISerializer Find(Reflect.Type type, bool deserialize)
 		{
 			return type == "sbyte" ? this : null;
 		}

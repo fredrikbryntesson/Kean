@@ -23,13 +23,13 @@ using System;
 
 namespace Kean.Collection
 {
-    public interface ISet<T> :
+	public interface ISet<T> :
 		System.Collections.Generic.IEnumerable<T>,
 		System.IEquatable<ISet<T>>
-    {
-        int Count { get; }
-        bool Add(T item);
-        bool Remove(T item);
-        bool Contains(T item);
-    }
+	{
+		int Count { get; }
+		bool Add(T item);
+		bool Remove(T item);
+		bool Contains(T item);
+	}
 }

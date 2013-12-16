@@ -25,6 +25,7 @@ using Kean.Extension;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
+
 namespace Kean.IO
 {
 	public class BufferByteInDevice :

@@ -22,18 +22,18 @@ using System;
 using Serialize = Kean.Serialize;
 namespace Kean.DB
 {
-    [System.AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-    public class TableAttribute :
+	[System.AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+	public class TableAttribute :
 		Attribute
-    {
-        public string Name { get; set; }
-        public TableAttribute()
-        {
-        }
-        public TableAttribute(string name)
-        {
-            this.Name = name;
-        }
-    }
+	{
+		public string Name { get; set; }
+		public TableAttribute()
+		{
+		}
+		public TableAttribute(string name)
+		{
+			this.Name = name;
+		}
+	}
 }
 

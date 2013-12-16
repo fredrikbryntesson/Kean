@@ -48,8 +48,8 @@ namespace Kean.Html.Dom.Test
 		}
 		protected void Verify(Document document)
 		{
-			document.Save(this.CurrentTestStep + ".html");
-			VerifyAsResource(this.CurrentTestStep + ".html", "/Html/Correct/" + this.CurrentTestStep + ".html", "Failed saving: " + this.CurrentTestStep + ".html");
+			document.Save(Uri.Locator.FromPlatformPath(System.Environment.CurrentDirectory + "/Html/" + this.CurrentTestStep + ".html"));
+			VerifyAsResource(System.Environment.CurrentDirectory + "/Html/" + this.CurrentTestStep + ".html", "/Html/Correct/" + this.CurrentTestStep + ".html", "Failed saving: " + this.CurrentTestStep + ".html");
 		}
 		[Test]
 		public void Paragraph()
@@ -290,7 +290,7 @@ namespace Kean.Html.Dom.Test
 		[Test]
 		public void BidirectionalOverride()
 		{
-			this.Verify(new Document(new Head("", new BidirectionalOverride("This text will go right-to-left.") { Direction = "rtl" }), null));
+			this.Verify(new Document(new Head("", new BidirectionalOverride("This text will go right-to-left.") { Direction = "rtl" }), new Body()));
 		}
 	}
 }

@@ -37,9 +37,9 @@ namespace Kean.Serialize.Serializer
 		{
 			return type.Name == "System.Collections.Generic.IEnumerable" ? (System.Type)type : ((System.Type)type).GetInterface(typeof(System.Collections.Generic.IEnumerable<>).Name);
 		}
-		protected override bool Found(Reflect.Type type)
+		protected override bool Found(Reflect.Type type, bool deserialize)
 		{
-			return this.GetInterface(type).NotNull();
+			return !deserialize && this.GetInterface(type).NotNull();
 		}
 		protected override Reflect.Type GetElementType(Reflect.Type type)
 		{

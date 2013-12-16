@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Buffer = Kean.Buffer;
 using Collection = Kean.Collection;
@@ -336,7 +337,10 @@ namespace Kean.Draw.Raster
 		{
 			return Image.Open (filename).As<T> ();
 		}
-
+		public static Image Open (IO.IByteInDevice device)
+		{
+			return Image.Open(IO.Wrap.ByteStream.Open(device));
+		}
 		public static Image Open (System.IO.Stream stream)
 		{
 			Image result;
