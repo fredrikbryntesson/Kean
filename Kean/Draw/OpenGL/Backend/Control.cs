@@ -119,6 +119,18 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract ThreadPool CreateThreadPool(string name, int workers);
 		protected abstract void SetupViewport();
 		protected abstract void Clear();
+		public Draw.Image Read()
+		{
+			Draw.Image result;
+			Renderer renderer = this.CreateRenderer();
+			using (Surface surface = new Surface(renderer))
+			{
+				surface.Use();
+				result = surface.Read();
+				surface.Unuse();
+			}
+			return result;
+		}
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);

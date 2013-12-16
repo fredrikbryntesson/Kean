@@ -166,7 +166,42 @@ namespace Kean.Parallel
 				throw new Exception.ThreadPoolDisposed(e);
 			}
 		}
-
+		#region Process
+		public T Process<T>(Func<T> process)
+		{
+			T result = default(T);
+			if (System.Threading.Thread.CurrentThread.Name.NotNull() && System.Threading.Thread.CurrentThread.Name.StartsWith(this.Name))
+				result = process();
+			else
+			{
+				System.Threading.AutoResetEvent wait = new System.Threading.AutoResetEvent(false);
+				this.Enqueue(() =>
+				{
+					result = process();
+					wait.Set();
+				});
+				wait.WaitOne();
+			}
+			return result;
+		}
+		public TOut Process<TIn, TOut>(Func<TIn, TOut> process, TIn argument)
+		{
+			TOut result = default(TOut);
+			if (System.Threading.Thread.CurrentThread.Name.NotNull() && System.Threading.Thread.CurrentThread.Name.StartsWith(this.Name))
+				result = process(argument);
+			else
+			{
+				System.Threading.AutoResetEvent wait = new System.Threading.AutoResetEvent(false);
+				this.Enqueue(m =>
+				{
+					result = process(m);
+					wait.Set();
+				}, argument);
+				wait.WaitOne();
+			}
+			return result;
+		}
+		#endregion
 		internal ITask Dequeue()
 		{
 			lock (this.tasks)

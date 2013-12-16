@@ -133,6 +133,10 @@ namespace Kean.Draw.OpenGL
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		public Draw.Image Read()
+		{
+			return this.backend.Read();
+		}
 		public void Initialize()
 		{
 			if (!this.DesignMode)
