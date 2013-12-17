@@ -32,7 +32,7 @@ namespace Kean.IO
 	{
 		byte? peeked;
 		System.IO.Stream stream;
-		public bool CatchStop { get; set; }
+		public bool CatchClose { get; set; }
 
 		#region Constructors
 
@@ -50,19 +50,27 @@ namespace Kean.IO
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 
 		#endregion
-
+		byte[] buffer = new byte[64 * 1024];
+		int bufferEnd;
+		int bufferStart;
 		byte? RawRead()
 		{
-			byte? result;
-			try
+			if (this.bufferStart >= this.bufferEnd && this.stream.NotNull())
 			{
-				result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte());
+				try
+				{
+					this.bufferEnd = this.stream.Read(this.buffer, 0, buffer.Length);
+				}
+				catch (ObjectDisposedException)
+				{
+					this.bufferEnd = 0;
+				}
+				finally
+				{
+					this.bufferStart = 0;
+				}
 			}
-			catch (ObjectDisposedException)
-			{
-				result = null;
-			}
-			return result;
+			return this.bufferStart == this.bufferEnd ? null : (byte?)this.buffer[this.bufferStart++];
 		}
 		byte? Convert(int value)
 		{
@@ -115,7 +123,7 @@ namespace Kean.IO
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.stream.NotNull() && !this.CatchStop)
+			if (result = this.stream.NotNull() && !this.CatchClose)
 			{
 				this.stream.Close();
 				this.stream = null;
@@ -206,7 +214,7 @@ namespace Kean.IO
 		#region Wrap
 		public static IByteDevice Wrap(System.IO.Stream stream)
 		{
-			return stream.NotNull() ? new ByteDevice(stream) { CatchStop = true } : null;
+			return stream.NotNull() ? new ByteDevice(stream) { CatchClose = true } : null;
 		}
 		#endregion
 		#endregion

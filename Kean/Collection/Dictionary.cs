@@ -43,7 +43,8 @@ namespace Kean.Collection
 			this()
 		{
 			foreach (KeyValue<TKey, TValue> item in data)
-				this[item.Key] = item.Value;
+				if (item.Key.NotNull() && item.Value.NotNull())
+					this[item.Key] = item.Value;
 		}
 		public Dictionary(params KeyValue<TKey, TValue>[] data) :
 			this((System.Collections.Generic.IEnumerable<KeyValue<TKey, TValue>>)data)

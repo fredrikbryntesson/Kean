@@ -26,6 +26,7 @@ using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 using Error = Kean.Error;
+using Kean.IO.Extension;
 
 namespace Kean.IO
 {
@@ -46,27 +47,7 @@ namespace Kean.IO
 		#endregion
 		void FillQueue()
 		{
-			Collection.IList<byte> buffer = new Collection.List<byte>();
-			byte? next;
-			while (this.queue.Empty && (next = this.backend.Read()).HasValue)
-			{
-				buffer.Add(next.Value);
-				if (next == 0xef && (next = this.backend.Read()).HasValue)
-				{
-					buffer.Add(next.Value);
-					if (next == 0xbb && (next = this.backend.Read()).HasValue)
-					{
-						buffer.Add(next.Value);
-						if (next == 0xbf)
-						{
-							buffer.Remove();
-							buffer.Remove();
-							buffer.Remove();
-						}
-					}
-				}
-				this.queue.Enqueue(this.encoding.GetChars(buffer.ToArray()));
-			}
+			this.queue.Enqueue(this.backend.AsEnumerable().Decode(this.encoding));
 		}
 		#region ICharacterInDevice Members
 		public char? Peek()
