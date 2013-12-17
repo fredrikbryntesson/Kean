@@ -71,5 +71,9 @@ namespace Kean.Draw.Vector
 		{
 			throw new System.NotImplementedException();
 		}
+		public override T Read<T>()
+		{
+			return null;
+		}
 	}
 }

@@ -45,7 +45,7 @@ namespace Kean.Draw.OpenGL
 		internal Canvas(Planar image, params Packed[] channels) :
 			this(image, channels[0].Backend.Composition)
 		{ }
-		public Raster.Image Read()
+		public Draw.Image Read()
 		{
 			return this.Read(new Geometry2D.Integer.Box(new Geometry2D.Integer.Point(), this.Size));
 		}

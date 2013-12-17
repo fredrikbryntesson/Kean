@@ -214,6 +214,10 @@ namespace Kean.Draw.Cairo
 		}
 		#endregion
 		#endregion
+		public override T Read<T>()
+		{
+			return null;
+		}
 		public override void Dispose()
 		{
 			base.Dispose();

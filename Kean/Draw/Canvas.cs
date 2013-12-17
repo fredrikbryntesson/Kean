@@ -142,6 +142,10 @@ namespace Kean.Draw
 			return this.surface.Finish();
 		}
 		#endregion
+		public override T Read<T>()
+		{
+			return this.Image.Convert<T>();
+		}
 		#endregion
 		public override void Dispose()
 		{

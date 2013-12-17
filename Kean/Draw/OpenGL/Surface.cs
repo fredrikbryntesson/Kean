@@ -156,6 +156,13 @@ namespace Kean.Draw.OpenGL
 			return this.renderer.Finish() && base.Finish();
 		}
 		#endregion
+		#region Read
+		public override T Read<T>()
+		{
+			// TODO: add more effective when we need a OpenGL image.
+			return this.Read().Convert<T>();
+		}
+		#endregion
 		#endregion
 	}
 }

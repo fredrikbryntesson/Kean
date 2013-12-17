@@ -199,6 +199,14 @@ namespace Kean.Draw
 		public abstract void Clear(Geometry2D.Single.Box region);
 		#endregion
 		#endregion
+		#region Read
+		/// <summary>
+		/// Returns a copy of the contents of the surface.
+		/// </summary>
+		/// <typeparam name="T">Type of the returned data.</typeparam>
+		/// <returns>A copy of the contents of the surface converted to T. Null if it was impossible to fulfill the request.</returns>
+		public abstract T Read<T>() where T : Draw.Image;
+		#endregion
 		public virtual void Flush()
 		{
 		}
