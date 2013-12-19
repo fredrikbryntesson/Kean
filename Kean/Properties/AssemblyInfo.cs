@@ -36,6 +36,7 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 [assembly: AssemblyVersion("0.2.*")]
+//[assembly: AssemblyVersion("0.0.0.0")]
 //[assembly: AssemblyInformationalVersion("0.2.*")]
 //[assembly: AssemblyFileVersion("")]
 // The following attributes are used to specify the signing key for the assembly,
