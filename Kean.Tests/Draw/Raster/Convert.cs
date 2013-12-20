@@ -88,8 +88,8 @@ namespace Kean.Draw.Raster.Test
 			{
 				using (Raster.Image original = Raster.Image.OpenResource("Draw/Raster/Correct/Convert/original.png"))
 				{
-					original.Save("original.png");
-					original.Save("original.bmp");
+					original.Save(Uri.Locator.FromRelativePlatformPath("original.png"));
+					original.Save(Uri.Locator.FromRelativePlatformPath("original.bmp"));
 					using (Raster.Image opened = Raster.Image.Open("original.png"))
 						Verify(opened, original);
 					using (Raster.Image opened = Raster.Image.Open("original.bmp"))

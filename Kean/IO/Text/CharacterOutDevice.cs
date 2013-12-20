@@ -48,7 +48,17 @@ namespace Kean.IO.Text
 		}
 
 		#endregion
-
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return true; }
+			set { ; }
+		}
+		public bool Flush()
+		{
+			return false;
+		}
+		#endregion
 		#region IDevice Members
 
 		public Uri.Locator Resource

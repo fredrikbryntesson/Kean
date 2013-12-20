@@ -48,6 +48,17 @@ namespace Kean.IO.Wrap
 		#region IInDevice Implementation
 		public virtual bool Empty { get { return this.backend.IsNull() || this.backend.Empty; } }
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return this.backend.AutoFlush; }
+			set { this.backend.AutoFlush = value; }
+		}
+		public bool Flush()
+		{
+			return this.backend.Flush();
+		}
+		#endregion
 		#region IDevice Implementation
 		public virtual Uri.Locator Resource { get { return this.backend.NotNull() ? this.backend.Resource : null; } }
 		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }

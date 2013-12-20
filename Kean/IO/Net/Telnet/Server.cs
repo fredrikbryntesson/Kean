@@ -48,6 +48,7 @@ namespace Kean.IO.Net.Telnet
 		public Server(IByteDevice backend)
 		{
 			this.backend = backend;
+			this.AutoFlush = true;
 		}
 		~Server()
 		{
@@ -191,6 +192,17 @@ namespace Kean.IO.Net.Telnet
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { throw new System.NotImplementedException(); } }
+		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return this.backend.AutoFlush; }
+			set { this.backend.AutoFlush = value; }
+		}
+		public bool Flush()
+		{
+			return this.backend.Flush();
+		}
 		#endregion
 		#region IByteDevice Members
 		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }

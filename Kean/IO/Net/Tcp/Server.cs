@@ -35,7 +35,7 @@ namespace Kean.IO.Net.Tcp
 		IDisposable
 	{
 		Collection.IList<Tcp.Connection> activeConnections = new Collection.Synchronized.List<Connection>();
-		public Action<IByteDevice> Connected { get; set; }
+		public Action<Tcp.Connection> Connected { get; set; }
 		public Uri.Endpoint Endpoint { get; private set; }
 		public bool Running
 		{
@@ -49,7 +49,7 @@ namespace Kean.IO.Net.Tcp
 		public Server(string name) :
 			this(new Kean.Parallel.ThreadPool(name, 1) { MaximumThreadCount = -1 })
 		{ }
-		public Server(Action<IByteDevice> connected) :
+		public Server(Action<Connection> connected) :
 			this()
 		{
 			this.Connected = connected;
@@ -80,9 +80,10 @@ namespace Kean.IO.Net.Tcp
 		void OnConnect(Tcp.Connection connection)
 		{
 			this.activeConnections.Add(connection);
+			connection.Closed += () => this.activeConnections.Remove(c => connection == c);
 			this.Connected(connection);
-			connection.Close();
-			this.activeConnections.Remove(c => connection == c);
+			if (connection.AutoClose)
+				connection.Close();
 		}
 		public bool Start(Uri.Endpoint endPoint)
 		{

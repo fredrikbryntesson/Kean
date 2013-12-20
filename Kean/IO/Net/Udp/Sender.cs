@@ -55,6 +55,17 @@ namespace Kean.IO.Net.Udp
 			return result;
 		}
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return true; }
+			set { ; }
+		}
+		public bool Flush()
+		{
+			return false;
+		}
+		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get; private set; }
 		public bool Opened { get { return this.backend.NotNull(); } }

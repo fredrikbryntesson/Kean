@@ -23,14 +23,6 @@ namespace Kean.IO.Text
 			this.timer.Enabled = true;
 			this.timer.Start();
 		}
-		void Flush()
-		{
-			Collection.List<char> accumulator = new Collection.List<char>();
-			while (!this.queue.Empty)
-				foreach (char c in this.queue.Dequeue())
-					accumulator.Add(c);
-			System.Diagnostics.Debug.Write(new string(accumulator.ToArray()));
-		}
 		public override bool Close()
 		{
 			bool result;
@@ -46,6 +38,16 @@ namespace Kean.IO.Text
 		public override bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			this.queue.Enqueue(buffer);
+			return true;
+		}
+		public override bool AutoFlush { get { return false; } set { ; } }
+		public override bool Flush()
+		{
+			Collection.List<char> accumulator = new Collection.List<char>();
+			while (!this.queue.Empty)
+				foreach (char c in this.queue.Dequeue())
+					accumulator.Add(c);
+			System.Diagnostics.Debug.Write(new string(accumulator.ToArray()));
 			return true;
 		}
 		public static WriteBuffer Create()

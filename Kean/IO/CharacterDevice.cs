@@ -35,6 +35,7 @@ namespace Kean.IO
 		IByteDevice backend;
 		Decoder decoder;
 		System.Text.Encoding encoding;
+		public bool Wrapped { get; set; }
 
 		#region Constructors
 		CharacterDevice(IByteDevice backend, System.Text.Encoding encoding)
@@ -71,13 +72,24 @@ namespace Kean.IO
 		#region IInDevice Members
 		public bool Empty { get { return this.decoder.NotNull() && this.decoder.Empty; } }
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return this.backend.AutoFlush; }
+			set { this.backend.AutoFlush = value; }
+		}
+		public bool Flush()
+		{
+			return this.backend.Flush();
+		}
+		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public virtual bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.backend.NotNull() && this.backend.Close() && this.decoder.Close())
+			if (result = this.backend.NotNull() && (this.Wrapped || this.backend.Close() && this.decoder.Close()))
 			{
 				this.backend = null;
 				this.decoder = null;
@@ -91,7 +103,7 @@ namespace Kean.IO
 			this.Close();
 		}
 		#endregion
-		#region Static Open & Create
+		#region Static Open, Wrap & Create
 		public static ICharacterDevice Open(System.IO.Stream stream) { return CharacterDevice.Open(ByteDevice.Open(stream)); }
 		public static ICharacterDevice Open(IByteDevice backend) { return CharacterDevice.Open(backend, System.Text.Encoding.UTF8); }
 		public static ICharacterDevice Open(IByteDevice backend, System.Text.Encoding encoding)
@@ -101,6 +113,11 @@ namespace Kean.IO
 		public static ICharacterDevice Open(Uri.Locator resource)
 		{
 			return CharacterDevice.Open(ByteDevice.Open(resource));
+		}
+		public static ICharacterDevice Wrap(IByteDevice backend) { return CharacterDevice.Wrap(backend, System.Text.Encoding.UTF8); }
+		public static ICharacterDevice Wrap(IByteDevice backend, System.Text.Encoding encoding)
+		{
+			return backend.NotNull() ? new CharacterDevice(backend, encoding) { Wrapped = true } : null;
 		}
 		public static ICharacterDevice Create(Uri.Locator resource)
 		{

@@ -25,6 +25,8 @@ using Kean.Extension;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
+using Generic = System.Collections.Generic;
+
 namespace Kean.IO
 {
 	public class ByteDevice :
@@ -32,7 +34,7 @@ namespace Kean.IO
 	{
 		byte? peeked;
 		System.IO.Stream stream;
-		public bool CatchClose { get; set; }
+		public bool Wrapped { get; set; }
 
 		#region Constructors
 
@@ -50,31 +52,27 @@ namespace Kean.IO
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 
 		#endregion
-		byte[] buffer = new byte[64 * 1024];
-		int bufferEnd;
-		int bufferStart;
+		byte[] inBuffer = new byte[64 * 1024];
+		int inBufferEnd;
+		int inBufferStart;
 		byte? RawRead()
 		{
-			if (this.bufferStart >= this.bufferEnd && this.stream.NotNull())
+			if (this.inBufferStart >= this.inBufferEnd && this.stream.NotNull())
 			{
 				try
 				{
-					this.bufferEnd = this.stream.Read(this.buffer, 0, buffer.Length);
+					this.inBufferEnd = this.stream.Read(this.inBuffer, 0, inBuffer.Length);
 				}
 				catch (ObjectDisposedException)
 				{
-					this.bufferEnd = 0;
+					this.inBufferEnd = 0;
 				}
 				finally
 				{
-					this.bufferStart = 0;
+					this.inBufferStart = 0;
 				}
 			}
-			return this.bufferStart == this.bufferEnd ? null : (byte?)this.buffer[this.bufferStart++];
-		}
-		byte? Convert(int value)
-		{
-			return value < 0 ? null : (byte?)value;
+			return this.inBufferStart == this.inBufferEnd ? null : (byte?)this.inBuffer[this.inBufferStart++];
 		}
 		#region IByteInDevice Members
 		public byte? Peek()
@@ -95,17 +93,17 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IByteOutDevice Members
-		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
+		object outBufferLock = new object();
+		Collection.Array.List<byte> outBuffer = new Collection.Array.List<byte>();
+		public bool Write(Generic.IEnumerable<byte> buffer)
 		{
 			bool result = true;
 			try
 			{
-				Collection.IList<byte> list = new Collection.List<byte>();
-				foreach (byte b in buffer)
-					list.Add(b);
-				byte[] array = list.ToArray();
-				this.stream.Write(array, 0, array.Length);
-				this.stream.Flush();
+				lock (this.outBufferLock)
+					this.outBuffer.Add(buffer);
+				if (this.AutoFlush)
+					this.Flush();
 			}
 			catch (System.Exception)
 			{
@@ -117,15 +115,38 @@ namespace Kean.IO
 		#region IInDevice Members
 		public bool Empty { get { return !this.Peek().HasValue; } }
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush { get; set; }
+		public bool Flush()
+		{
+			byte[] array;
+			int count;
+			lock (this.outBufferLock)
+			{
+				array = (byte[])this.outBuffer;
+				count = this.outBuffer.Count;
+				this.outBuffer = new Collection.Array.List<byte>(this.outBuffer.Capacity);
+			}
+			bool result;
+			if (result = count > 0)
+			{
+				this.stream.Write(array, 0, count);
+				this.stream.Flush();
+			}
+			return result;
+		}
+		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get; private set; }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
 		public virtual bool Close()
 		{
 			bool result;
-			if (result = this.stream.NotNull() && !this.CatchClose)
+			if (result = this.stream.NotNull())
 			{
-				this.stream.Close();
+				this.Flush();
+				if (!this.Wrapped)
+					this.stream.Close();
 				this.stream = null;
 			}
 			return result;
@@ -214,7 +235,7 @@ namespace Kean.IO
 		#region Wrap
 		public static IByteDevice Wrap(System.IO.Stream stream)
 		{
-			return stream.NotNull() ? new ByteDevice(stream) { CatchClose = true } : null;
+			return stream.NotNull() ? new ByteDevice(stream) { Wrapped = true } : null;
 		}
 		#endregion
 		#endregion

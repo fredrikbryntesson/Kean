@@ -25,6 +25,7 @@ using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 using Error = Kean.Error;
+using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Abstract
 {
@@ -69,10 +70,10 @@ namespace Kean.IO.Abstract
 		{
 			return this.Write(string.Format(format, arguments));
 		}
-		public abstract bool Write(System.Collections.Generic.IEnumerable<char> buffer);
+		public abstract bool Write(Generic.IEnumerable<char> buffer);
 		public virtual bool WriteLine()
 		{
-			return this.Write(this.NewLine);
+			return this.Write('\n'); // The newline characters are converted by bool Write(Generic.IEnumerable<char> buffer)
 		}
 		public virtual bool WriteLine(params char[] buffer)
 		{
@@ -80,7 +81,7 @@ namespace Kean.IO.Abstract
 		}
 		public virtual bool WriteLine(string value)
 		{
-			return this.Write(new System.Text.StringBuilder(value).Append(this.NewLine).ToString());
+			return this.Write(new System.Text.StringBuilder(value).Append('\n').ToString()); // The newline characters are converted by bool Write(Generic.IEnumerable<char> buffer)
 		}
 		public bool WriteLine<T>(T value) where T : IConvertible
 		{
@@ -93,6 +94,13 @@ namespace Kean.IO.Abstract
 		public bool WriteLine(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer) && this.WriteLine();
+		}
+		#endregion
+		#region IOutDevice Members
+		public virtual bool AutoFlush { get; set; }
+		public virtual bool Flush()
+		{
+			return !this.AutoFlush;
 		}
 		#endregion
 	}

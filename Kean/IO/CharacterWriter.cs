@@ -49,10 +49,19 @@ namespace Kean.IO
 			return result;
 		}
 
-		#region implemented abstract members of Kean.IO.Abstract.CharacterWriter
+		#region implemented abstract and virtual members of Kean.IO.Abstract.CharacterWriter
 		public override bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			return this.backend.Write(new Collection.Enumerable<char>(() => new NewLineConverter(buffer.GetEnumerator(), this.NewLine)));
+		}
+		public override bool AutoFlush
+		{
+			get { return this.backend.AutoFlush; }
+			set { this.backend.AutoFlush = value; }
+		}
+		public override bool Flush()
+		{
+			return this.backend.Flush();
 		}
 		#endregion
 		#region NewLineConverter Class

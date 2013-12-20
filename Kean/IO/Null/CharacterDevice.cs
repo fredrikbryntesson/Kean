@@ -60,6 +60,13 @@ namespace Kean.IO.Null
 		#region IInDevice Members
 		public bool Empty { get { return true; } }
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush { get; set; }
+		public bool Flush()
+		{
+			return !this.AutoFlush;
+		}
+		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return "null://"; } }
 		public bool Opened { get { return true; } }

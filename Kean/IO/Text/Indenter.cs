@@ -49,11 +49,11 @@ namespace Kean.IO.Text
 		{
 			return (this.indention = this.indention.Substring(1)).NotNull();
 		}
-        bool WriteIndent()
-        {
-            return !this.Format || this.lineIndented || (this.lineIndented = this.backend.Write(this.indention));
-        }
-		#region implemented abstract members of Kean.IO.Abstract.CharacterWriter
+		bool WriteIndent()
+		{
+			return !this.Format || this.lineIndented || (this.lineIndented = this.backend.Write(this.indention));
+		}
+		#region implemented abstract and virtual members of Kean.IO.Abstract.CharacterWriter
 		public override Uri.Locator Resource { get { return this.backend.NotNull() ? this.backend.Resource : null; } }
 		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public override bool Close ()
@@ -77,7 +77,16 @@ namespace Kean.IO.Text
 		}
 		public override bool WriteLine(string value)
 		{
-            return this.WriteIndent() && !(this.lineIndented = !(this.Format ? this.backend.WriteLine(value) : this.backend.Write(value)));
+			return this.WriteIndent() && !(this.lineIndented = !(this.Format ? this.backend.WriteLine(value) : this.backend.Write(value)));
+		}
+		public override bool AutoFlush
+		{
+			get { return this.backend.AutoFlush; }
+			set { this.backend.AutoFlush = value; }
+		}
+		public override bool Flush()
+		{
+			return this.backend.Flush();
 		}
 		#endregion
 	}

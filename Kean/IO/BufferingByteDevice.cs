@@ -26,6 +26,7 @@ using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 using Monitor = System.Threading.Monitor;
+using Generic = System.Collections.Generic;
 
 namespace Kean.IO
 {
@@ -34,13 +35,13 @@ namespace Kean.IO
 	{
 		object queueLock = new object();
 		object writeLock = new object();
-		Collection.Queue<System.Collections.Generic.IEnumerable<byte>> queue = new Collection.Queue<System.Collections.Generic.IEnumerable<byte>>();
+		Collection.Queue<Generic.IEnumerable<byte>> queue = new Collection.Queue<Generic.IEnumerable<byte>>();
 
 		BufferingByteDevice(IByteDevice backend) :
 			base(backend)
 		{ }
 
-		public override bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
+		public override bool Write(Generic.IEnumerable<byte> buffer)
 		{
 			bool result;
 			lock (this.queueLock)
@@ -53,7 +54,7 @@ namespace Kean.IO
 						Monitor.Enter(this.queueLock);
 						if (!this.queue.Empty)
 						{
-							System.Collections.Generic.IEnumerable<byte> accumulator = this.queue.Dequeue();
+							Generic.IEnumerable<byte> accumulator = this.queue.Dequeue();
 							while (!this.queue.Empty)
 								accumulator.Append(this.queue.Dequeue());
 							base.Write(accumulator);

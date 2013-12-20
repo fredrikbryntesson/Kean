@@ -1,10 +1,10 @@
 ﻿//
-//  ByteDeviceCombiner.cs
+//  BlockDeviceCombiner.cs
 //
 //  Author:
 //       Simon Mika <smika@hx.se>
 //
-//  Copyright (c) 2012 Simon Mika
+//  Copyright (c) 2012-2013 Simon Mika
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -27,19 +27,19 @@ using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 namespace Kean.IO
 {
-	public class ByteDeviceCombiner :
-		IByteDevice
+	public class BlockDeviceCombiner :
+		IBlockDevice
 	{
-		IByteInDevice inDevice;
-		IByteOutDevice outDevice;
+		IBlockInDevice inDevice;
+		IBlockOutDevice outDevice;
 		public bool Wrapped { get; set; }
 		#region Constructors
 
-		protected ByteDeviceCombiner(IByteInDevice inDevice) :
+		protected BlockDeviceCombiner(IBlockInDevice inDevice) :
 			this(inDevice, null)
 		{
 		}
-		protected ByteDeviceCombiner(IByteInDevice inDevice, IByteOutDevice outDevice)
+		protected BlockDeviceCombiner(IBlockInDevice inDevice, IBlockOutDevice outDevice)
 		{
 			this.inDevice = inDevice;
 			this.outDevice = outDevice;
@@ -47,39 +47,32 @@ namespace Kean.IO
 
 		#endregion
 
-		#region IByteDevice Members
-
+		#region IBlockDevice Members
 		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
 		public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
-
 		#endregion
 
-		#region IByteInDevice Members
-
-		public byte? Peek()
+		#region IBlockInDevice Members
+		public Collection.IVector<byte> Peek()
 		{
-			return this.inDevice.NotNull() ? this.inDevice.Peek() : null;
-		}
-		public byte? Read()
-		{
-			return this.inDevice.NotNull() ? this.inDevice.Read() : null;
+			return this.inDevice.Peek();
 		}
 
+		public Collection.IVector<byte> Read()
+		{
+			return this.inDevice.Read();
+		}
 		#endregion
 
-		#region IByteOutDevice Members
-
-		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
+		#region IBlockOutDevice Members
+		public bool Write(Collection.IVector<byte> buffer)
 		{
 			return this.outDevice.NotNull() && this.outDevice.Write(buffer);
 		}
-
 		#endregion
 
 		#region IInDevice Members
-
 		public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
-
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush
@@ -93,7 +86,6 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IDevice Members
-
 		public Uri.Locator Resource { get { return this.inDevice.Resource; } }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
 		public virtual bool Close()
@@ -112,51 +104,48 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
 
 		#region IDisposable Members
-
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
-
 		#endregion
 
 		#region Static Open & Wrapped
-
-		public static IByteDevice Open(IByteInDevice inDevice)
+		#region Open
+		public static IBlockDevice Open(IBlockInDevice inDevice)
 		{
-			return ByteDeviceCombiner.Open(inDevice, null);
+			return BlockDeviceCombiner.Open(inDevice, null);
 		}
-		public static IByteDevice Open(IByteOutDevice outDevice)
+		public static IBlockDevice Open(IBlockOutDevice outDevice)
 		{
-			return ByteDeviceCombiner.Open(null, outDevice);
+			return BlockDeviceCombiner.Open(null, outDevice);
 		}
-		public static IByteDevice Open(IByteInDevice inDevice, IByteOutDevice outDevice)
+		public static IBlockDevice Open(IBlockInDevice inDevice, IBlockOutDevice outDevice)
 		{
-			return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceCombiner(inDevice, outDevice) : null;
+			return inDevice.NotNull() || outDevice.NotNull() ? new BlockDeviceCombiner(inDevice, outDevice) : null;
 		}
-		public static IByteDevice Open(System.IO.Stream input, System.IO.Stream output)
+		public static IBlockDevice Open(System.IO.Stream input, System.IO.Stream output)
 		{
-			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Open(output));
+			return BlockDeviceCombiner.Open(BlockDevice.Open(input), BlockDevice.Open(output));
 		}
-
-		public static IByteDevice Wrap(IByteInDevice inDevice)
-		{
-			return ByteDeviceCombiner.Wrap(inDevice, null);
-		}
-		public static IByteDevice Wrap(IByteOutDevice outDevice)
-		{
-			return ByteDeviceCombiner.Wrap(null, outDevice);
-		}
-		public static IByteDevice Wrap(IByteInDevice inDevice, IByteOutDevice outDevice)
-		{
-			return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceCombiner(inDevice, outDevice) { Wrapped = true } : null;
-		}
-
 		#endregion
-
+		#region Wrap
+		public static IBlockDevice Wrap(IBlockInDevice inDevice)
+		{
+			return BlockDeviceCombiner.Wrap(inDevice, null);
+		}
+		public static IBlockDevice Wrap(IBlockOutDevice outDevice)
+		{
+			return BlockDeviceCombiner.Wrap(null, outDevice);
+		}
+		public static IBlockDevice Wrap(IBlockInDevice inDevice, IBlockOutDevice outDevice)
+		{
+			return inDevice.NotNull() || outDevice.NotNull() ? new BlockDeviceCombiner(inDevice, outDevice) { Wrapped = true } : null;
+		}
+		#endregion
+		#endregion
 	}
 }

@@ -30,6 +30,8 @@ namespace Kean.IO.Net.Tcp
 		ByteDevice
 	{
 		System.Net.Sockets.TcpClient client;
+		public event Action Closed;
+		public bool AutoClose { get; set; }
 		public override bool Opened { get { return this.client.NotNull() && base.Opened; } }
 		#region Constructors
 		Connection(System.Net.Sockets.TcpClient client) :
@@ -40,7 +42,8 @@ namespace Kean.IO.Net.Tcp
 		}
 		Connection(System.Net.Sockets.NetworkStream stream) :
 			base(stream)
-		{ 
+		{
+			this.AutoClose = true;
 		}
 		#endregion
 		public override bool Close()
@@ -50,6 +53,7 @@ namespace Kean.IO.Net.Tcp
 			{
 				this.client.Close();
 				this.client = null;
+				this.Closed.Call();
 			}
 			return result;
 		}

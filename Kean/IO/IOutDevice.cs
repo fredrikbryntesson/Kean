@@ -26,5 +26,7 @@ namespace Kean.IO
 	public interface IOutDevice :
 		IDevice
 	{
+		bool AutoFlush { get; set; }
+		bool Flush();
 	}
 }

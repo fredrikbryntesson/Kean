@@ -83,7 +83,7 @@ namespace Kean.Collection.Extension
 			return result;
 		}
 		public static S Find<T, S>(this IVector<T> me, Func<T, S> function)
-            where S : class
+			where S : class
 		{
 			S result = default(S);
 			foreach (T element in me)
@@ -130,13 +130,17 @@ namespace Kean.Collection.Extension
 		{
 			return new Slice<T>(me, offset, count);
 		}
-		public static Merge<T> Merge<T>(this IVector<T> me, IVector<T> other)
+		public static IVector<T> Merge<T>(this IVector<T> me, IVector<T> other)
 		{
-			return new Merge<T>(me, other);
+			return me.IsNull() ? other :
+				other.IsNull() ? me :
+				new Merge<T>(me, other);
 		}
-		public static Merge<T> Merge<T>(this IVector<T> me, T[] other)
+		public static IVector<T> Merge<T>(this IVector<T> me, T[] other)
 		{
-			return new Merge<T>(me, (Vector<T>)other);
+			return me.IsNull() ? (Vector<T>)other :
+				other.IsNull() ? me : 
+				new Merge<T>(me, (Vector<T>)other);
 		}
 	}
 }

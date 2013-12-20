@@ -190,41 +190,81 @@ namespace Kean.Draw.Raster
 			return result;
 		}
 		#region Save
-		public void Save (string filename)
+		public bool Save (Uri.Locator url)
 		{
 			Compression compression;
-			if (filename.EndsWith (".jpg") || filename.EndsWith (".jpeg"))
-				compression = Compression.Jpeg;
-			else if (filename.EndsWith (".bmp"))
-				compression = Compression.Bmp;
-			else
-				compression = Compression.Png;
-			this.Save (filename, compression);
+			switch (url.Path.Extension)
+			{
+				case "jpg":
+				case "jpeg":
+					compression = Compression.Jpeg;
+					break;
+				case "bmp":
+					compression = Compression.Bmp;
+					break;
+				default:
+				case "png":
+					compression = Compression.Png;
+					break;
+			}
+			return this.Save (url, compression);
 		}
 
-		public void Save (string filename, Compression compression)
+		public bool Save (Uri.Locator url, Compression compression)
 		{
+			bool result;
+			try
+			{
+				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(url));
+				result = this.Save(IO.ByteDevice.Create(url), compression);
+			}
+			catch (System.Runtime.InteropServices.ExternalException)
+			{
+				result = false;
+			}
+			return result;
+		}
+		public bool Save(IO.IByteOutDevice device, Compression compression)
+		{
+			using (System.IO.Stream stream = IO.Wrap.ByteStream.Wrap(device))
+				return this.Save(stream, compression);
+		}
+		public bool Save(IO.IBlockOutDevice device, Compression compression)
+		{
+			using (System.IO.Stream stream = IO.Wrap.BlockStream.Wrap(device))
+				return this.Save(stream, compression);
+		}
+		public bool Save(System.IO.Stream stream, Compression compression)
+		{
+			bool result = true;
 			Image converted;
 			if (this is Bgr || this is Bgra)
 				converted = this;
 			else
-				converted = this.Convert<Bgra> ();
-			using (System.Drawing.Bitmap bitmap = converted.GdiBitmap()) {
+				converted = this.Convert<Bgra>();
+			using (System.Drawing.Bitmap bitmap = converted.GdiBitmap())
+			{
 				if (converted.CoordinateSystem == CoordinateSystem.Default)
-					bitmap.Save (filename, compression.ImageFormat ());
+					bitmap.Save(stream, compression.ImageFormat());
 				else
-					using (System.Drawing.Bitmap result = new System.Drawing.Bitmap(converted.Size.Width, converted.Size.Height)) {
-						bitmap.RotateFlip (converted.CoordinateSystem.FlipType ());
-						using (System.Drawing.Graphics canvas = System.Drawing.Graphics.FromImage(result)) {
-							canvas.DrawImage (bitmap, new System.Drawing.Rectangle (0, 0, (int)converted.Size.Width, (int)converted.Size.Height), new System.Drawing.Rectangle (0, 0, (int)converted.Size.Width, (int)converted.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+					using (System.Drawing.Bitmap final = new System.Drawing.Bitmap(converted.Size.Width, converted.Size.Height))
+					{
+						bitmap.RotateFlip(converted.CoordinateSystem.FlipType());
+						using (System.Drawing.Graphics canvas = System.Drawing.Graphics.FromImage(final))
+						{
+							canvas.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)converted.Size.Width, (int)converted.Size.Height), new System.Drawing.Rectangle(0, 0, (int)converted.Size.Width, (int)converted.Size.Height), System.Drawing.GraphicsUnit.Pixel);
 						}
-						try {
-							System.IO.Directory.CreateDirectory (System.IO.Path.GetDirectoryName (filename));
-							result.Save (filename, compression.ImageFormat ());
-						} catch (System.Runtime.InteropServices.ExternalException) {
+						try
+						{
+							bitmap.Save(stream, compression.ImageFormat());
+						}
+						catch (System.Runtime.InteropServices.ExternalException)
+						{
+							result = false;
 						}
 					}
 			}
+			return result;
 		}
 		#endregion
 		#region Metric

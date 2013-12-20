@@ -573,7 +573,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Kean\Kean.csproj">
       <Project>{DB8ACBAC-64DF-439B-BFCD-564D51661CE2}</Project>
-      <Name>Kean</Name>
+      <Name>Kean %28Kean\Kean%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

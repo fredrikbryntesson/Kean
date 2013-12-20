@@ -66,8 +66,8 @@ namespace Kean.Collection
 		{ }
 		public Merge(IVector<T> left, IVector<T> right)
 		{
-			this.left = left;
-			this.right = right;
+			this.left = left ?? new Vector<T>(0);
+			this.right = right ?? new Vector<T>(0);
 		}
 		public static implicit operator Merge<T>(T[] value)
 		{

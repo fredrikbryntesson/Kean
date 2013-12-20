@@ -1,5 +1,5 @@
 ﻿// 
-//  ByteDevice.cs
+//  BlockDevice.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -28,23 +28,19 @@ using Uri = Kean.Uri;
 
 namespace Kean.IO.Wrap
 {
-	public class ByteStream :
+	public class BlockStream :
 		System.IO.Stream
 	{
-		IByteDevice backend;
+		IBlockDevice backend;
 		public bool CatchClose { get; set; }
 		public override bool CanRead { get { return this.backend.Readable; } }
 		public override bool CanSeek { get { return false; } }
 		public override bool CanWrite { get { return this.backend.Writeable; } }
 		long length;
 		public override long Length { get { return this.length; } }
-		public override long Position 
-		{ 
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
-		}
-
-		ByteStream(IByteDevice backend)
+		public override long Position { get; set; }
+		Collection.IVector<byte> readBuffer;
+		BlockStream(IBlockDevice backend)
 		{
 			this.backend = backend;
 		}
@@ -53,10 +49,23 @@ namespace Kean.IO.Wrap
 		}
 		public override int Read(byte[] buffer, int offset, int count)
 		{
+			if (this.readBuffer.IsNull())
+				this.readBuffer = this.backend.Read();
+			Collection.IVector<byte> chunk;
+			if (this.readBuffer.Count > count)
+			{
+				chunk = this.readBuffer.Slice(0, count);
+				this.readBuffer = this.readBuffer.Slice(count, this.readBuffer.Count);
+			}
+			else
+			{
+				chunk = this.readBuffer;
+				this.readBuffer = null;
+			}
 			int result = 0;
-			byte? next;
-			while (result < count && !this.backend.Empty && (next = this.backend.Read()).HasValue)
-				buffer[offset + result++] = next.Value;
+			foreach (byte b in chunk) // TODO: replace with use of bulk copy interface on IVector<T>
+				buffer[offset + result++] = b;
+			this.Position += result;
 			return result;
 		}
 		public override long Seek(long offset, System.IO.SeekOrigin origin)
@@ -69,6 +78,7 @@ namespace Kean.IO.Wrap
 		}
 		public override void Write(byte[] buffer, int offset, int count)
 		{
+			this.Position += count;
 			this.backend.Write(new Collection.Slice<byte>(buffer, offset, count));
 		}
 		public override void Close()
@@ -88,27 +98,19 @@ namespace Kean.IO.Wrap
 		}
 		#region Static Open & Wrap
 		#region Open
-		public static ByteStream Open(IByteDevice device)
+		public static BlockStream Open(IBlockDevice device)
 		{
-			return device.NotNull() ? new ByteStream(device) : null;
-		}
-		public static ByteStream Open(IByteInDevice device)
-		{
-			return ByteStream.Open(ByteDeviceCombiner.Open(device));
+			return device.NotNull() ? new BlockStream(device) : null;
 		}
 		#endregion
 		#region Wrap
-		public static ByteStream Wrap(IByteDevice device)
+		public static BlockStream Wrap(IBlockDevice device)
 		{
-			return device.NotNull() ? new ByteStream(device) { CatchClose = true } : null;
+			return device.NotNull() ? new BlockStream(device) { CatchClose = true } : null;
 		}
-		public static ByteStream Wrap(IByteInDevice device)
+		public static BlockStream Wrap(IBlockOutDevice device)
 		{
-			return ByteStream.Wrap(ByteDeviceCombiner.Open(device));
-		}
-		public static ByteStream Wrap(IByteOutDevice device)
-		{
-			return ByteStream.Wrap(ByteDeviceCombiner.Open(device));
+			return BlockStream.Wrap(BlockDeviceCombiner.Open(device));
 		}
 		#endregion
 		#endregion

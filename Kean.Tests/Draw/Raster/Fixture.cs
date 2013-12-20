@@ -67,7 +67,7 @@ namespace Kean.Draw.Raster.Test
 			catch (NUnit.Framework.AssertionException) 
 			{
 				using (Raster.Image raster = image.Convert<Raster.Image>())
-					raster.Save (this.CurrentTestStep + ".png");
+					raster.Save (Uri.Locator.FromRelativePlatformPath(this.CurrentTestStep + ".png"));
 				throw;
 			} 
 		}

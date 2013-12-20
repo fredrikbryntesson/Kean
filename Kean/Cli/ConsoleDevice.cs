@@ -111,6 +111,17 @@ namespace Kean.Cli
 		public bool Readable { get { return true; } }
 		public bool Writeable { get { return true; } }
 		#endregion
+		#region IOutDevice Members
+		public bool AutoFlush
+		{
+			get { return true; }
+			set { ; }
+		}
+		public bool Flush()
+		{
+			return false;
+		}
+		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
