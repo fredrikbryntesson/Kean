@@ -26,43 +26,43 @@ using Uri = Kean.Uri;
 using Serialize = Kean.Serialize;
 using Data = System.Data;
 using Reflect = Kean.Reflect;
+
 namespace Kean.DB.Sql
 {
 	public class Database :
 		DB.Database
 	{
 		Database(Uri.Locator locator, Data.IDbConnection connection) :
-			this(locator, connection, null, null, null)
+			this(locator, null, connection, null, null, null)
 		{
 		}
 		Data.IDbConnection connection;
-		Database(Uri.Locator locator, Data.IDbConnection connection, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers) :
-			base(locator, resolver, rebuilder, serializers)
+		Database(Uri.Locator locator, string prefix, Data.IDbConnection connection, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers) :
+			base(locator, prefix, resolver, rebuilder, serializers)
 		{
 			this.connection = connection;
 		}
 		public override bool Close()
 		{
 			bool result;
-			if (result = this.connection.NotNull())
+			if (this.Prefix.IsEmpty() && (result = this.connection.NotNull()))
 			{
 				this.connection.Close();
 				this.connection = null;
 			}
 			return result;
 		}
-
 		#region implemented abstract members of Database
-
 		protected override DB.Table<T> New<T>(string name)
 		{
 			return new Table<T>(this.connection, name);
 		}
-
+		public override DB.Database SetPrefix(string prefix)
+		{
+			return new Database(this.Locator, prefix, this.connection, null, null, null);
+		}
 		#endregion
-
 		#region Static Open, Register
-
 		static Collection.IDictionary<string, Func<string, Data.IDbConnection>> providers = new Collection.Dictionary<string, Func<string, Data.IDbConnection>>();
 		public static Database Open(Uri.Locator locator)
 		{
@@ -85,9 +85,7 @@ namespace Kean.DB.Sql
 		{
 			Database.providers[scheme] = create;
 		}
-
 		#endregion
-
 	}
 }
 

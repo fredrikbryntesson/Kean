@@ -39,10 +39,12 @@ namespace Kean.DB
 		Serialize.ISerializer serializer;
 		Serialize.IRebuilder rebuilder;
 		public Uri.Locator Locator { get; private set; }
+		public string Prefix { get; private set; }
 		public Serialize.Casing Casing { get { return Serialize.Casing.Camel; } }
-		protected Database(Uri.Locator locator, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers)
+		protected Database(Uri.Locator locator, string prefix, Serialize.Resolver resolver, Serialize.IRebuilder rebuilder, params Serialize.ISerializer[] serializers)
 		{
 			this.Locator = locator;
+			this.Prefix = prefix ?? "";
 			this.resolver = resolver ?? new Serialize.Resolver();
 			this.rebuilder = rebuilder ?? new Serialize.Rebuilder.Identity();
 			this.serializer = new Serialize.Serializer.Cache(serializers.NotEmpty() ? new Serialize.Serializer.Group(serializers) : new Serialize.Serializer.Default());
@@ -101,8 +103,9 @@ namespace Kean.DB
 		protected virtual string GetName(Reflect.Type type)
 		{
 			TableAttribute attribute = type.GetAttributes<TableAttribute>().First();
-			return (attribute.NotNull() ? attribute.Name : null) ?? type.ShortName.FirstToLower();
+			return this.Prefix + (attribute.NotNull() ? attribute.Name : null) ?? type.ShortName.FirstToLower();
 		}
+		public abstract Database SetPrefix(string prefix);
 		#endregion
 		public virtual bool Close()
 		{
