@@ -57,7 +57,7 @@ namespace Kean.DB.Sql
 		{
 			return new Table<T>(this.connection, name);
 		}
-		public override DB.Database SetPrefix(string prefix)
+		public override DB.Database ChangePrefix(string prefix)
 		{
 			return new Database(this.Locator, prefix, this.connection, null, null, null);
 		}
