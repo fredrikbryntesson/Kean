@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Extension;
 
 namespace Kean
 {
@@ -31,13 +32,13 @@ namespace Kean
 		{
 			this.nullable = nullable;
 		}
-		public static implicit operator NonNullable<T>(T nullable)
+		public static implicit operator NonNullable<T> (T nullable)
 		{
 			return new NonNullable<T>(nullable);
 		}
-		public static implicit operator T(NonNullable<T> nonNullable)
+		public static implicit operator T (NonNullable<T> nonNullable)
 		{
-			if (nonNullable.nullable == null)
+			if (nonNullable.nullable.IsNull())
 				nonNullable.nullable = new T();
 			return nonNullable.nullable;
 		}
