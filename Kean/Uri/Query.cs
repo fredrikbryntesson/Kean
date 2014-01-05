@@ -57,17 +57,11 @@ namespace Kean.Uri
 		}
 		public float Get(string key, float @default)
 		{
-			float result;
-			if (!float.TryParse(this[key] ?? "", out result))
-				result = @default;
-			return result;
+			return Math.Single.Parse(this[key] ?? "", @default);
 		}
 		public double Get(string key, double @default)
 		{
-			double result;
-			if (!double.TryParse(this[key] ?? "", out result))
-				result = @default;
-			return result;
+			return Math.Double.Parse(this[key] ?? "", @default);
 		}
 		public bool Get(string key, bool @default)
 		{

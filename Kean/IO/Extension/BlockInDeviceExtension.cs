@@ -1,46 +1,47 @@
-// 
-//  NonNullable.cs
-//  
+//
+//  BlockInDeviceExtension.cs
+//
 //  Author:
 //       Simon Mika <smika@hx.se>
-//  
-//  Copyright (c) 2010 Simon Mika
-// 
+//
+//  Copyright (c) 2013 Simon Mika
+//
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-// 
+//
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU Lesser General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using Kean;
 using Kean.Extension;
+using Collection = Kean.Collection;
+using Kean.Collection.Extension;
+using Uri = Kean.Uri;
+using Generic = System.Collections.Generic;
 
-namespace Kean
+namespace Kean.IO.Extension
 {
-	public struct NonNullable<T>
-		where T : class, new()
+	public static class BlockInDeviceExtension
 	{
-		T nullable;
-		private NonNullable(T nullable)
+		public static Generic.IEnumerable<Collection.IVector<byte>> AsEnumerable (this IBlockInDevice me)
 		{
-			this.nullable = nullable;
+			Collection.IVector<byte> next;
+			while ((next = me.Read()).NotNull())
+				yield return next;
 		}
-		public static implicit operator NonNullable<T> (T nullable)
+		public static Generic.IEnumerable<Collection.IVector<byte>> AsEnumerator (this IBlockInDevice me)
 		{
-			return new NonNullable<T>(nullable);
-		}
-		public static implicit operator T (NonNullable<T> nonNullable)
-		{
-			if (nonNullable.nullable.IsNull())
-				nonNullable.nullable = new T();
-			return nonNullable.nullable;
+			Collection.IVector<byte> next;
+			while ((next = me.Read()).NotNull())
+				yield return next;
 		}
 	}
 }
+

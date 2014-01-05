@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean;
 using Kean.Extension;
@@ -31,12 +32,10 @@ namespace Kean.Uri
 		Collection.ILink<PathLink, string>,
 		IEquatable<PathLink>
 	{
-
 		#region ILink<PathLink, string> Members
 		public string Head { get; set; }
 		public PathLink Tail { get; set; }
 		#endregion
-
 		public PathLink()
 		{
 		}
@@ -47,9 +46,8 @@ namespace Kean.Uri
 			this.Tail = tail;
 		}
 		static System.Collections.Generic.Dictionary<string, string> defaultFormats = new System.Collections.Generic.Dictionary<string, string> {
-			{"Time", "HH-mm-ss-fff"},
+			{ "Time", "HH-mm-ss-fff" },
 		};
-
 		/// <summary>
 		/// Recursively resolves a given variable in a PathLink, using a format specified as "$(variable:format)" in the PathLink string.
 		/// If the variable has no format specifier i.e. "$(variable)", a default format, specified in defaultFormats above, is used.
@@ -58,7 +56,7 @@ namespace Kean.Uri
 		/// <param name="variable">The name of variable we want to resolve.</param>
 		/// <param name="format">A function that returns the variable formatted as specified in its input.</param>
 		/// <returns>A new PathLink where the variable has been resolved, or perhaps not.</returns>
-		public PathLink ResolveVariable(string variable, Func<string, string> format)
+		public PathLink ResolveVariable (string variable, Func<string, string> format)
 		{
 			string head = this.Head;
 			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
@@ -83,35 +81,31 @@ namespace Kean.Uri
 				result = new PathLink(this.Head, this.Tail.NotNull() ? this.Tail.Rebuild() : null);
 			return result;
 		}
-
 		#region IEquatable<PathLink> Members
-		public bool Equals(PathLink other)
+		public bool Equals (PathLink other)
 		{
 			return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
 		}
 		#endregion
-
 		#region Object Overrides
-		public override bool Equals(object other)
+		public override bool Equals (object other)
 		{
 			return other is PathLink && this.Equals(other as PathLink);
 		}
-		public override int GetHashCode()
+		public override int GetHashCode ()
 		{
 			return this.Head.Hash() ^ this.Tail.Hash();
 		}
 		#endregion
-
 		#region Equality Operators
-		public static bool operator ==(PathLink left, PathLink right)
+		public static bool operator == (PathLink left, PathLink right)
 		{
 			return left.SameOrEquals(right);
 		}
-		public static bool operator !=(PathLink left, PathLink right)
+		public static bool operator != (PathLink left, PathLink right)
 		{
 			return !(left == right);
 		}
 		#endregion
-
 	}
 }

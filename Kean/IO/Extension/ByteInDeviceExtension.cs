@@ -31,7 +31,7 @@ namespace Kean.IO.Extension
 {
 	public static class ByteInDeviceExtension
 	{
-		public static bool MovePast(this IByteInDevice me, params byte[] separator)
+		public static bool MovePast (this IByteInDevice me, params byte[] separator)
 		{
 			byte? next;
 			int position = 0;
@@ -44,7 +44,7 @@ namespace Kean.IO.Extension
 			}
 			return !me.Empty;
 		}
-		public static Generic.IEnumerable<byte> ReadPast(this IByteInDevice me, params byte[] separator)
+		public static Generic.IEnumerable<byte> ReadPast (this IByteInDevice me, params byte[] separator)
 		{
 			byte? next;
 			int position = 0;
@@ -57,13 +57,13 @@ namespace Kean.IO.Extension
 				yield return next.Value;
 			}
 		}
-		public static Generic.IEnumerable<byte> AsEnumerable(this IByteInDevice me)
+		public static Generic.IEnumerable<byte> AsEnumerable (this IByteInDevice me)
 		{
 			byte? next;
 			while ((next = me.Read()).HasValue)
 				yield return next.Value;
 		}
-		public static Generic.IEnumerator<byte> AsEnumerator(this IByteInDevice me)
+		public static Generic.IEnumerator<byte> AsEnumerator (this IByteInDevice me)
 		{
 			byte? next;
 			while ((next = me.Read()).HasValue)
