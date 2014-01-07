@@ -11,6 +11,7 @@
     <AssemblyName>Kean.Tests</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
     <RestorePackages>true</RestorePackages>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -580,5 +581,5 @@
   <ItemGroup>
     <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageUsingMapping.png" />
   </ItemGroup>
-  <Import Project="..\..\.nuget\NuGet.targets" Condition="Exists('..\..\.nuget\NuGet.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
