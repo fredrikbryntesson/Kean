@@ -256,7 +256,7 @@ namespace Kean.Uri
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
 					if (specialFolder.Value.NotEmpty())
-						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value + System.IO.Path.DirectorySeparatorChar);
+						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value);
 			return result;
 		}
 
@@ -266,7 +266,7 @@ namespace Kean.Uri
 			if (result.NotEmpty())
 				foreach (KeyValue<string, string> specialFolder in Path.specialFolders)
 					if (specialFolder.Value.NotEmpty())
-						result = result.Replace(specialFolder.Value + System.IO.Path.DirectorySeparatorChar, "$(" + specialFolder.Key + ")");
+						result = result.Replace(specialFolder.Value, "$(" + specialFolder.Key + ")");
 			return result;
 		}
 
