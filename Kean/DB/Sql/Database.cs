@@ -45,7 +45,7 @@ namespace Kean.DB.Sql
 		}
 		public override bool Close ()
 		{
-			bool result;
+			bool result = false;
 			if (this.Prefix.IsEmpty() && (result = this.connection.NotNull()))
 			{
 				this.connection.Close();

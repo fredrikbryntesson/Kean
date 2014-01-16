@@ -26,63 +26,103 @@ using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
 {
-    [TestFixture]
-    public class Path :
-        Kean.Test.Fixture<Path>
-    {
-        string prefix = "Kean.Uri.Test.Path.";
-        protected override void Run()
-        {
-            this.Run(
-                this.EqualityNull,
-                this.Equality,
+	[TestFixture]
+	public class Path :
+		Kean.Test.Fixture<Path>
+	{
+		protected override void Run()
+		{
+			this.Run(
+				this.EqualityNull,
+				this.Equality,
 				this.Space,
 				this.Plus,
-				this.Hash
-                );
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.Path path = null;
-            Verify(path, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-			Verify(path == null, Is.True, this.prefix + "EqualityNull.1");
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.Path path = "folderA/folderB/file.extension";
-            Verify(path, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-			Verify(path != null, Is.True, this.prefix + "Equality.1");
-            Verify((string)path, Is.EqualTo("/folderA/folderB/file.extension"), this.prefix + "Equality.2");
-			Verify(path == "folderA/folderB/file.extension", Is.True, this.prefix + "Equality.3");
-        }
+				this.Hash,
+				this.Filename,
+				this.Folder,
+				this.Extension,
+				this.Stem
+				);
+		}
+		[Test]
+		public void EqualityNull()
+		{
+			Target.Path path = null;
+			Verify(path, Is.EqualTo(null));
+			Verify(path == null, Is.True);
+		}
+		[Test]
+		public void Equality()
+		{
+			Target.Path path = "folderA/folderB/file.extension";
+			Verify(path, Is.Not.EqualTo(null));
+			Verify(path != null, Is.True);
+			Verify((string)path, Is.EqualTo("/folderA/folderB/file.extension"));
+			Verify(path == "folderA/folderB/file.extension", Is.True);
+		}
 		[Test]
 		public void Space()
 		{
 			Target.Path path = "folder A/folder B/file C.extension";
-			Verify(path, Is.Not.EqualTo(null), this.prefix + "Space.0");
-			Verify(path != null, Is.True, this.prefix + "Space.1");
-			Verify((string)path, Is.EqualTo("/folder A/folder B/file C.extension"), this.prefix + "Space.2");
-			Verify(path == "folder A/folder B/file C.extension", Is.True, this.prefix + "Space.3");
+			Verify(path, Is.Not.EqualTo(null));
+			Verify(path != null, Is.True);
+			Verify((string)path, Is.EqualTo("/folder A/folder B/file C.extension"));
+			Verify(path == "folder A/folder B/file C.extension", Is.True);
 		}
 		[Test]
 		public void Plus()
 		{
 			Target.Path path = "folder+A/folder+B/file+C.extension";
-			Verify(path, Is.Not.EqualTo(null), this.prefix + "Plus.0");
-			Verify(path != null, Is.True, this.prefix + "Plus.1");
-			Verify((string)path, Is.EqualTo("/folder+A/folder+B/file+C.extension"), this.prefix + "Plus.2");
-			Verify(path == "folder+A/folder+B/file+C.extension", Is.True, this.prefix + "Plus.3");
+			Verify(path, Is.Not.EqualTo(null));
+			Verify(path != null, Is.True);
+			Verify((string)path, Is.EqualTo("/folder+A/folder+B/file+C.extension"));
+			Verify(path == "folder+A/folder+B/file+C.extension", Is.True);
 		}
 		[Test]
 		public void Hash()
 		{
 			Target.Path path = "folderA/folderB/file.extension";
 			Target.Path path2 = "folderA/folderB/file.extension2";
-			Verify(path, Is.Not.EqualTo(path2), this.prefix + "Hash.0");
-			Verify(path.GetHashCode(), Is.Not.EqualTo(path2.GetHashCode()), this.prefix + "Hash.1");
- 
+			Verify(path, Is.Not.EqualTo(path2));
+			Verify(path.GetHashCode(), Is.Not.EqualTo(path2.GetHashCode()));
+		}
+		[Test]
+		public void Filename()
+		{
+			Target.Path path = "$(Pictures)/file.extension";
+			Target.Path path2 = "$(Pictures)/folder/file.extension2";
+			Verify(path.Filename, Is.EqualTo("file.extension"));
+			Verify(path2.Filename, Is.EqualTo("file.extension2"));
+		}
+		[Test]
+		public void Folder()
+		{
+			Target.Path path = "$(Pictures)/file.extension";
+			Target.Path path2 = "$(Pictures)";
+			Target.Path path3 = "$(Pictures)/";
+			Target.Path path4 = "$(Pictures)/folder";
+			Target.Path path5 = "$(Pictures)/folder/";
+			Verify(path.Folder, Is.False);
+			Verify(path2.Folder, Is.False);
+			Verify(path3.Folder, Is.True);
+			Verify(path4.Folder, Is.False);
+			Verify(path5.Folder, Is.True);
+		}
+		[Test]
+		public void Extension()
+		{
+			Target.Path path = "$(Pictures)/file.extension";
+			Target.Path path2 = "$(Pictures)/folder/file.extension2";
+			Verify(path.Extension, Is.EqualTo("extension"));
+			Verify(path2.Extension, Is.EqualTo("extension2"));
+		}
+		[Test]
+		public void Stem()
+		{
+			Target.Path path = "$(Pictures)/file.extension";
+			Target.Path path2 = "$(Pictures)/folder/file.extension2";
+			Verify(path.Stem, Is.EqualTo("file"));
+			Verify(path2.Stem, Is.EqualTo("file"));
 		}
 	}
 }
