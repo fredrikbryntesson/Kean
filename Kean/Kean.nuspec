@@ -7,6 +7,9 @@
 		<owners>simonmika</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
+		<dependencies>
+			<dependency id="OpenTK.GLControl" version="[1.1.1161.61462]" />
+		</dependencies>
 	</metadata>
 	<files>
 		<file src="Modules\**.xml" target="build\Modules" />
