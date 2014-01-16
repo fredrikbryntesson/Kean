@@ -846,6 +846,9 @@
     <Compile Include="IO\Extension\BlockInDeviceExtension.cs" />
     <Compile Include="IO\Extension\ByteOutDeviceExtension.cs" />
     <Compile Include="IO\Extension\ByteInDeviceExtension.cs" />
+    <Compile Include="Password\Generator.cs" />
+    <Compile Include="Password\PhonemeGenerator.cs" />
+    <Compile Include="Password\Element.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />
@@ -889,4 +892,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Password\" />
+  </ItemGroup>
 </Project>

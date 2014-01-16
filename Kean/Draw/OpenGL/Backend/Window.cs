@@ -17,7 +17,7 @@
 //  GNU Lesser General Public License for more details.
 // 
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 using System;
 using Kean.Extension;
@@ -33,15 +33,11 @@ namespace Kean.Draw.OpenGL.Backend
 	{
 		public event Action Initialized;
 		public event Action Draw;
-
 		public Context Context { get; private set; }
-
 		ThreadPool threadPool;
 		public Parallel.ThreadPool ThreadPool { get { return this.threadPool; } }
-
 		object @lock = new object();
 		System.Threading.EventWaitHandle redrawSignal;
-
 		bool makeVisible;
 		public new bool Visible
 		{
@@ -80,15 +76,23 @@ namespace Kean.Draw.OpenGL.Backend
 		bool exit;
 		public bool Exit
 		{
-			get { lock (this.@lock) return this.exit; }
-			set { lock (this.@lock) this.exit = true; this.Redraw(); }
+			get
+			{
+				lock (this.@lock)
+					return this.exit;
+			}
+			set
+			{
+				lock (this.@lock)
+					this.exit = true;
+				this.Redraw();
+			}
 		}
 		protected Window(Context context) :
 			this()
 		{
 			this.Context = context;
 		}
-
 		protected Window() :
 			base(1024, 768, "", OpenTK.GameWindowFlags.Default, OpenTK.Graphics.GraphicsMode.Default, OpenTK.DisplayDevice.Default)
 		{
@@ -100,17 +104,16 @@ namespace Kean.Draw.OpenGL.Backend
 		{
 			this.Dispose(false);
 		}
-		protected abstract Context CreateContext();
-		protected abstract ThreadPool CreateThreadPool(string name, int workers);
+		protected abstract Context CreateContext ();
+		protected abstract ThreadPool CreateThreadPool (string name, int workers);
 		//protected abstract void SetupViewport();
 		//protected abstract void Clear();
-
-		public void Run()
+		public void Run ()
 		{
 			this.Initialized.Call();
 			this.Runner();
 		}
-		void RePaint()
+		void RePaint ()
 		{
 			if (this.WindowState != OpenTK.WindowState.Minimized && (this.Visible || this.makeVisible))
 			{
@@ -128,7 +131,7 @@ namespace Kean.Draw.OpenGL.Backend
 					}
 			}
 		}
-		protected virtual void Runner()
+		protected virtual void Runner ()
 		{
 			this.OnResize(System.EventArgs.Empty);
 			bool redraw = true;
@@ -145,11 +148,10 @@ namespace Kean.Draw.OpenGL.Backend
 				//	base.WaitForNextEvent();
 			}
 		}
-
 		/// <summary>
 		/// If called, Draw will be called during next rendering callback.
 		/// </summary>
-		public void Redraw()
+		public void Redraw ()
 		{
 			this.redrawSignal.Set();
 		}
@@ -158,18 +160,18 @@ namespace Kean.Draw.OpenGL.Backend
 		//	//base.OnPaint(e);
 		//	this.RePaint();
 		//}
-		protected override void OnResize(EventArgs e)
+		protected override void OnResize (EventArgs e)
 		{
 			base.OnResize(e);
 			this.threadPool.MainContext.Update(this.WindowInfo);
 			this.redrawSignal.Set();
 		}
-		protected override void OnFocusedChanged(EventArgs e)
+		protected override void OnFocusedChanged (EventArgs e)
 		{
 			base.OnFocusedChanged(e);
 			this.redrawSignal.Set();
 		}
-		protected virtual void Dispose(bool disposing)
+		protected virtual void Dispose (bool disposing)
 		{
 			if (this.threadPool.NotNull())
 			{
@@ -182,13 +184,12 @@ namespace Kean.Draw.OpenGL.Backend
 				Backend.Context.Current = this.Context = null;
 			}
 		}
-		public sealed override void Dispose()
+		public sealed override void Dispose ()
 		{
 			this.Dispose(true);
 			base.Dispose();
 		}
-
-		public static Window Create()
+		public static Window Create ()
 		{
 			// TODO: select OpenGL implementation
 			return new OpenGL21.Window();

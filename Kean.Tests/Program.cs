@@ -18,12 +18,14 @@
 //
 //  You should have received data copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+
 namespace Kean.Tests
 {
 	class Program
-	{
 		static void Main(string[] args)
+s)
 		{
 			Kean.Error.Log.CatchErrors = false;
 			//DB.Sql.Test.Program.Run(args);
