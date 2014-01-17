@@ -10,7 +10,6 @@
     <RootNamespace>Kean</RootNamespace>
     <AssemblyName>Kean</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
