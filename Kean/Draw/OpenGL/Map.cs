@@ -139,12 +139,20 @@ namespace Kean.Draw.OpenGL
 		{
 			object item = this.data[name];
 			if (item is Backend.Data3D)
+			{
+				(item as Backend.Data3D).Use();
 				(item as Backend.Data3D).Update(data);
+				(item as Backend.Data3D).UnUse();
+			}
 			else
 			{
 				if (item is IDisposable)
 					(item as IDisposable).Dispose();
-				this.data[name] = this.Backend.CreateData3D().Update(data);
+				var d = this.Backend.CreateData3D();
+				d.Use();
+				d.Update(data);
+				d.UnUse();
+				this.data[name] = d;
 			}
 		}
 		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Programs.MonochromeToBgr); } }

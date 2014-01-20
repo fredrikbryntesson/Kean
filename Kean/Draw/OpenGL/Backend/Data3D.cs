@@ -41,14 +41,28 @@ namespace Kean.Draw.OpenGL.Backend
 		public Data3D Update<T>(T[,,] data)
 			where T : struct
 		{
-			if (this.SetType<T>() && this.Size.Width == data.GetLength(0) && this.Size.Height == data.GetLength(1) && this.Size.Depth == data.GetLength(2))
-				this.FixCall(this.Load, data);
+			if (!(data is byte[, ,]))
+			{
+				if (this.SetType<T>() && this.Size.Width == data.GetLength(0) && this.Size.Height == data.GetLength(1) && this.Size.Depth == data.GetLength(2))
+					this.FixCall(this.Load, data);
+				else
+				{
+					this.Size = new Geometry3D.Integer.Size(data.GetLength(0), data.GetLength(1), data.GetLength(2));
+					this.FixCall(this.Allocate, data);
+				}
+			}
 			else
 			{
-				this.Size = new Geometry3D.Integer.Size(data.GetLength(0), data.GetLength(1), data.GetLength(2));
-				this.FixCall(this.Allocate, data);
+				if (this.Size.Width != data.GetLength(0) || this.Size.Height != data.GetLength(1) || this.Size.Depth != data.GetLength(2))
+				{
+					this.Size = new Geometry3D.Integer.Size(data.GetLength(0), data.GetLength(1), data.GetLength(2));
+					this.Allocate();
+				}
+				this.Load(data as byte[,,]);
 			}
 			return this;
 		}
+		protected abstract void Allocate();
+		protected abstract void Load(byte[, ,] data);
 	}
 }
