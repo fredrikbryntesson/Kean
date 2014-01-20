@@ -10,7 +10,6 @@
     <RootNamespace>Kean</RootNamespace>
     <AssemblyName>Kean</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -847,6 +846,10 @@
     <Compile Include="IO\Extension\BlockInDeviceExtension.cs" />
     <Compile Include="IO\Extension\ByteOutDeviceExtension.cs" />
     <Compile Include="IO\Extension\ByteInDeviceExtension.cs" />
+    <Compile Include="Password\Generator.cs" />
+    <Compile Include="Password\PhonemeGenerator.cs" />
+    <Compile Include="Password\Element.cs" />
+    <Compile Include="IO\Net\Tcp\ThreadedServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />
@@ -886,9 +889,9 @@
           <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
           <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="NewLine" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" AfterDelegateDeclarationParameterComma="True" NewParentheses="False" SpacesBeforeBrackets="False" BlankLinesBeforeUsings="1" BlankLinesBetweenMembers="0" BlankLinesAroundRegion="0" BlankLinesInsideRegion="0" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
           <TextStylePolicy FileWidth="120" TabsToSpaces="False" NoTabsAfterNonTabs="True" EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
         </Policies>
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

@@ -52,10 +52,10 @@ namespace Kean.Collection.Array
 		public List(params T[] items) : 
 			this(items.Length)
 		{
-			Extension.ListExtension.Add(this, items);
+			this.Add(items);
 		}
 		#endregion
-		void Decrease()
+		void Decrease ()
 		{
 			if (this.count > 0)
 			{
@@ -63,17 +63,17 @@ namespace Kean.Collection.Array
 				this.count--;
 			}
 		}
-		void Increase()
+		void Increase ()
 		{
 			if (this.Capacity <= this.Count + 1)
 				this.Capacity = this.Count + 1;
 			this.count++;
 		}
-		public void Trim()
+		public void Trim ()
 		{
 			this.Capacity = this.Count;
 		}
-		int VerifyIndex(int index)
+		int VerifyIndex (int index)
 		{
 			if ((uint)index >= (uint)this.Count)
 				throw new Exception.InvalidIndex();
@@ -82,24 +82,24 @@ namespace Kean.Collection.Array
 		#region IVector<T>
 		int count;
 		public override int Count { get { return this.count; } }
-		public override T this[int index]
+		public override T this [int index]
 		{
 			get	{ return this.items[this.VerifyIndex(index)]; }
 			set { this.items[this.VerifyIndex(index)] = value; }
 		}
 		#endregion
 		#region IList<T>
-		public override IList<T> Add(T item)
+		public override IList<T> Add (T item)
 		{
 			this.Increase();
 			this[this.Count - 1] = item;
 			return this;
 		}
-		public override T Remove()
+		public override T Remove ()
 		{
 			return this.Remove(this.Count - 1);
 		}
-		public override T Remove(int index)
+		public override T Remove (int index)
 		{
 			T result = this[index];
 			if (0 <= index && index < this.Count - 1)
@@ -107,7 +107,7 @@ namespace Kean.Collection.Array
 			this.Decrease();
 			return result;
 		}
-		public override IList<T> Insert(int index, T item)
+		public override IList<T> Insert (int index, T item)
 		{
 			if (index == this.Count)
 				this.Add(item);
@@ -121,15 +121,14 @@ namespace Kean.Collection.Array
 		}
 		#endregion
 		#region Operators
-		public static implicit operator List<T>(T[] data)
+		public static implicit operator List<T> (T[] data)
 		{
 			return new List<T>(data);
 		}
-		public static explicit operator T[](List<T> data)
+		public static explicit operator T[] (List<T> data)
 		{
 			return data.items;
 		}
 		#endregion
-
 	}
 }

@@ -4,7 +4,7 @@
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011-2014 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -42,42 +42,18 @@ namespace Kean.IO.Net.Tcp
 			get { return this.listener.NotNull() && this.listener.Running; }
 		}
 		Parallel.RepeatThread listener;
-		System.Net.Sockets.TcpListener tcpListener; 
-		public Parallel.ThreadPool ThreadPool { get; private set; }
+		System.Net.Sockets.TcpListener tcpListener;
 		#region Constructors
-		public Server() : this("TcpServer") { }
-		public Server(string name) :
-			this(new Kean.Parallel.ThreadPool(name, 1) { MaximumThreadCount = -1 })
-		{ }
-		public Server(Action<Connection> connected) :
-			this()
+		public Server(Action<Connection> connected)
 		{
 			this.Connected = connected;
-		}
-		public Server(Parallel.ThreadPool threadPool)
-		{
-			this.ThreadPool = threadPool;
-		}
-		public Server(Action<IByteDevice> connected, Uri.Endpoint endPoint) :
-			this(connected)
-		{
-			this.Start(endPoint);
-		}
-		public Server(Action<IByteDevice> connected, uint port) :
-			this(connected)
-		{
-			this.Start(port);
 		}
 		~Server()
 		{
 			Error.Log.Wrap((Action)this.Dispose)();
 		}
 		#endregion
-		public bool Start(uint port)
-		{
-			return this.Start(new Uri.Endpoint("", port));
-		}
-		void OnConnect(Tcp.Connection connection)
+		protected virtual void OnConnect(Tcp.Connection connection)
 		{
 			this.activeConnections.Add(connection);
 			connection.Closed += () => this.activeConnections.Remove(c => connection == c);
@@ -85,18 +61,27 @@ namespace Kean.IO.Net.Tcp
 			if (connection.AutoClose)
 				connection.Close();
 		}
+		#region Start
+		public bool Start(uint port)
+		{
+			return this.Start(new Uri.Endpoint("", port));
+		}
 		public bool Start(Uri.Endpoint endPoint)
+		{
+			return this.Start(endPoint, action => this.listener = Parallel.RepeatThread.Start("TcpServer", action));
+		}
+		bool Start(Uri.Endpoint endPoint, Action<Action> run)
 		{
 			bool result;
 			if (result = (this.tcpListener = this.Connect(endPoint)).NotNull())
 			{
 				this.Endpoint = endPoint;
 				this.tcpListener.Start();
-				this.listener = Parallel.RepeatThread.Start("TcpServer", () => 
+				run(() => 
 				{
 					try
 					{
-						this.ThreadPool.Enqueue(this.OnConnect, Connection.Connect(this.tcpListener.AcceptTcpClient()));
+						this.OnConnect(Connection.Connect(this.tcpListener.AcceptTcpClient()));
 					}
 					catch (System.Net.Sockets.SocketException)
 					{
@@ -107,6 +92,18 @@ namespace Kean.IO.Net.Tcp
 			}
 			return result;
 		}
+		#endregion
+		#region Run
+		public bool Run(uint port)
+		{
+			return this.Run(new Uri.Endpoint("", port));
+		}
+		public bool Run(Uri.Endpoint endPoint)
+		{
+			return this.Start(endPoint, action => this.listener = Parallel.RepeatThread.Run(action));
+		}
+		#endregion
+
 		System.Net.Sockets.TcpListener Connect(Uri.Endpoint endPoint)
 		{
 			System.Net.Sockets.TcpListener result = null;
@@ -130,15 +127,10 @@ namespace Kean.IO.Net.Tcp
 			return this.listener.Stop();
 		}
 		#region IDisposable Members
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			if (this.listener.NotNull())
 				this.Stop();
-			if (this.ThreadPool.NotNull())
-			{
-				this.ThreadPool.Dispose();
-				this.ThreadPool = null;
-			}
 			if (this.listener.NotNull())
 			{
 				this.listener.Abort();
@@ -151,6 +143,42 @@ namespace Kean.IO.Net.Tcp
 				this.activeConnections.Apply(c => c.Close());
 				this.activeConnections = null;
 			}
+		}
+		#endregion
+		#region static Start & Run
+		public static Server Start(Action<Connection> connected, Uri.Endpoint endPoint)
+		{
+			Server result = new Server(connected);
+			if (!result.Start(endPoint))
+			{
+				result.Dispose();
+				result = null;
+			}
+			return result;
+		}
+		public static Server Start(Action<Connection> connected, uint port)
+		{
+			Server result = new Server(connected);
+			if (!result.Start(port))
+			{
+				result.Dispose();
+				result = null;
+			}
+			return result;
+		}
+		public static bool Run(Action<Connection> connected, Uri.Endpoint endPoint)
+		{
+			bool result;
+			using (Server server = new Server(connected))
+				result = server.Run(endPoint);
+			return result;
+		}
+		public static bool Run(Action<Connection> connected, uint port)
+		{
+			bool result;
+			using (Server server = new Server(connected))
+				result = server.Run(port);
+			return result;
 		}
 		#endregion
 	}
