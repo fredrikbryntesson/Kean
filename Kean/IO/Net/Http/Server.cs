@@ -126,10 +126,49 @@ namespace Kean.IO.Net.Http
 			}
 			return result;
 		}
+		#region Static Create & CreateThreaded
 		public static Tcp.Server Create(Action<Server> process)
 		{
 			return new Tcp.Server(connection => process(new Server(connection)));
 		}
-
+		public static Tcp.ThreadedServer CreateThreaded(Action<Server> process)
+		{
+			return new Tcp.ThreadedServer("HttpServer", connection => process(new Server(connection)));
+		}
+		#endregion
+		#region static Start & Run
+		public static Tcp.Server Start(Action<Server> process, Uri.Endpoint endPoint)
+		{
+			return Tcp.Server.Start(connection => process(new Server(connection)), endPoint);
+		}
+		public static Tcp.Server Start(Action<Server> process, uint port)
+		{
+			return Tcp.Server.Start(connection => process(new Server(connection)), port);
+		}
+		public static Tcp.ThreadedServer StartThreaded(Action<Server> process, Uri.Endpoint endPoint)
+		{
+			return Tcp.ThreadedServer.Start(connection => process(new Server(connection)), endPoint);
+		}
+		public static Tcp.ThreadedServer StartThreaded(Action<Server> process, uint port)
+		{
+			return Tcp.ThreadedServer.Start(connection => process(new Server(connection)), port);
+		}
+		public static bool Run(Action<Server> process, Uri.Endpoint endPoint)
+		{
+			return Tcp.Server.Run(connection => process(new Server(connection)), endPoint);
+		}
+		public static bool Run(Action<Server> process, uint port)
+		{
+			return Tcp.Server.Run(connection => process(new Server(connection)), port);
+		}
+		public static bool RunThreaded(Action<Server> process, Uri.Endpoint endPoint)
+		{
+			return Tcp.ThreadedServer.Run(connection => process(new Server(connection)), endPoint);
+		}
+		public static bool RunThreaded(Action<Server> process, uint port)
+		{
+			return Tcp.ThreadedServer.Run(connection => process(new Server(connection)), port);
+		}
+		#endregion
 	}
 }

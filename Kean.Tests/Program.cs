@@ -24,8 +24,8 @@ using System;
 namespace Kean.Tests
 {
 	class Program
+	{
 		static void Main(string[] args)
-s)
 		{
 			Kean.Error.Log.CatchErrors = false;
 			//DB.Sql.Test.Program.Run(args);

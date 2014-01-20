@@ -41,27 +41,9 @@ namespace Kean.Parallel
 			set { lock (this.Lock) this.end = value; } 
 		}
 		#region Constructors
-		RepeatThread(string name, Action task) :
+		RepeatThread() :
 			base()
 		{
-			Action wrappedTask = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), () =>
-			{
-				try
-				{
-					task.Call();
-				}
-				catch (System.Threading.ThreadInterruptedException) { this.End = true; }
-				catch (System.Threading.ThreadAbortException) { this.End = true; }
-			});
-			this.Backend = new System.Threading.Thread(() => 
-			{ 
-				this.Running = true;
-				while (!this.End)
-					wrappedTask();
-				this.Running = false;
-			});
-			this.Backend.Name = name;
-			this.Backend.Start();
 		}
 		#endregion
 
@@ -87,7 +69,42 @@ namespace Kean.Parallel
 		}
 		public static new RepeatThread Start(string name, Action task)
 		{
-			return new RepeatThread(name, task);
+			return RepeatThread.Start(name, task, (thread, action) =>
+			{
+					thread.Backend = new System.Threading.Thread(() => action());
+				thread.Backend.Name = name;
+				thread.Backend.Start();
+			});
+		}
+		public static RepeatThread Start(string name, Action task, Action<RepeatThread, Action> run)
+		{
+			RepeatThread result = new RepeatThread();
+			Action wrappedTask = Error.Log.Wrap(string.Format("Thread \"{0}\" Failed.", name), () =>
+				{
+					try
+					{
+						task.Call();
+					}
+					catch (System.Threading.ThreadInterruptedException) { result.End = true; }
+					catch (System.Threading.ThreadAbortException) { result.End = true; }
+				});
+			run(result, () => 
+				{ 
+					result.Running = true;
+					while (!result.End)
+						wrappedTask();
+					result.Running = false;
+				});
+			return result;
+		}
+		public static RepeatThread Run(Action task)
+		{
+			var backend = System.Threading.Thread.CurrentThread;
+			return RepeatThread.Start(backend.Name, task, (thread, action) =>
+			{
+				thread.Backend = backend;
+				action();
+			});
 		}
 		#endregion
 	}

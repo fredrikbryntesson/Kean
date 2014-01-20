@@ -58,6 +58,20 @@ namespace Kean.Parallel
 			this.Backend.Interrupt();
 			this.Backend.Abort();
 		}
+		#region IDisposable Members
+		public void Dispose()
+		{
+			if (this.Backend.NotNull())
+			{
+				if (!this.Join(100))
+				{
+					this.Abort();
+					this.Join(100);
+				}
+				this.Backend = null;
+			}
+		}
+		#endregion
 		#region Static Creators
 		static int counter;
 		public static Thread Start(Action task)
@@ -75,20 +89,9 @@ namespace Kean.Parallel
 			});
 		}
 		#endregion
-
-		#region IDisposable Members
-		public void Dispose()
+		public static Thread Current
 		{
-			if (this.Backend.NotNull())
-			{
-				if (!this.Join(100))
-				{
-					this.Abort();
-					this.Join(100);
-				}
-				this.Backend = null;
-			}
+			get { return new Thread() { Backend = System.Threading.Thread.CurrentThread }; }
 		}
-		#endregion
 	}
 }
