@@ -48,7 +48,7 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapR, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
 			GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.OpenGL.TextureWrapMode.MirroredRepeat);
-			GL.TexImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance, this.Size.Depth, this.Size.Width, this.Size.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
+			GL.TexImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance, this.Size.Depth, this.Size.Height, this.Size.Width, 0, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 			//			GL.TexImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Luminance, this.Size.Width, this.Size.Height, this.Size.Depth, 0, OpenTK.Graphics.OpenGL.PixelFormat.Red, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 		}
 		protected override void Allocate(IntPtr pointer)
@@ -64,14 +64,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		protected override void Load(byte[, ,] data)
 		{
+			//unsafe
+			//{
+			//	for (int x = 0; x < this.Size.Width; x++)
+			//		for (int y = 0; y < this.Size.Height; y++)
+			//			fixed (byte* pointer = &data[x, y, 0])
+			//				GL.TexSubImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, 0, x, y, this.Size.Depth, 1, 1, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, new IntPtr((void*)pointer));
+			//}
 			unsafe
 			{
-				for (int x = 0; x < this.Size.Width; x++)
-					for (int y = 0; y < this.Size.Height; y++)
-						fixed (byte* pointer = &data[x, y, 0])
-							GL.TexSubImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, 0, x, y, 256, 1, 1, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, new IntPtr((void*)pointer));
+				fixed (byte* pointer = &data[0, 0, 0])
+					GL.TexSubImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, 0, 0, 0, this.Size.Depth, this.Size.Height, this.Size.Width, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, new IntPtr((void*)pointer));
 			}
-			//GL.TexSubImage3D(OpenTK.Graphics.OpenGL.TextureTarget.Texture3D, 0, 0, 0, 0, this.Size.Width, this.Size.Height, this.Size.Depth, OpenTK.Graphics.OpenGL.PixelFormat.Luminance, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, data);
 		}
 		protected override void Load(IntPtr pointer)
 		{
