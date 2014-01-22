@@ -81,6 +81,10 @@ namespace Kean.Math.Geometry2D.Integer
 		{
 			return new Shell(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom);
 		}
+		public static Shell operator /(Shell left, int right)
+		{
+			return new Shell(left.Left / right, left.Right / right, left.Top / right, left.Bottom / right);
+		}
 		public static Shell Maximum(Shell left, Shell right)
 		{
 			return new Shell(Kean.Math.Integer.Maximum(left.Left, right.Left), Kean.Math.Integer.Maximum(left.Right, right.Right), Kean.Math.Integer.Maximum(left.Top, right.Top), Kean.Math.Integer.Maximum(left.Bottom, right.Bottom));

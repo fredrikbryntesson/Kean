@@ -110,6 +110,10 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return new <#= @name #>(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom);
 		}
+		public static <#= @name #> operator /(<#= @name #> left, <#= @value1 #> right)
+		{
+			return new <#= @name #>(left.Left / right, left.Right / right, left.Top / right, left.Bottom / right);
+		}
 		public static <#= @name #> Maximum(<#= @name #> left, <#= @name #> right)
 		{
 			return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Maximum(left.Left, right.Left), Kean.Math.<#= @namespace1 #>.Maximum(left.Right, right.Right), Kean.Math.<#= @namespace1 #>.Maximum(left.Top, right.Top), Kean.Math.<#= @namespace1 #>.Maximum(left.Bottom, right.Bottom));

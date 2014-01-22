@@ -81,6 +81,10 @@ namespace Kean.Math.Geometry2D.Double
 		{
 			return new Shell(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom);
 		}
+		public static Shell operator /(Shell left, double right)
+		{
+			return new Shell(left.Left / right, left.Right / right, left.Top / right, left.Bottom / right);
+		}
 		public static Shell Maximum(Shell left, Shell right)
 		{
 			return new Shell(Kean.Math.Double.Maximum(left.Left, right.Left), Kean.Math.Double.Maximum(left.Right, right.Right), Kean.Math.Double.Maximum(left.Top, right.Top), Kean.Math.Double.Maximum(left.Bottom, right.Bottom));
