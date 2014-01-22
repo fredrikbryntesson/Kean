@@ -224,10 +224,10 @@ namespace Kean.Platform.Settings
 					result = Parser.Read(root, resource);
 					break;
 				case "telnet":
-					result = new IO.Net.Tcp.Server(connection => new Parser(root, true, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
+					result = IO.Net.Tcp.ThreadedServer.Start(connection => new Parser(root, true, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
 					break;
 				case "tcp":
-					result = new IO.Net.Tcp.Server(connection =>
+					result = IO.Net.Tcp.ThreadedServer.Start(connection =>
 					{
 						Cli.Terminal terminal = Cli.Terminal.Open(connection);
 						if (terminal.NotNull())
