@@ -58,9 +58,9 @@ namespace Kean.Draw
 		public event Action<CoordinateSystem> CoordinateSystemChanged;
 		#endregion
 		#region Crop
-		Geometry2D.Single.Shell crop;
+		Geometry2D.Integer.Shell crop;
 		[Notify("CropChanged")]
-		public Geometry2D.Single.Shell Crop 
+		public Geometry2D.Integer.Shell Crop 
 		{
 			get { return this.crop; }
 			set
@@ -98,15 +98,15 @@ namespace Kean.Draw
 		protected Image(Image original) :
 			this(original.Size, original.CoordinateSystem, original.Crop, original.Wrap) 
 		{ }
-		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem)
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop)
 		{
 			this.Size = size;
 			this.CoordinateSystem = coordinateSystem;
-		}
-		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Single.Shell crop, bool wrap) :
-			this(size, coordinateSystem)
-		{
 			this.Crop = crop;
+		}
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop, bool wrap) :
+			this(size, coordinateSystem, crop)
+		{
 			this.Wrap = wrap;
 		}
 		public abstract T Convert<T>() where T : Image;

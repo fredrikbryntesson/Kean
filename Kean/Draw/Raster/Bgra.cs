@@ -70,20 +70,20 @@ namespace Kean.Draw.Raster
 		protected override int BytesPerPixel { get { return 4; } }
 		public Bgra(Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 4)), size) { }
-		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 4)), size, coordinateSystem) { }
+		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 4)), size, coordinateSystem, crop) { }
 		public Bgra(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Bgra(IntPtr pointer, Geometry2D.Integer.Size size) :
 			this(new Buffer.Sized(pointer, size.Area * 4), size) { }
 		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, size, CoordinateSystem.Default) { }
-		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+			base(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Bgra(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			base(buffer, size, coordinateSystem, crop) { }
 		protected Bgra(Bgra original) :
 			base(original) { }
 		internal Bgra(Image original) :
-			this(original.Size, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem, original.Crop)
 		{
 			unsafe
 			{

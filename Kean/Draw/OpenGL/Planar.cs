@@ -29,8 +29,8 @@ namespace Kean.Draw.OpenGL
 		Image
 	{
 		protected Packed[] Channels { get; private set; }
-		protected Planar(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, params Packed[] channels) :
-			base(size, coordinateSystem) 
+		protected Planar(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop, params Packed[] channels) :
+			base(size, coordinateSystem, crop) 
 		{
 			this.Channels = channels;
 		}

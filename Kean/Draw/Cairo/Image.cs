@@ -42,7 +42,7 @@ namespace Kean.Draw.Cairo
 			}
 		}
 		protected Image(global::Cairo.Surface backend, Geometry2D.Integer.Size size) :
-			base(size, CoordinateSystem.Default)
+			base(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell())
 		{
 			this.Backend = backend;
 		}

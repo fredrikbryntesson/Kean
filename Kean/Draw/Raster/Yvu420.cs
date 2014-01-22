@@ -32,14 +32,14 @@ namespace Kean.Draw.Raster
 			base(original) { }
 		public Yvu420(Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size) { }
-		public Yvu420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size, coordinateSystem) { }
+		public Yvu420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(size / 2, 1)), size, coordinateSystem, crop) { }
 		public Yvu420(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			this(buffer, size, CoordinateSystem.Default) { }
-		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+			this(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Yvu420(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			base(buffer, size, coordinateSystem, crop) { }
 		internal Yvu420(Image original) :
 			base(original) { }
 		protected override Monochrome CreateU()

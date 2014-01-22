@@ -32,31 +32,31 @@ namespace Kean.Draw.OpenGL
 	{
 		#region Constructors
 		public Bgr(Raster.Image image) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem, image.Crop)
 		{ }
 		public Bgr(OpenGL.Yuv420 image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Canvas.Draw(Map.Yuv420ToBgr, image);
 		}
 		public Bgr(OpenGL.Monochrome image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Canvas.Draw(Map.MonochromeToBgr, image);
 		}
 		public Bgr(OpenGL.Bgra image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Canvas.Draw(image);
 		}
 		public Bgr(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default)
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell())
 		{ }
-		public Bgr(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Rgb, size), coordinateSystem)
+		public Bgr(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Rgb, size), coordinateSystem, crop)
 		{ }
-		protected Bgr(OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem) :
-			base(image, coordinateSystem)
+		protected Bgr(OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(image, coordinateSystem, crop)
 		{ }
 		#endregion
 		#region Image Overrides

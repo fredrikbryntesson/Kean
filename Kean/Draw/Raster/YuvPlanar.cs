@@ -65,8 +65,8 @@ namespace Kean.Draw.Raster
 		public Monochrome U { get; private set; }
 		public Monochrome V { get; private set; }
 
-		protected YuvPlanar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem)
+		protected YuvPlanar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop)
 		{
 			this.Y = this.CreateY();
 			this.U = this.CreateU();

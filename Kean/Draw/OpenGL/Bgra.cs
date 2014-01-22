@@ -32,7 +32,7 @@ namespace Kean.Draw.OpenGL
 	{
 		#region Constructors
 		public Bgra(Raster.Bgra image) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem, image.Crop)
 		{ }
 		public Bgra(Yuv420 image) :
 			this(image.Size, image.CoordinateSystem)
@@ -53,10 +53,10 @@ namespace Kean.Draw.OpenGL
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Bgra(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Rgba, size), coordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Rgba, size), coordinateSystem, new Geometry2D.Integer.Shell())
 		{ }
-		protected Bgra(Draw.OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem) :
-			base(image, coordinateSystem)
+		protected Bgra(Draw.OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(image, coordinateSystem, crop)
 		{ }
 		#endregion
 		#region Image Overrides

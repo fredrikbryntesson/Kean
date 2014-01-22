@@ -61,8 +61,8 @@ namespace Kean.Draw.Raster
 			}
 		}
 
-		protected YuvPacked(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem)
+		protected YuvPacked(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop)
 		{ }
 		protected YuvPacked(Packed original) :
 			base(original)

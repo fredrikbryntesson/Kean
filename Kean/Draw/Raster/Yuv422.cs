@@ -40,21 +40,21 @@ namespace Kean.Draw.Raster
 			}
 		}
 		public Yuv422(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default) { }
-		public Yuv422(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(new Geometry2D.Integer.Size(size.Width / 2, size.Height), 1)), size, coordinateSystem) { }
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Yuv422(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1) + 2 * Packed.CalculateLength(new Geometry2D.Integer.Size(size.Width / 2, size.Height), 1)), size, coordinateSystem, crop) { }
 		public Yuv422(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			this(buffer, size, CoordinateSystem.Default) { }
-		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem)
+			this(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Yuv422(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop)
 		{ }
 		protected Yuv422(Yuv422 original) :
 			base(original)
 		{ }
 		internal Yuv422(Image original) :
-			this(original.Size, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem, original.Crop)
 		{
 			unsafe
 			{

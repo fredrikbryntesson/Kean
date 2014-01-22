@@ -30,10 +30,10 @@ namespace Kean.Draw.OpenGL
 	{
 		#region Constructors
 		public Monochrome(Raster.Monochrome image) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(image), image.CoordinateSystem, image.Crop)
 		{ }
 		public Monochrome(Yuv420 image) :
-			this(image.Y.Backend, image.CoordinateSystem)
+			this(image.Y.Backend, image.CoordinateSystem, image.Crop)
 		{ }
 		public Monochrome(Bgr image) :
 			this(image.Size, image.CoordinateSystem)
@@ -49,10 +49,10 @@ namespace Kean.Draw.OpenGL
 			this(size, CoordinateSystem.Default)
 		{ }
 		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Monochrome, size), coordinateSystem)
+			base(OpenGL.Backend.Context.Current.CreateTexture(OpenGL.Backend.TextureType.Monochrome, size), coordinateSystem, new Geometry2D.Integer.Shell())
 		{ }
-		protected internal Monochrome(OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem) :
-			base(image, coordinateSystem)
+		protected internal Monochrome(OpenGL.Backend.Texture image, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(image, coordinateSystem, crop)
 		{ }
 		#endregion
 		#region Image Overrides

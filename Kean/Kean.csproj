@@ -858,7 +858,10 @@
     <None Include="Math\Complex\Template.tt" />
     <None Include="Math\Geometry2D\Box.tt" />
     <None Include="Math\Geometry2D\Point.tt" />
-    <None Include="Math\Geometry2D\Shell.tt" />
+    <None Include="Math\Geometry2D\Shell.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Shell1.cs</LastGenOutput>
+    </None>
     <None Include="Math\Geometry2D\Size.tt" />
     <None Include="Math\Geometry2D\Transform.tt" />
     <None Include="Math\Geometry3D\Box.tt" />
@@ -877,6 +880,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="../../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets" Condition="Exists('../../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets')" />
   <Import Project="../../packages/Cairo.2.0.0.1/build/Cairo.targets" Condition="Exists('../../packages/Cairo.2.0.0.1/build/Cairo.targets')" />

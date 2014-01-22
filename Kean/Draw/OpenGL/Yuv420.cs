@@ -34,48 +34,48 @@ namespace Kean.Draw.OpenGL
 		public Monochrome V { get { return this.Channels[2] as Monochrome; } }
 
 		public Yuv420(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default)
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell())
 		{ }
-		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+		public Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
 			this(
-			size, coordinateSystem,
-			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size), coordinateSystem),
-			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size / 2), coordinateSystem),
-			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size / 2), coordinateSystem)
+			size, coordinateSystem, crop,
+			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size), coordinateSystem, crop),
+			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size / 2), coordinateSystem, crop / 2),
+			new Monochrome(Backend.Context.Current.CreateTexture(Backend.TextureType.Monochrome, size / 2), coordinateSystem, crop / 2)
 			)
 		{ }
 		public Yuv420(Raster.Yuv420 image) :
 			this(
-			image.Size, image.CoordinateSystem,
+			image.Size, image.CoordinateSystem, image.Crop,
 			new Monochrome(image.Y),
 			new Monochrome(image.U),
 			new Monochrome(image.V)
 			)
 		{ }
 		public Yuv420(Monochrome image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Y.Canvas.Draw(image);
 			this.U.Canvas.Draw(new Kean.Draw.Color.Monochrome(128));
 			this.V.Canvas.Draw(new Kean.Draw.Color.Monochrome(128));
 		}
 		public Yuv420(Bgr image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Y.Canvas.Draw(Map.BgrToMonochrome, image);
 			this.U.Canvas.Draw(Map.BgrToU, image, new Kean.Math.Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0, 0, this.U.Size.Width, this.U.Size.Height));
 			this.V.Canvas.Draw(Map.BgrToV, image, new Kean.Math.Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0, 0, this.V.Size.Width, this.V.Size.Height));
 		}
 		public Yuv420(Bgra image) :
-			this(image.Size, image.CoordinateSystem)
+			this(image.Size, image.CoordinateSystem, image.Crop)
 		{
 			this.Y.Canvas.Draw(Map.BgrToMonochrome, image);
 			this.U.Canvas.Draw(Map.BgrToU, image, new Kean.Math.Geometry2D.Single.Box(0,0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0,0, this.U.Size.Width, this.U.Size.Height));
 			this.V.Canvas.Draw(Map.BgrToV, image, new Kean.Math.Geometry2D.Single.Box(0,0, image.Size.Width, image.Size.Height), new Kean.Math.Geometry2D.Single.Box(0,0, this.V.Size.Width, this.V.Size.Height));
 			// TODO: color space conversion goes here (use Backend.IImage or Backend.IFactory)
 		}
-		Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Monochrome y, Monochrome u, Monochrome v) :
-			base(size, coordinateSystem, y, u, v)
+		Yuv420(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop, Monochrome y, Monochrome u, Monochrome v) :
+			base(size, coordinateSystem, crop, y, u, v)
 		{ }
 		protected Yuv420(Yuv420 original) :
 			base(original)
