@@ -215,7 +215,7 @@ namespace Kean.Draw.Raster
 			bool result;
 			try
 			{
-				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(url));
+				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(url.PlatformPath));
 				result = this.Save(IO.ByteDevice.Create(url), compression);
 			}
 			catch (System.Runtime.InteropServices.ExternalException)
