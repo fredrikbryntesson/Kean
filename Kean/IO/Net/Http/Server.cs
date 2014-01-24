@@ -96,7 +96,7 @@ namespace Kean.IO.Net.Http
 		}
 		Generic.IEnumerable<byte> ReadLine(IO.IByteInDevice device)
 		{
-			foreach (byte b in device.ReadPast(13, 10))
+			foreach (byte b in device.Read(13, 10))
 				if (b != 13 && b!= 10)
 					yield return b;
 			//byte? next = device.Peek();

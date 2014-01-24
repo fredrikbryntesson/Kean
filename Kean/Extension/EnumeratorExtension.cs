@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Extension;
 using Generic = System.Collections.Generic;
@@ -30,7 +31,6 @@ namespace Kean.Extension
 		{
 			return me.NotNull() && me.MoveNext() ? me.Current : default(T);
 		}
-
 		public static T First<T> (this Generic.IEnumerator<T> me)
 		{
 			T result;
@@ -43,25 +43,21 @@ namespace Kean.Extension
 				result = default(T);
 			return result;
 		}
-
 		public static Generic.IEnumerator<T> Restart<T> (this Generic.IEnumerator<T> me)
 		{
 			me.Reset();
 			return me;
 		}
-
 		public static void Apply<T> (this Generic.IEnumerator<T> me, Action<T> function)
 		{
 			while (me.MoveNext())
 				function(me.Current);
 		}
-
 		public static Generic.IEnumerator<S> Map<T, S> (this Generic.IEnumerator<T> me, Func<T, S> function)
 		{
-			while (me.MoveNext()) 
+			while (me.MoveNext())
 				yield return function(me.Current);
 		}
-
 		public static int Index<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			int result = -1;
@@ -76,18 +72,15 @@ namespace Kean.Extension
 					i++;
 			return result;
 		}
-
 		public static int Index<T> (this Generic.IEnumerator<T> me, T needle)
 		{
 			return me.Index(element => element.SameOrEquals(needle));
 		}
-
 		public static int Index<T> (this Generic.IEnumerator<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
 			return me.Index(element => needles.Contains(element));
 		}
-
 		public static bool Contains<T> (this Generic.IEnumerator<T> me, T needle) 
 			where T : IEquatable<T>
 		{
@@ -100,7 +93,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static bool Contains<T> (this Generic.IEnumerator<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
@@ -113,7 +105,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static T Find<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			T result = default(T);
@@ -125,7 +116,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static S Find<T, S> (this Generic.IEnumerator<T> me, Func<T, S> function)
 		{
 			S result = default(S);
@@ -134,7 +124,6 @@ namespace Kean.Extension
 					break;
 			return result;
 		}
-
 		public static bool Exists<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			bool result = false;
@@ -146,7 +135,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static bool All<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			bool result = true;
@@ -158,14 +146,83 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static S Fold<T, S> (this Generic.IEnumerator<T> me, Func<T, S, S> function, S initial)
 		{
 			while (me.MoveNext())
 				initial = function(me.Current, initial);
 			return initial;
 		}
-
+		#region Skip
+		/// <summary>
+		/// Skip the next <paramref name="count"/> elements in <paramref name="me"/>.
+		/// </summary>
+		/// <param name="me">Enumerator to skip in.</param>
+		/// <param name="count">Number of elements to skip.</param>
+		/// <typeparam name="T">Any type.</typeparam>
+		public static Generic.IEnumerator<T> Skip<T> (this Generic.IEnumerator<T> me, int count)
+		{
+			while (count > 0 && me.MoveNext())
+				count--;
+			return me;
+		}
+		/// <summary>
+		/// Skip past the first occurance of separator.
+		/// </summary>
+		/// <param name="me">Enumerator to skip on.</param>
+		/// <param name="separator">Separator to skip past. Shall not contain null.</param>
+		/// <typeparam name="T">Any type implementing <c>IEquatable</c>.</typeparam>
+		public static Generic.IEnumerator<T> Skip<T> (this Generic.IEnumerator<T> me, params T[] separator)
+			where T : IEquatable<T>
+		{
+			int position = 0;
+			while (me.MoveNext())
+			{
+				if (!me.Current.Equals(separator[position++]))
+					position = 0;
+				else if (separator.Length == position)
+					break;
+			}
+			return me;
+		}
+		#endregion
+		#region Read
+		/// <summary>
+		/// Return new enumerator containing the next <paramref name="count"/> elements in <paramref name="me"/>.
+		/// </summary>
+		/// <param name="me">Enumerator to read from.</param>
+		/// <param name="count">Number of elements read.</param>
+		/// <typeparam name="T">Any type.</typeparam>
+		public static Generic.IEnumerator<T> Read<T> (this Generic.IEnumerator<T> me, int count)
+		{
+			if (count > 0)
+				do
+					yield return me.Current;
+				while (--count > 0 && me.MoveNext());
+		}
+		/// <summary>
+		/// Create an enumerator containing all elements in <paramref name="me"/> until <paramref name="separator"/>.
+		/// </summary>
+		/// <param name="me">Enumerator to read from.</param>
+		/// <param name="separator">Separator to read from and move past.</param>
+		/// <typeparam name="T">Any type implementing <c>IEquatable</c>.</typeparam>
+		public static Generic.IEnumerator<T> Read<T> (this Generic.IEnumerator<T> me, params T[] separator)
+			where T : IEquatable<T>
+		{
+			int position = 0;
+			while (me.MoveNext())
+			{
+				if (!me.Current.Equals(separator[position++]))
+				{
+					for (int i = 0; i < position - 1; i++)
+						yield return separator[i];
+					yield return me.Current;
+					position = 0;
+				}
+				else if (separator.Length == position)
+					yield break;
+			}
+		}
+		#endregion
 		public static string Join (this Generic.IEnumerator<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
