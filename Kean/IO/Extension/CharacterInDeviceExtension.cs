@@ -1,10 +1,10 @@
 ﻿//
-//  ByteInDeviceExtension.cs
+//  CharacterInDeviceExtension.cs
 //
 //  Author:
 //       Simon Mika <smika@hx.se>
 //
-//  Copyright (c) 2013 Simon Mika
+//  Copyright (c) 2013-2014 Simon Mika
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -29,20 +29,25 @@ using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Extension
 {
-	public static class ByteInDeviceExtension
+	public static class CharacterInDeviceExtension
 	{
 		#region Skip
 		public static T Skip<T> (this T me, int count)
-			where T : IByteInDevice
+			where T : ICharacterInDevice
 		{
 			while (count > 0 && me.Read().HasValue)
 				count--;
 			return me;
 		}
-		public static T Skip<T> (this T me, params byte[] separator)
-			where T : IByteInDevice
+		public static T Skip<T> (this T me, string separator)
+			where T : ICharacterInDevice
 		{
-			byte? next;
+			return me.Skip(separator.ToCharArray());
+		}
+		public static T Skip<T> (this T me, params char[] separator)
+			where T : ICharacterInDevice
+		{
+			char? next;
 			int position = 0;
 			while ((next = me.Read()).HasValue)
 			{
@@ -55,15 +60,19 @@ namespace Kean.IO.Extension
 		}
 		#endregion
 		#region Read
-		public static Generic.IEnumerable<byte> Read (this IByteInDevice me, int count)
+		public static Generic.IEnumerable<char> Read (this ICharacterInDevice me, int count)
 		{
-			byte? next;
-			while (count > 0 && (next = me.Read()).HasValue)
+			char? next;
+			while (count-- > 0 && (next = me.Read()).HasValue)
 				yield return next.Value;
 		}
-		public static Generic.IEnumerable<byte> Read (this IByteInDevice me, params byte[] separator)
+		public static Generic.IEnumerable<char> Read (this ICharacterInDevice me, string separator)
 		{
-			byte? next;
+			return me.Read(separator.ToCharArray());
+		}
+		public static Generic.IEnumerable<char> Read (this ICharacterInDevice me, params char[] separator)
+		{
+			char? next;
 			int position = 0;
 			while ((next = me.Read()).HasValue)
 			{
@@ -75,15 +84,15 @@ namespace Kean.IO.Extension
 			}
 		}
 		#endregion
-		public static Generic.IEnumerable<byte> AsEnumerable (this IByteInDevice me)
+		public static Generic.IEnumerable<char> AsEnumerable (this ICharacterInDevice me)
 		{
-			byte? next;
+			char? next;
 			while ((next = me.Read()).HasValue)
 				yield return next.Value;
 		}
-		public static Generic.IEnumerator<byte> AsEnumerator (this IByteInDevice me)
+		public static Generic.IEnumerator<char> AsEnumerator (this ICharacterInDevice me)
 		{
-			byte? next;
+			char? next;
 			while ((next = me.Read()).HasValue)
 				yield return next.Value;
 		}

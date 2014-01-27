@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Extension;
 using Generic = System.Collections.Generic;
@@ -38,19 +39,16 @@ namespace Kean.Extension
 				result = default(T);
 			return result;
 		}
-
 		public static void Apply<T> (this Generic.IEnumerable<T> me, Action<T> function)
 		{
 			foreach (T element in me)
 				function(element);
 		}
-
 		public static Generic.IEnumerable<S> Map<T, S> (this Generic.IEnumerable<T> me, Func<T, S> function)
 		{
 			foreach (T element in me)
 				yield return function(element);
 		}
-
 		public static int Index<T> (this Generic.IEnumerable<T> me, Func<T, bool> function)
 		{
 			int result = -1;
@@ -65,18 +63,15 @@ namespace Kean.Extension
 					i++;
 			return result;
 		}
-
 		public static int Index<T> (this Generic.IEnumerable<T> me, T needle)
 		{
 			return me.Index(element => element.SameOrEquals(needle));
 		}
-
 		public static int Index<T> (this Generic.IEnumerable<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
 			return me.Index(element => needles.Contains(element));
 		}
-
 		public static bool Contains<T> (this Generic.IEnumerable<T> me, T needle) 
 			where T : IEquatable<T>
 		{
@@ -89,7 +84,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static bool Contains<T> (this Generic.IEnumerable<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
@@ -102,7 +96,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static T Find<T> (this Generic.IEnumerable<T> me, Func<T, bool> function)
 		{
 			T result = default(T);
@@ -114,7 +107,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static S Find<T, S> (this Generic.IEnumerable<T> me, Func<T, S> function)
 		{
 			S result = default(S);
@@ -123,7 +115,6 @@ namespace Kean.Extension
 					break;
 			return result;
 		}
-
 		public static bool Exists<T> (this Generic.IEnumerable<T> me, Func<T, bool> function)
 		{
 			bool result = false;
@@ -135,7 +126,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static bool All<T> (this Generic.IEnumerable<T> me, Func<T, bool> function)
 		{
 			bool result = true;
@@ -147,7 +137,6 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-
 		public static bool All<T> (this Generic.IEnumerable<T> me, Func<T, bool, bool> function)
 		{
 			bool result = true;
@@ -164,34 +153,19 @@ namespace Kean.Extension
 			}
 			return result;
 		}
-
 		public static S Fold<T, S> (this Generic.IEnumerable<T> me, Func<T, S, S> function, S initial)
 		{
 			foreach (T element in me)
 				initial = function(element, initial);
 			return initial;
 		}
-
-		public static Generic.IEnumerable<T> Append<T> (this Generic.IEnumerable<T> me, params T[] other)
-		{
-			return me.Append(other);
-		}
-
-		public static Generic.IEnumerable<T> Append<T> (this Generic.IEnumerable<T> me, Generic.IEnumerable<T> other)
-		{
-			if (me.NotNull())
-				foreach (T item in me)
-					yield return item;
-			if (other.NotNull())
-				foreach (T item in other)
-					yield return item;
-		}
-
+		#region Prepend, Append
 		public static Generic.IEnumerable<T> Prepend<T> (this Generic.IEnumerable<T> me, params T[] other)
 		{
+			// Analysis disable RedundantCast
 			return me.Prepend((Generic.IEnumerable<T>)other);
+			// Analysis restore RedundantCast
 		}
-
 		public static Generic.IEnumerable<T> Prepend<T> (this Generic.IEnumerable<T> me, Generic.IEnumerable<T> other)
 		{
 			if (other.NotNull())
@@ -201,14 +175,81 @@ namespace Kean.Extension
 				foreach (T item in me)
 					yield return item;
 		}
-
+		public static Generic.IEnumerable<T> Append<T> (this Generic.IEnumerable<T> me, params T[] other)
+		{
+			return me.Append(other);
+		}
+		public static Generic.IEnumerable<T> Append<T> (this Generic.IEnumerable<T> me, Generic.IEnumerable<T> other)
+		{
+			if (me.NotNull())
+				foreach (T item in me)
+					yield return item;
+			if (other.NotNull())
+				foreach (T item in other)
+					yield return item;
+		}
+		#endregion
 		public static Generic.IEnumerable<T> Where<T> (this Generic.IEnumerable<T> me, Func<T, bool> predicate)
 		{
 			foreach (T element in me)
 				if (predicate(element))
 					yield return element;
 		}
-
+		#region Skip
+		public static Generic.IEnumerable<T> Skip<T> (this Generic.IEnumerable<T> me, int count)
+		{
+			var enumerator = me.GetEnumerator();
+			while (count > 0 && enumerator.MoveNext())
+				count--;
+			while (enumerator.MoveNext())
+				yield return enumerator.Current;
+		}
+		public static Generic.IEnumerable<T> Skip<T> (this Generic.IEnumerable<T> me, params T[] separator)
+			where T : IEquatable<T>
+		{
+			int position = 0;
+			var enumerator = me.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				if (!separator[position++].Equals(enumerator.Current))
+					position = 0;
+				else if (separator.Length == position)
+					break;
+			}
+			while (enumerator.MoveNext())
+				yield return enumerator.Current;
+		}
+		#endregion
+		#region Read
+		public static Generic.IEnumerable<T> Read<T> (this Generic.IEnumerable<T> me, int count)
+		{
+			if (count > 0)
+			{
+				var enumerator = me.GetEnumerator();
+				do
+					yield return enumerator.Current;
+				while (--count > 0 && enumerator.MoveNext());
+			}
+		}
+		public static Generic.IEnumerable<T> Read<T> (this Generic.IEnumerable<T> me, params T[] separator)
+			where T : IEquatable<T>
+		{
+			int position = 0;
+			var enumerator = me.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				if (!separator[position++].Equals(enumerator.Current))
+				{
+					for (int i = 0; i < position - 1; i++)
+						yield return separator[i];
+					yield return enumerator.Current;
+					position = 0;
+				}
+				else if (separator.Length == position)
+					break;
+			}
+		}
+		#endregion
 		public static string Join (this Generic.IEnumerable<string> me)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
@@ -217,8 +258,7 @@ namespace Kean.Extension
 				result.Append(enumerator.Current);
 			return result.ToString();
 		}
-
-		public static string Join (this Generic.IEnumerable<string> me, string seperator)
+		public static string Join (this Generic.IEnumerable<string> me, string separator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
 			Generic.IEnumerator<string> enumerator = me.GetEnumerator();
@@ -226,16 +266,14 @@ namespace Kean.Extension
 			{
 				result.Append(enumerator.Current);
 				while (enumerator.MoveNext())
-					result.Append(seperator).Append(enumerator.Current);
+					result.Append(separator).Append(enumerator.Current);
 			}
 			return result.ToString();
 		}
-
 		public static Generic.IEnumerable<char> Decode (this Generic.IEnumerable<byte> me)
 		{
 			return me.Decode(System.Text.Encoding.UTF8);
 		}
-
 		public static Generic.IEnumerable<char> Decode (this Generic.IEnumerable<byte> me, System.Text.Encoding encoding)
 		{
 			byte[] buffer = new byte[3];
@@ -259,7 +297,6 @@ namespace Kean.Extension
 				pointer = 0;
 			}
 		}
-
 		public static string Join (this Generic.IEnumerable<char> me)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();

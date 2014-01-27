@@ -60,11 +60,11 @@ namespace Kean.IO.Net.Http
 			if (contentType.NotNull() && contentType.StartsWith("multipart/x-mixed-replace"))
 			{
 				byte[] boundary = this.GetBoundary(contentType);
-				device.MovePast(boundary);
+				device.Skip(boundary);
 				while (this.response.NotNull() && device.Opened)
 				{
 					Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>(
-						device.ReadPast(13, 10, 13, 10).Decode().Join()
+						device.Read(13, 10, 13, 10).Decode().Join()
 						.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
 						.Map(header => { string[] splitted = header.Split(new string[] { ": " }, 2, StringSplitOptions.None); return splitted.Length == 2 ? KeyValue.Create(splitted[0], splitted[1]) : KeyValue.Create((string)null, (string)null); }));
 					this.Process(headers["Content-Type"], Wrap.PartialByteInDevice.Open(device, boundary), process);
