@@ -76,7 +76,7 @@ namespace Kean.Draw.OpenGL
 		}
 		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
 		{
-			return null;
+			throw new NotImplementedException();
 		}
 		#region Flush, Finish
 		public override void Flush()

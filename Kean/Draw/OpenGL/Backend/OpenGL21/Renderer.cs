@@ -151,7 +151,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		protected void CreateRectangle()
 		{
+			GL.PushMatrix();
+			Geometry2D.Single.Transform.Identity.Load();
 			this.CreateRectangle(new Geometry2D.Single.Box(this.Size));
+			GL.PopMatrix();
 		}
 		protected void CreateRectangle(Geometry2D.Single.Box region)
 		{

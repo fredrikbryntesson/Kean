@@ -55,8 +55,8 @@ namespace Kean.Draw.OpenGL
 		{
 			if (this.Crop.NotZero)
 			{
-				source = (source).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
-				destination = ((Geometry2D.Single.Box)destination).Intersection(this.Crop.Decrease((Geometry2D.Single.Size)((Geometry2D.Integer.Size)this.Size)));
+				source = (source).Intersection(this.Crop.Decrease((Geometry2D.Integer.Size)((Geometry2D.Integer.Size)this.Size)));
+				destination = ((Geometry2D.Single.Box)destination).Intersection(this.Crop.Decrease((Geometry2D.Integer.Size)((Geometry2D.Integer.Size)this.Size)));
 			}
 			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Top / this.Size.Height);
 			Geometry2D.Single.Point rightTop = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Top / this.Size.Height);
