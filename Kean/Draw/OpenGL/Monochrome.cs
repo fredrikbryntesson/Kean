@@ -56,6 +56,10 @@ namespace Kean.Draw.OpenGL
 		{ }
 		#endregion
 		#region Image Overrides
+		public override Draw.Image Create(Geometry2D.Integer.Size size)
+		{
+			return new Monochrome(size);
+		}
 		public override T Convert<T>()
 		{
 			T result = null;
