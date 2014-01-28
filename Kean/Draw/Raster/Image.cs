@@ -326,10 +326,11 @@ namespace Kean.Draw.Raster
 		#region Static Open
 		public static Image OpenResource (System.Reflection.Assembly assembly, string name)
 		{
-			name = assembly.GetName ().Name + "." + name.Replace ('\\', '.').Replace ('/', '.');
+			name = assembly.GetName().Name + "." + name.Replace('\\', '.').Replace('/', '.');
+			assembly.GetManifestResourceNames();
 			Image result;
 			using (System.IO.Stream stream = assembly.GetManifestResourceStream(name))
-				result = Image.Open (stream);
+				result = Image.Open(stream);
 			return result;
 		}
 
@@ -344,9 +345,9 @@ namespace Kean.Draw.Raster
 			string[] splitted = name.Split (new char[] { ':' }, 2);
 			Image result;
 			if (splitted.Length > 1)
-				result = Image.OpenResource (System.Reflection.Assembly.Load (new System.Reflection.AssemblyName (splitted [0])), splitted [1]);
+				result = Image.OpenResource(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted [0])), splitted [1]);
 			else
-				result = Image.OpenResource (System.Reflection.Assembly.GetCallingAssembly (), name);
+				result = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
 			return result;
 		}
 
@@ -355,9 +356,9 @@ namespace Kean.Draw.Raster
 			string[] splitted = name.Split (new char[] { ':' }, 2);
 			T result;
 			if (splitted.Length > 1)
-				result = Image.OpenResource (System.Reflection.Assembly.Load (new System.Reflection.AssemblyName (splitted [0])), splitted [1]).As<T> ();
+				result = Image.OpenResource (System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted [0])), splitted [1]).As<T> ();
 			else
-				result = Image.OpenResource (System.Reflection.Assembly.GetCallingAssembly (), name).As<T> ();
+				result = Image.OpenResource (System.Reflection.Assembly.GetCallingAssembly(), name).As<T> ();
 			return result;
 		}
 
