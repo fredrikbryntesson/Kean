@@ -126,6 +126,27 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.GetTexImage(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, this.Format, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, pointer);
 		}
+		public override void CopyFromTarget()
+		{
+			GL.RasterPos2(0, 0);
+			GL.CopyTexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
+				this.InternalFormat,
+				0,
+				0,
+				this.Size.Width,
+				this.Size.Height, 0);
+		}
+		public override void CopyFromTarget(Geometry2D.Integer.Size offset)
+		{
+			GL.RasterPos2(0, 0);
+			GL.CopyTexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
+				(offset.Width < 0) ? 0 : offset.Width,
+				(offset.Height < 0) ? 0 : offset.Height,
+				(offset.Width < 0) ? (-offset.Width) : 0,
+				(offset.Height < 0) ? (-offset.Height) : 0,
+				this.Size.Width - Kean.Math.Integer.Absolute(offset.Width),
+				this.Size.Height - Kean.Math.Integer.Absolute(offset.Height));
+		}
 		public override void Render(Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box rectangle)
 		{
 			GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);

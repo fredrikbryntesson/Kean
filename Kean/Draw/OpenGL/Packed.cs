@@ -66,17 +66,21 @@ namespace Kean.Draw.OpenGL
 		{
 			return null;
 		}
-		public override Draw.Image Create(Geometry2D.Integer.Size size)
-		{
-			return null;
-		}
 		public override Draw.Image Copy(Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
 		{
 			return null;
 		}
 		public override Draw.Image Shift(Geometry2D.Integer.Size offset)
 		{
-			return null;
+			Packed result = this.Create((Geometry2D.Integer.Size)this.Size) as Packed;
+			result.Canvas.Clear();
+			this.Canvas.Render(surface =>
+			{
+				result.Backend.Use();
+				result.Backend.CopyFromTarget(offset);
+				result.Backend.UnUse();
+			});
+			return result;
 		}
 		#region Flush, Finish
 		public override void Flush()

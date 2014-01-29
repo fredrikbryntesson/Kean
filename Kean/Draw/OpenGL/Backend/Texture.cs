@@ -154,6 +154,8 @@ namespace Kean.Draw.OpenGL.Backend
 		protected abstract void Create(IntPtr data);
 		protected abstract void Load(IntPtr data, Geometry2D.Integer.Box region, TextureType type);
 		protected abstract void Read(IntPtr data);
+		public abstract void CopyFromTarget();
+		public abstract void CopyFromTarget(Geometry2D.Integer.Size offset);
 		protected internal abstract Texture Refurbish();
 		protected internal override void Delete()
 		{
