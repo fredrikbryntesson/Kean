@@ -57,6 +57,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kean\Kean.csproj">
+      <Project>{DB8ACBAC-64DF-439B-BFCD-564D51661CE2}</Project>
+      <Name>Kean</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Math\Geometry2D\Integer\Shell.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -238,20 +244,7 @@
     <Compile Include="Json\Serialize\All.cs" />
     <Compile Include="Json\Serialize\Verifier.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="Json\Serialize\Json\Dictionary.json">
-      <LogicalName>Dictionary.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\List.json">
-      <LogicalName>List.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ListExisting.json">
-      <LogicalName>ListExisting.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ListInterface.json">
-      <LogicalName>ListInterface.json</LogicalName>
-    </EmbeddedResource>
     <None Include="Math\Complex\Template.tt" />
     <None Include="Math\Geometry2D\Box.tt" />
     <None Include="Math\Geometry2D\Point.tt" />
@@ -274,823 +267,274 @@
   <Import Project="../packages/Cairo.2.0.0.1/build/Cairo.targets" Condition="Exists('../packages/Cairo.2.0.0.1/build/Cairo.targets')" />
   <Import Project="../packages/Pango.1.28.3.1/build/Pango.targets" Condition="Exists('../packages/Pango.1.28.3.1/build/Pango.targets')" />
   <ItemGroup>
-    <EmbeddedResource Include="Draw\Cairo\Correct\Bgra\Create.png">
-      <LogicalName>Create.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\Blend.png">
-      <LogicalName>Blend.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\BlendWithClipping.png">
-      <LogicalName>BlendWithClipping.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\Clear.png">
-      <LogicalName>Clear.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ClearArea.png">
-      <LogicalName>ClearArea.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ConvertToRaster.png">
-      <LogicalName>ConvertToRaster.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\CreateFromRaster.png">
-      <LogicalName>CreateFromRaster.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColor.png">
-      <LogicalName>DrawColor.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegion.png">
-      <LogicalName>DrawColorRegion.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegionWithClipping.png">
-      <LogicalName>DrawColorRegionWithClipping.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegionWithTransformAndClipping.png">
-      <LogicalName>DrawColorRegionWithTransformAndClipping.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnPosition.png">
-      <LogicalName>DrawImageOnPosition.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnRegion.png">
-      <LogicalName>DrawImageOnRegion.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnRegionWithClipping.png">
-      <LogicalName>DrawImageOnRegionWithClipping.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ResizeTo.png">
-      <LogicalName>ResizeTo.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ResizeWithin.png">
-      <LogicalName>ResizeWithin.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToBgra.png">
-      <LogicalName>BgrToBgra.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToMonochrome.png">
-      <LogicalName>BgrToMonochrome.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToYuv420.png">
-      <LogicalName>BgrToYuv420.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToBgr.png">
-      <LogicalName>BgraToBgr.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToMonochrome.png">
-      <LogicalName>BgraToMonochrome.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToYuv420.png">
-      <LogicalName>BgraToYuv420.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToBgr.png">
-      <LogicalName>MonochromeToBgr.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToBgra.png">
-      <LogicalName>MonochromeToBgra.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToYuv420.png">
-      <LogicalName>MonochromeToYuv420.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToBgr.png">
-      <LogicalName>Yuv420ToBgr.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToBgra.png">
-      <LogicalName>Yuv420ToBgra.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToMonochrome.png">
-      <LogicalName>Yuv420ToMonochrome.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ClearArea.png">
-      <LogicalName>ClearArea.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ConvertToRaster.png">
-      <LogicalName>ConvertToRaster.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\CreateFromRaster.png">
-      <LogicalName>CreateFromRaster.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColor.png">
-      <LogicalName>DrawColor.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColorRegion.png">
-      <LogicalName>DrawColorRegion.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawImageOnBgra.png">
-      <LogicalName>DrawImageOnBgra.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawImageOnRegion.png">
-      <LogicalName>DrawImageOnRegion.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ResizeTo.png">
-      <LogicalName>ResizeTo.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ResizeWithin.png">
-      <LogicalName>ResizeWithin.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Input\ElephantSeal.jpg">
-      <LogicalName>ElephantSeal.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Input\Flower.jpg">
-      <LogicalName>Flower.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\OpenGL\Input\Hercules.jpg">
-      <LogicalName>Hercules.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Array.xml">
-      <LogicalName>Array.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Class.xml">
-      <LogicalName>Class.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ClassMisfit.xml">
-      <LogicalName>ClassMisfit.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ClassNamed.xml">
-      <LogicalName>ClassNamed.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClass.xml">
-      <LogicalName>ComplexClass.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClassMisfit.xml">
-      <LogicalName>ComplexClassMisfit.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClassNamed.xml">
-      <LogicalName>ComplexClassNamed.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\DateTime.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>DateTime.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\DateTimeOffset.xml">
-      <LogicalName>DateTimeOffset.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Dictionary.mono.xml">
-      <LogicalName>Dictionary.mono.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Dictionary.xml">
-      <LogicalName>Dictionary.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\EmptyClass.xml">
-      <LogicalName>EmptyClass.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Enumerator.xml">
-      <LogicalName>Enumerator.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LogicalName>Include.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\KeyValue.xml">
-      <LogicalName>KeyValue.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Linked.xml">
-      <LogicalName>Linked.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\List.xml">
-      <LogicalName>List.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ListExisting.xml">
-      <LogicalName>ListExisting.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ListInterface.xml">
-      <LogicalName>ListInterface.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28DateTime%29.xml">
-      <LogicalName>Nullable(DateTime).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28DateTimeOffset%29.xml">
-      <LogicalName>Nullable(DateTimeOffset).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28Enumerator%29.xml">
-      <LogicalName>Nullable(Enumerator).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28Structure%29.xml">
-      <LogicalName>Nullable(Structure).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28TimeSpan%29.xml">
-      <LogicalName>Nullable(TimeSpan).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28bool%29.xml">
-      <LogicalName>Nullable(bool).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28byte%29.xml">
-      <LogicalName>Nullable(byte).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28char%29.xml">
-      <LogicalName>Nullable(char).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28decimal%29.xml">
-      <LogicalName>Nullable(decimal).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28double%29.xml">
-      <LogicalName>Nullable(double).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28float%29.xml">
-      <LogicalName>Nullable(float).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28int%29.xml">
-      <LogicalName>Nullable(int).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28long%29.xml">
-      <LogicalName>Nullable(long).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28sbyte%29.xml">
-      <LogicalName>Nullable(sbyte).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28short%29.xml">
-      <LogicalName>Nullable(short).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28uint%29.xml">
-      <LogicalName>Nullable(uint).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28ulong%29.xml">
-      <LogicalName>Nullable(ulong).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28ushort%29.xml">
-      <LogicalName>Nullable(ushort).xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable.xml">
-      <LogicalName>Nullable.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\StringCast.xml">
-      <LogicalName>StringCast.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\StringInterface.xml">
-      <LogicalName>StringInterface.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Structure.xml">
-      <LogicalName>Structure.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\StructureMisfit.xml">
-      <LogicalName>StructureMisfit.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\StructureNamed.xml">
-      <LogicalName>StructureNamed.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\TimeSpan.xml">
-      <LogicalName>TimeSpan.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\bool.xml">
-      <LogicalName>bool.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\byte.xml">
-      <LogicalName>byte.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\byteNamed.xml">
-      <LogicalName>byteNamed.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\char.xml">
-      <LogicalName>char.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\decimal.xml">
-      <LogicalName>decimal.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\double.xml">
-      <LogicalName>double.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\float.xml">
-      <LogicalName>float.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\int.xml">
-      <LogicalName>int.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\long.xml">
-      <LogicalName>long.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\sbyte.xml">
-      <LogicalName>sbyte.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\short.xml">
-      <LogicalName>short.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\string.xml">
-      <LogicalName>string.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\uint.xml">
-      <LogicalName>uint.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ulong.xml">
-      <LogicalName>ulong.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\ushort.xml">
-      <LogicalName>ushort.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Classes0.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Classes1.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number0.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number1.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number2.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number2.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number3.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number3.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number4.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number4.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number5.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number5.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number6.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number6.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number7.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number7.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number8.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number8.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number9.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Number9.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Objects0.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Objects1.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects2.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Objects2.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects3.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Objects3.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures0.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Structures0.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <LogicalName>Structures1.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\fragment001.xml">
-      <LogicalName>fragment001.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid001.xml">
-      <LogicalName>valid001.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid002.xml">
-      <LogicalName>valid002.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid003.xml">
-      <LogicalName>valid003.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid004.xml">
-      <LogicalName>valid004.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid005.xml">
-      <LogicalName>valid005.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid006.xml">
-      <LogicalName>valid006.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid007.xml">
-      <LogicalName>valid007.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid008.xml">
-      <LogicalName>valid008.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Xml\Dom\Data\valid009.xml">
-      <LogicalName>valid009.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\Array.json">
-      <LogicalName>Array.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\BooleanFalse.json">
-      <LogicalName>BooleanFalse.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\BooleanTrue.json">
-      <LogicalName>BooleanTrue.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\Empty.json">
-      <LogicalName>Empty.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\Null.json">
-      <LogicalName>Null.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\Number.json">
-      <LogicalName>Number.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\Object.json">
-      <LogicalName>Object.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\ObjectEmpty.json">
-      <LogicalName>ObjectEmpty.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\ObjectNested.json">
-      <LogicalName>ObjectNested.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\ObjectSingle.json">
-      <LogicalName>ObjectSingle.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Dom\Data\String.json">
-      <LogicalName>String.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Array.json">
-      <LogicalName>Array.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Class.json">
-      <LogicalName>Class.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ClassMisfit.json">
-      <LogicalName>ClassMisfit.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ComplexClass.json">
-      <LogicalName>ComplexClass.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ComplexClassMisfit.json">
-      <LogicalName>ComplexClassMisfit.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\DateTime.json">
-      <LogicalName>DateTime.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\DateTimeOffset.json">
-      <LogicalName>DateTimeOffset.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Dictionary.mono.json">
-      <LogicalName>Dictionary.mono.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\EmptyClass.json">
-      <LogicalName>EmptyClass.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Enumerator.json">
-      <LogicalName>Enumerator.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\KeyValue.json">
-      <LogicalName>KeyValue.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Linked.json">
-      <LogicalName>Linked.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28DateTime%29.json">
-      <LogicalName>Nullable(DateTime).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28DateTimeOffset%29.json">
-      <LogicalName>Nullable(DateTimeOffset).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28Enumerator%29.json">
-      <LogicalName>Nullable(Enumerator).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28Structure%29.json">
-      <LogicalName>Nullable(Structure).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28TimeSpan%29.json">
-      <LogicalName>Nullable(TimeSpan).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28bool%29.json">
-      <LogicalName>Nullable(bool).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28byte%29.json">
-      <LogicalName>Nullable(byte).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28char%29.json">
-      <LogicalName>Nullable(char).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28decimal%29.json">
-      <LogicalName>Nullable(decimal).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28double%29.json">
-      <LogicalName>Nullable(double).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28float%29.json">
-      <LogicalName>Nullable(float).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28int%29.json">
-      <LogicalName>Nullable(int).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28long%29.json">
-      <LogicalName>Nullable(long).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28sbyte%29.json">
-      <LogicalName>Nullable(sbyte).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28short%29.json">
-      <LogicalName>Nullable(short).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28uint%29.json">
-      <LogicalName>Nullable(uint).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28ulong%29.json">
-      <LogicalName>Nullable(ulong).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28ushort%29.json">
-      <LogicalName>Nullable(ushort).json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Nullable.json">
-      <LogicalName>Nullable.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\StringCast.json">
-      <LogicalName>StringCast.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\StringInterface.json">
-      <LogicalName>StringInterface.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\Structure.json">
-      <LogicalName>Structure.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\StructureMisfit.json">
-      <LogicalName>StructureMisfit.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\TimeSpan.json">
-      <LogicalName>TimeSpan.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\bool.json">
-      <LogicalName>bool.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\byte.json">
-      <LogicalName>byte.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\char.json">
-      <LogicalName>char.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\decimal.json">
-      <LogicalName>decimal.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\double.json">
-      <LogicalName>double.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\float.json">
-      <LogicalName>float.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\int.json">
-      <LogicalName>int.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\long.json">
-      <LogicalName>long.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\sbyte.json">
-      <LogicalName>sbyte.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\short.json">
-      <LogicalName>short.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\string.json">
-      <LogicalName>string.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\uint.json">
-      <LogicalName>uint.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ulong.json">
-      <LogicalName>ulong.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Json\Serialize\Json\ushort.json">
-      <LogicalName>ushort.json</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Abbreviation.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Abbreviation.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Address.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Address.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Anchor.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Anchor.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Aside.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Aside.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Audio.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Audio.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Base.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Base.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.BidirectionalOverride.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.BidirectionalOverride.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Caption.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Caption.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Cite.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Cite.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Code.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Code.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Definition.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Definition.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.DescriptionList.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.DescriptionList.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Division.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Division.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Emphasized.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Emphasized.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Form.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Form.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Heading.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Heading.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.InlineFrame.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.InlineFrame.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Italic.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Italic.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.KeyBoardInput.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.KeyBoardInput.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Mark.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Mark.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Meter.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Meter.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.NoScript.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.NoScript.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Object.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Object.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.OrderedList.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.OrderedList.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Paragraph.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Paragraph.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.PreformattedText.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.PreformattedText.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Progress.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Progress.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Quote.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Quote.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Sample.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Sample.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Select.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Select.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Small.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Small.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Strong.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Strong.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.TextArea.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.TextArea.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Variable.0.html">
-      <LogicalName>Kean.Html.Dom.Test.Save.Variable.0.html</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Bitmap.png">
-      <LogicalName>Bitmap.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\BitmapRectangle.png">
-      <LogicalName>BitmapRectangle.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\BitmapText.png">
-      <LogicalName>BitmapText.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Circle.png">
-      <LogicalName>Circle.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\CircleFill.png">
-      <LogicalName>CircleFill.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Create.png">
-      <LogicalName>Create.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\CurveTo.png">
-      <LogicalName>CurveTo.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Ellipse.png">
-      <LogicalName>Ellipse.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\EllipseStroke.png">
-      <LogicalName>EllipseStroke.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\EllipticalArcTo.png">
-      <LogicalName>EllipticalArcTo.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\MoveToLineTo.png">
-      <LogicalName>MoveToLineTo.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Rectangle.png">
-      <LogicalName>Rectangle.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFill.png">
-      <LogicalName>RectangleFill.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFillOnly.png">
-      <LogicalName>RectangleFillOnly.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFillStrokePath.png">
-      <LogicalName>RectangleFillStrokePath.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RoundedRectangle.png">
-      <LogicalName>RoundedRectangle.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RoundedRectangleStroke.png">
-      <LogicalName>RoundedRectangleStroke.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Text.png">
-      <LogicalName>Text.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\TextFill.png">
-      <LogicalName>TextFill.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\TextStroke.png">
-      <LogicalName>TextStroke.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Triangle.png">
-      <LogicalName>Triangle.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Convert\monochrome.png">
-      <LogicalName>monochrome.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Convert\original.png">
-      <LogicalName>original.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Convert\original.txt">
-      <LogicalName>original.txt</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\aspect.png">
-      <LogicalName>aspect.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\coordinateSystem.png">
-      <LogicalName>coordinateSystem.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\original.png">
-      <LogicalName>original.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\resized1.png">
-      <LogicalName>resized1.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\resized2.png">
-      <LogicalName>resized2.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\rotated.png">
-      <LogicalName>rotated.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\scaled.png">
-      <LogicalName>scaled.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedBgr.png">
-      <LogicalName>shiftedBgr.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedBgra.png">
-      <LogicalName>shiftedBgra.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedMonochrome.png">
-      <LogicalName>shiftedMonochrome.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYuv420.png">
-      <LogicalName>shiftedYuv420.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYuyv.png">
-      <LogicalName>shiftedYuyv.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYvu420.png">
-      <LogicalName>shiftedYvu420.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Draw\Raster\Correct\Transform\translated.png">
-      <LogicalName>translated.png</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Json\Serialize\Json\Dictionary.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\List.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ListExisting.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ListInterface.json" />
+    <EmbeddedResource Include="Draw\Cairo\Correct\Bgra\Create.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\Blend.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\BlendWithClipping.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\Clear.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ClearArea.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ConvertToRaster.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\CreateFromRaster.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColor.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegion.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegionWithClipping.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawColorRegionWithTransformAndClipping.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnPosition.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnRegion.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageOnRegionWithClipping.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ResizeTo.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\ResizeWithin.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToBgra.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToMonochrome.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgrToYuv420.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToBgr.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToMonochrome.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\BgraToYuv420.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToBgr.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToBgra.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\MonochromeToYuv420.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToBgr.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToBgra.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Convert\Yuv420ToMonochrome.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ClearArea.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ConvertToRaster.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\CreateFromRaster.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColor.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColorRegion.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawImageOnBgra.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawImageOnRegion.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ResizeTo.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\ResizeWithin.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Input\ElephantSeal.jpg" />
+    <EmbeddedResource Include="Draw\OpenGL\Input\Flower.jpg" />
+    <EmbeddedResource Include="Draw\OpenGL\Input\Hercules.jpg" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Array.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Class.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ClassMisfit.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ClassNamed.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClass.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClassMisfit.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ComplexClassNamed.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\DateTime.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\DateTimeOffset.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Dictionary.mono.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Dictionary.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\EmptyClass.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Enumerator.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\KeyValue.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Linked.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\List.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ListExisting.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ListInterface.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28DateTime%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28DateTimeOffset%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28Enumerator%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28Structure%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28TimeSpan%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28bool%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28byte%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28char%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28decimal%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28double%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28float%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28int%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28long%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28sbyte%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28short%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28uint%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28ulong%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable%28ushort%29.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Nullable.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\StringCast.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\StringInterface.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Structure.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\StructureMisfit.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\StructureNamed.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\TimeSpan.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\bool.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\byte.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\byteNamed.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\char.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\decimal.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\double.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\float.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\int.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\long.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\sbyte.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\short.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\string.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\uint.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ulong.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\ushort.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes0.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes1.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number0.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number1.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number2.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number3.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number4.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number5.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number6.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number7.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number8.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number9.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects0.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects1.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects2.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects3.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures0.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures1.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\fragment001.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid001.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid002.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid003.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid004.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid005.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid006.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid007.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid008.xml" />
+    <EmbeddedResource Include="Xml\Dom\Data\valid009.xml" />
+    <EmbeddedResource Include="Json\Dom\Data\Array.json" />
+    <EmbeddedResource Include="Json\Dom\Data\BooleanFalse.json" />
+    <EmbeddedResource Include="Json\Dom\Data\BooleanTrue.json" />
+    <EmbeddedResource Include="Json\Dom\Data\Empty.json" />
+    <EmbeddedResource Include="Json\Dom\Data\Null.json" />
+    <EmbeddedResource Include="Json\Dom\Data\Number.json" />
+    <EmbeddedResource Include="Json\Dom\Data\Object.json" />
+    <EmbeddedResource Include="Json\Dom\Data\ObjectEmpty.json" />
+    <EmbeddedResource Include="Json\Dom\Data\ObjectNested.json" />
+    <EmbeddedResource Include="Json\Dom\Data\ObjectSingle.json" />
+    <EmbeddedResource Include="Json\Dom\Data\String.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Array.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Class.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ClassMisfit.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ComplexClass.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ComplexClassMisfit.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\DateTime.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\DateTimeOffset.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Dictionary.mono.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\EmptyClass.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Enumerator.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\KeyValue.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Linked.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28DateTime%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28DateTimeOffset%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28Enumerator%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28Structure%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28TimeSpan%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28bool%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28byte%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28char%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28decimal%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28double%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28float%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28int%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28long%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28sbyte%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28short%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28uint%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28ulong%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable%28ushort%29.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Nullable.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\StringCast.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\StringInterface.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\Structure.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\StructureMisfit.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\TimeSpan.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\bool.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\byte.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\char.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\decimal.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\double.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\float.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\int.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\long.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\sbyte.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\short.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\string.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\uint.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ulong.json" />
+    <EmbeddedResource Include="Json\Serialize\Json\ushort.json" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Abbreviation.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Address.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Anchor.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Aside.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Audio.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Base.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.BidirectionalOverride.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Caption.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Cite.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Code.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Definition.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.DescriptionList.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Division.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Emphasized.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Form.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Heading.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.InlineFrame.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Italic.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.KeyBoardInput.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Mark.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Meter.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.NoScript.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Object.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.OrderedList.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Paragraph.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.PreformattedText.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Progress.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Quote.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Sample.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Select.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Small.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Strong.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.TextArea.0.html" />
+    <EmbeddedResource Include="Html\Correct\Kean.Html.Dom.Test.Save.Variable.0.html" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Bitmap.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\BitmapRectangle.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\BitmapText.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Circle.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\CircleFill.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Create.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\CurveTo.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Ellipse.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\EllipseStroke.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\EllipticalArcTo.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\MoveToLineTo.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Rectangle.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFill.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFillOnly.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RectangleFillStrokePath.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RoundedRectangle.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\RoundedRectangleStroke.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Text.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\TextFill.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\TextStroke.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Bgra\Triangle.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Convert\monochrome.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Convert\original.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Convert\original.txt" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\aspect.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\coordinateSystem.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\original.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\resized1.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\resized2.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\rotated.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\scaled.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedBgr.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedBgra.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedMonochrome.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYuv420.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYuyv.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\shiftedYvu420.png" />
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\translated.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColorRegionWithoutBackground.png" />
+    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageUsingMapping.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Kean\Kean.csproj">
-      <Project>{DB8ACBAC-64DF-439B-BFCD-564D51661CE2}</Project>
-      <Name>Kean</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Monochrome\DrawColorRegionWithoutBackground.png">
-      <LogicalName>DrawColorRegionWithoutBackground.png</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Draw\OpenGL\Correct\Bgra\DrawImageUsingMapping.png">
-      <LogicalName>DrawImageUsingMapping.png</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\.nuget\NuGet.targets" Condition="Exists('..\..\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
