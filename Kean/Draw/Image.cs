@@ -98,15 +98,11 @@ namespace Kean.Draw
 		protected Image(Image original) :
 			this(original.Size, original.CoordinateSystem, original.Crop, original.Wrap) 
 		{ }
-		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop)
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell(), bool wrap = false)
 		{
 			this.Size = size;
 			this.CoordinateSystem = coordinateSystem;
 			this.Crop = crop;
-		}
-		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop, bool wrap) :
-			this(size, coordinateSystem, crop)
-		{
 			this.Wrap = wrap;
 		}
 		public abstract T Convert<T>() where T : Image;

@@ -84,27 +84,6 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		{
 			GL.LoadIdentity();
 		}
-		public override void CopyToTexture()
-		{
-			GL.RasterPos2(0, 0);
-			GL.CopyTexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
-				OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba,
-				0,
-				0,
-				this.Size.Width,
-				this.Size.Height, 0);
-		}
-		public override void CopyToTexture(Geometry2D.Integer.Size offset)
-		{
-			GL.RasterPos2(0, 0);
-			GL.CopyTexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0,
-				(offset.Width < 0) ? 0 : offset.Width,
-				(offset.Height < 0) ? 0 : offset.Height,
-				(offset.Width < 0) ? (-offset.Width) : 0,
-				(offset.Height < 0) ? (-offset.Height) : 0,
-				this.Size.Width - Kean.Math.Integer.Absolute(offset.Width),
-				this.Size.Height - Kean.Math.Integer.Absolute(offset.Height));
-		}
 		public override void Read(IntPtr pointer, Geometry2D.Integer.Box region)
 		{
 			switch (this.Type)
@@ -151,7 +130,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 		}
 		protected void CreateRectangle()
 		{
+			GL.PushMatrix();
+			Geometry2D.Single.Transform.Identity.Load();
 			this.CreateRectangle(new Geometry2D.Single.Box(this.Size));
+			GL.PopMatrix();
 		}
 		protected void CreateRectangle(Geometry2D.Single.Box region)
 		{

@@ -79,8 +79,6 @@ namespace Kean.Draw.OpenGL.Backend
 		public abstract void UnSetClip();
 		public abstract void SetTransform(Geometry2D.Single.Transform transform);
 		public abstract void SetIdentityTransform();
-		public abstract void CopyToTexture();
-		public abstract void CopyToTexture(Geometry2D.Integer.Size offset);
 		public abstract void Read(IntPtr pointer, Geometry2D.Integer.Box region);
 
 		public abstract void Clear();

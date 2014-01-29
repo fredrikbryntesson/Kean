@@ -47,19 +47,29 @@ namespace Kean.Draw
 		#region Render
 		public void Render(Action<Surface> render)
 		{
-			this.surface.Use();
+			this.Use();
 			render.Call(this.surface);
-			this.surface.Unuse();
+			this.Unuse();
 		}
 		public void Render(params Action<Surface>[] render)
 		{
-			this.surface.Use();
+			this.Use();
 			foreach (Action<Surface> r in render)
 				r.Call(this.surface);
-			this.surface.Unuse();
+			this.Unuse();
 		}
 		#endregion
 		#region Surface Implementation
+		#region Use, Unuse
+		protected internal override void Use()
+		{
+			this.surface.Use();
+		}
+		protected internal override void Unuse()
+		{
+			this.surface.Unuse();
+		}
+		#endregion
 		#region Clip, Transform
 		protected override Geometry2D.Single.Box OnClipChange(Geometry2D.Single.Box clip)
 		{

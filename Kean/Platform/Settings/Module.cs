@@ -83,21 +83,25 @@ namespace Kean.Platform.Settings
 		}
 		protected override internal void Start()
 		{
-			Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).TryDispose();
-			if (System.IO.Directory.Exists(this.Application.ExecutablePath + "/Settings/"))
-				foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
-					Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(file)).TryDispose();
-			Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).TryDispose();
-			foreach (Uri.Locator locator in this.configurations)
-				Settings.Parser.Listen(this.root, locator).TryDispose();
-			if (this.settings.NotNull() && this.settings.Count > 0)
-				Settings.Parser.Read(this.root, new IO.Text.CharacterInDevice(this.settings.Join("\n"))).TryDispose();
-			if (this.remotes.NotNull())
-				foreach (Uri.Locator locator in this.remotes)
-				{
-					IDisposable editor = Settings.Parser.Listen(this.root, locator);
-					this.editors.Add(editor);
-				}
+			this.Application.OnStarted += () => Parallel.ThreadPool.Global.Enqueue(() =>
+			{
+					System.Threading.Thread.Sleep(100);
+				Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/" + System.IO.Path.GetFileNameWithoutExtension(this.Application.Executable).Replace(".vshost", "") + ".conf")).TryDispose();
+				if (System.IO.Directory.Exists(this.Application.ExecutablePath + "/Settings/"))
+					foreach (string file in System.IO.Directory.GetFiles(this.Application.ExecutablePath + "/Settings/", "*.conf", System.IO.SearchOption.AllDirectories))
+						Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(file)).TryDispose();
+				Settings.Parser.Listen(this.root, Uri.Locator.FromPlatformPath(this.Application.ExecutablePath + "/settings.conf")).TryDispose();
+				foreach (Uri.Locator locator in this.configurations)
+					Settings.Parser.Listen(this.root, locator).TryDispose();
+				if (this.settings.NotNull() && this.settings.Count > 0)
+					Settings.Parser.Read(this.root, new IO.Text.CharacterInDevice(this.settings.Join("\n"))).TryDispose();
+				if (this.remotes.NotNull())
+					foreach (Uri.Locator locator in this.remotes)
+					{
+						IDisposable editor = Settings.Parser.Listen(this.root, locator);
+						this.editors.Add(editor);
+					}
+				});
 			base.Start();
 		}
 		protected override internal void Stop()
