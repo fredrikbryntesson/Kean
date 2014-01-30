@@ -62,19 +62,19 @@ namespace Kean.Draw.Raster
 		}
 
 		public Uyvy(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default) { }
-		public Uyvy(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem) { }
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Uyvy(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem, crop) { }
 		public Uyvy(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Uyvy(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, size, CoordinateSystem.Default) { }
-		public Uyvy(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+			base(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Uyvy(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop) { }
 		protected Uyvy(Uyvy original) :
 			base(original) { }
 		internal Uyvy(Image original) :
-			this(original.Size, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem, original.Crop)
 		{
 			unsafe
 			{

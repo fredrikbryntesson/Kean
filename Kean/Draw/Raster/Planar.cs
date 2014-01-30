@@ -30,8 +30,8 @@ namespace Kean.Draw.Raster
 	{
 		protected Planar(Planar original) :
 			base(original) { }
-		protected Planar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+		protected Planar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop) { }
 
 	}
 }

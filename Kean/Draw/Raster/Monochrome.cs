@@ -65,21 +65,21 @@ namespace Kean.Draw.Raster
 		protected override int BytesPerPixel { get { return 1; } }
 
 		public Monochrome(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default) { }
-		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1)), size, coordinateSystem) { }
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Monochrome(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(new Buffer.Vector<byte>(Packed.CalculateLength(size, 1)), size, coordinateSystem, crop) { }
 		public Monochrome(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Monochrome(IntPtr pointer, Geometry2D.Integer.Size size) :
 			this(new Buffer.Sized(pointer, Packed.CalculateLength(size, 1)), size) { }
 		public Monochrome(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, size, CoordinateSystem.Default) { }
-		public Monochrome(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+			base(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Monochrome(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(buffer, size, coordinateSystem, crop) { }
 		protected Monochrome(Monochrome original) :
 			base(original) { }
 		internal Monochrome(Image original) :
-			this(original.Size, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem, original.Crop)
 		{
 			unsafe
 			{

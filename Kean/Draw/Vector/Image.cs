@@ -34,7 +34,7 @@ namespace Kean.Draw.Vector
 		public override Draw.Canvas Canvas { get { return this.canvas; } }
 
 		public Image(Geometry2D.Integer.Size size) :
-			base(size, CoordinateSystem.Default)
+			base(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell())
 		{
 			this.canvas = new Canvas(this);
 		}

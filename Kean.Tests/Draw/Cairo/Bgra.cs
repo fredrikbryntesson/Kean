@@ -42,7 +42,7 @@ namespace Kean.Draw.Cairo.Test
 		public void Create()
 		{
 			using (Cairo.Raster image = new Cairo.Bgra(new Geometry2D.Integer.Size(128, 256)))
-			using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem))
+			using (Draw.Raster.Bgra raster = new Draw.Raster.Bgra(image.Buffer, image.Size, image.CoordinateSystem, image.Crop))
 				Verify(raster, "Draw.Cairo.Correct.Bgra.Create.png");
 		}
 	}

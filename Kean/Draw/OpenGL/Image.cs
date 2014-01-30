@@ -42,8 +42,8 @@ namespace Kean.Draw.OpenGL
 			this.LeftBottom = original.LeftBottom;
 			this.RightBottom = original.RightBottom;
 		}
-		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(size, coordinateSystem)
+		protected Image(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(size, coordinateSystem, crop)
 		{
 			this.LeftTop = new Geometry2D.Single.Point(0, 0);
 			this.RightTop = new Geometry2D.Single.Point(1, 0);
@@ -55,8 +55,8 @@ namespace Kean.Draw.OpenGL
 		{
 			if (this.Crop.NotZero)
 			{
-				source = (source).Intersection(this.Crop.Decrease((Geometry2D.Integer.Size)((Geometry2D.Integer.Size)this.Size)));
-				destination = ((Geometry2D.Single.Box)destination).Intersection(this.Crop.Decrease((Geometry2D.Integer.Size)((Geometry2D.Integer.Size)this.Size)));
+				source = (source).Intersection(this.Crop.Decrease(this.Size));
+				destination = ((Geometry2D.Single.Box)destination).Intersection(this.Crop.Decrease(this.Size));
 			}
 			Geometry2D.Single.Point leftTop = new Geometry2D.Single.Point(source.Left / this.Size.Width, source.Top / this.Size.Height);
 			Geometry2D.Single.Point rightTop = new Geometry2D.Single.Point(source.Right / this.Size.Width, source.Top / this.Size.Height);

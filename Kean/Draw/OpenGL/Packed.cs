@@ -34,8 +34,8 @@ namespace Kean.Draw.OpenGL
 		#region Constructors
 		protected Packed(Planar original) :
 			base(original) { }
-		protected Packed(Backend.Texture backend, CoordinateSystem coordinateSystem) :
-			base(backend.Size, coordinateSystem)
+		protected Packed(Backend.Texture backend, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(backend.Size, coordinateSystem, new Geometry2D.Integer.Shell())
 		{
 			this.Backend = backend;
 		}

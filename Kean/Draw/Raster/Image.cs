@@ -58,8 +58,9 @@ namespace Kean.Draw.Raster
 		{
 			this.buffer = original.buffer.Copy();
 		}
-		protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(size, coordinateSystem)
+
+		protected Image (Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
+			base(size, coordinateSystem, crop)
 		{
 			this.buffer = buffer;
 		}

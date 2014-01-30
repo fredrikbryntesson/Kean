@@ -63,19 +63,19 @@ namespace Kean.Draw.Raster
 		}
 
 		public Yuyv(Geometry2D.Integer.Size size) :
-			this(size, CoordinateSystem.Default) { }
-		public Yuyv(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem) { }
+			this(size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Yuyv(Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			this(new Buffer.Vector<byte>(Packed.CalculateLength(size, 2)), size, coordinateSystem, crop) { }
 		public Yuyv(byte[] data, Geometry2D.Integer.Size size) :
 			this(new Buffer.Vector<byte>(data), size) { }
 		public Yuyv(Buffer.Sized buffer, Geometry2D.Integer.Size size) :
-			base(buffer, size, CoordinateSystem.Default) { }
-		public Yuyv(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
-			base(buffer, size, coordinateSystem) { }
+			base(buffer, size, CoordinateSystem.Default, new Geometry2D.Integer.Shell()) { }
+		public Yuyv(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop = new Geometry2D.Integer.Shell()) :
+			base(buffer, size, coordinateSystem, crop) { }
 		protected Yuyv(Yuyv original) :
 			base(original) { }
 		internal Yuyv(Image original) :
-			this(original.Size, original.CoordinateSystem)
+			this(original.Size, original.CoordinateSystem, original.Crop)
 		{
 			unsafe
 			{

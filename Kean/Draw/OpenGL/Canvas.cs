@@ -55,13 +55,13 @@ namespace Kean.Draw.OpenGL
 			switch (this.renderer.Type)
 			{
 				case OpenGL.Backend.TextureType.Rgb:
-					result = new Raster.Bgr(this.Size, this.Image.CoordinateSystem);
+					result = new Raster.Bgr(this.Size, this.Image.CoordinateSystem, this.Image.Crop);
 					break;
 				case OpenGL.Backend.TextureType.Rgba:
-					result = new Raster.Bgra(this.Size, this.Image.CoordinateSystem);
+					result = new Raster.Bgra(this.Size, this.Image.CoordinateSystem, this.Image.Crop);
 					break;
 				case OpenGL.Backend.TextureType.Monochrome:
-					result = new Raster.Monochrome(this.Size, this.Image.CoordinateSystem);
+					result = new Raster.Monochrome(this.Size, this.Image.CoordinateSystem, this.Image.Crop);
 					break;
 				default:
 					result = null;
