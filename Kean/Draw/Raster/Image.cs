@@ -35,79 +35,68 @@ namespace Kean.Draw.Raster
 		Draw.Image
 	{
 		protected int DistanceRadius { get { return 1; } }
-
 		Cairo.Image cairo;
-
-		Cairo.Image Cairo {
-			get {
-				if (this.cairo.IsNull ())
-					this.cairo = this.CreateCairoImage (this.buffer, this.Size);
+		Cairo.Image Cairo
+		{
+			get
+			{
+				if (this.cairo.IsNull())
+					this.cairo = this.CreateCairoImage(this.buffer, this.Size);
 				return this.cairo; 
 			}
 		}
-
 		public override Canvas Canvas { get { return this.Cairo.Canvas; } }
-
 		Buffer.Sized buffer;
-
 		public Buffer.Sized Buffer { get { return this.buffer; } }
-
 		public IntPtr Pointer { get { return this.buffer; } }
-
 		public int Length { get { return this.buffer.Size; } }
-
 		public abstract void Apply (Action<Color.Bgr> action);
-
 		public abstract void Apply (Action<Color.Yuv> action);
-
 		public abstract void Apply (Action<Color.Monochrome> action);
-
-		protected Image (Image original) :
+		protected Image(Image original) :
 			base(original)
 		{
-			this.buffer = original.buffer.Copy ();
+			this.buffer = original.buffer.Copy();
 		}
-
-		protected Image (Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
+		protected Image(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem) :
 			base(size, coordinateSystem)
 		{
 			this.buffer = buffer;
 		}
-
 		protected virtual Cairo.Image CreateCairoImage (Buffer.Sized buffer, Geometry2D.Integer.Size size)
 		{
 			return null;
 		}
-
 		public override Draw.Image ResizeTo (Geometry2D.Integer.Size size)
 		{
 			Draw.Image result = null;
-			using (Bgra resized = new Bgra((Geometry2D.Integer.Size)size) { CoordinateSystem = this.CoordinateSystem }) {
-				using (System.Drawing.Bitmap bitmap = this.Convert<Raster.Bgra>().GdiBitmap()) {
+			using (Bgra resized = new Bgra((Geometry2D.Integer.Size)size) { CoordinateSystem = this.CoordinateSystem })
+			{
+				using (System.Drawing.Bitmap bitmap = this.Convert<Raster.Bgra>().GdiBitmap())
+				{
 					using (System.Drawing.Bitmap b = resized.GdiBitmap())
 					using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
-						g.DrawImage (bitmap, new System.Drawing.Rectangle (0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle (0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+						g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
 				}
 				if (this is Monochrome)
-					result = resized.Convert<Monochrome> ();
+					result = resized.Convert<Monochrome>();
 				else if (this is Bgr)
-					result = resized.Convert<Bgr> ();
+					result = resized.Convert<Bgr>();
 				else if (this is Bgra)
-					result = resized.Convert<Bgra> ();
+					result = resized.Convert<Bgra>();
 				else if (this is Yuv420)
-					result = resized.Convert<Yuv420> ();
+					result = resized.Convert<Yuv420>();
 				else if (this is Yvu420)
-					result = resized.Convert<Yvu420> ();
+					result = resized.Convert<Yvu420>();
 				else if (this is Yuv444)
-					result = resized.Convert<Yuv444> ();
+					result = resized.Convert<Yuv444>();
 				else if (this is Yuv422)
-					result = resized.Convert<Yuv422> ();
+					result = resized.Convert<Yuv422>();
 				else if (this is Yuyv)
-					result = resized.Convert<Yuyv> ();
+					result = resized.Convert<Yuyv>();
 			}
 			return result;
 		}
-
 		/// <summary>
 		/// Copy a specified region of the current image. The transform specifies the part of current image to be copied.
 		/// The transform is map which sends a rectangle of size Resolution centered at origo to a transformed (scaled, rotated, translated) one 
@@ -119,73 +108,77 @@ namespace Kean.Draw.Raster
 		public override Draw.Image Copy (Geometry2D.Integer.Size size, Geometry2D.Single.Transform transform)
 		{
 			transform = (Geometry2D.Single.Transform)this.Transform * transform * (Geometry2D.Single.Transform)this.Transform.Inverse;
-			Geometry2D.Single.Transform mappingTransform = Geometry2D.Single.Transform.CreateTranslation (this.Size.Width / 2, this.Size.Height / 2) * transform;
-			Geometry2D.Single.Point upperLeft = mappingTransform * new Geometry2D.Single.Point (-size.Width / 2, -size.Height / 2);
-			Geometry2D.Single.Point upperRight = mappingTransform * new Geometry2D.Single.Point (size.Width / 2, -size.Height / 2);
-			Geometry2D.Single.Point downLeft = mappingTransform * new Geometry2D.Single.Point (-size.Width / 2, size.Height / 2);
-			Geometry2D.Single.Point downRight = mappingTransform * new Geometry2D.Single.Point (size.Width / 2, size.Height / 2);
-			Geometry2D.Single.Box source = Geometry2D.Single.Box.Bounds (upperLeft, upperRight, downLeft, downRight);
+			Geometry2D.Single.Transform mappingTransform = Geometry2D.Single.Transform.CreateTranslation(this.Size.Width / 2, this.Size.Height / 2) * transform;
+			Geometry2D.Single.Point upperLeft = mappingTransform * new Geometry2D.Single.Point(-size.Width / 2, -size.Height / 2);
+			Geometry2D.Single.Point upperRight = mappingTransform * new Geometry2D.Single.Point(size.Width / 2, -size.Height / 2);
+			Geometry2D.Single.Point downLeft = mappingTransform * new Geometry2D.Single.Point(-size.Width / 2, size.Height / 2);
+			Geometry2D.Single.Point downRight = mappingTransform * new Geometry2D.Single.Point(size.Width / 2, size.Height / 2);
+			Geometry2D.Single.Box source = Geometry2D.Single.Box.Bounds(upperLeft, upperRight, downLeft, downRight);
 			Geometry2D.Single.Transform mappingTransformInverse = mappingTransform.Inverse;
 			upperLeft = mappingTransformInverse * source.LeftTop;
 			upperRight = mappingTransformInverse * source.RightTop;
 			downLeft = mappingTransformInverse * source.LeftBottom;
 			downRight = mappingTransformInverse * source.RightBottom;
-			return this.Copy (size, source, upperLeft, upperRight, downLeft);
+			return this.Copy(size, source, upperLeft, upperRight, downLeft);
 		}
-
 		Image Copy (Geometry2D.Single.Size size, Geometry2D.Single.Box source, Geometry2D.Single.Point upperLeft, Geometry2D.Single.Point upperRight, Geometry2D.Single.Point lowerLeft)
 		{
-			Bgra result = new Bgra ((Geometry2D.Integer.Size)size.Ceiling ());
-			using (System.Drawing.Bitmap bitmap = this.GdiBitmap()) {
+			Bgra result = new Bgra((Geometry2D.Integer.Size)size.Ceiling());
+			using (System.Drawing.Bitmap bitmap = this.GdiBitmap())
+			{
 				using (System.Drawing.Bitmap b = result.GdiBitmap())
-				using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b)) {
-					Geometry2D.Single.Point offset = new Geometry2D.Single.Point (result.Size.Width / 2, result.Size.Height / 2);
+				using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
+				{
+					Geometry2D.Single.Point offset = new Geometry2D.Single.Point(result.Size.Width / 2, result.Size.Height / 2);
 					upperLeft += offset;
 					upperRight += offset;
 					lowerLeft += offset;
-					g.DrawImage (bitmap, new System.Drawing.PointF[3] {
-						new System.Drawing.PointF (upperLeft.X, upperLeft.Y),
-						new System.Drawing.PointF (upperRight.X, upperRight.Y),
-						new System.Drawing.PointF (lowerLeft.X, lowerLeft.Y)
-					}, new System.Drawing.RectangleF (source.Left, source.Top, source.Width, source.Height), System.Drawing.GraphicsUnit.Pixel);
+					g.DrawImage(bitmap, new System.Drawing.PointF[3] {
+						new System.Drawing.PointF(upperLeft.X, upperLeft.Y),
+						new System.Drawing.PointF(upperRight.X, upperRight.Y),
+						new System.Drawing.PointF(lowerLeft.X, lowerLeft.Y)
+					}, new System.Drawing.RectangleF(source.Left, source.Top, source.Width, source.Height), System.Drawing.GraphicsUnit.Pixel);
 				}
 			}
 			return result;
 		}
-
 		public override T Convert<T> ()
 		{
 			T result = null;
 			Reflect.Type type = typeof(T);
-			if (type == this.Type () || type == typeof(Image))
-				result = this.Copy () as T;
-			else if (type.Inherits<Image> ())
-			if (type.Inherits<Packed> ()) {
+			if (type == this.Type() || type == typeof(Image))
+				result = this.Copy() as T;
+			else if (type.Inherits<Image>())
+			if (type.Inherits<Packed>())
+			{
 				if (type == typeof(Bgr))
-					result = new Bgr (this) as T;
+					result = new Bgr(this) as T;
 				else if (type == typeof(Bgra))
-					result = new Bgra (this) as T;
+					result = new Bgra(this) as T;
 				else if (type == typeof(Monochrome))
-					result = new Monochrome (this) as T;
+					result = new Monochrome(this) as T;
 				else if (type == typeof(Yuyv))
-					result = new Yuyv (this) as T;
+					result = new Yuyv(this) as T;
 				else if (type == typeof(Uyvy))
-					result = new Uyvy (this) as T;
-			} else {
-				if (type == typeof(Yuv420))
-					result = new Yuv420 (this) as T;
-				else if (type == typeof(Yvu420))
-					result = new Yvu420 (this) as T;
-				else if (type == typeof(Yuv444))
-					result = new Yuv444 (this) as T;
-				else if (type == typeof(Yuv422))
-					result = new Yuv422 (this) as T;
+					result = new Uyvy(this) as T;
 			}
-			else if (type.Inherits<Cairo.Image> ()) {
-				if (type == typeof(Cairo.Image) || type == this.cairo.GetType ())
+			else
+			{
+				if (type == typeof(Yuv420))
+					result = new Yuv420(this) as T;
+				else if (type == typeof(Yvu420))
+					result = new Yvu420(this) as T;
+				else if (type == typeof(Yuv444))
+					result = new Yuv444(this) as T;
+				else if (type == typeof(Yuv422))
+					result = new Yuv422(this) as T;
+			}
+			else if (type.Inherits<Cairo.Image>())
+			{
+				if (type == typeof(Cairo.Image) || type == this.cairo.GetType())
 					result = this.Cairo as T;
 				else if (type == typeof(Cairo.Bgra))
-					result = this.Convert<Bgra> ().Cairo as T;
+					result = this.Convert<Bgra>().Cairo as T;
 			}
 			return result;
 		}
@@ -207,16 +200,19 @@ namespace Kean.Draw.Raster
 					compression = Compression.Png;
 					break;
 			}
-			return this.Save (url, compression);
+			return this.Save(url, compression);
 		}
-
 		public bool Save (Uri.Locator url, Compression compression)
 		{
 			bool result;
 			try
 			{
-				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(url.PlatformPath));
-				result = this.Save(IO.ByteDevice.Create(url), compression);
+				if (url.Scheme == "file")
+					using (var stream = System.IO.File.Open(System.IO.Path.GetFullPath(url.PlatformPath), System.IO.FileMode.CreateNew, System.IO.FileAccess.Write, System.IO.FileShare.Write))
+						result = this.Save(stream, compression);
+				else
+					using (var device = IO.BlockDevice.Create(url))
+						result = this.Save(device, compression);
 			}
 			catch (System.Runtime.InteropServices.ExternalException)
 			{
@@ -224,17 +220,17 @@ namespace Kean.Draw.Raster
 			}
 			return result;
 		}
-		public bool Save(IO.IByteOutDevice device, Compression compression)
+		public bool Save (IO.IByteOutDevice device, Compression compression)
 		{
 			using (System.IO.Stream stream = IO.Wrap.ByteStream.Wrap(device))
 				return this.Save(stream, compression);
 		}
-		public bool Save(IO.IBlockOutDevice device, Compression compression)
+		public bool Save (IO.IBlockOutDevice device, Compression compression)
 		{
 			using (System.IO.Stream stream = IO.Wrap.BlockStream.Wrap(device))
 				return this.Save(stream, compression);
 		}
-		public bool Save(System.IO.Stream stream, Compression compression)
+		public bool Save (System.IO.Stream stream, Compression compression)
 		{
 			bool result = true;
 			Image converted;
@@ -270,30 +266,27 @@ namespace Kean.Draw.Raster
 		#region Metric
 		public override float Distance (Draw.Image other)
 		{
-			return other is Image ? this.buffer.Distance ((other as Image).buffer) : float.MaxValue;
+			return other is Image ? this.buffer.Distance((other as Image).buffer) : float.MaxValue;
 		}
 		#endregion
 		#region Object Overrides
 		public override bool Equals (object other)
 		{
-			return other is Image && this.Equals (other as Image);
+			return other is Image && this.Equals(other as Image);
 		}
-
 		public override bool Equals (Draw.Image other)
 		{
-			return base.Equals (other) && other is Image &&
-				this.buffer.NotNull () == (other as Image).buffer.NotNull () &&
-				(this.buffer as Collection.IVector<byte>).Equals ((other as Image).buffer as Collection.IVector<byte>);
+			return base.Equals(other) && other is Image &&
+			this.buffer.NotNull() == (other as Image).buffer.NotNull() &&
+			(this.buffer as Collection.IVector<byte>).Equals((other as Image).buffer as Collection.IVector<byte>);
 		}
-
 		public override int GetHashCode ()
 		{
-			return this.buffer.GetHashCode () ^ this.Size.GetHashCode () ^ this.CoordinateSystem.GetHashCode ();
+			return this.buffer.GetHashCode() ^ this.Size.GetHashCode() ^ this.CoordinateSystem.GetHashCode();
 		}
-
 		public override string ToString ()
 		{
-			return "<" + this.Size.ToString () + ">";
+			return "<" + this.Size.ToString() + ">";
 		}
 		#endregion
 		#region Static Create
@@ -301,24 +294,27 @@ namespace Kean.Draw.Raster
 		{
 			T result = null;
 			Type type = typeof(T);
-			if (type.IsSubclassOf (typeof(Packed))) {
+			if (type.IsSubclassOf(typeof(Packed)))
+			{
 				if (type == typeof(Bgr))
-					result = new Bgr (size) as T;
+					result = new Bgr(size) as T;
 				else if (type == typeof(Bgra))
-					result = new Bgra (size) as T;
+					result = new Bgra(size) as T;
 				else if (type == typeof(Monochrome))
-					result = new Monochrome (size) as T;
+					result = new Monochrome(size) as T;
 				else if (type == typeof(Yuyv))
-					result = new Yuyv (size) as T;
-			} else {
+					result = new Yuyv(size) as T;
+			}
+			else
+			{
 				if (type == typeof(Yuv420))
-					result = new Yuv420 (size) as T;
+					result = new Yuv420(size) as T;
 				else if (type == typeof(Yvu420))
-					result = new Yvu420 (size) as T;
+					result = new Yvu420(size) as T;
 				else if (type == typeof(Yuv444))
-					result = new Yuv444 (size) as T;
+					result = new Yuv444(size) as T;
 				else if (type == typeof(Yuv422))
-					result = new Yuv422 (size) as T;
+					result = new Yuv422(size) as T;
 			}
 			return result;
 		}
@@ -333,50 +329,48 @@ namespace Kean.Draw.Raster
 				result = Image.Open(stream);
 			return result;
 		}
-
 		public static T OpenResource<T> (System.Reflection.Assembly assembly, string name) where T : Raster.Image
 		{
 			Image result = Image.OpenResource(assembly, name);
-			return result.NotNull() ? result.As<T> () : null;
+			return result.NotNull() ? result.As<T>() : null;
 		}
-
 		public static Image OpenResource (string name)
 		{
-			string[] splitted = name.Split (new char[] { ':' }, 2);
+			string[] splitted = name.Split(new char[] { ':' }, 2);
 			Image result;
 			if (splitted.Length > 1)
-				result = Image.OpenResource(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted [0])), splitted [1]);
+				result = Image.OpenResource(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted[0])), splitted[1]);
 			else
 				result = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name);
 			return result;
 		}
-
 		public static T OpenResource<T> (string name) where T : Raster.Image
 		{
-			string[] splitted = name.Split (new char[] { ':' }, 2);
+			string[] splitted = name.Split(new char[] { ':' }, 2);
 			T result;
 			if (splitted.Length > 1)
-				result = Image.OpenResource (System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted [0])), splitted [1]).As<T> ();
+				result = Image.OpenResource(System.Reflection.Assembly.Load(new System.Reflection.AssemblyName(splitted[0])), splitted[1]).As<T>();
 			else
-				result = Image.OpenResource (System.Reflection.Assembly.GetCallingAssembly(), name).As<T> ();
+				result = Image.OpenResource(System.Reflection.Assembly.GetCallingAssembly(), name).As<T>();
 			return result;
 		}
-
 		public static Image Open (string filename)
 		{
 			Image result;
-			try {
+			try
+			{
 				using (System.IO.Stream stream = new System.IO.StreamReader(filename).BaseStream)
-					result = Image.Open (stream);
-			} catch (System.IO.IOException) {
+					result = Image.Open(stream);
+			}
+			catch (System.IO.IOException)
+			{
 				result = null;
 			}
 			return result;
 		}
-
 		public static T Open<T> (string filename) where T : Raster.Image
 		{
-			return Image.Open (filename).As<T> ();
+			return Image.Open(filename).As<T>();
 		}
 		public static Image Open (IO.IByteInDevice device)
 		{
@@ -385,28 +379,32 @@ namespace Kean.Draw.Raster
 		public static Image Open (System.IO.Stream stream)
 		{
 			Image result;
-			try {
-				result = new System.Drawing.Bitmap (stream).AsImage ();
-			} catch (ArgumentException) {
+			try
+			{
+				result = new System.Drawing.Bitmap(stream).AsImage();
+			}
+			catch (ArgumentException)
+			{
 				result = null;
 			}
 			return result;
 		}
-
 		public static T Open<T> (System.IO.Stream stream) where T : Raster.Image
 		{
-			return Image.Open (stream).As<T> ();
+			return Image.Open(stream).As<T>();
 		}
 		#endregion
 		#region IDisposable Members Override
 		public override void Dispose ()
 		{
-			if (this.cairo.NotNull ()) {
-				this.cairo.Dispose ();
+			if (this.cairo.NotNull())
+			{
+				this.cairo.Dispose();
 				this.cairo = null;
 			}
-			if (this.buffer.NotNull ()) {
-				this.buffer.Dispose ();
+			if (this.buffer.NotNull())
+			{
+				this.buffer.Dispose();
 				this.buffer = null;
 			}
 		}
