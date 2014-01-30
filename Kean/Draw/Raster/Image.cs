@@ -209,8 +209,11 @@ namespace Kean.Draw.Raster
 			try
 			{
 				if (url.Scheme == "file")
+				{
+					System.IO.Directory.CreateDirectory(url.Path.FolderPath.PlatformPath);
 					using (var stream = System.IO.File.Open(System.IO.Path.GetFullPath(url.PlatformPath), System.IO.FileMode.CreateNew, System.IO.FileAccess.Write, System.IO.FileShare.Write))
 						result = this.Save(stream, compression);
+				}
 				else
 					using (var device = IO.BlockDevice.Create(url))
 						result = this.Save(device, compression);
