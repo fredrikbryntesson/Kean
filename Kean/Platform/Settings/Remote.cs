@@ -35,10 +35,10 @@ namespace Kean.Platform.Settings
 		IDisposable
 	{
 		RemoteConfiguration configuration = new RemoteConfiguration();
-		public RemoteConfiguration Configuration 
+		public RemoteConfiguration Configuration
 		{
 			get { return this.configuration; }
-			set 
+			set
 			{ 
 				this.configuration = value;
 				if (this.configuration.NotNull())
@@ -49,7 +49,6 @@ namespace Kean.Platform.Settings
 				}
 			}
 		}
-
 		Collection.IDictionary<string, Action<string>> values = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> notifications = new Collection.Synchronized.Dictionary<string, Action<string>>();
 		Collection.IDictionary<string, Action<string>> types = new Collection.Synchronized.Dictionary<string, Action<string>>();
@@ -57,13 +56,20 @@ namespace Kean.Platform.Settings
 		Action<bool> onResponse;
 		event Action<bool> OnResponse
 		{
-			add { lock(this.onResponseLock) this.onResponse += value; }
-			remove { lock (this.onResponseLock) this.onResponse -= value; }
+			add
+			{
+				lock (this.onResponseLock)
+					this.onResponse += value;
+			}
+			remove
+			{
+				lock (this.onResponseLock)
+					this.onResponse -= value;
+			}
 		}
 		IO.ICharacterReader reader;
 		IO.ICharacterWriter writer;
 		Parallel.RepeatThread thread;
-
 		Remote(IO.ICharacterReader reader, IO.ICharacterWriter writer)
 		{
 			this.reader = reader;
@@ -128,7 +134,7 @@ namespace Kean.Platform.Settings
 				this.OnResponse += onResponse;
 				string sent = this.Send(method, arguments);
 				if (this.thread.IsCurrent)
-					while(!done)
+					while (!done)
 						this.Receive();
 				else
 					lock (@lock)
@@ -177,8 +183,14 @@ namespace Kean.Platform.Settings
 			{
 				lock (@lock)
 				{
-					try { result = value.Parse<T>(); }
-					catch { Error.Log.Append(Error.Level.Recoverable, "Remote failed parsing.", "Failed parsing result of {0} with value {1} of type {2}.", property, value, typeof(T)); }
+					try
+					{
+						result = value.Parse<T>();
+					}
+					catch
+					{
+						Error.Log.Append(Error.Level.Recoverable, "Remote failed parsing.", "Failed parsing result of {0} with value {1} of type {2}.", property, value, typeof(T));
+					}
 					finally
 					{
 						done = true;
@@ -227,8 +239,6 @@ namespace Kean.Platform.Settings
 				Error.Log.Append(Error.Level.Recoverable, "Remote Type Request Read Timed Out.", "Timed out while waiting for response when requesting type of \"{0}\" over \"{1}\".", sent, this.writer.Resource);
 			return result;
 		}
-
-
 		void Receive()
 		{
 			lock (this.Lock)
@@ -237,16 +247,16 @@ namespace Kean.Platform.Settings
 				while (this.reader.Next() && this.reader.Last != '\n')
 				{
 					if (line.NotNull() || !char.IsWhiteSpace(this.reader.Last))
-						if (this.reader.Last == '>' && line == "# ")
-						{
-							line = null;
-							this.OnResponseCall(true);
-						}
-						else if (!char.IsControl(this.reader.Last))
-							line += this.reader.Last;
+					if (this.reader.Last == '>' && line == "# ")
+					{
+						line = null;
+						this.OnResponseCall(true);
+					}
+					else if (!char.IsControl(this.reader.Last))
+						line += this.reader.Last;
 				}
 				this.Configuration.Debug(false, (string)line);
-				string[] splitted = ((string)line).Split(new char[] { ' ' }, 3);
+				string[] splitted = ((string)line ?? "").Split(new char[] { ' ' }, 3);
 				if (splitted.Length > 1)
 				{
 					switch (splitted[0])
@@ -274,7 +284,6 @@ namespace Kean.Platform.Settings
 				}
 			}
 		}
-
 		void OnResponseCall(bool success)
 		{
 			Action<bool> onResponse;
@@ -285,7 +294,6 @@ namespace Kean.Platform.Settings
 			}
 			onResponse.Call(success);
 		}
-
 		string Send(string message, params object[] arguments)
 		{
 			IO.Text.Builder builder = new IO.Text.Builder(message);
@@ -296,7 +304,6 @@ namespace Kean.Platform.Settings
 			this.writer.WriteLine(result);
 			return result;
 		}
-
 		public void Dispose()
 		{
 			if (this.thread.NotNull())
@@ -315,8 +322,6 @@ namespace Kean.Platform.Settings
 				this.reader = null;
 			}
 		}
-
-
 		public static Remote Open(Uri.Locator resource)
 		{
 			IO.ICharacterDevice result = null;
@@ -340,7 +345,6 @@ namespace Kean.Platform.Settings
 		{
 			return reader.NotNull() && writer.NotNull() ? new Remote(reader, writer) : null;
 		}
-
 		public static Remote Open(System.IO.Stream input, System.IO.Stream output)
 		{
 			return Remote.Open(IO.ByteDevice.Open(input), IO.ByteDevice.Open(output));

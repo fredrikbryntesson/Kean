@@ -37,13 +37,11 @@ namespace Kean.IO
 		object peekedLock = new object();
 		Collection.IVector<byte> peeked;
 		#region Constructors
-
 		protected BlockDevice(System.IO.Stream stream)
 		{
 			this.stream = stream;
 			this.Resource = "stream:///";
 		}
-
 		#endregion
 		#region IBlockDevice
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
@@ -52,9 +50,9 @@ namespace Kean.IO
 		#region IBlockInDevice
 		Collection.IVector<byte> RawRead()
 		{
-			byte[] buffer = new byte[64 * 1024];
+			var buffer = new byte[64 * 1024];
 			int count = this.stream.Read(buffer, 0, buffer.Length);
-			return new Collection.Slice<byte>(buffer, 0, count);
+			return count > 0 ? new Collection.Slice<byte>(buffer, 0, count) : null;
 		}
 		public Collection.IVector<byte> Peek()
 		{

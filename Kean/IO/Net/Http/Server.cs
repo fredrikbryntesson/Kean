@@ -24,6 +24,7 @@ using Kean;
 using Kean.Extension;
 using Uri = Kean.Uri;
 using Kean.IO.Extension;
+using Kean.Collection.Extension;
 using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Net.Http
@@ -31,7 +32,7 @@ namespace Kean.IO.Net.Http
 	public class Server :
 		IDisposable
 	{
-		public event Action Closed 
+		public event Action Closed
 		{ 
 			add { this.connection.Closed += value; } 
 			remove { this.connection.Closed -= value; } 
@@ -45,10 +46,10 @@ namespace Kean.IO.Net.Http
 		public Uri.Path Path { get; private set; }
 		public string Protocol { get; private set; }
 		Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>();
-		public string this[string key] 
+		public string this [string key]
 		{ 
 			get { return this.headers[key]; } 
-			set 
+			set
 			{ 
 				if (key.NotEmpty())
 					this.headers[key] = value; 
@@ -97,7 +98,7 @@ namespace Kean.IO.Net.Http
 		Generic.IEnumerable<byte> ReadLine(IO.IByteInDevice device)
 		{
 			foreach (byte b in device.Read(13, 10))
-				if (b != 13 && b!= 10)
+				if (b != 13 && b != 10)
 					yield return b;
 			//byte? next = device.Peek();
 			//if (next.HasValue && next.Value == 32 || next.Value == 9) // lines broken into several lines must start with space (SP) or horizontal tab (HT)
@@ -115,6 +116,85 @@ namespace Kean.IO.Net.Http
 				this.Writer.WriteLine(header.Key + ": " + header.Value);
 			this.Writer.WriteLine();
 			return true;
+		}
+		public void SendFile(Uri.Locator file)
+		{
+			using (var device = BlockDevice.Open(file))
+				if (device.NotNull())
+				{
+					string type;
+					switch (file.Path.Extension)
+					{
+						case "html":
+							type = "text/html; charset=utf8";
+							break;
+						case "css":
+							type = "text/css";
+							break;
+						case "mp4":
+							type = "video/mp4";
+							break;
+						case "webm":
+							type = "video/webm";
+							break;
+						case "png":
+							type = "image/png";
+							break;
+						case "jpeg":
+						case "jpg":
+							type = "image/jpeg";
+							break;
+						case "svg":
+							type = "image/svg+xml";
+							break;
+						case "gif":
+							type = "image/gif";
+							break;
+						case "json":
+							type = "application/json";
+							break;
+						case "js":
+							type = "application/javascript";
+							break;
+						case "pdf":
+							type = "application/pdf";
+							break;
+						case "xml":
+							type = "application/xml";
+							break;
+						case "zip":
+							type = "application/zip";
+							break;
+						default:
+							type = null;
+							break;
+					}
+					this.Respond(Status.OK, 
+						KeyValue.Create("Transfer-Encoding", "chunked"),
+						KeyValue.Create("Content-Type", type)
+					);
+					this.SendChunked(device);
+				}
+				else
+					this.Send(Status.NotFound);
+		}
+		public void SendChunked(IBlockInDevice device)
+		{
+			while (!device.Empty)
+			{
+				var block = device.Read();
+				this.Device.Write((block.Count + "\r\n").AsBinary().Merge(block).Merge("\r\n".AsBinary()));
+			}
+			this.Device.Write(("\r\n").AsBinary());
+		}
+		public void Send(Status status)
+		{
+			var message = status.AsHtml.AsBinary();
+			this.Respond(status, 
+				KeyValue.Create("Content-Length", message.Length.ToString()),
+				KeyValue.Create("Content-Type", "text/html; charset=utf8")
+			);
+			this.Device.Write(message);
 		}
 		public bool Close()
 		{

@@ -31,13 +31,14 @@ namespace Kean.Html.Dom
 	{
 		public Head Head { get; set; }
 		public Body Body { get; set; }
-
 		public Document() :
 			this("")
-		{ }
+		{
+		}
 		public Document(string title) :
 			this(new Head(title), new Body())
-		{}
+		{
+		}
 		public Document(Head head, Body body)
 		{
 			this.Head = head;
@@ -56,7 +57,9 @@ namespace Kean.Html.Dom
 		{
 			return "<!DOCTYPE html> \n <html> \n" + this.Head.Format(1) + this.Body.Format(1) + "</html> \n";
 		}
-
-
+		public static implicit operator string(Document document)
+		{
+			return document.NotNull() ? document.ToString() : null;
+		}
 	}
 }
