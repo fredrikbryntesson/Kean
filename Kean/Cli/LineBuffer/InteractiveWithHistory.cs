@@ -52,14 +52,14 @@ namespace Kean.Cli.LineBuffer
 			{
 				if (this.position == this.last)
 					this.history[this.Position] = this.Line;
-				this.Replace(this.history[--this.Position]);
+				this.Replace(this.history[--this.Position % this.size]);
 			}
 		}
 
 		protected override void OnDown()
 		{
 			if (this.Position != this.last)
-				this.Replace(this.history[++this.Position]);
+				this.Replace(this.history[++this.Position % this.size]);
 		}
 
 		protected override void OnEnter()
