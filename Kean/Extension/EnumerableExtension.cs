@@ -39,6 +39,19 @@ namespace Kean.Extension
 				result = default(T);
 			return result;
 		}
+		public static T? FirstOrNull<T>(this Generic.IEnumerable<T> me)
+			where T :struct
+		{
+			T? result;
+			if (me.NotNull())
+			{
+				using (Generic.IEnumerator<T> enumerator = me.GetEnumerator())
+					result = enumerator.MoveNext() ? enumerator.Current : default(T);
+			}
+			else
+				result = null;
+			return result;
+		}
 		public static void Apply<T>(this Generic.IEnumerable<T> me, Action<T> function)
 		{
 			foreach (T element in me)

@@ -46,10 +46,10 @@ namespace Kean.IO
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
 		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
-		byte[] inBuffer = new byte[64 * 1024];
+		readonly byte[] inBuffer = new byte[64 * 1024];
 		int inBufferEnd;
 		int inBufferStart;
-		byte? RawRead ()
+		byte? RawRead()
 		{
 			if (this.inBufferStart >= this.inBufferEnd && this.stream.NotNull())
 			{
@@ -69,11 +69,11 @@ namespace Kean.IO
 			return this.inBufferStart == this.inBufferEnd ? null : (byte?)this.inBuffer[this.inBufferStart++];
 		}
 		#region IByteInDevice Members
-		public byte? Peek ()
+		public byte? Peek()
 		{
 			return this.peeked.HasValue ? this.peeked : this.peeked = this.RawRead();
 		}
-		public byte? Read ()
+		public byte? Read()
 		{
 			byte? result;
 			if (this.peeked.HasValue)
@@ -89,7 +89,7 @@ namespace Kean.IO
 		#region IByteOutDevice Members
 		object outBufferLock = new object();
 		Collection.Array.List<byte> outBuffer = new Collection.Array.List<byte>();
-		public bool Write (Generic.IEnumerable<byte> buffer)
+		public bool Write(Generic.IEnumerable<byte> buffer)
 		{
 			bool result = true;
 			try
@@ -111,7 +111,7 @@ namespace Kean.IO
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush { get; set; }
-		public bool Flush ()
+		public bool Flush()
 		{
 			byte[] array;
 			int count;
@@ -133,7 +133,7 @@ namespace Kean.IO
 		#region IDevice Members
 		public Uri.Locator Resource { get; private set; }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
-		public virtual bool Close ()
+		public virtual bool Close()
 		{
 			bool result;
 			if (result = this.stream.NotNull())
@@ -147,26 +147,26 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IDisposable Members
-		void IDisposable.Dispose ()
+		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
 		#endregion
 		#region Static Open, Wrap & Create
 		#region Open
-		public static IByteDevice Open (System.IO.Stream stream)
+		public static IByteDevice Open(System.IO.Stream stream)
 		{
 			return stream.NotNull() ? new ByteDevice(stream) : null;
 		}
-		public static IByteDevice Open (Uri.Locator resource)
+		public static IByteDevice Open(Uri.Locator resource)
 		{
 			return ByteDevice.Open(resource, System.IO.FileMode.Open);
 		}
-		public static IByteDevice Open (Uri.Locator input, Uri.Locator output)
+		public static IByteDevice Open(Uri.Locator input, Uri.Locator output)
 		{
 			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Create(output));
 		}
-		static IByteDevice Open (Uri.Locator resource, System.IO.FileMode mode)
+		static IByteDevice Open(Uri.Locator resource, System.IO.FileMode mode)
 		{
 			IByteDevice result = null;
 			if (resource.NotNull())
@@ -209,13 +209,13 @@ namespace Kean.IO
 				}
 			return result;
 		}
-		public static IByteDevice Open (System.Reflection.Assembly assembly, Uri.Path resource)
+		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
 			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
 		}
 		#endregion
 		#region Create
-		public static IByteDevice Create (Uri.Locator resource)
+		public static IByteDevice Create(Uri.Locator resource)
 		{
 			IByteDevice result = ByteDevice.Open(resource, System.IO.FileMode.Create);
 			if (result.IsNull() && resource.NotNull())
@@ -227,7 +227,7 @@ namespace Kean.IO
 		}
 		#endregion
 		#region Wrap
-		public static IByteDevice Wrap (System.IO.Stream stream)
+		public static IByteDevice Wrap(System.IO.Stream stream)
 		{
 			return stream.NotNull() ? new ByteDevice(stream) { Wrapped = true } : null;
 		}

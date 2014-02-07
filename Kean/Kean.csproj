@@ -856,6 +856,7 @@
     <Compile Include="IO\Net\Http\Path.cs" />
     <Compile Include="IO\Net\Http\ChunkedBlockOutDevice.cs" />
     <Compile Include="IO\Wrap\BlockByteOutDevice.cs" />
+    <Compile Include="IO\Device.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />

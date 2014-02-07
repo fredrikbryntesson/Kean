@@ -328,7 +328,7 @@ namespace Kean.Platform.Settings
 			switch (resource.Scheme)
 			{
 				case "tcp":
-					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority == "" ? (Uri.Endpoint)"127.0.0.1" : resource.Authority.Endpoint));
+					result = IO.CharacterDevice.Open(IO.Net.Tcp.Connection.Connect(resource.Authority == "" ? (Uri.Endpoint)"127.0.0.1" : resource.Authority.Endpoint).ByteDevice);
 					break;
 			}
 			return Remote.Open(result);

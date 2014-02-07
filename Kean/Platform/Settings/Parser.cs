@@ -34,7 +34,7 @@ namespace Kean.Platform.Settings
 	{
 		internal Object Root { get; private set; }
 		Object current;
-		internal Object Current 
+		internal Object Current
 		{
 			get { return this.current; }
 			set
@@ -45,10 +45,10 @@ namespace Kean.Platform.Settings
 		}
 		Cli.ITerminal terminal;
 		Cli.LineBuffer.Abstract lineBuffer;
-		Cli.LineBuffer.Abstract LineBuffer 
+		Cli.LineBuffer.Abstract LineBuffer
 		{
 			get { return this.lineBuffer; }
-			set 
+			set
 			{
 				if (value != this.lineBuffer)
 				{
@@ -72,11 +72,9 @@ namespace Kean.Platform.Settings
 				}
 			}
 		}
-
 		[Property("asynchronous", "Asynchronous mode.", "Asynchronous mode [None | Set | Notify | SetNotify | Call | SetCall | NotifyCall | All], where Set, Notify, and Call make property sets, notifications, and method calls, respectively, asynchronous. This means that the application will not wait for a response from the callee.")]
 		public Asynchronous Asynchronous { get; set; }
-
-		public bool Interactive 
+		public bool Interactive
 		{
 			get { return !(this.LineBuffer is Cli.LineBuffer.Simple); }
 			set
@@ -85,7 +83,6 @@ namespace Kean.Platform.Settings
 					this.LineBuffer = value ? (Cli.LineBuffer.Abstract)new Cli.LineBuffer.InteractiveWithHistory(this.terminal) : new Cli.LineBuffer.Simple(this.terminal);
 			}
 		}
-
 		Parser(object root, bool interactive, Cli.ITerminal terminal)
 		{
 			this.terminal = terminal;
@@ -115,7 +112,7 @@ namespace Kean.Platform.Settings
 			else
 				member = this.current;
 
-			string[] splitted = line.Split(new char[] {' '}, 2, StringSplitOptions.RemoveEmptyEntries);
+			string[] splitted = line.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
 			Collection.List<string> parameters = new Collection.List<string>();
 			if (splitted.Length > 0)
 			{
@@ -214,7 +211,6 @@ namespace Kean.Platform.Settings
 		{
 			return Parser.Read(root, IO.CharacterDevice.Open(IO.ByteDevice.Open(resource, null)));
 		}
-
 		public static IDisposable Listen(object root, Uri.Locator resource)
 		{
 			IDisposable result = null;
@@ -224,12 +220,12 @@ namespace Kean.Platform.Settings
 					result = Parser.Read(root, resource);
 					break;
 				case "telnet":
-					result = IO.Net.Tcp.ThreadedServer.Start(connection => new Parser(root, true, new Cli.VT100(new IO.Net.Telnet.Server(connection))).Read(), resource.Authority.Endpoint);
+					result = IO.Net.Tcp.ThreadedServer.Start(connection => new Parser(root, true, new Cli.VT100(new IO.Net.Telnet.Server(connection.ByteDevice))).Read(), resource.Authority.Endpoint);
 					break;
 				case "tcp":
 					result = IO.Net.Tcp.ThreadedServer.Start(connection =>
 					{
-						Cli.Terminal terminal = Cli.Terminal.Open(connection);
+						Cli.Terminal terminal = Cli.Terminal.Open(connection.ByteDevice);
 						if (terminal.NotNull())
 						{
 							terminal.NewLine = new char[] { '\r', '\n' };
