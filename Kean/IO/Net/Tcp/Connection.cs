@@ -32,6 +32,7 @@ namespace Kean.IO.Net.Tcp
 		System.Net.Sockets.TcpClient client;
 		public event Action Closed;
 		public bool AutoClose { get; set; }
+		public Uri.Endpoint Peer { get { return client.Client.RemoteEndPoint.ToString(); } }
 		public override bool Opened { get { return this.client.NotNull() && base.Opened; } }
 		#region Constructors
 		Connection(System.Net.Sockets.TcpClient client) :

@@ -853,6 +853,9 @@
     <Compile Include="IO\Net\Tcp\ThreadedServer.cs" />
     <Compile Include="IO\Extension\CharacterInDeviceExtension.cs" />
     <Compile Include="IO\Extension\CharacterReaderExtension.cs" />
+    <Compile Include="IO\Net\Http\Path.cs" />
+    <Compile Include="IO\Net\Http\ChunkedBlockOutDevice.cs" />
+    <Compile Include="IO\Wrap\BlockByteOutDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />

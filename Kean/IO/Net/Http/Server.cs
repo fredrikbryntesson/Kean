@@ -56,9 +56,10 @@ namespace Kean.IO.Net.Http
 			}
 		}
 		Tcp.Connection connection;
-		public IO.IByteDevice Device { get { return this.connection; } }
-		public IO.ICharacterReader Reader { get; private set; }
-		public IO.ICharacterWriter Writer { get; private set; }
+		public IByteDevice Device { get { return this.connection; } }
+		public ICharacterReader Reader { get; private set; }
+		public ICharacterWriter Writer { get; private set; }
+		public Uri.Endpoint Peer { get { return this.connection.Peer; } }
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
@@ -116,6 +117,14 @@ namespace Kean.IO.Net.Http
 				this.Writer.WriteLine(header.Key + ": " + header.Value);
 			this.Writer.WriteLine();
 			return true;
+		}
+		public IBlockOutDevice RespondChuncked(Http.Status status, string type)
+		{
+			this.Respond(Status.OK, 
+				KeyValue.Create("Transfer-Encoding", "chunked"),
+				KeyValue.Create("Content-Type", type)
+			);
+			return ChunkedBlockOutDevice.Open(this.Device);
 		}
 		public void SendFile(Uri.Locator file)
 		{
