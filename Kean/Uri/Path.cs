@@ -1684,7 +1684,7 @@ namespace Kean.Uri
 		}
 		public Path Skip(int count)
 		{
-			Func<PathLink, PathLink> helper;
+			Func<PathLink, PathLink> helper = null;
 			helper = l =>
 			{
 				PathLink r = l.Tail.NotNull() ? helper(l.Tail) : null;
