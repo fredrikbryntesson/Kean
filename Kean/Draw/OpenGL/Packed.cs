@@ -35,7 +35,7 @@ namespace Kean.Draw.OpenGL
 		protected Packed(Planar original) :
 			base(original) { }
 		protected Packed(Backend.Texture backend, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
-			base(backend.Size, coordinateSystem, new Geometry2D.Integer.Shell())
+			base(backend.Size, coordinateSystem, crop)
 		{
 			this.Backend = backend;
 		}
