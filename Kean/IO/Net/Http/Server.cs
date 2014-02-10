@@ -52,7 +52,11 @@ namespace Kean.IO.Net.Http
 			set
 			{ 
 				if (key.NotEmpty())
+				{
+					if (key == "X-Real-IP")
+						this.peer = value;
 					this.headers[key] = value; 
+				}
 			}
 		}
 		Tcp.Connection connection;
@@ -81,7 +85,8 @@ namespace Kean.IO.Net.Http
 				return this.writer;
 			}
 		}
-		public Uri.Endpoint Peer { get { return this.connection.Peer; } }
+		Uri.Domain peer;
+		public Uri.Domain Peer { get { return this.peer ?? this.connection.Peer.Host; } }
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
