@@ -131,9 +131,17 @@ namespace Kean.IO.Net.Http
 		}
 		public bool Respond(Status status, params KeyValue<string, string>[] headers)
 		{
+			return this.Respond(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public bool Respond(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
 			return this.Respond(this.Protocol, status, headers);
 		}
 		public bool Respond(string protocol, Status status, params KeyValue<string, string>[] headers)
+		{
+			return this.Respond(protocol, status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public bool Respond(string protocol, Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
 			this.Writer.WriteLine(protocol + " " + status);
 			foreach (var header in headers)
@@ -142,18 +150,26 @@ namespace Kean.IO.Net.Http
 			this.Writer.Flush();
 			return true;
 		}
-		public IBlockOutDevice RespondChuncked(Status status, string type)
+		public IBlockOutDevice RespondChuncked(Status status, string type, params KeyValue<string, string>[] headers)
 		{
-			this.Respond(status, 
-				KeyValue.Create("Transfer-Encoding", "chunked"),
-				KeyValue.Create("Content-Type", type)
-			);
-			return ChunkedBlockOutDevice.Wrap(this.BlockDevice);
+			return this.RespondChuncked(status, type, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public void SendFile(Uri.Locator file)
+		public IBlockOutDevice RespondChuncked(Status status, string type, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
+			IBlockOutDevice result = null;
+			if (this.Respond(status, headers.Prepend(KeyValue.Create("Transfer-Encoding", "chunked"), KeyValue.Create("Content-Type", type))))
+				result = ChunkedBlockOutDevice.Wrap(this.BlockDevice);
+			return result;
+		}
+		public bool SendFile(Uri.Locator file, params KeyValue<string, string>[] headers)
+		{
+			return this.SendFile(file, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public bool SendFile(Uri.Locator file, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
+			bool result;
 			using (var source = IO.BlockDevice.Open(file))
-				if (source.NotNull())
+				if (result = source.NotNull())
 				{
 					string type;
 					switch (file.Path.Extension)
@@ -202,11 +218,12 @@ namespace Kean.IO.Net.Http
 							type = null;
 							break;
 					}
-					using (var destination = this.RespondChuncked(Status.OK, type))
-						destination.Write(source);
+					using (var destination = this.RespondChuncked(Status.OK, type, headers))
+						result &= destination.Write(source);
 				}
 				else
 					this.Send(Status.NotFound);
+			return result;
 		}
 		public void Send(Status status)
 		{
