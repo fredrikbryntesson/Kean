@@ -31,6 +31,20 @@ namespace Kean.IO.Net.Http
 		{
 			get { return this.code < 400; }
 		}
+		public Html.Dom.Document AsHtml
+		{
+			get
+			{ 
+				string name = this;
+				return new Html.Dom.Document(
+					new Html.Dom.Head(name),
+					new Html.Dom.Body(
+						new Html.Dom.Heading1(name),
+						new Html.Dom.Paragraph(name)
+					)
+				);
+			}
+		}
 		public override string ToString()
 		{
 			return this;

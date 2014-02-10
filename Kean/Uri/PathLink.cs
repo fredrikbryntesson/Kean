@@ -45,7 +45,7 @@ namespace Kean.Uri
 			this.Head = head;
 			this.Tail = tail;
 		}
-		static System.Collections.Generic.Dictionary<string, string> defaultFormats = new System.Collections.Generic.Dictionary<string, string> {
+		static readonly System.Collections.Generic.Dictionary<string, string> defaultFormats = new System.Collections.Generic.Dictionary<string, string> {
 			{ "Time", "HH-mm-ss-fff" },
 		};
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Kean.Uri
 		/// <param name="variable">The name of variable we want to resolve.</param>
 		/// <param name="format">A function that returns the variable formatted as specified in its input.</param>
 		/// <returns>A new PathLink where the variable has been resolved, or perhaps not.</returns>
-		public PathLink ResolveVariable (string variable, Func<string, string> format)
+		public PathLink ResolveVariable(string variable, Func<string, string> format)
 		{
 			string head = this.Head;
 			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
@@ -70,39 +70,49 @@ namespace Kean.Uri
 			}
 			return new PathLink(head, this.Tail.NotNull() ? this.Tail.ResolveVariable(variable, format) : null);
 		}
-		public PathLink Rebuild ()
+		PathLink RebuildHelper()
 		{
 			PathLink result;
-			if (this.Head == ".")
-				result = this.Tail.NotNull() ? this.Tail.Rebuild() : new PathLink(".", null);
+			if (this.Head == "." || this.Head.IsEmpty())
+				result = this.Tail.NotNull() ? this.Tail.RebuildHelper() : this;
 			else if (this.Head == ".." && this.Tail.NotNull())
-				result = this.Tail.Tail.NotNull() ? this.Tail.Tail.Rebuild() : null;
+				result = this.Tail.Tail.NotNull() ? this.Tail.Tail.RebuildHelper() : null;
 			else
-				result = new PathLink(this.Head, this.Tail.NotNull() ? this.Tail.Rebuild() : null);
+				result = new PathLink(this.Head, this.Tail.NotNull() ? this.Tail.RebuildHelper() : null);
 			return result;
 		}
+		public PathLink Rebuild()
+		{
+			return this.Head.NotEmpty() ? this.RebuildHelper() :
+				this.Tail.NotNull() ? new PathLink(this.Head, this.Tail.RebuildHelper()) :
+				this;
+		}
 		#region IEquatable<PathLink> Members
-		public bool Equals (PathLink other)
+		public bool Equals(PathLink other)
 		{
 			return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
 		}
 		#endregion
 		#region Object Overrides
-		public override bool Equals (object other)
+		public override bool Equals(object other)
 		{
 			return other is PathLink && this.Equals(other as PathLink);
 		}
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			return this.Head.Hash() ^ this.Tail.Hash();
 		}
+		public override string ToString()
+		{
+			return this.Tail + "/" + this.Head;
+		}
 		#endregion
 		#region Equality Operators
-		public static bool operator == (PathLink left, PathLink right)
+		public static bool operator ==(PathLink left, PathLink right)
 		{
 			return left.SameOrEquals(right);
 		}
-		public static bool operator != (PathLink left, PathLink right)
+		public static bool operator !=(PathLink left, PathLink right)
 		{
 			return !(left == right);
 		}

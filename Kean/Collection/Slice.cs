@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+
 namespace Kean.Collection
 {
 	public class Slice<T> :
@@ -29,7 +30,7 @@ namespace Kean.Collection
 		int count;
 		IVector<T> data;
 		public override int Count { get { return this.count; } }
-		public override T this[int index]
+		public override T this [int index]
 		{
 			get
 			{
@@ -58,11 +59,22 @@ namespace Kean.Collection
 				}
 			}
 		}
+		public Slice(T[] data, int offset) :
+			this(data, offset, data.Length - offset)
+		{
+		}
 		public Slice(T[] data, int offset, int count) :
 			this((Vector<T>)data, offset, count)
-		{ }
+		{
+		}
+		public Slice(IVector<T> data, int offset) :
+			this(data, offset, data.Count - offset)
+		{
+		}
 		public Slice(IVector<T> data, int offset, int count)
 		{
+			if (count < 0)
+				count = data.Count + count;
 			if (data.Count < offset + count)
 				new Exception.InvalidIndex().Throw();
 			this.offset = offset;

@@ -18,8 +18,10 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+
 using System;
 using Kean.Extension;
+
 namespace Kean.Collection.Extension
 {
 	public static class VectorExtension
@@ -125,6 +127,10 @@ namespace Kean.Collection.Extension
 			for (int i = 0; i < result.Length; i++)
 				result[i] = me[i];
 			return result;
+		}
+		public static Slice<T> Slice<T>(this IVector<T> me, int offset)
+		{
+			return new Slice<T>(me, offset);
 		}
 		public static Slice<T> Slice<T>(this IVector<T> me, int offset, int count)
 		{

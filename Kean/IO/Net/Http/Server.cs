@@ -24,6 +24,7 @@ using Kean;
 using Kean.Extension;
 using Uri = Kean.Uri;
 using Kean.IO.Extension;
+using Kean.Collection.Extension;
 using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Net.Http
@@ -31,7 +32,7 @@ namespace Kean.IO.Net.Http
 	public class Server :
 		IDisposable
 	{
-		public event Action Closed 
+		public event Action Closed
 		{ 
 			add { this.connection.Closed += value; } 
 			remove { this.connection.Closed -= value; } 
@@ -44,28 +45,47 @@ namespace Kean.IO.Net.Http
 		public Method Method { get; private set; }
 		public Uri.Path Path { get; private set; }
 		public string Protocol { get; private set; }
-		Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>();
-		public string this[string key] 
+		readonly Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>();
+		public string this [string key]
 		{ 
 			get { return this.headers[key]; } 
-			set 
+			set
 			{ 
 				if (key.NotEmpty())
 					this.headers[key] = value; 
 			}
 		}
 		Tcp.Connection connection;
-		public IO.IByteDevice Device { get { return this.connection; } }
-		public IO.ICharacterReader Reader { get; private set; }
-		public IO.ICharacterWriter Writer { get; private set; }
+		public IByteDevice ByteDevice { get { return this.connection.ByteDevice; } }
+		public IBlockDevice BlockDevice { get { return this.connection.BlockDevice; } }
+		ICharacterReader reader;
+		public ICharacterReader Reader
+		{
+			get
+			{
+				if (this.reader.IsNull())
+					this.reader = CharacterReader.Open(this.connection.CharacterDevice);
+				return this.reader;
+			}
+		}
+		ICharacterWriter writer;
+		public ICharacterWriter Writer
+		{
+			get
+			{
+				if (this.writer.IsNull())
+				{
+					this.writer = CharacterWriter.Open(this.connection.CharacterDevice);
+					this.writer.NewLine = new char[] { '\r', '\n' };
+				}
+				return this.writer;
+			}
+		}
+		public Uri.Endpoint Peer { get { return this.connection.Peer; } }
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
-			IO.ICharacterDevice characterDevice = IO.CharacterDevice.Open(this.Device);
-			this.Reader = IO.CharacterReader.Open(characterDevice);
-			this.Writer = IO.CharacterWriter.Open(characterDevice);
-			this.Writer.NewLine = new char[] { '\r', '\n' };
-			this.ParseRequestHeader(this.Device);
+			this.ParseRequestHeader(this.ByteDevice);
 		}
 		~Server()
 		{
@@ -75,7 +95,7 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		bool ParseRequestHeader(IO.IByteInDevice device)
+		bool ParseRequestHeader(IByteInDevice device)
 		{
 			bool result = false;
 			string[] firstLine = this.ReadLine(device).Decode().Join().Split(' ');
@@ -94,32 +114,121 @@ namespace Kean.IO.Net.Http
 			}
 			return result;
 		}
-		Generic.IEnumerable<byte> ReadLine(IO.IByteInDevice device)
+		Generic.IEnumerable<byte> ReadLine(IByteInDevice device)
 		{
 			foreach (byte b in device.Read(13, 10))
-				if (b != 13 && b!= 10)
+				if (b != 13 && b != 10)
 					yield return b;
 			//byte? next = device.Peek();
 			//if (next.HasValue && next.Value == 32 || next.Value == 9) // lines broken into several lines must start with space (SP) or horizontal tab (HT)
 			//	foreach (byte b in this.ReadLine(device))
 			//		yield return b;
 		}
-		public bool Respond(Http.Status status, params KeyValue<string, string>[] headers)
+		public bool Respond(Status status, params KeyValue<string, string>[] headers)
 		{
 			return this.Respond(this.Protocol, status, headers);
 		}
-		public bool Respond(string protocol, Http.Status status, params KeyValue<string, string>[] headers)
+		public bool Respond(string protocol, Status status, params KeyValue<string, string>[] headers)
 		{
 			this.Writer.WriteLine(protocol + " " + status);
 			foreach (var header in headers)
 				this.Writer.WriteLine(header.Key + ": " + header.Value);
 			this.Writer.WriteLine();
+			this.Writer.Flush();
 			return true;
+		}
+		public IBlockOutDevice RespondChuncked(Status status, string type)
+		{
+			this.Respond(status, 
+				KeyValue.Create("Transfer-Encoding", "chunked"),
+				KeyValue.Create("Content-Type", type)
+			);
+			return ChunkedBlockOutDevice.Open(this.ByteDevice);
+		}
+		public void SendFile(Uri.Locator file)
+		{
+			using (var device = IO.BlockDevice.Open(file))
+				if (device.NotNull())
+				{
+					string type;
+					switch (file.Path.Extension)
+					{
+						case "html":
+							type = "text/html; charset=utf8";
+							break;
+						case "css":
+							type = "text/css";
+							break;
+						case "mp4":
+							type = "video/mp4";
+							break;
+						case "webm":
+							type = "video/webm";
+							break;
+						case "png":
+							type = "image/png";
+							break;
+						case "jpeg":
+						case "jpg":
+							type = "image/jpeg";
+							break;
+						case "svg":
+							type = "image/svg+xml";
+							break;
+						case "gif":
+							type = "image/gif";
+							break;
+						case "json":
+							type = "application/json";
+							break;
+						case "js":
+							type = "application/javascript";
+							break;
+						case "pdf":
+							type = "application/pdf";
+							break;
+						case "xml":
+							type = "application/xml";
+							break;
+						case "zip":
+							type = "application/zip";
+							break;
+						default:
+							type = null;
+							break;
+					}
+					this.Respond(Status.OK, 
+						KeyValue.Create("Transfer-Encoding", "chunked"),
+						KeyValue.Create("Content-Type", type)
+					);
+					this.SendChunked(device);
+				}
+				else
+					this.Send(Status.NotFound);
+		}
+		public void SendChunked(IBlockInDevice device)
+		{
+			while (!device.Empty)
+			{
+				var block = device.Read();
+				this.BlockDevice.Write((block.Count + "\r\n").AsBinary().Merge(block).Merge("\r\n".AsBinary()));
+			}
+			this.BlockDevice.Write(("\r\n").AsBinary());
+			this.BlockDevice.Flush();
+		}
+		public void Send(Status status)
+		{
+			var message = status.AsHtml.AsBinary();
+			this.Respond(status, 
+				KeyValue.Create("Content-Length", message.Length.ToString()),
+				KeyValue.Create("Content-Type", "text/html; charset=utf8")
+			);
+			this.ByteDevice.Write(message);
 		}
 		public bool Close()
 		{
 			bool result = false;
-			if (this.Device.NotNull())
+			if (this.connection.NotNull())
 			{
 				result = this.connection.Close();
 				this.connection = null;

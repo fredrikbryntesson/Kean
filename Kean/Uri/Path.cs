@@ -117,7 +117,7 @@ namespace Kean.Uri
 		}
 		public string Extension
 		{
-			get { return this.Last.NotNull() ? this.Last.Head.Split('.').Last() : null; }
+			get { return this.Last.NotNull() ? this.Last.Head.Split('.').Skip(1).Last() : null; }
 			set
 			{
 				if (this.Last.NotNull())
@@ -1650,17 +1650,17 @@ namespace Kean.Uri
 		{
 			this.Last = last;
 		}
-		public Path Copy ()
+		public Path Copy()
 		{
 			Func<PathLink, PathLink> copy = null;
 			copy = link => link.IsNull() ? null : new PathLink(link.Head, copy(link.Tail));
 			return new Path(copy(this.Last));
 		}
-		public Path ResolveVariable (string name, Func<string, string> format)
+		public Path ResolveVariable(string name, Func<string, string> format)
 		{
 			return new Path(this.Last.ResolveVariable(name, format));
 		}
-		public Path Resolve (Path absolute)
+		public Path Resolve(Path absolute)
 		{
 			Path result;
 			switch (this[0])
@@ -1675,15 +1675,32 @@ namespace Kean.Uri
 			}
 			return result;
 		}
-		public Path Relative (Path root)
+		public Path Relative(Path root)
 		{
 			// TODO: Make something nicer then using strings
 			string t = this;
 			string r = root;
 			return t.StartsWith(r) ? "./" + t.Substring(r.Length) : t;
 		}
+		public Path Skip(int count)
+		{
+			Func<PathLink, PathLink> helper = null;
+			helper = l =>
+			{
+				PathLink r = l.Tail.NotNull() ? helper(l.Tail) : null;
+				if (count > 0)
+				{
+					count--;
+					r = null;
+				}
+				else
+					r = new PathLink(l.Head, r);
+				return r;
+			};
+			return new Path() { Last = helper(this.Last) };
+		}
 		#region IEquatable<Path> Members
-		public bool Equals (Path other)
+		public bool Equals(Path other)
 		{
 			bool result = true;
 			PathLink myTail = this.Last;
@@ -1699,11 +1716,11 @@ namespace Kean.Uri
 		}
 		#endregion
 		#region Object Overrides
-		public override bool Equals (object other)
+		public override bool Equals(object other)
 		{
 			return other is Path && this.Equals(other as Path);
 		}
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			int result = 0;
 			PathLink tail = this.Last;
@@ -1714,16 +1731,16 @@ namespace Kean.Uri
 			}
 			return result;
 		}
-		public override string ToString ()
+		public override string ToString()
 		{
 			return this.String;
 		}
 		#endregion
-		public static Path FromPlatformPath (string path)
+		public static Path FromPlatformPath(string path)
 		{
 			return new Path() { PlatformPath = path };
 		}
-		public static Path FromRelativePlatformPath (string path)
+		public static Path FromRelativePlatformPath(string path)
 		{
 			return Path.FromPlatformPath(System.IO.Path.GetFullPath(path));
 		}
@@ -1736,7 +1753,7 @@ namespace Kean.Uri
 			KeyValue.Create("Music", System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic)),
 			KeyValue.Create("ApplicationPath", System.IO.Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]))
 		};
-		static string ResolveSpecialFolderVariables (string platformPath)
+		static string ResolveSpecialFolderVariables(string platformPath)
 		{
 			string result = platformPath;
 			if (result.NotEmpty())
@@ -1745,7 +1762,7 @@ namespace Kean.Uri
 						result = result.Replace("$(" + specialFolder.Key + ")", specialFolder.Value);
 			return result;
 		}
-		static string InsertSpecialFoldersVariables (string platformPath)
+		static string InsertSpecialFoldersVariables(string platformPath)
 		{
 			string result = platformPath;
 			if (result.NotEmpty())
@@ -1757,14 +1774,14 @@ namespace Kean.Uri
 		#endregion
 		#region static operators
 		#region Casts with System.IO.FileSystemInfo
-		static PathLink Create (System.IO.DirectoryInfo directory)
+		static PathLink Create(System.IO.DirectoryInfo directory)
 		{
 			return directory.IsNull() ? null : new PathLink() {
 				Head = directory.Name.TrimEnd('\\'),
 				Tail = directory.Parent.NotNull() ? Path.Create(directory.Parent) : null
 			};
 		}
-		static PathLink Create (System.IO.FileInfo file)
+		static PathLink Create(System.IO.FileInfo file)
 		{
 			return file.IsNull() ? null : new PathLink() {
 				Head = file.Name.TrimEnd('\\'),
@@ -1772,38 +1789,38 @@ namespace Kean.Uri
 			};
 		}
 		#region Casts with System.IO.FileSystemInfo
-		public static implicit operator Path (System.IO.FileSystemInfo item)
+		public static implicit operator Path(System.IO.FileSystemInfo item)
 		{
 			return new Path(item is System.IO.DirectoryInfo ? Path.Create(item as System.IO.DirectoryInfo) : item is System.IO.FileInfo ? Path.Create(item as System.IO.FileInfo) : null);
 		}
-		public static explicit operator System.IO.DirectoryInfo (Path path)
+		public static explicit operator System.IO.DirectoryInfo(Path path)
 		{
 			return path.NotNull() ? new System.IO.DirectoryInfo(path.PlatformPath) : null;
 		}
 		#endregion
 		#endregion
 		#region Casts with string
-		public static implicit operator string (Path path)
+		public static implicit operator string(Path path)
 		{
 			return path.IsNull() ? null : path.String;
 		}
-		public static implicit operator Path (string path)
+		public static implicit operator Path(string path)
 		{
 			return path.IsEmpty() ? null : new Path() { String = path };
 		}
 		#endregion
 		#region Equality Operators
-		public static bool operator == (Path left, Path right)
+		public static bool operator ==(Path left, Path right)
 		{
 			return left.SameOrEquals(right);
 		}
-		public static bool operator != (Path left, Path right)
+		public static bool operator !=(Path left, Path right)
 		{
 			return !(left == right);
 		}
 		#endregion
 		#region Add Operator
-		public static Path operator + (Path left, Path right)
+		public static Path operator +(Path left, Path right)
 		{
 			Path result;
 			if (right.NotNull() && right.Last.NotNull())

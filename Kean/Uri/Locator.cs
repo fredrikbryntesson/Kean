@@ -22,6 +22,7 @@
 using System;
 using Kean;
 using Kean.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Uri
 {
@@ -283,6 +284,13 @@ namespace Kean.Uri
 		{
 			left = left.Copy();
 			left.Path += right;
+			return left;
+		}
+		public static Locator operator + (Locator left, Generic.IEnumerable<string> right)
+		{
+			left = left.Copy();
+			foreach (var item in right)
+				left.Path += item;
 			return left;
 		}
 		public static Locator operator + (Locator left, KeyValue<string, string> right)

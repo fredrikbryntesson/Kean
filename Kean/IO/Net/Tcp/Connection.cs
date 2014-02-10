@@ -27,12 +27,30 @@ using Uri = Kean.Uri;
 namespace Kean.IO.Net.Tcp
 {
 	public class Connection :
-		ByteDevice
+	IDisposable
 	{
+		#region Backend
+		System.IO.Stream stream;
 		System.Net.Sockets.TcpClient client;
+		#endregion
+		#region Device
+		Device device;
+		Device Device
+		{
+			get
+			{
+				if (this.device.IsNull())
+					this.device = IO.Device.Open(this.stream);
+				return this.device;
+			}
+		}
+		public IByteDevice ByteDevice { get { return this.Device; } }
+		public IBlockDevice BlockDevice { get { return this.Device; } }
+		public ICharacterDevice CharacterDevice { get { return this.Device; } }
+		#endregion
 		public event Action Closed;
 		public bool AutoClose { get; set; }
-		public override bool Opened { get { return this.client.NotNull() && base.Opened; } }
+		public Uri.Endpoint Peer { get { return client.Client.RemoteEndPoint.AsString() ?? new Uri.Endpoint("unknown", null); } }
 		#region Constructors
 		Connection(System.Net.Sockets.TcpClient client) :
 			this(client.GetStream())
@@ -40,23 +58,43 @@ namespace Kean.IO.Net.Tcp
 			this.client = client;
 			this.client.NoDelay = true;
 		}
-		Connection(System.Net.Sockets.NetworkStream stream) :
-			base(stream)
+		Connection(System.Net.Sockets.NetworkStream stream)
 		{
+			this.stream = stream;
 			this.AutoClose = true;
 		}
-		#endregion
-		public override bool Close()
+		~Connection ()
 		{
-			bool result = base.Close();
+			this.Close();
+		}
+		#endregion
+		public bool Close()
+		{
+			bool result = false;
+			if (this.device.NotNull())
+			{
+				result = this.device.Close();
+				this.device = null;
+			}
 			if (this.client.NotNull())
 			{
 				this.client.Close();
 				this.client = null;
 				this.Closed.Call();
 			}
+			if (this.stream.NotNull())
+			{
+				this.stream.Close();
+				this.stream = null;
+			}
 			return result;
 		}
+		#region IDisposable implementation
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
+		#endregion
 		#region Static Creators
 		internal static Connection Connect(System.Net.Sockets.TcpClient client)
 		{
