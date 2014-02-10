@@ -143,12 +143,12 @@ namespace Kean.IO.Net.Http
 				KeyValue.Create("Transfer-Encoding", "chunked"),
 				KeyValue.Create("Content-Type", type)
 			);
-			return ChunkedBlockOutDevice.Open(this.ByteDevice);
+			return ChunkedBlockOutDevice.Wrap(this.BlockDevice);
 		}
 		public void SendFile(Uri.Locator file)
 		{
-			using (var device = IO.BlockDevice.Open(file))
-				if (device.NotNull())
+			using (var source = IO.BlockDevice.Open(file))
+				if (source.NotNull())
 				{
 					string type;
 					switch (file.Path.Extension)
@@ -197,24 +197,11 @@ namespace Kean.IO.Net.Http
 							type = null;
 							break;
 					}
-					this.Respond(Status.OK, 
-						KeyValue.Create("Transfer-Encoding", "chunked"),
-						KeyValue.Create("Content-Type", type)
-					);
-					this.SendChunked(device);
+					using (var destination = this.RespondChuncked(Status.OK, type))
+						destination.Write(source);
 				}
 				else
 					this.Send(Status.NotFound);
-		}
-		public void SendChunked(IBlockInDevice device)
-		{
-			while (!device.Empty)
-			{
-				var block = device.Read();
-				this.BlockDevice.Write((block.Count + "\r\n").AsBinary().Merge(block).Merge("\r\n".AsBinary()));
-			}
-			this.BlockDevice.Write(("\r\n").AsBinary());
-			this.BlockDevice.Flush();
 		}
 		public void Send(Status status)
 		{

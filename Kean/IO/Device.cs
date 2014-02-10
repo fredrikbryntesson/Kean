@@ -127,7 +127,8 @@ namespace Kean.IO
 		#region IBlockOutDevice
 		public bool Write(Collection.IVector<byte> buffer)
 		{
-			bool result = this.Flush();
+			this.Flush();
+			bool result = true;
 			try
 			{
 				byte[] array = buffer.ToArray(); // TODO: fix this with some kind of array-slice api

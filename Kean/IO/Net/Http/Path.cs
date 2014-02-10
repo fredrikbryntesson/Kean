@@ -66,14 +66,15 @@ namespace Kean.IO.Net.Http
 		#endregion
 		public static implicit operator Path(Uri.Path path)
 		{
-			return Path.Build(path.Last, null);
+			return path.IsNull() ? new Path() { Head = "" } : Path.Build(path.Last, null);
 		}
 		static Path Build(Uri.PathLink current, Path tail)
 		{
-			Path result = current.NotNull() ? Path.Build(current.Tail, current.Head.NotEmpty() && current.Head != "." ? new Path() {
+			Path result = current.IsNull() ? tail :
+			              Path.Build(current.Tail, current.Head.IsEmpty() || current.Head == "." ? tail : new Path() {
 				Head = current.Head,
 				Tail = tail
-			} : tail) : tail;
+			});
 			return result;
 		}
 		public static Uri.Path operator +(Uri.Path left, Path right)

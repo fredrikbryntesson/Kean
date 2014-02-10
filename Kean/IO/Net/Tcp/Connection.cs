@@ -40,7 +40,10 @@ namespace Kean.IO.Net.Tcp
 			get
 			{
 				if (this.device.IsNull())
+				{
 					this.device = IO.Device.Open(this.stream);
+					this.device.AutoFlush = true;
+				}
 				return this.device;
 			}
 		}

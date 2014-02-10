@@ -34,5 +34,13 @@ namespace Kean.IO.Extension
 		{
 			return me.Write(new Collection.Vector<byte>(buffer));
 		}
+		public static bool Write(this IBlockOutDevice me, IBlockInDevice source)
+		{
+			bool result = source.NotNull();
+			Collection.IVector<byte> data;
+			while (result && !source.Empty && (data = source.Read()).NotNull() && data.Count > 0)
+				result &= me.Write(data);
+			return result;
+		}
 	}
 }
