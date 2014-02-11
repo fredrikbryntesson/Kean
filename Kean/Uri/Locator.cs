@@ -151,11 +151,11 @@ namespace Kean.Uri
 			this.Query = query;
 			this.Fragment = fragment;
 		}
-		public Locator Copy ()
+		public Locator Copy()
 		{
 			return new Locator(this.Scheme.IsNull() ? null : this.Scheme.Copy(), this.Authority.IsNull() ? null : this.Authority.Copy(), this.Path.IsNull() ? null : this.Path.Copy(), this.Query.IsNull() ? null : this.Query.Copy(), this.Fragment);
 		}
-		public Locator Resolve (Locator absolute)
+		public Locator Resolve(Locator absolute)
 		{
 			Locator result;
 			if (this.Scheme.NotNull())
@@ -179,7 +179,7 @@ namespace Kean.Uri
 				result = absolute;
 			return result;
 		}
-		public Locator Relative (Locator locator)
+		public Locator Relative(Locator locator)
 		{
 			Locator result = this.Copy();
 			if (locator.NotNull() && result.Scheme == locator.Scheme)
@@ -203,7 +203,7 @@ namespace Kean.Uri
 			return result;
 		}
 		#region IEquatable<Locator> Members
-		public bool Equals (Locator other)
+		public bool Equals(Locator other)
 		{
 			return other.NotNull() &&
 			this.Scheme == other.Scheme &&
@@ -214,20 +214,20 @@ namespace Kean.Uri
 		}
 		#endregion
 		#region Object Overrides
-		public override bool Equals (object other)
+		public override bool Equals(object other)
 		{
 			return other is Locator && this.Equals(other as Locator);
 		}
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			return this.Scheme.Hash() ^ this.Authority.Hash() ^ this.Path.Hash() ^ this.Query.Hash() ^ this.Fragment.Hash();
 		}
-		public override string ToString ()
+		public override string ToString()
 		{
 			return this.String;
 		}
 		#endregion
-		public static Locator FromPlatformPath (string path)
+		public static Locator FromPlatformPath(string path)
 		{
 			string authority = null;
 			if (path.NotEmpty() && path.StartsWith("\\\\"))
@@ -242,7 +242,7 @@ namespace Kean.Uri
 			}
 			return path.NotEmpty() ? new Locator("file", authority, Path.FromPlatformPath(path)) : null;
 		}
-		public static Locator FromPlatformPath (string path, params string[] folders)
+		public static Locator FromPlatformPath(string path, params string[] folders)
 		{
 			Locator result = Locator.FromPlatformPath(path);
 			if (result.NotNull())
@@ -250,50 +250,50 @@ namespace Kean.Uri
 					result.Path.Add(folder);
 			return result;
 		}
-		public static Locator FromRelativePlatformPath (string path, params string[] folders)
+		public static Locator FromRelativePlatformPath(string path, params string[] folders)
 		{
 			return path.NotEmpty() ? Locator.FromPlatformPath(System.IO.Path.GetFullPath(path), folders) : null;
 		}
-		public static Locator FromPlatformPath (System.Environment.SpecialFolder folder, params string[] folders)
+		public static Locator FromPlatformPath(System.Environment.SpecialFolder folder, params string[] folders)
 		{
 			return Locator.FromPlatformPath(System.Environment.GetFolderPath(folder), folders);
 		}
-		public static implicit operator Locator (System.IO.DirectoryInfo directory)
+		public static implicit operator Locator(System.IO.DirectoryInfo directory)
 		{
 			return directory.NotNull() ? new Locator("file", directory) : null;
 		}
 		#region Operators
-		public static bool operator == (Locator left, Locator right)
+		public static bool operator ==(Locator left, Locator right)
 		{
 			return left.Same(right) || (left.NotNull() && left.Equals(right));
 		}
-		public static bool operator != (Locator left, Locator right)
+		public static bool operator !=(Locator left, Locator right)
 		{
 			return !(left == right);
 		}
-		public static implicit operator string (Locator locator)
+		public static implicit operator string(Locator locator)
 		{
 			return locator.IsNull() ? null : locator.String;
 		}
-		public static implicit operator Locator (string locator)
+		public static implicit operator Locator(string locator)
 		{
 			return locator.NotEmpty() ? new Locator() { String = locator } : null;
 		}
 		#region Add Operators
-		public static Locator operator + (Locator left, Path right)
+		public static Locator operator +(Locator left, Path right)
 		{
 			left = left.Copy();
 			left.Path += right;
 			return left;
 		}
-		public static Locator operator + (Locator left, Generic.IEnumerable<string> right)
+		public static Locator operator +(Locator left, Generic.IEnumerable<string> right)
 		{
 			left = left.Copy();
 			foreach (var item in right)
 				left.Path += item;
 			return left;
 		}
-		public static Locator operator + (Locator left, KeyValue<string, string> right)
+		public static Locator operator +(Locator left, KeyValue<string, string> right)
 		{
 			left = left.Copy();
 			left.Query[right.Key] = right.Value;

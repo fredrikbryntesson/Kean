@@ -23,18 +23,70 @@ using System;
 using Kean;
 using Kean.Extension;
 using Uri = Kean.Uri;
+using Generic = System.Collections.Generic;
+using Kean.IO.Extension;
+using Kean.Collection.Extension;
 
 namespace Kean.IO.Net.Http
 {
-	public class Request
+	public struct Request
 	{
-		public Uri.Locator Url { get; set; }
-		public Request()
-		{
+		public Method Method { get; private set; }
+		public Uri.Path Path { get; private set; }
+		public string Protocol { get; private set; }
+		#region Headers
+		Collection.IDictionary<string, string> headers;
+		public string this [string key]
+		{ 
+			get { return this.headers.NotNull() ? this.headers[key] : null; } 
+			private set
+			{ 
+				if (key.NotEmpty())
+				{
+					if (this.headers.IsNull())
+						this.headers = new Collection.Dictionary<string, string>();
+					this.headers[key] = value; 
+				}
+			}
 		}
-		public Response Connect()
+		#endregion
+		Uri.Locator url;
+		public Uri.Locator Url
+		{ 
+			get
+			{
+				if (this.url.IsNull())
+					this.url = new Uri.Locator("http", this["Host"], this.Path);
+				return this.url;
+			}
+		}
+		public static Request Parse(IByteInDevice device)
 		{
-			return Response.Open(this);
+			Request result = new Request();
+			string[] firstLine = Request.ReadLine(device).Decode().Join().Split(' ');
+			if (firstLine.Length == 3)
+			{
+				result.Method = firstLine[0].Parse<Method>();
+				result.Path = firstLine[1];
+				result.Protocol = firstLine[2];
+				string line;
+				while ((line = Request.ReadLine(device).Decode().Join()).NotEmpty())
+				{
+					string[] parts = line.Split(new char[] { ':' }, 2);
+					result[parts[0].Trim()] = parts[1].Trim();
+				}
+			}
+			return result;
+		}
+		static Generic.IEnumerable<byte> ReadLine(IByteInDevice device)
+		{
+			foreach (byte b in device.Read(13, 10))
+				if (b != 13 && b != 10)
+					yield return b;
+			//byte? next = device.Peek();
+			//if (next.HasValue && next.Value == 32 || next.Value == 9) // lines broken into several lines must start with space (SP) or horizontal tab (HT)
+			//	foreach (byte b in this.ReadLine(device))
+			//		yield return b;
 		}
 	}
 }
