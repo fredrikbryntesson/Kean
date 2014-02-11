@@ -46,15 +46,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="glib-sharp">
-      <HintPath>..\..\packages\GLib.Sharp.2.28.1.1\lib\glib-sharp.dll</HintPath>
+      <HintPath>..\..\packages\GLib.Sharp.2.28.1.2\lib\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cairo">
-      <HintPath>..\..\packages\Cairo.2.0.0.1\lib\Mono.Cairo.dll</HintPath>
+      <HintPath>..\..\packages\Cairo.2.0.0.2\lib\Mono.Cairo.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Drawing" />
     <Reference Include="pango-sharp">
-      <HintPath>..\..\packages\Pango.1.28.3.1\lib\pango-sharp.dll</HintPath>
+      <HintPath>..\..\packages\Pango.1.28.3.2\lib\pango-sharp.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -944,9 +944,9 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <Import Project="../../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets" Condition="Exists('../../packages/GLib.Sharp.2.28.1.1/build/GLib.Sharp.targets')" />
-  <Import Project="../../packages/Cairo.2.0.0.1/build/Cairo.targets" Condition="Exists('../../packages/Cairo.2.0.0.1/build/Cairo.targets')" />
-  <Import Project="../../packages/Pango.1.28.3.1/build/Pango.targets" Condition="Exists('../../packages/Pango.1.28.3.1/build/Pango.targets')" />
+  <Import Project="../../packages/GLib.Sharp.2.28.1.2/build/GLib.Sharp.targets" Condition="Exists('../../packages/GLib.Sharp.2.28.1.2/build/GLib.Sharp.targets')" />
+  <Import Project="../../packages/Cairo.2.0.0.2/build/Cairo.targets" Condition="Exists('../../packages/Cairo.2.0.0.2/build/Cairo.targets')" />
+  <Import Project="../../packages/Pango.1.28.3.2/build/Pango.targets" Condition="Exists('../../packages/Pango.1.28.3.2/build/Pango.targets')" />
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
   <Import Project="../../.nuget/NuGet.targets" Condition="Exists('../../.nuget/NuGet.targets')" />
 </Project>
