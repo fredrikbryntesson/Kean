@@ -139,7 +139,7 @@ namespace Kean.IO.Net.Http.Header
 		public bool Send(ICharacterWriter writer)
 		{
 			return writer.WriteLine(this.Protocol + " " + this.Status) &&
-			this.headers.All(header => writer.WriteLine(header.Key + ": " + header.Value)) &&
+			(headers.IsNull() || this.headers.All(header => writer.WriteLine(header.Key + ": " + header.Value))) &&
 			writer.WriteLine() && writer.Flush();
 		}
 		#endregion

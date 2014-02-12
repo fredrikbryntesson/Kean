@@ -127,5 +127,13 @@ namespace Kean.IO.Net.Http.Header
 				if (b != 13 && b != 10)
 					yield return b;
 		}
+		public static implicit operator Request(Uri.Locator url)
+		{
+			return new Request { Url = url };
+		}
+		public static implicit operator Request(string url)
+		{
+			return new Request { Url = url };
+		}
 	}
 }

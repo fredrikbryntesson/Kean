@@ -25,6 +25,7 @@ using Kean.Extension;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Xml.Dom
 {
@@ -33,17 +34,37 @@ namespace Kean.Xml.Dom
 		Collection.IList<Node>,
 		IEquatable<Element>
 	{
-		Collection.IList<Node> childNodes = new Collection.Linked.List<Node>();
-
+		readonly Collection.IList<Node> childNodes = new Collection.Linked.List<Node>();
 		public string Name { get; set; }
+		public Generic.IEnumerable<Node> this [params string[] path] { get { return this[(Generic.IEnumerable<string>)path]; } }
+		public Generic.IEnumerable<Node> this [Generic.IEnumerable<string> path] { get { return this[path.GetEnumerator()]; } }
+		public Generic.IEnumerable<Node> this [Generic.IEnumerator<string> path]
+		{
+			get
+			{
+				Generic.IEnumerable<Node> result;
+				if (path.MoveNext())
+				{
+					var next = this.Find(n => n is Element && (n as Element).Name == path.Current) as Element;
+					result = next.NotNull() ? next[path] : null;
+				}
+				else
+					result = this;
+				return result;
+			}
+		}
 		public Collection.IList<Attribute> Attributes { get; private set; }
 		#region Constructors
 		public Element()
 		{
 			Collection.Hooked.List<Attribute> attributes = new Collection.Hooked.List<Attribute>();
-			attributes.Added += (index, attribute) => { attribute.Parent = this; };
-			attributes.Removed += (index, attribute) => { attribute.Parent = null; };
-			attributes.Replaced += (index, oldAttribute, newAttribute) => { oldAttribute.Parent = null; newAttribute.Parent = this; };
+			attributes.Added += (index, attribute) => attribute.Parent = this;
+			attributes.Removed += (index, attribute) => attribute.Parent = null;
+			attributes.Replaced += (index, oldAttribute, newAttribute) =>
+			{
+				oldAttribute.Parent = null;
+				newAttribute.Parent = this;
+			};
 			this.Attributes = new Collection.Wrap.List<Attribute>(attributes);
 		}
 		public Element(string name) :
@@ -53,7 +74,8 @@ namespace Kean.Xml.Dom
 		}
 		public Element(string name, string text) :
 			this(name, new Xml.Dom.Text(text))
-		{ }
+		{
+		}
 		internal Element(string name, System.Collections.Generic.IEnumerator<Attribute> attributes) :
 			this(name)
 		{
@@ -67,10 +89,12 @@ namespace Kean.Xml.Dom
 		}
 		public Element(string name, params KeyValue<string, string>[] attributes) :
 			this(name, (System.Collections.Generic.IEnumerable<Tuple<string, string, Uri.Region>>)attributes.Map(a => Tuple.Create(a.Key, a.Value, (Uri.Region)null)))
-		{ }
+		{
+		}
 		public Element(string name, KeyValue<string, string> attribute) :
 			this(name, new KeyValue<string, string>[] { attribute })
-		{ }
+		{
+		}
 		public Element(string name, System.Collections.Generic.IEnumerable<Node> nodes) :
 			this(name)
 		{
@@ -79,7 +103,8 @@ namespace Kean.Xml.Dom
 		}
 		public Element(string name, params Node[] nodes) :
 			this(name, (System.Collections.Generic.IEnumerable<Node>)nodes)
-		{ }
+		{
+		}
 		public Element(string name, Node node) :
 			this(name)
 		{
@@ -92,22 +117,36 @@ namespace Kean.Xml.Dom
 		}
 		public Element(string name, string text, params KeyValue<string, string>[] attributes) :
 			this(name, new Xml.Dom.Text(text), attributes)
-		{ }
+		{
+		}
 		public Element(string name, Node node, KeyValue<string, string> attribute) :
 			this(name, node, new KeyValue<string, string>[] { attribute })
-		{ }
+		{
+		}
 		#endregion
 		protected override void ChangeDocument(Document document)
 		{
 			base.ChangeDocument(document);
-			this.Attributes.Apply(attribute => { attribute.Document = document; });
-			this.Apply(node => { node.Document = document; });
+			this.Attributes.Apply(attribute =>
+			{
+				attribute.Document = document;
+			});
+			this.Apply(node =>
+			{
+				node.Document = document;
+			});
 		}
 		protected override void ChangeParent(Element parent)
 		{
 			base.ChangeParent(parent);
-			this.Attributes.Apply(attribute => { attribute.Parent = parent; });
-			this.Apply(node => { node.Parent = parent; });
+			this.Attributes.Apply(attribute =>
+			{
+				attribute.Parent = parent;
+			});
+			this.Apply(node =>
+			{
+				node.Parent = parent;
+			});
 		}
 		public Element AddAttribute(string name, string value)
 		{
@@ -115,7 +154,7 @@ namespace Kean.Xml.Dom
 			return this;
 		}
 		#region IList<Node> Members
-		public Collection.IList<Node> Add(Node item) 
+		public Collection.IList<Node> Add(Node item)
 		{
 			if (item.NotNull())
 			{
@@ -124,18 +163,18 @@ namespace Kean.Xml.Dom
 			}
 			return this;
 		}
-		public Node Remove() 
+		public Node Remove()
 		{ 
 			Node result = this.childNodes.Remove();
 			result.Parent = null;
 			return result;
 		}
-		public Collection.IList<Node> Insert(int index, Node item) 
+		public Collection.IList<Node> Insert(int index, Node item)
 		{
 			item.Parent = this;
 			return this.childNodes.Insert(index, item); 
 		}
-		public Node Remove(int index) 
+		public Node Remove(int index)
 		{
 			Node result = this.childNodes.Remove(index);
 			result.Parent = null;
@@ -144,10 +183,10 @@ namespace Kean.Xml.Dom
 		#endregion
 		#region IVector<Node> Members
 		public int Count { get { return this.childNodes.Count; } }
-		public Node this[int index]
+		public Node this [int index]
 		{
 			get { return this.childNodes[index]; }
-			set 
+			set
 			{
 				this.childNodes[index].Parent = null;
 				this.childNodes[index] = value;
@@ -155,13 +194,22 @@ namespace Kean.Xml.Dom
 		}
 		#endregion
 		#region IEnumerable<Node> Members
-		public System.Collections.Generic.IEnumerator<Node> GetEnumerator() { return this.childNodes.GetEnumerator(); }
+		public System.Collections.Generic.IEnumerator<Node> GetEnumerator()
+		{
+			return this.childNodes.GetEnumerator();
+		}
 		#endregion
 		#region IEnumerable Members
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() { return (this.childNodes as System.Collections.IEnumerable).GetEnumerator(); }
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return (this.childNodes as System.Collections.IEnumerable).GetEnumerator();
+		}
 		#endregion
 		#region IEquatable<IVector<Node>> Members
-		public bool Equals(Kean.Collection.IVector<Node> other) { return this.childNodes.Equals(other); }
+		public bool Equals(Kean.Collection.IVector<Node> other)
+		{
+			return this.childNodes.Equals(other);
+		}
 		#endregion
 		#region Object Overrides
 		public override bool Equals(object other)
@@ -171,8 +219,8 @@ namespace Kean.Xml.Dom
 		public override int GetHashCode()
 		{
 			return this.Name.Hash() ^
-				this.Attributes.GetHashCode() ^
-				this.childNodes.GetHashCode();
+			this.Attributes.GetHashCode() ^
+			this.childNodes.GetHashCode();
 		}
 		public override string ToString()
 		{
@@ -183,9 +231,9 @@ namespace Kean.Xml.Dom
 		public bool Equals(Element other)
 		{
 			return other.NotNull() &&
-				this.Name == other.Name &&
-				this.Attributes.Equals(other.Attributes) &&
-				this.childNodes.Equals(other.childNodes);
+			this.Name == other.Name &&
+			this.Attributes.Equals(other.Attributes) &&
+			this.childNodes.Equals(other.childNodes);
 		}
 		#endregion
 		#region Equality Operators
@@ -203,7 +251,7 @@ namespace Kean.Xml.Dom
 		{
 			Element result = null;
 			Element current = null;
-			parser.OnElementStart += (name, attributes, region) => 
+			parser.OnElementStart += (name, attributes, region) =>
 			{ 
 				Element next = new Element(name, attributes) { Region = region };
 				if (result.IsNull())
@@ -212,7 +260,7 @@ namespace Kean.Xml.Dom
 					current.Add(next);
 				current = next;
 			};
-			parser.OnElementEnd += (name, region) => 
+			parser.OnElementEnd += (name, region) =>
 			{
 				if (current.Name != name)
 					throw new Exception.EndTagUnmatched(current.Name, current.Region, name, region);
@@ -220,10 +268,22 @@ namespace Kean.Xml.Dom
 					current.Region = new Uri.Region(current.Region.Resource, current.Region.Start, region.End); 
 				current = current.Parent;
 			};
-			parser.OnText += (value, region) => { current.Add(new Text(value) { Region = region }); };
-			parser.OnData += (value, region) => { current.Add(new Data(value) { Region = region }); };
-			parser.OnComment += (value, region) => { current.Add(new Comment(value) { Region = region }); };
-			parser.OnProccessingInstruction += (target, value, region) => { current.Add(new ProcessingInstruction(target, value) { Region = region }); };
+			parser.OnText += (value, region) =>
+			{
+				current.Add(new Text(value) { Region = region });
+			};
+			parser.OnData += (value, region) =>
+			{
+				current.Add(new Data(value) { Region = region });
+			};
+			parser.OnComment += (value, region) =>
+			{
+				current.Add(new Comment(value) { Region = region });
+			};
+			parser.OnProccessingInstruction += (target, value, region) =>
+			{
+				current.Add(new ProcessingInstruction(target, value) { Region = region });
+			};
 
 			return parser.Parse() ? result : null;
 		}
