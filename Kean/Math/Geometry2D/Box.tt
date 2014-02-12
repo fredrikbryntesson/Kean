@@ -360,40 +360,38 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		public static <#= @name #> Bounds(params Point[] points)
 		{
-			<#= @name #> result = new <#= @name #>();
-			if (points.Length > 0)
+			return <#= @name #>.Bounds((System.Collections.Generic.IEnumerable<Point>)points);
+		}
+		public static <#= @name #> Bounds(System.Collections.Generic.IEnumerable<Point> points)
+		{
+			<#= @value1 #> xMinimum = 0;
+			<#= @value1 #> xMaximum = xMinimum;
+			<#= @value1 #> yMinimum = xMinimum;
+			<#= @value1 #> yMaximum = xMinimum;
+			bool initialized = false;
+			foreach (Point point in points)
 			{
-				<#= @value1 #> xMinimum = 0;
-				<#= @value1 #> xMaximum = xMinimum;
-				<#= @value1 #> yMinimum = xMinimum;
-				<#= @value1 #> yMaximum = xMinimum;
-				bool initilized = false;
-				foreach (Point point in points)
+				if (!initialized)
 				{
-					
-						if (!initilized)
-						{
-							initilized = true;
-							xMinimum = point.X;
-							xMaximum = point.X;
-							yMinimum = point.Y;
-							yMaximum = point.Y;
-						}
-						else
-						{
-							if (point.X < xMinimum)
-								xMinimum = point.X;
-							else if (point.X > xMaximum)
-								xMaximum = point.X;
-							if (point.Y < yMinimum)
-								yMinimum = point.Y;
-							else if (point.Y > yMaximum)
-								yMaximum = point.Y;
-						}
+					initialized = true;
+					xMinimum = point.X;
+					xMaximum = point.X;
+					yMinimum = point.Y;
+					yMaximum = point.Y;
 				}
-				result = new <#= @name #>(xMinimum, yMinimum, xMaximum - xMinimum, yMaximum - yMinimum);
+				else
+				{
+					if (point.X < xMinimum)
+						xMinimum = point.X;
+					else if (point.X > xMaximum)
+						xMaximum = point.X;
+					if (point.Y < yMinimum)
+						yMinimum = point.Y;
+					else if (point.Y > yMaximum)
+						yMaximum = point.Y;
+				}
 			}
-			return result;
+			return new <#= @name #>(xMinimum, yMinimum, xMaximum - xMinimum, yMaximum - yMinimum);
 		}
 		#endregion
 	}

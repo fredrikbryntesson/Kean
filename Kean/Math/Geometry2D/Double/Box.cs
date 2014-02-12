@@ -301,40 +301,38 @@ namespace Kean.Math.Geometry2D.Double
 		}
 		public static Box Bounds(params Point[] points)
 		{
-			Box result = new Box();
-			if (points.Length > 0)
+			return Box.Bounds((System.Collections.Generic.IEnumerable<Point>)points);
+		}
+		public static Box Bounds(System.Collections.Generic.IEnumerable<Point> points)
+		{
+			double xMinimum = 0;
+			double xMaximum = xMinimum;
+			double yMinimum = xMinimum;
+			double yMaximum = xMinimum;
+			bool initialized = false;
+			foreach (Point point in points)
 			{
-				double xMinimum = 0;
-				double xMaximum = xMinimum;
-				double yMinimum = xMinimum;
-				double yMaximum = xMinimum;
-				bool initilized = false;
-				foreach (Point point in points)
+				if (!initialized)
 				{
-					
-						if (!initilized)
-						{
-							initilized = true;
-							xMinimum = point.X;
-							xMaximum = point.X;
-							yMinimum = point.Y;
-							yMaximum = point.Y;
-						}
-						else
-						{
-							if (point.X < xMinimum)
-								xMinimum = point.X;
-							else if (point.X > xMaximum)
-								xMaximum = point.X;
-							if (point.Y < yMinimum)
-								yMinimum = point.Y;
-							else if (point.Y > yMaximum)
-								yMaximum = point.Y;
-						}
+					initialized = true;
+					xMinimum = point.X;
+					xMaximum = point.X;
+					yMinimum = point.Y;
+					yMaximum = point.Y;
 				}
-				result = new Box(xMinimum, yMinimum, xMaximum - xMinimum, yMaximum - yMinimum);
+				else
+				{
+					if (point.X < xMinimum)
+						xMinimum = point.X;
+					else if (point.X > xMaximum)
+						xMaximum = point.X;
+					if (point.Y < yMinimum)
+						yMinimum = point.Y;
+					else if (point.Y > yMaximum)
+						yMaximum = point.Y;
+				}
 			}
-			return result;
+			return new Box(xMinimum, yMinimum, xMaximum - xMinimum, yMaximum - yMinimum);
 		}
 		#endregion
 	}

@@ -87,6 +87,11 @@
     <Compile Include="IO\Wrap\ByteStream.cs" />
     <Compile Include="IO\Wrap\BlockStream.cs" />
     <Compile Include="IO\Wrap\PartialByteInDevice.cs" />
+    <Compile Include="Math\Geometry2D\Box.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Box.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Comparer.cs" />
     <Compile Include="Enumerable.cs" />
@@ -548,7 +553,6 @@
     <Compile Include="Math\Complex\Template.cs" />
     <Compile Include="Math\Exception\DivisionByZero.cs" />
     <Compile Include="Math\Exception\NotAllowed.cs" />
-    <Compile Include="Math\Geometry2D\Box.cs" />
     <Compile Include="Math\Geometry2D\Point.cs" />
     <Compile Include="Math\Geometry2D\Shell.cs" />
     <Compile Include="Math\Geometry2D\Size.cs" />
@@ -862,7 +866,10 @@
     <None Include="Kean.nuspec" />
     <None Include="Kean.targets" />
     <None Include="Math\Complex\Template.tt" />
-    <None Include="Math\Geometry2D\Box.tt" />
+    <None Include="Math\Geometry2D\Box.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Box.cs</LastGenOutput>
+    </None>
     <None Include="Math\Geometry2D\Point.tt" />
     <None Include="Math\Geometry2D\Shell.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -886,6 +893,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
