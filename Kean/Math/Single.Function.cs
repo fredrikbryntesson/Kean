@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Extension;
+using Generic = System.Collections.Generic;
 namespace Kean.Math
 {
 	public partial class Single :
@@ -88,6 +89,10 @@ namespace Kean.Math
 		}
 		public static float Maximum(float value, params float[] values)
 		{
+			return Single.Maximum(value, (Generic.IEnumerable<float>)values);
+		}
+		public static float Maximum(float value, Generic.IEnumerable<float> values)
+		{
 			foreach (float v in values)
 				if (value < v)
 					value = v;
@@ -98,6 +103,10 @@ namespace Kean.Math
 			return first < second ? first : second;
 		}
 		public static float Minimum(float value, params float[] values)
+		{
+			return Single.Minimum(value, (Generic.IEnumerable<float>)values);
+		}
+		public static float Minimum(float value, Generic.IEnumerable<float> values)
 		{
 			foreach (float v in values)
 				if (value > v)
