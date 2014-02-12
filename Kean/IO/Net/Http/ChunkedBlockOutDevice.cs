@@ -62,7 +62,7 @@ namespace Kean.IO.Net.Http
 		#region IBlockOutDevice implementation
 		public bool Write(Collection.IVector<byte> buffer)
 		{
-			return this.BackendWrite((buffer.Count.ToString("x") + "\r\n").AsBinary().Merge(buffer).Merge("\r\n".AsBinary()));
+			return buffer.Count < 1 || this.BackendWrite((buffer.Count.ToString("x") + "\r\n").AsBinary().Merge(buffer).Merge("\r\n".AsBinary()));
 		}
 		#endregion
 		#region IOutDevice implementation

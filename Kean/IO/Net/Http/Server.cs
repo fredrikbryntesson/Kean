@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  Server.cs
 //  
 //  Author:
@@ -32,7 +32,7 @@ namespace Kean.IO.Net.Http
 	public class Server :
 		IDisposable
 	{
-		public Request Request { get; private set; }
+		public Header.Request Request { get; private set; }
 		public event Action Closed
 		{ 
 			add { this.connection.Closed += value; } 
@@ -73,7 +73,7 @@ namespace Kean.IO.Net.Http
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
-			this.Request = Request.Parse(this.ByteDevice);
+			this.Request = Header.Request.Parse(this.ByteDevice);
 		}
 		~Server()
 		{
@@ -83,27 +83,29 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		public bool Respond(Status status, params KeyValue<string, string>[] headers)
+		#region Respond
+		public bool SendHeader(Status status, params KeyValue<string, string>[] headers)
 		{
-			return this.Respond(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+			return this.SendHeader(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public bool Respond(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		public bool SendHeader(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
-			return this.Respond(this.Request.Protocol, status, headers);
+			return this.SendHeader(this.Request.Protocol, status, headers);
 		}
-		public bool Respond(string protocol, Status status, params KeyValue<string, string>[] headers)
+		public bool SendHeader(string protocol, Status status, params KeyValue<string, string>[] headers)
 		{
-			return this.Respond(protocol, status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+			return this.SendHeader(protocol, status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public bool Respond(string protocol, Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		public bool SendHeader(string protocol, Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
-			this.Writer.WriteLine(protocol + " " + status);
-			foreach (var header in headers)
-				this.Writer.WriteLine(header.Key + ": " + header.Value);
-			this.Writer.WriteLine();
-			this.Writer.Flush();
-			return true;
+			return this.SendHeader(new Header.Response(protocol, status, headers));
 		}
+		public bool SendHeader(Header.Response response)
+		{
+			return response.Send(this.Writer);
+		}
+		#endregion
+		#region RespondChuncked
 		public IBlockOutDevice RespondChuncked(Status status, string type, params KeyValue<string, string>[] headers)
 		{
 			return this.RespondChuncked(status, type, (Generic.IEnumerable<KeyValue<string, string>>)headers);
@@ -111,10 +113,12 @@ namespace Kean.IO.Net.Http
 		public IBlockOutDevice RespondChuncked(Status status, string type, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
 			IBlockOutDevice result = null;
-			if (this.Respond(status, headers.Prepend(KeyValue.Create("Transfer-Encoding", "chunked"), KeyValue.Create("Content-Type", type))))
+			if (this.SendHeader(status, headers.Prepend(KeyValue.Create("Transfer-Encoding", "chunked"), KeyValue.Create("Content-Type", type))))
 				result = ChunkedBlockOutDevice.Wrap(this.BlockDevice);
 			return result;
 		}
+		#endregion
+		#region SendFile
 		public Status SendFile(Uri.Locator file, params KeyValue<string, string>[] headers)
 		{
 			return this.SendFile(file, (Generic.IEnumerable<KeyValue<string, string>>)headers);
@@ -126,8 +130,8 @@ namespace Kean.IO.Net.Http
 				file += "index.html";
 			if (System.IO.Directory.Exists(file.Path.PlatformPath))
 			{
-				this.MovedPermanently(this.Request.Url + "/");
-				result = Http.Status.MovedPermanently;
+				this.SendHeader(Header.Response.MovedPermanently(this.Request.Url + "/"));
+				result = Status.MovedPermanently;
 			}
 			else
 			{
@@ -185,26 +189,31 @@ namespace Kean.IO.Net.Http
 							destination.Write(source);
 					}
 					else
-						this.Send(result = Status.NotFound);
+					{
+						this.SendHeader(Header.Response.NotFound);
+						result = Status.MovedPermanently;
+					}
 			}
 			return result;
 		}
-		public bool Send(Status status, params KeyValue<string, string>[] headers)
+		#endregion
+		#region Send
+		public bool SendMessage(Status status, params KeyValue<string, string>[] headers)
 		{
-			return this.Send(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+			return this.SendMessage(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public bool Send(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		public bool SendMessage(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
-			var message = status.AsHtml.AsBinary();
-			return this.Respond(status, headers.Prepend(
-				KeyValue.Create("Content-Length", message.Length.ToString()),
-				KeyValue.Create("Content-Type", "text/html; charset=utf8"))
-			) && this.ByteDevice.Write(message);
+			return this.SendMessage(new Header.Response(status, headers));
 		}
-		public bool MovedPermanently(Uri.Locator location)
+		public bool SendMessage(Header.Response response)
 		{
-			return this.Send(Status.MovedPermanently, KeyValue.Create("Location", (string)location));
+			var message = response.Status.AsHtml.AsBinary();
+			response.ContentLength = message.Length;
+			response.ContentType = "text/html; charset=utf8";
+			return this.SendHeader(response) && this.ByteDevice.Write(message);
 		}
+		#endregion
 		public bool Close()
 		{
 			bool result = false;

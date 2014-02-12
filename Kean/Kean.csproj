@@ -78,10 +78,7 @@
     <Compile Include="IO\BlockDevice.cs" />
     <Compile Include="IO\BufferBlockOutDevice.cs" />
     <Compile Include="IO\BlockDeviceCombiner.cs" />
-    <Compile Include="IO\Net\Http\Header.cs" />
     <Compile Include="IO\Net\Http\Method.cs" />
-    <Compile Include="IO\Net\Http\Request.cs" />
-    <Compile Include="IO\Net\Http\Response.cs" />
     <Compile Include="IO\Net\Http\Server.cs" />
     <Compile Include="IO\Net\Http\Status.cs" />
     <Compile Include="IO\Wrap\ByteStream.cs" />
@@ -857,6 +854,14 @@
     <Compile Include="IO\Net\Http\ChunkedBlockOutDevice.cs" />
     <Compile Include="IO\Wrap\BlockByteOutDevice.cs" />
     <Compile Include="IO\Device.cs" />
+    <Compile Include="IO\Net\Http\Header\Request.cs" />
+    <Compile Include="IO\Net\Http\Client.cs" />
+    <Compile Include="IO\Net\Http\Header\Authorization.cs" />
+    <Compile Include="IO\Net\Http\Header\BasicAuthorization.cs" />
+    <Compile Include="IO\Net\Http\Header\Link.cs" />
+    <Compile Include="IO\Net\Http\Header\LinkRelation.cs" />
+    <Compile Include="IO\Net\Http\Header\Links.cs" />
+    <Compile Include="IO\Net\Http\Header\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />
@@ -949,4 +954,7 @@
   <Import Project="../../packages/Pango.1.28.3.2/build/Pango.targets" Condition="Exists('../../packages/Pango.1.28.3.2/build/Pango.targets')" />
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
   <Import Project="../../.nuget/NuGet.targets" Condition="Exists('../../.nuget/NuGet.targets')" />
+  <ItemGroup>
+    <Folder Include="IO\Net\Http\Header\" />
+  </ItemGroup>
 </Project>

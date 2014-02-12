@@ -46,8 +46,11 @@ namespace Kean.Json.Dom
 		}
 		public bool Save(IO.IBlockOutDevice device)
 		{
-			using (IO.IByteOutDevice byteDevice = IO.Wrap.BlockByteOutDevice.Open(device))
-				return this.Save(device);
+			using (IO.IByteOutDevice byteDevice = IO.Wrap.BlockByteOutDevice.Wrap(device))
+			{
+				byteDevice.AutoFlush = false;
+				return this.Save(byteDevice);
+			}
 		}
 		public bool Save(IO.IByteOutDevice device)
 		{

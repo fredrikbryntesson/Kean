@@ -31,18 +31,18 @@ using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Net.Http
 {
-	public class Response : 
+	public class Client : 
 		IDisposable
 	{
 		System.Net.HttpWebRequest request;
 		System.Net.WebResponse response;
 		public string ContentType { get { return this.response.ContentType; } }
-		internal Response(System.Net.HttpWebRequest request, System.Net.WebResponse response)
+		internal Client(System.Net.HttpWebRequest request, System.Net.WebResponse response)
 		{
 			this.request = request;
 			this.response = response;
 		}
-		~Response()
+		~Client()
 		{
 			this.Close();
 		}
@@ -64,9 +64,13 @@ namespace Kean.IO.Net.Http
 				while (this.response.NotNull() && device.Opened)
 				{
 					Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>(
-						device.Read(13, 10, 13, 10).Decode().Join()
+						                                                 device.Read(13, 10, 13, 10).Decode().Join()
 						.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
-						.Map(header => { string[] splitted = header.Split(new string[] { ": " }, 2, StringSplitOptions.None); return splitted.Length == 2 ? KeyValue.Create(splitted[0], splitted[1]) : KeyValue.Create((string)null, (string)null); }));
+						.Map(header =>
+						{
+							string[] splitted = header.Split(new string[] { ": " }, 2, StringSplitOptions.None);
+							return splitted.Length == 2 ? KeyValue.Create(splitted[0], splitted[1]) : KeyValue.Create((string)null, (string)null);
+						}));
 					this.Process(headers["Content-Type"], Wrap.PartialByteInDevice.Open(device, boundary), process);
 				}
 			}
@@ -102,16 +106,16 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		public static Response Open(Request request)
+		public static Client Open(Header.Request request)
 		{
-			Response result = null;
+			Client result = null;
 			System.Net.HttpWebRequest backendRequest = System.Net.WebRequest.Create(request.Url) as System.Net.HttpWebRequest;
 			if (backendRequest.NotNull())
 			{
 				backendRequest.Credentials = request.Url.Authority.User.NotNull() && request.Url.Authority.User.Name.NotEmpty() && request.Url.Authority.User.Password.NotEmpty() ? new System.Net.NetworkCredential(request.Url.Authority.User.Name, request.Url.Authority.User.Password) : null;
 				System.Net.WebResponse backendResponse = backendRequest.GetResponse();
 				if (backendResponse.NotNull())
-					result = new Response(backendRequest, backendResponse);
+					result = new Client(backendRequest, backendResponse);
 			}
 			return result;
 		}

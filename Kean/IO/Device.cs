@@ -168,7 +168,7 @@ namespace Kean.IO
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush { get; set; }
-		public bool Flush()
+		bool FlushBuffer()
 		{
 			byte[] array;
 			int count;
@@ -183,6 +183,11 @@ namespace Kean.IO
 			{
 				this.stream.Write(array, 0, count);
 			}
+			return result;
+		}
+		public bool Flush()
+		{
+			bool result = this.FlushBuffer();
 			this.stream.Flush();
 			return result; 
 		}

@@ -40,18 +40,27 @@ namespace Kean.IO.Wrap
 		}
 		~BlockByteOutDevice ()
 		{
-			this.Close();
+			Error.Log.Call(this.Dispose);
 		}
+		Collection.IVector<byte> buffer;
 		#region IByteOutDevice implementation
 		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
 		{
-			return this.backend.NotNull() && this.backend.Write(buffer.ToArray());
+			this.buffer = this.buffer.Merge(buffer.ToArray());
+			return !this.AutoFlush || this.Flush();
 		}
 		#endregion
 		#region IOutDevice implementation
+		bool WriteBuffer()
+		{
+			bool result;
+			if (result = this.backend.Write(buffer.ToArray()))
+				buffer = null;
+			return result;
+		}
 		public bool Flush()
 		{
-			return this.backend.NotNull() && this.backend.Flush();
+			return this.backend.NotNull() && (buffer.Count < 1 || this.WriteBuffer() && this.backend.Flush());
 		}
 		public bool AutoFlush
 		{
@@ -67,6 +76,7 @@ namespace Kean.IO.Wrap
 		public bool Close()
 		{
 			bool result;
+			this.Flush();
 			if (result = (this.backend.NotNull() && (this.Wrapped || this.backend.Close())))
 				this.backend = null;
 			return result;
