@@ -115,12 +115,20 @@ namespace Kean.IO.Net.Http.Header
 			}
 		}
 		#endregion
+		public Response(Status status, params KeyValue<string, string>[] headers) :
+			this(status, (Generic.IEnumerable<KeyValue<string, string>>)headers)
+		{
+		}
 		public Response(Status status, Generic.IEnumerable<KeyValue<string, string>> headers) :
 			this()
 		{
 			this.Status = status;
 			foreach (var header in headers)
 				this[header.Key] = header.Value;
+		}
+		public Response(string protocol, Status status, params KeyValue<string, string>[] headers) :
+			this(protocol, status, (Generic.IEnumerable<KeyValue<string, string>>)headers)
+		{
 		}
 		public Response(string protocol, Status status, Generic.IEnumerable<KeyValue<string, string>> headers) :
 			this(status, headers)
@@ -136,16 +144,14 @@ namespace Kean.IO.Net.Http.Header
 		}
 		#endregion
 		#region Static Creators
+		public static Response NotFound { get { return new Response() { Status = Status.NotFound }; } }
 		public static Response MovedPermanently(Uri.Locator location)
 		{
 			return new Response() { Status = Status.MovedPermanently, Location = location };
 		}
-		public static Response NotFound
+		public static Response UnauthorizedBasic(string realm)
 		{
-			get
-			{
-				return new Response() { Status = Status.NotFound };
-			}
+			return new Response(Status.Unauthorized, KeyValue.Create("WWW-Authenticate", "Basic realm=\"" + realm + "\""));
 		}
 		#endregion
 	}
