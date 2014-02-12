@@ -69,7 +69,7 @@ namespace Kean.IO.Net.Http
 				return this.writer;
 			}
 		}
-		public Uri.Domain Peer { get { return this.Request[""] ?? this.connection.Peer.Host; } }
+		public Uri.Domain Peer { get { return this.Request["X-Real-IP"] ?? this.connection.Peer.Host; } }
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
