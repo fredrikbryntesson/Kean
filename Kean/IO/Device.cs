@@ -187,9 +187,9 @@ namespace Kean.IO
 		}
 		public bool Flush()
 		{
-			bool result = this.FlushBuffer();
+			this.FlushBuffer();
 			this.stream.Flush();
-			return result; 
+			return true; 
 		}
 		#endregion
 		#region IDevice Members

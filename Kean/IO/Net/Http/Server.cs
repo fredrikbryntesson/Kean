@@ -69,6 +69,26 @@ namespace Kean.IO.Net.Http
 				return this.writer;
 			}
 		}
+		#region Storage
+		Serialize.Storage storage;
+		Serialize.Storage Storage
+		{
+			get
+			{ 
+				if (this.storage.IsNull())
+					switch ("application/json")
+					{
+						case "application/json":
+							this.storage = new Json.Serialize.Storage() { NoTypes = true };
+							break;
+						case "application/xml":
+							this.storage = new Xml.Serialize.Storage() { NoTypes = true };
+							break;
+					}
+				return this.storage;
+			}
+		}
+		#endregion
 		public Uri.Domain Peer { get { return this.Request["X-Real-IP"] ?? this.connection.Peer.Host; } }
 		Server(Tcp.Connection connection)
 		{
@@ -83,7 +103,7 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		#region Respond
+		#region SendHeader
 		public bool SendHeader(Status status, params KeyValue<string, string>[] headers)
 		{
 			return this.SendHeader(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
@@ -118,6 +138,18 @@ namespace Kean.IO.Net.Http
 			return result;
 		}
 		#endregion
+		#region Send
+		public bool Send<T>(T data)
+		{
+			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+				return this.Storage.Store(data, device);
+		}
+		public bool Send(Json.Dom.Item data)
+		{
+			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+				return data.Save(device);
+		}
+		#endregion
 		#region SendFile
 		public Status SendFile(Uri.Locator file, params KeyValue<string, string>[] headers)
 		{
@@ -145,7 +177,10 @@ namespace Kean.IO.Net.Http
 								type = "text/html; charset=utf8";
 								break;
 							case "css":
-								type = "text/css";
+								type = "text/css; charset=UTF-8";
+								break;
+							case "csv":
+								type = "text/csv; charset=UTF-8";
 								break;
 							case "mp4":
 								type = "video/mp4";
@@ -167,7 +202,7 @@ namespace Kean.IO.Net.Http
 								type = "image/gif";
 								break;
 							case "json":
-								type = "application/json";
+								type = "application/json; charset=UTF-8";
 								break;
 							case "js":
 								type = "application/javascript";
@@ -197,7 +232,7 @@ namespace Kean.IO.Net.Http
 			return result;
 		}
 		#endregion
-		#region Send
+		#region SendMessage
 		public bool SendMessage(Status status, params KeyValue<string, string>[] headers)
 		{
 			return this.SendMessage(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);

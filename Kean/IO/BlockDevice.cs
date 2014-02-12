@@ -94,8 +94,10 @@ namespace Kean.IO
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
-			this.stream.Flush();
-			return !this.AutoFlush; 
+			bool result;
+			if (result = this.stream.NotNull())
+				this.stream.Flush();
+			return result; 
 		}
 		#endregion
 		#region IDevice Members

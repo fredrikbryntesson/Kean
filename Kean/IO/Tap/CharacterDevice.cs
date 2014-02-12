@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean;
 using Kean.Extension;
@@ -34,7 +35,6 @@ namespace Kean.IO.Tap
 		ICharacterDevice backend;
 		public event Action<char> OnRead;
 		public event Action<char> OnWrite;
-
 		#region Constructors
 		public CharacterDevice(ICharacterDevice backend, Action<char> onRead, Action<char> onWrite) :
 			this(backend)
@@ -58,7 +58,11 @@ namespace Kean.IO.Tap
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
-			return this.backend.Write(buffer.Cast(c => { this.OnWrite.Call(c); return c; }));
+			return this.backend.Write(buffer.Cast(c =>
+			{
+				this.OnWrite.Call(c);
+				return c;
+			}));
 		}
 		#endregion
 		#region ICharacterInDevice Members
@@ -85,7 +89,7 @@ namespace Kean.IO.Tap
 		}
 		public bool Flush()
 		{
-			return this.backend.Flush();
+			return this.backend.NotNull() && this.backend.Flush();
 		}
 		#endregion
 		#region IDevice Members

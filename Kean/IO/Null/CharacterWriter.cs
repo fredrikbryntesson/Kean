@@ -32,10 +32,8 @@ namespace Kean.IO.Null
 		ICharacterWriter
 	{
 		public char[] NewLine { get; set; }
-
 		public Uri.Locator Resource { get { return "null://"; } }
 		public bool Opened { get { return true; } }
-
 		public CharacterWriter()
 		{
 			this.NewLine = new char[] { '\n' };
@@ -49,7 +47,6 @@ namespace Kean.IO.Null
 		{
 		}
 		#endregion
-
 		#region ICharacterWriter Members
 		public bool Write(params char[] buffer)
 		{
@@ -100,8 +97,8 @@ namespace Kean.IO.Null
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
-			return !this.AutoFlush;
+			return true;
 		}
-		#endregion	
+		#endregion
 	}
 }

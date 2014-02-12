@@ -35,7 +35,6 @@ namespace Kean.IO.Text
 		bool lineIndented;
 		string indention = "";
 		public bool Format { get; set; }
-
 		public Indenter(ICharacterWriter backend)
 		{
 			this.backend = backend;
@@ -56,7 +55,7 @@ namespace Kean.IO.Text
 		#region implemented abstract and virtual members of Kean.IO.Abstract.CharacterWriter
 		public override Uri.Locator Resource { get { return this.backend.NotNull() ? this.backend.Resource : null; } }
 		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
-		public override bool Close ()
+		public override bool Close()
 		{
 			bool result;
 			if (result = this.backend.NotNull() && this.backend.Close())
@@ -86,7 +85,7 @@ namespace Kean.IO.Text
 		}
 		public override bool Flush()
 		{
-			return this.backend.Flush();
+			return this.backend.NotNull() && this.backend.Flush();
 		}
 		#endregion
 	}

@@ -25,6 +25,7 @@ using Kean.Extension;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
+
 namespace Kean.IO
 {
 	public class BlockDeviceCombiner :
@@ -34,7 +35,6 @@ namespace Kean.IO
 		IBlockOutDevice outDevice;
 		public bool Wrapped { get; set; }
 		#region Constructors
-
 		protected BlockDeviceCombiner(IBlockInDevice inDevice) :
 			this(inDevice, null)
 		{
@@ -44,33 +44,27 @@ namespace Kean.IO
 			this.inDevice = inDevice;
 			this.outDevice = outDevice;
 		}
-
 		#endregion
-
 		#region IBlockDevice Members
 		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
 		public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
 		#endregion
-
 		#region IBlockInDevice Members
 		public Collection.IVector<byte> Peek()
 		{
 			return this.inDevice.Peek();
 		}
-
 		public Collection.IVector<byte> Read()
 		{
 			return this.inDevice.Read();
 		}
 		#endregion
-
 		#region IBlockOutDevice Members
 		public bool Write(Collection.IVector<byte> buffer)
 		{
 			return this.outDevice.NotNull() && this.outDevice.Write(buffer);
 		}
 		#endregion
-
 		#region IInDevice Members
 		public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
 		#endregion
@@ -82,7 +76,7 @@ namespace Kean.IO
 		}
 		public bool Flush()
 		{
-			return this.outDevice.Flush();
+			return this.outDevice.NotNull() && this.outDevice.Flush();
 		}
 		#endregion
 		#region IDevice Members
@@ -105,14 +99,12 @@ namespace Kean.IO
 			return result;
 		}
 		#endregion
-
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
 		#endregion
-
 		#region Static Open & Wrapped
 		#region Open
 		public static IBlockDevice Open(IBlockInDevice inDevice)

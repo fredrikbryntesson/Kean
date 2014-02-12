@@ -58,10 +58,6 @@ namespace Kean.IO.Wrap
 				buffer = null;
 			return result;
 		}
-		public bool Flush()
-		{
-			return this.backend.NotNull() && (buffer.Count < 1 || this.WriteBuffer() && this.backend.Flush());
-		}
 		public bool AutoFlush
 		{
 			get { return this.backend.NotNull() && this.backend.AutoFlush; }
@@ -70,6 +66,10 @@ namespace Kean.IO.Wrap
 				if (this.backend.NotNull())
 					this.backend.AutoFlush = value;
 			}
+		}
+		public bool Flush()
+		{
+			return this.backend.NotNull() && (buffer.IsNull() || buffer.Count < 1 || this.WriteBuffer() && this.backend.Flush());
 		}
 		#endregion
 		#region IDevice implementation
