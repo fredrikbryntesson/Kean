@@ -23,10 +23,10 @@ using System;
 namespace Kean.Math
 {
 	public abstract class Abstract<R, V> :
-        IEquatable<R>,
-        System.IComparable<R>
-        where R : Abstract<R, V>, new()
-        where V : struct
+		IEquatable<R>,
+		System.IComparable<R>
+		where R : Abstract<R, V>, new()
+		where V : struct
 	{
 		public V Value { get; private set; }
 
@@ -180,7 +180,7 @@ namespace Kean.Math
 		public static bool operator ==(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
 		{
 			return
-                object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
+				object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null)) &&
 				left.Equals(right);
 		}
 		public static bool operator !=(Kean.Math.Abstract<R, V> left, Kean.Math.Abstract<R, V> right)
