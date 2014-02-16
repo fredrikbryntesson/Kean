@@ -1,4 +1,4 @@
-﻿// 
+// 
 //  Server.cs
 //  
 //  Author:
@@ -32,6 +32,7 @@ namespace Kean.IO.Net.Http
 	public class Server :
 		IDisposable
 	{
+		public Header.Request Request { get; private set; }
 		public event Action Closed
 		{ 
 			add { this.connection.Closed += value; } 
@@ -41,19 +42,6 @@ namespace Kean.IO.Net.Http
 		{
 			get { return this.connection.AutoClose; }
 			set { this.connection.AutoClose = value; }
-		}
-		public Method Method { get; private set; }
-		public Uri.Path Path { get; private set; }
-		public string Protocol { get; private set; }
-		readonly Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>();
-		public string this [string key]
-		{ 
-			get { return this.headers[key]; } 
-			set
-			{ 
-				if (key.NotEmpty())
-					this.headers[key] = value; 
-			}
 		}
 		Tcp.Connection connection;
 		public IByteDevice ByteDevice { get { return this.connection.ByteDevice; } }
@@ -81,11 +69,31 @@ namespace Kean.IO.Net.Http
 				return this.writer;
 			}
 		}
-		public Uri.Endpoint Peer { get { return this.connection.Peer; } }
+		#region Storage
+		Serialize.Storage storage;
+		Serialize.Storage Storage
+		{
+			get
+			{ 
+				if (this.storage.IsNull())
+					switch ("application/json")
+					{
+						case "application/json":
+							this.storage = new Json.Serialize.Storage() { NoTypes = true };
+							break;
+						case "application/xml":
+							this.storage = new Xml.Serialize.Storage() { NoTypes = true };
+							break;
+					}
+				return this.storage;
+			}
+		}
+		#endregion
+		public Uri.Domain Peer { get { return this.Request["X-Real-IP"] ?? this.connection.Peer.Host; } }
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
-			this.ParseRequestHeader(this.ByteDevice);
+			this.Request = Header.Request.Parse(this.ByteDevice);
 		}
 		~Server()
 		{
@@ -95,136 +103,152 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		bool ParseRequestHeader(IByteInDevice device)
+		#region SendHeader
+		public bool SendHeader(Status status, params KeyValue<string, string>[] headers)
 		{
-			bool result = false;
-			string[] firstLine = this.ReadLine(device).Decode().Join().Split(' ');
-			if (firstLine.Length == 3)
+			return this.SendHeader(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public bool SendHeader(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
+			return this.SendHeader(this.Request.Protocol, status, headers);
+		}
+		public bool SendHeader(string protocol, Status status, params KeyValue<string, string>[] headers)
+		{
+			return this.SendHeader(protocol, status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public bool SendHeader(string protocol, Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
+			return this.SendHeader(new Header.Response(protocol, status, headers));
+		}
+		public bool SendHeader(Header.Response response)
+		{
+			return response.Send(this.Writer);
+		}
+		#endregion
+		#region RespondChuncked
+		public IBlockOutDevice RespondChuncked(Status status, string type, params KeyValue<string, string>[] headers)
+		{
+			return this.RespondChuncked(status, type, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public IBlockOutDevice RespondChuncked(Status status, string type, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
+			IBlockOutDevice result = null;
+			if (this.SendHeader(status, headers.Prepend(KeyValue.Create("Transfer-Encoding", "chunked"), KeyValue.Create("Content-Type", type))))
+				result = ChunkedBlockOutDevice.Wrap(this.BlockDevice);
+			return result;
+		}
+		#endregion
+		#region Send
+		public bool Send<T>(T data)
+		{
+			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+				return this.Storage.Store(data, device);
+		}
+		public bool Send(Json.Dom.Item data)
+		{
+			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+				return data.Save(device);
+		}
+		#endregion
+		#region SendFile
+		public Status SendFile(Uri.Locator file, params KeyValue<string, string>[] headers)
+		{
+			return this.SendFile(file, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+		}
+		public Status SendFile(Uri.Locator file, Generic.IEnumerable<KeyValue<string, string>> headers)
+		{
+			Status result;
+			if (this.Request.Path.Folder)
+				file += "index.html";
+			if (System.IO.Directory.Exists(file.Path.PlatformPath))
 			{
-				this.Method = firstLine[0].Parse<Method>();
-				this.Path = firstLine[1];
-				this.Protocol = firstLine[2];
-				string line;
-				result = true;
-				while ((line = this.ReadLine(device).Decode().Join()).NotEmpty())
-				{
-					string[] parts = line.Split(new char[] { ':' }, 2);
-					this[parts[0].Trim()] = parts[1].Trim();
-				}
+				this.SendHeader(Header.Response.MovedPermanently(this.Request.Url + "/"));
+				result = Status.MovedPermanently;
+			}
+			else
+			{
+				using (var source = IO.BlockDevice.Open(file))
+					if (source.NotNull())
+					{
+						string type;
+						switch (file.Path.Extension)
+						{
+							case "html":
+								type = "text/html; charset=utf8";
+								break;
+							case "css":
+								type = "text/css; charset=UTF-8";
+								break;
+							case "csv":
+								type = "text/csv; charset=UTF-8";
+								break;
+							case "mp4":
+								type = "video/mp4";
+								break;
+							case "webm":
+								type = "video/webm";
+								break;
+							case "png":
+								type = "image/png";
+								break;
+							case "jpeg":
+							case "jpg":
+								type = "image/jpeg";
+								break;
+							case "svg":
+								type = "image/svg+xml";
+								break;
+							case "gif":
+								type = "image/gif";
+								break;
+							case "json":
+								type = "application/json; charset=UTF-8";
+								break;
+							case "js":
+								type = "application/javascript";
+								break;
+							case "pdf":
+								type = "application/pdf";
+								break;
+							case "xml":
+								type = "application/xml";
+								break;
+							case "zip":
+								type = "application/zip";
+								break;
+							default:
+								type = null;
+								break;
+						}
+						using (var destination = this.RespondChuncked(result = Status.OK, type, headers))
+							destination.Write(source);
+					}
+					else
+					{
+						this.SendHeader(Header.Response.NotFound);
+						result = Status.MovedPermanently;
+					}
 			}
 			return result;
 		}
-		Generic.IEnumerable<byte> ReadLine(IByteInDevice device)
+		#endregion
+		#region SendMessage
+		public bool SendMessage(Status status, params KeyValue<string, string>[] headers)
 		{
-			foreach (byte b in device.Read(13, 10))
-				if (b != 13 && b != 10)
-					yield return b;
-			//byte? next = device.Peek();
-			//if (next.HasValue && next.Value == 32 || next.Value == 9) // lines broken into several lines must start with space (SP) or horizontal tab (HT)
-			//	foreach (byte b in this.ReadLine(device))
-			//		yield return b;
+			return this.SendMessage(status, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public bool Respond(Status status, params KeyValue<string, string>[] headers)
+		public bool SendMessage(Status status, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
-			return this.Respond(this.Protocol, status, headers);
+			return this.SendMessage(new Header.Response(status, headers));
 		}
-		public bool Respond(string protocol, Status status, params KeyValue<string, string>[] headers)
+		public bool SendMessage(Header.Response response)
 		{
-			this.Writer.WriteLine(protocol + " " + status);
-			foreach (var header in headers)
-				this.Writer.WriteLine(header.Key + ": " + header.Value);
-			this.Writer.WriteLine();
-			this.Writer.Flush();
-			return true;
+			var message = response.Status.AsHtml.AsBinary();
+			response.ContentLength = message.Length;
+			response.ContentType = "text/html; charset=utf8";
+			return this.SendHeader(response) && this.ByteDevice.Write(message);
 		}
-		public IBlockOutDevice RespondChuncked(Status status, string type)
-		{
-			this.Respond(status, 
-				KeyValue.Create("Transfer-Encoding", "chunked"),
-				KeyValue.Create("Content-Type", type)
-			);
-			return ChunkedBlockOutDevice.Open(this.ByteDevice);
-		}
-		public void SendFile(Uri.Locator file)
-		{
-			using (var device = IO.BlockDevice.Open(file))
-				if (device.NotNull())
-				{
-					string type;
-					switch (file.Path.Extension)
-					{
-						case "html":
-							type = "text/html; charset=utf8";
-							break;
-						case "css":
-							type = "text/css";
-							break;
-						case "mp4":
-							type = "video/mp4";
-							break;
-						case "webm":
-							type = "video/webm";
-							break;
-						case "png":
-							type = "image/png";
-							break;
-						case "jpeg":
-						case "jpg":
-							type = "image/jpeg";
-							break;
-						case "svg":
-							type = "image/svg+xml";
-							break;
-						case "gif":
-							type = "image/gif";
-							break;
-						case "json":
-							type = "application/json";
-							break;
-						case "js":
-							type = "application/javascript";
-							break;
-						case "pdf":
-							type = "application/pdf";
-							break;
-						case "xml":
-							type = "application/xml";
-							break;
-						case "zip":
-							type = "application/zip";
-							break;
-						default:
-							type = null;
-							break;
-					}
-					this.Respond(Status.OK, 
-						KeyValue.Create("Transfer-Encoding", "chunked"),
-						KeyValue.Create("Content-Type", type)
-					);
-					this.SendChunked(device);
-				}
-				else
-					this.Send(Status.NotFound);
-		}
-		public void SendChunked(IBlockInDevice device)
-		{
-			while (!device.Empty)
-			{
-				var block = device.Read();
-				this.BlockDevice.Write((block.Count + "\r\n").AsBinary().Merge(block).Merge("\r\n".AsBinary()));
-			}
-			this.BlockDevice.Write(("\r\n").AsBinary());
-			this.BlockDevice.Flush();
-		}
-		public void Send(Status status)
-		{
-			var message = status.AsHtml.AsBinary();
-			this.Respond(status, 
-				KeyValue.Create("Content-Length", message.Length.ToString()),
-				KeyValue.Create("Content-Type", "text/html; charset=utf8")
-			);
-			this.ByteDevice.Write(message);
-		}
+		#endregion
 		public bool Close()
 		{
 			bool result = false;

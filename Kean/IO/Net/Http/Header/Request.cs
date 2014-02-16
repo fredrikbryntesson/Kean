@@ -27,10 +27,28 @@ using Generic = System.Collections.Generic;
 using Kean.IO.Extension;
 using Kean.Collection.Extension;
 
-namespace Kean.IO.Net.Http
+namespace Kean.IO.Net.Http.Header
 {
 	public struct Request
 	{
+		#region Headers
+		Collection.IDictionary<string, string> headers;
+		public string this [string key]
+		{ 
+			get { return this.headers.NotNull() ? this.headers[key] ?? (key == "Host" ? this.Host : null) : null; } 
+			set
+			{ 
+				if (key.NotEmpty())
+				{
+					if (this.headers.IsNull())
+						this.headers = new Collection.Dictionary<string, string>();
+					this.headers[key] = value;
+					if (key == "Host")
+						this.Url.Authority = value;
+				}
+			}
+		}
+		#endregion
 		public string Protocol { get; set; }
 		public Method Method { get; set; }
 		public Uri.Scheme Scheme
@@ -40,7 +58,7 @@ namespace Kean.IO.Net.Http
 		}
 		public Uri.Domain Host
 		{ 
-			get { return this.Url.Authority.NotNull() && this.Url.Authority.Endpoint.NotNull() ? this.Url.Authority.Endpoint.Host : ""; }
+			get { return this.Url.Authority.NotNull() && this.Url.Authority.Endpoint.NotNull() ? this.Url.Authority.Endpoint.Host : new Uri.Domain(); }
 			set { this.Url.Authority = new Uri.Authority(this.Url.Authority.User, new Uri.Endpoint(value, this.Url.Authority.Endpoint.Port)); }
 		}
 		public Uri.Path Path
@@ -58,22 +76,16 @@ namespace Kean.IO.Net.Http
 			get { return this.Url.Fragment; }
 			set { this.Url.Fragment = value; }
 		}
-		#region Headers
-		Collection.IDictionary<string, string> headers;
-		public string this [string key]
-		{ 
-			get { return this.headers.NotNull() ? this.headers[key] ?? key == "Host" ? this.Host : null : null; } 
-			set
+		#region Authorization
+		Header.Authorization authorization;
+		public Header.Authorization Authorization
+		{
+			get
 			{ 
-				if (key.NotEmpty())
-				{
-					if (this.headers.IsNull())
-						this.headers = new Collection.Dictionary<string, string>();
-					this.headers[key] = value;
-					if (key == "Host")
-						this.Url.Authority = value;
-				}
-			}
+				if (this.authorization.IsNull())
+					this.authorization = this["Authorization"];
+				return this.authorization; 
+			} 
 		}
 		#endregion
 		Uri.Locator url;
@@ -114,6 +126,14 @@ namespace Kean.IO.Net.Http
 			foreach (byte b in device.Read(13, 10))
 				if (b != 13 && b != 10)
 					yield return b;
+		}
+		public static implicit operator Request(Uri.Locator url)
+		{
+			return new Request { Url = url };
+		}
+		public static implicit operator Request(string url)
+		{
+			return new Request { Url = url };
 		}
 	}
 }

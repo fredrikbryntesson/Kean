@@ -37,18 +37,32 @@ namespace Kean.IO.Net.Http
 		{
 			this.backend = backend;
 		}
-		ChunkedBlockOutDevice(IByteOutDevice backend)
+		ChunkedBlockOutDevice(IByteOutDevice backend) :
+			this((IOutDevice)backend)
 		{
 			this.backendWrite = backend.Write;
 		}
-		ChunkedBlockOutDevice(IBlockOutDevice backend)
+		ChunkedBlockOutDevice(IBlockOutDevice backend) :
+			this((IOutDevice)backend)
 		{
 			this.backendWrite = backend.Write;
+		}
+		bool BackendWrite(string data)
+		{
+			return this.BackendWrite(data.AsBinary());
+		}
+		bool BackendWrite(byte[] data)
+		{
+			return this.BackendWrite(new Collection.Vector<byte>(data));
+		}
+		bool BackendWrite(Collection.IVector<byte> data)
+		{
+			return this.backend.NotNull() && this.backendWrite(data);
 		}
 		#region IBlockOutDevice implementation
 		public bool Write(Collection.IVector<byte> buffer)
 		{
-			return this.backend.NotNull() && this.backendWrite((buffer.Count + "\r\n").AsBinary().Merge(buffer).Merge("\r\n".AsBinary()));
+			return buffer.Count < 1 || this.BackendWrite((buffer.Count.ToString("x") + "\r\n").AsBinary().Merge(buffer).Merge("\r\n".AsBinary()));
 		}
 		#endregion
 		#region IOutDevice implementation
@@ -66,7 +80,7 @@ namespace Kean.IO.Net.Http
 		public bool Close()
 		{
 			bool result;
-			if (result = (this.backend.NotNull() && this.backendWrite(new Collection.Vector<byte>("\r\n".AsBinary())) && (result = this.Wrapped || this.backend.Close())))
+			if (result = (this.BackendWrite("0\r\n\r\n") && (result = this.Wrapped || this.backend.Close())))
 				this.backend = null;
 			return result;
 		}

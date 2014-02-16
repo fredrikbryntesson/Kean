@@ -31,20 +31,21 @@ using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Net.Http
 {
-	public class Response : 
+	public class Client : 
 		IDisposable
 	{
 		System.Net.HttpWebRequest request;
-		System.Net.WebResponse response;
-		public string ContentType { get { return this.response.ContentType; } }
-		internal Response(System.Net.HttpWebRequest request, System.Net.WebResponse response)
+		System.Net.HttpWebResponse response;
+		public Header.Response Response { get; private set; }
+		Client(System.Net.HttpWebRequest request, System.Net.HttpWebResponse response)
 		{
 			this.request = request;
 			this.response = response;
+			this.Response = new Header.Response("HTTP/" + response.ProtocolVersion, (Status)(int)response.StatusCode, response.Headers.AllKeys.Map(key => KeyValue.Create(key, response.Headers[key])));
 		}
-		~Response()
+		~Client()
 		{
-			this.Close();
+			Error.Log.Call((this as IDisposable).Dispose);
 		}
 		public IO.IByteInDevice Open()
 		{
@@ -52,7 +53,7 @@ namespace Kean.IO.Net.Http
 		}
 		public bool Open(Func<string, IO.IByteInDevice, bool> process)
 		{
-			return this.Process(this.ContentType, this.Open(), process);
+			return this.Process(this.Response.ContentType, this.Open(), process);
 		}
 		bool Process(string contentType, IO.IByteInDevice device, Func<string, IO.IByteInDevice, bool> process)
 		{
@@ -64,9 +65,13 @@ namespace Kean.IO.Net.Http
 				while (this.response.NotNull() && device.Opened)
 				{
 					Collection.IDictionary<string, string> headers = new Collection.Dictionary<string, string>(
-						device.Read(13, 10, 13, 10).Decode().Join()
+						                                                 device.Read(13, 10, 13, 10).Decode().Join()
 						.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
-						.Map(header => { string[] splitted = header.Split(new string[] { ": " }, 2, StringSplitOptions.None); return splitted.Length == 2 ? KeyValue.Create(splitted[0], splitted[1]) : KeyValue.Create((string)null, (string)null); }));
+						.Map(header =>
+						{
+							string[] splitted = header.Split(new string[] { ": " }, 2, StringSplitOptions.None);
+							return splitted.Length == 2 ? KeyValue.Create(splitted[0], splitted[1]) : KeyValue.Create((string)null, (string)null);
+						}));
 					this.Process(headers["Content-Type"], Wrap.PartialByteInDevice.Open(device, boundary), process);
 				}
 			}
@@ -102,16 +107,24 @@ namespace Kean.IO.Net.Http
 		{
 			this.Close();
 		}
-		public static Response Open(Request request)
+		public static Client Open(Uri.Locator url)
 		{
-			Response result = null;
-			System.Net.HttpWebRequest backendRequest = System.Net.WebRequest.Create(request.Url) as System.Net.HttpWebRequest;
+			Client result = null;
+			System.Net.HttpWebRequest backendRequest = System.Net.WebRequest.Create(url) as System.Net.HttpWebRequest;
 			if (backendRequest.NotNull())
 			{
-				backendRequest.Credentials = request.Url.Authority.User.NotNull() && request.Url.Authority.User.Name.NotEmpty() && request.Url.Authority.User.Password.NotEmpty() ? new System.Net.NetworkCredential(request.Url.Authority.User.Name, request.Url.Authority.User.Password) : null;
-				System.Net.WebResponse backendResponse = backendRequest.GetResponse();
+				backendRequest.Credentials = url.Authority.User.NotNull() && url.Authority.User.Name.NotEmpty() && url.Authority.User.Password.NotEmpty() ? new System.Net.NetworkCredential(url.Authority.User.Name, url.Authority.User.Password) : null;
+				System.Net.HttpWebResponse backendResponse = null;
+				try
+				{
+					backendResponse = backendRequest.GetResponse() as System.Net.HttpWebResponse;
+				}
+				catch (System.Net.WebException ex)
+				{
+					backendResponse = ex.Response as System.Net.HttpWebResponse;
+				}
 				if (backendResponse.NotNull())
-					result = new Response(backendRequest, backendResponse);
+					result = new Client(backendRequest, backendResponse);
 			}
 			return result;
 		}

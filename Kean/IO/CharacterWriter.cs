@@ -32,10 +32,8 @@ namespace Kean.IO
 		Abstract.CharacterWriter
 	{
 		ICharacterOutDevice backend;
-
 		public override Uri.Locator Resource { get { return this.backend.Resource; } }
 		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
-
 		protected CharacterWriter(ICharacterOutDevice backend)
 		{
 			this.backend = backend;
@@ -48,7 +46,6 @@ namespace Kean.IO
 				this.backend = null;
 			return result;
 		}
-
 		#region implemented abstract and virtual members of Kean.IO.Abstract.CharacterWriter
 		public override bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
@@ -61,7 +58,7 @@ namespace Kean.IO
 		}
 		public override bool Flush()
 		{
-			return this.backend.Flush();
+			return this.backend.NotNull() && this.backend.Flush();
 		}
 		#endregion
 		#region NewLineConverter Class

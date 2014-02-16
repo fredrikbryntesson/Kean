@@ -121,8 +121,8 @@ namespace Kean.IO
 				count = this.outBuffer.Count;
 				this.outBuffer = new Collection.Array.List<byte>(this.outBuffer.Capacity);
 			}
-			bool result;
-			if (result = count > 0)
+			bool result = this.stream.NotNull();
+			if (result && count > 0)
 			{
 				this.stream.Write(array, 0, count);
 				this.stream.Flush();

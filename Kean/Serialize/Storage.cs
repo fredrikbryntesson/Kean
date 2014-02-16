@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Extension;
 using Collection = Kean.Collection;
@@ -45,6 +46,11 @@ namespace Kean.Serialize
 		public bool Store<T>(T value, Uri.Locator resource, string name = null)
 		{
 			return this.Store(value, IO.ByteDevice.Create(resource), name);
+		}
+		public bool Store<T>(T value, IO.IBlockOutDevice device, string name = null)
+		{
+			using (var byteDevice = IO.Wrap.BlockByteOutDevice.Wrap(device))
+				return this.Store(value, byteDevice, name);
 		}
 		public bool Store<T>(T value, IO.IByteOutDevice device, string name = null)
 		{

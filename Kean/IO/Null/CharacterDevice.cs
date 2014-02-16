@@ -64,7 +64,7 @@ namespace Kean.IO.Null
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
-			return !this.AutoFlush;
+			return true;
 		}
 		#endregion
 		#region IDevice Members

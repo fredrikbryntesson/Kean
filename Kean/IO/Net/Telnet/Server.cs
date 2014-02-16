@@ -40,11 +40,14 @@ namespace Kean.IO.Net.Telnet
 			set
 			{
 				this.backend.Write(new byte[] { (byte)Command.IAC, (byte)(value ? Command.WILL : Command.WONT), (byte)Option.Echo });
-				this.backend.Write(new byte[] { (byte)Command.IAC, (byte)(value ? Command.WILL : Command.WONT), (byte)Option.SuppressGoAhead });
+				this.backend.Write(new byte[] {
+					(byte)Command.IAC,
+					(byte)(value ? Command.WILL : Command.WONT),
+					(byte)Option.SuppressGoAhead
+				});
 				this.echo = value;
 			}
 		}
-
 		public Server(IByteDevice backend)
 		{
 			this.backend = backend;
@@ -94,7 +97,7 @@ namespace Kean.IO.Net.Telnet
 						{
 							byte? option = this.backend.Read();  // option
 							if (option.HasValue)
-								switch ((Option) option.Value)
+								switch ((Option)option.Value)
 								{
 									case Option.WindowSize:
 									case Option.TerminalType:
@@ -102,7 +105,14 @@ namespace Kean.IO.Net.Telnet
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.WONT, option.Value });
 										break;
 									case Option.TerminalSpeed:
-										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.SB, option.Value, 1, (byte)Command.IAC, (byte)Command.SE });
+										this.backend.Write(new byte[] {
+											(byte)Command.IAC,
+											(byte)Command.SB,
+											option.Value,
+											1,
+											(byte)Command.IAC,
+											(byte)Command.SE
+										});
 										break;
 									case Option.SuppressGoAhead:
 										this.backend.Write(new byte[] { (byte)Command.IAC, (byte)Command.DO, option.Value });
@@ -111,8 +121,8 @@ namespace Kean.IO.Net.Telnet
 						}
 						break; 
 					case Command.WONT: // Wont
-							this.backend.Read();  // option
-							break;
+						this.backend.Read();  // option
+						break;
 					case Command.DO: // Do
 						{
 							byte? option = this.backend.Read();  // option
@@ -201,7 +211,7 @@ namespace Kean.IO.Net.Telnet
 		}
 		public bool Flush()
 		{
-			return this.backend.Flush();
+			return this.backend.NotNull() && this.backend.Flush();
 		}
 		#endregion
 		#region IByteDevice Members

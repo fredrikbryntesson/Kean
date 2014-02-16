@@ -33,7 +33,8 @@ namespace Kean.IO.Null
 	{
 		#region Constructors
 		public ByteDevice()
-		{ }
+		{
+		}
 		#endregion
 		#region IByteDevice Members
 		public bool Readable { get { return true; } }
@@ -62,7 +63,7 @@ namespace Kean.IO.Null
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
-			return !this.AutoFlush;
+			return true;
 		}
 		#endregion
 		#region IDevice Members
@@ -75,7 +76,8 @@ namespace Kean.IO.Null
 		#endregion
 		#region IDisposable Members
 		void IDisposable.Dispose()
-		{ }
+		{
+		}
 		#endregion
 	}
 }

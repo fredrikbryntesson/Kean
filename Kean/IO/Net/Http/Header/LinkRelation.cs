@@ -1,5 +1,5 @@
-﻿//
-//  BlockOutDeviceExtension.cs
+//
+//  LinkRelation.cs
 //
 //  Author:
 //       Simon Mika <smika@hx.se>
@@ -20,27 +20,33 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean;
-using Kean.Extension;
-using Collection = Kean.Collection;
-using Kean.Collection.Extension;
-using Uri = Kean.Uri;
 
-namespace Kean.IO.Extension
+namespace Kean.IO.Net.Http.Header
 {
-	public static class BlockOutDeviceExtension
+	public enum LinkRelation
 	{
-		public static bool Write(this IBlockOutDevice me, params byte[] buffer)
-		{
-			return me.Write(new Collection.Vector<byte>(buffer));
-		}
-		public static bool Write(this IBlockOutDevice me, IBlockInDevice source)
-		{
-			bool result = source.NotNull();
-			Collection.IVector<byte> data;
-			while (result && !source.Empty && (data = source.Read()).NotNull() && data.Count > 0)
-				result &= me.Write(data);
-			return result;
-		}
+		None,
+		Alternate,
+		Archives,
+		Author,
+		Bookmark,
+		External,
+		First,
+		Help,
+		Icon,
+		Last,
+		License,
+		Next,
+		NoFollow,
+		NoReferrer,
+		PingBack,
+		Prefetch,
+		Prev,
+		Search,
+		Sidebar,
+		Stylesheet,
+		Tag,
+		Up,
 	}
 }
+

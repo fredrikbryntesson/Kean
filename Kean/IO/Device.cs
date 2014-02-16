@@ -127,7 +127,8 @@ namespace Kean.IO
 		#region IBlockOutDevice
 		public bool Write(Collection.IVector<byte> buffer)
 		{
-			bool result = this.Flush();
+			this.Flush();
+			bool result = true;
 			try
 			{
 				byte[] array = buffer.ToArray(); // TODO: fix this with some kind of array-slice api
@@ -167,7 +168,7 @@ namespace Kean.IO
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush { get; set; }
-		public bool Flush()
+		bool FlushBuffer()
 		{
 			byte[] array;
 			int count;
@@ -182,8 +183,13 @@ namespace Kean.IO
 			{
 				this.stream.Write(array, 0, count);
 			}
+			return result;
+		}
+		public bool Flush()
+		{
+			this.FlushBuffer();
 			this.stream.Flush();
-			return result; 
+			return true; 
 		}
 		#endregion
 		#region IDevice Members

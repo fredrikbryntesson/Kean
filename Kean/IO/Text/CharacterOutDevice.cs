@@ -18,6 +18,7 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean.Extension;
 using Collection = Kean.Collection;
@@ -30,15 +31,12 @@ namespace Kean.IO.Text
 		ICharacterOutDevice
 	{
 		System.Text.StringBuilder backend;
-
 		public CharacterOutDevice()
 		{
 			this.backend = new System.Text.StringBuilder();
 		}
-
 		#region ICharacterOutDevice Members
-
-		public bool Write (System.Collections.Generic.IEnumerable<char> buffer)
+		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			bool result = this.Opened;
 			if (result)
@@ -46,7 +44,6 @@ namespace Kean.IO.Text
 					this.backend.Append(c);
 			return result;
 		}
-
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush
@@ -56,46 +53,37 @@ namespace Kean.IO.Text
 		}
 		public bool Flush()
 		{
-			return false;
+			return true;
 		}
 		#endregion
 		#region IDevice Members
-
 		public Uri.Locator Resource
 		{
 			get { return "string://"; }
 		}
-
 		public bool Opened
 		{
 			get { return this.backend.NotNull(); }
 		}
-
-		public bool Close ()
+		public bool Close()
 		{
 			bool result = this.Opened;
 			this.backend = null;
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable Members
-
-		void IDisposable.Dispose ()
+		void IDisposable.Dispose()
 		{
 			if (this.Opened)
 				this.backend = null;
 		}
-
 		#endregion
-
-		public override string ToString ()
+		public override string ToString()
 		{
 			return this.backend.ToString();
 		}
-
-		public static implicit operator string (CharacterOutDevice device)
+		public static implicit operator string(CharacterOutDevice device)
 		{
 			return device.ToString();
 		}

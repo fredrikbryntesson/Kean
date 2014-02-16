@@ -33,10 +33,8 @@ namespace Kean.IO.Abstract
 		ICharacterWriter
 	{
 		public char[] NewLine { get; set; }
-
 		public abstract Uri.Locator Resource { get; }
 		public abstract bool Opened { get; }
-
 		protected CharacterWriter()
 		{
 			this.NewLine = new char[] { '\n' };
@@ -52,7 +50,6 @@ namespace Kean.IO.Abstract
 			this.Close();
 		}
 		#endregion
-
 		#region ICharacterWriter Members
 		public bool Write(params char[] buffer)
 		{
@@ -77,7 +74,7 @@ namespace Kean.IO.Abstract
 		}
 		public virtual bool WriteLine(params char[] buffer)
 		{
-			return this.Write((System.Collections.Generic.IEnumerable<char>) buffer.Merge(this.NewLine));
+			return this.Write((System.Collections.Generic.IEnumerable<char>)buffer.Merge(this.NewLine));
 		}
 		public virtual bool WriteLine(string value)
 		{
@@ -100,7 +97,7 @@ namespace Kean.IO.Abstract
 		public virtual bool AutoFlush { get; set; }
 		public virtual bool Flush()
 		{
-			return !this.AutoFlush;
+			return true;
 		}
 		#endregion
 	}

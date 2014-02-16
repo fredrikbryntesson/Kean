@@ -36,7 +36,6 @@ namespace Kean.IO
 		Decoder decoder;
 		System.Text.Encoding encoding;
 		public bool Wrapped { get; set; }
-
 		#region Constructors
 		CharacterDevice(IByteDevice backend, System.Text.Encoding encoding)
 		{
@@ -80,7 +79,7 @@ namespace Kean.IO
 		}
 		public bool Flush()
 		{
-			return this.backend.Flush();
+			return this.backend.NotNull() && this.backend.Flush();
 		}
 		#endregion
 		#region IDevice Members
@@ -104,8 +103,14 @@ namespace Kean.IO
 		}
 		#endregion
 		#region Static Open, Wrap & Create
-		public static ICharacterDevice Open(System.IO.Stream stream) { return CharacterDevice.Open(ByteDevice.Open(stream)); }
-		public static ICharacterDevice Open(IByteDevice backend) { return CharacterDevice.Open(backend, System.Text.Encoding.UTF8); }
+		public static ICharacterDevice Open(System.IO.Stream stream)
+		{
+			return CharacterDevice.Open(ByteDevice.Open(stream));
+		}
+		public static ICharacterDevice Open(IByteDevice backend)
+		{
+			return CharacterDevice.Open(backend, System.Text.Encoding.UTF8);
+		}
 		public static ICharacterDevice Open(IByteDevice backend, System.Text.Encoding encoding)
 		{
 			return backend.NotNull() ? new CharacterDevice(backend, encoding) : null;
@@ -114,7 +119,10 @@ namespace Kean.IO
 		{
 			return CharacterDevice.Open(ByteDevice.Open(resource));
 		}
-		public static ICharacterDevice Wrap(IByteDevice backend) { return CharacterDevice.Wrap(backend, System.Text.Encoding.UTF8); }
+		public static ICharacterDevice Wrap(IByteDevice backend)
+		{
+			return CharacterDevice.Wrap(backend, System.Text.Encoding.UTF8);
+		}
 		public static ICharacterDevice Wrap(IByteDevice backend, System.Text.Encoding encoding)
 		{
 			return backend.NotNull() ? new CharacterDevice(backend, encoding) { Wrapped = true } : null;
@@ -124,6 +132,5 @@ namespace Kean.IO
 			return CharacterDevice.Open(ByteDevice.Create(resource));
 		}
 		#endregion
-
 	}
 }

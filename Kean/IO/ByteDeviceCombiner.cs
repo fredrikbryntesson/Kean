@@ -25,6 +25,7 @@ using Kean.Extension;
 using Collection = Kean.Collection;
 using Kean.Collection.Extension;
 using Uri = Kean.Uri;
+
 namespace Kean.IO
 {
 	public class ByteDeviceCombiner :
@@ -34,7 +35,6 @@ namespace Kean.IO
 		IByteOutDevice outDevice;
 		public bool Wrapped { get; set; }
 		#region Constructors
-
 		protected ByteDeviceCombiner(IByteInDevice inDevice) :
 			this(inDevice, null)
 		{
@@ -44,18 +44,12 @@ namespace Kean.IO
 			this.inDevice = inDevice;
 			this.outDevice = outDevice;
 		}
-
 		#endregion
-
 		#region IByteDevice Members
-
 		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
 		public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
-
 		#endregion
-
 		#region IByteInDevice Members
-
 		public byte? Peek()
 		{
 			return this.inDevice.NotNull() ? this.inDevice.Peek() : null;
@@ -64,22 +58,15 @@ namespace Kean.IO
 		{
 			return this.inDevice.NotNull() ? this.inDevice.Read() : null;
 		}
-
 		#endregion
-
 		#region IByteOutDevice Members
-
 		public bool Write(System.Collections.Generic.IEnumerable<byte> buffer)
 		{
 			return this.outDevice.NotNull() && this.outDevice.Write(buffer);
 		}
-
 		#endregion
-
 		#region IInDevice Members
-
 		public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
-
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush
@@ -89,11 +76,10 @@ namespace Kean.IO
 		}
 		public bool Flush()
 		{
-			return this.outDevice.Flush();
+			return this.outDevice.NotNull() && this.outDevice.Flush();
 		}
 		#endregion
 		#region IDevice Members
-
 		public Uri.Locator Resource { get { return this.inDevice.Resource; } }
 		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
 		public virtual bool Close()
@@ -112,20 +98,14 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable Members
-
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
-
 		#endregion
-
 		#region Static Open & Wrapped
-
 		public static IByteDevice Open(IByteInDevice inDevice)
 		{
 			return ByteDeviceCombiner.Open(inDevice, null);
@@ -142,7 +122,6 @@ namespace Kean.IO
 		{
 			return ByteDeviceCombiner.Open(ByteDevice.Open(input), ByteDevice.Open(output));
 		}
-
 		public static IByteDevice Wrap(IByteInDevice inDevice)
 		{
 			return ByteDeviceCombiner.Wrap(inDevice, null);
@@ -155,8 +134,6 @@ namespace Kean.IO
 		{
 			return inDevice.NotNull() || outDevice.NotNull() ? new ByteDeviceCombiner(inDevice, outDevice) { Wrapped = true } : null;
 		}
-
 		#endregion
-
 	}
 }
