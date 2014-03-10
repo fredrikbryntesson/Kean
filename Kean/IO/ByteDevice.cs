@@ -53,7 +53,7 @@ namespace Kean.IO
 		byte[] buffer = new byte[64 * 1024];
 		int bufferEnd;
 		int bufferStart;
-		byte? RawRead()
+		protected virtual byte? RawRead()
 		{
 			if (this.bufferStart >= this.bufferEnd && this.stream.NotNull())
 			{
@@ -71,10 +71,6 @@ namespace Kean.IO
 				}
 			}
 			return this.bufferStart == this.bufferEnd ? null : (byte?)this.buffer[this.bufferStart++];
-		}
-		byte? Convert(int value)
-		{
-			return value < 0 ? null : (byte?)value;
 		}
 		#region IByteInDevice Members
 		public byte? Peek()
