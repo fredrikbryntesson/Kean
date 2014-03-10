@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2678B75E-8DA1-45EB-8F0C-252048ACE936}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -59,9 +59,6 @@
     <Reference Include="System.Data" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
