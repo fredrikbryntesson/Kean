@@ -27,6 +27,7 @@ using Kean.Collection.Extension;
 using Uri = Kean.Uri;
 using Error = Kean.Error;
 using Kean.IO.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.IO
 {
@@ -35,32 +36,37 @@ namespace Kean.IO
 	{
 		IByteInDevice backend;
 		System.Text.Encoding encoding;
-		Collection.IQueue<char> queue = new Collection.Queue<char>();
+		Generic.IEnumerator<char> queue;
+		char? peeked;
 
 		#region Constructors
 		public Decoder(IByteInDevice backend, System.Text.Encoding encoding)
 		{
 			this.backend = backend;
 			this.encoding = encoding;
+			this.queue = this.backend.AsEnumerable().Decode(this.encoding).GetEnumerator();
 		}
 		~Decoder() { Error.Log.Wrap((Func<bool>)this.Close)(); }
 		#endregion
-		void FillQueue()
-		{
-			this.queue.Enqueue(this.backend.AsEnumerable().Decode(this.encoding));
-		}
 		#region ICharacterInDevice Members
+		char? RawRead()
+		{
+			return this.queue.NotNull() ? this.queue.Cast(c => (char?)c).Next() : null;
+		}
 		public char? Peek()
 		{
-			if (this.queue.Empty)
-				this.FillQueue();
-			return this.queue.Empty ? (char?)null : this.queue.Peek();
+			return this.peeked ?? (this.peeked = this.RawRead());
 		}
 		public char? Read()
 		{
-			if (this.queue.Empty)
-				this.FillQueue();
-			char? result = this.queue.Empty ? (char?)null : this.queue.Dequeue();
+			char? result;
+			if (this.peeked.HasValue)
+			{
+				result = this.peeked;
+				this.peeked = null;
+			}
+			else
+				result = this.RawRead();
 			return result;
 		}
 		#endregion
@@ -68,20 +74,23 @@ namespace Kean.IO
 		#region IInDevice Members
 		public bool Empty
 		{
-			get { return this.queue.Empty && (this.backend.IsNull() || this.backend.Empty); }
+			get { return !this.peeked.HasValue && (this.backend.IsNull() || this.backend.Empty); }
 		}
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public bool Opened
 		{
-			get { return !this.queue.Empty || this.backend.NotNull() && this.backend.Opened; }
+			get { return this.peeked.HasValue || this.backend.NotNull() && this.backend.Opened; }
 		}
 		public bool Close()
 		{
 			bool result;
 			if (result = this.backend.NotNull() && this.backend.Close())
+			{
 				this.backend = null;
+				this.queue = null;
+			}
 			return result;
 		}
 		#endregion

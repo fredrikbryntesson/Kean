@@ -30,6 +30,7 @@ namespace Kean.IO.Net.Tcp
 		ByteDevice
 	{
 		System.Net.Sockets.TcpClient client;
+		System.Net.Sockets.NetworkStream stream;
 		public override bool Opened { get { return this.client.NotNull() && base.Opened; } }
 		#region Constructors
 		Connection(System.Net.Sockets.TcpClient client) :
@@ -40,9 +41,27 @@ namespace Kean.IO.Net.Tcp
 		}
 		Connection(System.Net.Sockets.NetworkStream stream) :
 			base(stream)
-		{ 
+		{
+			this.stream = stream;
 		}
 		#endregion
+		protected override byte? RawRead()
+		{
+			byte? result;
+			try
+			{
+				result = this.stream.IsNull() ? null : this.Convert(this.stream.ReadByte());
+			}
+			catch (ObjectDisposedException)
+			{
+				result = null;
+			}
+			return result;
+		}
+		byte? Convert(int value)
+		{
+			return value < 0 ? null : (byte?)value;
+		}
 		public override bool Close()
 		{
 			bool result = base.Close();
