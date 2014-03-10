@@ -238,25 +238,55 @@ namespace Kean.Extension
 
 		public static Generic.IEnumerable<char> Decode (this Generic.IEnumerable<byte> me, System.Text.Encoding encoding)
 		{
-			byte[] buffer = new byte[3];
-			int pointer = 0;
-			Generic.IEnumerator<byte> enumerator = me.GetEnumerator();
-			while (enumerator.MoveNext())
+            if (encoding == System.Text.Encoding.UTF8)
+            {
+                byte[] buffer = new byte[6];
+                int length = 0;
+                Generic.IEnumerator<byte> enumerator = me.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    buffer[0] = enumerator.Current;
+                    length =
+                        buffer[0] < 0x80 ? 1 :
+                        buffer[0] < 0xc0 ? 0 :
+                        buffer[0] < 0xe0 ? 2 :
+                        buffer[0] < 0xf0 ? 3 :
+                        buffer[0] < 0xf8 ? 4 :
+                        buffer[0] < 0xfc ? 5 :
+                        6;
+                    if (length > 0)
+                    {
+                        int i = 1;
+                        for (; i < length && enumerator.MoveNext(); i++)
+                            buffer[i] = enumerator.Current;
+                        if (i == length)
+                            foreach (char c in encoding.GetChars(buffer, 0, length))
+                                yield return c;
+                    }
+                }
+            }
+            else
 			{
-				buffer[pointer++] = enumerator.Current;
-				if (enumerator.Current == 0xef && enumerator.MoveNext())
+				byte[] buffer = new byte[3];
+				int pointer = 0;
+				Generic.IEnumerator<byte> enumerator = me.GetEnumerator();
+				while (enumerator.MoveNext())
 				{
 					buffer[pointer++] = enumerator.Current;
-					if (enumerator.Current == 0xbb && enumerator.MoveNext())
+					if (enumerator.Current == 0xef && enumerator.MoveNext())
 					{
 						buffer[pointer++] = enumerator.Current;
-						if (enumerator.Current == 0xbf)
-							pointer = 0;
+						if (enumerator.Current == 0xbb && enumerator.MoveNext())
+						{
+							buffer[pointer++] = enumerator.Current;
+							if (enumerator.Current == 0xbf)
+								pointer = 0;
+						}
 					}
+					foreach (char c in encoding.GetChars(buffer, 0, pointer))
+						yield return c;
+					pointer = 0;
 				}
-				foreach (char c in encoding.GetChars(buffer, 0, pointer))
-					yield return c;
-				pointer = 0;
 			}
 		}
 
