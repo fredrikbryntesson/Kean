@@ -28,13 +28,15 @@ namespace Kean.Tests
 		static void Main(string[] args)
 		{
 			Kean.Error.Log.CatchErrors = false;
+            //Cli.Test.Program.Run(args);
+            //IO.Net.Test.Program.Run(args);
 			//DB.Sql.Test.Program.Run(args);
 			#region Draw
-			Draw.OpenGL.Test.All.Test();
-			Draw.Test.All.Test();
-			Draw.Raster.Test.All.Test();
-			Draw.Cairo.Test.All.Test();
-			Draw.Vector.Test.All.Test();
+            //Draw.OpenGL.Test.All.Test();
+            //Draw.Test.All.Test();
+            //Draw.Raster.Test.All.Test();
+            //Draw.Cairo.Test.All.Test();
+            //Draw.Vector.Test.All.Test();
 			//Draw.Net.Test.All.Test();
 			//Draw.Jpeg.Test.All.Test();
 			#endregion
@@ -46,11 +48,11 @@ namespace Kean.Tests
 			Kean.Uri.Test.All.Test();
 			#endregion
 			#region Json
-			Json.Dom.Test.All.Test();
-			Json.Serialize.Test.All.Test();
+            Json.Dom.Test.All.Test();
+            Json.Serialize.Test.All.Test();
 			#endregion
 			#region Xml
-			Xml.Serialize.Test.All.Test();
+            Xml.Serialize.Test.All.Test();
 			Xml.Dom.Test.All.Test();
 			#endregion
 			#region Html

@@ -27,8 +27,8 @@ namespace Kean.Xml.Dom.Test
 	{
 		public static void Test()
 		{
-			Dom.Test.Fragment.Test();
-			Dom.Test.Save.Test();
+            //Dom.Test.Fragment.Test();
+            //Dom.Test.Save.Test();
 			Dom.Test.Open.Test();
 		}
 	}

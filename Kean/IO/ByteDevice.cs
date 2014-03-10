@@ -49,7 +49,7 @@ namespace Kean.IO
 		readonly byte[] inBuffer = new byte[64 * 1024];
 		int inBufferEnd;
 		int inBufferStart;
-		byte? RawRead()
+		protected virtual byte? RawRead()
 		{
 			if (this.inBufferStart >= this.inBufferEnd && this.stream.NotNull())
 			{

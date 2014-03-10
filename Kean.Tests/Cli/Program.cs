@@ -30,8 +30,8 @@ namespace Kean.Cli.Test
 		{
 			ITerminal terminal = new ConsoleTerminal();
 			//LineBuffer.Abstract editor = new LineBuffer.Simple(terminal);
-			LineBuffer.Abstract editor = new LineBuffer.Interactive(terminal);
-			//LineBuffer.Abstract editor = new LineBuffer.InteractiveWithHistory(terminal);
+			//LineBuffer.Abstract editor = new LineBuffer.Interactive(terminal);
+			LineBuffer.Abstract editor = new LineBuffer.InteractiveWithHistory(terminal);
 			editor.Prompt = ":>";
 			Tuple<string, string>[] completionDescription = new Tuple<string, string>[]
 			{

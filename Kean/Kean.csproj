@@ -8,9 +8,8 @@
     <RootNamespace>Kean</RootNamespace>
     <AssemblyName>Kean</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
+    <RestorePackages>true</RestorePackages>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
