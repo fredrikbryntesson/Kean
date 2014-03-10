@@ -1,0 +1,15 @@
+{ 
+	"_type": "Kean.Core.Serialize.Test:Data.Nullable", 
+	"Boolean": true, 
+	"Enumerator": "Second", 
+	"Float": -13.37, 
+	"Integer": -1337, 
+	"Structure": { 
+		"_type": "Kean.Core.Serialize.Test:Data.Structure", 
+		"Boolean": true, 
+		"Enumerator": "Second", 
+		"Float": -13.37, 
+		"Integer": -1337, 
+		"String": "This is Kean." 
+	} 
+}
