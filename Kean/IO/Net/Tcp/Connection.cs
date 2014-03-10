@@ -45,7 +45,7 @@ namespace Kean.IO.Net.Tcp
 			this.stream = stream;
 		}
 		#endregion
-		byte? RawRead()
+		protected override byte? RawRead()
 		{
 			byte? result;
 			try
