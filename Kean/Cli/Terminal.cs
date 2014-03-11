@@ -40,40 +40,73 @@ namespace Kean.Cli
 		#region Constructors
 		protected Terminal(IO.IByteDevice device) :
 			this(IO.CharacterDevice.Open(device))
-		{ }
+		{
+		}
 		protected Terminal(IO.ICharacterDevice device) :
 			this(device, device)
-		{ }
+		{
+		}
 		protected Terminal(IO.IByteInDevice read, IO.IByteOutDevice write) :
 			this(IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(read, write)))
-		{ }
+		{
+		}
 		protected Terminal(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
 			this.In = IO.CharacterReader.Open(IO.Filter.CharacterInDevice.Open(inDevice, this.FilterInput));
 			this.Out = IO.CharacterWriter.Open(outDevice) ?? new IO.Null.CharacterWriter();
+			if (this.Out.NotNull())
+				this.Out.AutoFlush = true;
 		}
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { throw new NotImplementedException(); } }
 		public bool Opened { get { return this.In.Opened && this.Out.Opened; } }
-		public bool Close() { this.OnCommand(EditCommand.Quit); return this.In.Close() && this.Out.Close(); }
+		public bool Close()
+		{
+			this.OnCommand(EditCommand.Quit);
+			return this.In.Close() && this.Out.Close();
+		}
 		#endregion
 		#region IDisposable Members
-		void IDisposable.Dispose() { this.Close(); }
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
 		#endregion
-
 		#region ITerminal Members
 		public IO.ICharacterReader In { get; private set; }
 		public IO.ICharacterWriter Out { get; private set; }
 		public virtual bool Echo { get; set; }
 		public event Action<EditCommand> Command;
-		public virtual bool MoveCursor(Geometry2D.Integer.Size delta) { return false; }
-		public virtual bool MoveCursor(int delta) { return false; }
-		public virtual bool ClearLine() { return false; }
-		public virtual bool ClearLineFromCursor() { return false; }
-		public virtual bool Home() { this.Out.Write('\r'); return true; }
-		public virtual bool End() { return false; }
-		public virtual bool Clear() { return false; }
+		public virtual bool MoveCursor(Geometry2D.Integer.Size delta)
+		{
+			return false;
+		}
+		public virtual bool MoveCursor(int delta)
+		{
+			return false;
+		}
+		public virtual bool ClearLine()
+		{
+			return false;
+		}
+		public virtual bool ClearLineFromCursor()
+		{
+			return false;
+		}
+		public virtual bool Home()
+		{
+			this.Out.Write('\r');
+			return true;
+		}
+		public virtual bool End()
+		{
+			return false;
+		}
+		public virtual bool Clear()
+		{
+			return false;
+		}
 		#endregion
 		protected virtual void OnCommand(EditCommand action)
 		{
@@ -86,11 +119,20 @@ namespace Kean.Cli
 			while (buffer.Count <= 0 && (next = read()).HasValue)
 				switch (next.Value)
 				{
-					case '\0': break;
-					case '\x04': this.OnCommand(EditCommand.Exit); break;
-					case '\b': this.OnCommand(EditCommand.Backspace); break;
-					case '\t': this.OnCommand(EditCommand.Tab); break;
-					case '\n': this.OnCommand(EditCommand.Enter); break;
+					case '\0':
+						break;
+					case '\x04':
+						this.OnCommand(EditCommand.Exit);
+						break;
+					case '\b':
+						this.OnCommand(EditCommand.Backspace);
+						break;
+					case '\t':
+						this.OnCommand(EditCommand.Tab);
+						break;
+					case '\n':
+						this.OnCommand(EditCommand.Enter);
+						break;
 					case '\r':
 						this.OnCommand(EditCommand.Enter);
 						if ((next = read()).HasValue && (next.Value != '\n' && next.Value != '\0'))
@@ -103,9 +145,18 @@ namespace Kean.Cli
 			return buffer.ToArray();
 		}
 		#region Static Open
-		public static Terminal Open(IO.IByteDevice device) { return Terminal.Open(IO.CharacterDevice.Open(device)); }
-		public static Terminal Open(IO.ICharacterDevice device) { return Terminal.Open(device, device); }
-		public static Terminal Open(IO.IByteInDevice read, IO.IByteOutDevice write) { return Terminal.Open(IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(read, write))); }
+		public static Terminal Open(IO.IByteDevice device)
+		{
+			return Terminal.Open(IO.CharacterDevice.Open(device));
+		}
+		public static Terminal Open(IO.ICharacterDevice device)
+		{
+			return Terminal.Open(device, device);
+		}
+		public static Terminal Open(IO.IByteInDevice read, IO.IByteOutDevice write)
+		{
+			return Terminal.Open(IO.CharacterDevice.Open(IO.ByteDeviceCombiner.Open(read, write)));
+		}
 		public static Terminal Open(IO.ICharacterInDevice inDevice, IO.ICharacterOutDevice outDevice)
 		{
 			return inDevice.NotNull() || outDevice.NotNull() ? new Terminal(inDevice, outDevice) : null;
