@@ -158,8 +158,6 @@
     <Compile Include="Collection\Array\Set.cs" />
     <Compile Include="Collection\Array\Stack.cs" />
     <Compile Include="Collection\Array\Vector.cs" />
-    <Compile Include="Collection\Cast\Enumerable.cs" />
-    <Compile Include="Collection\Cast\Enumerator.cs" />
     <Compile Include="Collection\Cast\ReadOnlyDictionary.cs" />
     <Compile Include="Collection\Cast\ReadOnlyVector.cs" />
     <Compile Include="Collection\Cast\Vector.cs" />
@@ -171,8 +169,6 @@
     <Compile Include="Collection\Extension\ArrayExtension.cs" />
     <Compile Include="Collection\Extension\ArrayParallelExtension.cs" />
     <Compile Include="Collection\Extension\DictionaryExtension.cs" />
-    <Compile Include="Collection\Extension\EnumerableExtension.cs" />
-    <Compile Include="Collection\Extension\EnumeratorExtension.cs" />
     <Compile Include="Collection\Extension\ListExtension.cs" />
     <Compile Include="Collection\Extension\QueueExtension.cs" />
     <Compile Include="Collection\Extension\ReadOnlyDictionaryExtension.cs" />

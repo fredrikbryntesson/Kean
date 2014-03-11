@@ -27,11 +27,11 @@ namespace Kean.Extension
 {
 	public static class EnumeratorExtension
 	{
-		public static T Next<T> (this Generic.IEnumerator<T> me)
+		public static T Next<T>(this Generic.IEnumerator<T> me)
 		{
 			return me.NotNull() && me.MoveNext() ? me.Current : default(T);
 		}
-		public static T First<T> (this Generic.IEnumerator<T> me)
+		public static T First<T>(this Generic.IEnumerator<T> me)
 		{
 			T result;
 			if (me.NotNull())
@@ -43,22 +43,22 @@ namespace Kean.Extension
 				result = default(T);
 			return result;
 		}
-		public static Generic.IEnumerator<T> Restart<T> (this Generic.IEnumerator<T> me)
+		public static Generic.IEnumerator<T> Restart<T>(this Generic.IEnumerator<T> me)
 		{
 			me.Reset();
 			return me;
 		}
-		public static void Apply<T> (this Generic.IEnumerator<T> me, Action<T> function)
+		public static void Apply<T>(this Generic.IEnumerator<T> me, Action<T> function)
 		{
 			while (me.MoveNext())
 				function(me.Current);
 		}
-		public static Generic.IEnumerator<S> Map<T, S> (this Generic.IEnumerator<T> me, Func<T, S> function)
+		public static Generic.IEnumerator<S> Map<T, S>(this Generic.IEnumerator<T> me, Func<T, S> function)
 		{
 			while (me.MoveNext())
 				yield return function(me.Current);
 		}
-		public static int Index<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
+		public static int Index<T>(this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			int result = -1;
 			int i = 0;
@@ -72,16 +72,16 @@ namespace Kean.Extension
 					i++;
 			return result;
 		}
-		public static int Index<T> (this Generic.IEnumerator<T> me, T needle)
+		public static int Index<T>(this Generic.IEnumerator<T> me, T needle)
 		{
 			return me.Index(element => element.SameOrEquals(needle));
 		}
-		public static int Index<T> (this Generic.IEnumerator<T> me, params T[] needles) 
+		public static int Index<T>(this Generic.IEnumerator<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
 			return me.Index(element => needles.Contains(element));
 		}
-		public static bool Contains<T> (this Generic.IEnumerator<T> me, T needle) 
+		public static bool Contains<T>(this Generic.IEnumerator<T> me, T needle) 
 			where T : IEquatable<T>
 		{
 			bool result = false;
@@ -93,7 +93,7 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-		public static bool Contains<T> (this Generic.IEnumerator<T> me, params T[] needles) 
+		public static bool Contains<T>(this Generic.IEnumerator<T> me, params T[] needles) 
 			where T : IEquatable<T>
 		{
 			bool result = false;
@@ -105,7 +105,7 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-		public static T Find<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
+		public static T Find<T>(this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			T result = default(T);
 			while (me.MoveNext())
@@ -116,7 +116,7 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-		public static S Find<T, S> (this Generic.IEnumerator<T> me, Func<T, S> function)
+		public static S Find<T, S>(this Generic.IEnumerator<T> me, Func<T, S> function)
 		{
 			S result = default(S);
 			while (me.MoveNext())
@@ -124,7 +124,7 @@ namespace Kean.Extension
 					break;
 			return result;
 		}
-		public static bool Exists<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
+		public static bool Exists<T>(this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			bool result = false;
 			while (me.MoveNext())
@@ -135,7 +135,7 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-		public static bool All<T> (this Generic.IEnumerator<T> me, Func<T, bool> function)
+		public static bool All<T>(this Generic.IEnumerator<T> me, Func<T, bool> function)
 		{
 			bool result = true;
 			while (me.MoveNext())
@@ -146,11 +146,16 @@ namespace Kean.Extension
 				}
 			return result;
 		}
-		public static S Fold<T, S> (this Generic.IEnumerator<T> me, Func<T, S, S> function, S initial)
+		public static S Fold<T, S>(this Generic.IEnumerator<T> me, Func<T, S, S> function, S initial)
 		{
 			while (me.MoveNext())
 				initial = function(me.Current, initial);
 			return initial;
+		}
+		public static Generic.IEnumerator<S> Cast<T, S>(this Generic.IEnumerator<T> me, Func<T, S> cast)
+		{
+			while (me.MoveNext())
+				yield return cast(me.Current);
 		}
 		#region Skip
 		/// <summary>
@@ -159,7 +164,7 @@ namespace Kean.Extension
 		/// <param name="me">Enumerator to skip in.</param>
 		/// <param name="count">Number of elements to skip.</param>
 		/// <typeparam name="T">Any type.</typeparam>
-		public static Generic.IEnumerator<T> Skip<T> (this Generic.IEnumerator<T> me, int count)
+		public static Generic.IEnumerator<T> Skip<T>(this Generic.IEnumerator<T> me, int count)
 		{
 			while (count > 0 && me.MoveNext())
 				count--;
@@ -171,7 +176,7 @@ namespace Kean.Extension
 		/// <param name="me">Enumerator to skip on.</param>
 		/// <param name="separator">Separator to skip past. Shall not contain null.</param>
 		/// <typeparam name="T">Any type implementing <c>IEquatable</c>.</typeparam>
-		public static Generic.IEnumerator<T> Skip<T> (this Generic.IEnumerator<T> me, params T[] separator)
+		public static Generic.IEnumerator<T> Skip<T>(this Generic.IEnumerator<T> me, params T[] separator)
 			where T : IEquatable<T>
 		{
 			int position = 0;
@@ -192,7 +197,7 @@ namespace Kean.Extension
 		/// <param name="me">Enumerator to read from.</param>
 		/// <param name="count">Number of elements read.</param>
 		/// <typeparam name="T">Any type.</typeparam>
-		public static Generic.IEnumerator<T> Read<T> (this Generic.IEnumerator<T> me, int count)
+		public static Generic.IEnumerator<T> Read<T>(this Generic.IEnumerator<T> me, int count)
 		{
 			if (count > 0)
 				do
@@ -205,7 +210,7 @@ namespace Kean.Extension
 		/// <param name="me">Enumerator to read from.</param>
 		/// <param name="separator">Separator to read from and move past.</param>
 		/// <typeparam name="T">Any type implementing <c>IEquatable</c>.</typeparam>
-		public static Generic.IEnumerator<T> Read<T> (this Generic.IEnumerator<T> me, params T[] separator)
+		public static Generic.IEnumerator<T> Read<T>(this Generic.IEnumerator<T> me, params T[] separator)
 			where T : IEquatable<T>
 		{
 			int position = 0;
@@ -223,7 +228,7 @@ namespace Kean.Extension
 			}
 		}
 		#endregion
-		public static string Join (this Generic.IEnumerator<string> me, string seperator)
+		public static string Join(this Generic.IEnumerator<string> me, string seperator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
 			if (me.MoveNext())

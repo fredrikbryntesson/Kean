@@ -225,6 +225,11 @@ namespace Kean.Extension
 		{
 			return me.GetEnumerator().ToArrayHelper(0);
 		}
+		public static Generic.IEnumerable<S> Cast<T, S>(this Generic.IEnumerable<T> me, Func<T, S> cast)
+		{
+			foreach (T element in me)
+				yield return cast(element);
+		}
 		#region Last
 		public static T Last<T>(this Generic.IEnumerable<T> me)
 		{

@@ -36,14 +36,14 @@ namespace Kean.IO
 	{
 		IByteInDevice backend;
 		System.Text.Encoding encoding;
-		Generic.IEnumerator<char> queue;
+		Generic.IEnumerator<char?> queue;
 		char? peeked;
 		#region Constructors
 		public Decoder(IByteInDevice backend, System.Text.Encoding encoding)
 		{
 			this.backend = backend;
 			this.encoding = encoding;
-			this.queue = this.backend.AsEnumerable().Decode(this.encoding).GetEnumerator();
+			this.queue = this.backend.AsEnumerable().Decode(this.encoding).Cast(c => (char?)c).GetEnumerator();
 		}
 		~Decoder()
 		{
@@ -53,7 +53,7 @@ namespace Kean.IO
 		#region ICharacterInDevice Members
 		char? RawRead()
 		{
-			return this.queue.NotNull() ? this.queue.Cast(c => (char?)c).Next() : null;
+			return this.queue.NotNull() ? this.queue.Next() : null;
 		}
 		public char? Peek()
 		{
