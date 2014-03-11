@@ -325,7 +325,9 @@
     <EmbeddedResource Include="Xml\Serialize\Xml\Dictionary.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\EmptyClass.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\Enumerator.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Xml\Serialize\Xml\KeyValue.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\Linked.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\List.xml" />
@@ -371,24 +373,60 @@
     <EmbeddedResource Include="Xml\Serialize\Xml\uint.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\ulong.xml" />
     <EmbeddedResource Include="Xml\Serialize\Xml\ushort.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes0.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes1.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number0.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number1.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number2.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number3.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number4.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number5.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number6.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number7.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number8.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number9.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects0.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects1.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects2.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects3.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures0.xml" />
-    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures1.xml" />
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes0.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Classes1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number0.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number4.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number5.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number6.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number7.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number8.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Number9.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects0.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Objects3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures0.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xml\Serialize\Xml\Include\Structures1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Xml\Dom\Data\fragment001.xml" />
     <EmbeddedResource Include="Xml\Dom\Data\valid001.xml" />
     <EmbeddedResource Include="Xml\Dom\Data\valid002.xml" />
