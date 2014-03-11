@@ -45,10 +45,6 @@ namespace Kean.IO
 			this.outDevice = outDevice;
 		}
 		#endregion
-		#region IByteDevice Members
-		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
-		public bool Writable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
-		#endregion
 		#region IByteInDevice Members
 		public byte? Peek()
 		{
@@ -67,8 +63,10 @@ namespace Kean.IO
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { return this.inDevice.IsNull() || this.inDevice.Empty; } }
+		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Readable; } }
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.outDevice.NotNull() && this.outDevice.Writable; } }
 		public bool AutoFlush
 		{
 			get { return this.outDevice.AutoFlush; }
