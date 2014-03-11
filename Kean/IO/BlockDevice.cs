@@ -34,6 +34,7 @@ namespace Kean.IO
 	{
 		System.IO.Stream stream;
 		public bool Wrapped { get; set; }
+		public bool FixedLength { get; set; }
 		object peekedLock = new object();
 		Collection.IVector<byte> peeked;
 		#region Constructors
@@ -42,10 +43,6 @@ namespace Kean.IO
 			this.stream = stream;
 			this.Resource = "stream:///";
 		}
-		#endregion
-		#region IBlockDevice
-		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
-		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
 		#region IBlockInDevice
 		Collection.IVector<byte> RawRead()
@@ -89,8 +86,10 @@ namespace Kean.IO
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { return !this.Peek().NotNull(); } }
+		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead && !(this.FixedLength && this.Empty); } }
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
@@ -164,7 +163,10 @@ namespace Kean.IO
 							try
 							{
 								using (System.Net.WebClient client = new System.Net.WebClient())
-									result = new BlockDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
+									result = new BlockDevice(new System.IO.MemoryStream(client.DownloadData(resource))) {
+										Resource = resource,
+										FixedLength = true
+									};
 							}
 							catch (System.Net.WebException)
 							{
@@ -177,7 +179,10 @@ namespace Kean.IO
 		}
 		public static IBlockDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new BlockDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
+			return new BlockDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) {
+				Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource),
+				FixedLength = true
+			};
 		}
 		#endregion
 		#region Create

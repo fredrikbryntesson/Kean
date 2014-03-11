@@ -48,10 +48,6 @@ namespace Kean.IO
 			Error.Log.Wrap((Func<bool>)this.Close)();
 		}
 		#endregion
-		#region ICharacterDevice Members
-		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
-		#endregion
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
@@ -70,8 +66,10 @@ namespace Kean.IO
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { return this.decoder.NotNull() && this.decoder.Empty; } }
+		public bool Readable { get { return this.decoder.NotNull() && this.decoder.Readable; } }
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		public bool AutoFlush
 		{
 			get { return this.backend.AutoFlush; }

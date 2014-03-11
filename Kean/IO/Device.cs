@@ -38,6 +38,7 @@ namespace Kean.IO
 		System.IO.Stream stream;
 		public System.Text.Encoding Encoding { get; set; }
 		public bool Wrapped { get; set; }
+		public bool FixedLength { get; set; }
 		readonly object peekedLock = new object();
 		Collection.IVector<byte> peeked;
 		#region Constructors
@@ -51,10 +52,6 @@ namespace Kean.IO
 			this.Resource = resource;
 			this.Encoding = System.Text.Encoding.UTF8;
 		}
-		#endregion
-		#region IBlockDevice
-		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
-		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
 		#region IBlockInDevice
 		Collection.IVector<byte> RawRead()
@@ -165,8 +162,10 @@ namespace Kean.IO
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { return !this.Peek().NotNull(); } }
+		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead && !(this.FixedLength && this.Empty); } }
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		public bool AutoFlush { get; set; }
 		bool FlushBuffer()
 		{
@@ -238,7 +237,7 @@ namespace Kean.IO
 						{
 							System.IO.FileStream stream = System.IO.File.Open(System.IO.Path.GetFullPath(resource.PlatformPath), mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
 							if (stream.NotNull())
-								result = new Device(stream, resource);
+								result = new Device(stream, resource) { FixedLength = true };
 						}
 						catch (System.IO.DirectoryNotFoundException)
 						{
@@ -256,7 +255,10 @@ namespace Kean.IO
 							try
 							{
 								using (var client = new System.Net.WebClient())
-									result = new Device(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
+									result = new Device(new System.IO.MemoryStream(client.DownloadData(resource))) {
+										Resource = resource,
+										FixedLength = true
+									};
 							}
 							catch (System.Net.WebException)
 							{
@@ -269,7 +271,10 @@ namespace Kean.IO
 		}
 		public static Device Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new Device(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
+			return new Device(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) {
+				Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource),
+				FixedLength = true
+			};
 		}
 		#endregion
 		#region Create

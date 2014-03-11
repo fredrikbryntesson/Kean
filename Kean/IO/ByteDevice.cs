@@ -43,10 +43,6 @@ namespace Kean.IO
 			this.Resource = "stream:///";
 		}
 		#endregion
-		#region IByteDevice Members
-		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead && !(this.FixedLength && this.Empty); } }
-		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
-		#endregion
 		readonly byte[] inBuffer = new byte[64 * 1024];
 		int inBufferEnd;
 		int inBufferStart;
@@ -109,8 +105,10 @@ namespace Kean.IO
 		#endregion
 		#region IInDevice Members
 		public bool Empty { get { return !this.Peek().HasValue; } }
+		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead && !(this.FixedLength && this.Empty); } }
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		public bool AutoFlush { get; set; }
 		public bool Flush()
 		{
