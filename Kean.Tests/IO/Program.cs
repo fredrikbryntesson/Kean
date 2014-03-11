@@ -30,8 +30,8 @@ namespace Kean.IO.Net.Test
 		public static void Run(string[] args)
 		{
 			using (IDisposable server = Program.Echo())
-            //Program.Proxy(23, "192.168.1.102:23");
-            //Program.Proxy();
+			//Program.Proxy(23, "192.168.1.102:23");
+			//Program.Proxy();
 			{
 				while (true)
 					;
@@ -145,7 +145,7 @@ namespace Kean.IO.Net.Test
 					}
 				}
 			}
-            , 7);
+			, 7);
 		}
 	}
 }

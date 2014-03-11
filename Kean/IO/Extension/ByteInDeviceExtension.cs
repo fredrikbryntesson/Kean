@@ -78,8 +78,12 @@ namespace Kean.IO.Extension
 		public static Generic.IEnumerable<byte> AsEnumerable (this IByteInDevice me)
 		{
 			byte? next;
-			while ((next = me.Read()).HasValue)
-				yield return next.Value;
+			while (me.Opened)
+			{
+				if ((next = me.Read()).NotNull())
+					yield return  next.Value;
+			}
+
 		}
 		public static Generic.IEnumerator<byte> AsEnumerator (this IByteInDevice me)
 		{

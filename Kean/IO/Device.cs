@@ -96,7 +96,7 @@ namespace Kean.IO
 				if (peeked.NotNull() && peeked.Count > 0)
 				{
 					result = peeked[0];
-					this.peeked = peeked.Slice(1);
+					this.peeked = peeked.Count > 1 ? peeked.Slice(1) : null;
 				}
 				else
 					result = null;

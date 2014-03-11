@@ -315,7 +315,7 @@ namespace Kean.Extension
 		}
 		public static Generic.IEnumerable<char> Decode(this Generic.IEnumerable<byte> me, System.Text.Encoding encoding)
 		{
-			if (encoding == System.Text.Encoding.UTF8)
+			//if (encoding == System.Text.Encoding.UTF8)
 			{
 				byte[] buffer = new byte[6];
 				int length = 0;
@@ -337,7 +337,10 @@ namespace Kean.Extension
 						for (; i < length && enumerator.MoveNext(); i++)
 							buffer[i] = enumerator.Current;
 						if (length == 3 && buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
+						{
 							length = 0; // Skip "zero width no break space" (0xefbbbf)
+							//yield return ;
+						}
 						if (i == length)
 							foreach (char c in encoding.GetChars(buffer, 0, length))
 								yield return c;
