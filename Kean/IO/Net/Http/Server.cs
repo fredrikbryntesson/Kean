@@ -126,11 +126,11 @@ namespace Kean.IO.Net.Http
 		}
 		#endregion
 		#region RespondChuncked
-		public IBlockOutDevice RespondChuncked(Status status, string type, params KeyValue<string, string>[] headers)
+		public IBlockOutDevice RespondChunked(Status status, string type, params KeyValue<string, string>[] headers)
 		{
-			return this.RespondChuncked(status, type, (Generic.IEnumerable<KeyValue<string, string>>)headers);
+			return this.RespondChunked(status, type, (Generic.IEnumerable<KeyValue<string, string>>)headers);
 		}
-		public IBlockOutDevice RespondChuncked(Status status, string type, Generic.IEnumerable<KeyValue<string, string>> headers)
+		public IBlockOutDevice RespondChunked(Status status, string type, Generic.IEnumerable<KeyValue<string, string>> headers)
 		{
 			IBlockOutDevice result = null;
 			if (this.SendHeader(status, headers.Prepend(KeyValue.Create("Transfer-Encoding", "chunked"), KeyValue.Create("Content-Type", type))))
@@ -141,12 +141,12 @@ namespace Kean.IO.Net.Http
 		#region Send
 		public bool Send<T>(T data)
 		{
-			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+			using (var device = this.RespondChunked(Status.OK, "application/json; charset=UTF-8"))
 				return this.Storage.Store(data, device);
 		}
 		public bool Send(Json.Dom.Item data)
 		{
-			using (var device = this.RespondChuncked(Status.OK, "application/json; charset=UTF-8"))
+			using (var device = this.RespondChunked(Status.OK, "application/json; charset=UTF-8"))
 				return data.Save(device);
 		}
 		#endregion
@@ -220,7 +220,7 @@ namespace Kean.IO.Net.Http
 								type = null;
 								break;
 						}
-						using (var destination = this.RespondChuncked(result = Status.OK, type, headers))
+						using (var destination = this.RespondChunked(result = Status.OK, type, headers))
 							destination.Write(source);
 					}
 					else
