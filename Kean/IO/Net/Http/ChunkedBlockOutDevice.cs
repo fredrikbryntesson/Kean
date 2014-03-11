@@ -66,6 +66,7 @@ namespace Kean.IO.Net.Http
 		}
 		#endregion
 		#region IOutDevice implementation
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		public bool Flush()
 		{
 			return this.backend.NotNull() && this.backend.Flush();

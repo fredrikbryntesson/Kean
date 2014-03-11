@@ -30,15 +30,13 @@ namespace Kean.IO
 		ICharacterReader
 	{
 		ICharacterInDevice backend;
-
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
 		public int Row { get; private set; }
 		public int Column { get; private set; }
-
 		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
 		public bool Empty { get { return this.backend.NotNull() && this.backend.Empty; } }
+		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
 		public char Last { get; private set; }
-
 		protected CharacterReader(ICharacterInDevice backend)
 		{
 			this.backend = backend;

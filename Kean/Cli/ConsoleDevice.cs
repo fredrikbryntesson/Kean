@@ -111,7 +111,7 @@ namespace Kean.Cli
 		}
 		#region ITerminal Members
 		public bool Readable { get { return true; } }
-		public bool Writeable { get { return true; } }
+		public bool Writable { get { return true; } }
 		#endregion
 		#region IOutDevice Members
 		public bool AutoFlush

@@ -29,7 +29,7 @@ namespace Kean.Tests
 		{
 			Kean.Error.Log.CatchErrors = false;
 			//Cli.Test.Program.Run(args);
-			IO.Net.Test.Program.Run(args);
+			//IO.Net.Test.Program.Run(args);
 			//DB.Sql.Test.Program.Run(args);
 			#region Draw
 			//Draw.OpenGL.Test.All.Test();

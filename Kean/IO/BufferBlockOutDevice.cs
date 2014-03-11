@@ -49,6 +49,7 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return true; } }
 		public bool AutoFlush { get { return true; } set { ; } }
 		public bool Flush()
 		{

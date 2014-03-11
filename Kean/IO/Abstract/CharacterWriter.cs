@@ -35,6 +35,7 @@ namespace Kean.IO.Abstract
 		public char[] NewLine { get; set; }
 		public abstract Uri.Locator Resource { get; }
 		public abstract bool Opened { get; }
+		public abstract bool Writable { get; }
 		protected CharacterWriter()
 		{
 			this.NewLine = new char[] { '\n' };

@@ -39,7 +39,7 @@ namespace Kean.IO.Null
 		#endregion
 		#region ICharacterDevice Members
 		public bool Readable { get { return true; } }
-		public bool Writeable { get { return true; } }
+		public bool Writable { get { return true; } }
 		#endregion
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)

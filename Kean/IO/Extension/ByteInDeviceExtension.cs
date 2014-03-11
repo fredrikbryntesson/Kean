@@ -32,14 +32,14 @@ namespace Kean.IO.Extension
 	public static class ByteInDeviceExtension
 	{
 		#region Skip
-		public static T Skip<T> (this T me, int count)
+		public static T Skip<T>(this T me, int count)
 			where T : IByteInDevice
 		{
 			while (count > 0 && me.Read().HasValue)
 				count--;
 			return me;
 		}
-		public static T Skip<T> (this T me, params byte[] separator)
+		public static T Skip<T>(this T me, params byte[] separator)
 			where T : IByteInDevice
 		{
 			byte? next;
@@ -55,13 +55,13 @@ namespace Kean.IO.Extension
 		}
 		#endregion
 		#region Read
-		public static Generic.IEnumerable<byte> Read (this IByteInDevice me, int count)
+		public static Generic.IEnumerable<byte> Read(this IByteInDevice me, int count)
 		{
 			byte? next;
 			while (count > 0 && (next = me.Read()).HasValue)
 				yield return next.Value;
 		}
-		public static Generic.IEnumerable<byte> Read (this IByteInDevice me, params byte[] separator)
+		public static Generic.IEnumerable<byte> Read(this IByteInDevice me, params byte[] separator)
 		{
 			byte? next;
 			int position = 0;
@@ -75,18 +75,20 @@ namespace Kean.IO.Extension
 			}
 		}
 		#endregion
-		public static Generic.IEnumerable<byte> AsEnumerable (this IByteInDevice me)
+		public static Generic.IEnumerable<byte> AsEnumerable(this IByteInDevice me)
 		{
 			byte? next;
-			while ((next = me.Read()).HasValue)
-				yield return next.Value;
+			while (me.Readable)
+				if ((next = me.Read()).HasValue)
+					yield return next.Value;
 
 		}
-		public static Generic.IEnumerator<byte> AsEnumerator (this IByteInDevice me)
+		public static Generic.IEnumerator<byte> AsEnumerator(this IByteInDevice me)
 		{
 			byte? next;
-			while ((next = me.Read()).HasValue)
-				yield return next.Value;
+			while (me.Readable)
+				if ((next = me.Read()).HasValue)
+					yield return next.Value;
 		}
 	}
 }

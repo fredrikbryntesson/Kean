@@ -49,7 +49,7 @@ namespace Kean.IO.Tap
 		#endregion
 		#region IByteDevice Members
 		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		#endregion
 		byte? Convert(int value)
 		{

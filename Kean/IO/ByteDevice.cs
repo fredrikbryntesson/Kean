@@ -35,6 +35,7 @@ namespace Kean.IO
 		byte? peeked;
 		System.IO.Stream stream;
 		public bool Wrapped { get; set; }
+		public bool FixedLength { get; set; }
 		#region Constructors
 		protected ByteDevice(System.IO.Stream stream)
 		{
@@ -43,13 +44,13 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IByteDevice Members
-		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
-		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
+		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead && !(this.FixedLength && this.Empty); } }
+		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
 		readonly byte[] inBuffer = new byte[64 * 1024];
 		int inBufferEnd;
 		int inBufferStart;
-		protected virtual byte? RawRead()
+		byte? RawRead()
 		{
 			if (this.inBufferStart >= this.inBufferEnd && this.stream.NotNull())
 			{
@@ -132,7 +133,7 @@ namespace Kean.IO
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get; private set; }
-		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
+		public virtual bool Opened { get { return this.Readable || this.Writable; } }
 		public virtual bool Close()
 		{
 			bool result;
@@ -180,7 +181,7 @@ namespace Kean.IO
 						{
 							System.IO.FileStream stream = System.IO.File.Open(System.IO.Path.GetFullPath(resource.PlatformPath), mode, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite);
 							if (stream.NotNull())
-								result = new ByteDevice(stream) { Resource = resource }; 
+								result = new ByteDevice(stream) { Resource = resource, FixedLength = true }; 
 						}
 						catch (System.IO.DirectoryNotFoundException)
 						{
@@ -198,7 +199,10 @@ namespace Kean.IO
 							try
 							{
 								using (System.Net.WebClient client = new System.Net.WebClient())
-									result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) { Resource = resource };
+									result = new ByteDevice(new System.IO.MemoryStream(client.DownloadData(resource))) {
+										Resource = resource,
+										FixedLength = true
+									};
 							}
 							catch (System.Net.WebException)
 							{
@@ -211,7 +215,10 @@ namespace Kean.IO
 		}
 		public static IByteDevice Open(System.Reflection.Assembly assembly, Uri.Path resource)
 		{
-			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) { Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource) };
+			return new ByteDevice(assembly.GetManifestResourceStream(assembly.GetName().Name + ((string)resource).Replace('/', '.'))) {
+				Resource = new Uri.Locator("assembly", assembly.GetName().Name, resource),
+				FixedLength = true
+			};
 		}
 		#endregion
 		#region Create

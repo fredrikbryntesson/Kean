@@ -39,7 +39,7 @@ namespace Kean.IO.Wrap
 
 		#region IByteDevice Implementation
 		public virtual bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public virtual bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
+		public virtual bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		#endregion
 		#region IByteInDevice Implementation
 		public virtual byte? Peek() { return this.backend.NotNull() ? this.backend.Peek() : null; }

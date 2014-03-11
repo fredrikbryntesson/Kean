@@ -29,7 +29,7 @@ using Kean.Collection.Extension;
 namespace Kean.IO.Net.Udp
 {
 	public class Sender :
-		IBlockOutDevice
+	IBlockOutDevice
 	{
 		System.Net.Sockets.UdpClient backend;
 		#region Constructors
@@ -44,7 +44,6 @@ namespace Kean.IO.Net.Udp
 			return endPoint.Port.HasValue ? new Sender(new System.Net.Sockets.UdpClient(endPoint.Host, (int)endPoint.Port.Value)) { Resource = new Uri.Locator("udp://", new Uri.Authority(null, endPoint), null) } : null;
 		}
 		#endregion
-
 		#region IBlockOutDevice Members
 		public bool Write(Collection.IVector<byte> buffer)
 		{
@@ -56,6 +55,7 @@ namespace Kean.IO.Net.Udp
 		}
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return this.backend.NotNull(); } }
 		public bool AutoFlush
 		{
 			get { return true; }
@@ -80,7 +80,6 @@ namespace Kean.IO.Net.Udp
 			return result;
 		}
 		#endregion
-
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{

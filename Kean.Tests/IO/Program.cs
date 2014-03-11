@@ -127,7 +127,6 @@ namespace Kean.IO.Net.Test
 					writer.WriteLine(outgoing);
 			}
 			receiver.Abort();
-
 		}
 
 		static IDisposable Echo()
@@ -145,7 +144,7 @@ namespace Kean.IO.Net.Test
 					}
 				}
 			}
-			, 7);
+				, 7007);
 		}
 	}
 }

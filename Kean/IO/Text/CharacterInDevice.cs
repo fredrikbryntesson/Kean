@@ -37,34 +37,35 @@ namespace Kean.IO.Text
 			this.backend = value;
 		}
 		#region ICharacterInDevice Members
-		public char? Peek() { return this.next < this.backend.Length ? (char?)this.backend[this.next] : null; }
-		public char? Read() { return this.next < this.backend.Length ? (char?)this.backend[this.next++] : null; }
+		public char? Peek()
+		{
+			return this.next < this.backend.Length ? (char?)this.backend[this.next] : null;
+		}
+		public char? Read()
+		{
+			return this.next < this.backend.Length ? (char?)this.backend[this.next++] : null;
+		}
 		#endregion
-
 		#region IInDevice Members
 		public bool Empty { get { return this.next >= this.backend.Length; } }
+		public bool Readable { get { return !this.Empty; } }
 		#endregion
-
 		#region IDevice Members
 		public Uri.Locator Resource
 		{
 			get { return "string://"; }
 		}
-
 		public bool Opened
 		{
 			get { return this.backend.NotNull(); }
 		}
-
 		public bool Close()
 		{
 			bool result = this.Opened;
 			this.backend = null;
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
@@ -72,7 +73,6 @@ namespace Kean.IO.Text
 				this.backend = null;
 		}
 		#endregion
-
 		public override string ToString()
 		{
 			return this.backend.ToString();

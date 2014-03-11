@@ -29,7 +29,7 @@ using Error = Kean.Error;
 namespace Kean.IO.Text
 {
 	public class Indenter :
-		Abstract.CharacterWriter
+	Abstract.CharacterWriter
 	{
 		ICharacterWriter backend;
 		bool lineIndented;
@@ -55,6 +55,7 @@ namespace Kean.IO.Text
 		#region implemented abstract and virtual members of Kean.IO.Abstract.CharacterWriter
 		public override Uri.Locator Resource { get { return this.backend.NotNull() ? this.backend.Resource : null; } }
 		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
+		public override bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		public override bool Close()
 		{
 			bool result;

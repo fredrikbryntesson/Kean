@@ -34,25 +34,19 @@ namespace Kean.IO
 		int position;
 		Collection.IVector<byte> buffer;
 		public bool EscalateClose { get; set; }
-
 		#region Constructors
-
 		protected BufferByteInDevice(Collection.IVector<byte> buffer)
 		{
 			this.EscalateClose = true;
 			this.buffer = buffer;
 			this.Resource = "buffer:///";
 		}
-
 		#endregion
-
 		public void Append(Collection.IVector<byte> buffer)
 		{
 			this.buffer = this.buffer.Merge(buffer);
 		}
-
 		#region IByteInDevice Members
-
 		public byte? Peek()
 		{
 			return this.Empty ? null : (byte?)this.buffer[this.position];
@@ -61,17 +55,12 @@ namespace Kean.IO
 		{
 			return this.Empty ? null : (byte?)this.buffer[this.position++];
 		}
-
 		#endregion
-
 		#region IInDevice Members
-
 		public bool Empty { get { return !this.Opened || this.position >= this.buffer.Count; } }
-
+		public bool Readable { get { return !this.Empty; } }
 		#endregion
-
 		#region IDevice Members
-
 		public Uri.Locator Resource { get; private set; }
 		public virtual bool Opened { get { return this.buffer.NotNull(); } }
 		public virtual bool Close()
@@ -85,48 +74,32 @@ namespace Kean.IO
 			}
 			return result;
 		}
-
 		#endregion
-
 		#region IDisposable Members
-
 		void IDisposable.Dispose()
 		{
 			this.Close();
 		}
-
 		#endregion
-
 		#region Static Open, Wrap & Create
-
 		#region Open
-
 		public static BufferByteInDevice Open(Collection.IVector<byte> buffer)
 		{
 			return buffer.NotNull() ? new BufferByteInDevice(buffer) : null;
 		}
-
 		#endregion
-
 		#region Wrap
-
 		public static BufferByteInDevice Wrap(Collection.IVector<byte> buffer)
 		{
 			return buffer.NotNull() ? new BufferByteInDevice(buffer) { EscalateClose = false } : null;
 		}
-
 		#endregion
-
 		#region Create
-
 		public static BufferByteInDevice Create()
 		{
 			return new BufferByteInDevice(new Collection.Vector<byte>(0));
 		}
-
 		#endregion
-
 		#endregion
-
 	}
 }

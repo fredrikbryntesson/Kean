@@ -38,7 +38,6 @@ namespace Kean.IO
 		System.Text.Encoding encoding;
 		Generic.IEnumerator<char> queue;
 		char? peeked;
-
 		#region Constructors
 		public Decoder(IByteInDevice backend, System.Text.Encoding encoding)
 		{
@@ -46,7 +45,10 @@ namespace Kean.IO
 			this.encoding = encoding;
 			this.queue = this.backend.AsEnumerable().Decode(this.encoding).GetEnumerator();
 		}
-		~Decoder() { Error.Log.Wrap((Func<bool>)this.Close)(); }
+		~Decoder()
+		{
+			Error.Log.Wrap((Func<bool>)this.Close)();
+		}
 		#endregion
 		#region ICharacterInDevice Members
 		char? RawRead()
@@ -70,11 +72,14 @@ namespace Kean.IO
 			return result;
 		}
 		#endregion
-
 		#region IInDevice Members
 		public bool Empty
 		{
 			get { return !this.peeked.HasValue && (this.backend.IsNull() || this.backend.Empty); }
+		}
+		public bool Readable
+		{
+			get { return this.peeked.HasValue || this.backend.NotNull() && this.backend.Readable; }
 		}
 		#endregion
 		#region IDevice Members
@@ -95,7 +100,10 @@ namespace Kean.IO
 		}
 		#endregion
 		#region IDisposable Members
-		void IDisposable.Dispose() { this.Close(); }
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
 		#endregion
 	}
 }

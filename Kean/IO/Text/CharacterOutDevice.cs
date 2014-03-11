@@ -28,7 +28,7 @@ using Uri = Kean.Uri;
 namespace Kean.IO.Text
 {
 	public class CharacterOutDevice :
-		ICharacterOutDevice
+	ICharacterOutDevice
 	{
 		System.Text.StringBuilder backend;
 		public CharacterOutDevice()
@@ -46,6 +46,7 @@ namespace Kean.IO.Text
 		}
 		#endregion
 		#region IOutDevice Members
+		public bool Writable { get { return true; } }
 		public bool AutoFlush
 		{
 			get { return true; }

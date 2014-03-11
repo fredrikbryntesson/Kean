@@ -39,6 +39,7 @@ namespace Kean.IO.Wrap
 		public bool Empty { get { return this.backend.IsNull() || this.backend.Empty; } }
 		public Uri.Locator Resource { get { return this.backend.NotNull() ? this.backend.Resource : null; } }
 		public bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
+		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
 		PartialByteInDevice(IByteInDevice backend, byte[] endMark)
 		{
 			this.backend = backend;
@@ -114,7 +115,7 @@ namespace Kean.IO.Wrap
 		}
 		public static IByteInDevice Open(IByteInDevice backend, byte[] endMark)
 		{
-			return backend.NotNull() ?  endMark.NotEmpty() ? new PartialByteInDevice(backend, endMark) : backend : null;
+			return backend.NotNull() ? endMark.NotEmpty() ? new PartialByteInDevice(backend, endMark) : backend : null;
 		}
 	}
 }

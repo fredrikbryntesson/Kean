@@ -35,7 +35,7 @@ namespace Kean.IO.Wrap
 		public bool CatchClose { get; set; }
 		public override bool CanRead { get { return this.backend.Readable; } }
 		public override bool CanSeek { get { return false; } }
-		public override bool CanWrite { get { return this.backend.Writeable; } }
+		public override bool CanWrite { get { return this.backend.Writable; } }
 		long length;
 		public override long Length { get { return this.length; } }
 		public override long Position 

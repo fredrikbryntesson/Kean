@@ -30,7 +30,7 @@ using Kean.IO.Extension;
 namespace Kean.IO.Wrap
 {
 	public class BlockByteOutDevice :
-		IByteOutDevice
+	IByteOutDevice
 	{
 		IBlockOutDevice backend;
 		public bool Wrapped { get; set; }
@@ -51,6 +51,7 @@ namespace Kean.IO.Wrap
 		}
 		#endregion
 		#region IOutDevice implementation
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		bool WriteBuffer()
 		{
 			bool result;

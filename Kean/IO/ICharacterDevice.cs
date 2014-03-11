@@ -27,7 +27,5 @@ namespace Kean.IO
 		ICharacterInDevice,
 		ICharacterOutDevice
 	{
-		bool Readable { get; }
-		bool Writeable { get; }
 	}
 }

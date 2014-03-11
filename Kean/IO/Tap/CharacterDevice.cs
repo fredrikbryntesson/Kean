@@ -53,7 +53,7 @@ namespace Kean.IO.Tap
 		#endregion
 		#region ICharacterDevice Members
 		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		#endregion
 		#region ICharacterOutDevice Members
 		public bool Write(System.Collections.Generic.IEnumerable<char> buffer)

@@ -27,5 +27,6 @@ namespace Kean.IO
 		IDevice
 	{
 		bool Empty { get; }
+		bool Readable { get; }
 	}
 }

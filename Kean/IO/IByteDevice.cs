@@ -27,7 +27,5 @@ namespace Kean.IO
 		IByteInDevice,
 		IByteOutDevice
 	{
-		bool Readable { get; }
-		bool Writeable { get; }
 	}
 }

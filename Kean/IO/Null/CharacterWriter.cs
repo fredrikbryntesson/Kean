@@ -34,6 +34,7 @@ namespace Kean.IO.Null
 		public char[] NewLine { get; set; }
 		public Uri.Locator Resource { get { return "null://"; } }
 		public bool Opened { get { return true; } }
+		public bool Writable { get { return true; } }
 		public CharacterWriter()
 		{
 			this.NewLine = new char[] { '\n' };

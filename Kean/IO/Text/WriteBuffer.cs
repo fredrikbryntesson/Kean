@@ -9,11 +9,10 @@ namespace Kean.IO.Text
 		Abstract.CharacterWriter
 	{
 		System.Timers.Timer timer;
-		Collection.IQueue<System.Collections.Generic.IEnumerable<char>> queue; 
-
+		Collection.IQueue<System.Collections.Generic.IEnumerable<char>> queue;
 		public override Kean.Uri.Locator Resource { get { return "console:///"; } }
 		public override bool Opened { get { return this.timer.NotNull(); } }
-		
+		public override bool Writable { get { return this.Opened; } }
 		WriteBuffer()
 		{
 			this.queue = new Collection.Synchronized.Queue<System.Collections.Generic.IEnumerable<char>>();
@@ -34,7 +33,6 @@ namespace Kean.IO.Text
 			}
 			return result;
 		}
-
 		public override bool Write(System.Collections.Generic.IEnumerable<char> buffer)
 		{
 			this.queue.Enqueue(buffer);

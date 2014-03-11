@@ -40,13 +40,15 @@ namespace Kean.IO.Filter
 			get { return this.filter ?? this.NullFilter; }
 			set { this.filter = value; }
 		}
-
 		#region Constructors
 		protected CharacterInDevice(ICharacterInDevice backend)
 		{
 			this.backend = backend;
 		}
-		~CharacterInDevice() { Error.Log.Wrap((Func<bool>)this.Close)(); }
+		~CharacterInDevice()
+		{
+			Error.Log.Wrap((Func<bool>)this.Close)();
+		}
 		#endregion
 		char[] NullFilter(Func<char?> read)
 		{
@@ -68,8 +70,8 @@ namespace Kean.IO.Filter
 			return result;
 		}
 		#endregion
-
 		#region IInDevice Members
+		public bool Readable { get { return !this.queue.Empty || (this.backend.NotNull() && this.backend.Readable); } }
 		public bool Empty { get { return this.queue.Empty && (this.backend.IsNull() || this.backend.Empty); } }
 		#endregion
 		#region IDevice Members
@@ -87,18 +89,20 @@ namespace Kean.IO.Filter
 		}
 		#endregion
 		#region IDisposable Members
-		void IDisposable.Dispose() { this.Close(); }
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
 		#endregion
 		#region Static Open
-		public static ICharacterInDevice Open(ICharacterInDevice backend) 
+		public static ICharacterInDevice Open(ICharacterInDevice backend)
 		{ 
 			return backend.NotNull() ? new CharacterInDevice(backend) : null; 
 		}
-		public static ICharacterInDevice Open(ICharacterInDevice backend, Func<Func<char?>, char[]> filter) 
+		public static ICharacterInDevice Open(ICharacterInDevice backend, Func<Func<char?>, char[]> filter)
 		{ 
 			return backend.NotNull() ? new CharacterInDevice(backend) { Filter = filter } : null; 
 		}
 		#endregion
-
 	}
 }

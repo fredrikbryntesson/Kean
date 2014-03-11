@@ -47,7 +47,7 @@ namespace Kean.IO
 		#endregion
 		#region IBlockDevice Members
 		public bool Readable { get { return this.inDevice.NotNull() && this.inDevice.Opened; } }
-		public bool Writeable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
+		public bool Writable { get { return this.outDevice.NotNull() && this.outDevice.Opened; } }
 		#endregion
 		#region IBlockInDevice Members
 		public Collection.IVector<byte> Peek()
@@ -81,7 +81,7 @@ namespace Kean.IO
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.inDevice.Resource; } }
-		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
+		public virtual bool Opened { get { return this.Readable || this.Writable; } }
 		public virtual bool Close()
 		{
 			bool result;

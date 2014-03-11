@@ -27,7 +27,5 @@ namespace Kean.IO
 		IBlockInDevice,
 		IBlockOutDevice
 	{
-		bool Readable { get; }
-		bool Writeable { get; }
 	}
 }

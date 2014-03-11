@@ -34,6 +34,7 @@ namespace Kean.IO
 		ICharacterOutDevice backend;
 		public override Uri.Locator Resource { get { return this.backend.Resource; } }
 		public override bool Opened { get { return this.backend.NotNull() && this.backend.Opened; } }
+		public override bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		protected CharacterWriter(ICharacterOutDevice backend)
 		{
 			this.backend = backend;

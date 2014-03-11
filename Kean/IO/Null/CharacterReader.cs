@@ -29,15 +29,13 @@ namespace Kean.IO.Null
 	public class CharacterReader :
 		ICharacterReader
 	{
-
 		public Uri.Locator Resource { get { return "null://"; } }
 		public int Row { get; private set; }
 		public int Column { get; private set; }
-
 		public bool Opened { get { return true; } }
 		public bool Empty { get { return true; } }
+		public bool Readable { get { return true; } }
 		public char Last { get; private set; }
-
 		public CharacterReader()
 		{
 			this.Row = 1;

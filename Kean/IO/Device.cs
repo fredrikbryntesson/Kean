@@ -54,7 +54,7 @@ namespace Kean.IO
 		#endregion
 		#region IBlockDevice
 		public bool Readable { get { return this.stream.NotNull() && this.stream.CanRead; } }
-		public bool Writeable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
+		public bool Writable { get { return this.stream.NotNull() && this.stream.CanWrite; } }
 		#endregion
 		#region IBlockInDevice
 		Collection.IVector<byte> RawRead()
@@ -194,7 +194,7 @@ namespace Kean.IO
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get; private set; }
-		public virtual bool Opened { get { return this.Readable || this.Writeable; } }
+		public virtual bool Opened { get { return this.Readable || this.Writable; } }
 		public virtual bool Close()
 		{
 			bool result;

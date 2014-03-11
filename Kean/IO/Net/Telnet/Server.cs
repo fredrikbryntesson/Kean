@@ -216,7 +216,7 @@ namespace Kean.IO.Net.Telnet
 		#endregion
 		#region IByteDevice Members
 		public bool Readable { get { return this.backend.NotNull() && this.backend.Readable; } }
-		public bool Writeable { get { return this.backend.NotNull() && this.backend.Writeable; } }
+		public bool Writable { get { return this.backend.NotNull() && this.backend.Writable; } }
 		#endregion
 		#region IDevice Members
 		public Uri.Locator Resource { get { return this.backend.Resource; } }
