@@ -314,6 +314,10 @@ namespace Kean.Extension
 			}
 			return result.ToString();
 		}
+		public static string ToCsv(this Generic.IEnumerable<string> me)
+		{
+			return me.Map(value => value.AddDoubleQuotes()).Join(",");
+		}
 		public static Generic.IEnumerable<char> Decode(this Generic.IEnumerable<byte> me)
 		{
 			return me.Decode(System.Text.Encoding.UTF8);

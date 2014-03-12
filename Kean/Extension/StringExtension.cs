@@ -22,6 +22,7 @@
 using System;
 using RegularExpressions = System.Text.RegularExpressions;
 using Kean.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.Extension
 {
@@ -149,15 +150,17 @@ namespace Kean.Extension
 				me.Get(index, me.Length - index) :
 				me.Get(me.Length + index, -index);
 		}
-		public static string[] SplitAt(this string me)
+		public static Generic.IEnumerable<string> FromCsv(this string me)
+		{
+			return me.SplitAt(',');
+		}
+		public static Generic.IEnumerable<string> SplitAt(this string me)
 		{
 			return me.SplitAt(' ');
 		}
-		public static string[] SplitAt(this string me, params char[] separators)
+		public static Generic.IEnumerable<string> SplitAt(this string me, params char[] separators)
 		{
-			string[] result = null;
-			System.Collections.Generic.IList<string> parts = new System.Collections.Generic.List<string>();
-			System.Text.StringBuilder current = new System.Text.StringBuilder();
+			var current = new IO.Text.Buffer();
 			me = me.Trim();
 			int index = 0;
 			while (index < me.Length)
@@ -170,46 +173,43 @@ namespace Kean.Extension
 							switch (me[index])
 							{
 								case 'r':
-									current.Append('\r');
+									current += '\r';
 									break;
 								case 'n':
-									current.Append('\n');
+									current += '\n';
 									break;
 								case 't':
-									current.Append('\t');
+									current += '\t';
 									break;
 								case 'b':
-									current.Append('\b');
+									current += '\b';
 									break;
 								case '\\':
-									current.Append('\\');
+									current += '\\';
 									break;
 								case '"':
-									current.Append('"');
+									current += '"';
 									break;
 							}
 						break;
 					case '"':
 						while (++index < me.Length && (unit = me[index]) != '"')
-							current.Append(unit);
+							current += unit;
 						break;
 					default:
 						if (separators.Contains(unit))
 						{
-							parts.Add(current.ToString());
-							current = new System.Text.StringBuilder();
+							yield return (string)current;
+							current = new IO.Text.Buffer();
 						}
 						else
-							current.Append(unit);
+							current += unit;
 						break;
 				}
 				index++;
 			}
 			if (current.Length > 0)
-				parts.Add(current.ToString());
-			result = new string[parts.Count];
-			parts.CopyTo(result, 0);
-			return result;
+				yield return current.ToString();
 		}
 		public static T Parse<T>(this string me)
 		{

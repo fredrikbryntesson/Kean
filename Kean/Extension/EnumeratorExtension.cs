@@ -228,14 +228,14 @@ namespace Kean.Extension
 			}
 		}
 		#endregion
-		public static string Join(this Generic.IEnumerator<string> me, string seperator)
+		public static string Join(this Generic.IEnumerator<string> me, string separator)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder();
 			if (me.MoveNext())
 			{
 				result.Append(me.Current);
 				while (me.MoveNext())
-					result.Append(seperator).Append(me.Current);
+					result.Append(separator).Append(me.Current);
 			}
 			return result.ToString();
 		}

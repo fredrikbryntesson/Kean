@@ -52,7 +52,7 @@ namespace Kean.IO.Net.Http.Header
 		}
 		public static explicit operator Link(string link)
 		{
-			string[] splitted = link.SplitAt(';');
+			string[] splitted = link.SplitAt(';').ToArray();
 			Link result = null;
 			if (splitted.Length > 0 && splitted[0].StartsWith("<") && splitted[0].EndsWith(">"))
 			{

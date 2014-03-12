@@ -31,7 +31,6 @@ namespace Kean.Error
 		Entry()
 		{
 		}
-
 		#region IError Members
 		public DateTime Time { get; internal set; }
 		public Error.Level Level { get; internal set; }
@@ -45,7 +44,6 @@ namespace Kean.Error
 		public int Line { get; internal set; }
 		public int Column { get; internal set; }
 		#endregion
-
 		public override string ToString()
 		{
 			return Extension.ErrorExtension.AsCsv(this);
@@ -55,8 +53,7 @@ namespace Kean.Error
 			System.Reflection.MethodBase method = exception.TargetSite ?? new System.Diagnostics.StackTrace().GetFrame(2).GetMethod();
 			Type type = method.DeclaringType;
 			System.Reflection.AssemblyName assembly = type.NotNull() ? type.Assembly.GetName() : null;
-			return new Entry()
-			{
+			return new Entry() {
 				Time = DateTime.Now,
 				Level = level,
 				Title = title,
@@ -73,8 +70,7 @@ namespace Kean.Error
 			System.Reflection.MethodBase method = frame.GetMethod();
 			Type type = method.DeclaringType;
 			System.Reflection.AssemblyName assembly = type.Assembly.GetName();
-			return new Entry()
-			{
+			return new Entry() {
 				Time = DateTime.Now,
 				Level = level,
 				Title = title,
@@ -93,10 +89,9 @@ namespace Kean.Error
 			IError result = null;
 			if (error.NotEmpty())
 			{
-				string[] splitted = error.SplitAt(',');
+				string[] splitted = error.SplitAt(',').ToArray();
 				if (splitted.Length == 11)
-					result = new Entry()
-					{
+					result = new Entry() {
 						Time = splitted[0].Parse<DateTime>(),
 						Level = splitted[1].Parse<Error.Level>(),
 						Title = splitted[2],
