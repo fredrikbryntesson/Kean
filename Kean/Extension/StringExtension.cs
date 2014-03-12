@@ -156,7 +156,7 @@ namespace Kean.Extension
 		}
 		public static Generic.IEnumerable<string> FromCsv(this string me)
 		{
-			return me.SplitAt(',');
+			return me.SplitAt(',').Map(value => value.RemoveDoubleQuotes());
 		}
 		public static Generic.IEnumerable<string> SplitAt(this string me)
 		{
@@ -332,7 +332,7 @@ namespace Kean.Extension
 		}
 		public static string RemoveDoubleQuotes(this string me)
 		{
-			return me[0] == '"' && me[me.Length] == '"' ? me.Get(1, -1).Replace("\\\"", "\"") : me;
+			return me[0] == '"' && me[me.Length - 1] == '"' ? me.Get(1, -1).Replace("\\\"", "\"") : me;
 		}
 	}
 }
