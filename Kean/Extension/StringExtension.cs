@@ -40,9 +40,13 @@ namespace Kean.Extension
 		{
 			return new RegularExpressions.Regex("^" + RegularExpressions.Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$", RegularExpressions.RegexOptions.IgnoreCase | RegularExpressions.RegexOptions.Singleline).IsMatch(me);
 		}
-		public static void Save(this string me, string path)
+		public static void AppendTo(this string me, Uri.Locator path)
 		{
-			System.IO.File.WriteAllText(path, me);
+			System.IO.File.AppendAllText(path.PlatformPath, me);
+		}
+		public static void Save(this string me, Uri.Locator path)
+		{
+			System.IO.File.WriteAllText(path.PlatformPath, me);
 		}
 		public static string Format(this string me, object argument)
 		{

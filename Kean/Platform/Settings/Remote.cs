@@ -74,6 +74,7 @@ namespace Kean.Platform.Settings
 		{
 			this.reader = reader;
 			this.writer = writer;
+			this.writer.AutoFlush = true;
 
 			IO.Text.Builder line = null;
 			while (this.reader.Next() && this.reader.Last != '\n')

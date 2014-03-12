@@ -52,7 +52,7 @@ namespace Kean.IO
 			{
 				try
 				{
-					this.inBufferEnd = this.stream.Read(this.inBuffer, 0, inBuffer.Length);
+					this.inBufferEnd = this.stream.Read(this.inBuffer, 0, this.inBuffer.Length);
 				}
 				catch (ObjectDisposedException)
 				{
