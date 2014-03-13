@@ -156,7 +156,7 @@ namespace Kean.Extension
 		}
 		public static Generic.IEnumerable<string> FromCsv(this string me)
 		{
-			return me.SplitAt(',').Map(value => value.RemoveDoubleQuotes());
+			return me.SplitAt(',');
 		}
 		public static Generic.IEnumerable<string> SplitAt(this string me)
 		{
@@ -198,7 +198,36 @@ namespace Kean.Extension
 						break;
 					case '"':
 						while (++index < me.Length && (unit = me[index]) != '"')
-							current += unit;
+							switch (unit)
+							{
+								case '\\':
+									if (++index < me.Length)
+										switch (me[index])
+										{
+											case 'r':
+												current += '\r';
+												break;
+											case 'n':
+												current += '\n';
+												break;
+											case 't':
+												current += '\t';
+												break;
+											case 'b':
+												current += '\b';
+												break;
+											case '\\':
+												current += '\\';
+												break;
+											case '"':
+												current += '"';
+												break;
+										}
+									break;
+								default:
+									current += unit;
+									break;
+							}
 						break;
 					default:
 						if (separators.Contains(unit))
