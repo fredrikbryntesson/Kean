@@ -36,7 +36,7 @@ namespace Kean.IO.Extension
 		}
 		public static bool Write(this IBlockOutDevice me, IBlockInDevice source)
 		{
-			bool result = source.NotNull();
+			bool result = source.NotNull() && me.NotNull();
 			Collection.IVector<byte> data;
 			while (result && !source.Empty && (data = source.Read()).NotNull() && data.Count > 0)
 				result &= me.Write(data);
