@@ -861,6 +861,7 @@
     <Compile Include="IO\Net\Http\Header\LinkRelation.cs" />
     <Compile Include="IO\Net\Http\Header\Links.cs" />
     <Compile Include="IO\Net\Http\Header\Response.cs" />
+    <Compile Include="IO\Wrap\FixedLengthByteInDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />

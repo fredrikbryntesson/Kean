@@ -46,6 +46,7 @@ namespace Kean.Extension
 		}
 		public static void Save(this string me, Uri.Locator path)
 		{
+			System.IO.Directory.CreateDirectory(path.Path.FolderPath.PlatformPath);
 			System.IO.File.WriteAllText(path.PlatformPath, me);
 		}
 		public static string Format(this string me, object argument)

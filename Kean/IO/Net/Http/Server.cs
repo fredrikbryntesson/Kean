@@ -44,8 +44,8 @@ namespace Kean.IO.Net.Http
 			set { this.connection.AutoClose = value; }
 		}
 		Tcp.Connection connection;
-		public IByteDevice ByteDevice { get { return this.connection.ByteDevice; } }
-		public IBlockDevice BlockDevice { get { return this.connection.BlockDevice; } }
+		public IByteDevice ByteDevice { get; private set; }
+		public IBlockDevice BlockDevice { get; private set; }
 		ICharacterReader reader;
 		public ICharacterReader Reader
 		{
@@ -69,23 +69,43 @@ namespace Kean.IO.Net.Http
 				return this.writer;
 			}
 		}
-		#region Storage
-		Serialize.Storage storage;
-		Serialize.Storage Storage
+		#region SendStorage
+		Serialize.Storage sendStorage;
+		Serialize.Storage SendStorage
 		{
 			get
 			{ 
-				if (this.storage.IsNull())
+				if (this.sendStorage.IsNull())
 					switch ("application/json")
 					{
 						case "application/json":
-							this.storage = new Json.Serialize.Storage() { NoTypes = true };
+							this.sendStorage = new Json.Serialize.Storage() { NoTypes = true };
 							break;
 						case "application/xml":
-							this.storage = new Xml.Serialize.Storage() { NoTypes = true };
+							this.sendStorage = new Xml.Serialize.Storage() { NoTypes = true };
 							break;
 					}
-				return this.storage;
+				return this.sendStorage;
+			}
+		}
+		#endregion
+		#region ReceiveStorage
+		Serialize.Storage receiveStorage;
+		Serialize.Storage ReceiveStorage
+		{
+			get
+			{ 
+				if (this.receiveStorage.IsNull())
+					switch ("application/json")
+					{
+						case "application/json":
+							this.receiveStorage = new Json.Serialize.Storage() { NoTypes = true };
+							break;
+						case "application/xml":
+							this.receiveStorage = new Xml.Serialize.Storage() { NoTypes = true };
+							break;
+					}
+				return this.receiveStorage;
 			}
 		}
 		#endregion
@@ -93,7 +113,9 @@ namespace Kean.IO.Net.Http
 		Server(Tcp.Connection connection)
 		{
 			this.connection = connection;
-			this.Request = Header.Request.Parse(this.ByteDevice);
+			this.Request = Header.Request.Parse(this.connection.ByteDevice);
+			this.ByteDevice = ByteDeviceCombiner.Open(IO.Wrap.FixedLengthByteInDevice.Open(this.connection.ByteDevice, this.Request.ContentLength), this.connection.ByteDevice);
+			this.BlockDevice = this.connection.BlockDevice;
 		}
 		~Server()
 		{
@@ -142,7 +164,7 @@ namespace Kean.IO.Net.Http
 		public bool Send<T>(T data)
 		{
 			using (var device = this.RespondChunked(Status.OK, "application/json; charset=UTF-8"))
-				return this.Storage.Store(data, device);
+				return this.SendStorage.Store(data, device);
 		}
 		public bool Send(Json.Dom.Item data)
 		{
@@ -247,6 +269,12 @@ namespace Kean.IO.Net.Http
 			response.ContentLength = message.Length;
 			response.ContentType = "text/html; charset=utf8";
 			return this.SendHeader(response) && this.ByteDevice.Write(message);
+		}
+		#endregion
+		#region Receive
+		public T Receive<T>()
+		{
+			return this.ReceiveStorage.Load<T>(this.ByteDevice);
 		}
 		#endregion
 		public bool Close()

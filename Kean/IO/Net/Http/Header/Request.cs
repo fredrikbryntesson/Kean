@@ -26,10 +26,12 @@ using Uri = Kean.Uri;
 using Generic = System.Collections.Generic;
 using Kean.IO.Extension;
 using Kean.Collection.Extension;
+using Integer = Kean.Math.Integer;
 
 namespace Kean.IO.Net.Http.Header
 {
-	public struct Request
+	public struct Request :
+	Generic.IEnumerable<KeyValue<string, string>>
 	{
 		#region Headers
 		Collection.IDictionary<string, string> headers;
@@ -77,8 +79,8 @@ namespace Kean.IO.Net.Http.Header
 			set { this.Url.Fragment = value; }
 		}
 		#region Authorization
-		Header.Authorization authorization;
-		public Header.Authorization Authorization
+		Authorization authorization;
+		public Authorization Authorization
 		{
 			get
 			{ 
@@ -103,6 +105,26 @@ namespace Kean.IO.Net.Http.Header
 					this["Host"] = this.Host;
 			}
 		}
+		int? contentLength;
+		public int ContentLength
+		{
+			get
+			{
+				if (!this.contentLength.HasValue)
+					this.contentLength = Integer.Parse(this["Content-Length"], 0);
+				return this.contentLength.Value;
+			}
+		}
+		#region IEnumerable implementation
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.GetEnumerator();
+		}
+		public Generic.IEnumerator<KeyValue<string, string>> GetEnumerator()
+		{
+			return this.headers.GetEnumerator();
+		}
+		#endregion
 		public static Request Parse(IByteInDevice device)
 		{
 			Request result = new Request();
