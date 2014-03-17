@@ -166,6 +166,14 @@ namespace Kean.IO.Net.Http
 			using (var device = this.RespondChunked(Status.OK, "application/json; charset=UTF-8"))
 				return this.SendStorage.Store(data, device);
 		}
+		public bool Send(Json.Dom.Object data)
+		{
+			return this.Send((Json.Dom.Item)data);
+		}
+		public bool Send(Json.Dom.Array data)
+		{
+			return this.Send((Json.Dom.Item)data);
+		}
 		public bool Send(Json.Dom.Item data)
 		{
 			using (var device = this.RespondChunked(Status.OK, "application/json; charset=UTF-8"))

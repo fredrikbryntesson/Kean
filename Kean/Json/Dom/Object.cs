@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean;
 using Kean.Extension;
@@ -32,12 +33,10 @@ namespace Kean.Json.Dom
 		Kean.Collection.IDictionary<Label, Item>
 	{
 		Kean.Collection.IDictionary<Label, Item> backend;
-
 		public Object() :
-			this((Uri.Region) null)
+			this((Uri.Region)null)
 		{
 		}
-
 		public Object(Uri.Region region) :
 			base(region)
 		{
@@ -61,130 +60,100 @@ namespace Kean.Json.Dom
 			};
 			this.backend = new Kean.Collection.Wrap.ListDictionary<Label, Item>(list);
 		}
-
 		public Object(params KeyValue<string, Item>[] items) :
-			this((Uri.Region) null)
+			this((Uri.Region)null)
 		{
 			foreach (KeyValue<string, Item> item in items)
 				this[item.Key] = item.Value;
 		}
-
-		public Object(params KeyValue<Label, Item>[] items)
+		public Object(params KeyValue<Label, Item>[] items) :
+			this((Uri.Region)null)
 		{
 			foreach (KeyValue<Label, Item> item in items)
 				this[item.Key] = item.Value;
 		}
-
-		public Object Add (Label label, Item item)
+		public Object Add(Label label, Item item)
 		{
 			this[label] = item;
 			return this;
 		}
-
-		public Object Add (Label label, params Item[] items)
+		public Object Add(Label label, params Item[] items)
 		{
 			this[label] = items;
 			return this;
 		}
-
-		public Object Add (params KeyValue<Label, Item>[] items)
+		public Object Add(params KeyValue<Label, Item>[] items)
 		{
 			foreach (KeyValue<Label, Item> item in items)
 				this[item.Key] = item.Value;
 			return this;
 		}
-
-		internal override Collection Add (string label, Uri.Region region, Item item)
+		internal override Collection Add(string label, Uri.Region region, Item item)
 		{
 			this[new Label(label, region)] = item;
 			return this;
 		}
-
 		#region IEnumerable implementation
-
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.backend.GetEnumerator();
 		}
-
 		#endregion
-
 		#region IEnumerable implementation
-
-		public System.Collections.Generic.IEnumerator<KeyValue<Label, Item>> GetEnumerator ()
+		public System.Collections.Generic.IEnumerator<KeyValue<Label, Item>> GetEnumerator()
 		{
 			return this.backend.GetEnumerator();
 		}
-
 		#endregion
-
 		#region IEquatable implementation
-
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
 			return this.backend.GetHashCode();
 		}
-
-		public override bool Equals (object other)
+		public override bool Equals(object other)
 		{
 			return this.Equals(other as Object);
 		}
-
-		public override bool Equals (Item other)
+		public override bool Equals(Item other)
 		{
 			return other is Object && this.Equals(other as Object);
 		}
-
-		public bool Equals (Object other)
+		public bool Equals(Object other)
 		{
 			return other.NotNull() && this.Equals(other.backend as IDictionary<Label, Item>);
 		}
-
-		public bool Equals (IDictionary<Label, Item> other)
+		public bool Equals(IDictionary<Label, Item> other)
 		{
 			return this.backend.Equals(other);
 		}
-
 		#endregion
-
 		#region IDictionary implementation
-
-		public bool Contains (Label key)
+		public bool Contains(Label key)
 		{
 			return this.backend.Contains(key);
 		}
-
-		public bool Remove (Label key)
+		public bool Remove(Label key)
 		{
 			return this.backend.Remove(key);
 		}
-
 		public Item this [Label key]
 		{
 			get { return this.backend[key]; }
 			set { this.backend[key] = value; }
 		}
-
 		#endregion
-
 		#region Object overrides
-
-		public override string ToString ()
+		public override string ToString()
 		{
 			return base.ToString();
 		}
-
 		#endregion
-
 		#region Casts
-
-		public static explicit operator Object (string data)
+		public static explicit operator Object(string data)
 		{
 			return Object.Open(Sax.Parser.Open(new IO.Text.Reader(data))) as Object;
 		}
-
 		#endregion
-
 	}
 }
 
