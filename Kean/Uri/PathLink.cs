@@ -76,7 +76,13 @@ namespace Kean.Uri
 			if (this.Head == "." || this.Head.IsEmpty())
 				result = this.Tail.NotNull() ? this.Tail.RebuildHelper() : this;
 			else if (this.Head == ".." && this.Tail.NotNull())
-				result = this.Tail.Tail.NotNull() ? this.Tail.Tail.RebuildHelper() : null;
+			{
+				result = this.Tail.RebuildHelper();
+				if (result.NotNull() && result.Head.NotEmpty() && result.Head != "." && result.Head != "..")
+					result = result.Tail;
+				else
+					result = new PathLink("..", result);
+			}
 			else
 				result = new PathLink(this.Head, this.Tail.NotNull() ? this.Tail.RebuildHelper() : null);
 			return result;
