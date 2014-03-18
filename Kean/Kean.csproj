@@ -875,7 +875,6 @@
     </None>
     <None Include="Math\Geometry2D\Point.tt" />
     <None Include="Math\Geometry2D\Shell.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Shell1.cs</LastGenOutput>
     </None>
     <None Include="Math\Geometry2D\Size.tt" />

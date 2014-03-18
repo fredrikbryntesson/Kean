@@ -45,7 +45,7 @@ namespace Kean.Test
 				{
 					this.Method.Call();
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					Console.Write("F");
 				}
