@@ -146,7 +146,7 @@ namespace Kean.Math.Matrix.Test
             Verify(c, Is.EqualTo(d), this.prefix + "Block.0");
         }
         #endregion
-        #region Artithmetics
+        #region Arithmetics
         [Test]
         public void All()
         {

@@ -26,40 +26,40 @@ using Target = Kean.Math.Geometry3D;
 
 namespace Kean.Math.Geometry3D.Test.Integer
 {
-    [TestFixture]
+	[TestFixture]
 	public class Size :
 		Kean.Test.Fixture<Size>
-    {
+	{
 		float Precision { get { return 1e-4f; } }
-       Target.Integer.Size CastFromString(string value)
-        {
-            return value;
-        }
-         string CastToString(Target.Integer.Size value)
-        {
-            return value;
-        }
-           Target.Integer.Size Vector0 = new Target.Integer.Size(22, -3, 10);
-           Target.Integer.Size Vector1 = new Target.Integer.Size(12, 13, 20);
-           Target.Integer.Size Vector2 = new Target.Integer.Size(34, 10, 30);
+	   Target.Integer.Size CastFromString(string value)
+		{
+			return value;
+		}
+		 string CastToString(Target.Integer.Size value)
+		{
+			return value;
+		}
+		   Target.Integer.Size Vector0 = new Target.Integer.Size(22, -3, 10);
+		   Target.Integer.Size Vector1 = new Target.Integer.Size(12, 13, 20);
+		   Target.Integer.Size Vector2 = new Target.Integer.Size(34, 10, 30);
 		   Target.Integer.Size Vector3 = new Target.Integer.Size(10, 20, 30);
-        
-        protected override void Run()
-        {
-            this.Run(
-                
-                this.ValueStringCasts,
+		
+		protected override void Run()
+		{
+			this.Run(
+				
+				this.ValueStringCasts,
 				this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.VectorProduct,
-                this.Casting,
-                this.Hash,
+				this.Addition,
+				this.Subtraction,
+				this.VectorProduct,
+				this.Casting,
+				this.Hash,
 				this.IntegerCast,
 				this.SingleCast,
 				this.DoubleCast
-                );
-        }
+				);
+		}
 		[Test]
 		public void Norm()
 		{
@@ -90,6 +90,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Integer.Size point = null;
 			Verify(this.Vector0, Is.EqualTo(this.Vector0));
 			Verify(this.Vector0, Is.EqualTo(this.Vector0));
@@ -100,6 +101,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
 			Verify(this.Vector0 == point, Is.False);
 			Verify(point == point, Is.True);
 			Verify(point == this.Vector0, Is.False);
+#pragma warning restore 1718
 		}
 		#endregion
 		#region Arithmetic
@@ -133,49 +135,49 @@ namespace Kean.Math.Geometry3D.Test.Integer
 			Verify(this.CastToString(this.Vector3), Is.EqualTo(value));
 			Verify(this.CastFromString(value), Is.EqualTo(this.Vector3));
 		}
-        [Test]
-        public void ValueStringCasts()
-        {
-            string textFromValue = new Target.Integer.Size(10, 20, 30);
-            Verify(textFromValue, Is.EqualTo("10, 20, 30"));
-            Target.Integer.Size @integerFromText = "10 20 30";
-            Verify(@integerFromText.Width, Is.EqualTo(10));
-            Verify(@integerFromText.Height, Is.EqualTo(20));
-            Verify(@integerFromText.Depth, Is.EqualTo(30));
-        }
 		[Test]
-        public void IntegerCast()
-        {
-            // Integer - Integer
-            Target.Integer.Size correct = new Target.Integer.Size(10, 20, 30);
-            Target.Integer.Size Integer = correct;
-            Verify(Integer.Width, Is.EqualTo(10));
-            Verify(Integer.Height, Is.EqualTo(20));
-            Verify(Integer.Depth, Is.EqualTo(30));
-            Verify((Target.Integer.Size)Integer, Is.EqualTo(correct));
-        }
+		public void ValueStringCasts()
+		{
+			string textFromValue = new Target.Integer.Size(10, 20, 30);
+			Verify(textFromValue, Is.EqualTo("10, 20, 30"));
+			Target.Integer.Size @integerFromText = "10 20 30";
+			Verify(@integerFromText.Width, Is.EqualTo(10));
+			Verify(@integerFromText.Height, Is.EqualTo(20));
+			Verify(@integerFromText.Depth, Is.EqualTo(30));
+		}
 		[Test]
-        public void SingleCast()
-        {
-            // Single - Integer
-            Target.Single.Size correct = new Target.Single.Size(10, 20, 30);
-            Target.Integer.Size Integer = (Target.Integer.Size)correct;
-            Verify(Integer.Width, Is.EqualTo(10));
-            Verify(Integer.Height, Is.EqualTo(20));
-            Verify(Integer.Depth, Is.EqualTo(30));
-            Verify((Target.Single.Size)Integer, Is.EqualTo(correct));
-        }
+		public void IntegerCast()
+		{
+			// Integer - Integer
+			Target.Integer.Size correct = new Target.Integer.Size(10, 20, 30);
+			Target.Integer.Size Integer = correct;
+			Verify(Integer.Width, Is.EqualTo(10));
+			Verify(Integer.Height, Is.EqualTo(20));
+			Verify(Integer.Depth, Is.EqualTo(30));
+			Verify((Target.Integer.Size)Integer, Is.EqualTo(correct));
+		}
 		[Test]
-        public void DoubleCast()
-        {
-            // Double - Integer
-            Target.Double.Size correct = new Target.Double.Size(10, 20, 30);
-            Target.Integer.Size Integer = (Target.Integer.Size)correct;
-            Verify(Integer.Width, Is.EqualTo(10));
-            Verify(Integer.Height, Is.EqualTo(20));
-            Verify(Integer.Depth, Is.EqualTo(30));
-            Verify((Target.Double.Size)Integer, Is.EqualTo(correct));
-        }
+		public void SingleCast()
+		{
+			// Single - Integer
+			Target.Single.Size correct = new Target.Single.Size(10, 20, 30);
+			Target.Integer.Size Integer = (Target.Integer.Size)correct;
+			Verify(Integer.Width, Is.EqualTo(10));
+			Verify(Integer.Height, Is.EqualTo(20));
+			Verify(Integer.Depth, Is.EqualTo(30));
+			Verify((Target.Single.Size)Integer, Is.EqualTo(correct));
+		}
+		[Test]
+		public void DoubleCast()
+		{
+			// Double - Integer
+			Target.Double.Size correct = new Target.Double.Size(10, 20, 30);
+			Target.Integer.Size Integer = (Target.Integer.Size)correct;
+			Verify(Integer.Width, Is.EqualTo(10));
+			Verify(Integer.Height, Is.EqualTo(20));
+			Verify(Integer.Depth, Is.EqualTo(30));
+			Verify((Target.Double.Size)Integer, Is.EqualTo(correct));
+		}
 		#endregion
-    }
+	}
 }

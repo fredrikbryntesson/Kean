@@ -117,7 +117,9 @@ namespace Kean.IO.Net.Tcp
 						result = new System.Net.Sockets.TcpListener(address, (int)endPoint.Port.Value);
 				}
 				else
-					result = new System.Net.Sockets.TcpListener((int)endPoint.Port.Value);
+					result = new System.Net.Sockets.TcpListener((int)endPoint.Port.Value); // TODO: This constructor is obsolete. 
+					// Use the TcpListener.TcpListener(IPAddress, Int32) or TcpListener.TcpListener(IPEndPoint) constructors.
+					// See http://msdn.microsoft.com/en-us/library/1y2a362e%28v=vs.100%29.aspx
 			}
 			return result;
 		}

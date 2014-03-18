@@ -27,45 +27,45 @@ using Kean.Extension;
 namespace Kean.Math.Geometry3D.Test.Integer
 { 
 	[TestFixture]
-    public class Point :
-        Kean.Test.Fixture<Point>
-       
-    {
+	public class Point :
+		Kean.Test.Fixture<Point>
+	   
+	{
 		float Precision { get { return 1; } }
-        Target.Integer.Point CastFromString(string value)
-        {
-            return value;
-        }
-        string CastToString(Target.Integer.Point value)
-        {
-            return value;
-        }
-        
-           Target.Integer.Point Point0 = new Target.Integer.Point((int)22, (int)-3, (int)10);
-           Target.Integer.Point Point1 = new Target.Integer.Point((int)12, (int)13, (int)20);
-           Target.Integer.Point Point2 = new Target.Integer.Point((int)34, (int)10, (int)30);
+		Target.Integer.Point CastFromString(string value)
+		{
+			return value;
+		}
+		string CastToString(Target.Integer.Point value)
+		{
+			return value;
+		}
+		
+		   Target.Integer.Point Point0 = new Target.Integer.Point((int)22, (int)-3, (int)10);
+		   Target.Integer.Point Point1 = new Target.Integer.Point((int)12, (int)13, (int)20);
+		   Target.Integer.Point Point2 = new Target.Integer.Point((int)34, (int)10, (int)30);
 		   Target.Integer.Point Point3 = new Target.Integer.Point((int)10, (int)20, (int)30);
-        protected override void Run()
-        {
-          
-            this.Run(
+		protected override void Run()
+		{
+		  
+			this.Run(
 				this.Equality,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.ScalarProduct,
-                this.Casting,
-                this.Hash,
-                this.Casts,
-                this.ValueStringCasts,
-                this.Norm
-                );
-        }
-        [Test]
-        public void Norm()
-        {
-            Verify(this.Point0.Norm, Is.EqualTo(24.3515).Within(this.Precision));
-        }
+				this.Addition,
+				this.Subtraction,
+				this.ScalarMultitplication,
+				this.ScalarProduct,
+				this.Casting,
+				this.Hash,
+				this.Casts,
+				this.ValueStringCasts,
+				this.Norm
+				);
+		}
+		[Test]
+		public void Norm()
+		{
+			Verify(this.Point0.Norm, Is.EqualTo(24.3515).Within(this.Precision));
+		}
 		[Test]
 		public void ScalarProduct()
 		{
@@ -85,6 +85,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Integer.Size point = new Target.Integer.Size(); point = null;
 			Verify(this.Point0, Is.EqualTo(this.Point0));
 			Verify(this.Point0, Is.EqualTo(this.Point0));
@@ -95,6 +96,7 @@ namespace Kean.Math.Geometry3D.Test.Integer
 			Verify(this.Point0 == point, Is.False);
 			Verify(point == point, Is.True);
 			Verify(point == this.Point0, Is.False);
+#pragma warning restore 1718
 		}
 		#endregion
 		#region Arithmetic
@@ -128,31 +130,31 @@ namespace Kean.Math.Geometry3D.Test.Integer
 			Verify(this.CastFromString(value), Is.EqualTo(this.Point3));
 		}
 		 [Test]
-        public void Casts()
-        {
-            // integer - Integer
-            Target.Integer.Point integer = new Target.Integer.Point(10, 20, 30);
-            Target.Integer.Point Integer = integer;
-            Verify(Integer.X, Is.EqualTo(10));
-            Verify(Integer.Y, Is.EqualTo(20));
-            Verify(Integer.Z, Is.EqualTo(30));
-            Verify((Target.Integer.Point)Integer, Is.EqualTo(integer));
-        }
+		public void Casts()
+		{
+			// integer - Integer
+			Target.Integer.Point integer = new Target.Integer.Point(10, 20, 30);
+			Target.Integer.Point Integer = integer;
+			Verify(Integer.X, Is.EqualTo(10));
+			Verify(Integer.Y, Is.EqualTo(20));
+			Verify(Integer.Z, Is.EqualTo(30));
+			Verify((Target.Integer.Point)Integer, Is.EqualTo(integer));
+		}
 		 [Test]
-        public void ValueStringCasts()
-        {
-            string textFromValue = new Target.Integer.Point(10, 20, 30);
-            Verify(textFromValue, Is.EqualTo("10, 20, 30"));
-            Target.Integer.Point @integerFromText = "10 20 30";
-            Verify(@integerFromText.X, Is.EqualTo(10));
-            Verify(@integerFromText.Y, Is.EqualTo(20));
-            Verify(@integerFromText.Z, Is.EqualTo(30));
-        }
+		public void ValueStringCasts()
+		{
+			string textFromValue = new Target.Integer.Point(10, 20, 30);
+			Verify(textFromValue, Is.EqualTo("10, 20, 30"));
+			Target.Integer.Point @integerFromText = "10 20 30";
+			Verify(@integerFromText.X, Is.EqualTo(10));
+			Verify(@integerFromText.Y, Is.EqualTo(20));
+			Verify(@integerFromText.Z, Is.EqualTo(30));
+		}
 				
 		
 		
 		
 
 		
-      }
+	  }
 }

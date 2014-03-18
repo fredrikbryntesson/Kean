@@ -42,7 +42,7 @@ namespace Kean.Serialize.Test.Data
         public Collection.Dictionary<string, int> Empty { get; set; }
 
 		#region IData
-		public  void Initilize(IFactory factory)
+		public  void Initialize(IFactory factory)
 		{
 			this.Structures = new Collection.Dictionary<int, Structure>(Kean.KeyValue.Create(0, factory.Create<Structure>()), Kean.KeyValue.Create(1, factory.Create<Structure>()));
 			this.Classes = new Collection.Dictionary<int, Class>(Kean.KeyValue.Create(0, (Class)factory.Create<ComplexClass>()), Kean.KeyValue.Create(1, factory.Create<Class>()));

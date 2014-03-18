@@ -30,10 +30,10 @@ namespace Kean.Serialize.Test.Data
 		public DateTime DateTime { get; set; }
 
 		#region IData
-		public override void Initilize(IFactory factory)
+		public override void Initialize(IFactory factory)
 		{
 			this.DateTime = factory.Create<DateTime>();
-			base.Initilize(factory);
+			base.Initialize(factory);
 		}
 		public override void Verify(IFactory factory, string message, params object[] arguments)
 		{

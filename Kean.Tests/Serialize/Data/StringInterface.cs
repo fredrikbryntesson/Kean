@@ -30,7 +30,7 @@ namespace Kean.Serialize.Test.Data
 	{
 		public string String { get; set; }
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 			this.String = factory.Create<string>();
 		}
