@@ -62,8 +62,9 @@ namespace Kean.Math.Geometry2D.Test.Integer
         #region Equality
         [Test]
         public void Equality()
-        {
-            Target.Integer.Point point = new Target.Integer.Point();
+		{
+#pragma warning disable 1718
+			Target.Integer.Point point = new Target.Integer.Point();
             Verify(this.vector0, Is.EqualTo(this.vector0));
             Verify(this.vector0.Equals(this.vector0 as object), Is.True);
             Verify(this.vector0 == this.vector0, Is.True);
@@ -71,7 +72,8 @@ namespace Kean.Math.Geometry2D.Test.Integer
             Verify(this.vector0 == point, Is.False);
             Verify(point == point, Is.True);
             Verify(point == this.vector0, Is.False);
-        }
+#pragma warning restore 1718
+		}
         #endregion
         #region Arithmetic
         [Test]

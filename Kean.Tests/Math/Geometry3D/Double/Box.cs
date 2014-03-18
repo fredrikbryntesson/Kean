@@ -51,6 +51,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Double.Box box = null;
 			Verify(this.Box0, Is.EqualTo(this.Box0));
 			Verify(this.Box0.Equals(this.Box0 as object), Is.True);
@@ -59,6 +60,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 			Verify(this.Box0 == box, Is.False);
 			Verify(box == box, Is.True);
 			Verify(box == this.Box0, Is.False);
+#pragma warning restore 1718
 		}
 		#endregion
 		[Test]

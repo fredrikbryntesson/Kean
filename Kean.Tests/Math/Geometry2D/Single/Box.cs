@@ -51,7 +51,8 @@ namespace Kean.Math.Geometry2D.Test.Single
 	   [Test]
 	   public void Equality()
 	   {
-		  Target.Single.Box box = new  Target.Single.Box();
+#pragma warning disable 1718
+		   Target.Single.Box box = new  Target.Single.Box();
 		   Verify(this.box0, Is.EqualTo(this.box0));
 		   Verify(this.box0.Equals(this.box0 as object), Is.True);
 		   Verify(this.box0 == this.box0, Is.True);
@@ -59,6 +60,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 		   Verify(this.box0 == box, Is.False);
 		   Verify(box == box, Is.True);
 		   Verify(box == this.box0, Is.False);
+#pragma warning restore 1718
 	   }
 	   #endregion
 	   [Test]

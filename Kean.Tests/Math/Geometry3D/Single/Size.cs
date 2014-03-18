@@ -90,6 +90,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Single.Size point = null;
 			Verify(this.Vector0, Is.EqualTo(this.Vector0));
 			Verify(this.Vector0, Is.EqualTo(this.Vector0));
@@ -100,6 +101,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(this.Vector0 == point, Is.False);
 			Verify(point == point, Is.True);
 			Verify(point == this.Vector0, Is.False);
+#pragma warning restore 1718
 		}
 		#endregion
 		#region Arithmetic

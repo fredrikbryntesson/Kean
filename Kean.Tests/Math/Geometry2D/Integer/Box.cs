@@ -26,91 +26,93 @@ using Kean.Extension;
 
 namespace Kean.Math.Geometry2D.Test.Integer
 {
-    [TestFixture]
-    public class Box : 
-        Kean.Test.Fixture<Box>
-    {
-        string prefix = "Kean.Math.Geometry2D.Test.Integer.Box.";
-        protected override void Run()
-        {
-            this.Run(
-                this.Equality,
-                this.LeftTop,
-                this.Size,
-                this.Addition,
-                this.Subtraction,
-                this.ScalarMultitplication,
-                this.Hash,
-                this.Casts,
-                this.StringCasts);
-        }
-       Target.Integer.Box box0 = new Target.Integer.Box(1, 2, 3, 4);
-       Target.Integer.Box box1 = new Target.Integer.Box(4, 3, 2, 1);
-       Target.Integer.Box box2 = new Target.Integer.Box(2, 1, 4, 3);
-       #region Equality
-       [Test]
-       public void Equality()
-       {
-          Target.Integer.Box box = new  Target.Integer.Box();
-           Verify(this.box0, Is.EqualTo(this.box0));
-           Verify(this.box0.Equals(this.box0 as object), Is.True);
-           Verify(this.box0 == this.box0, Is.True);
-           Verify(this.box0 != this.box1, Is.True);
-           Verify(this.box0 == box, Is.False);
-           Verify(box == box, Is.True);
-           Verify(box == this.box0, Is.False);
-       }
-       #endregion
-       [Test]
-       public void LeftTop()
-       {
-           Target.Integer.Point leftTop = this.box0.LeftTop;
-           Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
-           Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
-       }
-       [Test]
-       public void Size()
-       {
-           Target.Integer.Size size = this.box0.Size;
-           Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
-           Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
-       }
-       #region Arithmetic
-       [Test]
-       public void Addition()
-       {
-       }
-       [Test]
-       public void Subtraction()
-       {
-       }
-       [Test]
-       public void ScalarMultitplication()
-       {
-       }
-       #endregion
-       #region Hash Code
-       [Test]
-       public void Hash()
-       {
-           Verify(this.box0.Hash(), Is.Not.EqualTo(0));
-       }
-       #endregion
+	[TestFixture]
+	public class Box : 
+		Kean.Test.Fixture<Box>
+	{
+		string prefix = "Kean.Math.Geometry2D.Test.Integer.Box.";
+		protected override void Run()
+		{
+			this.Run(
+				this.Equality,
+				this.LeftTop,
+				this.Size,
+				this.Addition,
+				this.Subtraction,
+				this.ScalarMultitplication,
+				this.Hash,
+				this.Casts,
+				this.StringCasts);
+		}
+	   Target.Integer.Box box0 = new Target.Integer.Box(1, 2, 3, 4);
+	   Target.Integer.Box box1 = new Target.Integer.Box(4, 3, 2, 1);
+	   Target.Integer.Box box2 = new Target.Integer.Box(2, 1, 4, 3);
+	   #region Equality
+	   [Test]
+	   public void Equality()
+	   {
+#pragma warning disable 1718
+		   Target.Integer.Box box = new  Target.Integer.Box();
+		   Verify(this.box0, Is.EqualTo(this.box0));
+		   Verify(this.box0.Equals(this.box0 as object), Is.True);
+		   Verify(this.box0 == this.box0, Is.True);
+		   Verify(this.box0 != this.box1, Is.True);
+		   Verify(this.box0 == box, Is.False);
+		   Verify(box == box, Is.True);
+		   Verify(box == this.box0, Is.False);
+#pragma warning restore 1718
+	   }
+	   #endregion
+	   [Test]
+	   public void LeftTop()
+	   {
+		   Target.Integer.Point leftTop = this.box0.LeftTop;
+		   Verify(leftTop.X, Is.EqualTo(1), this.prefix + "LeftTop.0");
+		   Verify(leftTop.Y, Is.EqualTo(2), this.prefix + "LeftTop.1");
+	   }
+	   [Test]
+	   public void Size()
+	   {
+		   Target.Integer.Size size = this.box0.Size;
+		   Verify(size.Width, Is.EqualTo(3), this.prefix + "Size.0");
+		   Verify(size.Height, Is.EqualTo(4), this.prefix + "Size.1");
+	   }
+	   #region Arithmetic
+	   [Test]
+	   public void Addition()
+	   {
+	   }
+	   [Test]
+	   public void Subtraction()
+	   {
+	   }
+	   [Test]
+	   public void ScalarMultitplication()
+	   {
+	   }
+	   #endregion
+	   #region Hash Code
+	   [Test]
+	   public void Hash()
+	   {
+		   Verify(this.box0.Hash(), Is.Not.EqualTo(0));
+	   }
+	   #endregion
 [Test]
-       public void Casts()
-       { }
-       [Test]
-       public void StringCasts()
-       {
-           string textFromValue = new Target.Integer.Box(10, 20, 30, 40);
-           Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
-           Target.Integer.Box @integerFromText = (Target.Integer.Box)"10 20 30 40";
-           Verify(@integerFromText.Left, Is.EqualTo(10));
-           Verify(@integerFromText.Top, Is.EqualTo(20));
-           Verify(@integerFromText.Width, Is.EqualTo(30));
-           Verify(@integerFromText.Height, Is.EqualTo(40));
-       }
+	   public void Casts()
+	   { }
+	   [Test]
+	   public void StringCasts()
+	   {
+		   string textFromValue = new Target.Integer.Box(10, 20, 30, 40);
+		   Verify(textFromValue, Is.EqualTo("10, 20, 30, 40"));
+		   Target.Integer.Box @integerFromText = (Target.Integer.Box)"10 20 30 40";
+		   Verify(@integerFromText.Left, Is.EqualTo(10));
+		   Verify(@integerFromText.Top, Is.EqualTo(20));
+		   Verify(@integerFromText.Width, Is.EqualTo(30));
+		   Verify(@integerFromText.Height, Is.EqualTo(40));
+	   }
 
-    }
+	}
 }
 

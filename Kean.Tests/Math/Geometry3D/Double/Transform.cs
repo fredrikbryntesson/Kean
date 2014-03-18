@@ -86,6 +86,7 @@ namespace Kean.Math.Geometry3D.Test.Double
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Double.Transform transform = null;
 			Verify(this.Transform0, Is.EqualTo(this.Transform0));
 			Verify(this.Transform0.Equals(this.Transform0 as object), Is.True);
@@ -93,7 +94,8 @@ namespace Kean.Math.Geometry3D.Test.Double
 			Verify(this.Transform0 != this.Transform1, Is.True);
 			Verify(this.Transform0 == Transform3, Is.False);    
 			Verify(transform == transform, Is.True);
-		    Verify(transform == this.Transform0, Is.False); 
+		    Verify(transform == this.Transform0, Is.False);
+#pragma warning restore 1718
 		}
 		#endregion
         [Test]
