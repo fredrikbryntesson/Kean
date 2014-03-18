@@ -132,7 +132,10 @@ namespace Kean.IO.Net.Http.Header
 			if (firstLine.Length == 3)
 			{
 				result.Method = firstLine[0].Parse<Method>();
-				result.Path = firstLine[1];
+				string[] splitted = firstLine[1].Split(new char[] { '?' }, 2);
+				result.Path = splitted[0];
+				if (splitted.Length > 1)
+					result.Query = splitted[1];
 				result.Protocol = firstLine[2];
 				string line;
 				while ((line = Request.ReadLine(device).Decode().Join()).NotEmpty())
