@@ -1667,7 +1667,7 @@ namespace Kean.Uri
 			{
 				case ".":
 				case "..":
-					result = absolute.FolderPath + this;
+					result = absolute + this;
 					break;
 				default:
 					result = this;

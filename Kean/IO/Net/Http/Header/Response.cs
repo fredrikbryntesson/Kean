@@ -145,6 +145,8 @@ namespace Kean.IO.Net.Http.Header
 		#endregion
 		#region Static Creators
 		public static Response NotFound { get { return new Response() { Status = Status.NotFound }; } }
+		public static Response BadRequest { get { return new Response() { Status = Status.BadRequest }; } }
+		public static Response InternalServerError { get { return new Response() { Status = Status.InternalServerError }; } }
 		public static Response MovedPermanently(Uri.Locator location)
 		{
 			return new Response() { Status = Status.MovedPermanently, Location = location };
