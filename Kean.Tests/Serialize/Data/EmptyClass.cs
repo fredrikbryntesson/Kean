@@ -27,7 +27,7 @@ namespace Kean.Serialize.Test.Data
 		IData
 	{
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 		}
 		public virtual void Verify(IFactory factory, string message, params object[] arguments)

@@ -31,7 +31,7 @@ namespace Kean.Serialize.Test.Data
 		public KeyValue<string, object> Data { get; set; }
 
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 			this.Data = Kean.KeyValue.Create(factory.Create<string>(), (object)factory.Create<DateTime>());
 		}

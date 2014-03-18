@@ -41,7 +41,7 @@ namespace Kean.Serialize.Test.Data
 		public Class OtherClass { get; set; }
 
 		#region IData
-		public  void Initilize(IFactory factory)
+		public  void Initialize(IFactory factory)
 		{
 			this.Structure0 = this.Structure1 = factory.Create<Structure>();
 			this.ComplexClass = factory.Create<ComplexClass>();
