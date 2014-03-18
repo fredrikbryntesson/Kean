@@ -89,7 +89,7 @@ namespace Kean.Serialize.Test
 			if (type.Category != Reflect.TypeCategory.Primitive && type.Implements<Data.IData>())
 			{
 				result = type.Create();
-				(result as Data.IData).Initilize(this);
+				(result as Data.IData).Initialize(this);
 			}
 			else if (type.Name == "System.Nullable" && type.Arguments.Count == 1)
 				result = type.Create(this.Create(type.Arguments[0]));

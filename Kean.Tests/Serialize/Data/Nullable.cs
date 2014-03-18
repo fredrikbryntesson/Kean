@@ -51,7 +51,7 @@ namespace Kean.Serialize.Test.Data
 		public Structure? StructureNull { get; set; }
 
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 			this.Boolean = factory.Create<bool>();
 			this.Integer = factory.Create<int>();

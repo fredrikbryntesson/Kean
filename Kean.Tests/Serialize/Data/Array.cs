@@ -38,7 +38,7 @@ namespace Kean.Serialize.Test.Data
 		[Kean.Serialize.Parameter]
 		public int[] Empty { get; set; }
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 			this.Structures = new Structure[] { factory.Create<Structure>(), factory.Create<Structure>() };
 			this.Classes = new Class[] { factory.Create<ComplexClass>(), factory.Create<Class>() };

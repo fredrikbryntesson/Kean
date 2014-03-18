@@ -23,7 +23,7 @@ namespace Kean.Serialize.Test.Data
 {
 	public interface IData
 	{
-		void Initilize(IFactory factory);
+		void Initialize(IFactory factory);
 		void Verify(IFactory factory, string message, params object[] arguments);
 	}
 }

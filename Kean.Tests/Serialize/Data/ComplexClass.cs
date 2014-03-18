@@ -32,9 +32,9 @@ namespace Kean.Serialize.Test.Data
 		public Class Class { get; set; }
 
 		#region IData
-		public override void Initilize(IFactory factory)
+		public override void Initialize(IFactory factory)
 		{
-			base.Initilize(factory);
+			base.Initialize(factory);
 			this.Structure = factory.Create<Structure>();
 			this.Class = factory.Create<Class>();
 		}

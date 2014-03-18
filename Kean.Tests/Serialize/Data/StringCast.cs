@@ -47,7 +47,7 @@ namespace Kean.Serialize.Test.Data
 		#endregion
 
 		#region IData
-		public virtual void Initilize(IFactory factory)
+		public virtual void Initialize(IFactory factory)
 		{
 			this.String = factory.Create<string>();
 		}

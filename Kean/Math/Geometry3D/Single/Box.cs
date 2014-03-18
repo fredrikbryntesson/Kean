@@ -182,12 +182,12 @@ namespace Kean.Math.Geometry3D.Single
 				float yMaximum = xMinimum;
 				float zMinimum = xMinimum;
 				float zMaximum = xMinimum;
-				bool initilized = false;
+				bool initialized = false;
 				foreach (Point point in points)
 				{
-						if (!initilized)
+						if (!initialized)
 						{
-							initilized = true;
+							initialized = true;
 							xMinimum = point.X;
 							xMaximum = point.X;
 							yMinimum = point.Y;
