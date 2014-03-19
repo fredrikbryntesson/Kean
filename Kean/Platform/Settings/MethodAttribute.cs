@@ -28,6 +28,8 @@ namespace Kean.Platform.Settings
 	public class MethodAttribute :
 		MemberAttribute
 	{
+		public string Default { get; set; }
+
 		public MethodAttribute(string name) :
 			this(name, null)
 		{ }
@@ -40,6 +42,11 @@ namespace Kean.Platform.Settings
 		public MethodAttribute(string name, string description, string usage, string example) :
 			base(name, description, usage, example)
 		{ }
+		public MethodAttribute(string name, string description, string usage, string example, string @default) :
+			base(name, description, usage, example)
+		{
+			this.Default = @default;
+		}
 	}
 }
 

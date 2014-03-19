@@ -47,6 +47,7 @@ namespace Kean.Platform.Settings
 			}
 		}
 		protected override char Delimiter { get { return ' '; } }
+		public string Default { get; private set; }
 		Reflect.Property backend;
 		Reflect.Event changed;
 		Parameter.Abstract parameter;
@@ -59,6 +60,7 @@ namespace Kean.Platform.Settings
 		public Property(PropertyAttribute attribute, Reflect.Property backend, Object parent) :
 			base(attribute, backend, parent)
 		{
+			this.Default = attribute.NotNull() ? attribute.Default : null;
 			this.backend = backend;
 			this.parameter = Parameter.Abstract.Create(backend);
 
@@ -119,7 +121,7 @@ namespace Kean.Platform.Settings
 		}
 		public override string Help(string[] parameters)
 		{
-			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n";
+			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n"; // TODO: Print example and default
 		}
 		public override bool RequestType(Parser editor)
 		{

@@ -39,11 +39,7 @@ namespace Kean.Platform.Settings.Parameter
 		}
 		public override object FromString(string value)
 		{
-			// TODO: Allow for incomplete dates to be parsed.
-			System.DateTime result;
-			System.DateTime.TryParse(value, out result);
-			return result;
-			//return System.DateTime.Parse(value);
+			return value.Parse<System.DateTime>();
 		}
 		public override string Complete(string incomplete)
 		{

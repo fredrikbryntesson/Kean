@@ -27,6 +27,8 @@ namespace Kean.Platform.Settings
 	public class PropertyAttribute :
 		MemberAttribute
 	{
+		public string Default { get; set; }
+
 		public PropertyAttribute(string name) :
 			this(name, null)
 		{ }
@@ -39,6 +41,11 @@ namespace Kean.Platform.Settings
 		public PropertyAttribute(string name, string description, string usage, string example) :
 			base(name, description, usage, example)
 		{ }
+		public PropertyAttribute(string name, string description, string usage, string example, string @default) :
+			base(name, description, usage, example)
+		{
+			this.Default = @default;
+		}
 	}
 }
 
