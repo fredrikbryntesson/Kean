@@ -27,6 +27,7 @@ using Kean.Collection.Extension;
 using Parallel = Kean.Parallel;
 using Uri = Kean.Uri;
 using Error = Kean.Error;
+using System.Net;
 
 namespace Kean.IO.Net.Tcp
 {
@@ -117,9 +118,7 @@ namespace Kean.IO.Net.Tcp
 						result = new System.Net.Sockets.TcpListener(address, (int)endPoint.Port.Value);
 				}
 				else
-					result = new System.Net.Sockets.TcpListener((int)endPoint.Port.Value); // TODO: This constructor is obsolete. 
-					// Use the TcpListener.TcpListener(IPAddress, Int32) or TcpListener.TcpListener(IPEndPoint) constructors.
-					// See http://msdn.microsoft.com/en-us/library/1y2a362e%28v=vs.100%29.aspx
+					result = new System.Net.Sockets.TcpListener(IPAddress.Any, (int)endPoint.Port.Value);
 			}
 			return result;
 		}

@@ -26,7 +26,6 @@ namespace Kean.Html.Dom
 		Element
 	{
 		protected override string TagName { get { return "bdo"; } }
-		public string Direction { get; set; }
 		#region Constructor
 		public BidirectionalOverride()
 		{
@@ -46,9 +45,7 @@ namespace Kean.Html.Dom
 		protected override string FormatAttributes()
 		{
 			return
-				base.FormatAttributes() +
-				this.FormatAttribute("dir", this.Direction);
-
+				base.FormatAttributes();
 		}
 	}
 }

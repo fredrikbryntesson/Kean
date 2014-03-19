@@ -34,7 +34,7 @@ namespace Kean.Draw.OpenGL.Backend
 		public event Action Initialized;
 		public event Action<Renderer> Draw;
 
-		public Context Context { get; private set; }
+		public new Context Context { get; private set; }
 
 		ThreadPool threadPool;
 		public Parallel.ThreadPool ThreadPool { get { return this.threadPool; } }

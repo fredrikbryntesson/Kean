@@ -29,8 +29,6 @@ namespace Kean.Draw.Test.Color
 	public class Convert :
 		Kean.Test.Fixture<Convert>
 	{
-		string prefix = "Kean.Draw.Color.Test.";
-
 		protected override void Run ()
 		{
 			this.Run (
