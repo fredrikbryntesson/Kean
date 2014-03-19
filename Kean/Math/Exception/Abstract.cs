@@ -1,10 +1,10 @@
 ﻿// 
-//  DivisionByZero.cs
+//  Abstract.cs
 //  
 //  Author:
 //       Simon Mika <smika@hx.se>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2010-2012 Simon Mika
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -18,16 +18,15 @@
 // 
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
+
 using Error = Kean.Error;
 
 namespace Kean.Math.Exception
 {
-	public class DivisionByZero :
-		Abstract
-	{
-		public DivisionByZero() :
-			base(Error.Level.Warning, "Division by zero", "Division by zero")
-		{ }
-	}
+    public class Abstract : 
+        Error.Exception
+    {
+        internal Abstract(Error.Level level, string title, string message, params string[] arguments) : this(null, level, title, message, arguments) { }
+        internal Abstract(System.Exception innerException, Error.Level level, string title, string message, params string[] arguments) : base(innerException, level, title, message, arguments) { }
+    }
 }

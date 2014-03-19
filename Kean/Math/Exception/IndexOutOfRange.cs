@@ -1,10 +1,10 @@
 ﻿// 
-//  DivisionByZero.cs
+//  NotAllowed.cs
 //  
 //  Author:
-//       Simon Mika <smika@hx.se>
+//       Anders Frisk <andersfrisk77@gmail.com>
 //  
-//  Copyright (c) 2011 Simon Mika
+//  Copyright (c) 2011 Anders Frisk
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -23,11 +23,11 @@ using Error = Kean.Error;
 
 namespace Kean.Math.Exception
 {
-	public class DivisionByZero :
+	public class IndexOutOfRange :
 		Abstract
 	{
-		public DivisionByZero() :
-			base(Error.Level.Warning, "Division by zero", "Division by zero")
+		public IndexOutOfRange() :
+			base(Error.Level.Warning, "Index out of range.", "Index out of range.")
 		{ }
 	}
 }

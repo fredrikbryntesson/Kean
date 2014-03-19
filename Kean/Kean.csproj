@@ -83,6 +83,8 @@
     <Compile Include="IO\Wrap\ByteStream.cs" />
     <Compile Include="IO\Wrap\BlockStream.cs" />
     <Compile Include="IO\Wrap\PartialByteInDevice.cs" />
+    <Compile Include="Math\Exception\Abstract.cs" />
+    <Compile Include="Math\Exception\IndexOutOfRange.cs" />
     <Compile Include="Math\Geometry2D\Box.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
