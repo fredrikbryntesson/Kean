@@ -62,8 +62,7 @@ namespace Kean.Serialize.Test
 		[Test]
 		public void Linked()
 		{
-			// TODO: Fix this test
-			//this.Test(typeof(Data.Linked));
+			this.Test(typeof(Data.Linked));
 		}
 	}
 }
