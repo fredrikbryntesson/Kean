@@ -45,8 +45,15 @@ namespace Kean.IO.Net.Http.Header
 					if (this.headers.IsNull())
 						this.headers = new Collection.Dictionary<string, string>();
 					this.headers[key] = value;
-					if (key == "Host")
-						this.Url.Authority = value;
+					switch (key)
+					{
+						case "Host":
+							this.Url.Authority = value;
+							break;
+						case "X-Forwarded-Proto":
+							this.Scheme = value;
+							break;
+					}
 				}
 			}
 		}
