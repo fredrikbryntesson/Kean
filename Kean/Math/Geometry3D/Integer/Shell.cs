@@ -24,9 +24,9 @@ using Kean.Extension;
 
 namespace Kean.Math.Geometry3D.Integer
 {
-    public struct Shell :
+	public struct Shell :
 	  IEquatable<Shell>
-    {
+	{
 		public int Left;
 		public int Right;
 		public int Top;
@@ -40,7 +40,7 @@ namespace Kean.Math.Geometry3D.Integer
 		//public Shell(int value) : this(value, value) { }
 		//public Shell(int x, int y, int z) : this(x, x, y, y, z, z) { }
 
-        public Shell(int left, int right, int top, int bottom, int front, int back) 
+		public Shell(int left, int right, int top, int bottom, int front, int back) 
 			{
 				this.Left = left;
 				this.Right = right;
@@ -48,15 +48,15 @@ namespace Kean.Math.Geometry3D.Integer
 				this.Bottom = bottom;
 				this.Front = front;
 				this.Back = back;
-		    }
-        public Box Decrease(Size size)
-        {
-          return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);
-        }
-        public Box Increase(Size size)
-        {
-          return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
-        }
+			}
+		public Box Decrease(Size size)
+		{
+		  return new Box(this.Left, this.Top, this.Front, size.Width - this.Left - this.Right, size.Height - this.Top - this.Bottom, size.Depth - this.Front - this.Back);
+		}
+		public Box Increase(Size size)
+		{
+		  return new Box(-this.Left, -this.Right, -this.Front, size.Width + this.Left + this.Right, size.Height + this.Top + this.Bottom, size.Depth + this.Front + this.Back);
+		}
 		public Box Decrease(Box  box)
 		{
 		   return new Box(box.LeftTopFront.X + this.Left, box.LeftTopFront.Y + this.Top, box.LeftTopFront.Z + this.Front, box.Size.Width - this.Left - this.Right, box.Size.Height - this.Top - this.Bottom, box.Size.Depth - this.Front - this.Back);
@@ -80,31 +80,31 @@ namespace Kean.Math.Geometry3D.Integer
 
 		  }
 		   #region Static Operators
-        public static Size operator -(Size left, Shell right)
-        {
-            return new Size(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom, left.Depth - right.Front - right.Back);
-        }
-        public static Size operator +(Size left, Shell right)
-        {
-            return new Size(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom, left.Depth + right.Front + right.Back);
-        }
-        public static Shell operator +(Shell left, Shell right)
-        {
-            return new Shell(left.Left + right.Left, left.Right + right.Right, left.Top + right.Top, left.Bottom + right.Bottom, left.Front + right.Front, left.Back + right.Back);
-        }
-        public static Shell operator -(Shell left, Shell right)
-        {
-            return new Shell(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom, left.Front - right.Front, left.Back - right.Back);
-        }
-        public static Shell Maximum(Shell left, Shell right)
-        {
-            return new Shell(Kean.Math.Integer.Maximum(left.Left, right.Left), Kean.Math.Integer.Maximum(left.Right, right.Right), Kean.Math.Integer.Maximum(left.Top, right.Top), Kean.Math.Integer.Maximum(left.Bottom, right.Bottom), Kean.Math.Integer.Maximum(left.Front, right.Front),  Kean.Math.Integer.Maximum(left.Back, right.Back));
-        }
-        public static Shell Minimum(Shell left, Shell right)
-        {
-            return new Shell(Kean.Math.Integer.Minimum(left.Left, right.Left), Kean.Math.Integer.Minimum(left.Right, right.Right), Kean.Math.Integer.Minimum(left.Top, right.Top), Kean.Math.Integer.Minimum(left.Bottom, right.Bottom), Kean.Math.Integer.Minimum(left.Front, right.Front),  Kean.Math.Integer.Minimum(left.Back, right.Back));
-        }
-        #endregion
+		public static Size operator -(Size left, Shell right)
+		{
+			return new Size(left.Width - right.Left - right.Right, left.Height - right.Top - right.Bottom, left.Depth - right.Front - right.Back);
+		}
+		public static Size operator +(Size left, Shell right)
+		{
+			return new Size(left.Width + right.Left + right.Right, left.Height + right.Top + right.Bottom, left.Depth + right.Front + right.Back);
+		}
+		public static Shell operator +(Shell left, Shell right)
+		{
+			return new Shell(left.Left + right.Left, left.Right + right.Right, left.Top + right.Top, left.Bottom + right.Bottom, left.Front + right.Front, left.Back + right.Back);
+		}
+		public static Shell operator -(Shell left, Shell right)
+		{
+			return new Shell(left.Left - right.Left, left.Right - right.Right, left.Top - right.Top, left.Bottom - right.Bottom, left.Front - right.Front, left.Back - right.Back);
+		}
+		public static Shell Maximum(Shell left, Shell right)
+		{
+			return new Shell(Kean.Math.Integer.Maximum(left.Left, right.Left), Kean.Math.Integer.Maximum(left.Right, right.Right), Kean.Math.Integer.Maximum(left.Top, right.Top), Kean.Math.Integer.Maximum(left.Bottom, right.Bottom), Kean.Math.Integer.Maximum(left.Front, right.Front),  Kean.Math.Integer.Maximum(left.Back, right.Back));
+		}
+		public static Shell Minimum(Shell left, Shell right)
+		{
+			return new Shell(Kean.Math.Integer.Minimum(left.Left, right.Left), Kean.Math.Integer.Minimum(left.Right, right.Right), Kean.Math.Integer.Minimum(left.Top, right.Top), Kean.Math.Integer.Minimum(left.Bottom, right.Bottom), Kean.Math.Integer.Minimum(left.Front, right.Front),  Kean.Math.Integer.Minimum(left.Back, right.Back));
+		}
+		#endregion
 		  public static bool operator !=(Shell left, Shell right)
 		  {
 			  return !(left == right);
@@ -157,34 +157,34 @@ namespace Kean.Math.Geometry3D.Integer
 			  result.Back = back;
 			  return result;
 		  }
-        #region Casts
+		#region Casts
 		 public static implicit operator Shell(string value)
-          {
-              Shell result = new Shell();
-              if (value.NotEmpty())
-              {
+		  {
+			  Shell result = new Shell();
+			  if (value.NotEmpty())
+			  {
 
-                  try
-                  {
-                      string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                      if (values.Length == 6)
-                          result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
-                  }
-                  catch
-                  {
-                  }
-              }
-              return result;
-          }
+				  try
+				  {
+					  string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+					  if (values.Length == 6)
+						  result = new Shell(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
+				  }
+				  catch
+				  {
+				  }
+			  }
+			  return result;
+		  }
 		  public static implicit operator string(Shell value)
-          {
-              return value.NotNull() ? value.ToString() : null;
-          }
-        
+		  {
+			  return value.NotNull() ? value.ToString() : null;
+		  }
+		
 		
 		
 		  
 		
-        #endregion
-    }
+		#endregion
+	}
 }
