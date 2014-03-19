@@ -122,7 +122,9 @@ namespace Kean.Platform.Settings
 		{
 			return (this.Parameters.Length > 0 && parameters.Length > 0 && parameters.Length <= this.Parameters.Length) ?
 				this.Parameters[parameters.Length - 1].Help(parameters[parameters.Length - 1]) :
-				this.Usage.NotEmpty() ?	this.Usage + "\n" : ""; // TODO: Print example and default
+				(this.Usage.NotEmpty() ? this.Usage + "\n" : "") +
+				(this.Example.NotEmpty() ? "Example: " + this.Example + "\n" : "") +
+				(this.Default.NotEmpty() ? "Default: " + this.Default + "\n" : "");
 		}
 	}
 }

@@ -163,6 +163,8 @@ namespace Kean.Platform.Settings
 				yield return new Html.Dom.DefinitionData(method.Usage) { Identifier = name + "_usage", Class = "usage" };
 			if (method.Example.NotEmpty())
 				yield return new Html.Dom.DefinitionData(name + " " + method.Example) { Identifier = name + "_example", Class = "example" };
+			if (method.Default.NotEmpty())
+				yield return new Html.Dom.DefinitionData(method.Default) { Identifier = name + "_default", Class = "default" };
 		}
 		Generic.IEnumerable<Html.Dom.Node> GetHelp(string prefix, Property property)
 		{
@@ -172,7 +174,9 @@ namespace Kean.Platform.Settings
 			if (property.Usage.NotEmpty())
 				yield return new Html.Dom.DefinitionData(property.Usage) { Identifier = name + "_usage", Class = classes + " usage" };
 			if (property.Example.NotEmpty())
-				yield return new Html.Dom.DefinitionData(name + " " + property.Example) { Identifier = name + "_example", Class = classes + " example" };
+				yield return new Html.Dom.DefinitionData(name + " " + property.Example) { Identifier = name + "_example", Class = "example" };
+			if (property.Default.NotEmpty())
+				yield return new Html.Dom.DefinitionData(property.Default) { Identifier = name + "_default", Class = "default" };
 		}
 	}
 }

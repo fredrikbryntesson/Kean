@@ -121,7 +121,10 @@ namespace Kean.Platform.Settings
 		}
 		public override string Help(string[] parameters)
 		{
-			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : this.Usage + "\n"; // TODO: Print example and default
+			return parameters.Length > 0 ? this.parameter.Help(string.Join(" ", parameters)) : 
+				(this.Usage.NotEmpty() ? this.Usage + "\n" : "") +
+				(this.Example.NotEmpty() ? "Example: " + this.Example + "\n" : "") +
+				(this.Default.NotEmpty() ? "Default: " + this.Default + "\n" : "");
 		}
 		public override bool RequestType(Parser editor)
 		{
