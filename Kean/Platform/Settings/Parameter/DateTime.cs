@@ -23,6 +23,7 @@ using System;
 using Kean;
 using Kean.Extension;
 using Reflect = Kean.Reflect;
+using System.Text.RegularExpressions;
 
 namespace Kean.Platform.Settings.Parameter
 {
@@ -39,7 +40,11 @@ namespace Kean.Platform.Settings.Parameter
 		}
 		public override object FromString(string value)
 		{
-			return value.Parse<System.DateTime>();
+			System.DateTime result;
+			return 
+				System.DateTime.TryParseExact(value, new string[] {"ss", "ss.fff", "mm:ss", "mm:ss.fff", "HH:mm:ss", "HH:mm:ss.fff"} , System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.NoCurrentDateDefault, out result) ||
+				System.DateTime.TryParse(value, out result) ?
+				(object)result : null;
 		}
 		public override string Complete(string incomplete)
 		{
