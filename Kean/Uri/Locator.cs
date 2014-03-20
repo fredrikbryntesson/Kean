@@ -282,8 +282,11 @@ namespace Kean.Uri
 		#region Add Operators
 		public static Locator operator +(Locator left, Path right)
 		{
-			left = left.Copy();
-			left.Path += right;
+			if (left.NotNull())
+			{
+				left = left.Copy();
+				left.Path += right;
+			}
 			return left;
 		}
 		public static Locator operator +(Locator left, Generic.IEnumerable<string> right)
