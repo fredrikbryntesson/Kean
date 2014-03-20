@@ -52,12 +52,13 @@ namespace Kean.Platform.Settings
 				return this.returnType;
 			}
 		}
-
 		protected override char Delimiter { get { return ' '; } }
+		public string Default { get; private set; }
 		Reflect.Method backend;
 		public Method(MethodAttribute attribute, Reflect.Method backend, Object parent) :
 			base(attribute, backend, parent)
 		{
+			this.Default = attribute.NotNull() ? attribute.Default : null;
 			this.backend = backend;
 		}
 		public override bool Execute(Parser editor, string[] parameters)
@@ -121,7 +122,9 @@ namespace Kean.Platform.Settings
 		{
 			return (this.Parameters.Length > 0 && parameters.Length > 0 && parameters.Length <= this.Parameters.Length) ?
 				this.Parameters[parameters.Length - 1].Help(parameters[parameters.Length - 1]) :
-				this.Usage.NotEmpty() ?	this.Usage + "\n" : "";
+				(this.Usage.NotEmpty() ? this.Usage + "\n" : "") +
+				(this.Example.NotEmpty() ? "Example: " + this.Example + "\n" : "") +
+				(this.Default.NotEmpty() ? "Default: " + this.Default + "\n" : "");
 		}
 	}
 }

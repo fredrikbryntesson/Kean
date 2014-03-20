@@ -24,7 +24,7 @@ using Error = Kean.Error;
 namespace Kean.Math.Exception
 {
     public class NotAllowed :
-        Error.Exception
+        Abstract
     {
         public NotAllowed() :
             base(Error.Level.Warning, "Not allowed operation.", "Not allowed operation.")

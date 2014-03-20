@@ -106,8 +106,6 @@ namespace Kean.Draw.OpenGL.Backend
 		}
 		protected abstract Context CreateContext ();
 		protected abstract ThreadPool CreateThreadPool (string name, int workers);
-		//protected abstract void SetupViewport();
-		//protected abstract void Clear();
 		public void Run ()
 		{
 			this.Initialized.Call();
@@ -120,7 +118,9 @@ namespace Kean.Draw.OpenGL.Backend
 				this.Draw.Call();
 				if (this.threadPool.NotNull())
 				{
-					this.threadPool.MainContext.VSync = false;
+#pragma warning disable 0618
+					this.threadPool.MainContext.VSync = false; //TODO: VSync is deprecated - fix this whenever OpenTK has another solution.
+#pragma warning restore
 					this.threadPool.MainContext.SwapBuffers();
 				}
 				lock (this.@lock)

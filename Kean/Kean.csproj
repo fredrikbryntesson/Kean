@@ -83,10 +83,17 @@
     <Compile Include="IO\Wrap\ByteStream.cs" />
     <Compile Include="IO\Wrap\BlockStream.cs" />
     <Compile Include="IO\Wrap\PartialByteInDevice.cs" />
+    <Compile Include="Math\Exception\Abstract.cs" />
+    <Compile Include="Math\Exception\IndexOutOfRange.cs" />
     <Compile Include="Math\Geometry2D\Box.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Box.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Math\Geometry3D\Transform.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transform.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Comparer.cs" />
@@ -568,7 +575,6 @@
     <Compile Include="Math\Geometry3D\Point.cs" />
     <Compile Include="Math\Geometry3D\Shell.cs" />
     <Compile Include="Math\Geometry3D\Size.cs" />
-    <Compile Include="Math\Geometry3D\Transform.cs" />
     <Compile Include="Math\Geometry3D\Double\Box.cs" />
     <Compile Include="Math\Geometry3D\Double\Point.cs" />
     <Compile Include="Math\Geometry3D\Double\Quaternion.cs" />
@@ -876,12 +882,18 @@
       <LastGenOutput>Shell1.cs</LastGenOutput>
     </None>
     <None Include="Math\Geometry2D\Size.tt" />
-    <None Include="Math\Geometry2D\Transform.tt" />
+    <None Include="Math\Geometry2D\Transform.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transform1.cs</LastGenOutput>
+    </None>
     <None Include="Math\Geometry3D\Box.tt" />
     <None Include="Math\Geometry3D\Point.tt" />
     <None Include="Math\Geometry3D\Shell.tt" />
     <None Include="Math\Geometry3D\Size.tt" />
-    <None Include="Math\Geometry3D\Transform.tt" />
+    <None Include="Math\Geometry3D\Transform.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Transform.cs</LastGenOutput>
+    </None>
     <None Include="Math\Matrix\Template.tt" />
     <None Include="Modules\Log.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

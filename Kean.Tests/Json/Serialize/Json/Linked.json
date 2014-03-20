@@ -1,25 +1,25 @@
 { 
 	"$type": "Kean.Serialize.Test.Data.Linked Kean.Tests", 
-	"Class0": { 
-		"Boolean": true, 
-		"Enumerator": "Second", 
-		"Float": -13.37, 
-		"Integer": -1337, 
-		"String": "This is Kean." 
+	"class0": { 
+		"boolean": true, 
+		"enumerator": "Second", 
+		"float": -13.37, 
+		"integer": -1337, 
+		"string": "This is Kean." 
 	}, 
-	"Class1": { 
-		"$ref": "#Class0" 
+	"class1": { 
+		"$ref": "#class0" 
 	}, 
-	"ComplexClass": { 
-		"Boolean": true, 
-		"Class": { 
-			"$ref": "#Class0" 
+	"complexClass": { 
+		"boolean": true, 
+		"class": { 
+			"$ref": "#class0" 
 		}, 
-		"Enumerator": "Second", 
-		"Float": -13.37, 
-		"Integer": -1337, 
-		"String": "This is Kean.", 
-		"Structure": { 
+		"enumerator": "Second", 
+		"float": -13.37, 
+		"integer": -1337, 
+		"string": "This is Kean.", 
+		"structure": { 
 			"Boolean": true, 
 			"Enumerator": "Second", 
 			"Float": -13.37, 
@@ -27,21 +27,21 @@
 			"String": "This is Kean." 
 		} 
 	}, 
-	"OtherClass": { 
+	"otherClass": { 
+		"boolean": true, 
+		"enumerator": "Second", 
+		"float": -13.37, 
+		"integer": -1337, 
+		"string": "This is Kean." 
+	}, 
+	"structure0": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
 		"Float": -13.37, 
 		"Integer": -1337, 
 		"String": "This is Kean." 
 	}, 
-	"Structure0": { 
-		"Boolean": true, 
-		"Enumerator": "Second", 
-		"Float": -13.37, 
-		"Integer": -1337, 
-		"String": "This is Kean." 
-	}, 
-	"Structure1": { 
+	"structure1": { 
 		"Boolean": true, 
 		"Enumerator": "Second", 
 		"Float": -13.37, 

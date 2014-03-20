@@ -21,12 +21,13 @@
 
 using System;
 using Kean.Extension;
+using Kean.Math.Exception;
 
 namespace Kean.Math.Geometry3D.Double
 {
-    public struct Transform :
+	public struct Transform :
 		IEquatable<Transform>
-    {
+	{
 		public double A;
 		public double B;
 		public double C;
@@ -39,8 +40,8 @@ namespace Kean.Math.Geometry3D.Double
 		public double J;
 		public double K;
 		public double L;
-        public Transform(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l) 
-	    {
+		public Transform(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l) 
+		{
 			this.A = a;
 			this.B = b;
 			this.C = c;
@@ -68,7 +69,7 @@ namespace Kean.Math.Geometry3D.Double
 							case 1: result = this.B; break;
 							case 2: result = this.C; break;
 							case 3: result = 0; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
 					case 1:
@@ -78,7 +79,7 @@ namespace Kean.Math.Geometry3D.Double
 							case 1: result = this.E; break;
 							case 2: result = this.F; break;
 							case 3: result = 0; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
 					case 2:
@@ -88,7 +89,7 @@ namespace Kean.Math.Geometry3D.Double
 							case 1: result = this.H; break;
 							case 2: result = this.I; break;
 							case 3: result = 0; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
 					case 3:
@@ -98,10 +99,10 @@ namespace Kean.Math.Geometry3D.Double
 							case 1: result = this.K; break;
 							case 2: result = this.L; break;
 							case 3: result = 1; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
-					default: throw new System.Exception(); // TODO: create new exception
+					default: throw new IndexOutOfRange();
 				}
 				return result;
 			}
@@ -195,25 +196,25 @@ namespace Kean.Math.Geometry3D.Double
 		{
 			return (other is Transform) && this.Equals((Transform)other);
 		}
-        public override int GetHashCode()
-        {
-            return (33* (33* (33* (33* (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode())  ^ this.I.GetHashCode())  ^ this.J.GetHashCode()) ^ this.K.GetHashCode()) ^ this.F.GetHashCode() ;
-        }
+		public override int GetHashCode()
+		{
+			return (33* (33* (33* (33* (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode())  ^ this.I.GetHashCode())  ^ this.J.GetHashCode()) ^ this.K.GetHashCode()) ^ this.F.GetHashCode() ;
+		}
 		public override string ToString()
 		{
-            return
-                Kean.Math.Double.ToString(this.A) + ", " +
-                Kean.Math.Double.ToString(this.B) + ", " +
-                Kean.Math.Double.ToString(this.C) + ", " +
-                Kean.Math.Double.ToString(this.D) + ", " +
-                Kean.Math.Double.ToString(this.E) + ", " +
-                Kean.Math.Double.ToString(this.F) + ", " +
-                Kean.Math.Double.ToString(this.G) + ", " +
-                Kean.Math.Double.ToString(this.H) + ", " +
-                Kean.Math.Double.ToString(this.I) + ", " +
-                Kean.Math.Double.ToString(this.J) + ", " +
-                Kean.Math.Double.ToString(this.K) + ", " +
-                Kean.Math.Double.ToString(this.L);
+			return
+				Kean.Math.Double.ToString(this.A) + ", " +
+				Kean.Math.Double.ToString(this.B) + ", " +
+				Kean.Math.Double.ToString(this.C) + ", " +
+				Kean.Math.Double.ToString(this.D) + ", " +
+				Kean.Math.Double.ToString(this.E) + ", " +
+				Kean.Math.Double.ToString(this.F) + ", " +
+				Kean.Math.Double.ToString(this.G) + ", " +
+				Kean.Math.Double.ToString(this.H) + ", " +
+				Kean.Math.Double.ToString(this.I) + ", " +
+				Kean.Math.Double.ToString(this.J) + ", " +
+				Kean.Math.Double.ToString(this.K) + ", " +
+				Kean.Math.Double.ToString(this.L);
 		}
 		#endregion
 		#region IEquatable<Transform> Members
@@ -224,13 +225,13 @@ namespace Kean.Math.Geometry3D.Double
 		#endregion
 		#region Comparison Operators
 		public static bool operator ==(Transform left, Transform right)
-        {
+		{
 			return left.Equals(right);
-        }
+		}
 		 public static bool operator !=(Transform left, Transform right)
-        {
-            return !(left == right);
-        }
+		{
+			return !(left == right);
+		}
 		#endregion
 		#region Static Creators
 		public static Transform Identity
@@ -318,52 +319,48 @@ namespace Kean.Math.Geometry3D.Double
 			};
 		}
 		#endregion
-        #region Casts
+		#region Casts
 		public static implicit operator Transform(string value)
-        {
-            Transform result = new Transform();
-            if (value.NotEmpty())
-            {
-
-                try
-                {
-                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 12)
-                        result = new Transform(
-                            Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]),
-                            Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]),
-                            Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]),
-                            Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
-                }
-                catch
-                {
-                }
-            }
-            return result;
-        }
+		{
+			Transform result = new Transform();
+			if (value.NotEmpty())
+			{
+				try
+				{
+					string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+					if (values.Length == 12)
+						result = new Transform(
+							Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]),
+							Kean.Math.Double.Parse(values[3]), Kean.Math.Double.Parse(values[4]), Kean.Math.Double.Parse(values[5]),
+							Kean.Math.Double.Parse(values[6]), Kean.Math.Double.Parse(values[7]), Kean.Math.Double.Parse(values[8]),
+							Kean.Math.Double.Parse(values[9]), Kean.Math.Double.Parse(values[10]), Kean.Math.Double.Parse(values[11]));
+				}
+				catch
+				{
+				}
+			}
+			return result;
+		}
 		public static explicit operator double[,](Transform value)
-        {
-            return new double[,] { 
+		{
+			return new double[,] { 
 						{ value[0, 0], value[0, 1], value[0, 2], value[0, 3] }, 
 						{ value[1, 0], value[1, 1], value[1, 2], value[1, 3] }, 
 						{ value[2, 0], value[2, 1], value[2, 2], value[2, 3] }, 
 						{ value[3, 0], value[3, 1], value[3, 2], value[3, 3] }};
-        }
-        public static implicit operator string(Transform value)
-        {
-            return value.NotNull() ? value.ToString() : null;
-        }
-
-		
+		}
+		public static implicit operator string(Transform value)
+		{
+			return value.NotNull() ? value.ToString() : null;
+		}
 		public static implicit operator Transform(Integer.Transform value)
-        {
-            return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
-        }
-        public static explicit operator Integer.Transform(Transform value)
-        {
-            return new Integer.Transform((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F, (int)value.G, (int)value.H, (int)value.I, (int)value.J, (int)value.K, (int)value.L);
-        }
-		
-        #endregion
-    }
+		{
+			return new Transform(value.A, value.B, value.C, value.D, value.E, value.F, value.G, value.H, value.I, value.J, value.K, value.L);
+		}
+		public static explicit operator Integer.Transform(Transform value)
+		{
+			return new Integer.Transform((int)value.A, (int)value.B, (int)value.C, (int)value.D, (int)value.E, (int)value.F, (int)value.G, (int)value.H, (int)value.I, (int)value.J, (int)value.K, (int)value.L);
+		}
+		#endregion
+	}
 }

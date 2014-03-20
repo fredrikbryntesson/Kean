@@ -49,7 +49,9 @@ namespace Kean.Draw.OpenGL.Backend
 			{
 				this.contexts[0] = this.CreateGraphicsContext(windowInformation);
 				this.contexts[0].MakeCurrent(windowInformation);
-				this.contexts[0].VSync = false;
+#pragma warning disable 0618
+				this.contexts[0].VSync = false; //TODO: VSync is deprecated - fix this whenever OpenTK has another solution.
+#pragma warning restore
 				(this.contexts[0] as OpenTK.Graphics.IGraphicsContextInternal).LoadAll();
 
 				for (int i = 1; i < this.contexts.Length; i++)

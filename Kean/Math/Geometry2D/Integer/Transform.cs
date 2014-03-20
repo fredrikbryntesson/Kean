@@ -20,48 +20,49 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using Kean.Extension;
+using Kean.Math.Exception;
 
 namespace Kean.Math.Geometry2D.Integer
 {
-    public struct Transform :
+	public struct Transform :
 		IEquatable<Transform>
-    {
-        int a;
-        int b;
-        int c;
-        int d;
-        int e;
-        int f;
-        public int A
-        {
-            get { return this.a; }
-            set { this.a = value; }
-        }
-        public int B
-        {
-            get { return this.b; }
-            set { this.b = value; }
-        }
-        public int C
-        {
-            get { return this.c; }
-            set { this.c = value; }
-        }
-        public int D
-        {
-            get { return this.d; }
-            set { this.d = value; }
-        }
-        public int E
-        {
-            get { return this.e; }
-            set { this.e = value; }
-        }
-        public int F
-        {
-            get { return this.f; }
-            set { this.f = value; }
-        }
+	{
+		int a;
+		int b;
+		int c;
+		int d;
+		int e;
+		int f;
+		public int A
+		{
+			get { return this.a; }
+			set { this.a = value; }
+		}
+		public int B
+		{
+			get { return this.b; }
+			set { this.b = value; }
+		}
+		public int C
+		{
+			get { return this.c; }
+			set { this.c = value; }
+		}
+		public int D
+		{
+			get { return this.d; }
+			set { this.d = value; }
+		}
+		public int E
+		{
+			get { return this.e; }
+			set { this.e = value; }
+		}
+		public int F
+		{
+			get { return this.f; }
+			set { this.f = value; }
+		}
 		public int this[int x, int y]
 		{
 			get
@@ -75,7 +76,7 @@ namespace Kean.Math.Geometry2D.Integer
 							case 0: result = this.A; break;
 							case 1: result = this.B; break;
 							case 2: result = 0; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
 					case 1:
@@ -84,7 +85,7 @@ namespace Kean.Math.Geometry2D.Integer
 							case 0: result = this.C; break;
 							case 1: result = this.D; break;
 							case 2: result = 0; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
 					case 2:
@@ -93,21 +94,21 @@ namespace Kean.Math.Geometry2D.Integer
 							case 0: result = this.E; break;
 							case 1: result = this.F; break;
 							case 2: result = 1; break;
-							default: throw new System.Exception(); // TODO: create new exception
+							default: throw new IndexOutOfRange();
 						}
 						break;
-					default: throw new System.Exception(); // TODO: create new exception
+					default: throw new IndexOutOfRange();
 				}
 				return result;
 			}
 		}
 		#region Properties
 		public Size Translation { get { return new Size(this.E, this.F); }}
-        public int Scaling { get { return (this.ScalingX + this.ScalingY) / 2; } }
+		public int Scaling { get { return (this.ScalingX + this.ScalingY) / 2; } }
 		public int ScalingX { get { return Kean.Math.Integer.SquareRoot(Kean.Math.Integer.Squared(this.A) + Kean.Math.Integer.Squared(this.B)); } }
 		public int ScalingY { get { return Kean.Math.Integer.SquareRoot(Kean.Math.Integer.Squared(this.C) + Kean.Math.Integer.Squared(this.D)); } }
 		public int Rotation { get { return Kean.Math.Integer.ArcusTangensExtended(this.B, this.A); } }
-      	public Transform Inverse
+		public Transform Inverse
 		{
 			get
 			{
@@ -124,14 +125,14 @@ namespace Kean.Math.Geometry2D.Integer
 		}
 		#endregion
 		public Transform(int a, int b, int c, int d, int e, int f)
-        {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
-            this.e = e;
-            this.f = f;
-        }
+		{
+			this.a = a;
+			this.b = b;
+			this.c = c;
+			this.d = d;
+			this.e = e;
+			this.f = f;
+		}
 		#region Absolute Manipulations
 		public Transform SetTranslation(Size translation)
 		{
@@ -156,54 +157,54 @@ namespace Kean.Math.Geometry2D.Integer
 		#endregion
 		#region Relative Manipulations
 		public Transform Translate(int delta)
-        {
-            return this.Translate(delta, delta);
-        }
-        public Transform Translate(Point delta)
-        {
-            return this.Translate(delta.X, delta.Y);
-        }
-        public Transform Translate(Size delta)
-        {
-            return this.Translate(delta.Width, delta.Height);
-        }
-        public Transform Translate(int xDelta, int yDelta)
-        {
-            return Transform.CreateTranslation(xDelta, yDelta) * this;
-        }
+		{
+			return this.Translate(delta, delta);
+		}
+		public Transform Translate(Point delta)
+		{
+			return this.Translate(delta.X, delta.Y);
+		}
+		public Transform Translate(Size delta)
+		{
+			return this.Translate(delta.Width, delta.Height);
+		}
+		public Transform Translate(int xDelta, int yDelta)
+		{
+			return Transform.CreateTranslation(xDelta, yDelta) * this;
+		}
 		public Transform Scale(int factor)
-        {
-            return this.Scale(factor, factor);
-        }
+		{
+			return this.Scale(factor, factor);
+		}
 		public Transform Scale(Size factor)
-        {
-            return this.Scale(factor.Width, factor.Height);
-        }
+		{
+			return this.Scale(factor.Width, factor.Height);
+		}
 		public Transform Scale(int xFactor, int yFactor)
-        {
+		{
 			return Transform.CreateScaling(xFactor, yFactor) * this;
-        }
+		}
 		public Transform Rotate(int angle)
-        {
-            return Transform.CreateRotation(angle) * this;
-        }
+		{
+			return Transform.CreateRotation(angle) * this;
+		}
 		public Transform SkewX(int angle)
-        {
-            return Transform.CreateSkewingX(angle) * this;
-        }
+		{
+			return Transform.CreateSkewingX(angle) * this;
+		}
 		public Transform SkewY(int angle)
-        {
-            return Transform.CreateSkewingY(angle) * this;
-        }
-        public Transform ReflectX()
-        {
+		{
+			return Transform.CreateSkewingY(angle) * this;
+		}
+		public Transform ReflectX()
+		{
 			return Transform.CreateReflectionX() * this;
-        }
-        public Transform ReflectY()
-        {
+		}
+		public Transform ReflectY()
+		{
 			return Transform.CreateReflectionY() * this;
-        }
-        #endregion
+		}
+		#endregion
 		#region Static Creators
 		public static Transform Identity { get {return new Transform(1,0,0,1,0,0); } }
 		public static Transform CreateTranslation(int delta)
@@ -270,56 +271,56 @@ namespace Kean.Math.Geometry2D.Integer
 				left.B * right.E + left.D * right.F + left.F);
 		}
 		#endregion
-        #region Comparison Operators
-        /// <summary>
-        /// Defines equality.
-        /// </summary>
-        /// <param name="Left">Point Left of operator.</param>
-        /// <param name="Right">Point Right of operator.</param>
-        /// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
-        public static bool operator ==(Transform left, Transform right)
-        {
-            return left.A == right.A && left.B == right.B && left.C == right.C && left.D == right.D && left.E == right.E && left.F == right.F;
-        }
-        /// <summary>
-        /// Defines inequality.
-        /// </summary>
-        /// <param name="Left">Point Left of operator.</param>
-        /// <param name="Right">Point Right of operator.</param>
-        /// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
-        public static bool operator !=(Transform left, Transform right)
-        {
-            return !(left == right);
-        }
-        #endregion
+		#region Comparison Operators
+		/// <summary>
+		/// Defines equality.
+		/// </summary>
+		/// <param name="Left">Point Left of operator.</param>
+		/// <param name="Right">Point Right of operator.</param>
+		/// <returns>True if <paramref name="Left"/> equals <paramref name="Right"/> else false.</returns>
+		public static bool operator ==(Transform left, Transform right)
+		{
+			return left.A == right.A && left.B == right.B && left.C == right.C && left.D == right.D && left.E == right.E && left.F == right.F;
+		}
+		/// <summary>
+		/// Defines inequality.
+		/// </summary>
+		/// <param name="Left">Point Left of operator.</param>
+		/// <param name="Right">Point Right of operator.</param>
+		/// <returns>False if <paramref name="Left"/> equals <paramref name="Right"/> else true.</returns>
+		public static bool operator !=(Transform left, Transform right)
+		{
+			return !(left == right);
+		}
+		#endregion
 		#region IEquatable<Transform> Members
 		public bool Equals(Transform other)
 		{
 			return this == other;
 		}
 		#endregion
-        #region Casts
-        public static implicit operator string(Transform value)
-        {
-            return value.NotNull() ? value.ToString() : null;
-        }
-        public static explicit operator Transform(string value)
-        {
-            Transform result = new Transform();
-            if (value.NotEmpty())
-            {
-                try
-                {
-                    string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (values.Length == 6)
-                        result = new Transform(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
-                }
-                catch
-                {
-                }
-            }
-            return result;
-        }
+		#region Casts
+		public static implicit operator string(Transform value)
+		{
+			return value.NotNull() ? value.ToString() : null;
+		}
+		public static explicit operator Transform(string value)
+		{
+			Transform result = new Transform();
+			if (value.NotEmpty())
+			{
+				try
+				{
+					string[] values = value.Split(new char[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+					if (values.Length == 6)
+						result = new Transform(Kean.Math.Integer.Parse(values[0]), Kean.Math.Integer.Parse(values[1]), Kean.Math.Integer.Parse(values[2]), Kean.Math.Integer.Parse(values[3]), Kean.Math.Integer.Parse(values[4]), Kean.Math.Integer.Parse(values[5]));
+				}
+				catch
+				{
+				}
+			}
+			return result;
+		}
 		public static explicit operator int[,](Transform value)
 		{
 			int[,] result = new int[3, 3];
@@ -337,8 +338,8 @@ namespace Kean.Math.Geometry2D.Integer
 					Array.Copy(value[x, y].AsBinary(), 0, result, (x + y * 3) * size, size);
 			return result;
 		}
-        #endregion
-        #region Object Overrides
+		#endregion
+		#region Object Overrides
 		/// <summary>
 		/// Return true if this object and <paramref name="other">other</paramref> are equal.
 		/// </summary>
@@ -349,15 +350,15 @@ namespace Kean.Math.Geometry2D.Integer
 			return (other is Transform) && this.Equals((Transform)other);
 		}
 		/// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>Hash code for this instance.</returns>
-        public override int GetHashCode()
-        {
-            return (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode();
-        }
-        public override string ToString()
-        {
+		/// Returns a hash code for this instance.
+		/// </summary>
+		/// <returns>Hash code for this instance.</returns>
+		public override int GetHashCode()
+		{
+			return (33 * (33 * (33 * (33 * this.A.GetHashCode() ^ this.B.GetHashCode()) ^ this.C.GetHashCode()) ^ this.D.GetHashCode()) ^ this.E.GetHashCode()) ^ this.F.GetHashCode();
+		}
+		public override string ToString()
+		{
 			return this.ToString("{0}, {1}, {2}, {3}, {4}, {5}");
 		}
 		public string ToString(string format)
@@ -370,10 +371,10 @@ namespace Kean.Math.Geometry2D.Integer
 			Kean.Math.Integer.ToString(this.E), 
 			Kean.Math.Integer.ToString(this.F));
 		}
-        public string ToMatlabString()
-        {
-            return this.ToString("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1");
-        }
+		public string ToMatlabString()
+		{
+			return this.ToString("{0}, {2}, {4}; {1}, {3}, {5}; 0, 0, 1");
+		}
 		#endregion
-    }
+	}
 }

@@ -23,11 +23,11 @@ using Error = Kean.Error;
 
 namespace Kean.Math.Exception
 {
-    public class DivisionByZero : 
-		Error.Exception
-    {
-        public DivisionByZero() :
-            base(Error.Level.Warning, "Division by zero", "Division by zero")
-        { }
-    }
+	public class DivisionByZero :
+		Abstract
+	{
+		public DivisionByZero() :
+			base(Error.Level.Warning, "Division by zero", "Division by zero")
+		{ }
+	}
 }
