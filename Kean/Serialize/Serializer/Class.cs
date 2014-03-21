@@ -18,6 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using Kean;
 using Kean.Extension;
@@ -91,15 +92,12 @@ namespace Kean.Serialize.Serializer
 						});
 						if (property.IsNull())
 							new Exception.PropertyMissing(data.Type, name, node.Region).Throw();
-						else if (!property.Writable)
-						{
-							if (property.Readable && (property.Type.Category == Reflect.TypeCategory.Class || property.Type.Category == Reflect.TypeCategory.Array || property.Type.Category == Reflect.TypeCategory.Interface))
-								storage.DeserializeContent(node.DefaultType(property.Type), property.Data);
-							else
-								new Exception.PropertyNotWriteable(data.Type, name, node.Region).Throw();
-						}
-						else
+						else if (property.Writable)
 							storage.Deserialize(node, property.Type, d => property.Data = d);
+						else if (property.Readable && (property.Type.Category == Reflect.TypeCategory.Class || property.Type.Category == Reflect.TypeCategory.Array || property.Type.Category == Reflect.TypeCategory.Interface))
+							storage.DeserializeContent(node.DefaultType(property.Type), property.Data);
+						else
+							new Exception.PropertyNotWriteable(data.Type, name, node.Region).Throw();
 					}
 			}
 			return result;
