@@ -77,7 +77,12 @@ namespace Kean.Draw.Raster
 				{
 					using (System.Drawing.Bitmap b = resized.GdiBitmap())
 					using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
+					{
+						g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+						g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+						g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality; 
 						g.DrawImage(bitmap, new System.Drawing.Rectangle(0, 0, (int)size.Width, (int)size.Height), new System.Drawing.Rectangle(0, 0, bitmap.Size.Width, bitmap.Size.Height), System.Drawing.GraphicsUnit.Pixel);
+					}
 				}
 				if (this is Monochrome)
 					result = resized.Convert<Monochrome>();
