@@ -59,14 +59,14 @@ namespace Kean.Uri
 					result.AppendFormat("{0}://", this.Scheme);
 				if (this.Authority.NotNull())
 					result.Append(this.Authority);
-				string path = this.Path.String.Replace(" ", "%20");
+				string path = this.Path.String;
 				if (path.StartsWith(".") && result.Length > 0)
 					result.Append("/");
 				result.Append(path);
 				if (!this.Query.Empty)
 					result.AppendFormat("?{0}", this.Query);
 				if (this.Fragment.NotNull())
-					result.AppendFormat("#{0}", this.Fragment.Replace(" ", "%20"));
+					result.AppendFormat("#{0}", this.Fragment.PercentEncode(' ', '#'));
 				return result.ToString();
 			}
 			set
@@ -108,7 +108,7 @@ namespace Kean.Uri
 								splitted = value.Split(new char[] { '#' }, 2, StringSplitOptions.RemoveEmptyEntries);
 								if (splitted.Length > 1)
 								{
-									this.Fragment = splitted[1].Replace("%20", " ");
+									this.Fragment = splitted[1].PercentDecode();
 									value = splitted[0];
 								}
 							}
@@ -121,7 +121,7 @@ namespace Kean.Uri
 									splitted = splitted[0].Split(new char[] { '?' }, 2, StringSplitOptions.RemoveEmptyEntries);
 									if (splitted.Length > 1)
 										this.Query = splitted[1];
-									this.Path = splitted[0].Replace("%20", " ");
+									this.Path = splitted[0];
 								}
 							}
 						}

@@ -25,51 +25,50 @@ using Kean.Extension;
 
 namespace Kean.Uri
 {
-    public class Scheme :
+	public class Scheme :
         Kean.Collection.ILink<Scheme, string>,
         IString,
         IEquatable<Scheme>
-    {
-
-        #region ILink<Scheme, string> Members
+	{
+		#region ILink<Scheme, string> Members
 		public string Head { get; set; }
 		public Scheme Tail { get; set; }
-        #endregion
-
-        #region IString Members
-        public string String
-        {
-            get 
-            {
-                System.Text.StringBuilder result = new System.Text.StringBuilder(this.Head);
-                if (this.Tail != null)
-                {
-                    result.Append("+");
-                    result.Append(this.Tail.String);
-                }
-                return result.ToString();
-            }
-            set
-            {
-                if (value.IsEmpty())
-                {
-                    this.Head = null;
-                    this.Tail = null;
-                }
-                else
-                {
-                    string[] splitted = value.Split(new char[] { '+' }, 2);
-                    this.Head = splitted[0];
-                    if (splitted.Length > 1)
-                        this.Tail = new Scheme() { String = splitted[1] };
-                    else
-                        this.Tail = null;
-                }
-            }
-        }
-        #endregion
+		#endregion
+		#region IString Members
+		public string String
+		{
+			get
+			{
+				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Head);
+				if (this.Tail != null)
+				{
+					result.Append("+");
+					result.Append(this.Tail.String);
+				}
+				return result.ToString();
+			}
+			set
+			{
+				if (value.IsEmpty())
+				{
+					this.Head = null;
+					this.Tail = null;
+				}
+				else
+				{
+					string[] splitted = value.Split(new char[] { '+' }, 2);
+					this.Head = splitted[0];
+					if (splitted.Length > 1)
+						this.Tail = new Scheme() { String = splitted[1] };
+					else
+						this.Tail = null;
+				}
+			}
+		}
+		#endregion
 		public Scheme()
-		{ }
+		{
+		}
 		public Scheme(string head, Scheme tail) :
 			this()
 		{
@@ -80,43 +79,43 @@ namespace Kean.Uri
 		{
 			return new Scheme(this.Head, this.Tail.NotNull() ? this.Tail.Copy() : null);
 		}
-        #region Object overrides
-        public override bool Equals(object other)
-        {
-            return other is Scheme && this.Equals(other as Scheme);
-        }
-        public override int GetHashCode()
-        {
+		#region Object overrides
+		public override bool Equals(object other)
+		{
+			return other is Scheme && this.Equals(other as Scheme);
+		}
+		public override int GetHashCode()
+		{
 			return this.Head.Hash() ^ this.Tail.Hash();
-        }
-        public override string ToString()
-        {
-            return this.String;
-        }
-        #endregion
-        #region IEquatable<Scheme> Members
-        public bool Equals(Scheme other)
-        {
-            return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
-        }
-        #endregion
+		}
+		public override string ToString()
+		{
+			return this.String;
+		}
+		#endregion
+		#region IEquatable<Scheme> Members
+		public bool Equals(Scheme other)
+		{
+			return other.NotNull() && this.Head == other.Head && this.Tail == other.Tail;
+		}
+		#endregion
 		#region Operators
 		public static bool operator ==(Scheme left, Scheme right)
-        {
-            return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
-        }
-        public static bool operator !=(Scheme left, Scheme right)
-        {
-            return !(left == right);
-        }
-        public static implicit operator string(Scheme scheme)
-        {
-            return scheme.IsNull() ? null : scheme.String;
-        }
-        public static implicit operator Scheme(string scheme)
-        {
-            return scheme.IsEmpty() ? null : new Scheme() { String = scheme };
-        }
-        #endregion
-    }
+		{
+			return object.ReferenceEquals(left, right) || (!object.ReferenceEquals(left, null) && left.Equals(right));
+		}
+		public static bool operator !=(Scheme left, Scheme right)
+		{
+			return !(left == right);
+		}
+		public static implicit operator string(Scheme scheme)
+		{
+			return scheme.IsNull() ? null : scheme.String;
+		}
+		public static implicit operator Scheme(string scheme)
+		{
+			return scheme.IsEmpty() ? null : new Scheme() { String = scheme };
+		}
+		#endregion
+	}
 }

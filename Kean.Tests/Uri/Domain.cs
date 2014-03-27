@@ -21,41 +21,41 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
 {
-    [TestFixture]
-    public class Domain :
+	[TestFixture]
+	public class Domain :
         Kean.Test.Fixture<Domain>
-    {
-        string prefix = "Kean.Uri.Test.Domain.";
-        protected override void Run()
-        {
-            this.Run(this.EqualityNull, this.Equality);
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.Domain domain = null;
-            Verify(domain, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Verify(domain == null, Is.True, this.prefix + "EqualityNull.1");
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.Domain domain = "www.example.com";
-            Verify(domain, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Verify(domain != null,Is.True, this.prefix + "Equality.1");
-            Verify((string)domain, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
-            Verify(domain == "www.example.com", Is.True, this.prefix + "Equality.3");
-            Verify(domain.Head, Is.EqualTo("www"), this.prefix + "Equality.4");
-            Verify((string)domain.Tail, Is.EqualTo("example.com"), this.prefix + "Equality.5");
-            Verify(domain.Tail == "example.com", Is.True, this.prefix + "Equality.6");
-            Verify(domain.Tail.Head, Is.EqualTo("example"), this.prefix + "Equality.7");
-            Verify((string)domain.Tail.Tail, Is.EqualTo("com"), this.prefix + "Equality.8");
-            Verify(domain.Tail.Tail.Tail, Is.EqualTo(null), this.prefix + "Equality.9");
-        }
-    }
+	{
+		protected override void Run()
+		{
+			this.Run(this.EqualityNull, this.Equality);
+		}
+
+		[Test]
+		public void EqualityNull()
+		{
+			Target.Domain domain = null;
+			Verify(domain, Is.Null);
+			Verify(domain == null, Is.True);
+		}
+
+		[Test]
+		public void Equality()
+		{
+			Target.Domain domain = "www.example.com";
+			Verify(domain, Is.Not.Null);
+			Verify(domain != null, Is.True);
+			Verify((string)domain, Is.EqualTo("www.example.com"));
+			Verify(domain == "www.example.com", Is.True);
+			Verify(domain.Head, Is.EqualTo("www"));
+			Verify((string)domain.Tail, Is.EqualTo("example.com"));
+			Verify(domain.Tail == "example.com", Is.True);
+			Verify(domain.Tail.Head, Is.EqualTo("example"));
+			Verify((string)domain.Tail.Tail, Is.EqualTo("com"));
+			Verify(domain.Tail.Tail.Tail, Is.Null);
+		}
+	}
 }

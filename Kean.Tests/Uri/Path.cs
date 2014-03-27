@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
@@ -42,42 +41,47 @@ namespace Kean.Uri.Test
 				this.Folder,
 				this.Extension,
 				this.Stem
-				);
+			);
 		}
+
 		[Test]
 		public void EqualityNull()
 		{
 			Target.Path path = null;
-			Verify(path, Is.EqualTo(null));
+			Verify(path, Is.Null);
 			Verify(path == null, Is.True);
 		}
+
 		[Test]
 		public void Equality()
 		{
 			Target.Path path = "folderA/folderB/file.extension";
-			Verify(path, Is.Not.EqualTo(null));
+			Verify(path, Is.Not.Null);
 			Verify(path != null, Is.True);
 			Verify((string)path, Is.EqualTo("/folderA/folderB/file.extension"));
 			Verify(path == "folderA/folderB/file.extension", Is.True);
 		}
+
 		[Test]
 		public void Space()
 		{
 			Target.Path path = "folder A/folder B/file C.extension";
-			Verify(path, Is.Not.EqualTo(null));
+			Verify(path, Is.Not.Null);
 			Verify(path != null, Is.True);
-			Verify((string)path, Is.EqualTo("/folder A/folder B/file C.extension"));
-			Verify(path == "folder A/folder B/file C.extension", Is.True);
+			Verify((string)path, Is.EqualTo("/folder%20A/folder%20B/file%20C.extension"));
+			Verify(path == "folder%20A/folder%20B/file%20C.extension", Is.True);
 		}
+
 		[Test]
 		public void Plus()
 		{
 			Target.Path path = "folder+A/folder+B/file+C.extension";
-			Verify(path, Is.Not.EqualTo(null));
+			Verify(path, Is.Not.Null);
 			Verify(path != null, Is.True);
 			Verify((string)path, Is.EqualTo("/folder+A/folder+B/file+C.extension"));
 			Verify(path == "folder+A/folder+B/file+C.extension", Is.True);
 		}
+
 		[Test]
 		public void Hash()
 		{
@@ -86,6 +90,7 @@ namespace Kean.Uri.Test
 			Verify(path, Is.Not.EqualTo(path2));
 			Verify(path.GetHashCode(), Is.Not.EqualTo(path2.GetHashCode()));
 		}
+
 		[Test]
 		public void Filename()
 		{
@@ -94,6 +99,7 @@ namespace Kean.Uri.Test
 			Verify(path.Filename, Is.EqualTo("file.extension"));
 			Verify(path2.Filename, Is.EqualTo("file.extension2"));
 		}
+
 		[Test]
 		public void Folder()
 		{
@@ -108,6 +114,7 @@ namespace Kean.Uri.Test
 			Verify(path4.Folder, Is.False);
 			Verify(path5.Folder, Is.True);
 		}
+
 		[Test]
 		public void Extension()
 		{
@@ -116,6 +123,7 @@ namespace Kean.Uri.Test
 			Verify(path.Extension, Is.EqualTo("extension"));
 			Verify(path2.Extension, Is.EqualTo("extension2"));
 		}
+
 		[Test]
 		public void Stem()
 		{

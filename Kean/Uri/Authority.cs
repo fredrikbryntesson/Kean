@@ -37,18 +37,18 @@ namespace Kean.Uri
 			get
 			{
 				System.Text.StringBuilder result = new System.Text.StringBuilder();
-				if (this.User != null)
+				if (this.User.NotNull())
 				{
 					result.Append(this.User);
 					result.Append("@");
 				}
-				if (this.Endpoint != null)
+				if (this.Endpoint.NotNull())
 					result.Append(this.Endpoint);
 				return result.ToString();
 			}
 			set
 			{
-				if (value == null || value == "")
+				if (value.IsEmpty())
 				{
 					this.User = null;
 					this.Endpoint = null;
@@ -91,7 +91,8 @@ namespace Kean.Uri
 		}
 		#endregion
 		public Authority()
-		{ }
+		{
+		}
 		public Authority(User user, Endpoint endpoint) :
 			this()
 		{
@@ -120,6 +121,5 @@ namespace Kean.Uri
 			return authority.IsEmpty() ? null : new Authority() { String = authority };
 		}
 		#endregion
-
 	}
 }

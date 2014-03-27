@@ -21,63 +21,65 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
 {
-    [TestFixture]
-    public class User :
+	[TestFixture]
+	public class User :
         Kean.Test.Fixture<User>
-    {
-        string prefix = "Kean.Uri.Test.";
-        protected override void Run()
-        {
-            this.Run(this.EqualityNull, this.Equality, this.EqualityNameOnly, this.EqualityPasswordOnly);
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.User user = null;
-            Verify(user, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-			Verify(user == null, Is.True, this.prefix + "EqualityNull.1");
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.User user = "name:password";
-            Verify(user, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-			Verify(user != null, Is.True, this.prefix + "Equality.1");
-            Verify(user.Name, Is.EqualTo("name"), this.prefix + "Equality.2");
-            Verify(user.Password, Is.EqualTo("password"), this.prefix + "Equality.3");
-            Verify((string)user, Is.EqualTo("name:password"), this.prefix + "Equality.4");
-			Verify(user == "name:password", Is.True, this.prefix + "Equality.5");
-			Verify(user != "name", Is.True, this.prefix + "Equality.6");
-        }
-        [Test]
-        public void EqualityNameOnly()
-        {
-            Target.User user = "name";
-            Verify(user, Is.Not.EqualTo(null), this.prefix + "EqualityNameOnly.0");
-			Verify(user != null, Is.True, this.prefix + "EqualityNameOnly.1");
-            Verify(user.Name, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.2");
-            Verify(user.Password, Is.EqualTo(null), this.prefix + "EqualityNameOnly.3");
-            Verify((string)user, Is.EqualTo("name"), this.prefix + "EqualityNameOnly.4");
-			Verify(user == "name", Is.True, this.prefix + "EqualityNameOnly.5");
-			Verify(user != "name:", Is.True, this.prefix + "EqualityNameOnly.6");
-			Verify(user != "name:password", Is.True, this.prefix + "EqualityNameOnly.7");
-        }
-        [Test]
-        public void EqualityPasswordOnly()
-        {
-            Target.User user = ":password";
-            Verify(user, Is.Not.EqualTo(null), this.prefix + "EqualityPasswordOnly.0");
-			Verify(user != null, Is.True, this.prefix + "EqualityPasswordOnly.1");
-            Verify(user.Name, Is.EqualTo(""), this.prefix + "EqualityPasswordOnly.2");
-            Verify(user.Password, Is.EqualTo("password"), this.prefix + "EqualityPasswordOnly.3");
-            Verify((string)user, Is.EqualTo(":password"), this.prefix + "EqualityPasswordOnly.4");
-            Verify(user == ":password", Is.True, this.prefix + "EqualityPasswordOnly.5");
-			Verify(user != "name:password", Is.True, this.prefix + "EqualityPasswordOnly.6");
-        }
-    }
+	{
+		protected override void Run()
+		{
+			this.Run(this.EqualityNull, this.Equality, this.EqualityNameOnly, this.EqualityPasswordOnly);
+		}
+
+		[Test]
+		public void EqualityNull()
+		{
+			Target.User user = null;
+			Verify(user, Is.Null);
+			Verify(user == null, Is.True);
+		}
+
+		[Test]
+		public void Equality()
+		{
+			Target.User user = "name:password";
+			Verify(user, Is.Not.Null);
+			Verify(user != null, Is.True);
+			Verify(user.Name, Is.EqualTo("name"));
+			Verify(user.Password, Is.EqualTo("password"));
+			Verify((string)user, Is.EqualTo("name:password"));
+			Verify(user == "name:password", Is.True);
+			Verify(user != "name", Is.True);
+		}
+
+		[Test]
+		public void EqualityNameOnly()
+		{
+			Target.User user = "name";
+			Verify(user, Is.Not.Null);
+			Verify(user != null, Is.True);
+			Verify(user.Name, Is.EqualTo("name"));
+			Verify(user.Password, Is.Null);
+			Verify((string)user, Is.EqualTo("name"));
+			Verify(user == "name", Is.True);
+			Verify(user == "name:", Is.True);
+			Verify(user != "name:password", Is.True);
+		}
+
+		[Test]
+		public void EqualityPasswordOnly()
+		{
+			Target.User user = ":password";
+			Verify(user, Is.Not.Null);
+			Verify(user != null, Is.True);
+			Verify(user.Name, Is.Null);
+			Verify(user.Password, Is.EqualTo("password"));
+			Verify((string)user, Is.EqualTo(":password"));
+			Verify(user == ":password", Is.True);
+			Verify(user != "name:password", Is.True);
+		}
+	}
 }

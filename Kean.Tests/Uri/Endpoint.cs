@@ -21,67 +21,69 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
 {
-    [TestFixture]
-    public class Endpoint :
+	[TestFixture]
+	public class Endpoint :
         Kean.Test.Fixture<Endpoint>
-    {
-        string prefix = "Kean.Uri.Test.Endpoint.";
-        protected override void Run()
-        {
-            this.Run(
-                this.EqualityNull, 
-                this.Equality, 
-                this.EqualityHostOnly,
-                this.EqualityPortOnly);
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.Endpoint endpoint = null;
-            Verify(endpoint, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-            Verify(endpoint == null, Is.True , this.prefix + "EqualityNull.1");
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.Endpoint endpoint = "www.example.com:80";
-            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-            Verify(endpoint != null, Is.True, this.prefix + "Equality.1");
-            Verify((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "Equality.2");
-            Verify(endpoint.Port, Is.EqualTo(80), this.prefix + "Equality.3");
-            Verify((string)endpoint, Is.EqualTo("www.example.com:80"), this.prefix + "Equality.4");
-            Verify(endpoint == "www.example.com:80", Is.True, this.prefix + "Equality.5");
-			Verify(endpoint != "www.example.com", Is.True, this.prefix + "Equality.6");
-        }
-        [Test]
-        public void EqualityHostOnly()
-        {
-            Target.Endpoint endpoint = "www.example.com";
-            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityHostOnly.0");
-			Verify(endpoint != null, Is.True, this.prefix + "EqualityHostOnly.1");
-            Verify((string)endpoint.Host, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.2");
-            Verify(endpoint.Port, Is.EqualTo(null), this.prefix + "EqualityHostOnly.3");
-            Verify((string)endpoint, Is.EqualTo("www.example.com"), this.prefix + "EqualityHostOnly.4");
-			Verify(endpoint == "www.example.com", Is.True, this.prefix + "EqualityHostOnly.5");
-			Verify(endpoint == "www.example.com:", Is.True, this.prefix + "EqualityHostOnly.6");
-			Verify(endpoint != "www.example.com:80", Is.True, this.prefix + "EqualityHostOnly.7");
-        }
-        [Test]
-        public void EqualityPortOnly()
-        {
-            Target.Endpoint endpoint = ":80";
-            Verify(endpoint, Is.Not.EqualTo(null), this.prefix + "EqualityPortOnly.0");
-			Verify(endpoint != null, Is.True, this.prefix + "EqualityPortOnly.1");
-            Verify((string)endpoint.Host, Is.EqualTo(""), this.prefix + "EqualityPortOnly.2");
-            Verify(endpoint.Port, Is.EqualTo(80), this.prefix + "EqualityPortOnly.3");
-            Verify((string)endpoint, Is.EqualTo(":80"), this.prefix + "EqualityPortOnly.4");
-			Verify(endpoint == ":80", Is.True, this.prefix + "EqualityPortOnly.5");
-			Verify(endpoint != "wwww.example.com:80", Is.True, this.prefix + "EqualityPortOnly.6");
-        }
-    }
+	{
+		protected override void Run()
+		{
+			this.Run(
+				this.EqualityNull, 
+				this.Equality, 
+				this.EqualityHostOnly,
+				this.EqualityPortOnly);
+		}
+
+		[Test]
+		public void EqualityNull()
+		{
+			Target.Endpoint endpoint = null;
+			Verify(endpoint, Is.Null);
+			Verify(endpoint == null, Is.True);
+		}
+
+		[Test]
+		public void Equality()
+		{
+			Target.Endpoint endpoint = "www.example.com:80";
+			Verify(endpoint, Is.Not.Null);
+			Verify(endpoint != null, Is.True);
+			Verify((string)endpoint.Host, Is.EqualTo("www.example.com"));
+			Verify(endpoint.Port, Is.EqualTo(80));
+			Verify((string)endpoint, Is.EqualTo("www.example.com:80"));
+			Verify(endpoint == "www.example.com:80", Is.True);
+			Verify(endpoint != "www.example.com", Is.True);
+		}
+
+		[Test]
+		public void EqualityHostOnly()
+		{
+			Target.Endpoint endpoint = "www.example.com";
+			Verify(endpoint, Is.Not.Null);
+			Verify(endpoint != null, Is.True);
+			Verify((string)endpoint.Host, Is.EqualTo("www.example.com"));
+			Verify(endpoint.Port, Is.Null);
+			Verify((string)endpoint, Is.EqualTo("www.example.com"));
+			Verify(endpoint == "www.example.com", Is.True);
+			Verify(endpoint == "www.example.com:", Is.True);
+			Verify(endpoint != "www.example.com:80", Is.True);
+		}
+
+		[Test]
+		public void EqualityPortOnly()
+		{
+			Target.Endpoint endpoint = ":80";
+			Verify(endpoint, Is.Not.Null);
+			Verify(endpoint != null, Is.True);
+			Verify((string)endpoint.Host, Is.EqualTo(""));
+			Verify(endpoint.Port, Is.EqualTo(80));
+			Verify((string)endpoint, Is.EqualTo(":80"));
+			Verify(endpoint == ":80", Is.True);
+			Verify(endpoint != "wwww.example.com:80", Is.True);
+		}
+	}
 }

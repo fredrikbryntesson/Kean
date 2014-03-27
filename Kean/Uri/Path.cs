@@ -41,7 +41,7 @@ namespace Kean.Uri
 				PathLink tail = this.Last;
 				while (tail.NotNull())
 				{
-					result = "/" + tail.Head + result;
+					result = "/" + tail.Head.PercentEncode(' ', '%', '/', '#', '?') + result;
 					tail = tail.Tail;
 				}
 				if (result.StartsWith("/."))
@@ -53,7 +53,7 @@ namespace Kean.Uri
 				PathLink tail = null;
 				if (value.NotNull())
 					foreach (string folder in value.TrimStart('/').Split('/'))
-						tail = new PathLink(folder, tail);
+						tail = new PathLink(folder.PercentDecode(), tail);
 				this.Last = tail;
 			}
 		}
