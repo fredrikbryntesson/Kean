@@ -59,12 +59,12 @@ namespace Kean.Uri
 		public PathLink ResolveVariable(string variable, Func<string, string> format)
 		{
 			string head = this.Head;
-			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable with format specifier
+			MatchCollection matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @"\))(.*)"); // Variable without format specifier
 			if (matches.Count == 1 && defaultFormats.Keys.Contains(variable))
 				head = matches[0].Groups[1].Value + format(defaultFormats[variable]) + matches[0].Groups[3].Value;
 			else
 			{
-				matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @":)(.+)(\))(.*)"); // Variable without format specifier
+				matches = Regex.Matches(head, @"(.*)(\$\(" + variable + @":)([^\)]+)(\))(.*)"); // Variable with format specifier
 				if (matches.Count == 1)
 					head = matches[0].Groups[1].Value + format(matches[0].Groups[3].Value) + matches[0].Groups[5].Value;
 			}
