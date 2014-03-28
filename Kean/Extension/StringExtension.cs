@@ -42,6 +42,7 @@ namespace Kean.Extension
 		}
 		public static void AppendTo(this string me, Uri.Locator path)
 		{
+			System.IO.Directory.CreateDirectory(path.Path.FolderPath.PlatformPath);
 			System.IO.File.AppendAllText(path.PlatformPath, me);
 		}
 		public static void Save(this string me, Uri.Locator path)
