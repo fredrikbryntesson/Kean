@@ -21,7 +21,6 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 using Kean.Collection.Linked.Extension;
 using Kean;
@@ -32,30 +31,32 @@ namespace Kean.Uri.Test
 	public class Query :
 		Kean.Test.Fixture<Query>
 	{
-		string prefix = "Kean.Uri.Test.Query.";
 		protected override void Run()
 		{
 			this.Run(this.EqualityNull, this.Equality, this.RemoveList, this.RemoveQuery, this.AddQuery);
 		}
+
 		[Test]
 		public void EqualityNull()
 		{
 			Target.Query query = null;
-			Verify(query, Is.EqualTo(null), this.prefix + "EqualityNull.0");
-			Verify(query == null, Is.True, this.prefix + "EqualityNull.1");
+			Verify(query, Is.Null);
+			Verify(query == null, Is.True);
 		}
+
 		[Test]
 		public void Equality()
 		{
 			Target.Query query = "keyA=valueA&keyB=valueB&key+c=value+c";
-			Verify(query, Is.Not.EqualTo(null), this.prefix + "Equality.0");
-			Verify(query != null, Is.True, this.prefix + "Equality.1");
-			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB&key+c=value+c"), this.prefix + "Equality.2");
-			Verify(query == "keyA=valueA&keyB=valueB&key+c=value+c", Is.True, this.prefix + "Equality.3");
-			Verify(query["keyA"], Is.EqualTo("valueA"), this.prefix + "Equality.4");
-			Verify(query["keyB"], Is.EqualTo("valueB"), this.prefix + "Equality.5");
-			Verify(query["key c"], Is.EqualTo("value c"), this.prefix + "Equality.6");
+			Verify(query, Is.Not.Null);
+			Verify(query != null, Is.True);
+			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB&key+c=value+c"));
+			Verify(query == "keyA=valueA&keyB=valueB&key+c=value+c", Is.True);
+			Verify(query["keyA"], Is.EqualTo("valueA"));
+			Verify(query["keyB"], Is.EqualTo("valueB"));
+			Verify(query["key c"], Is.EqualTo("value c"));
 		}
+
 		[Test]
 		public void Enums()
 		{
@@ -64,45 +65,48 @@ namespace Kean.Uri.Test
 			query = "consoleColor=green";
 			Verify(query.GetEnumeration<ConsoleColor>("consoleColor", ConsoleColor.Black), Is.EqualTo(ConsoleColor.Green));
 		}
+
 		[Test]
 		public void RemoveList()
 		{
 			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
 			query.Remove("keyA");
-			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE"), this.prefix + "RemoveList.0");
+			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE"));
 			query.Remove("keyE");
-			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveList.1");
+			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"));
 			query.Remove("keyC");
-			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"), this.prefix + "RemoveList.2");
+			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"));
 			query.Remove("keyF");
-			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"), this.prefix + "RemoveList.3");
+			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyD=valueD"));
 			query.Remove("keyB");
-			Verify(query, Is.EqualTo((Target.Query)"keyD=valueD"), this.prefix + "RemoveList.4");
+			Verify(query, Is.EqualTo((Target.Query)"keyD=valueD"));
 			query.Remove("keyD");
-			Verify(query, Is.EqualTo((Target.Query)""), this.prefix + "RemoveList.5");
+			Verify(query, Is.EqualTo((Target.Query)""));
 		}
+
 		[Test]
 		public void RemoveQuery()
 		{
 			Target.Query query = "keyA=valueA&keyB=valueB&keyC=valueC&keyD=valueD&keyE=valueE&keyA=valueAA";
 			query.Remove("keyA", "keyE");
-			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"), this.prefix + "RemoveQuery.0");
+			Verify(query, Is.EqualTo((Target.Query)"keyB=valueB&keyC=valueC&keyD=valueD"));
 			query.Keep("keyC");
-			Verify(query, Is.EqualTo((Target.Query)"keyC=valueC"), this.prefix + "RemoveQuery.1");
+			Verify(query, Is.EqualTo((Target.Query)"keyC=valueC"));
 			query.Remove("keyC", "keyC");
-			Verify(query, Is.EqualTo((Target.Query)""), this.prefix + "RemoveQuery.2");
+			Verify(query, Is.EqualTo((Target.Query)""));
 		}
+
 		[Test]
 		public void AddQuery()
 		{
 			Target.Query query = "keyA=valueA";
 			query["keyB"] = "valueB";
-			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB"), this.prefix + "AddQuery.0");
+			Verify((string)query, Is.EqualTo("keyA=valueA&keyB=valueB"));
 			query = new Target.Query();
 			query.ToString();
 			query["keyB"] = "valueB";
 			query["keyC"] = "valueC";
-			Verify((string)query, Is.EqualTo("keyB=valueB&keyC=valueC"), this.prefix + "AddQuery.1");
+			Verify((string)query, Is.EqualTo("keyB=valueB&keyC=valueC"));
 		}
 	}
 }

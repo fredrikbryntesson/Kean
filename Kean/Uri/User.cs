@@ -31,23 +31,22 @@ namespace Kean.Uri
 	{
 		public string Name { get; set; }
 		public string Password { get; set; }
-
 		#region IString Members
 		public string String
 		{
 			get
 			{
-				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Name);
-				if (this.Password != null)
+				System.Text.StringBuilder result = new System.Text.StringBuilder(this.Name.PercentEncode());
+				if (this.Password.NotNull())
 				{
 					result.Append(":");
-					result.Append(this.Password);
+					result.Append(this.Password.PercentEncode());
 				}
 				return result.ToString();
 			}
 			set
 			{
-				if (value == null || value == "")
+				if (value.IsEmpty())
 				{
 					this.Name = null;
 					this.Password = null;
@@ -55,15 +54,15 @@ namespace Kean.Uri
 				else
 				{
 					string[] splitted = value.Split(new char[] { ':' }, 2);
-					this.Name = splitted[0];
-					this.Password = splitted.Length > 1 ? splitted[1] : null;
+					this.Name = splitted[0].PercentDecode();
+					this.Password = splitted.Length > 1 ? splitted[1].PercentDecode() : null;
 				}
 			}
 		}
-
 		#endregion
 		public User()
-		{ }
+		{
+		}
 		public User(string name, string password) :
 			this()
 		{

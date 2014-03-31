@@ -24,10 +24,16 @@ using Collection = Kean.Collection;
 using Kean;
 using Kean.Extension;
 using Kean.Collection.Extension;
+using Generic = System.Collections.Generic;
 
 namespace Kean.IO.Text
 {
-	public class Builder
+	public class Builder :
+	Generic.IEnumerable<char>,
+	IEquatable<Generic.IEnumerable<char>>,
+	IEquatable<string>,
+	IEquatable<char[]>,
+	IEquatable<Builder>
 	{
 		Collection.IList<string> data;
 		public int Length { get { return this.data.Fold((item, result) => result + item.Length, 0); } }
@@ -58,6 +64,10 @@ namespace Kean.IO.Text
 		public Builder Append(char value)
 		{
 			return this.Append(new string(value, 1));
+		}
+		public Builder Append(params char[] value)
+		{
+			return this.Append(new string(value));
 		}
 		public Builder Append(string format, params object[] arguments)
 		{
@@ -90,6 +100,7 @@ namespace Kean.IO.Text
 		}
 		#endregion
 		#region Casts
+		#region string
 		public static implicit operator string(Builder builder)
 		{
 			string result;
@@ -108,11 +119,31 @@ namespace Kean.IO.Text
 			return new Builder(value);
 		}
 		#endregion
+		#region char
+		public static implicit operator Builder(char value)
+		{
+			return new Builder(new string(value, 1));
+		}
+		#endregion
+		#region char[]
+		public static explicit operator char[](Builder value)
+		{
+			return value.ToArray();
+		}
+		public static implicit operator Builder(char[] value)
+		{
+			return new Builder(new string(value));
+		}
+		#endregion
+		#endregion
 		#region Binary operators
+		#region Builder
 		public static Builder operator +(Builder left, Builder right)
 		{
 			return left.NotNull() ? left.Copy().Append(right) : new Builder().Append(right);
 		}
+		#endregion
+		#region string
 		public static Builder operator +(Builder left, string right)
 		{
 			return left.NotNull() ? left.Copy().Append(right) : new Builder(right);
@@ -121,6 +152,27 @@ namespace Kean.IO.Text
 		{
 			return right.NotNull() ? right.Copy().Prepend(left) : new Builder(left);
 		}
+		#endregion
+		#region char
+		public static Builder operator +(Builder left, char right)
+		{
+			return left.NotNull() ? left.Copy().Append(right) : new Builder(right);
+		}
+		public static Builder operator +(char left, Builder right)
+		{
+			return right.NotNull() ? right.Copy().Prepend(left) : new Builder(left);
+		}
+		#endregion
+		#region char[]
+		public static Builder operator +(Builder left, char[] right)
+		{
+			return left.NotNull() ? left.Copy().Append(right) : new Builder(right);
+		}
+		public static Builder operator +(char[] left, Builder right)
+		{
+			return right.NotNull() ? right.Copy().Prepend(left) : new Builder(left);
+		}
+		#endregion
 		#endregion
 		#region Object Overrides
 		public override int GetHashCode()
@@ -134,6 +186,46 @@ namespace Kean.IO.Text
 		public override string ToString()
 		{
 			return this;
+		}
+		#endregion
+		#region IEquatable implementation
+		public bool Equals(Generic.IEnumerable<char> other)
+		{
+			bool result = other.NotNull();
+			if (result)
+			{
+				Generic.IEnumerator<char> thisEnumerator = this.GetEnumerator();
+				Generic.IEnumerator<char> otherEnumerator = other.GetEnumerator();
+				while (thisEnumerator.Next() == otherEnumerator.Next())
+				{
+				}
+				result = !thisEnumerator.MoveNext() && !otherEnumerator.MoveNext();
+			}
+			return result;
+		}
+		public bool Equals(Builder other)
+		{
+			return this.Equals(other as Generic.IEnumerable<char>);
+		}
+		public bool Equals(string other)
+		{
+			return this.Equals(other as Generic.IEnumerable<char>);
+		}
+		public bool Equals(char[] other)
+		{
+			return this.Equals(other as Generic.IEnumerable<char>);
+		}
+		#endregion
+		#region IEnumerable implementation
+		public Generic.IEnumerator<char> GetEnumerator()
+		{
+			foreach (var part in this.data)
+				foreach (var c in part)
+					yield return c;
+		}
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.GetEnumerator();
 		}
 		#endregion
 	}

@@ -21,67 +21,70 @@
 
 using System;
 using NUnit.Framework;
-
 using Target = Kean.Uri;
 
 namespace Kean.Uri.Test
 {
-    [TestFixture]
-    public class Authority : 
+	[TestFixture]
+	public class Authority : 
         Kean.Test.Fixture<Authority>
-    {
-        protected override void Run()
-        {
-            this.Run(
-            this.EqualityNull,
-            this.Equality,
-            this.EqualityUserOnly,
-            this.EqualityEndpointOnly);
-        }
-        [Test]
-        public void EqualityNull()
-        {
-            Target.Authority authority = null;
-            Verify(authority, Is.EqualTo(null));
-            Verify(authority == null, Is.True);
-        }
-        [Test]
-        public void Equality()
-        {
-            Target.Authority authority = "name:password@example.com:80";
-            Verify(authority, Is.Not.EqualTo(null));
-            Verify(authority != null, Is.True);
-            Verify((string)authority.User, Is.EqualTo("name:password"));
-            Verify((string)authority.Endpoint, Is.EqualTo("example.com:80"));
-            Verify((string)authority, Is.EqualTo("name:password@example.com:80"));
-            Verify(authority == "name:password@example.com:80", Is.True);
-            Verify(authority != "name:password", Is.True);
-            Verify(authority != "example.com:80", Is.True);
-        }
-        [Test]
-        public void EqualityUserOnly()
-        {
-            Target.Authority authority = "name:password@";
-            Verify(authority, Is.Not.EqualTo(null));
-            Verify(authority ,Is.Not.EqualTo(null));
-            Verify((string)authority.User, Is.EqualTo("name:password"));
-            Verify(authority.Endpoint, Is.EqualTo(null));
-            Verify((string)authority, Is.EqualTo("name:password@"));
-            Verify((string)authority == "name:password@", Is.True);
-            Verify((string)authority != "name:password", Is.True);
-            Verify(authority != "", Is.True);
-        }
-        [Test]
-        public void EqualityEndpointOnly()
-        {
-            Target.Authority authority = "example.com:80";
-            Verify(authority, Is.Not.EqualTo(null));
-            Verify(authority != null, Is.True);
-            Verify(authority.User, Is.EqualTo(null));
-            Verify((string)authority.Endpoint, Is.EqualTo("example.com:80"));
-            Verify((string)authority, Is.EqualTo("example.com:80"));
-            Verify(authority == "@example.com:80", Is.True);
-            Verify(authority != "name:password@example.com:80", Is.True);
-        }
-    }
+	{
+		protected override void Run()
+		{
+			this.Run(
+				this.EqualityNull,
+				this.Equality,
+				this.EqualityUserOnly,
+				this.EqualityEndpointOnly);
+		}
+
+		[Test]
+		public void EqualityNull()
+		{
+			Target.Authority authority = null;
+			Verify(authority, Is.Null);
+			Verify(authority == null, Is.True);
+		}
+
+		[Test]
+		public void Equality()
+		{
+			Target.Authority authority = "name:password@example.com:80";
+			Verify(authority, Is.Not.Null);
+			Verify(authority != null, Is.True);
+			Verify((string)authority.User, Is.EqualTo("name:password"));
+			Verify((string)authority.Endpoint, Is.EqualTo("example.com:80"));
+			Verify((string)authority, Is.EqualTo("name:password@example.com:80"));
+			Verify(authority == "name:password@example.com:80", Is.True);
+			Verify(authority != "name:password", Is.True);
+			Verify(authority != "example.com:80", Is.True);
+		}
+
+		[Test]
+		public void EqualityUserOnly()
+		{
+			Target.Authority authority = "name:password@";
+			Verify(authority, Is.Not.Null);
+			Verify(authority, Is.Not.Null);
+			Verify((string)authority.User, Is.EqualTo("name:password"));
+			Verify(authority.Endpoint, Is.Null);
+			Verify((string)authority, Is.EqualTo("name:password@"));
+			Verify((string)authority == "name:password@", Is.True);
+			Verify((string)authority != "name:password", Is.True);
+			Verify(authority != "", Is.True);
+		}
+
+		[Test]
+		public void EqualityEndpointOnly()
+		{
+			Target.Authority authority = "example.com:80";
+			Verify(authority, Is.Not.Null);
+			Verify(authority != null, Is.True);
+			Verify(authority.User, Is.Null);
+			Verify((string)authority.Endpoint, Is.EqualTo("example.com:80"));
+			Verify((string)authority, Is.EqualTo("example.com:80"));
+			Verify(authority == "@example.com:80", Is.True);
+			Verify(authority != "name:password@example.com:80", Is.True);
+		}
+	}
 }

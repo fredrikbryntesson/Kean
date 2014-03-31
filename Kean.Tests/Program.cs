@@ -28,6 +28,8 @@ namespace Kean.Tests
 		static void Main(string[] args)
 		{
 			Kean.Error.Log.CatchErrors = false;
+			Kean.Test.StringExtension.Test();
+			Kean.Uri.Test.All.Test();
 			//Cli.Test.Program.Run(args);
 			//IO.Net.Test.Program.Run(args);
 			//DB.Sql.Test.Program.Run(args);

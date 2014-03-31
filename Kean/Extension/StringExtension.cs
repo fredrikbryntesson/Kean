@@ -365,5 +365,61 @@ namespace Kean.Extension
 		{
 			return me[0] == '"' && me[me.Length - 1] == '"' ? me.Get(1, -1).Replace("\\\"", "\"") : me;
 		}
+		public static string PercentEncode(this string me, params char[] characters)
+		{
+			if (characters.Empty())
+				characters = new char[] {
+					' ',
+					'"',
+					'!',
+					'#',
+					'$',
+					'%',
+					'&',
+					'\'',
+					'(',
+					')',
+					'*',
+					'+',
+					',',
+					'/',
+					':',
+					';',
+					'=',
+					'?',
+					'@',
+					'[',
+					']'
+				};
+			IO.Text.Builder result = null;
+			if (me.NotNull())
+				foreach (char c in me)
+					if (characters.Contains(c))
+						result += "%" + System.Text.Encoding.ASCII.GetBytes(new char[] { c }).First().ToString("X2");
+					else
+						result += c;
+			return result;
+		}
+		public static string PercentDecode(this string me)
+		{
+			IO.Text.Builder result = null;
+			if (me.NotNull())
+			{
+				Generic.IEnumerator<char> enumerator = me.GetEnumerator();
+				while (enumerator.MoveNext())
+					if (enumerator.Current == '%')
+					{
+						char[] characters = new char[] { enumerator.Next(), enumerator.Next() };
+						byte value;
+						if (byte.TryParse(new string(characters), System.Globalization.NumberStyles.HexNumber, System.Globalization.NumberFormatInfo.InvariantInfo, out value))
+							result += System.Text.Encoding.ASCII.GetChars(new byte[] { value });
+						else
+							result += "%" + characters;
+					}
+					else
+						result += enumerator.Current;
+			}
+			return result;
+		}
 	}
 }
