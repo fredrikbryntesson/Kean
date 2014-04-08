@@ -99,7 +99,7 @@ namespace Kean.Extension
 			else if (me is TimeSpan)
 				result = ((TimeSpan)me).ToString();
 			else if (me is Enum)
-				result = Enum.GetName(me.GetType(), me).ToLower();
+				result = me.ToString().ToLower();
 			else if (me is IString)
 				result = (me as IString).String;
 			else
