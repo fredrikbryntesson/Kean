@@ -50,7 +50,7 @@ namespace Kean.Platform.Settings.Parameter
 		}
 		public override object FromString(string value)
 		{
-			return Enum.Parse(this.Type, value, true);
+			return Enum.Parse(this.Type, value.Replace('|', ','), true);
 		}
 		public override string Complete(string incomplete)
 		{

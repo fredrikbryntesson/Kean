@@ -48,6 +48,7 @@ namespace Kean.Extension
 		}
 		public static T ConvertType<T>(this object me)
 		{
+// Enum ?			result = (value.NotNull() && value.GetType() == typeof(T)) ? value : default(T);
 			return (T)Convert.ChangeType(me, typeof(T));
 		}
 		public static T As<T>(this object me, T @default)
