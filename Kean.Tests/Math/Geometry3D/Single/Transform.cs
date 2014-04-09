@@ -21,6 +21,7 @@
 
 using System;
 using NUnit.Framework;
+using Kean.Math.Geometry2D;
 using Target = Kean.Math.Geometry3D;
 using Kean.Extension;
 
@@ -28,7 +29,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 {
 	[TestFixture]
 	public class Transform :
-   Kean.Test.Fixture<Transform>
+	Kean.Test.Fixture<Transform>
 	{
 		float Precision { get { return 1e-5f; } }
 		Target.Single.Transform CastFromString(string value)
@@ -59,7 +60,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 				this.CreateRotation,
 				this.CreateScale,
 				this.CreateTranslation,
-				this.Rotatate,
+				this.Rotate,
 				this.Scale,
 				this.Translatate,
 				this.InverseTransform,
@@ -74,6 +75,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 				this.MultiplicationTransformTransform,
 				this.MultiplicationTransformPoint,
 				this.Casting,
+				this.DimensionCasting,
 				this.Hash
 			);
 		}
@@ -86,7 +88,6 @@ namespace Kean.Math.Geometry3D.Test.Single
 		[Test]
 		public void Equality()
 		{
-#pragma warning disable 1718
 			Target.Single.Transform transform = null;
 			Verify(this.Transform0, Is.EqualTo(this.Transform0));
 			Verify(this.Transform0.Equals(this.Transform0 as object), Is.True);
@@ -94,8 +95,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(this.Transform0 != this.Transform1, Is.True);
 			Verify(this.Transform0 == Transform3, Is.False);    
 			Verify(transform == transform, Is.True);
-			Verify(transform == this.Transform0, Is.False);
-#pragma warning restore 1718
+			Verify(transform == this.Transform0, Is.False); 
 		}
 		#endregion
 		[Test]
@@ -175,7 +175,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(transform.L, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 		}
 		[Test]
-		public void Rotatate()
+		public void Rotate()
 		{
 			Target.Single.Transform identity = Target.Single.Transform.Identity;
 			float angle = Math.Single.ToRadians(20);
@@ -350,7 +350,16 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(this.CastToString(this.Transform4), Is.EqualTo(value));
 			Verify(this.CastFromString(value), Is.EqualTo(this.Transform4));
 		}
-		
+		[Test]
+		public void DimensionCasting()
+		{
+			Geometry2D.Single.Transform transform2D = new Geometry2D.Single.Transform(1, 2, 3, 4, 5, 6);
+			Target.Single.Transform transform3D = new Target.Single.Transform(1, 2, 0, 3, 4, 0, 0, 0, 0, 5, 6, 0);
+			Verify((Target.Single.Transform)transform2D, Is.EqualTo(transform3D));
+			transform2D = new Geometry2D.Single.Transform(1, 2, 4, 5, 10, 11);
+			transform3D = new Target.Single.Transform(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+			Verify((Geometry2D.Single.Transform)transform3D, Is.EqualTo(transform2D));
+		}
 		#region Hash Code
 		[Test]
 		public void Hash()
@@ -365,7 +374,5 @@ namespace Kean.Math.Geometry3D.Test.Single
 				for (int y = 0; y < 4; y++)
 					Verify(values[x, y], Is.EqualTo(this.Cast(x == y ? 1 : 0)).Within(this.Precision));
 		}
-
-	  
 	}
 }

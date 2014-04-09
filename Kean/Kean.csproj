@@ -90,6 +90,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Box.tt</DependentUpon>
     </Compile>
+    <Compile Include="Math\Geometry2D\Transform1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transform.tt</DependentUpon>
+    </Compile>
     <Compile Include="Math\Geometry3D\Transform.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
