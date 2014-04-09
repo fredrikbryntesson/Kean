@@ -57,7 +57,8 @@ namespace Kean.Draw.OpenGL.Test
 				this.DrawColorRegionWithClipping,
 				this.DrawImageOnRegionWithClipping,
 				this.BlendWithClipping,
-				this.DrawColorRegionWithTransformAndClipping
+				this.DrawColorRegionWithTransformAndClipping,
+				this.DrawSkew
 				);
 		}
 		[Test]
@@ -235,6 +236,17 @@ namespace Kean.Draw.OpenGL.Test
 				image.Canvas.Pop();
 				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawColorRegionWithTransformAndClipping.png");
 			}
-		}		
+		}
+		[Test]
+		public void DrawSkew()
+		{
+			using (Draw.Image image = this.image.Copy())
+			{
+				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
+				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
+				image.Canvas.Pop();
+				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}	
 	}
 }
