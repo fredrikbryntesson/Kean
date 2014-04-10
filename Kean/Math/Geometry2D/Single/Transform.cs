@@ -24,6 +24,17 @@ using Kean.Math.Exception;
 
 namespace Kean.Math.Geometry2D.Single
 {
+	/*
+	 * The 2D transform is a 3x2 matrix where the last row in its representation of a 3x3 homogeneous coordinate matrix has been omitted.
+
+	 * The element order is
+	 * 
+	 * A C E
+	 * B D F
+	 * 
+	 * where A and D are scale factors to X and Y, and where E and F are translations in X and Y, respectively.
+	*/
+
 	public struct Transform :
 		IEquatable<Transform>
 	{

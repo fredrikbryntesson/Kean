@@ -25,6 +25,18 @@ using Kean.Math.Exception;
 
 namespace Kean.Math.Geometry3D.Single
 {
+	/*
+	 * The 3D transform is a 4x3 matrix where the last row in its representation of a 4x4 homogeneous coordinate matrix has been omitted.
+
+	 * The element order is
+	 * 
+	 * A D G J
+	 * B E H K
+	 * C F I L
+	 * 
+	 * where A, E, and I are scale factors to X, Y, and Z, and where J, K, and L are translations in X, Y, and Z, respectively.
+	*/
+
 	public struct Transform :
 		IEquatable<Transform>
 	{
@@ -352,6 +364,16 @@ namespace Kean.Math.Geometry3D.Single
 		public static implicit operator string(Transform value)
 		{
 			return value.NotNull() ? value.ToString() : null;
+		}
+		public static explicit operator Transform(Geometry2D.Single.Transform value)
+		{
+			float zero = 0;
+			float one = 1;
+			return new Transform(value.A, value.B, zero, value.C, value.D, zero, zero, zero, zero, value.E, value.F, zero);
+		}
+		public static explicit operator Geometry2D.Single.Transform(Transform value)
+		{
+			return new Geometry2D.Single.Transform(value.A, value.B, value.D, value.E, value.J, value.K);
 		}
 		public static implicit operator Transform(Integer.Transform value)
 		{
