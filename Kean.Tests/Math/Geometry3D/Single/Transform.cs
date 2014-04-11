@@ -245,10 +245,10 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(transform.C, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.D, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.G, Is.EqualTo(this.Cast(0)).Within(this.Precision));
-			Verify(transform.E, Is.EqualTo(Math.Single.Cosinus(angle)).Within(this.Precision));
-			Verify(transform.F, Is.EqualTo(Math.Single.Sinus(angle)).Within(this.Precision));
-			Verify(transform.H, Is.EqualTo(Math.Single.Sinus(-angle)).Within(this.Precision));
-			Verify(transform.I, Is.EqualTo(Math.Single.Cosinus(angle)).Within(this.Precision));
+			Verify(transform.E, Is.EqualTo(Math.Single.Cosine(angle)).Within(this.Precision));
+			Verify(transform.F, Is.EqualTo(Math.Single.Sine(angle)).Within(this.Precision));
+			Verify(transform.H, Is.EqualTo(Math.Single.Sine(-angle)).Within(this.Precision));
+			Verify(transform.I, Is.EqualTo(Math.Single.Cosine(angle)).Within(this.Precision));
 			Verify(transform.J, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.K, Is.EqualTo(this.Cast(0)).Within(this.Precision));
 			Verify(transform.L, Is.EqualTo(this.Cast(0)).Within(this.Precision));

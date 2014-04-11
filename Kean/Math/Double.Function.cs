@@ -161,11 +161,11 @@ namespace Kean.Math
 			value = Double.ModuloTwoPi(value);
 			return (value <= Double.PI) ? value : (value - 2 * Double.PI);
 		}
-		public static double Sinus(double value)
+		public static double Sine(double value)
 		{
 			return System.Math.Sin(value);
 		}
-		public static double Cosinus(double value)
+		public static double Cosine(double value)
 		{
 			return System.Math.Cos(value);
 		}

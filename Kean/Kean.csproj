@@ -10,6 +10,8 @@
     <UseMSBuildEngine>False</UseMSBuildEngine>
     <RestorePackages>true</RestorePackages>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,11 +91,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Box.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Math\Geometry2D\Transform1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Transform.tt</DependentUpon>
     </Compile>
     <Compile Include="Math\Geometry3D\Transform.cs">
       <AutoGen>True</AutoGen>
@@ -889,6 +886,10 @@
     <Compile Include="Algebra\Parser.cs" />
     <Compile Include="Algebra\LeftParanthesis.cs" />
     <Compile Include="Algebra\RightParanthesis.cs" />
+    <Compile Include="Algebra\Function.cs" />
+    <Compile Include="Algebra\Sine.cs" />
+    <Compile Include="Algebra\Cosine.cs" />
+    <Compile Include="Algebra\Tokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />

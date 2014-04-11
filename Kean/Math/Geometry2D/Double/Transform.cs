@@ -244,13 +244,13 @@ namespace Kean.Math.Geometry2D.Double
 		}
 		public static Transform CreateRotation(double angle)
 		{
-			return new Transform(Kean.Math.Double.Cosinus(angle), Kean.Math.Double.Sinus(angle), -Kean.Math.Double.Sinus(angle), Kean.Math.Double.Cosinus(angle), 0, 0);
+			return new Transform(Kean.Math.Double.Cosine(angle), Kean.Math.Double.Sine(angle), -Kean.Math.Double.Sine(angle), Kean.Math.Double.Cosine(angle), 0, 0);
 		}
 		public static Transform CreateRotation(double angle, Point pivot)
 		{
 			double one = 1;
-			double sine = Kean.Math.Double.Sinus(angle);
-			double cosine = Kean.Math.Double.Cosinus(angle);
+			double sine = Kean.Math.Double.Sine(angle);
+			double cosine = Kean.Math.Double.Cosine(angle);
 			return new Transform(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
 		public static Transform CreateSkewingX(double angle)

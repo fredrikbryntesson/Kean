@@ -191,8 +191,8 @@ namespace Kean.Math.Regression.Test.Ransac
             {
                 Geometry2D.Single.Point x = previousPoints[i];
                 Geometry2D.Single.Point y = new Geometry2D.Single.Point(
-                    s * Kean.Math.Single.Cosinus(thetaAngle) * x.X - s * Kean.Math.Single.Sinus(thetaAngle) * x.Y + xTranslation,
-                    s * Kean.Math.Single.Sinus(thetaAngle) * x.X + s * Kean.Math.Single.Cosinus(thetaAngle) * x.Y + yTranslation);
+                    s * Kean.Math.Single.Cosine(thetaAngle) * x.X - s * Kean.Math.Single.Sine(thetaAngle) * x.Y + xTranslation,
+                    s * Kean.Math.Single.Sine(thetaAngle) * x.X + s * Kean.Math.Single.Cosine(thetaAngle) * x.Y + yTranslation);
                 float[] xdd = normal.Generate(2);
                 float[] ydd = normal.Generate(2);
                 Geometry2D.Single.Point xd = new Kean.Math.Geometry2D.Single.Point(xdd[0], xdd[1]);
@@ -202,7 +202,7 @@ namespace Kean.Math.Regression.Test.Ransac
             previousCurrentPoints.Add(Tuple.Create<Geometry2D.Single.Point, Geometry2D.Single.Point>(new Geometry2D.Single.Point(130, 130), new Geometry2D.Single.Point(720, 70)));
             estimate.Load(previousCurrentPoints);
             Target.Estimation<Geometry2D.Single.Point, Geometry2D.Single.Point, Kean.Math.Matrix.Single> best = estimate.Compute();
-            Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosinus(thetaAngle), s * Kean.Math.Single.Sinus(thetaAngle), xTranslation, yTranslation });
+            Matrix.Single correct = new Matrix.Single(1, 4, new float[] { s * Kean.Math.Single.Cosine(thetaAngle), s * Kean.Math.Single.Sine(thetaAngle), xTranslation, yTranslation });
             if (best.NotNull())
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter("test.m");
@@ -243,8 +243,8 @@ namespace Kean.Math.Regression.Test.Ransac
                     {
                         Geometry2D.Single.Point previous = best.InlierDomain[i];
                         Geometry2D.Single.Point current = best.InlierRange[i];
-                        result[0, 2 * i + 0] = scale * Kean.Math.Single.Cosinus(theta) * previous.X - scale * Kean.Math.Single.Sinus(theta) * previous.Y + xt - current.X;
-                        result[0, 2 * i + 1] = scale * Kean.Math.Single.Sinus(theta) * previous.X + scale * Kean.Math.Single.Cosinus(theta) * previous.Y + yt - current.Y;
+                        result[0, 2 * i + 0] = scale * Kean.Math.Single.Cosine(theta) * previous.X - scale * Kean.Math.Single.Sine(theta) * previous.Y + xt - current.X;
+                        result[0, 2 * i + 1] = scale * Kean.Math.Single.Sine(theta) * previous.X + scale * Kean.Math.Single.Cosine(theta) * previous.Y + yt - current.Y;
                     }
                     return result;
                 };
@@ -258,12 +258,12 @@ namespace Kean.Math.Regression.Test.Ransac
                     for (int i = 0; i < count; i++)
                     {
                         Geometry2D.Single.Point previous = best.InlierDomain[i];
-                        result[0, 2 * i + 0] = Kean.Math.Single.Cosinus(theta) * previous.X - Kean.Math.Single.Sinus(theta) * previous.Y;
-                        result[1, 2 * i + 0] = -scale * Kean.Math.Single.Sinus(theta) * previous.X - scale * Kean.Math.Single.Cosinus(theta) * previous.Y;
+                        result[0, 2 * i + 0] = Kean.Math.Single.Cosine(theta) * previous.X - Kean.Math.Single.Sine(theta) * previous.Y;
+                        result[1, 2 * i + 0] = -scale * Kean.Math.Single.Sine(theta) * previous.X - scale * Kean.Math.Single.Cosine(theta) * previous.Y;
                         result[2, 2 * i + 0] = 1;
                         result[3, 2 * i + 0] = 0;
-                        result[0, 2 * i + 1] = Kean.Math.Single.Sinus(theta) * previous.X + Kean.Math.Single.Cosinus(theta) * previous.Y;
-                        result[1, 2 * i + 1] = scale * Kean.Math.Single.Cosinus(theta) * previous.X - scale * Kean.Math.Single.Sinus(theta) * previous.Y;
+                        result[0, 2 * i + 1] = Kean.Math.Single.Sine(theta) * previous.X + Kean.Math.Single.Cosine(theta) * previous.Y;
+                        result[1, 2 * i + 1] = scale * Kean.Math.Single.Cosine(theta) * previous.X - scale * Kean.Math.Single.Sine(theta) * previous.Y;
                         result[2, 2 * i + 1] = 0;
                         result[3, 2 * i + 1] = 1;
                     }

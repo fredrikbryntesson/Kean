@@ -274,19 +274,19 @@ namespace Kean.Math.Geometry3D.Single
 		{
 			float zero = 0;
 			float one = 1;
-			return new Transform() { A = one, B = zero, C = zero, D = zero, E = Math.Single.Cosinus(angle), F = Math.Single.Sinus(angle), G = zero, H = Math.Single.Sinus(- (angle)), I = Math.Single.Cosinus(angle), J = zero, K = zero, L = zero };
+			return new Transform() { A = one, B = zero, C = zero, D = zero, E = Math.Single.Cosine(angle), F = Math.Single.Sine(angle), G = zero, H = Math.Single.Sine(- (angle)), I = Math.Single.Cosine(angle), J = zero, K = zero, L = zero };
 		}
 		public static Transform CreateRotationY(float angle)
 		{
 			float zero = 0;
 			float one = 1;
-			return new Transform() { A = Math.Single.Cosinus(angle), B = zero, C = Math.Single.Sinus(angle), D = zero, E = one, F = zero, G = Math.Single.Sinus(-(angle)), H = zero, I = Math.Single.Cosinus(angle), J = zero, K = zero, L = zero };
+			return new Transform() { A = Math.Single.Cosine(angle), B = zero, C = Math.Single.Sine(angle), D = zero, E = one, F = zero, G = Math.Single.Sine(-(angle)), H = zero, I = Math.Single.Cosine(angle), J = zero, K = zero, L = zero };
 		}
 		public static Transform CreateRotationZ(float angle)
 		{
 			float zero = 0;
 			float one = 1;
-			return new Transform() { A = Math.Single.Cosinus(angle), B = Math.Single.Sinus(angle), C = zero, D = Math.Single.Sinus(-(angle)), E = Math.Single.Cosinus(angle), F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
+			return new Transform() { A = Math.Single.Cosine(angle), B = Math.Single.Sine(angle), C = zero, D = Math.Single.Sine(-(angle)), E = Math.Single.Cosine(angle), F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
 		}
 		public static Transform CreateReflectionX()
 		{

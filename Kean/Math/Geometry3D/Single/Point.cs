@@ -80,7 +80,7 @@ namespace Kean.Math.Geometry3D.Single
 		#region Static Creators
 		public static Point Spherical(float radius, float azimuth, float elevation)
 		{
-			return new Point(radius * Math.Single.Cosinus(azimuth) * Math.Single.Sinus(elevation), radius * Math.Single.Sinus(azimuth) * Math.Single.Sinus(elevation), radius * Math.Single.Cosinus(elevation));
+			return new Point(radius * Math.Single.Cosine(azimuth) * Math.Single.Sine(elevation), radius * Math.Single.Sine(azimuth) * Math.Single.Sine(elevation), radius * Math.Single.Cosine(elevation));
 		}
 		#endregion
 		#region Arithmetic Vector - Vector Operators

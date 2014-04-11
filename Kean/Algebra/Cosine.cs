@@ -34,7 +34,7 @@ namespace Kean.Algebra
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return Single.Cosinus(this.Argument.Evaluate(variables));
+			return Single.Cosine(this.Argument.Evaluate(variables));
 		}
 		public override Expression Derive(string variable)
 		{

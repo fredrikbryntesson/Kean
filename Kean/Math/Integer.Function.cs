@@ -197,11 +197,11 @@ namespace Kean.Math
 			value = Integer.ModuloTwoPi(value);
 			return (value <= Integer.Pi) ? value : (value - 2 * Integer.Pi);
 		}
-		public static int Sinus(int value)
+		public static int Sine(int value)
 		{
 			return Integer.Convert(System.Math.Sin(value));
 		}
-		public static int Cosinus(int value)
+		public static int Cosine(int value)
 		{
 			return Integer.Convert(System.Math.Cos(value));
 		}

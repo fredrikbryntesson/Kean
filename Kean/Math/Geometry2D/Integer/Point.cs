@@ -245,7 +245,7 @@ namespace Kean.Math.Geometry2D.Integer
         #region Static Creators
         public static Point Polar(int radius, int azimuth)
         {
-            return new Point(radius * Kean.Math.Integer.Cosinus(azimuth), radius * Kean.Math.Integer.Sinus(azimuth));
+            return new Point(radius * Kean.Math.Integer.Cosine(azimuth), radius * Kean.Math.Integer.Sine(azimuth));
         }
         #endregion
         #region Casts

@@ -242,7 +242,7 @@ namespace Kean.Math.Geometry2D.Single
         #region Static Creators
         public static Size Polar(float radius, float azimuth)
         {
-            return new Size(radius * Kean.Math.Single.Cosinus(azimuth), radius * Kean.Math.Single.Sinus(azimuth));
+            return new Size(radius * Kean.Math.Single.Cosine(azimuth), radius * Kean.Math.Single.Sine(azimuth));
         }
         #endregion
         #region Casts

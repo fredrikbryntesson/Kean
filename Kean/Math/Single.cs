@@ -93,13 +93,13 @@ namespace Kean.Math
 		}
 		#endregion
 		#region Trigonometric Functions
-        public override Single Sinus()
+        public override Single Sine()
         {
-            return Single.Sinus(this.Value);
+            return Single.Sine(this.Value);
         }
-        public override Single Cosinus()
+        public override Single Cosine()
         {
-            return Single.Cosinus(this.Value);
+            return Single.Cosine(this.Value);
         }
         public override Single Tangens()
         {

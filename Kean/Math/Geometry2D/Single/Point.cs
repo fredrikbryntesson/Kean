@@ -257,7 +257,7 @@ namespace Kean.Math.Geometry2D.Single
         #region Static Creators
         public static Point Polar(float radius, float azimuth)
         {
-            return new Point(radius * Kean.Math.Single.Cosinus(azimuth), radius * Kean.Math.Single.Sinus(azimuth));
+            return new Point(radius * Kean.Math.Single.Cosine(azimuth), radius * Kean.Math.Single.Sine(azimuth));
         }
         #endregion
         #region Casts

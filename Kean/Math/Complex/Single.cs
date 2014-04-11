@@ -132,7 +132,7 @@ namespace Kean.Math.Complex
         #region Static Functions
         public static Single Exponential(Single value)
         {
-            return Kean.Math.Single.Exponential(value.Real) * new Single(Kean.Math.Single.Cosinus(value.Imaginary), Kean.Math.Single.Sinus(value.Imaginary));
+            return Kean.Math.Single.Exponential(value.Real) * new Single(Kean.Math.Single.Cosine(value.Imaginary), Kean.Math.Single.Sine(value.Imaginary));
         }
         public static Single Logarithm( Single value)
         {

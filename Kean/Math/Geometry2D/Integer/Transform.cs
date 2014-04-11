@@ -244,13 +244,13 @@ namespace Kean.Math.Geometry2D.Integer
 		}
 		public static Transform CreateRotation(int angle)
 		{
-			return new Transform(Kean.Math.Integer.Cosinus(angle), Kean.Math.Integer.Sinus(angle), -Kean.Math.Integer.Sinus(angle), Kean.Math.Integer.Cosinus(angle), 0, 0);
+			return new Transform(Kean.Math.Integer.Cosine(angle), Kean.Math.Integer.Sine(angle), -Kean.Math.Integer.Sine(angle), Kean.Math.Integer.Cosine(angle), 0, 0);
 		}
 		public static Transform CreateRotation(int angle, Point pivot)
 		{
 			int one = 1;
-			int sine = Kean.Math.Integer.Sinus(angle);
-			int cosine = Kean.Math.Integer.Cosinus(angle);
+			int sine = Kean.Math.Integer.Sine(angle);
+			int cosine = Kean.Math.Integer.Cosine(angle);
 			return new Transform(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
 		public static Transform CreateSkewingX(int angle)

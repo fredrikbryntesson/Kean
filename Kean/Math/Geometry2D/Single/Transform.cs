@@ -244,13 +244,13 @@ namespace Kean.Math.Geometry2D.Single
 		}
 		public static Transform CreateRotation(float angle)
 		{
-			return new Transform(Kean.Math.Single.Cosinus(angle), Kean.Math.Single.Sinus(angle), -Kean.Math.Single.Sinus(angle), Kean.Math.Single.Cosinus(angle), 0, 0);
+			return new Transform(Kean.Math.Single.Cosine(angle), Kean.Math.Single.Sine(angle), -Kean.Math.Single.Sine(angle), Kean.Math.Single.Cosine(angle), 0, 0);
 		}
 		public static Transform CreateRotation(float angle, Point pivot)
 		{
 			float one = 1;
-			float sine = Kean.Math.Single.Sinus(angle);
-			float cosine = Kean.Math.Single.Cosinus(angle);
+			float sine = Kean.Math.Single.Sine(angle);
+			float cosine = Kean.Math.Single.Cosine(angle);
 			return new Transform(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
 		public static Transform CreateSkewingX(float angle)

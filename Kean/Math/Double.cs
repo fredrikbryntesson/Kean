@@ -94,13 +94,13 @@ namespace Kean.Math
 		}
 		#endregion
 		#region Trigonometric Functions
-        public override Double Sinus()
+        public override Double Sine()
         {
-            return Double.Sinus(this.Value);
+            return Double.Sine(this.Value);
         }
-        public override Double Cosinus()
+        public override Double Cosine()
         {
-            return Double.Cosinus(this.Value);
+            return Double.Cosine(this.Value);
         }
         public override Double Tangens()
         {

@@ -195,10 +195,10 @@ namespace Kean.Math.Geometry2D.Test.Double
 		{
 			double angle = Kean.Math.Double.ToRadians(20);
 			Target.Double.Transform transform = Target.Double.Transform.CreateRotation(angle);
-			Verify(transform.A, Is.EqualTo(Kean.Math.Double.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
-			Verify(transform.B, Is.EqualTo(Kean.Math.Double.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
-			Verify(transform.C, Is.EqualTo(-Kean.Math.Double.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
-			Verify(transform.D, Is.EqualTo(Kean.Math.Double.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
+			Verify(transform.A, Is.EqualTo(Kean.Math.Double.Cosine(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
+			Verify(transform.B, Is.EqualTo(Kean.Math.Double.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
+			Verify(transform.C, Is.EqualTo(-Kean.Math.Double.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
+			Verify(transform.D, Is.EqualTo(Kean.Math.Double.Cosine(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
 			Verify(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
 			Verify(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
 		}

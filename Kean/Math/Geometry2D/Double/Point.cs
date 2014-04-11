@@ -269,7 +269,7 @@ namespace Kean.Math.Geometry2D.Double
         #region Static Creators
         public static Point Polar(double radius, double azimuth)
         {
-            return new Point(radius * Kean.Math.Double.Cosinus(azimuth), radius * Kean.Math.Double.Sinus(azimuth));
+            return new Point(radius * Kean.Math.Double.Cosine(azimuth), radius * Kean.Math.Double.Sine(azimuth));
         }
         #endregion
         #region Casts

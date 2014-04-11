@@ -174,11 +174,11 @@ namespace Kean.Math
 			value = Single.ModuloTwoPi(value);
 			return (value <= Single.Pi) ? value : (value - 2 * Single.Pi);
 		}
-		public static float Sinus(float value)
+		public static float Sine(float value)
 		{
 			return Single.Convert(System.Math.Sin(value));
 		}
-		public static float Cosinus(float value)
+		public static float Cosine(float value)
 		{
 			return Single.Convert(System.Math.Cos(value));
 		}

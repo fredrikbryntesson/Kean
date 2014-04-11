@@ -134,8 +134,8 @@ namespace Kean.Math.Geometry3D.Double
 				double exponentialReal = Kean.Math.Double.Exponential(this.Real);
 				if (norm != 0)
 				{
-					result.Real = exponentialReal * Kean.Math.Double.Cosinus(norm);
-					result.Imaginary = exponentialReal * (this.Imaginary / norm) * Kean.Math.Double.Sinus(norm);
+					result.Real = exponentialReal * Kean.Math.Double.Cosine(norm);
+					result.Imaginary = exponentialReal * (this.Imaginary / norm) * Kean.Math.Double.Sine(norm);
 				}
 				else
 					result = (Quaternion)(exponentialReal);
