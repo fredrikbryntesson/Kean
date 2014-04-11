@@ -250,6 +250,9 @@
     <Compile Include="Json\Dom\Tests.cs" />
     <Compile Include="Json\Serialize\All.cs" />
     <Compile Include="Json\Serialize\Verifier.cs" />
+    <Compile Include="Algebra\All.cs" />
+    <Compile Include="Algebra\Simplify.cs" />
+    <Compile Include="Algebra\Parse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Complex\Template.tt" />
@@ -590,4 +593,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <Folder Include="Algebra\" />
+  </ItemGroup>
 </Project>

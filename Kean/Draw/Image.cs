@@ -150,7 +150,7 @@ namespace Kean.Draw
 			{
 				for (int y = 0; x < target.Size.Height; y++)
 				{
-					Geometry3D.Single.Point d =  
+					//Geometry3D.Single.Point d =  
 				}
 			}
 		}
