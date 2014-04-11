@@ -28,7 +28,7 @@ namespace Kean.Algebra
 	public class Multiplication:
 	BinaryOperator
 	{
-		public override int Precedence{ get { return 7; } }
+		public override int Precedence{ get { return 3; } }
 		protected override string Symbol { get { return "*"; } }
 		internal Multiplication()
 		{
@@ -49,17 +49,17 @@ namespace Kean.Algebra
 		{
 			var terms = this.CollectFactors(this);
 			Expression result;
-			float number = 1;
+			float constant = 1;
 			terms.Remove(term =>
 			{
 				bool r;
 				if (r = term.Item2 is Constant)
-				{
-					number *= (term.Item2 as Constant).Value;
-				}
+					constant *= (term.Item2 as Constant).Value;
+				else if (r = term.Item2 is Negation && ((Negation)term.Item2).Argument is Constant)
+					constant *= -((Constant)((Negation)term.Item2).Argument).Value;
 				return r;
 			});
-			result = number;
+			result = constant;
 			while (terms.Count > 0)
 			{
 				Tuple<float, Expression> nextItem = terms.Remove();
@@ -69,9 +69,7 @@ namespace Kean.Algebra
 				{
 					bool r;
 					if (r = ((term.Item2).Equals(next)))
-					{
 						repitition += term.Item1;
-					}
 					return r;
 				});
 				if (result == 1)

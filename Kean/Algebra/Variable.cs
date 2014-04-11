@@ -26,7 +26,7 @@ namespace Kean.Algebra
 	public class Variable :
 	Expression
 	{
-		public override int Precedence { get { return int.MaxValue; } }
+		public override int Precedence { get { return 0; } }
 		public string Name { get; private set; }
 		public Variable(string name)
 		{
@@ -46,7 +46,7 @@ namespace Kean.Algebra
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is Variable && this.Name == (other as Variable).Name;
+			return other is Variable && this.Name == ((Variable)other).Name;
 		}
 		#region Object Overrides
 		public override string ToString()
@@ -56,6 +56,12 @@ namespace Kean.Algebra
 		public override int GetHashCode()
 		{
 			return this.Name.Hash();
+		}
+		#endregion
+		#region Static Create
+		public static Variable Create(string name)
+		{
+			return new Variable(name);
 		}
 		#endregion
 	}

@@ -26,7 +26,7 @@ namespace Kean.Algebra
 	class RightParanthesis :
 	Expression
 	{
-		public override int Precedence { get { return int.MaxValue; } }
+		public override int Precedence { get { return 0; } }
 		public RightParanthesis()
 		{
 		}

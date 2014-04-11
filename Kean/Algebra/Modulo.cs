@@ -26,7 +26,7 @@ namespace Kean.Algebra
 	public  class Modulo:
 	BinaryOperator
 	{
-		public override int Precedence { get { return 6; } }
+		public override int Precedence { get { return 3; } }
 		protected override string Symbol{ get { return "%"; } }
 		internal Modulo()
 		{

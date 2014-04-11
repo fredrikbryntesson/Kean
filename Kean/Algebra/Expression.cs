@@ -38,7 +38,8 @@ namespace Kean.Algebra
 		internal string ToString(int precedence)
 		{
 			string result = this.ToString();
-			if (precedence > this.Precedence)
+			//if (precedence < this.Precedence)
+			if (this.Precedence > 0)
 				result = "(" + result + ")";
 			return result;
 		}
@@ -46,6 +47,10 @@ namespace Kean.Algebra
 		public override bool Equals(object other)
 		{
 			return this.Equals(other as Expression);
+		}
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
 		public abstract bool Equals(Expression other);
 		public static bool operator ==(Expression left, Expression right)

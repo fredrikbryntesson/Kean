@@ -1,5 +1,5 @@
 ﻿//
-//  Negation.cs
+//  Function.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -23,34 +23,23 @@ using System;
 
 namespace Kean.Algebra
 {
-	public class Negation:
-	UnaryOperator
+	public abstract class Function :
+	Expression
 	{
-		public override int Precedence { get { return 4; } }
-		protected override string Symbol { get { return "-"; } }
-		internal Negation()
+		public override int Precedence { get { return 0; } }
+		protected abstract string Symbol { get; }
+		public Expression Argument { get; set; }
+		protected Function(Expression argument)
 		{
+			this.Argument = argument;
 		}
-		public Negation(Expression argument) : 
-			base(argument)
+		public override string ToString()
 		{
+			return this.Symbol + "(" + this.Argument.ToString(this.Precedence) + ")";
 		}
-		public override float Evaluate(params KeyValue<string, float>[] variables)
+		public override bool Equals(Expression other)
 		{
-			return -this.Argument.Evaluate(variables);
-		}
-		public override Expression Derive(string variable)
-		{
-			return new Negation(this.Argument.Derive(variable));
-		}
-		public override Expression Simplify()
-		{
-			Expression result = this.Argument.Simplify();
-			if (result is Constant)
-				result = -(result as Constant).Value;
-			else
-				result = new Negation(result);
-			return result;
+			return other is Function && this.Symbol == ((Function)other).Symbol && this.Argument == ((Function)other).Argument;
 		}
 	}
 }

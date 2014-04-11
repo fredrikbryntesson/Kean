@@ -6,8 +6,8 @@ namespace Kean.Algebra.Test
 	{
 		public static void Test()
 		{
-			Simplify.Test();
 			Parse.Test();
+			Simplify.Test();
 		}
 	}
 }

@@ -9,43 +9,143 @@ namespace Kean.Algebra.Test
 		protected override void Run()
 		{
 			this.Run(
-				//this.Parsing1,
-				//this.Parsing2,
-				//this.Parsing3,
-				//this.Parsing4,
-				//this.Parsing5,
-				//this.Parsing6,
-				//this.Parsing7,
-				//this.Parsing8,
-				//this.Parsing9,
+				this.ConstantZero,
+				this.ConstantSingleDigit,
+				this.ConstantWithoutDecimals,
+				this.ConstantWithDecimals,
+				this.ConstantWithSpace,
+				this.VariableSingleCharacter,
+				this.VariableWithSpace,
+				this.VariableMultipleCharacters,
+				this.AddingConstants,
+				this.AddingConstantsWithoutSpace,
+				this.AddingConstantsWithDecimals,
+				this.AddingVariables,
+				this.AddingVariableConstant,
+				this.AddingMultipleTerms,
+				this.Parsing4,
+				this.Parsing5,
+				this.Parsing6,
+				this.Parsing7,
+				this.Parsing8,
+				this.Parsing9,
 				this.Parsing10,
 				this.Parsing11,
 				this.Parsing12
 			);
 		}
 
+		#region Constant
+
 		[Test]
-		public void Parsing1()
+		public void ConstantZero()
 		{
-			Expression expression = (Expression)"2+3";
+			var expression = (Expression)"0";
+			Verify(expression, Is.EqualTo((Expression)0f));
+		}
+
+		[Test]
+		public void ConstantSingleDigit()
+		{
+			var expression = (Expression)"3";
+			Verify(expression, Is.EqualTo((Expression)3f));
+		}
+
+		[Test]
+		public void ConstantWithoutDecimals()
+		{
+			var expression = (Expression)"42";
+			Verify(expression, Is.EqualTo((Expression)42f));
+		}
+
+		[Test]
+		public void ConstantWithDecimals()
+		{
+			var expression = (Expression)"13.37";
+			Verify(expression, Is.EqualTo((Expression)13.37f));
+		}
+
+		[Test]
+		public void ConstantWithSpace()
+		{
+			var expression = (Expression)" 13.37 ";
+			Verify(expression, Is.EqualTo((Expression)13.37f));
+		}
+
+		#endregion
+
+		#region Variable
+
+		[Test]
+		public void VariableSingleCharacter()
+		{
+			var expression = (Expression)"x";
+			Verify(expression, Is.EqualTo((Expression)"x"));
+		}
+
+		[Test]
+		public void VariableWithSpace()
+		{
+			var expression = (Expression)" x ";
+			Verify(expression, Is.EqualTo((Expression)"x"));
+		}
+
+		[Test]
+		public void VariableMultipleCharacters()
+		{
+			var expression = (Expression)"variable";
+			Verify(expression, Is.EqualTo((Expression)"variable"));
+		}
+
+		#endregion
+
+		#region Adding
+
+		[Test]
+		public void AddingConstants()
+		{
+			var expression = (Expression)"2 + 3";
 			Verify(expression, Is.EqualTo((Expression)2 + 3));
 		}
 
-		public void Parsing2()
+		[Test]
+		public void AddingConstantsWithoutSpace()
 		{
-			Expression expression = (Expression)"x+y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Verify(expression, Is.EqualTo(variable1 + variable2));
+			var expression = (Expression)"2+3";
+			Verify(expression, Is.EqualTo((Expression)2 + 3));
 		}
 
-		public void Parsing3()
+		[Test]
+		public void AddingConstantsWithDecimals()
 		{
-			Expression expression = (Expression)"x+2";
-			Expression variable1 = new Variable("x");
-			Verify(expression, Is.EqualTo(variable1 + 2));
+			var expression = (Expression)"4.2 + 13.37";
+			Verify(expression, Is.EqualTo((Expression)4.2f + 13.37f));
 		}
 
+		[Test]
+		public void AddingVariables()
+		{
+			Expression expression = (Expression)"x + y";
+			Verify(expression, Is.EqualTo(new Variable("x") + new Variable("y")));
+		}
+
+		[Test]
+		public void AddingVariableConstant()
+		{
+			Expression expression = (Expression)"x + 2";
+			Verify(expression, Is.EqualTo(new Variable("x") + 2));
+		}
+
+		[Test]
+		public void AddingMultipleTerms()
+		{
+			Expression expression = (Expression)"1 + 2 + 3 + 4 + 5 + 6";
+			Verify(expression, Is.EqualTo((Expression)1 + 2 + 3 + 4 + 5 + 6));
+		}
+
+		#endregion
+
+		[Test]
 		public void Parsing4()
 		{
 			Expression expression = (Expression)"x-2*x-3";
@@ -54,6 +154,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing5()
 		{
 			Expression expression = (Expression)"x+2*x/3-y";
@@ -63,6 +164,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing6()
 		{
 			Expression expression = (Expression)"x+2^y/3-y";
@@ -72,6 +174,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing7()
 		{
 			Expression expression = (Expression)"x+2+y/3-y";
@@ -81,6 +184,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing8()
 		{
 			Expression expression = (Expression)"x*2-y/3/y*5/6/65";
@@ -90,6 +194,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing9()
 		{
 			Expression expression = (Expression)"-x+-2+y/3-y";
@@ -99,6 +204,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing10()
 		{
 			Expression expression = (Expression)"x+(2+y/3)-y";
@@ -108,6 +214,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing11()
 		{
 			Expression expression = (Expression)"x+((-2+y/3)-y)";
@@ -117,6 +224,7 @@ namespace Kean.Algebra.Test
 			Verify(expression, Is.EqualTo(correct));
 		}
 
+		[Test]
 		public void Parsing12()
 		{
 			Expression expression = (Expression)"x+((-2+y/3)-y)+2*y-z";

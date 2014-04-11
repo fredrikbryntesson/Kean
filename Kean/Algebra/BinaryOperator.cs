@@ -30,7 +30,8 @@ namespace Kean.Algebra
 		protected abstract string Symbol { get; }
 		public Expression Left { get; private set; }
 		public Expression Right { get; private set; }
-		protected BinaryOperator()
+		protected BinaryOperator() :
+			this(0, 0)
 		{
 		}
 		protected BinaryOperator(Expression left, Expression right)
@@ -38,11 +39,22 @@ namespace Kean.Algebra
 			this.Left = left;
 			this.Right = right;
 		}
-		internal BinaryOperator Build(Expression left, Expression right)
+		protected virtual Expression Build(Expression argument)
 		{
-			this.Left = left;
-			this.Right = right;
-			return this;
+			return argument;
+		}
+		internal Expression Build(Expression left, Expression right)
+		{
+			Expression result;
+			if (left.IsNull())
+				result = this.Build(right);
+			else
+			{
+				this.Left = left;
+				this.Right = right;
+				result = this;
+			}
+			return result;
 		}
 		#region Object Overrides
 		public override string ToString()

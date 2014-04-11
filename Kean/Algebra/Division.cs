@@ -26,7 +26,7 @@ namespace Kean.Algebra
 	public class Division:
 	BinaryOperator
 	{
-		public override int Precedence { get { return 8; } }
+		public override int Precedence { get { return 3; } }
 		protected override string Symbol { get { return "/"; } }
 		internal Division()
 		{			

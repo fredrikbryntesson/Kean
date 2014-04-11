@@ -1,5 +1,5 @@
 ﻿//
-//  Negation.cs
+//  Sine.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -20,37 +20,29 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Single = Kean.Math.Single;
 
 namespace Kean.Algebra
 {
-	public class Negation:
-	UnaryOperator
+	public class Sine:
+	Function
 	{
-		public override int Precedence { get { return 4; } }
-		protected override string Symbol { get { return "-"; } }
-		internal Negation()
-		{
-		}
-		public Negation(Expression argument) : 
+		protected override string Symbol { get { return "sin"; } }
+		public Sine(Expression argument) :
 			base(argument)
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return -this.Argument.Evaluate(variables);
+			return Single.Sinus(this.Argument.Evaluate(variables));
 		}
 		public override Expression Derive(string variable)
 		{
-			return new Negation(this.Argument.Derive(variable));
+			return new Cosine(this.Argument) * this.Argument.Derive(variable);
 		}
 		public override Expression Simplify()
 		{
-			Expression result = this.Argument.Simplify();
-			if (result is Constant)
-				result = -(result as Constant).Value;
-			else
-				result = new Negation(result);
-			return result;
+			return new Sine(this.Argument.Simplify());
 		}
 	}
 }

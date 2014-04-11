@@ -28,9 +28,10 @@ namespace Kean.Algebra
 	public class Addition :
 	BinaryOperator
 	{
-		public override int Precedence { get { return 5; } }
+		public override int Precedence { get { return 4; } }
 		protected override string Symbol { get { return "+"; } }
-		internal Addition()
+		internal Addition() :
+			this(0, 0)
 		{
 		}
 		public Addition(Expression left, Expression right) :

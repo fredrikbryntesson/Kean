@@ -28,7 +28,7 @@ namespace Kean.Algebra
 	public class Constant :
 	Expression
 	{
-		public override int Precedence { get { return int.MaxValue; } }
+		public override int Precedence { get { return 0; } }
 		public float Value { get; private set; }
 		public Constant(float value)
 		{
@@ -48,7 +48,7 @@ namespace Kean.Algebra
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is Constant && Single.Absolute(this.Value - (other as Constant).Value) <= 0.000001f;
+			return other is Constant && Single.Absolute(this.Value - ((Constant)other).Value) <= 0.000001f;
 		}
 		#region Object Overrides
 		public override string ToString()
@@ -58,6 +58,12 @@ namespace Kean.Algebra
 		public override int GetHashCode()
 		{
 			return this.Value.Hash();
+		}
+		#endregion
+		#region Static Parse
+		public static Constant Parse(string value)
+		{
+			return new Constant(value.Parse<float>());
 		}
 		#endregion
 	}
