@@ -23,7 +23,9 @@ using System;
 using Kean;
 using Kean.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Geometry3D = Kean.Math.Geometry3D;
 using Error = Kean.Error;
+using Integer = Kean.Math.Integer;
 
 namespace Kean.Draw
 {
@@ -91,8 +93,31 @@ namespace Kean.Draw
 		}
 		public event Action<bool> WrapChanged;
 		#endregion
-		//public abstract IColor this[int x, int y] { get; }
-		//public abstract IColor this[float x, float y] { get; }
+		#region Peek & Poke
+		public abstract IColor this[int x, int y] { get; set; }
+		public IColor this[float x, float y]
+		{
+			get
+			{
+				var topLeft = this[Integer.Floor(x), Integer.Floor(y)];
+				var bottomLeft = this[Integer.Floor(x), Integer.Ceiling(y)];
+				var topRight = this[Integer.Ceiling(x), Integer.Floor(y)];
+				var bottomRight = this[Integer.Ceiling(x), Integer.Ceiling(y)];
+				var deltaX = x - Integer.Floor(x);
+				var deltaY = y - Integer.Floor(y);
+				return topLeft.Blend(deltaX, topRight).Blend(deltaY, bottomLeft.Blend(deltaX, bottomRight));
+			}
+		}
+		public IColor this[Geometry2D.Integer.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+			set { this[position.X, position.Y] = value; }
+		}
+		public IColor this[Geometry2D.Single.Point position]
+		{
+			get { return this[position.X, position.Y]; }
+		}
+		#endregion
 		protected Image()
 		{ }
 		protected Image(Image original) :
@@ -117,6 +142,17 @@ namespace Kean.Draw
 				this.Dispose();
 			}
 			return result;
+		}
+		public void ProjectOn(Draw.Image target, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		{
+
+			for (int x = 0; x < target.Size.Width; x++)
+			{
+				for (int y = 0; x < target.Size.Height; y++)
+				{
+					Geometry3D.Single.Point d =  
+				}
+			}
 		}
 		public Draw.Image ResizeWithin(Geometry2D.Integer.Size restriction)
 		{
