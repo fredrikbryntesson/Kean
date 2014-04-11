@@ -33,6 +33,11 @@ namespace Kean.Draw.OpenGL
 		Geometry2D.Single.Point RightTop { get; set; }
 		Geometry2D.Single.Point LeftBottom { get; set; }
 		Geometry2D.Single.Point RightBottom { get; set; }
+		public override IColor this[int x, int y]
+		{
+			get { throw new NotImplementedException(); }
+			set { }
+		}
 		#region Constructors
 		protected Image(Image original) :
 			base(original) 

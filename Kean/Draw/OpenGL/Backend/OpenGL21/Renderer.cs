@@ -142,6 +142,10 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 			GL.Vertex2(region.Right, region.Top);
 			GL.Vertex2(region.Right, region.Bottom);
 			GL.Vertex2(region.Left, region.Bottom);
+			//GL.Vertex3(region.Left, region.Top, 0);
+			//GL.Vertex3(region.Right, region.Top, 200);
+			//GL.Vertex3(region.Right, region.Bottom, 400);
+			//GL.Vertex3(region.Left, region.Bottom, -600);
 			GL.End();
 		}
 		public override Backend.Renderer Refurbish()
