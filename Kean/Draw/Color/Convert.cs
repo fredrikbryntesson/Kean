@@ -110,7 +110,7 @@ namespace Kean.Draw.Color
 		public static Action<Bgr> FromBgr(Action<Monochrome> action)
 		{
 			Convert.BgrToYuvInititalize();
-			return action.IsNull() ? (Action<Bgr>)null : color => action((Monochrome)(byte)Function.Integer.Clamp(((Convert.bgrToYuv[0][color.Red] + Convert.bgrToYuv[0][256 + color.Green] + Convert.bgrToYuv[0][512 + color.Blue]) >> 8), 0, 255));
+			return action.IsNull() ? (Action<Bgr>)null : color => action((Monochrome)(byte)Integer.Clamp(((Convert.bgrToYuv[0][color.Red] + Convert.bgrToYuv[0][256 + color.Green] + Convert.bgrToYuv[0][512 + color.Blue]) >> 8), 0, 255));
 		}
 		public static Action<Yuv> FromYuv(Action<Monochrome> action)
 		{
