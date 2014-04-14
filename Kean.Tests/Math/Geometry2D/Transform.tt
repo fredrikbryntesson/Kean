@@ -223,10 +223,10 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         {
             <#= @value1 #> angle = Kean.Math.<#= @namespace1 #>.ToRadians(20);
             Target.<#= @namespace1 #>.<#= @name #> transform = Target.<#= @namespace1 #>.<#= @name #>.CreateRotation(angle);
-            Verify(transform.A, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
-            Verify(transform.B, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
-            Verify(transform.C, Is.EqualTo(-Kean.Math.<#= @namespace1 #>.Sinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
-            Verify(transform.D, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosinus(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
+            Verify(transform.A, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosine(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
+            Verify(transform.B, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
+            Verify(transform.C, Is.EqualTo(-Kean.Math.<#= @namespace1 #>.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");
+            Verify(transform.D, Is.EqualTo(Kean.Math.<#= @namespace1 #>.Cosine(angle)).Within(this.Precision), this.prefix + "CreateRotation.3");
             Verify(transform.E, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.4");
             Verify(transform.F, Is.EqualTo(0).Within(this.Precision), this.prefix + "CreateRotation.5");
         }

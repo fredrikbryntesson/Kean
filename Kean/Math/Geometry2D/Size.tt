@@ -299,7 +299,7 @@ namespace Kean.Math.Geometry2D.<#= Namespace #>
 		#region Static Creators
 		public static Size Polar(<#= @type #> radius, <#= @type #> azimuth)
 		{
-			return new Size(radius * Kean.Math.<#= Namespace #>.Cosinus(azimuth), radius * Kean.Math.<#= Namespace #>.Sinus(azimuth));
+			return new Size(radius * Kean.Math.<#= Namespace #>.Cosine(azimuth), radius * Kean.Math.<#= Namespace #>.Sine(azimuth));
 		}
 		#endregion
 		#region Casts

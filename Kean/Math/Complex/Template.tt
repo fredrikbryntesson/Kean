@@ -152,7 +152,7 @@ namespace Kean.Math.Complex
         #region Static Functions
         public static <#= @class #> Exponential(<#= @class #> value)
         {
-            return Kean.Math.<#= @class #>.Exponential(value.Real) * new <#= @class #>(Kean.Math.<#= @class #>.Cosinus(value.Imaginary), Kean.Math.<#= @class #>.Sinus(value.Imaginary));
+            return Kean.Math.<#= @class #>.Exponential(value.Real) * new <#= @class #>(Kean.Math.<#= @class #>.Cosine(value.Imaginary), Kean.Math.<#= @class #>.Sine(value.Imaginary));
         }
         public static <#= @class #> Logarithm( <#= @class #> value)
         {

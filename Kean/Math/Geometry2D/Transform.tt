@@ -273,13 +273,13 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		public static <#= @name #> CreateRotation(<#= @value1 #> angle)
 		{
-			return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Cosinus(angle), Kean.Math.<#= @namespace1 #>.Sinus(angle), -Kean.Math.<#= @namespace1 #>.Sinus(angle), Kean.Math.<#= @namespace1 #>.Cosinus(angle), 0, 0);
+			return new <#= @name #>(Kean.Math.<#= @namespace1 #>.Cosine(angle), Kean.Math.<#= @namespace1 #>.Sine(angle), -Kean.Math.<#= @namespace1 #>.Sine(angle), Kean.Math.<#= @namespace1 #>.Cosine(angle), 0, 0);
 		}
 		public static <#= @name #> CreateRotation(<#= @value1 #> angle, Point pivot)
 		{
 			<#= @value1 #> one = 1;
-			<#= @value1 #> sine = Kean.Math.<#= @namespace1 #>.Sinus(angle);
-			<#= @value1 #> cosine = Kean.Math.<#= @namespace1 #>.Cosinus(angle);
+			<#= @value1 #> sine = Kean.Math.<#= @namespace1 #>.Sine(angle);
+			<#= @value1 #> cosine = Kean.Math.<#= @namespace1 #>.Cosine(angle);
 			return new <#= @name #>(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
 		public static <#= @name #> CreateSkewingX(<#= @value1 #> angle)

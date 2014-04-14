@@ -104,7 +104,7 @@ namespace Kean.Math.Geometry3D.<#= @namespace #>
 		#region Static Creators
 		public static Point Spherical(<#= @type #> radius, <#= @type #> azimuth, <#= @type #> elevation)
 		{
-			return new Point(radius * Math.<#= @namespace #>.Cosinus(azimuth) * Math.<#= @namespace #>.Sinus(elevation), radius * Math.<#= @namespace #>.Sinus(azimuth) * Math.<#= @namespace #>.Sinus(elevation), radius * Math.<#= @namespace #>.Cosinus(elevation));
+			return new Point(radius * Math.<#= @namespace #>.Cosine(azimuth) * Math.<#= @namespace #>.Sine(elevation), radius * Math.<#= @namespace #>.Sine(azimuth) * Math.<#= @namespace #>.Sine(elevation), radius * Math.<#= @namespace #>.Cosine(elevation));
 		}
 		#endregion
 		#region Arithmetic Vector - Vector Operators

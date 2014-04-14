@@ -314,7 +314,7 @@ namespace <#= @namespace #>.<#= @namespace1 #>
         #region Static Creators
         public static <#= @name #> Polar(<#= @value1 #> radius, <#= @value1 #> azimuth)
         {
-            return new <#= @name #>(radius * Kean.Math.<#= @namespace1 #>.Cosinus(azimuth), radius * Kean.Math.<#= @namespace1 #>.Sinus(azimuth));
+            return new <#= @name #>(radius * Kean.Math.<#= @namespace1 #>.Cosine(azimuth), radius * Kean.Math.<#= @namespace1 #>.Sine(azimuth));
         }
         #endregion
         #region Casts
