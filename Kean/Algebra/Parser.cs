@@ -36,10 +36,6 @@ namespace Kean.Algebra
 			var tokens = Tokenizer.Tokenize(expression);
 			while (!tokens.Empty)
 				list.Add(tokens.Dequeue());
-			//			var array = list.ToArray();
-			//			var enumerator = Tokenizer.Tokenize(expression).GetEnumerator();
-//			var enumerator = ((Generic.IEnumerable<Expression>)list).GetEnumerator();
-//			return enumerator.MoveNext() ? this.Parse(0, null, enumerator) : null;
 			return this.Parse(list);
 		}
 		Expression Parse(Generic.IEnumerable<Expression> tokens)
@@ -47,24 +43,32 @@ namespace Kean.Algebra
 			var enumerator = tokens.GetEnumerator();
 			Expression result = null;
 			if (enumerator.MoveNext())
-				while (enumerator.Current.NotNull())
-					result = this.Parse(0, result, enumerator);
+				result = this.Parse(int.MaxValue, result, enumerator);
 			return result;
 		}
 		Expression Parse(int precedence, Expression previous, Generic.IEnumerator<Expression> enumerator)
 		{
-			Expression result;
+			Expression result = null;
 			Expression current = enumerator.Current;
-			if (current.IsNull() || current.Precedence < precedence)
-				result = previous;
-			else if (current is Constant || current is Variable)
+			if (current is Constant || current is Variable)
 				result = enumerator.MoveNext() ? this.Parse(precedence, current, enumerator) : current;
-			else if (current is LeftParanthesis && enumerator.MoveNext())
-				result = this.Parse(current.Precedence, null, enumerator);
-			else if (current is RightParanthesis && enumerator.MoveNext())
-				result = previous;
-			else if (current is BinaryOperator && enumerator.MoveNext())
+			else if (current is UnaryOperator && enumerator.MoveNext())
+			{
+				result = ((UnaryOperator)current).Build(this.Parse(current.Precedence, null, enumerator));
+				result = this.Parse(precedence, result, enumerator);
+			}
+			else if (current is LeftParenthesis && enumerator.MoveNext())
+			{
+				result = this.Parse(int.MaxValue, null, enumerator);
+				if (previous is Variable) // convert to function
+					result = Function.Create(((Variable)previous).Name, result);
+				result = enumerator.Current is RightParenthesis && enumerator.MoveNext() ? this.Parse(precedence, result, enumerator) : result;
+			}
+			else if (current is BinaryOperator && current.Precedence < precedence && enumerator.MoveNext())
+			{
 				result = ((BinaryOperator)current).Build(previous, this.Parse(current.Precedence, null, enumerator));
+				result = this.Parse(precedence, result, enumerator);
+			}
 			else
 				result = previous;
 			return result;

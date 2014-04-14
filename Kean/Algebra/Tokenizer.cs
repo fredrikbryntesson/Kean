@@ -32,6 +32,8 @@ namespace Kean.Algebra
 		Collection.IQueue<Expression> queue = new Collection.Queue<Expression>();
 		public bool Empty { get { return this.queue.Empty; } }
 		public int Count { get { return this.queue.Count; } }
+		bool nextMustBeUnaryOperator = true;
+		bool NextMustBeUnaryOperator { get { return this.nextMustBeUnaryOperator && this.buffer.IsNull(); } set { this.nextMustBeUnaryOperator = value; } }
 		Tokenizer()
 		{
 		}
@@ -49,6 +51,7 @@ namespace Kean.Algebra
 			{
 				string buffer = this.buffer;
 				this.queue.Enqueue(char.IsDigit(buffer[0]) ? (Expression)Constant.Parse(buffer) : Variable.Create(buffer));
+				this.NextMustBeUnaryOperator = false;
 				this.buffer = null;
 			}
 		}
@@ -56,6 +59,7 @@ namespace Kean.Algebra
 		{
 			this.Flush();
 			this.queue.Enqueue(token);
+			this.NextMustBeUnaryOperator = token is BinaryOperator || token is LeftParenthesis;
 		}
 		public static Tokenizer Tokenize(string data)
 		{
@@ -64,7 +68,7 @@ namespace Kean.Algebra
 				switch (c)
 				{
 					case '-':
-						result.Enqueue(new Subtraction());
+						result.Enqueue(result.NextMustBeUnaryOperator ? (Expression)new Negation() : new Subtraction());
 						break;
 					case '+':
 						result.Enqueue(new Addition());
@@ -79,10 +83,10 @@ namespace Kean.Algebra
 						result.Enqueue(new Power());
 						break;
 					case '(':
-						result.Enqueue(new LeftParanthesis());
+						result.Enqueue(new LeftParenthesis());
 						break;
 					case ')':
-						result.Enqueue(new RightParanthesis());
+						result.Enqueue(new RightParenthesis());
 						break;
 					default:
 						if (char.IsWhiteSpace(c))

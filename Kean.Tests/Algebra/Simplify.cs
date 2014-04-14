@@ -13,21 +13,18 @@ namespace Kean.Algebra.Test
 				this.SubstractingConstants,
 				this.MultiplyingConstants,
 				this.DividingConstants,
-				this.PowerOfConstants
-				//this.SineConstants,
+				this.PowerOfConstants,
+				this.SineConstants
 			);
 		}
-
 		[Test]
 		public void AddingConstants()
 		{
 			Expression expression = (Expression)2.3f + 1.9f;
 			Verify(expression.Simplify(), Is.EqualTo((Expression)4.2f));
 			expression += 2.56f;
-
 			Verify(expression.Simplify(), Is.EqualTo((Expression)6.76f));
 		}
-
 		[Test]
 		public void SubstractingConstants()
 		{
@@ -35,7 +32,6 @@ namespace Kean.Algebra.Test
 			Expression after = -3.1f;
 			Verify(before.Simplify(), Is.EqualTo(after));
 		}
-
 		[Test]
 		public void MultiplyingConstants()
 		{
@@ -43,7 +39,6 @@ namespace Kean.Algebra.Test
 			Expression after = 27f;
 			Verify(before.Simplify(), Is.EqualTo(after));
 		}
-
 		[Test]
 		public void DividingConstants()
 		{
@@ -51,7 +46,6 @@ namespace Kean.Algebra.Test
 			Expression after = -10.5f;
 			Verify(before.Simplify(), Is.EqualTo(after));
 		}
-
 		[Test]
 		public void PowerOfConstants()
 		{
@@ -59,15 +53,14 @@ namespace Kean.Algebra.Test
 			Expression after = 16f;
 			Verify(before.Simplify(), Is.EqualTo(after));
 		}
-		//		[Test]
-		//		public void SineConstants()
-		//		{
-		//			Expression exp0 = new Variable("x");
-		//			Expression exp1 = new Variable("y");
-		//			Expression befor = new Sine(exp0 + exp1 + exp0);
-		//			Expression after = new Sine(2 * exp0 + exp1);
-		//			Verify(befor.Simplify(), Is.EqualTo(after));
-		//		}
+		[Test]
+		public void SineConstants()
+		{
+			Expression exp0 = new Variable("x");
+			Expression exp1 = new Variable("y");
+			Expression befor = new Sine(exp0 + exp1 + exp0);
+			Expression after = new Sine(2 * exp0 + exp1);
+			Verify(befor.Simplify(), Is.EqualTo(after));
+		}
 	}
 }
-

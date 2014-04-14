@@ -23,11 +23,11 @@ using System;
 
 namespace Kean.Algebra
 {
-	class LeftParanthesis :
+	class LeftParenthesis :
 	Expression
 	{
 		public override int Precedence { get { return 0; } }
-		public LeftParanthesis()
+		public LeftParenthesis()
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
@@ -49,11 +49,11 @@ namespace Kean.Algebra
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is LeftParanthesis;
+			return other is LeftParenthesis;
 		}
 		public override int GetHashCode()
 		{
-			return typeof(LeftParanthesis).GetHashCode();
+			return typeof(LeftParenthesis).GetHashCode();
 		}
 		#endregion
 	}

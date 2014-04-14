@@ -39,27 +39,16 @@ namespace Kean.Algebra
 			this.Left = left;
 			this.Right = right;
 		}
-		protected virtual Expression Build(Expression argument)
-		{
-			return argument;
-		}
 		internal Expression Build(Expression left, Expression right)
 		{
-			Expression result;
-			if (left.IsNull())
-				result = this.Build(right);
-			else
-			{
-				this.Left = left;
-				this.Right = right;
-				result = this;
-			}
-			return result;
+			this.Left = left;
+			this.Right = right;
+			return this;
 		}
 		#region Object Overrides
 		public override string ToString()
 		{
-			return this.Left.ToString(this.Precedence - 1) + " " + this.Symbol + " " + this.Right.ToString(this.Precedence);
+			return (this.Left.IsNull() ? "null" : this.Left.ToString(this.Precedence - 1)) + " " + this.Symbol + " " + (this.Right.IsNull() ? "null" : this.Right.ToString(this.Precedence));
 		}
 		public override bool Equals(Expression other)
 		{

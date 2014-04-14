@@ -884,12 +884,12 @@
     <Compile Include="Algebra\Negation.cs" />
     <Compile Include="Algebra\Modulo.cs" />
     <Compile Include="Algebra\Parser.cs" />
-    <Compile Include="Algebra\LeftParanthesis.cs" />
-    <Compile Include="Algebra\RightParanthesis.cs" />
     <Compile Include="Algebra\Function.cs" />
     <Compile Include="Algebra\Sine.cs" />
     <Compile Include="Algebra\Cosine.cs" />
     <Compile Include="Algebra\Tokenizer.cs" />
+    <Compile Include="Algebra\RightParenthesis.cs" />
+    <Compile Include="Algebra\LeftParenthesis.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />

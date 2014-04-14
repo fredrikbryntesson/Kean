@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Extension;
 
 namespace Kean.Algebra
 {
@@ -33,6 +34,7 @@ namespace Kean.Algebra
 		{
 			this.Argument = argument;
 		}
+		#region Object Overrides
 		public override string ToString()
 		{
 			return this.Symbol + "(" + this.Argument.ToString(this.Precedence) + ")";
@@ -41,6 +43,30 @@ namespace Kean.Algebra
 		{
 			return other is Function && this.Symbol == ((Function)other).Symbol && this.Argument == ((Function)other).Argument;
 		}
+		public override int GetHashCode()
+		{
+			return this.Symbol.Hash() ^ this.Argument.Hash();
+		}
+		#endregion
+		#region Static Create
+		public static Function Create(string name, Expression argument)
+		{
+			Function result;
+			switch (name)
+			{
+				case "sin":
+					result = new Sine(argument);
+					break;
+				case "cos":
+					result = new Cosine(argument);
+					break;
+				default:
+					result = null;
+					break;
+			}
+			return result;
+		}
+		#endregion
 	}
 }
 

@@ -48,10 +48,6 @@ namespace Kean.Algebra
 		{
 			return (this.Left.Simplify() + -this.Right.Simplify()).Simplify();
 		}
-		protected override Expression Build(Expression argument)
-		{
-			return new Negation(argument);
-		}
 	}
 }
 

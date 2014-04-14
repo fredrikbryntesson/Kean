@@ -23,6 +23,29 @@ namespace Kean.Algebra.Test
 				this.AddingVariables,
 				this.AddingVariableConstant,
 				this.AddingMultipleTerms,
+				this.SubstractingConstants,
+				this.SubstractingConstantsWithoutSpace,
+				this.SubstractingConstantsWithDecimals,
+				this.SubstractingVariables,
+				this.SubstractingVariableConstant,
+				this.SubstractingMultipleTerms,
+				this.SubstractingAddingMultipleTerms,
+				this.NegateConstant,
+				this.NegateVariable,
+				this.NegateFirstTermAddition,
+				this.NegateSecondTermAddition,
+				this.NegateFirstTermSubstraction,
+				this.NegateSecondTermSubstraction,
+				this.ParenthesisAroundConstant,
+				this.ParenthesisAroundAddition,
+				this.ParenthesisWithSubstraction,
+				this.ParenthesisWithNegation,
+				this.ParenthesisWithinSubstractions,
+				this.FunctionConstant,
+				this.FunctionVariable,
+				this.FunctionAddition,
+				this.FunctionAsFirstTerm,
+				this.FunctionAsSecondTerm,
 				this.Parsing4,
 				this.Parsing5,
 				this.Parsing6,
@@ -34,205 +57,295 @@ namespace Kean.Algebra.Test
 				this.Parsing12
 			);
 		}
-
 		#region Constant
-
 		[Test]
 		public void ConstantZero()
 		{
 			var expression = (Expression)"0";
 			Verify(expression, Is.EqualTo((Expression)0f));
 		}
-
 		[Test]
 		public void ConstantSingleDigit()
 		{
 			var expression = (Expression)"3";
 			Verify(expression, Is.EqualTo((Expression)3f));
 		}
-
 		[Test]
 		public void ConstantWithoutDecimals()
 		{
 			var expression = (Expression)"42";
 			Verify(expression, Is.EqualTo((Expression)42f));
 		}
-
 		[Test]
 		public void ConstantWithDecimals()
 		{
 			var expression = (Expression)"13.37";
 			Verify(expression, Is.EqualTo((Expression)13.37f));
 		}
-
 		[Test]
 		public void ConstantWithSpace()
 		{
 			var expression = (Expression)" 13.37 ";
 			Verify(expression, Is.EqualTo((Expression)13.37f));
 		}
-
 		#endregion
-
 		#region Variable
-
 		[Test]
 		public void VariableSingleCharacter()
 		{
 			var expression = (Expression)"x";
 			Verify(expression, Is.EqualTo((Expression)"x"));
 		}
-
 		[Test]
 		public void VariableWithSpace()
 		{
 			var expression = (Expression)" x ";
 			Verify(expression, Is.EqualTo((Expression)"x"));
 		}
-
 		[Test]
 		public void VariableMultipleCharacters()
 		{
 			var expression = (Expression)"variable";
 			Verify(expression, Is.EqualTo((Expression)"variable"));
 		}
-
 		#endregion
-
 		#region Adding
-
 		[Test]
 		public void AddingConstants()
 		{
 			var expression = (Expression)"2 + 3";
 			Verify(expression, Is.EqualTo((Expression)2 + 3));
 		}
-
 		[Test]
 		public void AddingConstantsWithoutSpace()
 		{
 			var expression = (Expression)"2+3";
 			Verify(expression, Is.EqualTo((Expression)2 + 3));
 		}
-
 		[Test]
 		public void AddingConstantsWithDecimals()
 		{
 			var expression = (Expression)"4.2 + 13.37";
 			Verify(expression, Is.EqualTo((Expression)4.2f + 13.37f));
 		}
-
 		[Test]
 		public void AddingVariables()
 		{
-			Expression expression = (Expression)"x + y";
+			var expression = (Expression)"x + y";
 			Verify(expression, Is.EqualTo(new Variable("x") + new Variable("y")));
 		}
-
 		[Test]
 		public void AddingVariableConstant()
 		{
-			Expression expression = (Expression)"x + 2";
+			var expression = (Expression)"x + 2";
 			Verify(expression, Is.EqualTo(new Variable("x") + 2));
 		}
-
 		[Test]
 		public void AddingMultipleTerms()
 		{
-			Expression expression = (Expression)"1 + 2 + 3 + 4 + 5 + 6";
+			var expression = (Expression)"1 + 2 + 3 + 4 + 5 + 6";
 			Verify(expression, Is.EqualTo((Expression)1 + 2 + 3 + 4 + 5 + 6));
 		}
-
 		#endregion
-
+		#region Substraction
+		[Test]
+		public void SubstractingConstants()
+		{
+			var expression = (Expression)"2 - 3";
+			Verify(expression, Is.EqualTo((Expression)2 - 3));
+		}
+		[Test]
+		public void SubstractingConstantsWithoutSpace()
+		{
+			var expression = (Expression)"2-3";
+			Verify(expression, Is.EqualTo((Expression)2 - 3));
+		}
+		[Test]
+		public void SubstractingConstantsWithDecimals()
+		{
+			var expression = (Expression)"4.2 - 13.37";
+			Verify(expression, Is.EqualTo((Expression)4.2f - 13.37f));
+		}
+		[Test]
+		public void SubstractingVariables()
+		{
+			Expression expression = (Expression)"x - y";
+			Verify(expression, Is.EqualTo(new Variable("x") - new Variable("y")));
+		}
+		[Test]
+		public void SubstractingVariableConstant()
+		{
+			Expression expression = (Expression)"x - 2";
+			Verify(expression, Is.EqualTo(new Variable("x") - 2));
+		}
+		[Test]
+		public void SubstractingMultipleTerms()
+		{
+			Expression expression = (Expression)"1 - 2 - 3 - 4 - 5 - 6";
+			Verify(expression, Is.EqualTo((Expression)1 - 2 - 3 - 4 - 5 - 6));
+		}
+		[Test]
+		public void SubstractingAddingMultipleTerms()
+		{
+			Expression expression = (Expression)"1 - 2 + 3 - 4 + 5 - 6";
+			Verify(expression, Is.EqualTo((Expression)1 - 2 + 3 - 4 + 5 - 6));
+		}
+		#endregion
+		#region Negation
+		[Test]
+		public void NegateConstant()
+		{
+			Expression expression = (Expression)"-13.37";
+			Verify(expression, Is.EqualTo(-(Expression)13.37));
+		}
+		[Test]
+		public void NegateVariable()
+		{
+			Expression expression = (Expression)"-x";
+			Verify(expression, Is.EqualTo(-new Variable("x")));
+		}
+		[Test]
+		public void NegateFirstTermAddition()
+		{
+			Expression expression = (Expression)"-42 + 13.37";
+			Verify(expression, Is.EqualTo(-(Expression)42 + 13.37f));
+		}
+		[Test]
+		public void NegateSecondTermAddition()
+		{
+			Expression expression = (Expression)"42 + -13.37";
+			Verify(expression, Is.EqualTo((Expression)42 + -(Expression)13.37f));
+		}
+		[Test]
+		public void NegateFirstTermSubstraction()
+		{
+			Expression expression = (Expression)"-42 - 13.37";
+			Verify(expression, Is.EqualTo(-(Expression)42 - 13.37f));
+		}
+		[Test]
+		public void NegateSecondTermSubstraction()
+		{
+			Expression expression = (Expression)"42 - -13.37";
+			Verify(expression, Is.EqualTo((Expression)42 - -(Expression)13.37f));
+		}
+		#endregion
+		#region Parenthesis
+		[Test]
+		public void ParenthesisAroundConstant()
+		{
+			Expression expression = (Expression)"(13.37)";
+			Verify(expression, Is.EqualTo((Expression)13.37));
+		}
+		[Test]
+		public void ParenthesisAroundAddition()
+		{
+			Expression expression = (Expression)"(42 + 13.37)";
+			Verify(expression, Is.EqualTo((Expression)42 + 13.37f));
+		}
+		[Test]
+		public void ParenthesisWithSubstraction()
+		{
+			Expression expression = (Expression)"1337 - (42 + 13.37)";
+			Verify(expression, Is.EqualTo((Expression)1337 - ((Expression)42 + 13.37f)));
+		}
+		[Test]
+		public void ParenthesisWithNegation()
+		{
+			Expression expression = (Expression)"-(42 + 13.37)";
+			Verify(expression, Is.EqualTo(-((Expression)42 + 13.37f)));
+		}
+		[Test]
+		public void ParenthesisWithinSubstractions()
+		{
+			Expression expression = (Expression)"4.2 - (42 + 13.37) - 1337";
+			Verify(expression, Is.EqualTo((Expression)4.2f - ((Expression)42 + 13.37f) - 1337));
+		}
+		#endregion
+		#region Function
+		[Test]
+		public void FunctionConstant()
+		{
+			var expression = (Expression)"sin(13.37)";
+			Verify(expression, Is.EqualTo(new Sine(13.37f)));
+		}
+		[Test]
+		public void FunctionVariable()
+		{
+			var expression = (Expression)"sin(x)";
+			Verify(expression, Is.EqualTo(new Sine(new Variable("x"))));
+		}
+		[Test]
+		public void FunctionAddition()
+		{
+			var expression = (Expression)"sin(4.2 + x)";
+			Verify(expression, Is.EqualTo(new Sine((Expression)4.2f + new Variable("x"))));
+		}
+		[Test]
+		public void FunctionAsFirstTerm()
+		{
+			var expression = (Expression)"sin(13.37) + 4.2";
+			Verify(expression, Is.EqualTo(new Sine(13.37f) + 4.2f));
+		}
+		[Test]
+		public void FunctionAsSecondTerm()
+		{
+			var expression = (Expression)"13.37 + sin(4.2)";
+			Verify(expression, Is.EqualTo((Expression)13.37 + new Sine(4.2f)));
+		}
+		#endregion
 		[Test]
 		public void Parsing4()
 		{
-			Expression expression = (Expression)"x-2*x-3";
-			Expression variable1 = new Variable("x");
-			Expression correct = variable1 - 2 * variable1 - 3;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x - 2 * x - 3";
+			Verify(expression, Is.EqualTo(new Variable("x") - 2 * new Variable("x") - 3));
 		}
-
 		[Test]
 		public void Parsing5()
 		{
-			Expression expression = (Expression)"x+2*x/3-y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 + 2 * variable1 / 3 - variable2;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + 2 * x / 3 - y";
+			Verify(expression, Is.EqualTo(new Variable("x") + 2 * new Variable("x") / 3 - new Variable("y")));
 		}
-
 		[Test]
 		public void Parsing6()
 		{
-			Expression expression = (Expression)"x+2^y/3-y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 + (Expression)2 ^ variable2 / 3 - variable2;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + 2 ^ y / 3 - y";
+			Verify(expression, Is.EqualTo(new Variable("x") + ((Expression)2 ^ new Variable("y")) / 3 - new Variable("y")));
 		}
-
 		[Test]
 		public void Parsing7()
 		{
-			Expression expression = (Expression)"x+2+y/3-y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 + 2 + variable2 / 3 - variable2;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + 2 + y / 3 - y";
+			Verify(expression, Is.EqualTo(new Variable("x") + 2 + new Variable("y") / 3 - new Variable("y")));
 		}
-
 		[Test]
 		public void Parsing8()
 		{
-			Expression expression = (Expression)"x*2-y/3/y*5/6/65";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 * 2 - variable2 / 3 / variable2 * (Expression)5 / (Expression)6 / (Expression)65;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x * 2 - y / 3 / y * 5 / 6 / 65";
+			Verify(expression, Is.EqualTo(new Variable("x") * 2 - new Variable("y") / 3 / new Variable("y") * (Expression)5 / (Expression)6 / (Expression)65));
 		}
-
 		[Test]
 		public void Parsing9()
 		{
-			Expression expression = (Expression)"-x+-2+y/3-y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = -variable1 + -(Expression)2 + variable2 / 3 - variable2;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"-x + -2 + y / 3 - y";
+			Verify(expression, Is.EqualTo(-new Variable("x") + -(Expression)2 + new Variable("y") / 3 - new Variable("y")));
 		}
-
 		[Test]
 		public void Parsing10()
 		{
-			Expression expression = (Expression)"x+(2+y/3)-y";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 + ((Expression)2 + variable2 / 3) - variable2;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + (2 + y / 3) - y";
+			Verify(expression, Is.EqualTo(new Variable("x") + ((Expression)2 + new Variable("y") / 3) - new Variable("y")));
 		}
-
 		[Test]
 		public void Parsing11()
 		{
-			Expression expression = (Expression)"x+((-2+y/3)-y)";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression correct = variable1 + ((-(Expression)2 + variable2 / 3) - variable2);
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + ((-2 + y / 3) - y)";
+			Verify(expression, Is.EqualTo(new Variable("x") + ((-(Expression)2 + new Variable("y") / 3) - new Variable("y"))));
 		}
-
 		[Test]
 		public void Parsing12()
 		{
-			Expression expression = (Expression)"x+((-2+y/3)-y)+2*y-z";
-			Expression variable1 = new Variable("x");
-			Expression variable2 = new Variable("y");
-			Expression variable3 = new Variable("z");
-			Expression correct = variable1 + ((-(Expression)2 + variable2 / 3) - variable2) + (Expression)2 * variable2 - variable3;
-			Verify(expression, Is.EqualTo(correct));
+			var expression = (Expression)"x + ((-2 + y / 3) - y) + 2 * y - z";
+			Verify(expression, Is.EqualTo(new Variable("x") + ((-(Expression)2 + new Variable("y") / 3) - new Variable("y")) + (Expression)2 * new Variable("y") - new Variable("z")));
 		}
 	}
 }
