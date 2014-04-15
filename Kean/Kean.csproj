@@ -10,8 +10,6 @@
     <UseMSBuildEngine>False</UseMSBuildEngine>
     <RestorePackages>true</RestorePackages>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -871,25 +869,25 @@
     <Compile Include="IO\Net\Http\Header\Links.cs" />
     <Compile Include="IO\Net\Http\Header\Response.cs" />
     <Compile Include="IO\Wrap\FixedLengthByteInDevice.cs" />
-    <Compile Include="Algebra\Expression.cs" />
-    <Compile Include="Algebra\Constant.cs" />
-    <Compile Include="Algebra\Variable.cs" />
-    <Compile Include="Algebra\BinaryOperator.cs" />
-    <Compile Include="Algebra\Addition.cs" />
-    <Compile Include="Algebra\Subtraction.cs" />
-    <Compile Include="Algebra\Multiplication.cs" />
-    <Compile Include="Algebra\Division.cs" />
-    <Compile Include="Algebra\Power.cs" />
-    <Compile Include="Algebra\UnaryOperator.cs" />
-    <Compile Include="Algebra\Negation.cs" />
-    <Compile Include="Algebra\Modulo.cs" />
-    <Compile Include="Algebra\Parser.cs" />
-    <Compile Include="Algebra\Function.cs" />
-    <Compile Include="Algebra\Sine.cs" />
-    <Compile Include="Algebra\Cosine.cs" />
-    <Compile Include="Algebra\Tokenizer.cs" />
-    <Compile Include="Algebra\RightParenthesis.cs" />
-    <Compile Include="Algebra\LeftParenthesis.cs" />
+    <Compile Include="Math\Algebra\Addition.cs" />
+    <Compile Include="Math\Algebra\BinaryOperator.cs" />
+    <Compile Include="Math\Algebra\Constant.cs" />
+    <Compile Include="Math\Algebra\Cosine.cs" />
+    <Compile Include="Math\Algebra\Division.cs" />
+    <Compile Include="Math\Algebra\Expression.cs" />
+    <Compile Include="Math\Algebra\Function.cs" />
+    <Compile Include="Math\Algebra\LeftParenthesis.cs" />
+    <Compile Include="Math\Algebra\Modulo.cs" />
+    <Compile Include="Math\Algebra\Multiplication.cs" />
+    <Compile Include="Math\Algebra\Negation.cs" />
+    <Compile Include="Math\Algebra\Parser.cs" />
+    <Compile Include="Math\Algebra\Power.cs" />
+    <Compile Include="Math\Algebra\RightParenthesis.cs" />
+    <Compile Include="Math\Algebra\Sine.cs" />
+    <Compile Include="Math\Algebra\Subtraction.cs" />
+    <Compile Include="Math\Algebra\Tokenizer.cs" />
+    <Compile Include="Math\Algebra\UnaryOperator.cs" />
+    <Compile Include="Math\Algebra\Variable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />
@@ -994,7 +992,4 @@
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
   <Import Project="..\..\.nuget\NuGet.targets" Condition="Exists('..\..\.nuget\NuGet.targets')" />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Algebra\" />
-  </ItemGroup>
 </Project>

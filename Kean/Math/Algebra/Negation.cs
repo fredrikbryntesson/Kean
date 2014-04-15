@@ -1,5 +1,5 @@
 ﻿//
-//  Division.cs
+//  Negation.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -21,31 +21,36 @@
 
 using System;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Division:
-	BinaryOperator
+	public class Negation:
+	UnaryOperator
 	{
-		public override int Precedence { get { return 3; } }
-		protected override string Symbol { get { return "/"; } }
-		internal Division()
-		{			
+		public override int Precedence { get { return 4; } }
+		protected override string Symbol { get { return "-"; } }
+		internal Negation()
+		{
 		}
-		public Division(Expression left, Expression right) :
-			base(left, right)
+		public Negation(Expression argument) : 
+			base(argument)
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return this.Left.Evaluate(variables) / this.Right.Evaluate(variables);
+			return -this.Argument.Evaluate(variables);
 		}
 		public override Expression Derive(string variable)
 		{
-			return (this.Left.Derive(variable) * this.Right - this.Left * this.Right.Derive(variable)) / this.Right ^ 2;
+			return new Negation(this.Argument.Derive(variable));
 		}
 		public override Expression Simplify()
 		{
-			return (this.Left.Simplify() * (this.Right.Simplify() ^ -1)).Simplify();
+			Expression result = this.Argument.Simplify();
+			if (result is Constant)
+				result = -(result as Constant).Value;
+			else
+				result = new Negation(result);
+			return result;
 		}
 	}
 }

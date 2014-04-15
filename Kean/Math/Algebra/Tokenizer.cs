@@ -23,7 +23,7 @@ using System;
 using Kean.Extension;
 using Generic = System.Collections.Generic;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
 	public class Tokenizer : 
 	Generic.IEnumerable<Expression>
@@ -64,37 +64,38 @@ namespace Kean.Algebra
 		public static Tokenizer Tokenize(string data)
 		{
 			Tokenizer result = new Tokenizer();
-			foreach (char c in data)
-				switch (c)
-				{
-					case '-':
-						result.Enqueue(result.NextMustBeUnaryOperator ? (Expression)new Negation() : new Subtraction());
-						break;
-					case '+':
-						result.Enqueue(new Addition());
-						break;
-					case '*':
-						result.Enqueue(new Multiplication());
-						break;
-					case '/':
-						result.Enqueue(new Division());
-						break;
-					case '^':
-						result.Enqueue(new Power());
-						break;
-					case '(':
-						result.Enqueue(new LeftParenthesis());
-						break;
-					case ')':
-						result.Enqueue(new RightParenthesis());
-						break;
-					default:
-						if (char.IsWhiteSpace(c))
-							result.Flush();
-						else
-							result.buffer += c;
-						break;
-				}
+			if (data.NotNull())
+				foreach (char c in data)
+					switch (c)
+					{
+						case '-':
+							result.Enqueue(result.NextMustBeUnaryOperator ? (Expression)new Negation() : new Subtraction());
+							break;
+						case '+':
+							result.Enqueue(new Addition());
+							break;
+						case '*':
+							result.Enqueue(new Multiplication());
+							break;
+						case '/':
+							result.Enqueue(new Division());
+							break;
+						case '^':
+							result.Enqueue(new Power());
+							break;
+						case '(':
+							result.Enqueue(new LeftParenthesis());
+							break;
+						case ')':
+							result.Enqueue(new RightParenthesis());
+							break;
+						default:
+							if (char.IsWhiteSpace(c))
+								result.Flush();
+							else
+								result.buffer += c;
+							break;
+					}
 			result.Enqueue(null);
 			return result;
 		}

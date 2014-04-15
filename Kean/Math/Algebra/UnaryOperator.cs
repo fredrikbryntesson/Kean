@@ -1,5 +1,5 @@
 ﻿//
-//  Function.cs
+//  UnaryOperator.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -22,49 +22,37 @@
 using System;
 using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public abstract class Function :
+	public abstract class UnaryOperator :
 	Expression
 	{
-		public override int Precedence { get { return 0; } }
 		protected abstract string Symbol { get; }
-		public Expression Argument { get; set; }
-		protected Function(Expression argument)
+		public Expression Argument { get; private set; }
+		protected UnaryOperator()
+		{
+		}
+		protected UnaryOperator(Expression argument)
 		{
 			this.Argument = argument;
+		}
+		internal UnaryOperator Build(Expression argument)
+		{
+			this.Argument = argument;
+			return this;
 		}
 		#region Object Overrides
 		public override string ToString()
 		{
-			return this.Symbol + "(" + this.Argument.ToString(this.Precedence) + ")";
+			return this.Symbol + this.Argument.ToString(this.Precedence);
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is Function && this.Symbol == ((Function)other).Symbol && this.Argument == ((Function)other).Argument;
+			return other is UnaryOperator && this.Symbol == ((UnaryOperator)other).Symbol && this.Argument == ((UnaryOperator)other).Argument;
 		}
 		public override int GetHashCode()
 		{
 			return this.Symbol.Hash() ^ this.Argument.Hash();
-		}
-		#endregion
-		#region Static Create
-		public static Function Create(string name, Expression argument)
-		{
-			Function result;
-			switch (name)
-			{
-				case "sin":
-					result = new Sine(argument);
-					break;
-				case "cos":
-					result = new Cosine(argument);
-					break;
-				default:
-					result = null;
-					break;
-			}
-			return result;
 		}
 		#endregion
 	}

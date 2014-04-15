@@ -1,5 +1,5 @@
 ﻿//
-//  Cosine.cs
+//  Variable.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -19,31 +19,51 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Single = Kean.Math.Single;
+using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Cosine:
-	Function
+	public class Variable :
+	Expression
 	{
-		protected override string Symbol { get { return "cos"; } }
-		public Cosine(Expression argument) : 
-			base(argument)
+		public override int Precedence { get { return 0; } }
+		public string Name { get; private set; }
+		public Variable(string name)
 		{
+			this.Name = name;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return Single.Cosine(this.Argument.Evaluate(variables));
+			return variables.Find(variable => variable.Key == this.Name).Value;
 		}
 		public override Expression Derive(string variable)
 		{
-			return -(new Sine(this.Argument) * this.Argument.Derive(variable));
+			return variable == this.Name ? 1 : 0;
 		}
 		public override Expression Simplify()
 		{
-			return new Sine(this.Argument.Simplify());
+			return this;
 		}
+		public override bool Equals(Expression other)
+		{
+			return other is Variable && this.Name == ((Variable)other).Name;
+		}
+		#region Object Overrides
+		public override string ToString()
+		{
+			return this.Name;
+		}
+		public override int GetHashCode()
+		{
+			return this.Name.Hash();
+		}
+		#endregion
+		#region Static Create
+		public static Variable Create(string name)
+		{
+			return new Variable(name);
+		}
+		#endregion
 	}
 }
 

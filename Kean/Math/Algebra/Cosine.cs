@@ -1,5 +1,5 @@
 ﻿//
-//  RightParanthesis.cs
+//  Cosine.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -20,42 +20,30 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Single = Kean.Math.Single;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	class RightParenthesis :
-	Expression
+	public class Cosine:
+	Function
 	{
-		public override int Precedence { get { return 0; } }
-		public RightParenthesis()
+		protected override string Symbol { get { return "cos"; } }
+		public Cosine(Expression argument) : 
+			base(argument)
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			throw new NotImplementedException();
+			return Single.Cosine(this.Argument.Evaluate(variables));
 		}
 		public override Expression Derive(string variable)
 		{
-			throw new NotImplementedException();
+			return -(new Sine(this.Argument) * this.Argument.Derive(variable));
 		}
 		public override Expression Simplify()
 		{
-			throw new NotImplementedException();
+			return new Sine(this.Argument.Simplify());
 		}
-		#region Object Overrides
-		public override string ToString()
-		{
-			return ")";
-		}
-		public override bool Equals(Expression other)
-		{
-			return other is RightParenthesis;
-		}
-		public override int GetHashCode()
-		{
-			return typeof(RightParenthesis).GetHashCode();
-		}
-		#endregion
 	}
 }
 

@@ -1,5 +1,5 @@
 ﻿//
-//  Sine.cs
+//  Substraction.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -20,29 +20,33 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Single = Kean.Math.Single;
+using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Sine:
-	Function
+	public class Subtraction:
+	BinaryOperator
 	{
-		protected override string Symbol { get { return "sin"; } }
-		public Sine(Expression argument) :
-			base(argument)
+		public override int Precedence { get { return 4; } }
+		protected override string Symbol { get { return "-"; } }
+		internal Subtraction()
+		{
+		}
+		public Subtraction(Expression left, Expression right) : 
+			base(left, right)
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return Single.Sine(this.Argument.Evaluate(variables));
+			return this.Left.Evaluate(variables) - this.Right.Evaluate(variables);
 		}
 		public override Expression Derive(string variable)
 		{
-			return new Cosine(this.Argument) * this.Argument.Derive(variable);
+			return this.Left.Derive(variable) - this.Right.Derive(variable);
 		}
 		public override Expression Simplify()
 		{
-			return new Sine(this.Argument.Simplify());
+			return (this.Left.Simplify() + -this.Right.Simplify()).Simplify();
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿//
-//  Constant.cs
+//  RightParanthesis.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -20,50 +20,40 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Kean.Extension;
-using Single = Kean.Math.Single;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Constant :
+	class RightParenthesis :
 	Expression
 	{
 		public override int Precedence { get { return 0; } }
-		public float Value { get; private set; }
-		public Constant(float value)
+		public RightParenthesis()
 		{
-			this.Value = value;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return this.Value;
+			throw new NotImplementedException();
 		}
 		public override Expression Derive(string variable)
 		{
-			return 0f;
+			throw new NotImplementedException();
 		}
 		public override Expression Simplify()
 		{
-			return this;
-		}
-		public override bool Equals(Expression other)
-		{
-			return other is Constant && Single.Absolute(this.Value - ((Constant)other).Value) <= 0.000001f;
+			throw new NotImplementedException();
 		}
 		#region Object Overrides
 		public override string ToString()
 		{
-			return this.Value.AsString();
+			return ")";
+		}
+		public override bool Equals(Expression other)
+		{
+			return other is RightParenthesis;
 		}
 		public override int GetHashCode()
 		{
-			return this.Value.Hash();
-		}
-		#endregion
-		#region Static Parse
-		public static Constant Parse(string value)
-		{
-			return new Constant(value.Parse<float>());
+			return typeof(RightParenthesis).GetHashCode();
 		}
 		#endregion
 	}

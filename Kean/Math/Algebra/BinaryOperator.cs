@@ -1,5 +1,5 @@
 ﻿//
-//  UnaryOperator.cs
+//  BinaryOperator.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -22,39 +22,42 @@
 using System;
 using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public abstract class UnaryOperator :
+	public abstract class BinaryOperator :
 	Expression
 	{
 		protected abstract string Symbol { get; }
-		public Expression Argument { get; private set; }
-		protected UnaryOperator()
+		public Expression Left { get; private set; }
+		public Expression Right { get; private set; }
+		protected BinaryOperator() :
+			this(0, 0)
 		{
 		}
-		protected UnaryOperator(Expression argument)
+		protected BinaryOperator(Expression left, Expression right)
 		{
-			this.Argument = argument;
+			this.Left = left;
+			this.Right = right;
 		}
-		internal UnaryOperator Build(Expression argument)
+		internal Expression Build(Expression left, Expression right)
 		{
-			this.Argument = argument;
+			this.Left = left;
+			this.Right = right;
 			return this;
 		}
 		#region Object Overrides
 		public override string ToString()
 		{
-			return this.Symbol + this.Argument.ToString(this.Precedence);
+			return (this.Left.IsNull() ? "null" : this.Left.ToString(this.Precedence - 1)) + " " + this.Symbol + " " + (this.Right.IsNull() ? "null" : this.Right.ToString(this.Precedence));
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is UnaryOperator && this.Symbol == ((UnaryOperator)other).Symbol && this.Argument == ((UnaryOperator)other).Argument;
+			return other is BinaryOperator && this.Symbol == ((BinaryOperator)other).Symbol && this.Left == ((BinaryOperator)other).Left && this.Right == (other as BinaryOperator).Right;
 		}
 		public override int GetHashCode()
 		{
-			return this.Symbol.Hash() ^ this.Argument.Hash();
+			return this.Left.Hash() ^ this.Symbol.Hash() ^ this.Right.Hash();
 		}
 		#endregion
 	}
 }
-

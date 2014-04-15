@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kean.Algebra.Test
+namespace Kean.Math.Algebra.Test
 {
 	public static class All
 	{

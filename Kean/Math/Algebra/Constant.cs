@@ -1,5 +1,5 @@
 ﻿//
-//  Substraction.cs
+//  Constant.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -21,33 +21,51 @@
 
 using System;
 using Kean.Extension;
+using Single = Kean.Math.Single;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Subtraction:
-	BinaryOperator
+	public class Constant :
+	Expression
 	{
-		public override int Precedence { get { return 4; } }
-		protected override string Symbol { get { return "-"; } }
-		internal Subtraction()
+		public override int Precedence { get { return 0; } }
+		public float Value { get; private set; }
+		public Constant(float value)
 		{
-		}
-		public Subtraction(Expression left, Expression right) : 
-			base(left, right)
-		{
+			this.Value = value;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return this.Left.Evaluate(variables) - this.Right.Evaluate(variables);
+			return this.Value;
 		}
 		public override Expression Derive(string variable)
 		{
-			return this.Left.Derive(variable) - this.Right.Derive(variable);
+			return 0f;
 		}
 		public override Expression Simplify()
 		{
-			return (this.Left.Simplify() + -this.Right.Simplify()).Simplify();
+			return this;
 		}
+		public override bool Equals(Expression other)
+		{
+			return other is Constant && Single.Absolute(this.Value - ((Constant)other).Value) <= 0.000001f;
+		}
+		#region Object Overrides
+		public override string ToString()
+		{
+			return this.Value.AsString();
+		}
+		public override int GetHashCode()
+		{
+			return this.Value.Hash();
+		}
+		#endregion
+		#region Static Parse
+		public static Constant Parse(string value)
+		{
+			return new Constant(value.Parse<float>());
+		}
+		#endregion
 	}
 }
 

@@ -23,7 +23,7 @@ using System;
 using Kean.Extension;
 using Kean.Collection.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
 	public class Multiplication:
 	BinaryOperator

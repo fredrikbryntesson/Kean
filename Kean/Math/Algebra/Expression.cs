@@ -22,7 +22,7 @@
 using System;
 using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
 	public abstract class Expression :
 	IEquatable<Expression>

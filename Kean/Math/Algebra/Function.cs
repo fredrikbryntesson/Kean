@@ -1,5 +1,5 @@
 ﻿//
-//  BinaryOperator.cs
+//  Function.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -22,42 +22,51 @@
 using System;
 using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public abstract class BinaryOperator :
+	public abstract class Function :
 	Expression
 	{
+		public override int Precedence { get { return 0; } }
 		protected abstract string Symbol { get; }
-		public Expression Left { get; private set; }
-		public Expression Right { get; private set; }
-		protected BinaryOperator() :
-			this(0, 0)
+		public Expression Argument { get; set; }
+		protected Function(Expression argument)
 		{
-		}
-		protected BinaryOperator(Expression left, Expression right)
-		{
-			this.Left = left;
-			this.Right = right;
-		}
-		internal Expression Build(Expression left, Expression right)
-		{
-			this.Left = left;
-			this.Right = right;
-			return this;
+			this.Argument = argument;
 		}
 		#region Object Overrides
 		public override string ToString()
 		{
-			return (this.Left.IsNull() ? "null" : this.Left.ToString(this.Precedence - 1)) + " " + this.Symbol + " " + (this.Right.IsNull() ? "null" : this.Right.ToString(this.Precedence));
+			return this.Symbol + "(" + this.Argument.ToString(this.Precedence) + ")";
 		}
 		public override bool Equals(Expression other)
 		{
-			return other is BinaryOperator && this.Symbol == ((BinaryOperator)other).Symbol && this.Left == ((BinaryOperator)other).Left && this.Right == (other as BinaryOperator).Right;
+			return other is Function && this.Symbol == ((Function)other).Symbol && this.Argument == ((Function)other).Argument;
 		}
 		public override int GetHashCode()
 		{
-			return this.Left.Hash() ^ this.Symbol.Hash() ^ this.Right.Hash();
+			return this.Symbol.Hash() ^ this.Argument.Hash();
+		}
+		#endregion
+		#region Static Create
+		public static Function Create(string name, Expression argument)
+		{
+			Function result;
+			switch (name)
+			{
+				case "sin":
+					result = new Sine(argument);
+					break;
+				case "cos":
+					result = new Cosine(argument);
+					break;
+				default:
+					result = null;
+					break;
+			}
+			return result;
 		}
 		#endregion
 	}
 }
+

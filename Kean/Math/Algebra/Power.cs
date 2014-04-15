@@ -1,5 +1,5 @@
 ﻿//
-//  Modulo.cs
+//  Power.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -20,44 +20,43 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Kean.Extension;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public  class Modulo:
+	public class Power:
 	BinaryOperator
 	{
 		public override int Precedence { get { return 3; } }
-		protected override string Symbol{ get { return "%"; } }
-		internal Modulo()
+		protected override string Symbol { get { return "^"; } }
+		internal Power()
 		{
 		}
-		public Modulo(Expression left, Expression right) :
+		public Power(Expression left, Expression right) :
 			base(left, right)
 		{
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return this.Left.Evaluate(variables) % this.Right.Evaluate(variables);
+			return Kean.Math.Single.Power(this.Left.Evaluate(variables), this.Right.Evaluate(variables));
 		}
 		public override Expression Derive(string variable)
 		{
-			throw new NotImplementedException();
+			return this.Right * this.Left ^ (this.Right - 1) * this.Left.Derive(variable);
 		}
 		public override Expression Simplify()
 		{
 			Expression result;
 			Expression left = this.Left.Simplify();
 			Expression right = this.Right.Simplify();
-			if (left == right)
+			if (left is Constant && (left as Constant).Value == 0)
 				result = 0;
-			else if (left is Constant && (left as Constant).Value == 0)
-				result = 0;
-			else if ((left is Constant) && (right is Constant))
-				result = (left as Constant).Value % (right as Constant).Value;
-			else if ((left is Multiplication) && (left as Multiplication).Right == right)
-				result = 0;
-			else if (((left as Multiplication).Right == (right as Multiplication).Right) && ((left as Multiplication).Left is Constant) && ((right as Multiplication).Left is Constant))
-				result = (((left as Multiplication).Left as Constant).Value % ((right as Multiplication).Left as Constant).Value) * (right as Multiplication).Right;
+			else if ((left is Constant && (left as Constant).Value == 1) || (right is Constant && (right as Constant).Value == 0))
+				result = 1;
+			else if (right is Constant && (right as Constant).Value == 1)
+				result = left;
+			else if ((right is Constant) && (left is Constant))
+				result = Kean.Math.Single.Power((left as Constant).Value, (right as Constant).Value);
 			else
 				result = this;
 			return result;

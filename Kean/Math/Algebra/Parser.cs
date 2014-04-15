@@ -23,7 +23,7 @@ using System;
 using Kean.Extension;
 using Generic = System.Collections.Generic;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
 	class Parser
 	{

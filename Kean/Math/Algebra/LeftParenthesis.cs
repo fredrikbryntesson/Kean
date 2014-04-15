@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
 	class LeftParenthesis :
 	Expression

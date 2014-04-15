@@ -1,5 +1,5 @@
 ﻿//
-//  Variable.cs
+//  Division.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -19,51 +19,34 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Kean.Extension;
+using System;
 
-namespace Kean.Algebra
+namespace Kean.Math.Algebra
 {
-	public class Variable :
-	Expression
+	public class Division:
+	BinaryOperator
 	{
-		public override int Precedence { get { return 0; } }
-		public string Name { get; private set; }
-		public Variable(string name)
+		public override int Precedence { get { return 3; } }
+		protected override string Symbol { get { return "/"; } }
+		internal Division()
+		{			
+		}
+		public Division(Expression left, Expression right) :
+			base(left, right)
 		{
-			this.Name = name;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return variables.Find(variable => variable.Key == this.Name).Value;
+			return this.Left.Evaluate(variables) / this.Right.Evaluate(variables);
 		}
 		public override Expression Derive(string variable)
 		{
-			return variable == this.Name ? 1 : 0;
+			return (this.Left.Derive(variable) * this.Right - this.Left * this.Right.Derive(variable)) / this.Right ^ 2;
 		}
 		public override Expression Simplify()
 		{
-			return this;
+			return (this.Left.Simplify() * (this.Right.Simplify() ^ -1)).Simplify();
 		}
-		public override bool Equals(Expression other)
-		{
-			return other is Variable && this.Name == ((Variable)other).Name;
-		}
-		#region Object Overrides
-		public override string ToString()
-		{
-			return this.Name;
-		}
-		public override int GetHashCode()
-		{
-			return this.Name.Hash();
-		}
-		#endregion
-		#region Static Create
-		public static Variable Create(string name)
-		{
-			return new Variable(name);
-		}
-		#endregion
 	}
 }
 

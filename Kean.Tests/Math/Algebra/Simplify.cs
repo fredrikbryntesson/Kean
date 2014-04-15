@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Kean.Algebra.Test
+namespace Kean.Math.Algebra.Test
 {
 	public class Simplify :
 	Kean.Test.Fixture<Simplify>
