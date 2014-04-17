@@ -147,15 +147,19 @@ namespace Kean.Draw
 		{
 			Draw.Image copy = this.Copy();
 			
-			float lensX = (float)this.Size.Width * 0.5f / Math.Single.Tangens(fieldOfView.Width / 2f);
-			float height = lensX * Math.Single.Tangens(fieldOfView.Height);
+			//TODO: this is the distance between the screen and the focal point. Needs a better name
+			float lensX = (float)this.Size.Width * 0.5f / Math.Single.Tangens(fieldOfView.Width / 2f); 
+			//TODO: this is the number of vertical pixels in the original image that are visible given our vertical FOV. Needs a better name
+			float height = 2 * lensX * Math.Single.Tangens(fieldOfView.Height / 2f); 
 			var cam = camera * new Geometry3D.Single.Point((this.Size.Width-1)/2f, (this.Size.Height-1)/2f, lensX);
 			var p = new Geometry3D.Single.Point();
 			var d = new Geometry3D.Single.Point();
+			// TODO: Part of this might be better off as a method in the Transform class as CreateTransform[XYZ]Around(Geometry3D.Point centerOfRotation, float angle) or something.
 			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
 				camera *
 				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, 0) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
+				//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			for (int y = 0; y < this.Size.Height; y++)
 			{
 				for (int x = 0; x < this.Size.Width; x++)
