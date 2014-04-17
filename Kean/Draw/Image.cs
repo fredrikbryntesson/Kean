@@ -143,14 +143,26 @@ namespace Kean.Draw
 			}
 			return result;
 		}
-		public void ProjectOn(Draw.Image target, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		public void ProjectOn(Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
-
-			for (int x = 0; x < target.Size.Width; x++)
+			Draw.Image copy = this.Copy();
+			
+			float lensX = (float)this.Size.Width * 0.5f / Math.Single.Tangens(fieldOfView.Width / 2f);
+			float height = lensX * Math.Single.Tangens(fieldOfView.Height);
+			var cam = camera * new Geometry3D.Single.Point((this.Size.Width-1)/2f, (this.Size.Height-1)/2f, lensX);
+			var p = new Geometry3D.Single.Point();
+			var d = new Geometry3D.Single.Point();
+			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
+				camera *
+				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, 0) *
+				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
+			for (int y = 0; y < this.Size.Height; y++)
 			{
-				for (int y = 0; x < target.Size.Height; y++)
+				for (int x = 0; x < this.Size.Width; x++)
 				{
-					//Geometry3D.Single.Point d =  
+					p = transform * new Geometry3D.Single.Point(x, y, 0);
+					d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
+					this[x, y] = copy[Math.Single.Clamp(d.X, 0, this.Size.Width-1), Math.Single.Clamp(d.Y, 0, this.Size.Height-1)];
 				}
 			}
 		}
