@@ -28,7 +28,7 @@ namespace Kean.Draw.Raster.Test
 		{
 			//Bgr.Test();
 			Bgra.Test ();
-			//Transform.Test ();
+			Transform.Test ();
 			Convert.Test ();
 		}
 	}
