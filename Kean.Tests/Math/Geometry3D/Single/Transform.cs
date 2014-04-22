@@ -88,6 +88,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 		[Test]
 		public void Equality()
 		{
+#pragma warning disable 1718
 			Target.Single.Transform transform = null;
 			Verify(this.Transform0, Is.EqualTo(this.Transform0));
 			Verify(this.Transform0.Equals(this.Transform0 as object), Is.True);
@@ -97,6 +98,7 @@ namespace Kean.Math.Geometry3D.Test.Single
 			Verify(transform == transform, Is.True);
 			Verify(transform == this.Transform0, Is.False); 
 		}
+#pragma warning restore 1718
 		#endregion
 		[Test]
 		public void InverseTransform1()

@@ -34,12 +34,12 @@ namespace Kean.Tests
 			//Cli.Test.Program.Run(args);
 			//IO.Net.Test.Program.Run(args);
 			//DB.Sql.Test.Program.Run(args);
-			Platform.Settings.Test.Program.Run(args);
+			//Platform.Settings.Test.Program.Run(args);
 			#region Draw
-			//Draw.OpenGL.Test.All.Test();
-			//Draw.Test.All.Test();
-			//Draw.Raster.Test.All.Test();
-			//Draw.Cairo.Test.All.Test();
+			Draw.OpenGL.Test.All.Test();
+			Draw.Test.All.Test();
+			Draw.Raster.Test.All.Test();
+			Draw.Cairo.Test.All.Test();
 			//Draw.Vector.Test.All.Test();
 			//Draw.Net.Test.All.Test();
 			//Draw.Jpeg.Test.All.Test();
