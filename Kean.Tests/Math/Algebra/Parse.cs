@@ -46,6 +46,13 @@ namespace Kean.Math.Algebra.Test
 				this.FunctionAddition,
 				this.FunctionAsFirstTerm,
 				this.FunctionAsSecondTerm,
+				this.FunctionSine,
+				this.FunctionCosine,
+				this.FunctionSquareRoot,
+				this.FunctionLogarithm,
+				this.FunctionBinaryLogarithm,
+				this.FunctionNaturalLogarithm,
+				this.FunctionDecaLogarithm,
 				this.Parsing4,
 				this.Parsing5,
 				this.Parsing6,
@@ -87,6 +94,18 @@ namespace Kean.Math.Algebra.Test
 		{
 			var expression = (Expression)" 13.37 ";
 			Verify(expression, Is.EqualTo((Expression)13.37f));
+		}
+		[Test]
+		public void ConstantE()
+		{
+			var expression = (Expression)"e";
+			Verify(expression, Is.EqualTo(Constant.E));
+		}
+		[Test]
+		public void ConstantPi()
+		{
+			var expression = (Expression)"pi";
+			Verify(expression, Is.EqualTo(Constant.Pi));
 		}
 		#endregion
 		#region Variable
@@ -132,13 +151,13 @@ namespace Kean.Math.Algebra.Test
 		public void AddingVariables()
 		{
 			var expression = (Expression)"x + y";
-			Verify(expression, Is.EqualTo(new Variable("x") + new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + Variable.Create("y")));
 		}
 		[Test]
 		public void AddingVariableConstant()
 		{
 			var expression = (Expression)"x + 2";
-			Verify(expression, Is.EqualTo(new Variable("x") + 2));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + 2));
 		}
 		[Test]
 		public void AddingMultipleTerms()
@@ -170,13 +189,13 @@ namespace Kean.Math.Algebra.Test
 		public void SubstractingVariables()
 		{
 			Expression expression = (Expression)"x - y";
-			Verify(expression, Is.EqualTo(new Variable("x") - new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") - Variable.Create("y")));
 		}
 		[Test]
 		public void SubstractingVariableConstant()
 		{
 			Expression expression = (Expression)"x - 2";
-			Verify(expression, Is.EqualTo(new Variable("x") - 2));
+			Verify(expression, Is.EqualTo(Variable.Create("x") - 2));
 		}
 		[Test]
 		public void SubstractingMultipleTerms()
@@ -202,7 +221,7 @@ namespace Kean.Math.Algebra.Test
 		public void NegateVariable()
 		{
 			Expression expression = (Expression)"-x";
-			Verify(expression, Is.EqualTo(-new Variable("x")));
+			Verify(expression, Is.EqualTo(-Variable.Create("x")));
 		}
 		[Test]
 		public void NegateFirstTermAddition()
@@ -272,13 +291,13 @@ namespace Kean.Math.Algebra.Test
 		public void FunctionVariable()
 		{
 			var expression = (Expression)"sin(x)";
-			Verify(expression, Is.EqualTo(new Sine(new Variable("x"))));
+			Verify(expression, Is.EqualTo(new Sine(Variable.Create("x"))));
 		}
 		[Test]
 		public void FunctionAddition()
 		{
 			var expression = (Expression)"sin(4.2 + x)";
-			Verify(expression, Is.EqualTo(new Sine((Expression)4.2f + new Variable("x"))));
+			Verify(expression, Is.EqualTo(new Sine((Expression)4.2f + Variable.Create("x"))));
 		}
 		[Test]
 		public void FunctionAsFirstTerm()
@@ -292,60 +311,102 @@ namespace Kean.Math.Algebra.Test
 			var expression = (Expression)"13.37 + sin(4.2)";
 			Verify(expression, Is.EqualTo((Expression)13.37 + new Sine(4.2f)));
 		}
+		[Test]
+		public void FunctionSine()
+		{
+			var expression = (Expression)"sin(4.2)";
+			Verify(expression, Is.EqualTo(new Sine(4.2f)));
+		}
+		[Test]
+		public void FunctionCosine()
+		{
+			var expression = (Expression)"cos(4.2)";
+			Verify(expression, Is.EqualTo(new Cosine(4.2f)));
+		}
+		[Test]
+		public void FunctionSquareRoot()
+		{
+			var expression = (Expression)"sqrt(4.2)";
+			Verify(expression, Is.EqualTo(new SquareRoot(4.2f)));
+		}
+		[Test]
+		public void FunctionLogarithm()
+		{
+			var expression = (Expression)"log13.37(4.2)";
+			Verify(expression, Is.EqualTo(new Logarithm(13.37f, 4.2f)));
+		}
+		[Test]
+		public void FunctionBinaryLogarithm()
+		{
+			var expression = (Expression)"lb(4.2)";
+			Verify(expression, Is.EqualTo(new Logarithm(2, 4.2f)));
+		}
+		[Test]
+		public void FunctionNaturalLogarithm()
+		{
+			var expression = (Expression)"ln(4.2)";
+			Verify(expression, Is.EqualTo(new Logarithm(Single.E, 4.2f)));
+		}
+		[Test]
+		public void FunctionDecaLogarithm()
+		{
+			var expression = (Expression)"lg(4.2)";
+			Verify(expression, Is.EqualTo(new Logarithm(10, 4.2f)));
+		}
 		#endregion
 		[Test]
 		public void Parsing4()
 		{
 			var expression = (Expression)"x - 2 * x - 3";
-			Verify(expression, Is.EqualTo(new Variable("x") - 2 * new Variable("x") - 3));
+			Verify(expression, Is.EqualTo(Variable.Create("x") - 2 * Variable.Create("x") - 3));
 		}
 		[Test]
 		public void Parsing5()
 		{
 			var expression = (Expression)"x + 2 * x / 3 - y";
-			Verify(expression, Is.EqualTo(new Variable("x") + 2 * new Variable("x") / 3 - new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + 2 * Variable.Create("x") / 3 - Variable.Create("y")));
 		}
 		[Test]
 		public void Parsing6()
 		{
 			var expression = (Expression)"x + 2 ^ y / 3 - y";
-			Verify(expression, Is.EqualTo(new Variable("x") + ((Expression)2 ^ new Variable("y")) / 3 - new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + ((Expression)2 ^ Variable.Create("y")) / 3 - Variable.Create("y")));
 		}
 		[Test]
 		public void Parsing7()
 		{
 			var expression = (Expression)"x + 2 + y / 3 - y";
-			Verify(expression, Is.EqualTo(new Variable("x") + 2 + new Variable("y") / 3 - new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + 2 + Variable.Create("y") / 3 - Variable.Create("y")));
 		}
 		[Test]
 		public void Parsing8()
 		{
 			var expression = (Expression)"x * 2 - y / 3 / y * 5 / 6 / 65";
-			Verify(expression, Is.EqualTo(new Variable("x") * 2 - new Variable("y") / 3 / new Variable("y") * (Expression)5 / (Expression)6 / (Expression)65));
+			Verify(expression, Is.EqualTo(Variable.Create("x") * 2 - Variable.Create("y") / 3 / Variable.Create("y") * (Expression)5 / (Expression)6 / (Expression)65));
 		}
 		[Test]
 		public void Parsing9()
 		{
 			var expression = (Expression)"-x + -2 + y / 3 - y";
-			Verify(expression, Is.EqualTo(-new Variable("x") + -(Expression)2 + new Variable("y") / 3 - new Variable("y")));
+			Verify(expression, Is.EqualTo(-Variable.Create("x") + -(Expression)2 + Variable.Create("y") / 3 - Variable.Create("y")));
 		}
 		[Test]
 		public void Parsing10()
 		{
 			var expression = (Expression)"x + (2 + y / 3) - y";
-			Verify(expression, Is.EqualTo(new Variable("x") + ((Expression)2 + new Variable("y") / 3) - new Variable("y")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + ((Expression)2 + Variable.Create("y") / 3) - Variable.Create("y")));
 		}
 		[Test]
 		public void Parsing11()
 		{
 			var expression = (Expression)"x + ((-2 + y / 3) - y)";
-			Verify(expression, Is.EqualTo(new Variable("x") + ((-(Expression)2 + new Variable("y") / 3) - new Variable("y"))));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + ((-(Expression)2 + Variable.Create("y") / 3) - Variable.Create("y"))));
 		}
 		[Test]
 		public void Parsing12()
 		{
 			var expression = (Expression)"x + ((-2 + y / 3) - y) + 2 * y - z";
-			Verify(expression, Is.EqualTo(new Variable("x") + ((-(Expression)2 + new Variable("y") / 3) - new Variable("y")) + (Expression)2 * new Variable("y") - new Variable("z")));
+			Verify(expression, Is.EqualTo(Variable.Create("x") + ((-(Expression)2 + Variable.Create("y") / 3) - Variable.Create("y")) + (Expression)2 * Variable.Create("y") - Variable.Create("z")));
 		}
 	}
 }

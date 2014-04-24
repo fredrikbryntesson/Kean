@@ -1,5 +1,5 @@
 ﻿//
-//  Variable.cs
+//  SquareRoot.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -19,59 +19,30 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Kean.Extension;
+using System;
 
 namespace Kean.Math.Algebra
 {
-	public class Variable :
-	Expression
+	public class SquareRoot :
+	Function
 	{
-		public override int Precedence { get { return 0; } }
-		public string Name { get; private set; }
-		Variable(string name)
+		protected override string Symbol { get { return "sqrt"; } }
+		public SquareRoot(Expression argument) :
+			base(argument)
 		{
-			this.Name = name;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return variables.Find(variable => variable.Key == this.Name).Value;
+			return Single.SquareRoot(this.Argument.Evaluate(variables));
 		}
 		public override Expression Derive(string variable)
 		{
-			return variable == this.Name ? 1 : 0;
+			return 0.5f * this.Argument ^ -0.5f * this.Argument.Derive(variable);
 		}
 		public override Expression Simplify()
 		{
-			return this;
+			return new Power(this.Argument, 0.5f).Simplify();
 		}
-		public override bool Equals(Expression other)
-		{
-			return other is Variable && this.Name == ((Variable)other).Name;
-		}
-		#region Object Overrides
-		public override string ToString()
-		{
-			return this.Name;
-		}
-		public override int GetHashCode()
-		{
-			return this.Name.Hash();
-		}
-		#endregion
-		#region Static Create
-		public static Expression Create(string name)
-		{
-			switch (name)
-			{
-				case "pi":
-					return Constant.Pi;
-				case "e":
-					return Constant.E;
-				default:
-					return new Variable(name);
-			}
-		}
-		#endregion
 	}
 }
 

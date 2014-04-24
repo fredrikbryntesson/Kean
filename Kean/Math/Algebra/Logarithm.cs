@@ -1,5 +1,5 @@
 ﻿//
-//  Constant.cs
+//  Logarithm.cs
 //
 //  Author:
 //       Simon Mika <simon@mika.se>
@@ -21,56 +21,40 @@
 
 using System;
 using Kean.Extension;
-using Single = Kean.Math.Single;
 
 namespace Kean.Math.Algebra
 {
-	public class Constant :
-	Expression
+	public class Logarithm :
+	Function
 	{
-		public override int Precedence { get { return 0; } }
-		public float Value { get; private set; }
-		string symbol;
-		public Constant(float value)
+		protected override string Symbol
+		{ 
+			get
+			{ 
+				return this.Base == 2f ? "lb" :
+					this.Base == Single.E ? "ln" :
+					this.Base == 10f ? "lg" : "log" + this.Base.AsString();
+			} 
+		}
+		public float Base { get; private set; }
+		public Logarithm(float @base, Expression argument) :
+			base(argument)
 		{
-			this.Value = value;
+			this.Base = @base;
 		}
 		public override float Evaluate(params KeyValue<string, float>[] variables)
 		{
-			return this.Value;
+			return Single.Logarithm(this.Argument.Evaluate(variables), this.Base);
 		}
 		public override Expression Derive(string variable)
 		{
-			return 0f;
+			return 1f / (this.Argument * new Logarithm(Single.E, this.Base)) * this.Argument.Derive(variable);
 		}
 		public override Expression Simplify()
 		{
-			return this;
+			Expression argument = this.Argument.Simplify();
+			return argument is Constant && ((Constant)argument).Value == this.Base ? (Expression)1f : new Logarithm(this.Base, argument);
 		}
-		public override bool Equals(Expression other)
-		{
-			return other is Constant && Single.Absolute(this.Value - ((Constant)other).Value) <= 0.000001f;
-		}
-		#region Object Overrides
-		public override string ToString()
-		{
-			return this.symbol ?? this.Value.AsString();
-		}
-		public override int GetHashCode()
-		{
-			return this.Value.Hash();
-		}
-		#endregion
-		#region Predefined Constants
-		public static Constant Pi { get { return new Constant(Single.Pi) { symbol = "pi" }; } }
-		public static Constant E { get { return new Constant(Single.E) { symbol = "e" }; } }
-		#endregion
-		#region Static Parse
-		public static Constant Parse(string value)
-		{
-			return new Constant(value.Parse<float>());
-		}
-		#endregion
 	}
 }
 

@@ -51,20 +51,26 @@ namespace Kean.Math.Algebra
 		#region Static Create
 		public static Function Create(string name, Expression argument)
 		{
-			Function result;
 			switch (name)
 			{
 				case "sin":
-					result = new Sine(argument);
-					break;
+					return new Sine(argument);
 				case "cos":
-					result = new Cosine(argument);
-					break;
+					return new Cosine(argument);
+				case "sqrt":
+					return new SquareRoot(argument);
+				case "lb":
+					return new Logarithm(2, argument);
+				case "ln":
+					return new Logarithm(Single.E, argument);
+				case "lg":
+					return new Logarithm(10, argument);
 				default:
-					result = null;
-					break;
+					float @base;
+					return name.StartsWith("log") && (@base = name.Get(3).Parse<float>()) != 0 ?
+						new Logarithm(@base, argument) :
+						null;
 			}
-			return result;
 		}
 		#endregion
 	}
