@@ -64,32 +64,30 @@ namespace Kean.Math.Algebra
 			{
 				Tuple<float, Expression> nextItem = terms.Remove();
 				Expression next = nextItem.Item2;
-				float repitition = nextItem.Item1;
+				float repetition = nextItem.Item1;
 				terms.Remove(term =>
 				{
 					bool r;
 					if (r = ((term.Item2).Equals(next)))
-						repitition += term.Item1;
+						repetition += term.Item1;
 					return r;
 				});
 				if (result == 1)
 				{
 
-					if (repitition == 1)
+					if (repetition == 1)
 						result = next;
-					else if (repitition == 0)
+					else if (repetition == 0)
 						result = 1;
 					else
-						result = next ^ repitition;
+						result = next ^ repetition;
 				}
 				else
 				{
-					if (repitition == 1)
+					if (repetition == 1)
 						result *= next;
-					else if (repitition == 0)
-						result = result;
-					else
-						result *= next ^ repitition;
+					else if (repetition != 0)
+						result *= next ^ repetition;
 				}
 			}
 			return result;

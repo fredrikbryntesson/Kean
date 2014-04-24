@@ -51,6 +51,7 @@ namespace Kean.Draw.Raster.Test
 				this.CoordinateSystems,
 				this.ResizeWithin,
 				this.ResizeTo,
+				this.Draw3DTransformIdentity,
 				this.Draw3DTransform
 				);
 		}
@@ -105,17 +106,25 @@ namespace Kean.Draw.Raster.Test
 			using (Target.Yvu420 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yvu420)
 				Verify(shifted, "Draw/Raster/Correct/Transform/shiftedYvu420.png");
 		}
-
+		[Test]
+		public void Draw3DTransformIdentity()
+		{
+			using (Raster.Image first = Raster.Image.OpenResource("Draw/Raster/Correct/Transform/600x600b.png"))
+			{
+				Raster.Image result = first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f))) as Raster.Image;
+				Verify(result, "Draw/Raster/Correct/Transform/600x600b.png");
+			}
+		}
 		[Test]
 		public void Draw3DTransform()
 		{
 			using (Raster.Image first = Raster.Image.OpenResource("Draw/Raster/Correct/Transform/600x600b.png"))
 			{
-				//first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 150) * Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(-35f)) * Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(-25f)), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f)));
-				//first.ProjectOn(Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(30f)), new Geometry2D.Single.Size(Math.Single.ToRadians(100.8f), Math.Single.ToRadians(47.5f)));
-				first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f)));
-				//first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(150, 0, 150)* Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(30f)), new Geometry2D.Single.Size(Math.Single.ToRadians(100.8f), Math.Single.ToRadians(47.5f)));
-				Verify(first, "Draw/Raster/Correct/Transform/600x600b.png");
+				//Raster.Image result = first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 150) * Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(-35f)) * Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(-25f)), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f))) as Raster.Image;
+				//Raster.Image result = first.ProjectOn(Geometry3D.Single.Transform.CreateRotationZ(Math.Single.ToRadians(30f)) * Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(30f)) * Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(30f)), new Geometry2D.Single.Size(Math.Single.ToRadians(100.8f), Math.Single.ToRadians(47.5f))) as Raster.Image;
+				//Raster.Image result = first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f))) as Raster.Image;
+				Raster.Image result = first.ProjectOn(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0) * Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(329.6f)) * Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(329.6f)), new Geometry2D.Single.Size(Math.Single.ToRadians(60.8f), Math.Single.ToRadians(47.5f))) as Raster.Image;
+				Verify(result, "Draw/Raster/Correct/Transform/600x600b.png");
 			}
 		}
 

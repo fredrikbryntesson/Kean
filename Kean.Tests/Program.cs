@@ -36,8 +36,8 @@ namespace Kean.Tests
 			//DB.Sql.Test.Program.Run(args);
 			//Platform.Settings.Test.Program.Run(args);
 			#region Draw
-			Draw.OpenGL.Test.All.Test();
-			Draw.Test.All.Test();
+			//Draw.OpenGL.Test.All.Test();
+			//Draw.Test.All.Test();
 			Draw.Raster.Test.All.Test();
 			Draw.Cairo.Test.All.Test();
 			//Draw.Vector.Test.All.Test();

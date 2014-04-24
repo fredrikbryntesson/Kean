@@ -143,21 +143,21 @@ namespace Kean.Draw
 			}
 			return result;
 		}
-		public void ProjectOn(Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		public Draw.Image ProjectOn(Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
-			Draw.Image copy = this.Copy();
+			Draw.Image result = this.Copy();
 			
 			//TODO: this is the distance between the screen and the focal point. Needs a better name
 			float lensX = (float)this.Size.Width / Math.Single.Tangens(fieldOfView.Width / 2f) / 2f; 
 			//TODO: this is the number of vertical pixels in the original image that are visible given our vertical FOV. Needs a better name
 			float height = 2 * lensX * Math.Single.Tangens(fieldOfView.Height / 2f); 
-			var cam = camera * new Geometry3D.Single.Point((this.Size.Width-1)/2f, (this.Size.Height-1)/2f, lensX);
+			var cam = new Geometry3D.Single.Point((this.Size.Width-1)/2f, (this.Size.Height-1)/2f, lensX);
 			var p = new Geometry3D.Single.Point();
 			var d = new Geometry3D.Single.Point();
 			// TODO: Part of this might be better off as a method in the Transform class as CreateTransform[XYZ]Around(Geometry3D.Point centerOfRotation, float angle) or something.
-			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
+			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, lensX) *
 				camera *
-				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, 0) *
+				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, -lensX) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
 				//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			for (int y = 0; y < this.Size.Height; y++)
@@ -166,9 +166,10 @@ namespace Kean.Draw
 				{
 					p = transform * new Geometry3D.Single.Point(x, y, 0);
 					d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
-					this[x, y] = copy[Math.Single.Clamp(d.X, 0, this.Size.Width-1), Math.Single.Clamp(d.Y, 0, this.Size.Height-1)];
+					result[x, y] = this[Math.Single.Clamp(d.X, 0, this.Size.Width-1), Math.Single.Clamp(d.Y, 0, this.Size.Height-1)];
 				}
 			}
+			return result;
 		}
 		public Draw.Image ResizeWithin(Geometry2D.Integer.Size restriction)
 		{
