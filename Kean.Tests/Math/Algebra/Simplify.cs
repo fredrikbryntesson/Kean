@@ -56,8 +56,8 @@ namespace Kean.Math.Algebra.Test
 		[Test]
 		public void SineConstants()
 		{
-			Expression exp0 = new Variable("x");
-			Expression exp1 = new Variable("y");
+			Expression exp0 = Variable.Create("x");
+			Expression exp1 = Variable.Create("y");
 			Expression befor = new Sine(exp0 + exp1 + exp0);
 			Expression after = new Sine(2 * exp0 + exp1);
 			Verify(befor.Simplify(), Is.EqualTo(after));

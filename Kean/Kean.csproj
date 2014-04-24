@@ -893,6 +893,8 @@
     <Compile Include="Math\Algebra\Tokenizer.cs" />
     <Compile Include="Math\Algebra\UnaryOperator.cs" />
     <Compile Include="Math\Algebra\Variable.cs" />
+    <Compile Include="Math\Algebra\SquareRoot.cs" />
+    <Compile Include="Math\Algebra\Logarithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kean.nuspec" />
