@@ -186,13 +186,15 @@ namespace Kean.Draw
 				camera *
 				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, -focalLengthX) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
+			var smallTransform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
+				Geometry3D.Single.Transform.CreateTranslation(-target.Size.Width / 2f, -target.Size.Height / 2f, 0);
 			//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			var cam = transform * new Geometry3D.Single.Point((this.Size.Width - 1) / 2f, (this.Size.Height - 1) / 2f, focalLengthX);
 			for (int y = 0; y < target.Size.Height; y++) 
 			{
 				for (int x = 0; x < target.Size.Width; x++)
 				{
-					p = transform * new Geometry3D.Single.Point(x, y, 0);
+					p = transform * smallTransform * new Geometry3D.Single.Point(x, y, 0);
 					d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
 					target[x, y] = this[d.X, d.Y];
 				}
