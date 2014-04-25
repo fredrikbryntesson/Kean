@@ -35,7 +35,7 @@ namespace Kean.Draw.Raster
 	{
 		public override IColor this[int x, int y]
 		{
-			get { unsafe { return *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x); } }
+			get { unsafe { return this.IsValidIn(x, y) ? *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x) : new Color.Bgra(0, 0, 0, 0); } }
 			set { unsafe { *((Color.Bgra*)((byte*)this.Buffer + y * this.Stride) + x) = value.Convert<Color.Bgra>(); } }
 		}
 
