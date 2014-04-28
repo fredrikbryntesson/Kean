@@ -595,6 +595,12 @@
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\600x600.png" />
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\600x600b.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\600x600transformed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Draw\Raster\Correct\Transform\600x600corrected.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
