@@ -36,13 +36,26 @@ namespace Kean.Draw.Raster
 		public Monochrome Y { get; private set; }
 		public Monochrome U { get; private set; }
 		public Monochrome V { get; private set; }
-
+		public override Geometry2D.Integer.Shell Crop
+		{
+			get { return base.Crop; }
+			set
+			{
+				base.Crop = value;
+				if (this.Y.NotNull() && this.U.NotNull() && this.V.NotNull())
+				{
+					this.Y.Crop = value;
+					this.U.Crop = this.V.Crop = value / 2;
+				}
+			}
+		}
 		protected YuvPlanar(Buffer.Sized buffer, Geometry2D.Integer.Size size, CoordinateSystem coordinateSystem, Geometry2D.Integer.Shell crop) :
 			base(buffer, size, coordinateSystem, crop)
 		{
 			this.Y = this.CreateY();
 			this.U = this.CreateU();
 			this.V = this.CreateV();
+			this.Crop = this.Crop; // set crop on YUV images
 		}
 		protected YuvPlanar(YuvPlanar original) :
 			base(original)
@@ -50,6 +63,7 @@ namespace Kean.Draw.Raster
 			this.Y = this.CreateY();
 			this.U = this.CreateU();
 			this.V = this.CreateV();
+			this.Crop = this.Crop; // set crop on YUV images
 		}
 		protected abstract Monochrome CreateY();
 		protected abstract Monochrome CreateU();

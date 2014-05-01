@@ -66,7 +66,7 @@ namespace Kean.Draw
 		#region Crop
 		Geometry2D.Integer.Shell crop;
 		[Notify("CropChanged")]
-		public Geometry2D.Integer.Shell Crop 
+		public virtual Geometry2D.Integer.Shell Crop 
 		{
 			get { return this.crop; }
 			set
