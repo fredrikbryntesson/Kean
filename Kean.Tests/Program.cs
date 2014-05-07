@@ -38,8 +38,8 @@ namespace Kean.Tests
 			#region Draw
 			//Draw.OpenGL.Test.All.Test();
 			//Draw.Test.All.Test();
-			Draw.Raster.Test.All.Test();
-			Draw.Cairo.Test.All.Test();
+			//Draw.Raster.Test.All.Test();
+			//Draw.Cairo.Test.All.Test();
 			//Draw.Vector.Test.All.Test();
 			//Draw.Net.Test.All.Test();
 			//Draw.Jpeg.Test.All.Test();

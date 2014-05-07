@@ -65,6 +65,28 @@ namespace Kean.Math
 		{
 			return value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 		}
+		public static string ToString(float value, int valueDigits)
+		{
+			string result = "";
+			if (valueDigits < Logarithm(float.MaxValue, 10) && value != 0)
+			{
+				int power = 0;
+				while (Absolute(value) > Power(10, valueDigits))
+				{
+					value /= 10f;
+					power++;
+				}
+				while (Absolute(value) < Power(10, valueDigits - 1))
+				{
+					value *= 10f;
+					power--;
+				}
+				result = (Round(value) * Power(10, power)).ToString("F" + (power < 0 ? (-power).ToString() : "0"));
+			}
+			else
+				result = value.ToString();
+			return result;
+		}
 		#endregion
 		#region Utility Functions
 		public static float Absolute(float value)
@@ -144,6 +166,26 @@ namespace Kean.Math
 		public static float Round(float value, int digits)
 		{
 			return Single.Convert(System.Math.Round(value, digits));
+		}
+		public static float RoundToValueDigits(float value, int valueDigits, bool up)
+		{
+			if (valueDigits < Logarithm(float.MaxValue, 10) && value != 0)
+			{
+				float power = 1f;
+				while (Absolute(value) > Power(10, valueDigits))
+				{
+					value /= 10f;
+					power *= 10f;
+				}
+				while (Absolute(value) < Power(10, valueDigits - 1))
+				{
+					value *= 10f;
+					power /= 10f;
+				}
+				value = up ? Ceiling(value) : Floor(value);
+				value *= power;
+			}
+			return value;
 		}
 		#endregion
 		#region Trigonometric Functions
