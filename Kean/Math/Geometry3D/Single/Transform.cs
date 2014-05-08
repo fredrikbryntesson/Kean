@@ -288,6 +288,12 @@ namespace Kean.Math.Geometry3D.Single
 			float one = 1;
 			return new Transform() { A = Math.Single.Cosine(angle), B = Math.Single.Sine(angle), C = zero, D = Math.Single.Sine(-(angle)), E = Math.Single.Cosine(angle), F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
 		}
+		public static Transform CreateRotation(Transform transform, Point pivot)
+		{
+			return Transform.CreateTranslation(pivot.X, pivot.Y, pivot.Z) *
+				transform *
+				Transform.CreateTranslation(-pivot.X, -pivot.Y, -pivot.Z);
+		}
 		public static Transform CreateReflectionX()
 		{
 			float zero = 0;

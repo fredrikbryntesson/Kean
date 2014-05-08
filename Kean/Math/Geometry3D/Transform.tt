@@ -318,6 +318,12 @@ namespace Kean.Math.Geometry3D.<#= @namespace #>
 			<#= @type #> one = 1;
 			return new Transform() { A = Math.<#= @namespace #>.Cosine(angle), B = Math.<#= @namespace #>.Sine(angle), C = zero, D = Math.<#= @namespace #>.Sine(-(angle)), E = Math.<#= @namespace #>.Cosine(angle), F = zero, G = zero, H = zero, I = one, J = zero, K = zero, L = zero };
 		}
+		public static Transform CreateRotation(Transform transform, Point pivot)
+		{
+			return Transform.CreateTranslation(pivot.X, pivot.Y, pivot.Z) *
+				transform *
+				Transform.CreateTranslation(-pivot.X, -pivot.Y, -pivot.Z);
+		}
 		public static Transform CreateReflectionX()
 		{
 			<#= @type #> zero = 0;
