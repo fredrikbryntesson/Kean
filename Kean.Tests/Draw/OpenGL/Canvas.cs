@@ -255,42 +255,31 @@ namespace Kean.Draw.OpenGL.Test
 		[Test]
 		public void Draw3DTransformIdentity()
 		{
-			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				//image.Project(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
-				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
-				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
-				image.Canvas.Pop();
-				Verify(image, "Draw.OpenGL.Input.Flower.jpg");
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Input.Flower.jpg");
 			}
 		}
 		[Test]
 		public void Draw3DTransform()
 		{
-			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				//image.Project(Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
-				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
-				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
-				image.Canvas.Pop();
-				Verify(image, "Draw.OpenGL.Input.Flower.Transformed.jpg");
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Input.Flower.Transformed.jpg");
 			}
 		}
 		[Test]
 		public void Draw3DTransformAndCorrect()
 		{
-			using (Draw.Image image = this.image.Copy())
+			using (Draw.Image temp = new OpenGL.Bgra(this.image.Size))
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
 				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
-				
-				//image.Project(transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image).
-				//image.Project(transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
-				
-				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
-				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
-				image.Canvas.Pop();
-				
-				Verify(image, "Draw.OpenGL.Input.Flower.Corrected.jpg");
+				temp.ProjectionOf(this.image, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(temp, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Input.Flower.Corrected.jpg");
 			}
 		}
 	}

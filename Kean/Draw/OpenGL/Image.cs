@@ -23,6 +23,7 @@ using System;
 using Kean;
 using Kean.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Geometry3D = Kean.Math.Geometry3D;
 
 namespace Kean.Draw.OpenGL
 {
@@ -79,6 +80,18 @@ namespace Kean.Draw.OpenGL
 		}
 		internal abstract void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination);
 		#region Draw.Image Overrides
+		protected override void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform pointTransform, Geometry3D.Single.Point cam)
+		{
+			for (int y = 0; y < source.Size.Height; y++)
+			{
+				for (int x = 0; x < source.Size.Width; x++)
+				{
+					var p = pointTransform * new Geometry3D.Single.Point(x, y, 0);
+					var d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
+					this[x, y] = source[d.X, d.Y];
+				}
+			}
+		}
 		#endregion
 		#region Static Creators
 		public static Image Create(Draw.Image image)
