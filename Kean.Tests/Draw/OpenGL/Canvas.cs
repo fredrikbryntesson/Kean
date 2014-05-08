@@ -60,6 +60,9 @@ namespace Kean.Draw.OpenGL.Test
 				//this.BlendWithClipping, TODO: Clipping is broken.
 				//this.DrawColorRegionWithTransformAndClipping, TODO: Clipping is broken.
 				this.DrawSkew
+				//this.Draw3DTransformIdentity,
+				//this.Draw3DTransform,
+				//this.Draw3DTransformAndCorrect
 				);
 		}
 		[Test]
@@ -249,16 +252,46 @@ namespace Kean.Draw.OpenGL.Test
 				Verify(image, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
-		//[Test]
-		//public void Draw3DTransform()
-		//{
-		//	using (Draw.Image image = this.image.Copy())
-		//	{
-		//		image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), ((Geometry3D.Single.Transform)Geometry2D.Single.Transform.CreateScaling(1 / 2f)) * Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(30f)));
-		//		image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
-		//		image.Canvas.Pop();
-		//		Verify(image, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
-		//	}
-		//}	
+		[Test]
+		public void Draw3DTransformIdentity()
+		{
+			using (Draw.Image image = this.image.Copy())
+			{
+				//image.Project(Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
+				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
+				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
+				image.Canvas.Pop();
+				Verify(image, "Draw.OpenGL.Input.Flower.jpg");
+			}
+		}
+		[Test]
+		public void Draw3DTransform()
+		{
+			using (Draw.Image image = this.image.Copy())
+			{
+				//image.Project(Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
+				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
+				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
+				image.Canvas.Pop();
+				Verify(image, "Draw.OpenGL.Input.Flower.Transformed.jpg");
+			}
+		}
+		[Test]
+		public void Draw3DTransformAndCorrect()
+		{
+			using (Draw.Image image = this.image.Copy())
+			{
+				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
+				
+				//image.Project(transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image).
+				//image.Project(transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))) as Raster.Image;
+				
+				image.Canvas.Push(new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), Geometry2D.Single.Transform.CreateScaling(1 / 2f) * Geometry2D.Single.Transform.CreateSkewingX(Math.Single.ToRadians(30f)));
+				image.Canvas.Draw(image, new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height), new Geometry2D.Single.Box(0, 0, image.Size.Width, image.Size.Height));
+				image.Canvas.Pop();
+				
+				Verify(image, "Draw.OpenGL.Input.Flower.Corrected.jpg");
+			}
+		}
 	}
 }

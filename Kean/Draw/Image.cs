@@ -154,8 +154,6 @@ namespace Kean.Draw
 			float focalLengthX = (float)this.Size.Width / Math.Single.Tangens(fieldOfView.Width / 2f) / 2f; 
 			//TODO: this is the number of vertical pixels in the original image that are visible given our vertical FOV. Needs a better name
 			float height = 2 * focalLengthX * Math.Single.Tangens(fieldOfView.Height / 2f); 
-			var p = new Geometry3D.Single.Point();
-			var d = new Geometry3D.Single.Point();
 			// TODO: Part of this might be better off as a method in the Transform class as CreateTransform[XYZ]Around(Geometry3D.Point centerOfRotation, float angle) or something.
 			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, focalLengthX) *
 				camera *
@@ -163,6 +161,8 @@ namespace Kean.Draw
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
 				//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			var cam = transform * new Geometry3D.Single.Point((this.Size.Width-1)/2f, (this.Size.Height-1)/2f, focalLengthX);
+			var p = new Geometry3D.Single.Point();
+			var d = new Geometry3D.Single.Point();
 			for (int y = 0; y < this.Size.Height; y++)
 			{
 				for (int x = 0; x < this.Size.Width; x++)
@@ -174,27 +174,29 @@ namespace Kean.Draw
 			}
 			return result;
 		}
+
 		public void ProjectOn(Draw.Image target, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
 			float focalLengthX = (float)target.Size.Width / Math.Single.Tangens(fieldOfView.Width / 2f) / 2f;
-			//TODO: this is the number of vertical pixels in the original image that are visible given our vertical FOV. Needs a better name
+			// This is the number of vertical pixels in the original image that are visible given our vertical FOV.
 			float height = 2 * focalLengthX * Math.Single.Tangens(fieldOfView.Height / 2f);
-			var p = new Geometry3D.Single.Point();
-			var d = new Geometry3D.Single.Point();
 			// TODO: Part of this might be better off as a method in the Transform class as CreateTransform[XYZ]Around(Geometry3D.Point centerOfRotation, float angle) or something.
 			var transform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, focalLengthX) *
 				camera *
 				Geometry3D.Single.Transform.CreateTranslation(-this.Size.Width / 2f, -this.Size.Height / 2f, -focalLengthX) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
-			var smallTransform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
+			var offsetTransform = Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
 				Geometry3D.Single.Transform.CreateTranslation(-target.Size.Width / 2f, -target.Size.Height / 2f, 0);
+			var pTransform = transform * offsetTransform;
 			//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			var cam = transform * new Geometry3D.Single.Point((this.Size.Width - 1) / 2f, (this.Size.Height - 1) / 2f, focalLengthX);
+			var p = new Geometry3D.Single.Point();
+			var d = new Geometry3D.Single.Point();
 			for (int y = 0; y < target.Size.Height; y++) 
 			{
 				for (int x = 0; x < target.Size.Width; x++)
 				{
-					p = transform * smallTransform * new Geometry3D.Single.Point(x, y, 0);
+					p = pTransform * new Geometry3D.Single.Point(x, y, 0);
 					d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
 					target[x, y] = this[d.X, d.Y];
 				}

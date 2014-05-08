@@ -26,6 +26,7 @@ using Collection = Kean.Collection;
 using Color = Kean.Draw.Color;
 using Error = Kean.Error;
 using Geometry2D = Kean.Math.Geometry2D;
+using Geometry3D = Kean.Math.Geometry2D;
 using GL = OpenTK.Graphics.OpenGL.GL;
 
 namespace Kean.Draw.OpenGL.Backend.OpenGL21

@@ -65,6 +65,7 @@
     <Compile Include="Draw\OpenGL\Backend\Data1D.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data2D.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data3D.cs" />
+    <Compile Include="Draw\OpenGL\Backend\Extension\Geometry3D.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Data1D.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Data2D.cs" />
     <Compile Include="Draw\OpenGL\Backend\OpenGL21\Data3D.cs" />

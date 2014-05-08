@@ -27,7 +27,7 @@ namespace Kean.Tests
 	{
 		static void Main(string[] args)
 		{
-			Kean.Error.Log.CatchErrors = false;
+			Kean.Error.Log.CatchErrors = true;
 			Kean.Math.Algebra.Test.All.Test();
 			Kean.Test.StringExtension.Test();
 			Kean.Uri.Test.All.Test();
@@ -36,7 +36,7 @@ namespace Kean.Tests
 			//DB.Sql.Test.Program.Run(args);
 			//Platform.Settings.Test.Program.Run(args);
 			#region Draw
-			//Draw.OpenGL.Test.All.Test();
+			Draw.OpenGL.Test.All.Test();
 			//Draw.Test.All.Test();
 			//Draw.Raster.Test.All.Test();
 			//Draw.Cairo.Test.All.Test();
