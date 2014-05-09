@@ -32,9 +32,9 @@ namespace Kean.Draw.OpenGL.Backend.Extension
 	public static class Geometry3DExtension
 	{
 		#region Vector
-		public static OpenTK.Vector3 Vector3(this Target.Single.Box box)
+		public static OpenTK.Vector3 Vector3(this Target.Single.Size size)
 		{
-			return new OpenTK.Vector3(box.Width, box.Height, box.Depth);
+			return new OpenTK.Vector3(size.Width, size.Height, size.Depth);
 		}
 		public static OpenTK.Vector3 Vector3(this Target.Single.Point point)
 		{

@@ -253,77 +253,77 @@ namespace Kean.Math.Geometry2D.Single
 		{
 			return String.Format(format, Kean.Math.Single.ToString(this.X), Kean.Math.Single.ToString(this.Y));
 		}
-    #endregion
-    #region Static Creators
-    public static Point Polar(float radius, float azimuth)
-    {
-        return new Point(radius * Kean.Math.Single.Cosine(azimuth), radius * Kean.Math.Single.Sine(azimuth));
-    }
-    #endregion
-    #region Casts
-    public static implicit operator float[](Point value)
-    {
-        return new float[] { value.X, value.Y };
-    }
-    public static explicit operator Point(float[] value)
-    {
-        return new Point(value[0], value[1]);
-    }
-    public static implicit operator string(Point value)
-    {
-        return value.ToString();
-    }
-    public static explicit operator Point(string value)
-    {
-        Point result = new Point();
-        if (value.NotEmpty())
-        {
-            try
-            {
-                string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2)
-                    result = new Point(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
-            }
-            catch
-            {
-            }
-        }
-        return result;
-    }
-    public static explicit operator Size(Point value)
-    {
-        return new Size(value.X, value.Y);
-    }
-    public static explicit operator Point(Size value)
-    {
-        return new Point(value.Width, value.Height);
-    }
-    public static implicit operator Point(Integer.Point value)
-    {
-        return new Point(value.X, value.Y);
-    }
-    public static explicit operator Integer.Point(Point value)
-    {
-        return new Integer.Point(Kean.Math.Integer.Convert(value.X), Kean.Math.Integer.Convert(value.Y));
-    }
-    #endregion
-    #region Static Operators
-    public static Point Floor(Point other)
-    {
-        return new Point(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
-    }
-    public static Point Ceiling(Point other)
-    {
-        return new Point(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
-    }
-    public static Point Maximum(Point left, Point right)
-    {
-        return new Point(Kean.Math.Single.Maximum(left.X, right.X), Kean.Math.Single.Maximum(left.Y, right.Y));
-    }
-    public static Point Minimum(Point left, Point right)
-    {
-        return new Point(Kean.Math.Single.Minimum(left.X, right.X), Kean.Math.Single.Minimum(left.Y, right.Y));
-    }
-    #endregion
+	#endregion
+	#region Static Creators
+	public static Point Polar(float radius, float azimuth)
+	{
+		return new Point(radius * Kean.Math.Single.Cosine(azimuth), radius * Kean.Math.Single.Sine(azimuth));
+	}
+	#endregion
+	#region Casts
+	public static implicit operator float[](Point value)
+	{
+		return new float[] { value.X, value.Y };
+	}
+	public static explicit operator Point(float[] value)
+	{
+		return new Point(value[0], value[1]);
+	}
+	public static implicit operator string(Point value)
+	{
+		return value.ToString();
+	}
+	public static explicit operator Point(string value)
+	{
+		Point result = new Point();
+		if (value.NotEmpty())
+		{
+			try
+			{
+				string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+				if (values.Length == 2)
+					result = new Point(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]));
+			}
+			catch
+			{
+			}
+		}
+		return result;
+	}
+	public static explicit operator Size(Point value)
+	{
+		return new Size(value.X, value.Y);
+	}
+	public static explicit operator Point(Size value)
+	{
+		return new Point(value.Width, value.Height);
+	}
+	public static implicit operator Point(Integer.Point value)
+	{
+		return new Point(value.X, value.Y);
+	}
+	public static explicit operator Integer.Point(Point value)
+	{
+		return new Integer.Point(Kean.Math.Integer.Convert(value.X), Kean.Math.Integer.Convert(value.Y));
+	}
+	#endregion
+	#region Static Operators
+	public static Point Floor(Point other)
+	{
+		return new Point(Kean.Math.Integer.Floor(other.X), Kean.Math.Integer.Floor(other.Y));
+	}
+	public static Point Ceiling(Point other)
+	{
+		return new Point(Kean.Math.Integer.Ceiling(other.X), Kean.Math.Integer.Ceiling(other.Y));
+	}
+	public static Point Maximum(Point left, Point right)
+	{
+		return new Point(Kean.Math.Single.Maximum(left.X, right.X), Kean.Math.Single.Maximum(left.Y, right.Y));
+	}
+	public static Point Minimum(Point left, Point right)
+	{
+		return new Point(Kean.Math.Single.Minimum(left.X, right.X), Kean.Math.Single.Minimum(left.Y, right.Y));
+	}
+	#endregion
   }
 }

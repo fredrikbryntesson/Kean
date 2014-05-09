@@ -148,18 +148,27 @@ namespace Kean.Draw
 			return result;
 		}
 
-		public void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		public void ProjectionOn(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
 			float focalLengthX = (float)source.Size.Width / Math.Single.Tangens(fieldOfView.Width / 2f) / 2f;
-			// This is the number of vertical pixels in the original image that are visible given our vertical FOV.
 			float height = 2 * focalLengthX * Math.Single.Tangens(fieldOfView.Height / 2f);
 			var transform = Geometry3D.Single.Transform.CreateRotation(camera, new Geometry3D.Single.Point(this.Size.Width / 2f, this.Size.Height / 2f, focalLengthX)) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
-			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation(this.Size.Width / 2f, this.Size.Height / 2f, 0) *
-				Geometry3D.Single.Transform.CreateTranslation(-source.Size.Width / 2f, -source.Size.Height / 2f, 0);
+			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation((this.Size.Width - source.Size.Width) / 2f, (this.Size.Height - source.Size.Height) / 2f, 0);
 			//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
 			var cam = transform * new Geometry3D.Single.Point((this.Size.Width - 1) / 2f, (this.Size.Height - 1) / 2f, focalLengthX);
 			ProjectionOf(source, pointTransform, cam); 
+		}
+
+		public void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		{
+			float focalLengthX = 0.5f / Math.Single.Tangens(fieldOfView.Width / 2f);
+			float height = 2 * focalLengthX * Math.Single.Tangens(fieldOfView.Height / 2f);
+			var transform = Geometry3D.Single.Transform.CreateRotation(camera, new Geometry3D.Single.Point(1f / 2f, 1f / 2f, focalLengthX)) *
+				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
+			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation((this.Size.Width - source.Size.Width) / 2f, (this.Size.Height - source.Size.Height) / 2f, 0);			//TODO: Can this be simplified by changing the order of operations and putting the scaling last?
+			var cam = transform * new Geometry3D.Single.Point((1f) / 2f, (1f) / 2f, focalLengthX);
+			ProjectionOf(source, pointTransform, cam);
 		}
 
 		protected virtual void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform pointTransform, Geometry3D.Single.Point cam)

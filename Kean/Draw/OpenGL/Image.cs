@@ -82,14 +82,17 @@ namespace Kean.Draw.OpenGL
 		#region Draw.Image Overrides
 		protected override void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform pointTransform, Geometry3D.Single.Point cam)
 		{
-			for (int y = 0; y < source.Size.Height; y++)
+			using (var map = new Map(Backend.Programs.Projection))
 			{
-				for (int x = 0; x < source.Size.Width; x++)
-				{
-					var p = pointTransform * new Geometry3D.Single.Point(x, y, 0);
-					var d = cam + (Geometry3D.Single.Point)(p - cam) * (cam.Z / (cam.Z - p.Z));
-					this[x, y] = source[d.X, d.Y];
-				}
+				source.Wrap = false;
+				//pointTransform = new Geometry3D.Single.Transform(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0);
+				//pointTransform = Geometry3D.Single.Transform.CreateRotationX(-0.5f);
+				//pointTransform = Geometry3D.Single.Transform.CreateTranslation(0.5f, 0.5f, 0) * pointTransform * Geometry3D.Single.Transform.CreateTranslation(-0.5f, -0.5f, 0);
+				//pointTransform = Geometry3D.Single.Transform.CreateTranslation(cam.X, cam.Y, 0) * pointTransform * Geometry3D.Single.Transform.CreateTranslation(-cam.X, -cam.Y, 0);
+				//cam = new Geometry3D.Single.Point(0.5f, 0.5f, 1);
+				map.Add("cam", cam);
+				map.Add("transform", pointTransform);
+				this.Canvas.Draw(map, source);
 			}
 		}
 		#endregion

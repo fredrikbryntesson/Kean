@@ -113,8 +113,8 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw/Raster/Correct/Transform/600x600b.png"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				Verify(image, "Draw/Raster/Correct/Transform/600x600b.png");
+				image.ProjectionOn(first, Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
 		[Test]
@@ -123,8 +123,8 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw/Raster/Correct/Transform/600x600b.png"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				Verify(image, "Draw/Raster/Correct/Transform/600x600transformed.png");
+				image.ProjectionOn(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
 		[Test]
@@ -135,9 +135,9 @@ namespace Kean.Draw.Raster.Test
 			using (var image2 = new Raster.Bgra(first.Size))
 			{
 				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
-				image.ProjectionOf(first, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				image2.ProjectionOf(image, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))); 
-				Verify(image2, "Draw/Raster/Correct/Transform/600x600corrected.png");
+				image.ProjectionOn(first, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image2.ProjectionOn(image, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))); 
+				Verify(image2, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
 

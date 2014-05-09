@@ -23,6 +23,8 @@ using System;
 using Kean;
 using Kean.Extension;
 using Geometry2D = Kean.Math.Geometry2D;
+using Geometry3D = Kean.Math.Geometry3D;
+using Kean.Draw.OpenGL.Backend.Extension;
 using Collection = Kean.Collection;
 
 namespace Kean.Draw.OpenGL
@@ -154,6 +156,18 @@ namespace Kean.Draw.OpenGL
 				d.UnUse();
 				this.data[name] = d;
 			}
+		}
+		public override void Add(string name, Geometry3D.Single.Point data)
+		{
+			this.Add(name, new float[] { data.X, data.Y, data.Z, 1 });
+		}
+		public override void Add(string name, Geometry3D.Single.Size data)
+		{
+			this.Add(name, new float[] { data.Width, data.Height, data.Depth, 0 });
+		}
+		public override void Add(string name, Geometry3D.Single.Transform data)
+		{
+			this.Add(name, new float[,] { { data.A, data.B, data.C, 0 }, { data.D, data.E, data.F, 0 }, { data.G, data.H, data.I, 0 }, { data.J, data.K, data.L, 1 } });
 		}
 		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Programs.MonochromeToBgr); } }
 		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Programs.BgrToMonochrome); } }

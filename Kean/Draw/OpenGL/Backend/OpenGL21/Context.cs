@@ -101,6 +101,18 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 							return matrix * t;
 						}";
 					break;
+				case Programs.Projection:
+					code = @"
+						uniform sampler2D texture0;
+						uniform vec4 cam;
+						uniform mat4 transform;
+						void main()
+						{
+							vec4 p = transform * vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, 0, 1);
+							vec4 d = cam + (p - cam) * (cam.z / (cam.z - p.z));
+							gl_FragColor = texture2D(texture0, d.xy);
+						}";
+					break;
 				default:
 					break;
 			}

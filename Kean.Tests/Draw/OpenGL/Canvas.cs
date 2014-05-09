@@ -59,10 +59,10 @@ namespace Kean.Draw.OpenGL.Test
 				//this.DrawImageOnRegionWithClipping, TODO: Clipping is broken.
 				//this.BlendWithClipping, TODO: Clipping is broken.
 				//this.DrawColorRegionWithTransformAndClipping, TODO: Clipping is broken.
-				this.DrawSkew
-				//this.Draw3DTransformIdentity,
-				//this.Draw3DTransform,
-				//this.Draw3DTransformAndCorrect
+				this.DrawSkew,
+				this.Draw3DTransformIdentity,
+				this.Draw3DTransform,
+				this.Draw3DTransformAndCorrect
 				);
 		}
 		[Test]
@@ -257,8 +257,8 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateTranslation(0, 0, 0), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				Verify(output, "Draw.OpenGL.Input.Flower.jpg");
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
 		[Test]
@@ -267,7 +267,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
 				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				Verify(output, "Draw.OpenGL.Input.Flower.Transformed.jpg");
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
 		[Test]
@@ -279,7 +279,7 @@ namespace Kean.Draw.OpenGL.Test
 				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
 				temp.ProjectionOf(this.image, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				output.ProjectionOf(temp, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				Verify(output, "Draw.OpenGL.Input.Flower.Corrected.jpg");
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
 	}
