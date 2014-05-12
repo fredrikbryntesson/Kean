@@ -36,7 +36,11 @@ namespace Kean.Draw.OpenGL
 			private set
 			{
 				this.channels = value;
-				Action<bool> updateWrap = wrap => this.channels.Apply(channel => channel.Wrap = wrap);
+				Action<bool> updateWrap = wrap =>
+				{
+					if (this.channels.NotNull())
+						this.channels.Apply(channel => channel.Wrap = wrap);
+				};
 				updateWrap(this.Wrap);
 				this.WrapChanged += updateWrap;
 			}

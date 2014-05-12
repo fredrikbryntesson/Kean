@@ -85,12 +85,8 @@ namespace Kean.Draw.OpenGL
 			using (var map = new Map(Backend.Programs.Projection))
 			{
 				source.Wrap = false;
-				//pointTransform = new Geometry3D.Single.Transform(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0);
-				//pointTransform = Geometry3D.Single.Transform.CreateRotationX(-0.5f);
-				//pointTransform = Geometry3D.Single.Transform.CreateTranslation(0.5f, 0.5f, 0) * pointTransform * Geometry3D.Single.Transform.CreateTranslation(-0.5f, -0.5f, 0);
-				//pointTransform = Geometry3D.Single.Transform.CreateTranslation(cam.X, cam.Y, 0) * pointTransform * Geometry3D.Single.Transform.CreateTranslation(-cam.X, -cam.Y, 0);
-				//cam = new Geometry3D.Single.Point(0.5f, 0.5f, 1);
 				map.Add("cam", cam);
+				//pointTransform = Geometry3D.Single.Transform.Identity;
 				map.Add("transform", pointTransform);
 				this.Canvas.Draw(map, source);
 			}
