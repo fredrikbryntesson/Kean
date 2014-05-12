@@ -267,6 +267,10 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		{
 			return <#= @name #>.CreateScaling(factor, factor);
 		}
+		public static <#= @name #> CreateScaling(Size factor)
+		{
+			return <#= @name #>.CreateScaling(factor.Width, factor.Height);
+		}
 		public static <#= @name #> CreateScaling(<#= @value1 #> xFactor, <#= @value1 #> yFactor)
 		{
 			return new <#= @name #>(xFactor, 0, 0, yFactor, 0, 0);

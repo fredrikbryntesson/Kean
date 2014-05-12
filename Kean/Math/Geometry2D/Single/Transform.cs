@@ -238,6 +238,10 @@ namespace Kean.Math.Geometry2D.Single
 		{
 			return Transform.CreateScaling(factor, factor);
 		}
+		public static Transform CreateScaling(Size factor)
+		{
+			return Transform.CreateScaling(factor.Width, factor.Height);
+		}
 		public static Transform CreateScaling(float xFactor, float yFactor)
 		{
 			return new Transform(xFactor, 0, 0, yFactor, 0, 0);

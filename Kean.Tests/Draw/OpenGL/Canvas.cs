@@ -62,8 +62,16 @@ namespace Kean.Draw.OpenGL.Test
 				this.DrawSkew,
 				this.Draw3DTransformIdentity,
 				this.Draw3DTransform,
+				this.Draw3DTransformZ,
+				this.Draw3DTransformZ90,
 				this.Draw3DTransformIdentityToSmaller,
 				this.Draw3DTransformIdentityToLarger,
+				this.Draw3DTransformZ90ToSmaller,
+				this.Draw3DTransformZ90ToLarger,
+				this.Draw3DTransformXToSmaller,
+				this.Draw3DTransformXToLarger,
+				this.Draw3DTransformYToSmaller,
+				this.Draw3DTransformYToLarger,
 				this.Draw3DTransformToSmaller,
 				this.Draw3DTransformToLarger,
 				this.Draw3DTransformAndCorrect
@@ -275,6 +283,24 @@ namespace Kean.Draw.OpenGL.Test
 			}
 		}
 		[Test]
+		public void Draw3DTransformZ()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformZ90()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi/2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
 		public void Draw3DTransformIdentityToSmaller()
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size/2))
@@ -289,6 +315,60 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image output = new OpenGL.Bgra(2*this.image.Size))
 			{
 				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformZ90ToSmaller()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformZ90ToLarger()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformXToSmaller()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformXToLarger()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformYToSmaller()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
+			}
+		}
+		[Test]
+		public void Draw3DTransformYToLarger()
+		{
+			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
+			{
+				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}

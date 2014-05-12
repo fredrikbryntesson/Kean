@@ -165,10 +165,10 @@ namespace Kean.Draw
 		{
 			float focalLengthX = (float)this.Size.Width / Math.Single.Tangens(fieldOfView.Width / 2f) / 2f;
 			float height = 2 * focalLengthX * Math.Single.Tangens(fieldOfView.Height / 2f);
-			var transform = Geometry3D.Single.Transform.CreateRotation(camera, new Geometry3D.Single.Point(this.Size.Width / 2f, this.Size.Height / 2f, focalLengthX)) *
+			var transform = Geometry3D.Single.Transform.CreateRotation(camera, new Geometry3D.Single.Point(source.Size.Width / 2f, source.Size.Height / 2f, focalLengthX)) *
 				Geometry3D.Single.Transform.CreateScaling(this.Size.Width / (this.Size.Width - 1), this.Size.Height / (this.Size.Height - 1), 1);
-			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation((-this.Size.Width + source.Size.Width) / 2f, (-this.Size.Height + source.Size.Height) / 2f, 0);
-			var cam = transform * new Geometry3D.Single.Point((this.Size.Width - 1) / 2f, (this.Size.Height - 1) / 2f, focalLengthX);
+			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation((source.Size.Width - this.Size.Width) / 2f, (source.Size.Height - this.Size.Height) / 2f, 0);
+			var cam = transform * new Geometry3D.Single.Point((source.Size.Width - 1) / 2f, (source.Size.Height - 1) / 2f, focalLengthX);
 			ProjectionOf(source, pointTransform, cam); 
 		}
 
