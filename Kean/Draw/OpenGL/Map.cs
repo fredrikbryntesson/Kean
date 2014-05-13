@@ -157,6 +157,10 @@ namespace Kean.Draw.OpenGL
 				this.data[name] = d;
 			}
 		}
+		public override void Add(string name, Geometry2D.Integer.Size data)
+		{
+			this.Add(name, new float[] { data.Width, data.Height, 0 });
+		}
 		public override void Add(string name, Geometry3D.Single.Point data)
 		{
 			this.Add(name, new float[] { data.X, data.Y, data.Z, 1 });

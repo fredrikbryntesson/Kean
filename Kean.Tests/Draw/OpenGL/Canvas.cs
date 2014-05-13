@@ -269,7 +269,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -278,7 +278,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -287,7 +287,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationZ(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -296,7 +296,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi/2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi/2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -305,7 +305,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size/2))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -314,7 +314,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(2*this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -323,7 +323,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -332,7 +332,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationZ(Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -341,7 +341,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -350,7 +350,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -359,7 +359,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -368,7 +368,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -377,7 +377,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size / 2))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -386,7 +386,7 @@ namespace Kean.Draw.OpenGL.Test
 		{
 			using (Draw.Image output = new OpenGL.Bgra(2 * this.image.Size))
 			{
-				output.ProjectionOfGL(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(this.image, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}
@@ -397,8 +397,8 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image output = new OpenGL.Bgra(this.image.Size))
 			{
 				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
-				temp.ProjectionOfGL(this.image, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				output.ProjectionOfGL(temp, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				temp.ProjectionOf(this.image, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				output.ProjectionOf(temp, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(output, "Draw.OpenGL.Correct.Bgra.DrawSkew.png");
 			}
 		}

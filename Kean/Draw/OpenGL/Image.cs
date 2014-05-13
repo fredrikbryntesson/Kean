@@ -88,7 +88,9 @@ namespace Kean.Draw.OpenGL
 				map.Add("cam", cam);
 				//pointTransform = Geometry3D.Single.Transform.Identity;
 				map.Add("transform", pointTransform);
-				this.Canvas.Draw(map, source);
+				map.Add("sourceSize", source.Size);
+				map.Add("destinationSize", this.Size);
+				this.Canvas.Draw(map, source, new Geometry2D.Single.Box(source.Size), new Geometry2D.Single.Box(this.Size));
 			}
 		}
 		#endregion

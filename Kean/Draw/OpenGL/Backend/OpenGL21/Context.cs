@@ -104,13 +104,19 @@ namespace Kean.Draw.OpenGL.Backend.OpenGL21
 				case Programs.Projection:
 					code = @"
 						uniform sampler2D texture0;
+						uniform vec3 sourceSize;
+						uniform vec3 destinationSize;
 						uniform vec4 cam;
 						uniform mat4 transform;
 						void main()
 						{
-							vec4 p = transform * vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, 0, 1);
+//							vec3 sourceSize = vec3(640, 480, 0);
+//							vec3 destinationSize = vec3(640, 480, 0);
+							vec4 destinationPosition = vec4(gl_TexCoord[0].x * destinationSize.x, gl_TexCoord[0].y * destinationSize.y, 0, 1);
+							vec4 p = transform * destinationPosition;
 							vec4 d = cam + (p - cam) * (cam.z / (cam.z - p.z));
-							gl_FragColor = texture2D(texture0, d.xy);
+							vec4 c = vec4(d.x / sourceSize.x, d.y / sourceSize.y, 0, 0); 
+							gl_FragColor = texture2D(texture0, c.xy);
 						}";
 					break;
 				default:
