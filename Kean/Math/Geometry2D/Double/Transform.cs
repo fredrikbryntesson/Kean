@@ -217,7 +217,17 @@ namespace Kean.Math.Geometry2D.Double
 		}
 		#endregion
 		#region Static Creators
-		public static Transform Identity { get {return new Transform(1,0,0,1,0,0); } }
+		public static Transform Identity { get { return new Transform(1, 0, 0, 1, 0, 0); } }
+		public static Transform Create(Size translation, double scale, double rotation)
+		{
+			return new Transform (
+				Math.Double.Cosine(rotation) * scale,
+				Math.Double.Sine(rotation) * scale,
+				-Math.Double.Sine(rotation) * scale,
+				Math.Double.Cosine(rotation) * scale,
+				translation.Width,
+				translation.Height);
+		}
 		public static Transform CreateTranslation(double delta)
 		{
 			return Transform.CreateTranslation(delta, delta);

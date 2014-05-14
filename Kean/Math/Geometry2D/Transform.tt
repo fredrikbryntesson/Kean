@@ -246,7 +246,17 @@ namespace <#= @namespace #>.<#= @namespace1 #>
 		}
 		#endregion
 		#region Static Creators
-		public static <#= @name #> Identity { get {return new <#= @name #>(1,0,0,1,0,0); } }
+		public static Transform Identity { get { return new Transform(1, 0, 0, 1, 0, 0); } }
+		public static Transform Create(Size translation, <#= @value1 #> scale, <#= @value1 #> rotation)
+		{
+			return new Transform (
+				Math.<#= @namespace1 #>.Cosine(rotation) * scale,
+				Math.<#= @namespace1 #>.Sine(rotation) * scale,
+				-Math.<#= @namespace1 #>.Sine(rotation) * scale,
+				Math.<#= @namespace1 #>.Cosine(rotation) * scale,
+				translation.Width,
+				translation.Height);
+		}
 		public static <#= @name #> CreateTranslation(<#= @value1 #> delta)
 		{
 			return <#= @name #>.CreateTranslation(delta, delta);

@@ -24,7 +24,7 @@ using Kean.Extension;
 
 namespace Kean.Math.Regression.Ransac
 {
-    public class Model<Domain,Range, Transform>
+    public class Model<Domain, Range, Transform>
     {
         public Func<Domain[], Range[], Transform> Estimate { get; set; }
         public Func<Transform, Domain, Range, bool> FitModel { get; set; }

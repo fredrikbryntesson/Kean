@@ -217,7 +217,17 @@ namespace Kean.Math.Geometry2D.Integer
 		}
 		#endregion
 		#region Static Creators
-		public static Transform Identity { get {return new Transform(1,0,0,1,0,0); } }
+		public static Transform Identity { get { return new Transform(1, 0, 0, 1, 0, 0); } }
+		public static Transform Create(Size translation, int scale, int rotation)
+		{
+			return new Transform (
+				Math.Integer.Cosine(rotation) * scale,
+				Math.Integer.Sine(rotation) * scale,
+				-Math.Integer.Sine(rotation) * scale,
+				Math.Integer.Cosine(rotation) * scale,
+				translation.Width,
+				translation.Height);
+		}
 		public static Transform CreateTranslation(int delta)
 		{
 			return Transform.CreateTranslation(delta, delta);
