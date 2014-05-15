@@ -148,6 +148,15 @@ namespace Kean.Draw
 			return result;
 		}
 
+		public void ProjectionOfNormalized(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
+		{
+			float focalLengthX = (float)this.Size.Width / (Math.Single.Tangens(fieldOfView.Width / 2f) * 2f);
+			var transform = Geometry3D.Single.Transform.CreateRotation(camera, new Geometry3D.Single.Point(source.Size.Width / 2f, source.Size.Height / 2f, focalLengthX));
+			var pointTransform = transform * Geometry3D.Single.Transform.CreateTranslation((source.Size.Width - this.Size.Width) / 2f, (source.Size.Height - this.Size.Height) / 2f, 0);
+			var cam = transform * new Geometry3D.Single.Point((source.Size.Width) / 2f, (source.Size.Height) / 2f, focalLengthX);
+			ProjectionOf(source, pointTransform, cam);
+		}
+
 		public void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
 			float focalLengthX = (float)this.Size.Width / (Math.Single.Tangens(fieldOfView.Width / 2f) * 2f);

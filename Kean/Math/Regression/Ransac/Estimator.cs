@@ -120,7 +120,7 @@ namespace Kean.Math.Regression.Ransac
                         bool[] maybeMask = new bool[this.domain.Length];
                         int currentInliers = 0;
                         for (int i = 0; i < this.domain.Length; i++)
-                            currentInliers += (maybeMask[i] = this.model.FitModel(maybeModel, this.domain[i], this.range[i])) ? 1 : 0;
+                            currentInliers += (maybeMask[i] = this.model.Fits(maybeModel, this.domain[i], this.range[i])) ? 1 : 0;
                         if (currentInliers > Kean.Math.Integer.Maximum(neededMeasures - 1, maximumInliers))
                         {
                             maximumInliers = currentInliers;

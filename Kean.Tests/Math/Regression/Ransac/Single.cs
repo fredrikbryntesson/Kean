@@ -51,7 +51,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     result = a.Solve(b) ?? new Kean.Math.Matrix.Single(1, degree);
                     return result;
                 },
-                FitModel = (transform, domain, range) => Kean.Math.Double.Absolute(map(transform, domain) - range) < 80,
+                Fits = (transform, domain, range) => Kean.Math.Double.Absolute(map(transform, domain) - range) < 80,
             };
             Target.Estimator<float, float, Matrix.Single> estimate =
                 new Target.Estimator<float, float, Kean.Math.Matrix.Single>(model, 2000, 0.95);
@@ -172,7 +172,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     }
                     return a.Solve(b) ?? new Kean.Math.Matrix.Single(1, 4);
                 },
-                FitModel = (tranform, domain, range) => map(tranform, domain).Distance(range) < 8,
+                Fits = (tranform, domain, range) => map(tranform, domain).Distance(range) < 8,
             };
             Target.Estimator<Geometry2D.Single.Point, Geometry2D.Single.Point, Kean.Math.Matrix.Single> estimate =
                 new Target.Estimator<Geometry2D.Single.Point, Geometry2D.Single.Point, Kean.Math.Matrix.Single>(model, 20, 0.999);
@@ -300,7 +300,7 @@ namespace Kean.Math.Regression.Test.Ransac
                     result.Y /= (float)count;
                     return result;
                 },
-                FitModel = (transform, domain, range) => (transform + domain).Distance(range) < 10,
+                Fits = (transform, domain, range) => (transform + domain).Distance(range) < 10,
             };
             Target.Estimator<Geometry2D.Single.Point, Geometry2D.Single.Point, Geometry2D.Single.Point> estimate =
                 new Target.Estimator<Geometry2D.Single.Point, Geometry2D.Single.Point, Geometry2D.Single.Point>(model, 20);

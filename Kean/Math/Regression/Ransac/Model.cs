@@ -24,23 +24,16 @@ using Kean.Extension;
 
 namespace Kean.Math.Regression.Ransac
 {
-    public class Model<Domain, Range, Transform>
-    {
-        public Func<Domain[], Range[], Transform> Estimate { get; set; }
-        public Func<Transform, Domain, Range, bool> FitModel { get; set; }
-        public int FitsWell { get; set; }
-        public int RequiredMeasures { get; set; }
-        public Model() { }
-        public Model(
-            Func<Domain[], Range[], Transform> estimate,
-            Func<Transform, Domain, Range, bool> fitModel,
-            int fitsWell,
-            int requiredMeasures)
-        {
-            this.Estimate = estimate;
-            this.FitModel = fitModel;
-            this.FitsWell = fitsWell;
-            this.RequiredMeasures = requiredMeasures;
-        }
-    }
+	public abstract class Model<TDomain, TRange, TTransform>
+	{
+		public int FitsWell { get; protected set; }
+		public int RequiredMeasures { get; protected set; }
+		protected Model() { }
+		public abstract TTransform Estimate(TDomain[] domain, TRange[] range);
+		public abstract bool Fits(TTransform transform, TDomain domain, TRange range);
+		public Regression.Ransac.Estimator<TDomain, TRange, TTransform> CreateEstimator(int maximumIterations, double confidence = 0.99)
+		{
+			return new Regression.Ransac.Estimator<TDomain, TRange, TTransform>(this, maximumIterations, confidence);
+		}
+	}
 }
