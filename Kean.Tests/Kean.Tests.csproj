@@ -65,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\Program.cs" />
+    <Compile Include="Math\Regression\Ransac\Model\TranslationRegression.cs" />
+    <Compile Include="Math\Regression\Ransac\Model\ScaleRotationTranslationRegression.cs" />
+    <Compile Include="Math\Regression\Ransac\Model\RobustPolynomialRegression.cs" />
     <Compile Include="Math\Single.cs" />
     <Compile Include="Math\Geometry2D\Integer\Shell.cs" />
     <Compile Include="Math\Geometry3D\Transform.cs">
@@ -602,6 +605,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Draw\Raster\Correct\Transform\600x600corrected.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
