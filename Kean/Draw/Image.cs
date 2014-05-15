@@ -148,29 +148,6 @@ namespace Kean.Draw
 			return result;
 		}
 
-		public void ProjectionOfNormalized(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
-		{
-			float focalLengthX = (float)this.Size.Width / (Math.Single.Tangens(fieldOfView.Width / 2f) * 2f);
-			var transform = camera * Geometry3D.Single.Transform.CreateTranslation(0, 0, focalLengthX);
-			ProjectionOf(source, transform, focalLengthX);
-		}
-		protected virtual void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform transform, float focalLengthX)
-		{
-			var halfSize = (Geometry2D.Single.Size)this.Size / 2f;
-			var sourceCamera = transform * new Geometry3D.Single.Point();
-			for (int y = 0; y < this.Size.Height; y++)
-				for (int x = 0; x < this.Size.Width; x++)
-				{
-					var pointDestination = new Geometry3D.Single.Point(x - halfSize.Width, y - halfSize.Height, focalLengthX);
-					var pointSource = transform * pointDestination;
-					var sourceCameraPoint = pointSource - sourceCamera;
-
-					//var pointSourceProjected = pointSource / 
-					//var d = p * focalLengthX / p.Z;
-					//this[x, y] = source[d.X, d.Y];
-				}
-		}
-
 		public void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform camera, Geometry2D.Single.Size fieldOfView)
 		{
 			float focalLengthX = (float)this.Size.Width / (Math.Single.Tangens(fieldOfView.Width / 2f) * 2f);
