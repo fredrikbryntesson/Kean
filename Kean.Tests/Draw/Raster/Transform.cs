@@ -119,13 +119,15 @@ namespace Kean.Draw.Raster.Test
 			using (Target.Yvu420 shifted = image.Shift(new Kean.Math.Geometry2D.Integer.Size(51, -131)) as Target.Yvu420)
 				Verify(shifted, "Draw/Raster/Correct/Transform/shiftedYvu420.png");
 		}
+		#endregion
+		#region Transform
 		[Test]
 		public void Draw3DTransformIdentity()
 		{
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -135,7 +137,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -145,7 +147,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationZ(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationZ(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -155,7 +157,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi/2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi/2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -165,7 +167,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size/2))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -175,7 +177,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(2*first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.Identity, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -185,7 +187,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size / 2))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -195,7 +197,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(2 * first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.Pi / 2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -205,7 +207,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size / 2))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationX(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -215,7 +217,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(2 * first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) , new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) , new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -225,7 +227,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size / 2))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -235,7 +237,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(2 * first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -245,7 +247,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(first.Size / 2))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -255,7 +257,7 @@ namespace Kean.Draw.Raster.Test
 			using (Raster.Image first = Raster.Image.OpenResource("Draw.OpenGL.Input.Flower.jpg"))
 			using (var image = new Raster.Bgra(2 * first.Size))
 			{
-				image.ProjectionOf(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image.Project(first, Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f), new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
 				Verify(image, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}
@@ -267,8 +269,8 @@ namespace Kean.Draw.Raster.Test
 			using (var image2 = new Raster.Bgra(first.Size))
 			{
 				var transform = Geometry3D.Single.Transform.CreateRotationX(0.2f) * Geometry3D.Single.Transform.CreateRotationY(0.2f);
-				image.ProjectionOf(first, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
-				image2.ProjectionOf(image, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))); 
+				image.Project(first, transform, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f)));
+				image2.Project(image, transform.Inverse, new Geometry2D.Single.Size(Math.Single.ToRadians(45f), Math.Single.ToRadians(45f))); 
 				Verify(image2, "Draw/Raster/Correct/Transform/aspect.png");
 			}
 		}

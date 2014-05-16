@@ -66,6 +66,13 @@ namespace Kean.Math.Geometry2D.Single
 			result *= sign < 0 ? -1 : 1;
 			return result;
 		}
+		public Point Project(Geometry3D.Single.Transform transform, float planeZ)
+		{
+			var transformed = transform * new Geometry3D.Single.Point(this.X, this.Y, planeZ);
+			var projected = transformed * planeZ / transformed.Z;
+			return new Point(projected.X, projected.Y);
+			/* TODO: Create casts from 3D points */
+		}
 		public float ScalarProduct(Point other)
 		{
 			return this.X * other.X + this.Y * other.Y;

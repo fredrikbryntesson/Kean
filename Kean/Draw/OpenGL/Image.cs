@@ -80,7 +80,7 @@ namespace Kean.Draw.OpenGL
 		}
 		internal abstract void Render(Map map, Geometry2D.Single.Point leftTop, Geometry2D.Single.Point rightTop, Geometry2D.Single.Point leftBottom, Geometry2D.Single.Point rightBottom, Geometry2D.Single.Box destination);
 		#region Draw.Image Overrides
-		protected override void ProjectionOf(Draw.Image source, Geometry3D.Single.Transform pointTransform, Geometry3D.Single.Point cam)
+		protected override void Project(Draw.Image source, Geometry3D.Single.Transform pointTransform, Geometry3D.Single.Point cam)
 		{
 			using (var map = new Map(Backend.Programs.Projection))
 			{
