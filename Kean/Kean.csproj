@@ -86,21 +86,6 @@
     <Compile Include="IO\Wrap\PartialByteInDevice.cs" />
     <Compile Include="Math\Exception\Abstract.cs" />
     <Compile Include="Math\Exception\IndexOutOfRange.cs" />
-    <Compile Include="Math\Geometry2D\Box.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Box.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Math\Geometry2D\Transform1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Transform.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Math\Geometry3D\Transform.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Transform.tt</DependentUpon>
-    </Compile>
     <Compile Include="OnOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Comparer.cs" />
@@ -559,10 +544,6 @@
     <Compile Include="Math\Complex\Template.cs" />
     <Compile Include="Math\Exception\DivisionByZero.cs" />
     <Compile Include="Math\Exception\NotAllowed.cs" />
-    <Compile Include="Math\Geometry2D\Point.cs" />
-    <Compile Include="Math\Geometry2D\Shell.cs" />
-    <Compile Include="Math\Geometry2D\Size.cs" />
-    <Compile Include="Math\Geometry2D\Transform.cs" />
     <Compile Include="Math\Geometry2D\Double\Box.cs" />
     <Compile Include="Math\Geometry2D\Double\Point.cs" />
     <Compile Include="Math\Geometry2D\Double\Shell.cs" />
@@ -578,10 +559,6 @@
     <Compile Include="Math\Geometry2D\Single\Shell.cs" />
     <Compile Include="Math\Geometry2D\Single\Size.cs" />
     <Compile Include="Math\Geometry2D\Single\Transform.cs" />
-    <Compile Include="Math\Geometry3D\Box.cs" />
-    <Compile Include="Math\Geometry3D\Point.cs" />
-    <Compile Include="Math\Geometry3D\Shell.cs" />
-    <Compile Include="Math\Geometry3D\Size.cs" />
     <Compile Include="Math\Geometry3D\Double\Box.cs" />
     <Compile Include="Math\Geometry3D\Double\Point.cs" />
     <Compile Include="Math\Geometry3D\Double\Quaternion.cs" />
@@ -905,11 +882,18 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Box.cs</LastGenOutput>
     </None>
-    <None Include="Math\Geometry2D\Point.tt" />
+    <None Include="Math\Geometry2D\Point.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Point1.cs</LastGenOutput>
+    </None>
     <None Include="Math\Geometry2D\Shell.tt">
       <LastGenOutput>Shell1.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Include="Math\Geometry2D\Size.tt" />
+    <None Include="Math\Geometry2D\Size.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Size1.cs</LastGenOutput>
+    </None>
     <None Include="Math\Geometry2D\Transform.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Transform1.cs</LastGenOutput>

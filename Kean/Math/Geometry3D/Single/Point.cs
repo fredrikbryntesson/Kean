@@ -37,6 +37,12 @@ namespace Kean.Math.Geometry3D.Single
 			this.Y = y;
 			this.Z = z;
 		}
+		public Point(Geometry2D.Single.Point p, float z)
+		{
+			this.X = p.X;
+			this.Y = p.Y;
+			this.Z = z;
+		}
 		#region properties
 		public float Norm { get { return Math.Single.SquareRoot((Math.Single.Squared(this.X) + Math.Single.Squared(this.Y) + Math.Single.Squared(this.Z))); } }
 		public float Azimuth { get { return Math.Single.ArcusTangensExtended(this.Y, this.X); } }
@@ -250,8 +256,14 @@ namespace Kean.Math.Geometry3D.Single
 			return new Point((float)value.X, (float)value.Y, (float)value.Z);
 		}
 		
-		
-		
 		#endregion
+
+		public Point Project(Transform transform, float planeZ)
+		{
+			return new Geometry3D.Single.Point(new Geometry2D.Single.Point(this.X, this.Y).Project(transform, planeZ), planeZ);
+			//var transformed = transform * this;
+			//var projected = transformed * planeZ / transformed.Z;
+			//return projected; // TODO: Do this properly...
+		}
 	}
 }
