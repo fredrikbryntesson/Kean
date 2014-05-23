@@ -57,7 +57,9 @@ namespace Kean.Math.Geometry2D.Test.Single
 				this.Angles,
 				this.Casts,
 				this.StringCasts,
-				this.Projection
+				this.Projection,
+				this.Project
+				//this.ProjectLines
 				);
 		}
 		#region Equality
@@ -224,6 +226,80 @@ namespace Kean.Math.Geometry2D.Test.Single
 			Verify(point.Project(transform, zPlane), Is.EqualTo(new Target.Single.Point(10, 10)));
 			transform = Geometry3D.Single.Transform.CreateTranslation(10, 10, -zPlane/2);
 			Verify(point.Project(transform, zPlane), Is.EqualTo(new Target.Single.Point(20, 20)));
+		}
+		[Test]
+		public void Project()
+		{
+			var size = new Target.Integer.Size(2, 2);
+			var fieldOfView = new Target.Single.Size(90f, 90f);
+			float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Kean.Math.Single.ToRadians(fieldOfView.Width) / 2f));
+			var cells = new Target.Integer.Size(3, 3);
+
+			var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+			var transforms = new Kean.Collection.Array.List<Geometry3D.Single.Transform>();
+			transforms.Add(Geometry3D.Single.Transform.Identity * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateTranslation(size.Width / 2f, 0, 0) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateTranslation(0, size.Height / 2f, 0) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateTranslation(0, 0, -zPlane / 2f) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationX(Kean.Math.Single.ToRadians(45)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(45)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationZ(Kean.Math.Single.ToRadians(45)) * camTransform);
+			
+			string toCSV = "";
+
+			Geometry2D.Single.Point[,] points = new Geometry2D.Single.Point[cells.Area, transforms.Count];
+			for (int y = 0; y < cells.Height; y++)
+			{
+				for (int x = 0; x < cells.Width; x++)
+				{
+					for (int t = 0; t < transforms.Count; t++)
+					{
+						points[y * cells.Width + x, t] = new Target.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)).Project(transforms[t], zPlane);
+						toCSV += points[y * cells.Width + x, t].ToString() + "\t";
+					}
+					toCSV += "\n";
+				}
+			}
+			var locator = Kean.Uri.Locator.FromPlatformPath("$(Documents)/points");
+			toCSV.Save((Uri.Locator.FromPlatformPath(locator.PlatformPath.ToString() + ".Stats.txt")));
+		}
+		[Test]
+		public void ProjectLines()
+		{
+			var size = new Target.Integer.Size(640, 480);
+			var fieldOfView = new Target.Single.Size(45f, 45f);
+			float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Kean.Math.Single.ToRadians(fieldOfView.Width) / 2f));
+			var cells = new Target.Integer.Size(5, 5);
+
+			var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+			var transforms = new Kean.Collection.Array.List<Geometry3D.Single.Transform>();
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(-15)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(-10)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(-5)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(0)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(5)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(10)) * camTransform);
+			transforms.Add(Geometry3D.Single.Transform.CreateRotationY(Kean.Math.Single.ToRadians(15)) * camTransform);
+
+			string toCSV = "";
+
+			Geometry3D.Single.Point[,] points = new Geometry3D.Single.Point[cells.Area, transforms.Count];
+			for (int y = 0; y < cells.Height; y++)
+			{
+				for (int x = 0; x < cells.Width; x++)
+				{
+					for (int t = 0; t < transforms.Count; t++)
+					{
+						var point = new Target.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)).Project(transforms[t], zPlane);
+						var point3 = new Geometry3D.Single.Point(point, zPlane);
+						//points[y * cells.Width + x, t] = new Geometry3D.Single.Point(point3.RY, point3.RX, point3.Norm);
+						toCSV += points[y * cells.Width + x, t].ToString() + "\t";
+					}
+					toCSV += "\n";
+				}
+			}
+			var locator = Kean.Uri.Locator.FromPlatformPath("$(Documents)/points");
+			toCSV.Save((Uri.Locator.FromPlatformPath(locator.PlatformPath.ToString() + ".Stats.txt")));
 		}
 	}
 }

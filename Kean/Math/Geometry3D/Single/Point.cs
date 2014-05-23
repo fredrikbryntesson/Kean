@@ -44,6 +44,7 @@ namespace Kean.Math.Geometry3D.Single
 			this.Z = z;
 		}
 		#region properties
+		//public float Theta { get { return Math.Single.ArcusTangensExtended(Math.Single.SquareRoot()) } }
 		public float Norm { get { return Math.Single.SquareRoot((Math.Single.Squared(this.X) + Math.Single.Squared(this.Y) + Math.Single.Squared(this.Z))); } }
 		public float Azimuth { get { return Math.Single.ArcusTangensExtended(this.Y, this.X); } }
 		public float Elevation
@@ -53,7 +54,7 @@ namespace Kean.Math.Geometry3D.Single
 				float result = new float();
 				float r = this.Norm;
 				if (r != result)
-					result = Math.Single.Clamp(this.Z / r, -1, Math.Single.ArcusCosinus(1));
+					result = Math.Single.ArcusCosinus(Math.Single.Clamp(this.Z / r, -1, 1));
 				return result;
 			}
 		}
@@ -87,6 +88,12 @@ namespace Kean.Math.Geometry3D.Single
 		public static Point Spherical(float radius, float azimuth, float elevation)
 		{
 			return new Point(radius * Math.Single.Cosine(azimuth) * Math.Single.Sine(elevation), radius * Math.Single.Sine(azimuth) * Math.Single.Sine(elevation), radius * Math.Single.Cosine(elevation));
+		}
+		public static Point Angles(float rx, float ry, float n)
+		{
+			float z = Math.Single.SquareRoot((n * n) / (1 + Math.Single.Squared(Math.Single.Tangens(ry)) + Math.Single.Squared(Math.Single.Tangens(rx))));
+			//float z = n * Math.Single.Cosine(rx) * Math.Single.Cosine(ry);
+			return new Point(z * Math.Single.Tangens(ry), z * Math.Single.Tangens(rx), z);
 		}
 		#endregion
 		#region Arithmetic Vector - Vector Operators
