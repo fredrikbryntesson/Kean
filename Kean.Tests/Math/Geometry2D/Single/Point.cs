@@ -236,7 +236,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 			var cells = new Target.Integer.Size(3, 3);
 
 			var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
-			var transforms = new Kean.Collection.Array.List<Geometry3D.Single.Transform>();
+			var transforms = new Kean.Collection.List<Geometry3D.Single.Transform>();
 			transforms.Add(Geometry3D.Single.Transform.Identity * camTransform);
 			transforms.Add(Geometry3D.Single.Transform.CreateTranslation(size.Width / 2f, 0, 0) * camTransform);
 			transforms.Add(Geometry3D.Single.Transform.CreateTranslation(0, size.Height / 2f, 0) * camTransform);
@@ -263,6 +263,73 @@ namespace Kean.Math.Geometry2D.Test.Single
 			var locator = Kean.Uri.Locator.FromPlatformPath("$(Documents)/points");
 			toCSV.Save((Uri.Locator.FromPlatformPath(locator.PlatformPath.ToString() + ".Stats.txt")));
 		}
+        [Test]
+        public void Project2()
+        {
+            var size = new Target.Integer.Size(640, 480);
+            var fieldOfView = new Target.Single.Size(60f, 60f);
+            float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width) / 2f));
+            var cells = new Target.Integer.Size(5, 5);
+
+            var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+			var points = new Collection.List<Geometry2D.Single.Point>();
+                for (int y = 0; y < cells.Height; y++)
+                    for (int x = 0; x < cells.Width; x++)
+						points.Add((Geometry2D.Single.Transform)camTransform * new Geometry2D.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)));
+            var csv = new IO.Text.Builder();
+			csv += "name, ";
+			foreach (var point in points)
+				csv += "x y, ";
+			csv += ", a b, t u, p q\n";
+            foreach (var transform in new KeyValue<string, Geometry3D.Single.Transform>[] {
+				KeyValue.Create("identity", Geometry3D.Single.Transform.Identity),
+				KeyValue.Create("x-translation", Geometry3D.Single.Transform.CreateTranslation(size.Width / 2f, 0, 0)),
+				KeyValue.Create("y-translation", Geometry3D.Single.Transform.CreateTranslation(0, size.Height / 2f, 0)),
+				KeyValue.Create("z-translation", Geometry3D.Single.Transform.CreateTranslation(0, 0, -zPlane / 2f)),
+				KeyValue.Create("x-rotation", Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(45))),
+				KeyValue.Create("y-rotation", Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(45))),
+				KeyValue.Create("z-rotation", Geometry3D.Single.Transform.CreateRotationZ(Math.Single.ToRadians(45)))
+			})
+            {
+				var xString = new IO.Text.Builder();
+				var yString = new IO.Text.Builder();
+				xString += transform.Key + ", ";
+				yString += transform.Key + ", ";
+				var a = new Math.Matrix.Single(6, points.Count * 2);
+				var b = new Math.Matrix.Single(1, points.Count * 2);
+				var count = 0;
+				foreach (var before in points)
+				{
+					var after = before.Project(transform.Value, zPlane);
+					xString += after.X.AsString() + ", ";
+					yString += after.Y.AsString() + ", ";
+					// a * x_before - b * y_before + t - p * x_before * x_after + q * y_before * x_after = x_after
+					a[0, count] = before.X; // a
+					a[1, count] = -before.Y; // b
+					a[2, count] = 1; // t
+					a[3, count] = 0; // u 
+					a[4, count] = before.X * after.X; // p
+					a[5, count] = before.Y * after.X; // q
+					b[0, count++] = after.X;
+					// a * y_before + b * x_before + u - p * x_before * y_after + q * y_before * y_after = y_after
+					a[0, count] = before.Y; // a
+					a[1, count] = before.X; // b
+					a[2, count] = 0; // t
+					a[3, count] = 1; // u 
+					a[4, count] = before.X * after.Y; // p
+					a[5, count] = before.Y * after.Y; // q
+					b[0, count++] = after.Y;
+				}
+				Matrix.Single estimation = a.Solve(b);
+				if (estimation.NotNull())
+				{
+					xString += ", ," + estimation[0, 0] + " ," + estimation[0, 2] + " ," + estimation[0, 4];
+					yString += ", ," + estimation[0, 1] + " ," + estimation[0, 3] + " ," + estimation[0, 5];
+				}
+				csv += xString + "\n" + yString + "\n";
+            }
+			((string)csv).Save(Uri.Locator.FromPlatformPath("$(Documents)/points.csv"));
+        }
 		[Test]
 		public void ProjectLines()
 		{

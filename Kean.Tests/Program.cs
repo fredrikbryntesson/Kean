@@ -27,7 +27,10 @@ namespace Kean.Tests
 	{
 		static void Main(string[] args)
 		{
-			Kean.Error.Log.CatchErrors = true;
+			Error.Log.CatchErrors = true;
+
+			new Kean.Math.Geometry2D.Test.Single.Point().Project2();
+
 			//Kean.Math.Algebra.Test.All.Test();
 			//Kean.Test.StringExtension.Test();
 			//Kean.Uri.Test.All.Test();
