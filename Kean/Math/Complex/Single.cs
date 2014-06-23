@@ -144,7 +144,7 @@ namespace Kean.Math.Complex
         }
         public static Single RootOfUnity(int n, int k)
         {
-            return Single.Exponential(new Single(0, 2 * k * Kean.Math.Single.PI / n));
+            return Single.Exponential(new Single(0, 2 * k * Kean.Math.Single.Pi / n));
         }
         #endregion
         #region Object overides and IEquatable<Single>

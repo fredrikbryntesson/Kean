@@ -38,8 +38,8 @@ namespace Kean.Math.Algebra
 		internal string ToString(int precedence)
 		{
 			string result = this.ToString();
-			//if (precedence < this.Precedence)
-			if (this.Precedence > 0)
+			if (precedence < this.Precedence)
+			//if (this.Precedence > 0)
 				result = "(" + result + ")";
 			return result;
 		}

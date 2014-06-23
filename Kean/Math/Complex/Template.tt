@@ -47,7 +47,7 @@ namespace Kean.Math.Complex
 		public <#= @value #> Real;
 		public <#= @value #> Imaginary;
 		public <#= @class #> Conjugate { get { return new <#= @class #>(this.Real, -this.Imaginary); } }
-		public <#= @value #> AbsoluteValue { get { return Kean.Math.<#= @class #>.SquareRoot(Kean.Math.<#= @class #>.Squared(this.Real) + Kean.Math.<#= @class #>.Squared(this.Imaginary)); } }
+		public <#= @value #> AbsoluteValue { get { return Math.<#= @class #>.SquareRoot(Kean.Math.<#= @class #>.Squared(this.Real) + Math.<#= @class #>.Squared(this.Imaginary)); } }
 		public <#= @class #>(<#= @value #> real, <#= @value #> imaginary)
 		{
 			this.Real = real;
@@ -164,7 +164,7 @@ namespace Kean.Math.Complex
 		}
 		public static <#= @class #> RootOfUnity(int n, int k)
 		{
-			return <#= @class #>.Exponential(new <#= @class #>(0, 2 * k * Kean.Math.<#= @class #>.PI / n));
+			return <#= @class #>.Exponential(new <#= @class #>(0, 2 * k * Kean.Math.<#= @class #>.Pi / n));
 		}
 		#endregion
 		#region Object overides and IEquatable<<#= @class #>>

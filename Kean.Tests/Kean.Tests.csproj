@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\Program.cs" />
+    <Compile Include="Math\Algebra\Matrix.cs" />
     <Compile Include="Math\Regression\Ransac\Model\TranslationRegression.cs" />
     <Compile Include="Math\Regression\Ransac\Model\ScaleRotationTranslationRegression.cs" />
     <Compile Include="Math\Regression\Ransac\Model\RobustPolynomialRegression.cs" />

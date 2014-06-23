@@ -57,7 +57,9 @@ namespace Kean.Math.Algebra
 					return new Sine(argument);
 				case "cos":
 					return new Cosine(argument);
-				case "sqrt":
+                case "tan":
+                    return new Tangent(argument);
+                case "sqrt":
 					return new SquareRoot(argument);
 				case "lb":
 					return new Logarithm(2, argument);

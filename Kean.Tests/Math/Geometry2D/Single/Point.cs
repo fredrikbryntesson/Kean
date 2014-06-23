@@ -264,7 +264,7 @@ namespace Kean.Math.Geometry2D.Test.Single
 			toCSV.Save((Uri.Locator.FromPlatformPath(locator.PlatformPath.ToString() + ".Stats.txt")));
 		}
         [Test]
-        public void Project2()
+        public void Project6Dof()
         {
             var size = new Target.Integer.Size(640, 480);
             var fieldOfView = new Target.Single.Size(60f, 60f);
@@ -303,32 +303,366 @@ namespace Kean.Math.Geometry2D.Test.Single
 					var after = before.Project(transform.Value, zPlane);
 					xString += after.X.AsString() + ", ";
 					yString += after.Y.AsString() + ", ";
-					// a * x_before - b * y_before + t - p * x_before * x_after + q * y_before * x_after = x_after
+					// a * x_before - b * y_before + t - p * x_before * x_after - q * y_before * x_after = x_after
 					a[0, count] = before.X; // a
 					a[1, count] = -before.Y; // b
 					a[2, count] = 1; // t
 					a[3, count] = 0; // u 
-					a[4, count] = before.X * after.X; // p
-					a[5, count] = before.Y * after.X; // q
+					a[4, count] = -before.X * after.X; // p
+					a[5, count] = -before.Y * after.X; // q
 					b[0, count++] = after.X;
-					// a * y_before + b * x_before + u - p * x_before * y_after + q * y_before * y_after = y_after
+					// a * y_before + b * x_before + u - p * x_before * y_after - q * y_before * y_after = y_after
 					a[0, count] = before.Y; // a
 					a[1, count] = before.X; // b
 					a[2, count] = 0; // t
 					a[3, count] = 1; // u 
-					a[4, count] = before.X * after.Y; // p
-					a[5, count] = before.Y * after.Y; // q
+					a[4, count] = -before.X * after.Y; // p
+					a[5, count] = -before.Y * after.Y; // q
 					b[0, count++] = after.Y;
 				}
 				Matrix.Single estimation = a.Solve(b);
 				if (estimation.NotNull())
 				{
-					xString += ", ," + estimation[0, 0] + " ," + estimation[0, 2] + " ," + estimation[0, 4];
-					yString += ", ," + estimation[0, 1] + " ," + estimation[0, 3] + " ," + estimation[0, 5];
+					xString += ", " + estimation[0, 0] + " ," + estimation[0, 2] + " ," + estimation[0, 4];
+					yString += ", " + estimation[0, 1] + " ," + estimation[0, 3] + " ," + estimation[0, 5];
 				}
 				csv += xString + "\n" + yString + "\n";
             }
 			((string)csv).Save(Uri.Locator.FromPlatformPath("$(Documents)/points.csv"));
+        }
+        [Test]
+        public void Project8Dof()
+        {
+            var size = new Target.Integer.Size(640, 480);
+            var fieldOfView = new Target.Single.Size(60f, 60f);
+            float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width) / 2f));
+            var cells = new Target.Integer.Size(5, 5);
+
+            var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+            var points = new Collection.List<Geometry2D.Single.Point>();
+            for (int y = 0; y < cells.Height; y++)
+                for (int x = 0; x < cells.Width; x++)
+                    points.Add((Geometry2D.Single.Transform)camTransform * new Geometry2D.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)));
+            var csv = new IO.Text.Builder();
+            csv += "name, ";
+            foreach (var point in points)
+                csv += "x y, ";
+            csv += ", a c, b d, t u, p q\n";
+            foreach (var transform in new KeyValue<string, Geometry3D.Single.Transform>[] {
+				KeyValue.Create("identity", Geometry3D.Single.Transform.Identity),
+				KeyValue.Create("x-translation", Geometry3D.Single.Transform.CreateTranslation(size.Width / 2f, 0, 0)),
+				KeyValue.Create("y-translation", Geometry3D.Single.Transform.CreateTranslation(0, size.Height / 2f, 0)),
+				KeyValue.Create("z-translation", Geometry3D.Single.Transform.CreateTranslation(0, 0, -zPlane / 2f)),
+				KeyValue.Create("x-rotation", Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(45))),
+				KeyValue.Create("y-rotation", Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(45))),
+				KeyValue.Create("z-rotation", Geometry3D.Single.Transform.CreateRotationZ(Math.Single.ToRadians(45)))
+			})
+            {
+                var xString = new IO.Text.Builder();
+                var yString = new IO.Text.Builder();
+                xString += transform.Key + ", ";
+                yString += transform.Key + ", ";
+                var a = new Math.Matrix.Single(8, points.Count * 2);
+                var b = new Math.Matrix.Single(1, points.Count * 2);
+                var count = 0;
+                foreach (var before in points)
+                {
+                    var after = before.Project(transform.Value, zPlane);
+                    xString += after.X.AsString() + ", ";
+                    yString += after.Y.AsString() + ", ";
+                    // a * x_before + b * y_before + t - p * x_before * x_after - q * y_before * x_after = x_after
+                    a[0, count] = before.X; // a
+                    a[1, count] = before.Y; // b
+                    a[2, count] = 0; // c
+                    a[3, count] = 0; // d
+                    a[4, count] = 1; // t
+                    a[5, count] = 0; // u 
+                    a[6, count] = -before.X * after.X; // p
+                    a[7, count] = -before.Y * after.X; // q
+                    b[0, count++] = after.X;
+                    // c * x_before + d * y_before + u - p * x_before * y_after - q * y_before * y_after = y_after
+                    a[0, count] = 0; // a
+                    a[1, count] = 0; // b
+                    a[2, count] = before.X; // c
+                    a[3, count] = before.Y; // d
+                    a[4, count] = 0; // t
+                    a[5, count] = 1; // u 
+                    a[6, count] = -before.X * after.Y; // p
+                    a[7, count] = -before.Y * after.Y; // q
+                    b[0, count++] = after.Y;
+                }
+                Matrix.Single estimation = a.Solve(b);
+                if (estimation.NotNull())
+                {
+                    xString += ", " + estimation[0, 0] + " ," + estimation[0, 1] + " ," + estimation[0, 4] + " ," + estimation[0, 6];
+                    yString += ", " + estimation[0, 2] + " ," + estimation[0, 3] + " ," + estimation[0, 5] + " ," + estimation[0, 7];
+                }
+                csv += xString + "\n" + yString + "\n";
+            }
+            ((string)csv).Save(Uri.Locator.FromPlatformPath("$(Documents)/points.csv"));
+        }
+        [Test]
+        public void Project8DofMulti()
+        {
+
+            float theta = 17f;
+            float phi = 13f;
+            float tau = 9f;
+            float tx = 320f;
+            float ty = 140f;
+            float tz = 1.2f;
+            float fov = 60f;
+
+            var size = new Target.Integer.Size(640, 480);
+            var fieldOfView = new Target.Single.Size(fov, fov);
+            float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width) / 2f));
+            var cells = new Target.Integer.Size(5, 5);
+
+            var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+            var points = new Collection.List<Geometry2D.Single.Point>();
+            for (int y = 0; y < cells.Height; y++)
+                for (int x = 0; x < cells.Width; x++)
+                    points.Add((Geometry2D.Single.Transform)camTransform * new Geometry2D.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)));
+            var csv = new IO.Text.Builder();
+            csv += "name, ";
+            foreach (var point in points)
+                csv += "x y, ";
+            csv += ", a c, b d, t u, p q,";
+            foreach (var point in points)
+                csv += "x y, ";
+            csv += "\n";
+
+            foreach (var transform in new KeyValue<string, Geometry3D.Single.Transform>[] {
+				KeyValue.Create("identity", Geometry3D.Single.Transform.Identity),
+				KeyValue.Create("Transform", Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(theta)).RotateY(Math.Single.ToRadians(phi)).RotateZ(Math.Single.ToRadians(tau)).Translate(tx,ty,tz))
+			})
+            {
+                var xString = new IO.Text.Builder();
+                var yString = new IO.Text.Builder();
+                xString += transform.Key + ", ";
+                yString += transform.Key + ", ";
+                var a = new Math.Matrix.Single(8, points.Count * 2);
+                var b = new Math.Matrix.Single(1, points.Count * 2);
+                var count = 0;
+                foreach (var before in points)
+                {
+                    var after = before.Project(transform.Value, zPlane);
+                    xString += after.X.AsString() + ", ";
+                    yString += after.Y.AsString() + ", ";
+                    // a * x_before + b * y_before + t - p * x_before * x_after - q * y_before * x_after = x_after
+                    a[0, count] = before.X; // a
+                    a[1, count] = before.Y; // b
+                    a[2, count] = 0; // c
+                    a[3, count] = 0; // d
+                    a[4, count] = 1; // t
+                    a[5, count] = 0; // u 
+                    a[6, count] = -before.X * after.X; // p
+                    a[7, count] = -before.Y * after.X; // q
+                    b[0, count++] = after.X;
+                    // c * x_before + d * y_before + u - p * x_before * y_after - q * y_before * y_after = y_after
+                    a[0, count] = 0; // a
+                    a[1, count] = 0; // b
+                    a[2, count] = before.X; // c
+                    a[3, count] = before.Y; // d
+                    a[4, count] = 0; // t
+                    a[5, count] = 1; // u 
+                    a[6, count] = -before.X * after.Y; // p
+                    a[7, count] = -before.Y * after.Y; // q
+                    b[0, count++] = after.Y;
+                }
+                Matrix.Single estimation = a.Solve(b);
+
+                var points2 = new Collection.List<Geometry2D.Single.Point>();
+
+               var Vafter = new Math.Matrix.Single();
+               var Vbefore = new Math.Matrix.Single(1, 3, new float[] { 0, 0, 0 });
+
+               Math.Matrix.Single H = new Math.Matrix.Single(3, 3);
+
+               H[0, 0] = estimation[0, 0]; //a
+               H[0, 1] = estimation[0, 2]; //c
+               H[0, 2] = estimation[0, 6]; //p
+               H[1, 0] = estimation[0, 1]; //b
+               H[1, 1] = estimation[0, 3]; //d
+               H[1, 2] = estimation[0, 7]; //q
+               H[2, 0] = estimation[0, 4]; //t
+               H[2, 1] = estimation[0, 5]; //u
+               H[2, 2] = 1; //1
+
+                foreach (var before in points)
+                {
+                    Vbefore = new Math.Matrix.Single(1, 3, new float[] { before.X, before.Y, 1 });
+                    Vafter = H * Vbefore;
+                    points2.Add(new Geometry2D.Single.Point(Vafter[0, 0] / Vafter[0, 2], Vafter[0, 1] / Vafter[0, 2]));
+                }
+
+
+                if (estimation.NotNull())
+                {
+                    xString += ", " + estimation[0, 0] + " ," + estimation[0, 1] + " ," + estimation[0, 4] + " ," + estimation[0, 6];
+                    yString += ", " + estimation[0, 2] + " ," + estimation[0, 3] + " ," + estimation[0, 5] + " ," + estimation[0, 7];
+                }
+
+                foreach (var point in points2)
+                {
+                    xString += ", " + point.X;
+                    yString += ", " + point.Y;
+                }
+                csv += xString + "\n" + yString + "\n";
+
+                
+                // Calculate the H matrix using the transform
+                Math.Matrix.Single HDirect = ParametersToH(new Matrix.Single(1, 6, new float[] { tx, ty, tz, theta, phi, tau }), fov, size.Width/2f);
+
+                // Calculate the transform parameters from estimation H and transformed H
+                Math.Matrix.Single parametersDirect = HToParameters(HDirect, fov, size.Width / 2f);
+                Math.Matrix.Single recalculatedParameters = HToParameters(H, fov, size.Width / 2f);
+
+                // Print
+                Console.WriteLine("H from transformed parameters\n" + HDirect);
+                Console.WriteLine("H from estimation\n" + H);
+                Console.WriteLine("Parameters from inverted transform\n" + parametersDirect);
+                Console.WriteLine("Realculated parameters from estimation\n" + recalculatedParameters);
+                 
+            }
+            ((string)csv).Save(Uri.Locator.FromPlatformPath("$(Documents)/points.csv"));
+        }
+
+        public Math.Matrix.Single ParametersToH(Math.Matrix.Single parameters, float fov, float scale)
+        {
+            //{ tx, ty, tz, theta, phi, tau }
+            float tx = parameters[0, 0];
+            float ty = parameters[0, 1];
+            float tz = parameters[0, 2];
+            float theta = parameters[0, 3];
+            float phi = parameters[0, 4];
+            float tau = parameters[0, 5];
+            float k = Math.Single.Tangens(Math.Single.ToRadians(fov / 2)) / scale;
+
+            float cos_tau = Math.Single.Cosine(Math.Single.ToRadians(tau));
+            float cos_theta = Math.Single.Cosine(Math.Single.ToRadians(theta));
+            float cos_phi = Math.Single.Cosine(Math.Single.ToRadians(phi));
+            float sin_tau = Math.Single.Sine(Math.Single.ToRadians(tau));
+            float tan_phi = Math.Single.Tangens(Math.Single.ToRadians(phi));
+            float tan_theta = Math.Single.Tangens(Math.Single.ToRadians(theta));
+
+            float a = tz * cos_tau / cos_theta + tx * k * tan_phi / cos_theta;
+            float b = -tz * (cos_tau * tan_phi * tan_theta + sin_tau / cos_phi) + tx * k * tan_theta;
+            float c = tz * sin_tau / cos_theta + ty * k * tan_phi / cos_theta;
+            float d = -tz * (sin_tau * tan_phi * tan_theta - cos_tau / cos_phi) + ty * k * tan_theta;
+
+            float t = tx - tz / k * (cos_tau * tan_phi - sin_tau * tan_theta / cos_phi);
+            float u = ty - tz / k * (sin_tau * tan_phi + cos_tau * tan_theta / cos_phi);
+            float p = k * tan_phi / cos_theta;
+            float q = k * tan_theta;
+
+            return new Math.Matrix.Single(3, 3, new float[] { a, c, p, b, d, q, t, u, 1 });
+        }
+
+        public Math.Matrix.Single HToParameters(Math.Matrix.Single h, float fov, float scale)
+        {
+            float h1 = h[0, 0];
+            float h2 = h[0, 1];
+            float H3 = h[0, 2];
+            float H4 = h[1, 0];
+            float H5 = h[1, 1];
+            float H6 = h[1, 2];
+            float H7 = h[2, 0];
+            float H8 = h[2, 1];
+
+            float k = Math.Single.Tangens(Math.Single.ToRadians(fov / 2)) / scale;
+
+            float theta = Math.Single.ArcusTangens(H6 / k);
+            float phi = Math.Single.ArcusTangens(H3 / k * Math.Single.Cosine(theta));
+
+            float tangensPhi = Math.Single.Tangens(phi);
+            float cos_phi = Math.Single.Cosine(phi);
+            float cos_theta = Math.Single.Cosine(theta);
+            float tan_theta = Math.Single.Tangens(theta);
+
+            float r1 = H3 * cos_theta / cos_phi;
+            float r2 = H6 * (1 + tangensPhi * tangensPhi);
+            float R3 = -tangensPhi * tan_theta * cos_theta;
+
+            float translationY = (r1 * (h2 * r1 / H3 - h1 * R3 + H4) - r2 * (h2 * R3 + h1 * r1 / H3 - H5)) / (r1 * r1 + r2 * r2);
+            float tx = (r1 * (h2 * R3 + h1 * r1 / H3 - H5) + r2 * (h2 * r1 / H3 - h1 * R3 + H4)) / (r1 * r1 + r2 * r2);
+            float tz = cos_theta * Math.Single.SquareRoot(Math.Single.Squared(h2 - H3 * translationY) + Math.Single.Squared(h1 - H3 * tx));
+
+            float tau = Math.Single.ArcusCosinus(cos_theta * (h1 - H3 * tx) / tz);
+
+            return new Math.Matrix.Single(1, 6, new float[] { tx, translationY, tz, Math.Single.ToDegrees(theta), Math.Single.ToDegrees(phi), Math.Single.ToDegrees(tau) });
+        }
+
+
+
+        [Test]
+        public void Project7Dof()
+        {
+            var size = new Target.Integer.Size(640, 480);
+            var fieldOfView = new Target.Single.Size(60f, 60f);
+            float zPlane = ((float)size.Width / 2f) / (Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width) / 2f));
+            var cells = new Target.Integer.Size(5, 5);
+
+            var camTransform = Geometry3D.Single.Transform.CreateTranslation(-size.Width / 2f, -size.Height / 2f, 0);
+            var points = new Collection.List<Geometry2D.Single.Point>();
+            for (int y = 0; y < cells.Height; y++)
+                for (int x = 0; x < cells.Width; x++)
+                    points.Add((Geometry2D.Single.Transform)camTransform * new Geometry2D.Single.Point((x * size.Width / (cells.Width - 1f)), y * size.Height / (cells.Height - 1f)));
+            var csv = new IO.Text.Builder();
+            csv += "name, ";
+            foreach (var point in points)
+                csv += "x y, ";
+            csv += ", a b, t u, p q, r\n";
+            foreach (var transform in new KeyValue<string, Geometry3D.Single.Transform>[] {
+				KeyValue.Create("identity", Geometry3D.Single.Transform.Identity),
+				KeyValue.Create("x-translation", Geometry3D.Single.Transform.CreateTranslation(size.Width / 2f, 0, 0)),
+				KeyValue.Create("y-translation", Geometry3D.Single.Transform.CreateTranslation(0, size.Height / 2f, 0)),
+				KeyValue.Create("z-translation", Geometry3D.Single.Transform.CreateTranslation(0, 0, -zPlane / 2f)),
+				KeyValue.Create("x-rotation", Geometry3D.Single.Transform.CreateRotationX(Math.Single.ToRadians(45))),
+				KeyValue.Create("y-rotation", Geometry3D.Single.Transform.CreateRotationY(Math.Single.ToRadians(45))),
+				KeyValue.Create("z-rotation", Geometry3D.Single.Transform.CreateRotationZ(Math.Single.ToRadians(45)))
+			})
+            {
+                var xString = new IO.Text.Builder();
+                var yString = new IO.Text.Builder();
+                xString += transform.Key + ", ";
+                yString += transform.Key + ", ";
+                var a = new Math.Matrix.Single(7, points.Count * 2);
+                var b = new Math.Matrix.Single(1, points.Count * 2);
+                var count = 0;
+                foreach (var before in points)
+                {
+                    var after = before.Project(transform.Value, zPlane);
+                    xString += after.X.AsString() + ", ";
+                    yString += after.Y.AsString() + ", ";
+                    // a * x_before - b * y_before + t - p * x_before * x_after - q * y_before * x_after = x_after
+                    a[0, count] = before.X; // a
+                    a[1, count] = -before.Y; // -b
+                    a[2, count] = 1; // t
+                    a[3, count] = 0; // u 
+                    a[4, count] = -before.X * after.X; // p
+                    a[5, count] = -before.Y * after.X; // q
+                    a[6, count] = -after.X; // r
+                    b[0, count++] = 0;
+                    // a * y_before + b * x_before + u - p * x_before * y_after - q * y_before * y_after = y_after
+                    a[0, count] = before.Y; // a
+                    a[1, count] = before.X; // b
+                    a[2, count] = 0; // t
+                    a[3, count] = 1; // u 
+                    a[4, count] = -before.X * after.Y; // p
+                    a[5, count] = -before.Y * after.Y; // q
+                    a[6, count] = after.Y; // r
+                    b[0, count++] = 0;
+                }
+                Matrix.Single estimation = a.Solve(b);
+                if (estimation.NotNull())
+                {
+                    xString += ", " + estimation[0, 0] + " ," + estimation[0, 2] + " ," + estimation[0, 4];
+                    yString += ", " + estimation[0, 1] + " ," + estimation[0, 3] + " ," + estimation[0, 5];
+                }
+                csv += xString + "\n" + yString + "\n";
+            }
+            ((string)csv).Save(Uri.Locator.FromPlatformPath("$(Documents)/points.csv"));
         }
 		[Test]
 		public void ProjectLines()

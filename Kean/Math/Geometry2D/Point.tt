@@ -204,44 +204,44 @@ namespace Kean.Math.Geometry2D.<#= @namespace1 #>
 			return right * left;
 		}
 <#= @value1 == "double" ? @"
-		public static " + @name + " operator *(" + @name + @" left, float right)
+		public static Point operator *(Point left, float right)
 		{
-			return new " + @name + @"(left.X * right, left.Y * right);
+			return new Point(left.X * right, left.Y * right);
 		} 
-		public static " + @name + " operator *(" + @name + @" left, int right)
+		public static Point operator *(Point left, int right)
 		{
-			return new " + @name + @"(left.X * right, left.Y * right);
+			return new Point(left.X * right, left.Y * right);
 		}
-		public static " + @name + " operator *(float left, " + @name + @" right)
+		public static Point operator *(float left, Point right)
 		{
 			return right * left;
 		} 
-		public static " + @name + " operator *(int left, " + @name + @" right)
+		public static Point operator *(int left, Point right)
 		{
 			return right * left;
 		}
-		public static " + @name + " operator /(" + @name + @" left, float right)
+		public static Point operator /(Point left, float right)
 		{
-			return new " + @name + @"(left.X / right, left.Y / right);
+			return new Point(left.X / right, left.Y / right);
 		} 
-		public static " + @name + " operator /(" + @name + @" left, int right)
+		public static Point operator /(Point left, int right)
 		{
-			return new " + @name + @"(left.X / right, left.Y / right);
+			return new Point(left.X / right, left.Y / right);
 		}" 
 : "" 
 #>
 <#= @value1 == "float" ? @"
-		public static " + @name + " operator *(" + @name + @" left, int right)
+		public static Point operator *(Point left, int right)
 		{
-			return new " + @name + @"(left.X * right, left.Y * right);
+			return new Point(left.X * right, left.Y * right);
 		}
-		public static " + @name + " operator *(int left, " + @name + @" right)
+		public static Point operator *(int left, Point right)
 		{
 			return right * left;
 		}
-		public static " + @name + " operator /(" + @name + @" left, int right)
+		public static Point operator /(Point left, int right)
 		{
-			return new " + @name + @"(left.X / right, left.Y / right);
+			return new Point(left.X / right, left.Y / right);
 		}" 
 : "" 
 #>

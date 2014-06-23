@@ -28,7 +28,6 @@ namespace Kean.Math.Test
 	public class Single : 
 		Kean.Test.Fixture<Single>
 	{
-		string prefix = "Kean.Math.Test.";
 		protected override void Run()
 		{
 			this.Run(

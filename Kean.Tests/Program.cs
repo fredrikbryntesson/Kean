@@ -28,9 +28,10 @@ namespace Kean.Tests
 		static void Main(string[] args)
 		{
 			Error.Log.CatchErrors = true;
-
-			new Kean.Math.Geometry2D.Test.Single.Point().Project2();
-
+            Kean.Math.Test.All.Test();
+            //new Kean.Math.Algebra.Test.MatrixTest().Multiply();
+			new Kean.Math.Geometry2D.Test.Single.Point().Project8DofMulti();
+            //new Kean.Math.Geometry2D.Test.Single.Point().AngleFormulas();
 			//Kean.Math.Algebra.Test.All.Test();
 			//Kean.Test.StringExtension.Test();
 			//Kean.Uri.Test.All.Test();
@@ -68,11 +69,11 @@ namespace Kean.Tests
 			#region Math
 			//Kean.Math.Test.All.Test();
 			//Kean.Math.Complex.Test.All.Test();
-			Kean.Math.Geometry2D.Test.All.Test();
+			//Kean.Math.Geometry2D.Test.All.Test();
 			//Kean.Math.Geometry3D.Test.All.Test();
 			//Kean.Math.Matrix.Test.All.Test();
 			//Kean.Math.Random.Test.All.Test();
-			Kean.Math.Regression.Test.All.Test();
+			//Kean.Math.Regression.Test.All.Test();
 			#endregion
 			Console.WriteLine();
 			Console.WriteLine("Press any key to continue");
