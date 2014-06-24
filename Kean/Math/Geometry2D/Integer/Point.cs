@@ -184,7 +184,7 @@ namespace Kean.Math.Geometry2D.Integer
 		#region Arithmetic Transform and Vector
 		public static Point operator *(Transform left, Point right)
 		{
-			return new Point(left.A * right.X + left.C * right.Y + left.E, left.B * right.X + left.D * right.Y + left.F);
+			return new Point(left.A * right.X + left.D * right.Y + left.G, left.B * right.X + left.E * right.Y + left.H);
 		}
 		#endregion
 		#region Comparison Operators

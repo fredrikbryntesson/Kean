@@ -162,7 +162,7 @@ namespace Kean.Math.Geometry2D.Integer
 		#region Arithmetic Transform and Vector
 		public static Size operator *(Transform left, Size right)
 		{
-			return new Size(left.A * right.Width + left.C * right.Height, left.B * right.Width + left.D * right.Height);
+			return new Size(left.A * right.Width + left.D * right.Height, left.B * right.Width + left.E * right.Height);
 		}
 		#endregion
 		#region Comparison Operators

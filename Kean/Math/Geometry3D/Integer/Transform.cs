@@ -375,7 +375,7 @@ namespace Kean.Math.Geometry3D.Integer
 		{
 			int zero = 0;
 			int one = 1;
-			return new Transform(value.A, value.B, zero, value.C, value.D, zero, zero, zero, zero, value.E, value.F, zero);
+			return new Transform(value.A, value.B, zero, value.D, value.E, zero, zero, zero, zero, value.G, value.H, zero);
 		}
 		public static explicit operator Geometry2D.Integer.Transform(Transform value)
 		{

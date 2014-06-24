@@ -375,7 +375,7 @@ namespace Kean.Math.Geometry3D.Single
 		{
 			float zero = 0;
 			float one = 1;
-			return new Transform(value.A, value.B, zero, value.C, value.D, zero, zero, zero, zero, value.E, value.F, zero);
+			return new Transform(value.A, value.B, zero, value.D, value.E, zero, zero, zero, zero, value.G, value.H, zero);
 		}
 		public static explicit operator Geometry2D.Single.Transform(Transform value)
 		{
