@@ -60,6 +60,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB\DataAttribute.cs" />
+    <Compile Include="DB\Database.cs" />
+    <Compile Include="DB\IndexAttribute.cs" />
+    <Compile Include="DB\ITable.cs" />
+    <Compile Include="DB\Item.cs" />
+    <Compile Include="DB\Items.cs" />
+    <Compile Include="DB\Query.cs" />
+    <Compile Include="DB\Sorting.cs" />
+    <Compile Include="DB\Sql\Database.cs" />
+    <Compile Include="DB\Sql\QueryGenerator.cs" />
+    <Compile Include="DB\Sql\Table.cs" />
+    <Compile Include="DB\Table.cs" />
+    <Compile Include="DB\TableAttribute.cs" />
+    <Compile Include="DB\Extension\TableExtension.cs" />
     <Compile Include="Draw\Cairo\Surface.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data.cs" />
     <Compile Include="Draw\OpenGL\Backend\Data1D.cs" />
@@ -242,19 +256,6 @@
     <Compile Include="Collection\Wrap\Set.cs" />
     <Compile Include="Collection\Wrap\Stack.cs" />
     <Compile Include="Collection\Wrap\Vector.cs" />
-    <Compile Include="Collection\DB\DataAttribute.cs" />
-    <Compile Include="Collection\DB\Database.cs" />
-    <Compile Include="Collection\DB\ITable.cs" />
-    <Compile Include="Collection\DB\IndexAttribute.cs" />
-    <Compile Include="Collection\DB\Item.cs" />
-    <Compile Include="Collection\DB\Query.cs" />
-    <Compile Include="Collection\DB\Sorting.cs" />
-    <Compile Include="Collection\DB\Table.cs" />
-    <Compile Include="Collection\DB\TableAttribute.cs" />
-    <Compile Include="Collection\DB\Extension\TableExtension.cs" />
-    <Compile Include="Collection\DB\Sql\Database.cs" />
-    <Compile Include="Collection\DB\Sql\QueryGenerator.cs" />
-    <Compile Include="Collection\DB\Sql\Table.cs" />
     <Compile Include="Draw\Canvas.cs" />
     <Compile Include="Draw\Colors.cs" />
     <Compile Include="Draw\CoordinateSystem.cs" />
@@ -855,7 +856,6 @@
     <Compile Include="Buffer\Exception\NullArgument.cs" />
     <Compile Include="IO\BufferByteInDevice.cs" />
     <Compile Include="Serialize\Storer.cs" />
-    <Compile Include="Collection\DB\Items.cs" />
     <Compile Include="Serialize\Serializer\Enumerable.cs" />
     <Compile Include="Serialize\Data\Null.cs" />
     <Compile Include="IO\Extension\BlockInDeviceExtension.cs" />
