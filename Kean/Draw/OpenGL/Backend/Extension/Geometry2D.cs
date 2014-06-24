@@ -47,9 +47,9 @@ namespace Kean.Draw.OpenGL.Backend.Extension
             return new OpenTK.Matrix4()
             {
                 Row0 = new OpenTK.Vector4(transform.A, transform.B, 0, 0),
-                Row1 = new OpenTK.Vector4(transform.C, transform.D, 0, 0),
+                Row1 = new OpenTK.Vector4(transform.D, transform.E, 0, 0),
                 Row2 = new OpenTK.Vector4(0, 0, 1, 0),
-                Row3 = new OpenTK.Vector4(transform.E, transform.F, 0, 1),
+                Row3 = new OpenTK.Vector4(transform.G, transform.H, 0, 1),
             };
         }
         public static void Multiply(this Target.Single.Transform transform)

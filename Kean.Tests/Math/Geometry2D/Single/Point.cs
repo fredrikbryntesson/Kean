@@ -539,22 +539,22 @@ namespace Kean.Math.Geometry2D.Test.Single
             float tau = parameters[0, 5];
             float k = Math.Single.Tangens(Math.Single.ToRadians(fov / 2)) / scale;
 
-            float cos_tau = Math.Single.Cosine(Math.Single.ToRadians(tau));
-            float cos_theta = Math.Single.Cosine(Math.Single.ToRadians(theta));
-            float cos_phi = Math.Single.Cosine(Math.Single.ToRadians(phi));
-            float sin_tau = Math.Single.Sine(Math.Single.ToRadians(tau));
-            float tan_phi = Math.Single.Tangens(Math.Single.ToRadians(phi));
-            float tan_theta = Math.Single.Tangens(Math.Single.ToRadians(theta));
+            float cosTau = Math.Single.Cosine(Math.Single.ToRadians(tau));
+            float cosTheta = Math.Single.Cosine(Math.Single.ToRadians(theta));
+            float cosPhi = Math.Single.Cosine(Math.Single.ToRadians(phi));
+            float sinTau = Math.Single.Sine(Math.Single.ToRadians(tau));
+            float tanPhi = Math.Single.Tangens(Math.Single.ToRadians(phi));
+            float tanTheta = Math.Single.Tangens(Math.Single.ToRadians(theta));
 
-            float a = tz * cos_tau / cos_theta + tx * k * tan_phi / cos_theta;
-            float b = -tz * (cos_tau * tan_phi * tan_theta + sin_tau / cos_phi) + tx * k * tan_theta;
-            float c = tz * sin_tau / cos_theta + ty * k * tan_phi / cos_theta;
-            float d = -tz * (sin_tau * tan_phi * tan_theta - cos_tau / cos_phi) + ty * k * tan_theta;
+            float a = tz * cosTau / cosTheta + tx * k * tanPhi / cosTheta;
+            float b = -tz * (cosTau * tanPhi * tanTheta + sinTau / cosPhi) + tx * k * tanTheta;
+            float c = tz * sinTau / cosTheta + ty * k * tanPhi / cosTheta;
+            float d = -tz * (sinTau * tanPhi * tanTheta - cosTau / cosPhi) + ty * k * tanTheta;
 
-            float t = tx - tz / k * (cos_tau * tan_phi - sin_tau * tan_theta / cos_phi);
-            float u = ty - tz / k * (sin_tau * tan_phi + cos_tau * tan_theta / cos_phi);
-            float p = k * tan_phi / cos_theta;
-            float q = k * tan_theta;
+            float t = tx - tz / k * (cosTau * tanPhi - sinTau * tanTheta / cosPhi);
+            float u = ty - tz / k * (sinTau * tanPhi + cosTau * tanTheta / cosPhi);
+            float p = k * tanPhi / cosTheta;
+            float q = k * tanTheta;
 
             return new Math.Matrix.Single(3, 3, new float[] { a, c, p, b, d, q, t, u, 1 });
         }
@@ -563,32 +563,32 @@ namespace Kean.Math.Geometry2D.Test.Single
         {
             float h1 = h[0, 0];
             float h2 = h[0, 1];
-            float H3 = h[0, 2];
-            float H4 = h[1, 0];
-            float H5 = h[1, 1];
-            float H6 = h[1, 2];
-            float H7 = h[2, 0];
-            float H8 = h[2, 1];
+            float h3 = h[0, 2];
+            float h4 = h[1, 0];
+            float h5 = h[1, 1];
+            float h6 = h[1, 2];
+            float h7 = h[2, 0];
+            float h8 = h[2, 1];
 
             float k = Math.Single.Tangens(Math.Single.ToRadians(fov / 2)) / scale;
 
-            float theta = Math.Single.ArcusTangens(H6 / k);
-            float phi = Math.Single.ArcusTangens(H3 / k * Math.Single.Cosine(theta));
+            float theta = Math.Single.ArcusTangens(h6 / k);
+            float phi = Math.Single.ArcusTangens(h3 / k * Math.Single.Cosine(theta));
 
             float tangensPhi = Math.Single.Tangens(phi);
-            float cos_phi = Math.Single.Cosine(phi);
-            float cos_theta = Math.Single.Cosine(theta);
-            float tan_theta = Math.Single.Tangens(theta);
+            float cosPhi = Math.Single.Cosine(phi);
+            float cosTheta = Math.Single.Cosine(theta);
+            float tanTheta = Math.Single.Tangens(theta);
 
-            float r1 = H3 * cos_theta / cos_phi;
-            float r2 = H6 * (1 + tangensPhi * tangensPhi);
-            float R3 = -tangensPhi * tan_theta * cos_theta;
+            float r1 = h3 * cosTheta / cosPhi;
+            float r2 = h6 * (1 + tangensPhi * tangensPhi);
+            float r3 = -tangensPhi * tanTheta * cosTheta;
 
-            float translationY = (r1 * (h2 * r1 / H3 - h1 * R3 + H4) - r2 * (h2 * R3 + h1 * r1 / H3 - H5)) / (r1 * r1 + r2 * r2);
-            float tx = (r1 * (h2 * R3 + h1 * r1 / H3 - H5) + r2 * (h2 * r1 / H3 - h1 * R3 + H4)) / (r1 * r1 + r2 * r2);
-            float tz = cos_theta * Math.Single.SquareRoot(Math.Single.Squared(h2 - H3 * translationY) + Math.Single.Squared(h1 - H3 * tx));
+            float translationY = (r1 * (h2 * r1 / h3 - h1 * r3 + h4) - r2 * (h2 * r3 + h1 * r1 / h3 - h5)) / (r1 * r1 + r2 * r2);
+            float tx = (r1 * (h2 * r3 + h1 * r1 / h3 - h5) + r2 * (h2 * r1 / h3 - h1 * r3 + h4)) / (r1 * r1 + r2 * r2);
+            float tz = cosTheta * Math.Single.SquareRoot(Math.Single.Squared(h2 - h3 * translationY) + Math.Single.Squared(h1 - h3 * tx));
 
-            float tau = Math.Single.ArcusCosinus(cos_theta * (h1 - H3 * tx) / tz);
+            float tau = Math.Single.ArcusCosinus(cosTheta * (h1 - h3 * tx) / tz);
 
             return new Math.Matrix.Single(1, 6, new float[] { tx, translationY, tz, Math.Single.ToDegrees(theta), Math.Single.ToDegrees(phi), Math.Single.ToDegrees(tau) });
         }

@@ -54,7 +54,7 @@ namespace Kean.Draw.PathSegment
 			Tuple<Geometry2D.Single.Point, float, float> coordinates = this.PlatformctArcCoordinates();
 			float startAngle = coordinates.Item2;
 			float endAngle = coordinates.Item3;
-			Geometry2D.Single.Transform derivative = new Geometry2D.Single.Transform(transform.A, transform.B, transform.C, transform.D, 0, 0);
+			Geometry2D.Single.Transform derivative = new Geometry2D.Single.Transform(transform.A, transform.B, transform.D, transform.E, 0, 0);
 			Geometry2D.Single.Transform inverse = derivative.Inverse;
 			Geometry2D.Single.Point e1p = inverse * new Geometry2D.Single.Point(1, 0);
 			Geometry2D.Single.Point e2p = inverse * new Geometry2D.Single.Point(0, 1);
