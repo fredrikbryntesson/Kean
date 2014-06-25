@@ -403,6 +403,43 @@ namespace Kean.Math.Geometry2D.Double
         /// </summary>
 		public static Transform Identity { get { return new Transform(1, 0, 0, 1, 0, 0); } }
         /// <summary>
+        /// Creates a camera movement transform.
+        /// </summary>
+        /// <param name="xRotation">X rotation of the camera in radians.</param>
+        /// <param name="yRotation">Y rotation of the camera in radians.</param>
+        /// <param name="zRotation">Z rotation of the camera in radians.</param>
+        /// <param name="translation">3D translation of the camera in pixels.</param>
+        /// <param name="fieldOfView">Camera field of view in radians. Currently only the width is used. </param>
+        /// <param name="windowSize">Size of window in pixels. Currently only the width is used.</param>
+        /// <returns></returns>
+        public static Transform CreateProjection(double xRotation, double yRotation, double zRotation, Math.Geometry3D.Double.Size translation, Size fieldOfView, Size windowSize)
+        {
+            double k = Math.Double.Tangens(fieldOfView.Width / 2) / (windowSize.Width / 2);
+
+            double tx = translation.Height;
+            double ty = translation.Width;
+            double tz = 1 / (1 + translation.Depth * k);
+
+            double cosTau = Math.Double.Cosine(zRotation);
+            double cosTheta = Math.Double.Cosine(xRotation);
+            double cosPhi = Math.Double.Cosine(yRotation);
+            double sinTau = Math.Double.Sine(zRotation);
+            double tanPhi = Math.Double.Tangens(yRotation);
+            double tanTheta = Math.Double.Tangens(xRotation);
+
+            double a = tz * cosTau / cosTheta + tx * k * tanPhi / cosTheta;
+            double b = -tz * (cosTau * tanPhi * tanTheta + sinTau / cosPhi) + tx * k * tanTheta;
+            double c = tz * sinTau / cosTheta + ty * k * tanPhi / cosTheta;
+            double d = -tz * (sinTau * tanPhi * tanTheta - cosTau / cosPhi) + ty * k * tanTheta;
+
+            double t = tx - tz / k * (cosTau * tanPhi - sinTau * tanTheta / cosPhi);
+            double u = ty - tz / k * (sinTau * tanPhi + cosTau * tanTheta / cosPhi);
+            double p = k * tanPhi / cosTheta;
+            double q = k * tanTheta;
+
+            return new Transform(a, c, p, b, d, q, t, u, 1);
+        }
+        /// <summary>
         /// Returns a translation, scale and Z rotation transform.
         /// </summary>
         /// <param name="translation">Translation values.</param>
