@@ -22,43 +22,43 @@
 using System;
 using Kean.Extension;
 
-namespace Kean.Math.Geometry3D.Double
+namespace Kean.Math.Geometry3D.Single
 {
     public struct Quaternion :
         IEquatable<Quaternion>
     {
-        public double Real { get; private set; }
+        public float Real { get; private set; }
         public Point Imaginary { get; private set; }
-        public double X { get { return this.Real; } }
-        public double Y { get { return this.Imaginary.X; } }
-        public double Z { get { return this.Imaginary.Y; } }
-        public double W { get { return this.Imaginary.Z; } }
+        public float X { get { return this.Real; } }
+        public float Y { get { return this.Imaginary.X; } }
+        public float Z { get { return this.Imaginary.Y; } }
+        public float W { get { return this.Imaginary.Z; } }
 
-        public double Norm { get { return Kean.Math.Double.SquareRoot(Kean.Math.Double.Squared(this.Real) + Kean.Math.Double.Squared(this.Imaginary.Norm)); } }
+        public float Norm { get { return Kean.Math.Single.SquareRoot(Kean.Math.Single.Squared(this.Real) + Kean.Math.Single.Squared(this.Imaginary.Norm)); } }
         /// <summary>
         /// Clockwise rotation around the direction vector of the corresponding rotation.
         /// </summary>
-        public double Rotation { get { return 2 * (this.Logarithm().Imaginary).Norm; } }
+        public float Rotation { get { return 2 * (this.Logarithm().Imaginary).Norm; } }
         /// <summary>
         /// Direction vector of corresponding rotation. 
         /// </summary>
         public Point Direction { get { return this.Logarithm().Imaginary / this.Logarithm().Imaginary.Norm; } }
-        public Quaternion Inverse { get { return this.Conjugate / Kean.Math.Double.Squared(this.Norm); } }
+        public Quaternion Inverse { get { return this.Conjugate / Kean.Math.Single.Squared(this.Norm); } }
         public Quaternion Conjugate { get { return new Quaternion() { Real = this.Real, Imaginary = -this.Imaginary }; } }
         #region Representations
         /// <summary>
         /// Roll (bank)
         /// </summary>
-        public double RotationX
+        public float RotationX
         {
             get
             {
-                double result;
-                double value = this.X * this.Z - this.W * this.Y;
-                if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - (double)0.5) < 1e-5)
+                float result;
+                float value = this.X * this.Z - this.W * this.Y;
+                if (Kean.Math.Single.Absolute(Kean.Math.Single.Absolute(value) - (float)0.5) < 1e-5)
                     result = 0;
                 else
-                    result = Kean.Math.Double.ArcusTangensExtended(2 * (this.X * this.Y + this.Z * this.W), 1 - 2 * (Kean.Math.Double.Squared(this.Y) + Kean.Math.Double.Squared(this.Z)));
+                    result = Kean.Math.Single.ArcusTangensExtended(2 * (this.X * this.Y + this.Z * this.W), 1 - 2 * (Kean.Math.Single.Squared(this.Y) + Kean.Math.Single.Squared(this.Z)));
                 return result;
             }
         }
@@ -66,16 +66,16 @@ namespace Kean.Math.Geometry3D.Double
         /// <summary>
         /// Pitch 
         /// </summary>
-        public double RotationY
+        public float RotationY
         {
             get
             {
-                double result = 0;
-                double value = this.X * this.Z - this.W * this.Y;
-                if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - (double)0.5) > 1e-5)
-                    result = Kean.Math.Double.ArcusSinus(Kean.Math.Double.Clamp(2 * (this.X * this.Z - this.W * this.Y), -1, 1));
+                float result = 0;
+                float value = this.X * this.Z - this.W * this.Y;
+                if (Kean.Math.Single.Absolute(Kean.Math.Single.Absolute(value) - (float)0.5) > 1e-5)
+                    result = Kean.Math.Single.ArcusSinus(Kean.Math.Single.Clamp(2 * (this.X * this.Z - this.W * this.Y), -1, 1));
                 else
-                    result = Kean.Math.Double.Sign(value) * (double)Kean.Math.Double.PI / 2;
+                    result = Kean.Math.Single.Sign(value) * (float)Kean.Math.Double.PI / 2;
                 return result;
 
             }
@@ -83,16 +83,16 @@ namespace Kean.Math.Geometry3D.Double
         /// <summary>
         /// Yaw (Heading)
         /// </summary>
-        public double RotationZ
+        public float RotationZ
         {
             get
             {
-                double result;
-                double value = this.X * this.Z - this.W * this.Y;
-                if (Kean.Math.Double.Absolute(Kean.Math.Double.Absolute(value) - (double)0.5) < 1e-5)
-                    result = 2 * Kean.Math.Double.ArcusTangensExtended(this.W, this.X);
+                float result;
+                float value = this.X * this.Z - this.W * this.Y;
+                if (Kean.Math.Single.Absolute(Kean.Math.Single.Absolute(value) - (float)0.5) < 1e-5)
+                    result = 2 * Kean.Math.Single.ArcusTangensExtended(this.W, this.X);
                 else
-                    result = Kean.Math.Double.ArcusTangensExtended(2 * (this.X * this.W + this.Y * this.Z), 1 - 2 * (Kean.Math.Double.Squared(this.Z) + Kean.Math.Double.Squared(this.W)));
+                    result = Kean.Math.Single.ArcusTangensExtended(2 * (this.X * this.W + this.Y * this.Z), 1 - 2 * (Kean.Math.Single.Squared(this.Z) + Kean.Math.Single.Squared(this.W)));
                 return result;
             }
         }
@@ -104,9 +104,9 @@ namespace Kean.Math.Geometry3D.Double
         public static Quaternion BasisImaginaryZ { get { return new Quaternion() { Real = 0, Imaginary = Point.BasisZ }; } }
         #endregion
         #region Constructors
-        public Quaternion(double x, double y, double z, double w) :
+        public Quaternion(float x, float y, float z, float w) :
             this(x, new Point(y, z, w)) { }
-        public Quaternion(double real, Point imaginary) :
+        public Quaternion(float real, Point imaginary) :
             this()
         {
             this.Real = real;
@@ -114,7 +114,7 @@ namespace Kean.Math.Geometry3D.Double
         }
         #endregion
         #region Methods
-        public double Distance(Quaternion other)
+        public float Distance(Quaternion other)
         {
             return (this - other).Norm;
         }
@@ -126,12 +126,12 @@ namespace Kean.Math.Geometry3D.Double
         public Quaternion Exponential()
         {
             Quaternion result = new Quaternion();
-            double norm = this.Imaginary.Norm;
-            double exponentialReal = Kean.Math.Double.Exponential(this.Real);
+            float norm = this.Imaginary.Norm;
+            float exponentialReal = Kean.Math.Single.Exponential(this.Real);
             if (norm != 0)
             {
-                result.Real = exponentialReal * Kean.Math.Double.Cosine(norm);
-                result.Imaginary = exponentialReal * (this.Imaginary / norm) * Kean.Math.Double.Sine(norm);
+                result.Real = exponentialReal * Kean.Math.Single.Cosine(norm);
+                result.Imaginary = exponentialReal * (this.Imaginary / norm) * Kean.Math.Single.Sine(norm);
             }
             else
                 result = (Quaternion)(exponentialReal);
@@ -140,11 +140,11 @@ namespace Kean.Math.Geometry3D.Double
         public Quaternion Logarithm()
         {
             Quaternion result = new Quaternion();
-            double norm = this.Imaginary.Norm;
+            float norm = this.Imaginary.Norm;
             if (norm != 0)
             {
-                result.Real = Kean.Math.Double.Logarithm(this.Norm);
-                result.Imaginary = (this.Imaginary / norm) * Kean.Math.Double.ArcusCosinus(this.Real / this.Norm);
+                result.Real = Kean.Math.Single.Logarithm(this.Norm);
+                result.Imaginary = (this.Imaginary / norm) * Kean.Math.Single.ArcusCosinus(this.Real / this.Norm);
             }
             else
                 result = (Quaternion)(this.Norm);
@@ -192,7 +192,7 @@ namespace Kean.Math.Geometry3D.Double
         }
         #endregion
         #region Arithmetic Point and Scalar
-        public static Quaternion operator *(Quaternion left, double right)
+        public static Quaternion operator *(Quaternion left, float right)
         {
             Quaternion result = new Quaternion()
             {
@@ -201,11 +201,11 @@ namespace Kean.Math.Geometry3D.Double
             };
             return result;
         }
-        public static Quaternion operator *(double left, Quaternion right)
+        public static Quaternion operator *(float left, Quaternion right)
         {
             return right * left;
         }
-        public static Quaternion operator /(Quaternion left, double right)
+        public static Quaternion operator /(Quaternion left, float right)
         {
             Quaternion result = new Quaternion()
             {
@@ -221,7 +221,7 @@ namespace Kean.Math.Geometry3D.Double
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quaternion CreateRotationX(double angle)
+        public static Quaternion CreateRotationX(float angle)
         {
             return Quaternion.CreateRotation(angle, Point.BasisX);
         }
@@ -230,7 +230,7 @@ namespace Kean.Math.Geometry3D.Double
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quaternion CreateRotationY(double angle)
+        public static Quaternion CreateRotationY(float angle)
         {
             return Quaternion.CreateRotation(angle, Point.BasisY);
         }
@@ -239,7 +239,7 @@ namespace Kean.Math.Geometry3D.Double
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quaternion CreateRotationZ(double angle)
+        public static Quaternion CreateRotationZ(float angle)
         {
             return Quaternion.CreateRotation(angle, Point.BasisZ);
         }
@@ -248,10 +248,10 @@ namespace Kean.Math.Geometry3D.Double
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quaternion CreateRotation(double angle, Point direction)
+        public static Quaternion CreateRotation(float angle, Point direction)
         {
-            double halfAngle = angle / 2;
-            double norm = direction.Norm;
+            float halfAngle = angle / 2;
+            float norm = direction.Norm;
             if (norm != 0)
                 direction = direction / direction.Norm;
             return ((Quaternion)(halfAngle * direction)).Exponential();
@@ -305,7 +305,7 @@ namespace Kean.Math.Geometry3D.Double
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static explicit operator Quaternion(double value)
+        public static explicit operator Quaternion(float value)
         {
             return new Quaternion() { Real = value, Imaginary = new Point() };
         }
@@ -318,32 +318,32 @@ namespace Kean.Math.Geometry3D.Double
         {
             return new Quaternion() { Real = 0, Imaginary = value };
         }
-        public static explicit operator double[](Quaternion value)
+        public static explicit operator float[](Quaternion value)
         {
-            return new double[] { value.Real, value.Imaginary.X, value.Imaginary.Y, value.Imaginary.Z };
+            return new float[] { value.Real, value.Imaginary.X, value.Imaginary.Y, value.Imaginary.Z };
         }
-        public static explicit operator double[,](Quaternion value)
+        public static explicit operator float[,](Quaternion value)
         {
-            double[,] result = new double[3, 3];
+            float[,] result = new float[3, 3];
             Quaternion normalized = value / value.Norm;
-            double q0 = normalized.Real;
-            double q1 = normalized.Imaginary.X;
-            double q2 = normalized.Imaginary.Y;
-            double q3 = normalized.Imaginary.Z;
-            result[0, 0] = Kean.Math.Double.Squared(q0) + Kean.Math.Double.Squared(q1) - Kean.Math.Double.Squared(q2) - Kean.Math.Double.Squared(q3);
+            float q0 = normalized.Real;
+            float q1 = normalized.Imaginary.X;
+            float q2 = normalized.Imaginary.Y;
+            float q3 = normalized.Imaginary.Z;
+            result[0, 0] = Kean.Math.Single.Squared(q0) + Kean.Math.Single.Squared(q1) - Kean.Math.Single.Squared(q2) - Kean.Math.Single.Squared(q3);
             result[1, 0] = 2 * (q1 * q2 - q0 * q3);
             result[2, 0] = 2 * (q0 * q2 + q1 * q3);
             result[0, 1] = 2 * (q1 * q2 + q0 * q3);
-            result[1, 1] = Kean.Math.Double.Squared(q0) - Kean.Math.Double.Squared(q1) + Kean.Math.Double.Squared(q2) - Kean.Math.Double.Squared(q3);
+            result[1, 1] = Kean.Math.Single.Squared(q0) - Kean.Math.Single.Squared(q1) + Kean.Math.Single.Squared(q2) - Kean.Math.Single.Squared(q3);
             result[2, 1] = 2 * (q2 * q3 - q0 * q1);
             result[0, 2] = 2 * (q1 * q3 - q0 * q2);
             result[1, 2] = 2 * (q0 * q1 + q2 * q3);
-            result[2, 2] = Kean.Math.Double.Squared(q0) - Kean.Math.Double.Squared(q1) - Kean.Math.Double.Squared(q2) + Kean.Math.Double.Squared(q3);
+            result[2, 2] = Kean.Math.Single.Squared(q0) - Kean.Math.Single.Squared(q1) - Kean.Math.Single.Squared(q2) + Kean.Math.Single.Squared(q3);
             return result;
         }
         public static explicit operator Transform(Quaternion value)
         {
-            double[,] values = (double[,])value;
+            float[,] values = (float[,])value;
             return Transform.Create(values[0, 0], values[0, 1], values[0, 2], values[1, 0], values[1, 1], values[1, 2], values[2, 0], values[2, 1], values[2, 2], 0, 0, 0);
         }
         public static implicit operator string(Quaternion value)
@@ -360,7 +360,7 @@ namespace Kean.Math.Geometry3D.Double
                 {
                     string[] values = value.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (values.Length == 4)
-                        result = new Quaternion(Kean.Math.Double.Parse(values[0]), Kean.Math.Double.Parse(values[1]), Kean.Math.Double.Parse(values[2]), Kean.Math.Double.Parse(values[3]));
+                        result = new Quaternion(Kean.Math.Single.Parse(values[0]), Kean.Math.Single.Parse(values[1]), Kean.Math.Single.Parse(values[2]), Kean.Math.Single.Parse(values[3]));
                 }
                 catch
                 {

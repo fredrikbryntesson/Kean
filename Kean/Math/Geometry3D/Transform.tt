@@ -10,10 +10,10 @@
 	GenerateEnd();
 	SaveOutput("Double/Transform.cs");
 
-	GenerateStart("Integer", "int");
-	GenerateInteger();
-	GenerateEnd();
-	SaveOutput("Integer/Transform.cs");	
+    GenerateStart("Integer", "int");
+    GenerateInteger();
+    GenerateEnd();
+    SaveOutput("Integer/Transform.cs");	
 #>
 <#+
 void SaveOutput(string outputFileName)
