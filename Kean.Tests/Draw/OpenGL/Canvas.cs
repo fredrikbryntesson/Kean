@@ -246,7 +246,7 @@ namespace Kean.Draw.OpenGL.Test
 			using (Draw.Image image = this.image.Copy())
 			{
 				image.Canvas.Draw(new Color.Bgra(0, 0, 255, 255), new Geometry2D.Single.Box(50, image.Size.Height / 2 - 50, image.Size.Width - 100, 100));
-				image.Canvas.Push(new Geometry2D.Single.Box(100, 100, image.Size.Width / 2 - 100, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(image.Size / 2) * Geometry2D.Single.Transform.CreateRotation(Math.Single.ToRadians(11.25f)) * Geometry2D.Single.Transform.CreateTranslation(-image.Size / 2));
+				image.Canvas.Push(new Geometry2D.Single.Box(100, 100, image.Size.Width / 2 - 100, image.Size.Height), Geometry2D.Single.Transform.CreateTranslation(image.Size / 2) * Geometry2D.Single.Transform.CreateZRotation(Math.Single.ToRadians(11.25f)) * Geometry2D.Single.Transform.CreateTranslation(-image.Size / 2));
 				image.Canvas.Draw(new Color.Bgra(255, 0, 0, 128), new Geometry2D.Single.Box(image.Size.Width / 2 - 50, image.Size.Height / 2 - 50, 100, 100));
 				image.Canvas.Draw(new Color.Bgra(0, 255, 0, 128), new Geometry2D.Single.Box(100, 100, 100, 100));
 				image.Canvas.Pop();

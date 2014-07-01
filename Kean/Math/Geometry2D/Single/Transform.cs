@@ -312,6 +312,7 @@ namespace Kean.Math.Geometry2D.Single
         /// </summary>
         /// <param name="delta">Translation values.</param>
         /// <returns>Translated transform.</returns>
+
 		public Transform Translate(Size delta)
 		{
 			return this.Translate(delta.Width, delta.Height);
@@ -361,7 +362,7 @@ namespace Kean.Math.Geometry2D.Single
         /// <returns>Rotated transform.</returns>
 		public Transform Rotate(float angle)
 		{
-			return Transform.CreateRotation(angle) * this;
+			return Transform.CreateZRotation(angle) * this;
 		}
         /// <summary>
         /// Skews the instance in X.
@@ -512,6 +513,19 @@ namespace Kean.Math.Geometry2D.Single
 			return new Transform(1,0,0,1, xDelta, yDelta);
 		}
         /// <summary>
+        /// Returns a translation transform.
+        /// </summary>
+        /// <param name="xDelta">Translation in X.</param>
+        /// <param name="yDelta">Translation in Y.</param>
+        /// <param name="zDelta">Translation in Z.</param>
+        /// <returns>Translation transform.</returns>
+        public static Transform CreateTranslation(float xDelta, float yDelta, float zDelta, Geometry2D.Single.Size fieldOfView, Geometry2D.Single.Size scale)
+        {
+            float k = Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+            float relativeZ = 1 / (1 + zDelta * k);
+            return new Transform(relativeZ, 0, 0, relativeZ, xDelta, yDelta);
+        }
+        /// <summary>
         /// Return a scale transform with the proportional X and Y factors.
         /// </summary>
         /// <param name="factor">Scaling factor.</param>
@@ -544,7 +558,7 @@ namespace Kean.Math.Geometry2D.Single
         /// </summary>
         /// <param name="angle">Z rotation angle.</param>
         /// <returns>Z rotation transform.</returns>
-		public static Transform CreateRotation(float angle)
+		public static Transform CreateZRotation(float angle)
 		{
 			return new Transform(Math.Single.Cosine(angle), Math.Single.Sine(angle), -Math.Single.Sine(angle), Math.Single.Cosine(angle), 0, 0);
 		}
@@ -554,13 +568,37 @@ namespace Kean.Math.Geometry2D.Single
         /// <param name="angle">Z rotation angle.</param>
         /// <param name="pivot">Pivot point.</param>
         /// <returns>Z rotation transform.</returns>
-		public static Transform CreateRotation(float angle, Point pivot)
+		public static Transform CreateZRotation(float  angle, Point pivot)
 		{
-			float one = 1;
-			float sine = Math.Single.Sine(angle);
-			float cosine = Math.Single.Cosine(angle);
+			float  one = 1;
+			float  sine = Math.Single.Sine(angle);
+			float  cosine = Math.Single.Cosine(angle);
 			return new Transform(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
+        /// <summary>
+        /// Returns an X rotation transform.
+        /// </summary>
+        /// <param name="angle">X rotation angle.</param>
+        /// <returns>Z rotation transform.</returns>
+        public static Transform CreateXRotation(float  angle, Geometry2D.Single.Size fieldOfView, Geometry2D.Single.Size scale)
+        {
+            float  k = Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+			float  tangens = Math.Single.Tangens(angle);
+            float  cosine = Math.Single.Cosine(angle);
+            return new Transform(1 / cosine, 0, 0, 0, 1, k * tangens, 0, -tangens/k, 1);
+        }
+        /// <summary>
+        /// Returns an Y rotation transform.
+        /// </summary>
+        /// <param name="angle">Y rotation angle.</param>
+        /// <returns>Z rotation transform.</returns>
+        public static Transform CreateYRotation(float  angle, Geometry2D.Single.Size fieldOfView, Geometry2D.Single.Size scale)
+        {
+            float  k = Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+            float  tangens = Math.Single.Tangens(angle);
+            float  cosine = Math.Single.Cosine(angle);
+            return new Transform(1, 0, k * tangens, 0, 1 / cosine, 0, -tangens / k, 0, 1);
+        }
         /// <summary>
         /// Returns a X skewing transform.
         /// </summary>
@@ -807,26 +845,37 @@ namespace Kean.Math.Geometry2D.Single
         /// <returns>Euclidian 3D transform.</returns>
         public Geometry3D.Single.EuclidTransform To3DCameraTransform(Math.Geometry2D.Single.Size fieldOfView, Math.Geometry2D.Single.Size windowWidth)
         {
-            float k = Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width / 2)) / (windowWidth.Width / 2);
-            float rotationX = Math.Single.ArcusTangens(this.f / k);
-            float rotationY = Math.Single.ArcusTangens(this.c / k * Math.Single.Cosine(rotationX));
-            float tangensRotY = Math.Single.Tangens(rotationY);
-            float cosineRotY = Math.Single.Cosine(rotationY);
-            float cosineRotX = Math.Single.Cosine(rotationX);
-            float tangensRotX = Math.Single.Tangens(rotationX);
+            float  k = Math.Single.Tangens(Math.Single.ToRadians(fieldOfView.Width / 2)) / (windowWidth.Width / 2);
+            float  rotationX = Math.Single.ArcusTangens(this.f / k);
+            float  rotationY = Math.Single.ArcusTangens(this.c / k * Math.Single.Cosine(rotationX));
+            float  tangensRotY = Math.Single.Tangens(rotationY);
+            float  cosineRotY = Math.Single.Cosine(rotationY);
+            float  cosineRotX = Math.Single.Cosine(rotationX);
+            float  tangensRotX = Math.Single.Tangens(rotationX);
 
-            float var1 = this.c * cosineRotX / cosineRotY;
-            float var2 = this.f * (1 + tangensRotY * tangensRotY);
-            float var3 = -tangensRotY * tangensRotX * cosineRotX;
+            float  var1 = this.c * cosineRotX / cosineRotY;
+            float  var2 = this.f * (1 + tangensRotY * tangensRotY);
+            float  var3 = -tangensRotY * tangensRotX * cosineRotX;
+            float  translationY;
+            float  translationX;
 
-            float translationY = (var1 * (this.b * var1 / this.c - this.a * var3 + this.d) - var2 * (this.b * var3 + this.a * var1 / this.c - this.e)) / (var1 * var1 + var2 * var2);
-            float translationX = (var1 * (this.b * var3 + this.a * var1 / this.c - this.e) + var2 * (this.b * var1 / this.c - this.a * var3 + this.d)) / (var1 * var1 + var2 * var2);
-            float relativeZ = cosineRotX * Math.Single.SquareRoot(Math.Single.Squared(this.b - this.c * translationY) + Math.Single.Squared(this.a - this.c * translationX)); 
-            float translationZ = (1 - relativeZ) / (relativeZ * k); // Convert to absolute value
+            // We use a simplified equation if there is no Y-rotation due to a division by H6. If we had based the complete equations on H7 and H8 this would not be necessary but this is ok too.
+            if (rotationY!=0){ //Full equation
+            translationY = (var1 * (this.b * var1 / this.c - this.a * var3 + this.d) - var2 * (this.b * var3 + this.a * var1 / this.c - this.e)) / (var1 * var1 + var2 * var2);
+            translationX = (var1 * (this.b * var3 + this.a * var1 / this.c - this.e) + var2 * (this.b * var1 / this.c - this.a * var3 + this.d)) / (var1 * var1 + var2 * var2);
+            }
+            else
+            { // rotY = 0
+            translationX = this.g - this.b * cosineRotX * this.f / (k * k);
+            translationY = this.h - this.a * cosineRotX * this.f / (k * k);
+            }
 
-            float rotationZ = Math.Single.ArcusCosinus(cosineRotX * (this.a - this.c * translationX) / translationZ);
+            float  relativeZ = cosineRotX * Math.Single.SquareRoot(Math.Single.Squared(this.b - this.c * translationY) + Math.Single.Squared(this.a - this.c * translationX)); 
+            float  translationZ = (1 - relativeZ) / (relativeZ * k);
+            float  rotationZ = -Math.Single.ArcusSinus(cosineRotX * (this.d - this.c * translationY) / relativeZ);
 
             return new Geometry3D.Single.EuclidTransform(new Math.Geometry3D.Single.Rotation(rotationX, rotationY, rotationZ), new Geometry3D.Single.Size(translationX, translationY, translationZ));
+
         }
         #endregion
 	}

@@ -153,7 +153,7 @@ namespace Kean.Math.Geometry2D.Test.Double
 		{
 			Target.Double.Transform identity = Target.Double.Transform.Identity;
 			double angle = Kean.Math.Double.ToRadians(20);
-			Target.Double.Transform transform = Target.Double.Transform.CreateRotation(angle);
+			Target.Double.Transform transform = Target.Double.Transform.CreateZRotation(angle);
 			transform = transform.Rotate(-angle);
 			Verify(transform.A, Is.EqualTo(this.Cast(1)).Within(this.Precision), this.prefix + "Rotatate.0");
 			Verify(transform.B, Is.EqualTo(this.Cast(0)).Within(this.Precision), this.prefix + "Rotatate.1");
@@ -194,7 +194,7 @@ namespace Kean.Math.Geometry2D.Test.Double
 		public void CreateRotation()
 		{
 			double angle = Kean.Math.Double.ToRadians(20);
-			Target.Double.Transform transform = Target.Double.Transform.CreateRotation(angle);
+			Target.Double.Transform transform = Target.Double.Transform.CreateZRotation(angle);
 			Verify(transform.A, Is.EqualTo(Kean.Math.Double.Cosine(angle)).Within(this.Precision), this.prefix + "CreateRotation.0");
 			Verify(transform.B, Is.EqualTo(Kean.Math.Double.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.1");
 			Verify(transform.D, Is.EqualTo(-Kean.Math.Double.Sine(angle)).Within(this.Precision), this.prefix + "CreateRotation.2");

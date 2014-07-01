@@ -312,6 +312,7 @@ namespace Kean.Math.Geometry2D.Integer
         /// </summary>
         /// <param name="delta">Translation values.</param>
         /// <returns>Translated transform.</returns>
+
 		public Transform Translate(Size delta)
 		{
 			return this.Translate(delta.Width, delta.Height);
@@ -361,7 +362,7 @@ namespace Kean.Math.Geometry2D.Integer
         /// <returns>Rotated transform.</returns>
 		public Transform Rotate(int angle)
 		{
-			return Transform.CreateRotation(angle) * this;
+			return Transform.CreateZRotation(angle) * this;
 		}
         /// <summary>
         /// Skews the instance in X.
@@ -475,6 +476,19 @@ namespace Kean.Math.Geometry2D.Integer
 			return new Transform(1,0,0,1, xDelta, yDelta);
 		}
         /// <summary>
+        /// Returns a translation transform.
+        /// </summary>
+        /// <param name="xDelta">Translation in X.</param>
+        /// <param name="yDelta">Translation in Y.</param>
+        /// <param name="zDelta">Translation in Z.</param>
+        /// <returns>Translation transform.</returns>
+        public static Transform CreateTranslation(int xDelta, int yDelta, int zDelta, Geometry2D.Integer.Size fieldOfView, Geometry2D.Integer.Size scale)
+        {
+            int k = Math.Integer.Tangens(Math.Integer.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+            int relativeZ = 1 / (1 + zDelta * k);
+            return new Transform(relativeZ, 0, 0, relativeZ, xDelta, yDelta);
+        }
+        /// <summary>
         /// Return a scale transform with the proportional X and Y factors.
         /// </summary>
         /// <param name="factor">Scaling factor.</param>
@@ -507,7 +521,7 @@ namespace Kean.Math.Geometry2D.Integer
         /// </summary>
         /// <param name="angle">Z rotation angle.</param>
         /// <returns>Z rotation transform.</returns>
-		public static Transform CreateRotation(int angle)
+		public static Transform CreateZRotation(int angle)
 		{
 			return new Transform(Math.Integer.Cosine(angle), Math.Integer.Sine(angle), -Math.Integer.Sine(angle), Math.Integer.Cosine(angle), 0, 0);
 		}
@@ -517,13 +531,37 @@ namespace Kean.Math.Geometry2D.Integer
         /// <param name="angle">Z rotation angle.</param>
         /// <param name="pivot">Pivot point.</param>
         /// <returns>Z rotation transform.</returns>
-		public static Transform CreateRotation(int angle, Point pivot)
+		public static Transform CreateZRotation(int  angle, Point pivot)
 		{
-			int one = 1;
-			int sine = Math.Integer.Sine(angle);
-			int cosine = Math.Integer.Cosine(angle);
+			int  one = 1;
+			int  sine = Math.Integer.Sine(angle);
+			int  cosine = Math.Integer.Cosine(angle);
 			return new Transform(cosine, sine, -sine, cosine, (one - cosine) * pivot.X + sine * pivot.Y, -sine * pivot.X + (one - cosine) * pivot.Y);
 		}
+        /// <summary>
+        /// Returns an X rotation transform.
+        /// </summary>
+        /// <param name="angle">X rotation angle.</param>
+        /// <returns>Z rotation transform.</returns>
+        public static Transform CreateXRotation(int  angle, Geometry2D.Integer.Size fieldOfView, Geometry2D.Integer.Size scale)
+        {
+            int  k = Math.Integer.Tangens(Math.Integer.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+			int  tangens = Math.Integer.Tangens(angle);
+            int  cosine = Math.Integer.Cosine(angle);
+            return new Transform(1 / cosine, 0, 0, 0, 1, k * tangens, 0, -tangens/k, 1);
+        }
+        /// <summary>
+        /// Returns an Y rotation transform.
+        /// </summary>
+        /// <param name="angle">Y rotation angle.</param>
+        /// <returns>Z rotation transform.</returns>
+        public static Transform CreateYRotation(int  angle, Geometry2D.Integer.Size fieldOfView, Geometry2D.Integer.Size scale)
+        {
+            int  k = Math.Integer.Tangens(Math.Integer.ToRadians(fieldOfView.Width / 2)) / (scale.Width / 2);
+            int  tangens = Math.Integer.Tangens(angle);
+            int  cosine = Math.Integer.Cosine(angle);
+            return new Transform(1, 0, k * tangens, 0, 1 / cosine, 0, -tangens / k, 0, 1);
+        }
         /// <summary>
         /// Returns a X skewing transform.
         /// </summary>

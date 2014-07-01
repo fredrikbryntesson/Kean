@@ -283,7 +283,7 @@ namespace Kean.Draw.Raster.Test
 			using (Target.Image image = Target.Image.OpenResource("Draw/Raster/Correct/Transform/original.png"))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
-				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(75));
+				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateZRotation(Kean.Math.Single.ToRadians(75));
 				using (Target.Image copy = image.Copy(size, transform) as Target.Image)
 					Verify(copy, "Draw/Raster/Correct/Transform/rotated.png");
 			}
@@ -316,7 +316,7 @@ namespace Kean.Draw.Raster.Test
 			using (Target.Image image = new Target.Bgr(new Kean.Buffer.Sized(source.Pointer, source.Size.Area * 3), source.Size, CoordinateSystem.XLeftward | CoordinateSystem.YUpward))
 			{
 				Geometry2D.Integer.Size size = new Geometry2D.Integer.Size(320, 100);
-				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateRotation(Kean.Math.Single.ToRadians(45));
+				Geometry2D.Single.Transform transform = Geometry2D.Single.Transform.CreateZRotation(Kean.Math.Single.ToRadians(45));
 				using(Target.Image copy = image.Copy(size, transform) as Target.Image)
 					Verify(copy, "Draw/Raster/Correct/Transform/coordinateSystem.png");
 			}
