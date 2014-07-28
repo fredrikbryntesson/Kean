@@ -50,7 +50,7 @@ namespace Kean.Draw.OpenGL
 			{
 				foreach (var item in this.data)
 					if (item.Value is IDisposable)
-					(item.Value as IDisposable).Dispose();
+						(item.Value as IDisposable).Dispose();
 				this.data = null;
 			}
 			if (this.Backend.NotNull())
@@ -87,9 +87,9 @@ namespace Kean.Draw.OpenGL
 		}
 		public override bool Remove(string name)
 		{
-			bool result;
 			object item = this.data[name];
-			if ((result = item.NotNull() && this.data.Remove(name)) && item is IDisposable)
+			bool result = item.NotNull() && this.data.Remove(name);
+			if (result && item is IDisposable)
 				(item as IDisposable).Dispose();
 			return result;
 		}
@@ -171,7 +171,22 @@ namespace Kean.Draw.OpenGL
 		}
 		public override void Add(string name, Geometry3D.Single.Transform data)
 		{
-			this.Add(name, new float[,] { { data.A, data.B, data.C, 0 }, { data.D, data.E, data.F, 0 }, { data.G, data.H, data.I, 0 }, { data.J, data.K, data.L, 1 } });
+			this.Add(name, new float[,] {
+				{ data.A, data.B, data.C, 0 },
+				{ data.D, data.E, data.F, 0 },
+				{
+					data.G,
+					data.H,
+					data.I,
+					0
+				},
+				{
+					data.J,
+					data.K,
+					data.L,
+					1
+				}
+			});
 		}
 		public static Map MonochromeToBgr { get { return new Map(OpenGL.Backend.Programs.MonochromeToBgr); } }
 		public static Map BgrToMonochrome { get { return new Map(OpenGL.Backend.Programs.BgrToMonochrome); } }
