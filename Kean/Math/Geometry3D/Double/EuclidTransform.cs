@@ -24,7 +24,12 @@ namespace Kean.Math.Geometry3D.Double
             this.Rotation = rotation;
             this.Translation = translation;
         }
-
+        public EuclidTransform(double x, double y, double z, double rx, double ry, double rz) :
+            this()
+        {
+            this.Rotation = new Geometry3D.Double.Rotation(rx, ry, rz);
+            this.Translation = new Geometry3D.Double.Size(x, y, z);
+        }
         public EuclidTransform Rotate(Rotation rotation)
         {
             return new EuclidTransform(rotation) * this;
@@ -54,6 +59,14 @@ namespace Kean.Math.Geometry3D.Double
         }
         #endregion
         #region Binary Operators
+        public static EuclidTransform operator +(EuclidTransform left, EuclidTransform right)
+        {
+            return new EuclidTransform(left.Rotation + right.Rotation, left.Translation + right.Translation);
+        }
+        public static EuclidTransform operator /(EuclidTransform left, double right)
+        {
+            return new EuclidTransform(left.Rotation / right, left.Translation / right);
+        }
         public static Geometry3D.Double.Point operator *(EuclidTransform left, Geometry3D.Double.Point right)
         {
             return (left.NotNull() && right.NotNull()) ? left.Translation + (left.Rotation * right) : null;

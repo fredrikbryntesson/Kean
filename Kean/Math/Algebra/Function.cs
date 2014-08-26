@@ -61,7 +61,9 @@ namespace Kean.Math.Algebra
                     return new Tangent(argument);
                 case "sqrt":
 					return new SquareRoot(argument);
-				case "lb":
+                case "sign":
+                    return new Sign(argument);
+                case "lb":
 					return new Logarithm(2, argument);
 				case "ln":
 					return new Logarithm(Single.E, argument);

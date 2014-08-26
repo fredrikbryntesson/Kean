@@ -52,6 +52,14 @@ namespace Kean.Math.Geometry3D.Single
 		}
 		#endregion
 		#region Binary Operators
+        public static Geometry3D.Single.Rotation operator +(Rotation left, Rotation right)
+		{
+            return new Rotation(left.RotationX + right.RotationX, left.RotationY + right.RotationY, left.RotationZ + right.RotationZ);
+		}
+		public static Geometry3D.Single.Rotation operator /(Rotation left, float right)
+		{
+            return new Rotation(left.RotationX / right, left.RotationY / right, left.RotationZ / right);
+		}
 		public static Geometry3D.Single.Point operator *(Rotation left, Geometry3D.Single.Point right)
 		{
 			return (left.NotNull() && right.NotNull()) ? left.quaternion * right : null;

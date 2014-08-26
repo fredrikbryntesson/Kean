@@ -73,6 +73,14 @@ namespace Kean.Math.Geometry3D.<#= @namespace #>
 		}
 		#endregion
 		#region Binary Operators
+        public static Geometry3D.<#= @namespace #>.Rotation operator +(Rotation left, Rotation right)
+		{
+            return new Rotation(left.RotationX + right.RotationX, left.RotationY + right.RotationY, left.RotationZ + right.RotationZ);
+		}
+		public static Geometry3D.<#= @namespace #>.Rotation operator /(Rotation left, <#= @type #> right)
+		{
+            return new Rotation(left.RotationX / right, left.RotationY / right, left.RotationZ / right);
+		}
 		public static Geometry3D.<#= @namespace #>.Point operator *(Rotation left, Geometry3D.<#= @namespace #>.Point right)
 		{
 			return (left.NotNull() && right.NotNull()) ? left.quaternion * right : null;

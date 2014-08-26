@@ -98,6 +98,7 @@
     <Compile Include="IO\Wrap\ByteStream.cs" />
     <Compile Include="IO\Wrap\BlockStream.cs" />
     <Compile Include="IO\Wrap\PartialByteInDevice.cs" />
+    <Compile Include="Math\Algebra\Sign.cs" />
     <Compile Include="Math\Algebra\Tangent.cs" />
     <Compile Include="Math\Exception\Abstract.cs" />
     <Compile Include="Math\Exception\IndexOutOfRange.cs" />
