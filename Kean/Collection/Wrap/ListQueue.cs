@@ -76,7 +76,7 @@ namespace Kean.Collection.Wrap
 		#region IEnumerable implementation
 		public Generic.IEnumerator<T> GetEnumerator()
 		{
-			for (int i = this.head; i <= this.head + this.data.Count -1; i++)
+			for (int i = this.head; i <= this.head + this.data.Count - 1; i++)
 				yield return this.data[i % (this.data.Count)];
 		}
 		#endregion
@@ -88,4 +88,3 @@ namespace Kean.Collection.Wrap
 		#endregion
 	}
 }
-
